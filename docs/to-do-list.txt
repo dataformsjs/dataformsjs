@@ -29,6 +29,7 @@ TODO List
         https://www.dataformsjs.com/#/en/
 
 *) Link Getting Started Page back to GitHub and add npm instructions
+    https://www.npmjs.com/package/dataformsjs
 
 *) Switch to [https://cdn.jsdelivr.net/] for the CDN
 
