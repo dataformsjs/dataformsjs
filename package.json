@@ -1,7 +1,7 @@
 {
   "name": "dataformsjs",
   "version": "1.0.0",
-  "homepage": "https://www.dataformsjs.com",
+  "homepage": "https://www.dataformsjs.com/#/en/",
   "description": "A minimal JavaScript Framework and standalone components for rapid development of high quality websites and single page applications.",
   "browser": {},
   "files": [
@@ -13,5 +13,9 @@
   },
   "keywords": ["dataformsjs", "framework", "handlebars", "vue", "react", "web components"],
   "author": "Conrad Sollitt (http://www.conradsollitt.com)",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/dataformsjs/dataformsjs.git"
+  }
 }

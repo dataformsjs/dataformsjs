@@ -22,6 +22,12 @@ TODO List
 
 *) Publish to NPM
 
+*) Fix Certificate Issue on Main Server
+    ** Does not work:
+        https://dataformsjs.com/
+    ** Works:
+        https://www.dataformsjs.com/#/en/
+
 *) Link Getting Started Page back to GitHub and add npm instructions
 
 *) Switch to [https://cdn.jsdelivr.net/] for the CDN
