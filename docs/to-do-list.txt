@@ -20,9 +20,11 @@ TODO List
 **** Priority Items Start
 ****
 
-
-*) Link Getting Started Page back to GitHub and add npm instructions
+*) Link Getting Started Page to NPM and add instructions
+    https://www.dataformsjs.com/#/en/getting-started
     https://www.npmjs.com/package/dataformsjs
+    File:
+        website/public/html/getting-started.htm
 
 *) Update docs with new instructions to use GitHub Repositories for downloading site content rather than S3
     Website\docs\Main Site Server Setup.txt
@@ -39,6 +41,15 @@ TODO List
 
 *) Link CDN page to the main DataFormsJS site and update colors/theme on it
     https://d2xbd92kui7v97.cloudfront.net/index.html
+
+*) Finish testing all pages on many different devices and browsers
+    Will be done over the next week
+    - Known Issues:
+        - Try smaller font size for code examples on mobile devices
+        - Image: https://www.dataformsjs.com/img/examples/ai-ml-image-classification.svg
+            Does not show correctly in Safari due to SVG Brightness filter.
+            Come up with a fix for a browsers or remove the filter and
+            manually calculate the needed values.
 
 *) Use preconnect optiomization? Need to test how will it improves preformance from different locations in the world.
     <link href="https://playground.dataformsjs.com" rel="preconnect" crossorigin>
