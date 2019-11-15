@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <style>
+            body { padding:20px 40px; }
+            nav { padding:1em; }
+            nav a { padding:10px; }
+            nav a.active { color:white; background-color:darkblue; }
+            .align-right { text-align:right; }
+            p { padding: 1em; }
+            table { border-collapse:collapse; margin-top:40px; }
+            thead { background-color:darkgreen; color:white; }
+            th, td { padding:0.5em 1em; border:1px solid darkgreen; }
+            tr:nth-child(even) { background-color: lightgreen; }
+            .error { padding:1em; color:white; background-color:red; }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <a href="#/">Home</a>
+            <a href="#/page1">Page 1</a>
+            <a href="#/page2">Page 2</a>
+            <a href="#/json-data/US">Json Data</a>
+        </nav>
+
+        <div id="view"></div>
+
+        <script type="text/x-template" data-engine="vue" id="counter-page">
+            <p data-change-border><strong>Page Loaded Counter:</strong> {{ counter }}</p>
+            <p class="change-border"><strong>Page Last Refreshed:</strong> <span v-format-time="new Date()"></span> </p>
+            <p class="change-border"><strong>Page Name:</strong> {{ pageName }}</p>
+        </script>
+
+        <template data-route="/">
+            <p data-change-border>This page shows how the template files work. Use DevTools to see info on this console.</p>
+            <p class="change-border">Type [app.activeVueModel] in dev tools to see the Vue model for the active page, and type [app] to see the full API.</p>
+        </template>
+
+        <!-- templates/page-object.js -->
+        <!--
+            Model properties can be optionally defined from HTML as shown
+            with the custom attribute [data-page-name] which becomes [pageName].
+        -->
+        <script type="text/x-template" data-engine="vue" data-route="/page1" data-page="pageName" data-page-name="Page1">
+            <div data-template-id="counter-page"></div>
+        </script>
+        <script type="text/x-template" data-engine="vue" data-route="/page2" data-page="pageName" data-page-name="Page2">
+            <div data-template-id="counter-page"></div>
+        </script>
+
+        <!-- templates/page-from-jsonData.js -->
+        <!--
+            Adding the attribute [data-load-only-once="true"]
+            will cause the data to only load the first time the view is loaded
+            (or when the parameters change).
+
+            For Vue including the attribute [data-regions] creates a Vue
+            Watcher for the model regions property which is only set after
+            data has been downloaded. It is not required to allow rendering
+            with this specific page however if not used and calling:
+                app.activeVueModel.regions = []
+            Then the Vue will not render the update. As long as the property
+            is set before then Vue will render the update.
+        -->
+        <script
+            type="text/x-template"
+            data-engine="vue"
+            data-route="/json-data/:country"
+            data-page="customPage"
+            data-regions
+            data-url="https://www.dataformsjs.com/data/geonames/regions/:country">
+
+            <h3 v-if="isLoading" v-cloak>Loading...</h3>
+            <h3 v-if="hasError" v-cloak class="error">{{ errorMessage }}</h3>
+            <div v-if="isLoaded" v-cloak>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Population</th>
+                            <th>Timezone</th>
+                            <th>Date Last Modified</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="region in regions">
+                            <td>{{ region.admin1_code }}</td>
+                            <td>{{ region.name }}</td>
+                            <td class="align-right" v-format-number="region.population"></td>
+                            <td>{{ region.timezone }}</td>
+                            <td class="align-right" v-format-date="region.modification_date"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </script>
+
+        <!-- Vue
+        Dev Latest:
+			<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		Specific Dev Version:
+			<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+        Prod Version:
+            <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        Local:
+            <script src="../vendor/vue.js"></script>
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+        <!-- DataFormsJS Vue Directives -->
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/extensions/vue-directives.min.js"></script>
+
+        <!-- DataFormsJS Standard Files -->
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/DataFormsJS.min.js"></script>        
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/navLinks.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/pages/jsonData.min.js"></script>
+
+        <!-- DataFormsJS Template Files -->
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/templates/page-object.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/templates/page-from-jsonData.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/templates/plugin-function.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/templates/plugin-object.min.js"></script>
+        <!-- For an example of [page-from-entryForm.js] search the source code -->
+    </body>
+</html>

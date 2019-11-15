@@ -1,0 +1,46 @@
+{{#if search.isLoading}}
+<h3>{{i18n 'Loading...'}}</h3>
+{{/if}}
+{{#if search.hasError}}
+<h3>{{search.errorMessage}}</h3>
+{{/if}}
+{{#if search.isLoaded}}
+<h2>{{search.cities.length}} {{i18n 'Cities Found'}}</h2>
+
+{{#if search.cities.length}}
+<input 
+    data-filter-selector="table"
+    placeholder="{{i18n 'Enter filter'}}"
+    data-filter-results-text-selector="h2"
+    data-filter-results-text-all="{{i18n '{totalCount} Cities Found'}}"
+    data-filter-results-text-filtered="{{i18n 'Showing {displayCount} of {totalCount} Cities'}}">
+
+<table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
+    <thead>
+        <tr>
+            <th>{{i18n 'Country'}}</th>
+            <th>{{i18n 'Name'}}</th>
+            <th>{{i18n 'Population'}}</th>
+            <th>{{i18n 'Elevation'}}</th>
+            <th>{{i18n 'Timezone'}}</th>
+            <th>{{i18n 'Date Last Modified'}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each search.cities}}
+        <tr>
+            <td>
+                <i class="{{lowerCase country_code}} flag"></i>
+                {{country_code}}
+            </td>
+            <td><a href="#/{{../i18n_Locale}}/city/{{geonames_id}}">{{name}}</a></td>
+            <td class="align-right" data-value="{{population}}">{{formatNumber population}}</td>
+            <td class="align-right" data-value="{{elevation}}">{{formatNumber elevation}}</td>
+            <td>{{timezone}}</td>
+            <td class="align-right">{{formatDate modification_date}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{/if}}
+{{/if}}

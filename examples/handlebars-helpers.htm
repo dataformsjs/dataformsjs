@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>DataFormsJS - Samples - Strings and Dates</title>
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+        <style>
+            /* Offset the body contents */
+            body { margin-top:50px; }
+        </style>
+    </head>
+    <body>
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="../">DataFormsJS</a></li>
+                        <li><a href="../#/samples">All Samples</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container text-center">
+            <div class="center-block" style="max-width: 400px;">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Values</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input id="name" class="form-control" placeholder="Enter your name" value="World" /></td>
+                        </tr>
+                        <tr>
+                            <td><input id="date" class="form-control" placeholder="Enter a date"  /></td>
+                        </tr>
+                        <tr>
+                            <td><input id="date2" class="form-control" placeholder="Enter a date"  /></td>
+                        </tr>                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Container where the page is rendered -->
+        <div class="container" id="view"></div>
+
+        <!-- Template -->
+        <script id="view-template" type="text/x-template" data-engine="handlebars">           
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Expression</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>\{{format "Hello {0}" name}}</td>
+                        <td>{{format "Hello {0}" name}}</td>
+                    </tr>
+                    <tr>
+                        <td>\{{now}}</td>
+                        <td>{{now}}</td>
+                    </tr>
+                    <tr>
+                        <td>\{{moment (now) "YYYY.MM.DD"}}</td>
+                        <td>{{moment (now) "YYYY.MM.DD"}}</td>
+                    </tr>
+                    <tr>
+                        <td>\{{moment "MMMM Do YYYY, h:mm:ss A"}}</td>
+                        <td>{{moment "MMMM Do YYYY, h:mm:ss A"}}</td>
+                    </tr>
+                    <tr>
+                        <td>\{{moment date "MMMM Do YYYY"}}</td>
+                        <td>{{moment date "MMMM Do YYYY"}}</td>
+                    </tr>
+                    <tr>
+                        <td>\{{formatDate date}}</td>
+                        <td>{{formatDate date}}</td>
+                    </tr>
+                    <tr>
+                        <td>\{{formatDateTime date}}</td>
+                        <td>{{formatDateTime date}}</td>
+                    </tr>
+                    <tr>
+                        <td>\{{formatTime date}}</td>
+                        <td>{{formatTime date}}</td>
+                    </tr>
+                    <tr>
+                        <td>\{{formatDate date2}}</td>
+                        <td>{{formatDate date2}}</td>
+                    </tr>
+                    <tr>
+                        <td>\{{formatDateTime date2}}</td>
+                        <td>{{formatDateTime date2}}</td>
+                    </tr>
+                    <tr>
+                        <td>\{{formatTime date2}}</td>
+                        <td>{{formatTime date2}}</td>
+                    </tr>                    
+                    <tr>
+                        <td>\{{formatDate (now)}}</td>
+                        <td>{{formatDate (now)}}</td>
+                    </tr>
+                    <tr>
+                        <td>\{{formatDateTime (now)}}</td>
+                        <td>{{formatDateTime (now)}}</td>
+                    </tr>
+                    <tr>
+                        <td>\{{formatTime (now)}}</td>
+                        <td>{{formatTime (now)}}</td>
+                    </tr>
+                    <tr>
+                        <td>\{{format "Hello {0}, Today is {1}" name (now)}}</td>
+                        <td>{{format "Hello {0}, Today is {1}" name (now)}}</td>
+                    </tr>
+                    <tr>
+                        <td>\{{format "Today is {0}" (moment date "YYYY.MM.DD")}}</td>
+                        <td>{{format "Today is {0}" (moment date "YYYY.MM.DD")}}</td>
+                    </tr>
+                    <tr>
+                        <td>\{{format "Hello {name}, Date entered is {date}"}}</td>
+                        <td>{{format "Hello {name}, Date entered is {date}"}}</td>
+                    </tr>
+                    <tr>
+                        <td>\{{concat "Hello" name}}</td>
+                        <td>{{concat "Hello" name}}</td>
+                    </tr>
+                    <tr>
+                        <td>\{{concat "Hello " name ", Date entered is " date}}</td>
+                        <td>{{concat "Hello " name ", Date entered is " date}}</td>
+                    </tr>
+                    <tr>
+                        <td>\{{join ", " "1" "2" "3" "4" "5"}}</td>
+                        <td>{{join ", " "1" "2" "3" "4" "5"}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </script>
+
+        <!-- Handlebars and DataFormsJS -->
+        <script src="https://cdn.jsdelivr.net/npm/handlebars@4.5.1/dist/handlebars.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/DataFormsJS.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/pages/jsonData.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/extensions/handlebars-helpers.min.js"></script>
+
+        <script>
+            /* Validates with [jshint] */
+            /* global app */
+            /* jshint strict: true */
+            (function () {
+                'use strict';
+
+                // Model for the page
+                function AppModel() {
+                    this.name = null;
+                    this.date = null;
+                    this.date2 = null;
+                }
+
+                // Update Model with User Input
+                function UpdateModel() {
+                    this.name = document.getElementById("name").value;
+                    this.date = document.getElementById("date").value;
+                    this.date2 = document.getElementById("date2").value;
+                }
+
+                // Refresh the view every one second after it is rendered
+                function RefreshPage() {
+                    window.setTimeout(function () { app.updateView(); }, 1000);
+                }
+
+                // Run once the page is ready
+                document.addEventListener("DOMContentLoaded", function () {
+                    // On page load update the input control with today's date
+                    var d = new Date();
+                    document.getElementById("date").value = d.toUTCString();
+                    document.getElementById("date2").value = (d.toLocaleString !== undefined ? d.toLocaleString() : d.toString());
+
+                    // Setup the App
+                    app
+                        .addModel("Data", new AppModel())
+                        .addController({ path: "/", viewId: "view-template", modelName: "Data", onBeforeRender: UpdateModel, onRendered: RefreshPage })
+                        .setup();
+                });
+            })();
+        </script>
+    </body>
+</html>

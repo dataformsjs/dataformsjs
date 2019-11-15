@@ -1,0 +1,113 @@
+<h3 v-if="isLoading" v-cloak v-i18n="'Loading...'"></h3>
+<p v-if="hasError" v-cloak><span v-i18n="'Error'"></span> - {{ errorMessage }}</p>
+<div v-if="isLoaded" v-cloak class="flex-col">
+    <h1>{{ place.name }}</h1>
+    
+    <nav>
+        <a v-bind:href="'#/' + i18n_Locale + '/'" v-i18n="'Countries'"></a>
+        <a v-bind:href="'#/' + i18n_Locale + '/regions/' + place.country_code" v-i18n="'Regions'"></a>
+        <a v-bind:href="'#/' + i18n_Locale + '/cities/' + place.country_code + '/' + place.admin1_code" v-i18n="'Cities'"></a>
+    </nav>
+
+    <!--
+        This commented code is an example of how to
+        loop through all properties in an object:
+        
+    <section>
+        <div v-for="(value, key) in place">{{ key }} = {{ value }}</div>
+    </section>
+    -->
+
+    <div class="place-screen">
+
+        <section class="form-fields">
+            <div>
+                <label class="no-top-margin" v-i18n="'Name'"></label>
+                <span>{{ place.name }}</span>
+            </div>
+            <div v-if="place.name !== place.ascii_name">
+                <label v-i18n="'ASCII Name'"></label>
+                <span>{{ place.ascii_name }}</span>
+            </div>
+            <div>
+                <label v-i18n="'Country (ISO)'"></label>
+                <span>{{ place.country_code }}</span>
+                <i class="{{ place.country_code.toLowerCase() }} flag"></i>
+            </div>
+            <div>
+                <label v-i18n="'Region (State, Province, etc.)'"></label>
+                <span>{{ place.admin1_code }}</span>
+            </div>
+            <div>
+                <label v-i18n="'Population'"></label>
+                <span v-format-number="place.population"></span>
+            </div>    
+            <div>
+                <label v-i18n="'Elevation'"></label>
+                <span>{{ place.elevation }} m / {{ parseInt(place.elevation * 3.28084, 10) }} &#039;</span>
+            </div>
+            <div>
+                <label v-i18n="'Latitude'"></label>
+                <span>{{ place.latitude }}</span>
+            </div>
+            <div>
+                <label v-i18n="'Longitude'"></label>
+                <span>{{ place.longitude }}</span>
+            </div>
+            <div>
+                <label v-i18n="'Timezone'"></label>
+                <span>{{ place.timezone }}</span>
+            </div>
+            <div>
+                <label v-i18n="'Date Last Modified'"></label>
+                <span v-format-date="place.modification_date"></span>
+            </div>
+        </section>
+
+        <section>
+            <div
+                data-leaflet
+                v-bind:data-latitude="place.latitude"
+                v-bind:data-longitude="place.longitude"
+                data-zoom="11"
+                v-bind:data-marker="place.name">
+            </div>
+            <div class="map-links">
+                <small><a v-bind:href="'https://www.openstreetmap.org#map=12/' + place.latitude + '/' + place.longitude" target="_blank" v-i18n="''">View on OpenStreetMap</a></small>
+                <small><a v-bind:href="'https://www.google.com/maps/@' + place.latitude + ',' + place.longitude + ',12z'" target="_blank" v-i18n="''">View on Google Maps</a></small>
+            </div>
+        </section>
+
+        <!--
+            Example:
+            An alternative to using Leaflet and the Leaflet plugin
+            is to use an OpenStreetMap <iframe> with templating.
+        -->
+        <!-- <section>
+            <iframe width="400" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                v-bind:src="'https://www.openstreetmap.org/export/embed.html?bbox=' + String(parseFloat(place.longitude) - 0.1) + '%2C' + String(parseFloat(place.latitude) - 0.1) + '%2C' + String(parseFloat(place.longitude) + 0.1) + '%2C' + String(parseFloat(place.latitude) + 0.1) + '&amp;layer=mapnik'"></iframe>
+            <br/>
+            <div class="map-links">
+                <small><a v-bind:href="'https://www.openstreetmap.org#map=12/' + place.latitude + '/' + place.longitude" target="_blank">View on OpenStreetMap</a></small>
+                <small><a v-bind:href="'https://www.google.com/maps/@' + place.latitude + ',' + place.longitude + ',12z'" target="_blank">View on Google Maps</a></small>
+            </div>
+        </section> -->
+    </div>
+
+    <section class="alternate-names" v-if="place.alternate_names.length">
+        <h2><span v-i18n="''"></span>Alternate Names ({{ place.alternate_names.length }})</h2>
+
+        <input
+            v-if="place.alternate_names.length > 10"
+            data-filter-selector=".alternate-names li"
+            data-filter-results-text-selector="h2"
+            data-filter-results-text-all="Alternate Names ({totalCount})"
+            data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Alternate Names"
+            placeholder="Enter filter"
+            v-i18n-attr="'placeholder, data-filter-results-text-all, data-filter-results-text-filtered'">
+
+        <ul>
+            <li v-for="name in place.alternate_names">{{ name }}</li>
+        </ul>
+    </section>
+</div>

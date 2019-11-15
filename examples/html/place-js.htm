@@ -1,0 +1,88 @@
+<div class="is-loading" data-template-id="loading-screen"></div>
+<div class="has-error" data-template-id="error-screen"></div>
+<div class="is-loaded flex-col">
+    <h1 data-bind="place.name"></h1>
+
+    <nav>
+        <a href="#/en/" data-i18n="Countries" data-i18n-href></a>
+        <a href="#/en/regions/[place.country_code]" data-i18n="Regions" data-bind-attr="href" data-i18n-href></a>
+        <a href="#/en/cities/[place.country_code]/[place.admin1_code]" data-i18n="Cities" data-bind-attr="href" data-i18n-href></a>
+    </nav>
+
+    <div class="place-screen">
+
+        <section class="form-fields">
+            <div>
+                <label class="no-top-margin" data-i18n="Name"></label>
+                <span data-bind="place.name"></span>
+            </div>
+            <div>
+                <label data-i18n="ASCII Name"></label>
+                <span data-bind="place.ascii_name"></span>
+            </div>
+            <div>
+                <label data-i18n="Country (ISO)"></label>
+                <span data-bind="place.country_code"></span>
+                <i class="[place.country_code.toLowerCase()] flag" data-bind-attr="class"></i>
+            </div>
+            <div>
+                <label data-i18n="Region (State, Province, etc.)"></label>
+                <span data-bind="place.admin1_code"></span>
+            </div>
+            <div>
+                <label data-i18n="Population"></label>
+                <span data-bind="place.population"></span>
+            </div>    
+            <div>
+                <label data-i18n="Elevation"></label>
+                <span data-bind="place.elevation"></span> m
+            </div>
+            <div>
+                <label data-i18n="Latitude"></label>
+                <span data-bind="place.latitude"></span>
+            </div>
+            <div>
+                <label data-i18n="Longitude"></label>
+                <span data-bind="place.longitude"></span>
+            </div>
+            <div>
+                <label data-i18n="Timezone"></label>
+                <span data-bind="place.timezone"></span>
+            </div>
+            <div>
+                <label data-i18n="Date Last Modified"></label>
+                <span data-bind="place.modification_date"></span>
+            </div>
+        </section>            
+
+        <section>
+            <div
+                data-leaflet
+                data-latitude="[place.latitude]"
+                data-longitude="[place.longitude]"
+                data-zoom="11"
+                data-marker="[place.name]"
+                data-bind-attr="data-latitude, data-longitude, data-marker">
+            </div>
+            <div class="map-links">
+                <small><a href="https://www.openstreetmap.org#map=12/[place.latitude]/[place.longitude]" data-bind-attr="href" target="_blank" data-i18n="View on OpenStreetMap"></a></small>
+                <small><a href="https://www.google.com/maps/@[place.latitude],[place.longitude],12z" data-bind-attr="href" target="_blank" data-i18n="View on Google Maps"></a></small>
+            </div>
+        </section>
+    </div>
+
+    <section class="alternate-names">
+        <h2><span data-i18n="Alternate Names"></span> (<span data-bind="place.alternate_names.length"></span>)</h2>
+
+        <input
+            data-filter-selector=".alternate-names li"
+            data-filter-results-text-selector="h2"
+            data-filter-results-text-all="Alternate Names ({totalCount})"
+            data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Alternate Names"
+            placeholder="Enter filter"
+            data-i18n-attr="placeholder, data-filter-results-text-all, data-filter-results-text-filtered">
+
+        <data-list data-source="place.alternate_names">
+        </data-list>
+    </section>
+</div>

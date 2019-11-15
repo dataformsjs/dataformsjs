@@ -1,0 +1,10 @@
+# Directories
+.vscode/
+node_modules/
+vendor/
+
+# Files
+.DS_Store
+Desktop.ini
+Thumbs.db
+package-lock.json

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title data-i18n="Countries Demo | React"></title>
+        <link rel="stylesheet" href="css/countries.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+	</head>
+    <body>
+        <div id="root"></div>
+
+        <script>
+            // Allow [babel-standalone] to use [import and exports] with JSX files
+            window.exports = window;
+            function require(module) {
+                switch (module) {
+                    case 'react':
+                        return window.React;
+                    case 'react-dom':
+                        return window.ReactDOM;
+                    default:
+                        return window[module];
+                }
+            }
+        </script>
+
+        <!-- React -->
+        <!--
+        <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin="anonymous"></script>
+
+        <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+        <script src="../vendor/react.production.min.js" crossorigin="anonymous"></script>
+        <script src="../vendor/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+        <script src="../vendor/react.development.js" crossorigin="anonymous"></script>
+        <script src="../vendor/react-dom.development.js" crossorigin="anonymous"></script>
+        -->
+        <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+        <!--
+            Babel for JSX
+            Use [babel-standalone@6] for IE Support.
+            Babel 7 [@babel] can be used for modern browsers.
+        -->
+        <!--
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <script src="../vendor/babel.min.js"></script>
+        -->
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+        <!--
+            React Router
+            https://reacttraining.com/react-router/
+            https://github.com/ReactTraining/react-router
+        -->
+        <!--
+        <script src="../vendor/react-router.min.js"></script>
+        <script src="../vendor/react-router-dom.min.js"></script>
+        -->
+        <script src="https://unpkg.com/react-router/umd/react-router.min.js"></script>
+        <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
+
+        <!-- https://leafletjs.com -->
+        <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+
+        <!-- DataFormsJS React Components -->
+        <!--
+        <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/ErrorBoundary.jsx"></script>
+        <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/PolyfillService.jsx"></script>
+        <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/JsonData.jsx"></script>
+        <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/InputFilter.jsx"></script>
+        <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/SortableTable.jsx"></script>
+        <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/I18n.js"></script>
+        <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/Format.js"></script>
+        <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/LeafletMap.jsx"></script>
+        -->
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/DataFormsJS.React.min.js"></script>
+        
+        <!-- JSX Templates for this App -->
+        <script type="text/babel" src="./html/regions-react.jsx"></script>
+        <script type="text/babel" src="./html/cities-react.jsx"></script>
+        <script type="text/babel" src="./html/place-react.jsx"></script>
+        <script type="text/babel" src="./html/places-info-react.jsx"></script>
+
+        <script type="text/babel">
+            const Router = window.ReactRouterDOM.HashRouter;
+            const Route = window.ReactRouterDOM.Route;
+            const Redirect = window.ReactRouterDOM.Redirect;
+            const Link = window.ReactRouterDOM.Link;
+
+            const defaultLocale = 'en';
+            const supportedLocales = ['en', 'jp'];
+            const fileName = 'countries';
+            const i18n = new I18n(defaultLocale, supportedLocales, fileName);
+            const format = new Format();
+
+			function ShowLoading() {
+                return <h3>{i18n.text('Loading...')}</h3>;
+            }
+
+            function ShowError(props) {
+                return <p>{props.error}</p>;
+            }
+
+			function ShowCountries(props) {
+                return (
+                    <React.Fragment>
+                        <h1>{i18n.text('Countries')}</h1>
+
+                        <nav>
+                            <Link to={'/' + props.params.lang + '/info'}>{i18n.text('Info')}</Link>
+                        </nav>
+
+                        <InputFilter
+                            filter-selector="table"
+                            filter-results-selector="h1"
+                            filter-results-text-all={i18n.text('{totalCount} Countries')}
+                            filter-results-text-filtered={i18n.text('Showing {displayCount} of {totalCount} Countries')}
+                            placeholder={i18n.text("Enter filter, example 'North America'")} />
+
+                        <SortableTable
+                            data-sort-class-odd="row-odd"
+                            data-sort-class-even="row-even">
+                            <thead>
+                                <tr>
+                                    <th>{i18n.text('Code')}</th>
+                                    <th>{i18n.text('Name')}</th>
+                                    <th>{i18n.text('Size (KM)')}</th>
+                                    <th>{i18n.text('Population')}</th>
+                                    <th>{i18n.text('Continent')}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {props.data && props.data.countries && props.data.countries.map(country => {
+                                    return (
+                                        <tr key={country.iso}>
+                                            <td><Link to={'/' + props.params.lang + '/regions/' + country.iso}>{country.iso}</Link></td>
+                                            <td>
+                                                <i class={country.iso.toLowerCase() + ' flag'}></i>
+                                                <span>{country.country}</span>
+                                            </td>
+                                            <td className="align-right" data-value={country.area_km}>{format.number(country.area_km)}</td>
+                                            <td className="align-right" data-value={country.population}>{format.number(country.population)}</td>
+                                            <td>{country.continent}</td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </SortableTable>
+                    </React.Fragment>
+                )
+            }
+
+            function PageCountries({match}) {
+                return (
+                    <JsonData
+                        url="https://www.dataformsjs.com/data/geonames/countries"
+                        lang={match.params.lang}
+                        isLoading={<ShowLoading />}
+                        hasError={<ShowError />}
+                        isLoaded={<ShowCountries />}
+                        loadOnlyOnce={true}>
+                    </JsonData>
+                );
+            }
+
+            class App extends React.Component {
+                state = {
+                    langLoaded: true,
+                };
+
+                componentDidMount() {
+                    i18n.onLangStart(() => { this.setState({ langLoaded:false }); });
+                    i18n.onLangLoaded(() => { this.setState({ langLoaded:true }); });
+                }
+
+                render() {
+                    if (!this.state.langLoaded) {
+                        return <ShowLoading />;
+                    }
+                    return (
+                        <ErrorBoundary>
+                            <PolyfillService>
+                                <Router>
+                                    <React.Fragment>
+                                        <Route exact path="/" render={() => (
+                                            <Redirect to="/en/" />
+                                        )}/>                  
+                                        <Route exact path="/:lang/" component={PageCountries} />
+                                        <Route path="/:lang/regions/:country" component={PageRegions} />
+                                        <Route path="/:lang/cities/:country/:region" component={PageCities} />
+                                        <Route path="/:lang/city/:id" component={PageCity} />
+                                        <Route path="/:lang/info" component={PageInfo} />
+                                    </React.Fragment>
+                                </Router>
+                            </PolyfillService>
+                        </ErrorBoundary>
+                    )
+                }
+            }
+
+            ReactDOM.render(
+                <App />,
+                document.getElementById('root')
+            );
+        </script>
+	</body>
+</html>

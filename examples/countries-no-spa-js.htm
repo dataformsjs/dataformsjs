@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title data-i18n="Countries Demo | No SPA"></title>
+        <link rel="stylesheet" href="css/countries.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
+    </head>
+    <body>
+        <div id="view">
+            <h1>Countries</h1>
+
+            <json-data 
+                data-url="https://www.dataformsjs.com/data/geonames/countries"
+                data-template-id="countries-list">
+            </json-data>
+        </div>
+    </div>
+
+    <template id="countries-list">
+        <div class="is-loading"><div>Loading...</div></div>
+        <div class="has-error"><div>Error</div></div>
+        <div class="is-loaded flex-col">
+            <div>
+                <input
+                    data-filter-selector="table"
+                    data-filter-results-text-selector="h1"
+                    data-filter-results-text-all="{totalCount} Countries" 
+                    data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
+                    placeholder="Enter filter, example 'Japan'">
+            </div>
+            
+            <data-table 
+                data-source="countries"
+                data-labels="Code, Name, Size (KM), Population, Continent"
+                data-sort
+                data-sort-class-odd="row-odd"
+                data-sort-class-even="row-even">
+            </data-table>
+        </div>
+    </template>
+
+    <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/DataFormsJS.min.js"></script>
+    <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/controls/data-table.min.js"></script>
+    <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/controls/json-data.min.js"></script>
+    <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/filter.min.js"></script>
+    <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/sort.min.js"></script>
+
+    <!--
+        Add images to the <table> element using a Custom Plugin with standard JavaScript DOM methods
+    -->
+    <script>
+        (function() {
+            'use strict';
+            
+            app.addPlugin('tableIcons', function(element) {
+                // Get table and exit if no data
+                var table = document.querySelector('table');
+                if (table === null || table.tBodies === null || table.tBodies.length !== 1) {
+                    return;
+                }
+
+                // Add flags to all rows
+                var tableRows = table.tBodies[0].rows;
+                var rowCount = tableRows.length;
+                for (var x = 0; x < rowCount; x++) {
+                    var row = tableRows[x];
+                    var iso = row.cells[0].textContent.trim().toLowerCase();
+                    var flag = document.createElement('i');
+                    flag.className = iso + ' flag';
+                    row.cells[1].insertAdjacentElement('afterbegin', flag);
+                }
+            });
+        })();
+    </script>
+</body>

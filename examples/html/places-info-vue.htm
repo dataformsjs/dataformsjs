@@ -1,0 +1,20 @@
+<h1 v-i18n="'Places App Info'"></h1>
+
+<nav>
+    <a v-bind:href="'#/' + i18n_Locale + '/'" v-i18n="'Countries'"></a>
+</nav>
+
+<section>
+    <h2 v-i18n="'Overview'"></h2>
+    <ul class="info">
+        <li v-i18n="'info_1'"></li>
+        <li v-i18n="'info_2'"></li>
+        <li v-i18n="'info_3'"></li>
+        <li v-i18n="'info_4'"></li>
+        <li v-i18n="'info_5'"></li>
+        <li v-i18n="'info_6'"></li>
+    </ul>
+
+    <h2 v-i18n="'Links'"></h2>
+    <ul class="info" data-template-url="html/places-info-links.htm"></ul>
+</section>

@@ -1,0 +1,6 @@
+{
+    countries(orderBy: "country") {
+        iso
+        country
+    }
+}

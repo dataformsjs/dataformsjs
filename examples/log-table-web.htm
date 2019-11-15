@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Log Table Demo | Web Components</title>
+        <link rel="stylesheet" href="css/log-table.css">
+    </head>
+    <body>
+        <div id="view" class="pt10"></div>
+
+        <url-hash-router view-selector="#view">
+            <url-hash-route path="/" redirect="/10"></url-hash-route>
+            <url-hash-route path="/:count">
+                <template>
+                    <json-data url="https://www.dataformsjs.com/data/example/log-table/:count?format=list" url-params>
+                        <is-loading>
+                            <h3 class="loading">Loading...</h3>
+                        </is-loading>
+                        <has-error>
+                            <h3 class="error" data-bind="errorMessage"></h3>
+                        </has-error>
+                        <is-loaded>
+                            <div class="flex pt10">
+                                <h2></h2>
+                                <button data-filter-clear-all>Clear Filter</button>
+                            </div>
+                
+                            <nav>
+                                <a href="#/10">10 Records</a>
+                                <a href="#/100">100 Records</a>
+                                <a href="#/200">200 Records</a>
+                                <a href="#/error">Error Example</a>
+                            </nav>
+                
+                            <div>
+                                <input type="text" class="large form-control medium-margin-right"
+                                    data-filter-selector="table"
+                                    data-filter-results-text-selector="h2"
+                                    data-filter-results-text-all="{totalCount} Log Example Records"
+                                    data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Log Example Records"
+                                    data-filter-class-odd="row-odd"
+                                    data-filter-class-even="row-even"
+                                    placeholder="Enter Filter">
+                
+                                <button type="button" data-export-csv-selector="table" data-export-file-name="Log-Report.csv">Export to CSV</button>
+                            </div>
+                
+                            <div class="highlighter" style="display:none;">
+                                <ul>
+                                    <li class="log-error"
+                                        data-highlight-selector="table tbody tr td:nth-child(1)"
+                                        data-highlight-value="ERROR"
+                                        data-highlight-operator="==="
+                                        data-highlight-class="log-error"
+                                        data-filter-selector="table"
+                                        data-filter-column="Log Level"
+                                        data-filter-operator="==="
+                                        data-filter-value="ERROR"></li>
+                                    <li class="log-warning"
+                                        data-highlight-selector="table tbody tr td:nth-child(1)"
+                                        data-highlight-value="WARNING"
+                                        data-highlight-operator="==="
+                                        data-highlight-class="log-warning"
+                                        data-filter-selector="table"
+                                        data-filter-column="Log Level"
+                                        data-filter-operator="==="
+                                        data-filter-value="WARNING"></li>
+                                </ul>
+                            </div>
+                            <data-table
+                                data-bind="records"
+                                table-attr="class=click-to-highlight,
+                                            data-sort,
+                                            data-sort-class-odd=row-odd,
+                                            data-sort-class-even=row-even">
+                            </data-table>
+                        </is-loaded>
+                    </json-data>
+                </template>
+            </url-hash-route>
+        </url-hash-router>
+
+        <!-- DataFormsJS Web Components -->
+        <script type="module" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/web-components/url-hash-router.js"></script>
+        <script type="module" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/web-components/json-data.js"></script>
+        <script type="module" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/web-components/data-table.js"></script>
+
+        <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
+        <script nomodule src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/web-components/safari-nomodule.js"></script>
+        <script nomodule src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/web-components/old-browser-warning.js"></script>
+
+        <!-- DataFormsJS Standard Plugins -->
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/web-components/jsPlugins.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/filter.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/sort.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/highlighter.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/clickToHighlight.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/exportToCsv.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/navLinks.js"></script>
+
+        <!-- Run JS Plugins everytime the <json-data> content changes -->
+        <script type="module">
+            import { componentsAreSetup } from 'https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/web-components/utils.js';
+            
+            // Setup <json-data> events when the URL hash changes
+            // and when the page is first loaded.
+            const router = document.querySelector('url-hash-router');
+            router.addEventListener('contentLoaded', setupJsonData);
+            setupJsonData();
+            
+            function setupJsonData() {
+                const jsonData = document.querySelector('json-data');
+                if (jsonData) {
+                    jsonData.addEventListener('contentReady', runJsPlugins);
+                }
+            }
+
+            // Run JS Plugins once the <json-data> content is ready and
+            // additional web components are setup.
+            async function runJsPlugins() {
+                await componentsAreSetup();
+                app.refreshJsPlugins();
+            }
+        </script>
+    </body>
+</html>

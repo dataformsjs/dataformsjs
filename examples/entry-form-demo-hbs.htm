@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>DataFormsJS Entry Form Demo</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <style>
+            /* Custom page style and bootstrap overrides */
+            body {
+                margin: 40px;
+                background-color:#f4f6f8;
+            }
+            .container {
+                padding: 40px;
+                background-color: white;
+                box-shadow: rgba(64,64,64,.05) 0 0 0 1px, rgba(64,64,64,.1) 0 1px 3px 0;
+            }
+            .mt-2em { margin-top:2em; }
+            label { font-weight: bold; }
+
+            [data-delete-button],
+            [data-add-button] {
+                font-weight: bold;
+            }
+            
+            input[type='checkbox'] { width: 32px; }
+
+            .table { background-color:white; }
+            .table-striped tbody tr.row-odd { background-color: rgba(0,0,0,.05); }
+            .table-striped tbody tr.row-even { background-color: white; }
+        </style>
+    </head>
+    <body>
+        <div id="view" class="container"></div>
+
+        <script type="text/x-template" data-engine="handlebars" id="loading-template">
+            <div class="alert alert-info">Loading...</div>
+        </script>
+
+        <script type="text/x-template" data-engine="handlebars" id="error-template">
+            <div class="alert alert-danger">Error: {{errorMessage}}</div>
+            <button type="button" class="btn btn-primary reset-data">Reset all Data</button>
+        </script>
+
+        <script
+            type="text/x-template"
+            data-engine="handlebars"
+            src="html/entry-form-record-list.htm"
+            data-default-route
+            data-route="/"
+            data-page="jsonData"
+            data-url="https://www.dataformsjs.com/data/example/entry-form/list">
+        </script>
+
+        <script
+            type="text/x-template"
+            data-engine="handlebars"
+            src="html/entry-form-list-editor.htm"
+            data-route="/list-editor"
+            data-page="entryForm"
+            data-url="https://www.dataformsjs.com/data/example/entry-form/list"
+            data-save-url="https://www.dataformsjs.com/data/example/entry-form/save-all"
+            data-result-success-display-interval="3000">
+        </script>
+
+        <!--
+            When using [data-page="entryForm"] 
+            with [data-new-record="true"] the attribute [data-url]
+            is optional. It it used here to populate the drop-down list
+        -->
+        <script
+            type="text/x-template"
+            data-engine="handlebars"
+            src="html/entry-form.htm"
+            data-route="/record/new"
+            data-page="entryForm"
+            data-new-record="true"
+            data-url="https://www.dataformsjs.com/data/example/entry-form/categories"
+            data-save-url="https://www.dataformsjs.com/data/example/entry-form/save"
+            data-new-record-redirect-url="#/record/:id">
+        </script>
+
+        <script
+            type="text/x-template"
+            data-engine="handlebars"
+            src="html/entry-form.htm"
+            data-route="/record/:id"
+            data-page="entryForm"
+            data-url="https://www.dataformsjs.com/data/example/entry-form/record/:id"
+            data-save-url="https://www.dataformsjs.com/data/example/entry-form/save"
+            data-delete-url="https://www.dataformsjs.com/data/example/entry-form/delete/:id"
+            data-delete-record-redirect-url="#/">
+        </script>
+
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/DataFormsJS.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/pages/jsonData.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/pages/entryForm.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/extensions/handlebars-helpers.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/extensions/validation.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/filter.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/sort.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/listEditor.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/clickUrlAction.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/handlebars@4.5.1/dist/handlebars.min.js"></script>
+
+        <!--
+            To see how to create custom entry form based on [pages/entryForm.js]
+            include the following script:
+                <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/templates/page-from-entryForm.js"></script>
+
+            Then on this page replace:
+                data-page="entryForm"
+            With:
+                data-page="customEntryForm"
+        -->
+        
+        <script>
+            (function() {
+                // Create a Plugin that Generates and Saves an API Key on first use.
+                // The key will be saved to the user's local storage and submitted
+                // with JSON Requests in the header ['Authorization' => 'Bearer {key}'].
+                var apiKeyPlugin = {
+                    onRouteLoad: function(next) {
+                        // Check if loaded in memory
+                        var authHeader = 'Authorization';
+                        if (app.settings.requestHeaders[authHeader] !== undefined) {
+                            next();
+                            return;
+                        }
+
+                        // Update [fetch()] options - defaults to 'same-origin'
+                        app.settings.fetchOptions.credentials = 'include';
+
+                        // Load from Local Storage
+                        var keyName = 'entry-form-demo-api-key';
+                        var apiKey = localStorage.getItem(keyName);
+                        if (apiKey !== null) {
+                            app.settings.requestHeaders[authHeader] = 'Bearer ' + apiKey;
+                            next();
+                            return;
+                        }
+
+                        // Generate a new key using a Web Service
+                        var url = 'https://www.dataformsjs.com/data/example/entry-form/generate-key';
+                        app
+                        .fetch(url)
+                        .then(function(data) {
+                            if (data.errorMessage) {
+                                throw data.errorMessage;
+                            }
+                            app.settings.requestHeaders[authHeader] = 'Bearer ' + data.key;
+                            localStorage.setItem(keyName, data.key);
+                            next();
+                        })
+                        .catch(function(error) {
+                            app.showErrorAlert(error);
+                        });
+                    },
+
+                    // Allow user to reset key in case of error
+                    onRendered: function () {
+                        var btn = document.querySelector('.btn.reset-data');
+                        if (btn) {
+                            btn.onclick = function () {
+                                localStorage.removeItem('entry-form-demo-api-key');
+                                window.location.reload(true);
+                            };
+                        }
+                    },
+                };
+                app.addPlugin("apiKey", apiKeyPlugin);
+            })();
+        </script>
+
+        <!--
+            Controllers/Views on this page are define through the above <script> elements.
+            An alternative method of adding controllers and views would be to comment out the
+            related <script> elements and use JavaScript as shown below.
+        -->
+        <!--
+        <script>
+            app
+            .addController({
+                path: '/',
+                defaultRoute: true,
+                viewUrl: 'html/record-list.htm',
+                viewEngine: 'Handlebars',
+                pageType: 'jsonData',
+                settings: {
+                    url: 'https://www.dataformsjs.com/data/example/entry-form/list'
+                },
+            })
+            .addController({
+                path: '/list-editor',
+                viewUrl: 'html/list-editor.htm',
+                viewEngine: 'Handlebars',
+                pageType: 'entryForm',
+                settings: {
+                    url: 'https://www.dataformsjs.com/data/example/entry-form/list',
+                    saveUrl: 'https://www.dataformsjs.com/data/example/entry-form/save-all',
+                    resultSuccessDisplayInterval: 3000,
+                },
+            })
+            .addController({
+                path: '/record/new',
+                viewUrl: 'html/entry-form.htm',
+                viewEngine: 'Handlebars',
+                pageType: 'entryForm',
+                settings: {
+                    saveUrl: 'https://www.dataformsjs.com/data/example/entry-form/save',
+                    newRecord: true,
+                    newRecordRedirectUrl: '#/record/:id',
+                },
+            })
+            .addController({
+                path: '/record/:id',
+                viewUrl: 'html/entry-form.htm',
+                viewEngine: 'Handlebars',
+                pageType: 'entryForm',
+                settings: {
+                    url: 'https://www.dataformsjs.com/data/example/entry-form/record/:id',
+                    saveUrl: 'https://www.dataformsjs.com/data/example/entry-form/save',
+                    deleteUrl: 'https://www.dataformsjs.com/data/example/entry-form/delete/:id',
+                    deleteRecordRedirectUrl: '#/',
+                },
+            });
+        </script>
+        -->
+    </body>
+</html>

@@ -1,0 +1,95 @@
+<json-data
+    url="https://www.dataformsjs.com/data/geonames/place/:id"
+    url-params>
+    <is-loading>
+        <span class="loading">Loading...</span>
+    </is-loading>
+    <has-error>
+        <span class="error" data-bind="errorMessage"></span>
+    </has-error>
+    <is-loaded class="flex-col">
+        <h1 data-bind="place.name"></h1>
+
+        <nav>
+            <a href="#/">Countries</a>
+            <a href="#/regions/[place.country_code]" data-bind-attr="href">Regions</a>
+            <a href="#/cities/[place.country_code]/[place.admin1_code]" data-bind-attr="href">Cities</a>
+        </nav>
+
+        <div class="place-screen">
+
+            <section class="form-fields">
+                <div>
+                    <label class="no-top-margin">Name</label>
+                    <span data-bind="place.name"></span>
+                </div>
+                <div>
+                    <label>ASCII Name</label>
+                    <span data-bind="place.ascii_name"></span>
+                </div>
+                <div>
+                    <label>Country (ISO)</label>
+                    <span data-bind="place.country_code"></span>
+                    <i class="[place.country_code] flag" data-bind-attr="class"></i>
+                </div>
+                <div>
+                    <label>Region (State, Province, etc.)</label>
+                    <span data-bind="place.admin1_code"></span>
+                </div>
+                <div>
+                    <label>Population</label>
+                    <span data-bind="place.population"></span>
+                </div>    
+                <div>
+                    <label>Elevation</label>
+                    <span data-bind="place.elevation"></span> m
+                </div>
+                <div>
+                    <label>Latitude</label>
+                    <span data-bind="place.latitude"></span>
+                </div>
+                <div>
+                    <label>Longitude</label>
+                    <span data-bind="place.longitude"></span>
+                </div>
+                <div>
+                    <label>Timezone</label>
+                    <span data-bind="place.timezone"></span>
+                </div>
+                <div>
+                    <label>Date Last Modified</label>
+                    <span data-bind="place.modification_date"></span>
+                </div>
+            </section>            
+    
+            <section>
+                <div
+                    is="leaflet-map"
+                    latitude="[place.latitude]"
+                    longitude="[place.longitude]"
+                    zoom="11"
+                    marker="[place.name]"
+                    data-bind-attr="latitude, longitude, marker">
+                </div>
+                <div class="map-links">
+                    <small><a href="https://www.openstreetmap.org#map=12/[place.latitude]/[place.longitude]" data-bind-attr="href" target="_blank">View on OpenStreetMap</a></small>
+                    <small><a href="https://www.google.com/maps/@[place.latitude],[place.longitude],12z" data-bind-attr="href" target="_blank">View on Google Maps</a></small>
+                </div>
+            </section>
+        </div>
+
+        <section class="alternate-names">
+            <h2>Alternate Names (<span data-bind="place.alternate_names.length"></span>)</h2>
+
+            <input
+                is="input-filter"
+                filter-selector=".alternate-names li"
+                filter-results-selector=".alternate-names h2"
+                filter-results-text-all="Alternate Names ({totalCount})"
+                filter-results-text-filtered="Showing {displayCount} of {totalCount} Alternate Names"
+                placeholder="Enter filter">
+
+            <ul is="data-list" data-bind="place.alternate_names"></ul>
+        </section>
+    </is-loaded>
+</json-data>

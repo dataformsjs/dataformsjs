@@ -1,0 +1,17 @@
+{
+  "name": "dataformsjs",
+  "version": "1.0.0",
+  "homepage": "https://www.dataformsjs.com",
+  "description": "A minimal JavaScript Framework and standalone components for rapid development of high quality websites and single page applications.",
+  "browser": {},
+  "files": [
+    "js/*.js",
+    "js/*.jsx"
+  ],
+  "scripts": {
+    "test": "echo \"Tests require a Web Browser, see comments in [test/server.js]\" && exit 1"
+  },
+  "keywords": ["dataformsjs", "framework", "handlebars", "vue", "react", "web components"],
+  "author": "Conrad Sollitt (http://www.conradsollitt.com)",
+  "license": "MIT"
+}

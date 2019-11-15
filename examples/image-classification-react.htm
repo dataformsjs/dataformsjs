@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title data-i18n="AI/ML Image Classification | React"></title>
+    <link rel="stylesheet" href="css/image-classification.css">
+</head>
+<body>
+    <div id="root"></div>
+
+    <script>
+        // Allow [babel-standalone] to use [import and exports] with JSX files
+        window.exports = window;
+        function require(module) {
+            switch (module) {
+                case 'react':
+                    return window.React;
+                case 'react-dom':
+                    return window.ReactDOM;
+                default:
+                    return window[module];
+            }
+        }
+    </script>
+
+    <!-- React -->
+    <!--
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin="anonymous"></script>
+
+    <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+    <script src="../vendor/react.production.min.js" crossorigin="anonymous"></script>
+    <script src="../vendor/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+    <script src="../vendor/react.development.js" crossorigin="anonymous"></script>
+    <script src="../vendor/react-dom.development.js" crossorigin="anonymous"></script>
+    -->
+    <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+    <!--
+        Babel for JSX
+        Use [babel-standalone@6] for IE Support.
+        Babel 7 [@babel] can be used for modern browsers.
+    -->
+    <!--
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="../vendor/babel.min.js"></script>
+    -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <!--
+        React Router
+        https://reacttraining.com/react-router/
+        https://github.com/ReactTraining/react-router
+    -->
+    <!--
+    <script src="../vendor/react-router.min.js"></script>
+    <script src="../vendor/react-router-dom.min.js"></script>
+    -->
+    <script src="https://unpkg.com/react-router/umd/react-router.min.js"></script>
+    <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
+
+    <!-- DataFormsJS React Components -->
+    <!--
+    <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/ErrorBoundary.jsx"></script>
+    <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/PolyfillService.jsx"></script>
+    <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/JsonData.jsx"></script>
+    <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/InputFilter.jsx"></script>
+    <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/I18n.js"></script>
+    <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/Format.js"></script>
+    <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/LeafletMap.jsx"></script>
+    -->
+    <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/DataFormsJS.React.min.js"></script>
+
+    <!-- JSX Templates for this App -->
+    <script type="text/babel" src="html/image-home-react.jsx"></script>
+    <script type="text/babel" src="html/image-categories-react.jsx"></script>
+    <script type="text/babel" src="html/image-info-react.jsx"></script>
+
+    <script type="text/babel">
+        const Router = window.ReactRouterDOM.HashRouter;
+        const Route = window.ReactRouterDOM.Route;
+        const Redirect = window.ReactRouterDOM.Redirect;
+        const NavLink = window.ReactRouterDOM.NavLink;
+
+        const defaultLocale = 'en';
+        const supportedLocales = ['en', 'jp'];
+        const fileName = 'image-classification';
+        const i18n = new I18n(defaultLocale, supportedLocales, fileName);
+        const format = new Format();
+
+        function ShowLoading() {
+            return <h2>{i18n.text('Loading...')}</h2>;
+        }
+
+        function ShowError(props) {
+            return <h2>{props.error}</h2>;
+        }
+
+        class App extends React.Component {
+            state = {
+                langLoaded: true,
+            };
+
+            componentDidMount() {
+                i18n.onLangStart(() => { this.setState({ langLoaded:false }); });
+                i18n.onLangLoaded(() => { this.setState({ langLoaded:true }); });
+            }
+
+            render() {
+                if (!this.state.langLoaded) {
+                    return <ShowLoading />;
+                }
+                return (
+                    <ErrorBoundary>
+                        <PolyfillService>
+                            <Router>
+                                <nav>
+                                    <NavLink exact to={'/' + i18n.currentLocale} activeClassName="active">{i18n.text('Images')}</NavLink>
+                                    <NavLink exact to={'/' + i18n.currentLocale + '/categories'} activeClassName="active">{i18n.text('Categories')}</NavLink>
+                                    <NavLink exact to={'/' + i18n.currentLocale + '/info'} activeClassName="active">{i18n.text('Info')}</NavLink>
+                                </nav>
+
+                                <React.Fragment>
+                                    <Route exact path="/" render={() => (
+                                        <Redirect to="/en/" />
+                                    )}/>
+                                    <Route exact path="/:lang/" component={PageImages} />
+                                    <Route exact path="/:lang/categories" component={PageCategories} />
+                                    <Route exact path="/:lang/info" component={PageInfo} />
+                                </React.Fragment>
+                            </Router>
+                        </PolyfillService>
+                    </ErrorBoundary>
+                )
+            }
+        }
+
+        ReactDOM.render(
+            <App />,
+            document.getElementById('root')
+        );
+    </script>
+</body>
+</html>

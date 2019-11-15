@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Log Table Demo | React</title>
+        <link rel="stylesheet" href="css/log-table.css">
+    </head>
+    <body>
+        <div id="root" class="pt10"></div>
+
+        <script>
+            // Allow [babel-standalone] to use [import and exports] with JSX files
+            window.exports = window;
+            function require(module) {
+                switch (module) {
+                    case 'react':
+                        return window.React;
+                    case 'react-dom':
+                        return window.ReactDOM;
+                    default:
+                        return window[module];
+                }
+            }
+        </script>
+
+        <!-- React -->
+        <!--
+        <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin="anonymous"></script>
+
+        <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+        <script src="../vendor/react.production.min.js" crossorigin="anonymous"></script>
+        <script src="../vendor/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+        <script src="../vendor/react.development.js" crossorigin="anonymous"></script>
+        <script src="../vendor/react-dom.development.js" crossorigin="anonymous"></script>
+        -->
+        <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+        <!--
+            Babel for JSX
+            Use [babel-standalone@6] for IE Support.
+            Babel 7 [@babel] can be used for modern browsers.
+        -->
+        <!--
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <script src="../vendor/babel.min.js"></script>
+        -->
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+        <!--
+            React Router
+            https://reacttraining.com/react-router/
+            https://github.com/ReactTraining/react-router
+        -->
+        <!--
+        <script src="../vendor/react-router.min.js"></script>
+        <script src="../vendor/react-router-dom.min.js"></script>
+        -->
+        <script src="https://unpkg.com/react-router/umd/react-router.min.js"></script>
+        <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
+
+        <!-- DataFormsJS React Classes -->
+        <!--
+        <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/ErrorBoundary.jsx"></script>
+        <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/PolyfillService.jsx"></script>
+        <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/JsonData.jsx"></script>
+        -->
+        <script type="text/javascript" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/DataFormsJS.React.min.js"></script>
+        
+        <!--
+            DataFormsJS Framework Plugins
+
+            Standard Frameworks Plugins can be used as long as [React/jsPlugins.js]
+            is defined before other Plugins files.
+
+            Then to call use:
+                <JsonData onViewUpdated={window.app.refreshJsPlugins}>
+        -->
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/jsPlugins.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/filter.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/sort.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/highlighter.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/clickToHighlight.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/exportToCsv.js"></script> 
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/navLinks.js"></script>
+        
+        <script type="text/babel">
+            const Router = window.ReactRouterDOM.HashRouter;
+            const Route = window.ReactRouterDOM.Route;
+            const Redirect = window.ReactRouterDOM.Redirect;
+            const Link = window.ReactRouterDOM.Link;
+
+			function ShowLoading() {
+                return <h3 className="loading">Loading...</h3>;
+            }
+
+            function ShowError(props) {
+                return <h3 className="error">{props.error}</h3>;
+            }
+
+			function ShowLog(props) {
+                return (
+                    <React.Fragment>
+                        {props.data && props.data.errorMessage &&
+                            <ShowError error={props.data.errorMessage} />
+                        }
+
+                        <div className="flex pt10">
+                            <h2></h2>
+                            <button data-filter-clear-all>Clear Filter</button>
+                        </div>
+
+                        <nav>
+                            <Link to={'/10'}>10 Records</Link>
+                            <Link to={'/100'}>100 Records</Link>
+                            <Link to={'/200'}>200 Records</Link>
+                            <Link to={'/error'}>Error Example</Link>
+                        </nav>
+
+                        <FilterHtml />
+
+                        <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
+                            <thead>
+                                <tr>
+                                    {props.data && props.data.columns && props.data.columns.map(column => {
+                                        return <th key={column}>{column}</th>
+                                    })}
+                                </tr>
+                            </thead>
+                            <tbody className="click-to-highlight">
+                                {props.data && props.data.records && props.data.records.map((record, index) => {
+                                    return (<tr key={index}>
+                                        {record.values.map((value, valueIndex) => {
+                                            return (<td key={valueIndex}>{value}</td>)
+                                        })}
+                                    </tr>)
+                                })}
+                            </tbody>
+                        </table>
+                    </React.Fragment>
+                )
+            }
+
+            function FilterHtml() {
+                return (
+                    <React.Fragment>
+                        <div>
+                            <input type="text" className="large form-control medium-margin-right"
+                                    data-filter-selector="table"
+                                    data-filter-results-text-selector="h2"
+                                    data-filter-results-text-all="{totalCount} Log Example Records"
+                                    data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Log Example Records"
+                                    data-filter-class-odd="row-odd"
+                                    data-filter-class-even="row-even"
+                                    placeholder="Enter Filter" />
+
+                            <button type="button" data-export-csv-selector="table" data-export-file-name="Log-Report.csv">Export to CSV</button>
+                        </div>
+
+                        <div className="highlighter" style={{display:'none'}}>
+                            <ul>
+                                <li className="log-error"
+                                    data-highlight-selector="table tbody tr td:nth-child(1)"
+                                    data-highlight-value="ERROR"
+                                    data-highlight-operator="==="
+                                    data-highlight-class="log-error"
+                                    data-filter-selector="table"
+                                    data-filter-column="Log Level"
+                                    data-filter-operator="==="
+                                    data-filter-value="ERROR"></li>
+                                <li className="log-warning"
+                                    data-highlight-selector="table tbody tr td:nth-child(1)"
+                                    data-highlight-value="WARNING"
+                                    data-highlight-operator="==="
+                                    data-highlight-class="log-warning"
+                                    data-filter-selector="table"
+                                    data-filter-column="Log Level"
+                                    data-filter-operator="==="
+                                    data-filter-value="WARNING"></li>
+                            </ul>
+                        </div>                        
+                    </React.Fragment>
+                )
+            }
+
+            function LogPage({match}) {
+                return (
+                    <JsonData
+                        url="https://www.dataformsjs.com/data/example/log-table/:count"
+                        count={match.params.count}
+                        isLoading={<ShowLoading />}
+                        hasError={<ShowError />}
+                        isLoaded={<ShowLog />}
+                        onViewUpdated={window.app.refreshJsPlugins}>
+                    </JsonData>
+                );
+            }
+
+            class App extends React.Component {
+                render() {
+                    return (
+                        <ErrorBoundary>
+                            <PolyfillService>
+                                <Router>
+                                <React.Fragment>
+                                    <Route exact path="/" render={() => (
+                                        <Redirect to="/10" />
+                                    )}/>                  
+                                    <Route path="/:count" component={LogPage} />
+                                </React.Fragment>
+                            </Router>
+                            </PolyfillService>
+                        </ErrorBoundary>
+                    )
+                }
+            }
+
+            ReactDOM.render(
+                <App />,
+                document.getElementById('root')
+            );
+
+            // Add CSS Variable Support to IE and older Browsers
+            const polyfill = new PolyfillService();
+            const supportsCssVars = (window.CSS && window.CSS.supports && window.CSS.supports('(--a: 0)'));
+            const polyfillUrl = 'https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2.1.1/dist/css-vars-ponyfill.min.js';
+            polyfill.loadScript(supportsCssVars, polyfillUrl, function() {
+                if (window.cssVars) {
+                    cssVars({ include:'link[rel="stylesheet"]' });
+                }
+            });
+        </script>
+    </body>
+</html>

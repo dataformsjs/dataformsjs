@@ -1,0 +1,124 @@
+{{#if isLoading}}<div data-template-id="loading-screen"></div>{{/if}}
+{{#if hasError}}<div data-template-id="error-screen"></div>{{/if}}
+{{#if isLoaded}}
+    <h1>{{place.name}}</h1>
+
+    <nav>
+        <a href="#/{{i18n_Locale}}/">{{i18n 'Countries'}}</a>
+        <a href="#/{{i18n_Locale}}/regions/{{place.country_code}}">{{i18n 'Regions'}}</a>
+        <a href="#/{{i18n_Locale}}/cities/{{place.country_code}}/{{place.admin1_code}}">{{i18n 'Cities'}}</a>
+    </nav>
+
+    <!--
+        This commented code is an example of how to
+        loop through all properties in an object:
+
+    <section class="form-fields">
+        {{#each place}}
+            <div>
+                <label>{{@key}}</label>
+                <span>{{this}}</span>
+            </div>
+        {{/each}}
+    </section>
+    -->
+
+    <div class="place-screen">
+
+        <section class="form-fields">
+            <div>
+                <label class="no-top-margin">{{i18n 'Name'}}</label>
+                <span>{{place.name}}</span>
+            </div>
+            {{#ifCond place.name '!==' place.ascii_name}}
+                <div>
+                    <label>{{i18n 'ASCII Name'}}</label>
+                    <span>{{place.ascii_name}}</span>
+                </div>
+            {{/ifCond}}
+            <div>
+                <label>{{i18n 'Country (ISO)'}}</label>
+                <span>{{place.country_code}}</span>
+                <i class="{{lowerCase place.country_code}} flag"></i>
+            </div>
+            <div>
+                <label>{{i18n 'Region (State, Province, etc.)'}}</label>
+                <span>{{place.admin1_code}}</span>
+            </div>
+            <div>
+                <label>{{i18n 'Population'}}</label>
+                <span>{{formatNumber place.population}}</span>
+            </div>    
+            <div>
+                <label>{{i18n 'Elevation'}}</label>
+                <span>{{formatNumber place.elevation}} m / {{formatNumber (js 'parseInt(model.place.elevation * 3.28084, 10)')}} &#039;</span>
+            </div>
+            <div>
+                <label>{{i18n 'Latitude'}}</label>
+                <span>{{place.latitude}}</span>
+            </div>
+            <div>
+                <label>{{i18n 'Longitude'}}</label>
+                <span>{{place.longitude}}</span>
+            </div>
+            <div>
+                <label>{{i18n 'Timezone'}}</label>
+                <span>{{place.timezone}}</span>
+            </div>
+            <div>
+                <label>{{i18n 'Date Last Modified'}}</label>
+                <span>{{formatDate place.modification_date}}</span>
+            </div>
+        </section>
+
+        <section>
+            <div
+                data-leaflet
+                data-latitude="{{place.latitude}}"
+                data-longitude="{{place.longitude}}"
+                data-zoom="11"
+                data-marker="{{place.name}}">
+            </div>
+            <div class="map-links">
+                <small><a href="https://www.openstreetmap.org#map=12/{{place.latitude}}/{{place.longitude}}" target="_blank">{{i18n 'View on OpenStreetMap'}}</a></small>
+                <small><a href="https://www.google.com/maps/@{{place.latitude}},{{place.longitude}},12z" target="_blank">{{i18n 'View on Google Maps'}}</a></small>
+            </div>
+        </section>
+
+        <!--
+            Example:
+            An alternative to using Leaflet and the Leaflet plugin
+            is to use an OpenStreetMap <iframe> with templating.
+        -->
+        <!-- <section>
+            <iframe width="400" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                src="https://www.openstreetmap.org/export/embed.html?bbox={{js 'parseFloat(model.place.longitude) - 0.1'}}%2C{{js 'parseFloat(model.place.latitude) - 0.1'}}%2C{{js 'parseFloat(model.place.longitude) + 0.1'}}%2C{{js 'parseFloat(model.place.latitude) + 0.1'}}&amp;layer=mapnik"></iframe>
+            <br/>
+            <div class="map-links">
+                <small><a href="https://www.openstreetmap.org#map=12/{{place.latitude}}/{{place.longitude}}" target="_blank">View on OpenStreetMap</a></small>
+                <small><a href="https://www.google.com/maps/@{{place.latitude}},{{place.longitude}},12z" target="_blank">View on Google Maps</a></small>
+            </div>
+        </section> -->   
+    </div>
+
+    {{#if place.alternate_names.length}}
+        <section class="alternate-names">
+            <h2>{{i18n 'Alternate Names'}} ({{place.alternate_names.length}})</h2>
+
+            {{#ifCond place.alternate_names.length '>' 10}}
+                <input
+                    data-filter-selector=".alternate-names li"
+                    data-filter-results-text-selector="h2"
+                    data-filter-results-text-all="{{i18n 'Alternate Names ({totalCount})'}}"
+                    data-filter-results-text-filtered="{{i18n 'Showing {displayCount} of {totalCount} Alternate Names'}}"
+                    placeholder="{{i18n 'Enter filter'}}">
+            {{/ifCond}}
+
+            <ul>
+                {{#each place.alternate_names}}
+                    <li>{{this}}</li>
+                {{/each}}
+            </ul>
+        </section>
+    {{/if}}
+{{/if}}

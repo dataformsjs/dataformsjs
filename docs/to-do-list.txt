@@ -1,0 +1,731 @@
+
+TODO List
+
+--------------------------------------------------------------------------
+|
+|   In General:
+|
+|   *) Translations
+|   *) More Examples (for all or most scripts and features)
+|   *) More Documentation
+|   *) More Unit Testing
+|   *) Additional Scripts and Features
+|
+|   Other than a few items at the top there is no priority to this list.
+|   All contributions are welcome.
+|
+--------------------------------------------------------------------------
+
+****
+**** Priority Items Start
+****
+
+*) Publish to NPM
+
+*) Link Getting Started Page back to GitHub and add npm instructions
+
+*) Switch to [https://cdn.jsdelivr.net/] for the CDN
+
+*) Update docs with new instructions to use GitHub Repositories for downloading site content rather than S3
+    Website\docs\Main Site Server Setup.txt
+    Playground\docs\Playground Server Setup.txt
+    - Also related after all GitHub Repositories are published:
+        Playground\scripts\install.php
+        Website\scripts\install.php
+
+*) [package.json] - make updates so classes can easily be imported with [create-app-react] and other projects.
+    - Then update quick-ref docs and related code comments in [DataFormsJS.jsx]
+
+*) Playground\README.md
+    - Add a [How it works] and link to the FastSitePHP version with some notes on differences
+
+*) Link CDN page to the main DataFormsJS site and update colors/theme on it
+    https://d2xbd92kui7v97.cloudfront.net/index.html
+
+*) Use preconnect optiomization? Need to test how will it improves preformance from different locations in the world.
+    <link href="https://playground.dataformsjs.com" rel="preconnect" crossorigin>
+    <link href="https://ai-ml.dataformsjs.com" rel="preconnect" crossorigin>
+
+*) Add shortcut icons on the main site for different mobile devices
+
+*) React <JsonData> and Web Components <json-data>
+    - Support for custom Request Headers is needed. For React this will likely be passed as a new prop
+    - For how the standard Framework handles this see code related to [app.settings.requestHeaders].
+
+*) Allow optional caching for Web  Component <json-data>
+    similar to the standard [pages/jsonData.js] and React <JsonData>. To see how this works use
+    dev tools with one of the following demos:
+        http://127.0.0.1:8080/places-demo-hbs#/en/
+        http://127.0.0.1:8080/places-demo-vue#/en/
+        http://127.0.0.1:8080/places-demo-graphql#/en/
+        http://127.0.0.1:8080/places-demo-react.htm#/en/
+    The standard [jsonData.js] uses properties [loadOnlyOnce] and [submittedFetchUrl]
+    for this while React code uses [JsonData] and [const dataCache = [];]
+
+****
+**** Priority Items End
+****
+
+*) Many Docs need to be created along with API page(s)
+    - API needs a quick search/filter feature to look up any attribute/class/function/etc
+        and find where it is defined and how to use it.
+    - UI/UX still needs to be decided on for API docs
+
+*)  Create an [I18N] API for Web Components and initially use with:
+    http://127.0.0.1:8080/places-demo-web
+    - API is not yet started on so it has be decided first
+    - Possibly several development versions will be created and tested
+      with the best one selected
+
+*) Need ESLint and JSHint config files - will have to be directory by directory since one directory
+    may contain Modules while another ECMA Version 5. Currently code hints and comments are used.
+    Additionally some directories [react/web-components] need overrides on specific files
+    - A recent ESLint changed added a check that breaks validation when using copy/paste from
+      a broswer. Disable in needed files by adding. Currently done in the main [DataFormsJS.js] file.
+        /* eslint no-prototype-builtins: "off" */
+
+*) Create Search Screen for the following pages:
+        http://127.0.0.1:8080/places-demo-vue#/en/
+        http://127.0.0.1:8080/places-demo-web
+        http://127.0.0.1:8080/places-demo-react#/en/
+   See standard framework demos with Handlebars:
+        http://127.0.0.1:8080/places-demo-hbs#/en/
+        http://127.0.0.1:8080/places-demo-graphql#/en/
+   Start with Vue because it uses the Standard framework
+   This will likely require new or updated pluigns for Vue and new classes for React
+
+*) Most Core Framework Code in [DataForms.js] and [pages/jsonData.js] are Unit Tested for
+        Handlebars, Nunjucks, and Underscore, however similar testing has not yet been
+        started on for Vue. Additional Unit Tests need to be developed for sperate
+        React Components and Web Components.
+    - Overall every line of code needs to be tested for core files
+
+*) Create Server-side Starter Sites in all widely used Languages and Frameworks
+    - Include ability for content to be defined server-side and saved to a SQLite Db
+
+*) React JSX Loader?
+    This is being considered and would take some time to develop. Basically a JavaScript file
+    would be created <script src="jsxLoader.js"> which would check if a modern browser is being
+    used and if so then simply convert JSX code to modern JS and if a legacy browser (IE, old safari, etc)
+    then it would load and use babel standalone.
+    - The reason for this would be to allow JSX development for production sites without
+      a build process using [create-react-app], Webpack, etc.
+    - babel standalone works but is very large, however it would be ok for desktop IE users, etc
+    - If doing this the code to compile or transpile JSX to JS needs to be kept small, ideally
+      the entire file would be less than a few hunderd lines and only a few kb in size when gzip'd
+    - the script should also define needed [window.exports = window; / function require(module) {)]
+      functions to be used by babel standalone or JS
+    - Likely when building for modern browsers most 'import' statements such as 'import React ...'
+      would be commented out or removed from the JS build version
+    - It's likley that an alternative router component <UrlHashRouter> will be created with this
+      that can be used instead of React Router. The reason is that a much smaller component
+      can be created and the main reason would be to add support for lazy-loading of scripts
+      similar to the main framework for [app.lazyLoad] and [data-lazy-load]. This feature would
+      probably be shared with the new [jsxLoader.js] file.
+
+*) Web Components Polyfill using either the main Framework or standalone scripts?
+    - Currently IE, Older Safari, etc will display a warning message instead of Polyfill for Web Components
+    - Polyfills will be considered (and likely developed in the future) for Web Components but they
+        would need a full re-write and not using babel, etc. For an example of why see:
+            DataFormsJS\js\web-components\utils.js
+                export function componentsAreDefined
+                export function componentsAreSetup
+        - Basically DataFormsJS Web Components are not going to be held back by the need for ES5
+    - Currently the main framework has <json-data> and <data-table> JavaScript controls
+        that are similar to the <json-data> and <data-table> Web Component. These could be changed
+        and additional code developed to match the behavior of Web Components.
+    - Alternatively indivivual files such as [DataFormsJS\js\web-components\polyfill\json-data.js]
+        could be developed. Currenlty in favor of using the standard Framework as a it would handle
+        a lot of the need for web components.
+    - If using the standard framework then [url-hash-router] would need to be polyfilld as well,
+        either from the main file [DataFormsJS.js] or a new file [js/controls/url-hash-router.js].
+        This would be determined during development based on what makes sense.
+    - Using the main framework would be preferred to reduce additional duplicate code and because
+        when gzipped the framework is small (9.6 kb for version 1.0.0).
+
+*) React Build:
+    - Convert http://127.0.0.1:8080/jsx-build to a build page on the main site
+    - Many options will be needed on how to build:
+        - which components and classes
+        - babel options?
+        - Include or exclude [DataFormsJS] namespace object
+    - Similar to how the prismjs download works:
+        https://prismjs.com/download.html
+
+*) Docs and demos to Create
+    - Cleanup [DataFormsJS\examples\handlebars-helpers.htm] and add to to the main
+        examples page. Also create a similar [vue-directives.htm] file.
+        - For cleanup likely add a new plugin [refreshOnTimer] to refresh the page
+          on a defined interval from the HTML controller.
+        - Need to demonstrate all Handlebars Helpers such as {{#ifJS}}
+    - Framework Event Order (note - Vue varies slightly)
+        ====================================================
+        Page Event Order when a URL Changes:
+        ------
+        plugins.onRouteUnload()
+        controller.onRouteUnload(model as this)
+        plugins.onRouteLoad(next)
+        controller.onRouteLoad(model as this)
+        ... Then code below:
+        --------------------------------------------------
+        Event Order for when app.updateView() is called.
+        This can happen multiple times per URL/Hash Change:
+        ------
+        controller.onBeforeRender(model as this)
+        plugins.onBeforeRender()
+        -- HTML Template Rendered --
+        -- HTML Controls Rendered --   Elements with [data-template-id] or [data-template-url]
+        -- JS Controled Loaded -- Custom JS Controls defined by [js/controls]
+        plugins.onRendered()
+        controller.onRendered(model as this)
+        app.onUpdateViewComplete()  # Global event - typically for Unit Testing only
+        ====================================================
+    - Getting Started Page
+        - See comments in: [Website\public\js\page-getting-started.js] under [viewTemplate.onclick]
+            Templates should possibly be rendered from PHP server-side. FastSitePHP has
+            and I18N API that is similar to DataFormsJS so it would be easy to convert.
+        - Likely add a regions page that is downloaded from CDN, this would also need to handle
+            translations so server-side code would help here
+    - If using Vue then document and show examples of which controller functions are called
+        by which Vue events - search [DataForms.js] for "new Vue".
+        - Example [Controlller.onRouteLoad] is called by [Vue.mounted]
+    - Vue - [app.activeVueModel] can be used but not on the first [onRendered], apps should use [this]
+    - How to use custom events for <url-hash-router> and <json-data>
+      See comments in JS code at bottom of:
+        DataFormsJS\examples\places-demo-web.htm
+    - How to use Authorization and various options, see example in [DataFormsJS\examples\entry-form-demo-hbs.htm]
+    - Document with an example of why most event listener functions should be defined
+      in seperate named functions outside of [addEventListener]. For example if
+      an anonymous function is added and the plugin is called multiple times on
+      the same element then multiple functions would be called. Example [clickToHighlight]
+      uses [toggleHighlight()], if not used and [app.plugins.clickToHighlight.onRendered()]
+      were called several times then it performs the same action several times.
+    - How to use [app.loadScript()], example:
+            var url = 'https://cdn.jsdelivr.net/npm/chart.js@2.9.2/dist/Chart.min.js';
+            app.loadScript(window.Chart, url, callback);
+        or:
+            app.loadScript(window.Chart, url).then(function() {
+                // Code for Chart
+            });
+        To load script 1st Parameter needs to be [false] or [undefined]:
+            (window.Promise && window.fetch ? true : false)
+            window.fetch
+    - How [app.lazyLoad], [data-lazy-load] and [app.loadScripts] works, for starting point
+      see comments in:
+        DataFormsJS\examples\places-demo-hbs.htm
+    - How to setup a local development - create the following folders, download needed files to them,
+      then comment out CDN links and uncomment the vendor links.
+        DataFormsJS\vendor
+        DataFormsJS\test\vendor\qunit
+    - Examples in the [js/templates/*] such as [page-object.js] will likely be moved to documentation
+        pages and the template files more minimal with only [console.log()] on the events.
+        In the future there should be unit tests for the [js/templates/*] files.
+    - Custom Controls, for example usage see [DataFormsJS\examples\js-control-demos-hbs.htm]
+        That file can be a starting point to see code for how to build custom controls.
+        In the future there should also be one or more [DataFormsJS\js\templates\*.js] files
+        for custom controls.
+    - Need demos for Handlebar Helpers, Vue Directives and React Format class
+    - All Parameters for I18N Files and Classes, example for React:
+        const defaultLocale = 'en';
+        const supportedLocales = ['en', 'jp'];
+        const fileName = 'countries';
+        const fileDir = 'http://localhost:3000/i18n';
+        const i18n = new I18n(defaultLocale, supportedLocales, fileName, fileDir);
+    - Document different build options that can be used
+        Uglify-js https://www.npmjs.com/package/uglify-js
+        Google Closure Compiler https://developers.google.com/closure/compiler/
+        Estimated Gzip size  https://github.com/sindresorhus/gzip-size-cli
+        --
+        Example using Windows [*.bat] files:
+        Note - paths are currently invalid
+        ----
+        ECHO Building File [DataFormsJS.min.js] with Uglifyjs
+        uglifyjs ^
+                .\..\src\DataFormsJS.js ^
+                .\..\src\pages\jsonData.js ^
+                .\..\src\plugins\filter.js ^
+                .\..\src\plugins\sort.js ^
+                -o .\..\dist\DataFormsJS.min.js -c -m
+        ---
+        REN This script assumes Java is installed and [compiler.jar] is copied to this folder
+        ECHO Building File [DataFormsJS.min.js] with Google Closure
+        java -jar compiler.jar ^
+            --compilation_level SIMPLE_OPTIMIZATIONS ^
+            --js_output_file=DataFormsJS.min.js ^
+            --js DataFormsJS.js ^
+            --js jsonData.js ^
+            --js handlebars-helpers.js ^
+            --js filter.js
+        --
+        Using a windows [*.cmd] file to run the [*.bat] file and set a file date:
+        --
+        REM This File can be double-clicked on from Windows Explorer
+        REM If building multiple builds in the same day add letter to the end, example YYYYMMDD{a-z}
+        ECHO OFF
+        ECHO *******************************************************
+        REM CALL Build.bat
+        CALL Build.bat
+        REM REN DataFormsJS.min.js DataFormsJS.min.%date:~-4,4%%date:~-7,2%%date:~-10,2%.js
+        REN DataFormsJS.min.js DataFormsJS.min.%date:~-4,4%%date:~-7,2%%date:~-10,2%.js
+        PAUSE
+        --
+    - How to delay a loading screen for a specific time through CSS, see example in:
+        Website\public\html\getting-started\getting-started.css
+    - MNIST Keras/TensorFlow demo with JS Plugin to allow user to draw number
+    - How to replicate embedded page links using hash URL:
+        Normally <a href="#target"> would work to link to:
+            <div id="target">
+        However because SPA hash routing is used App would redict to another page
+        Example work-around:
+            <a href="javascript:document.getElementById('target').scrollIntoView();window.scrollTo(0, window.pageYOffset-100);">
+        In the future this could be make into a generic plugin. The [window.scrollTo()] is used above to handle
+        a fixed header in a specific app.
+    - Show difference between jQuery, Object.assign() and app.deepClone() in a doc
+        jQuery adds to an array rather than replace it
+			var data = { a:[ {o1:1}, {o2:2}, {o3:3}, {o4:4} ] }
+			$.extend(true, data, { a:[ {o1:'a'}, {o2:'b'}, {o3:'c'} ] })
+		Then:
+			data = { a:[ {o1:'a'}, {o2:'b'}, {o3:'c'}, {o4:4}  ] }
+			- Issue with jQuery Deep Clone [o4] is still kept which results in
+              in unexpected results for the Json Data Services (page.jsonData, <JsonData>, etc)
+		Compare with:
+			Object.assign(true, data, { a:[ {o1:'a'}, {o2:'b'}, {o3:'c'} ] })
+			app.deepClone(data, { a:[ {o1:'a'}, {o2:'b'}, {o3:'c'} ] })
+		Show this as a more practical example (real records in an array)
+
+		# Object.assign() works but will set a ref to original nested array
+        var data = { a:[1,2,3] }
+        var data2 = Object.assign({}, data)
+			# compare with: [var data2 = app.deepClone({}, data)]
+        data2.a === data.a
+        data.a.push(4)
+        data2.a.indexOf(4)
+
+*) [Website\public\sitemap.xml]
+    In the future this file will be generated as more languages are added.
+    Rather than including all examples one language for each demo is selected (a mix of Handlebars, Vue, React, Web Components)
+    and some examples are excluded such as the log demo and entry form demo since they only include random data and no info.
+
+*) AI/ML Demos
+    - Add links back to Python server code and JS Client code once published on Github
+    - Text Content and layout of info tabs can be improved:
+        http://localhost:3000/examples/image-classification-vue.htm#/en/info
+        http://localhost:3000/examples/binary-classification-hbs.htm#/en/info
+        - SVG Graphics, more organized, etc
+    - Add an option to paste image from clipboard in addition to the file selection
+    - Image classification - If needed (for example, too many people use the demo at the same time)
+          added a [maxFiles = 30] property to limit the number of uploads at one time
+        - either show user a [confirm()] or simply show a custom element.
+        - JS Comments can mention that it can be changed manually for (Hbs/Vue) be
+          using DevTools with [app.activeModel.maxFiles = 100]
+        - This will be decided later based on site usage.
+        - Likely if many people use to to play with more low cost servers behind
+          a load balancer will be added.
+    - Possibly combine to a single demo and add more AI/ML examples such as Object Detection
+
+*) Add scripts to launch unit tests or examples using the users default browser.
+    - The scripts can be then added to [package.json]
+    - For Unit Testing likely use a puppeteer script
+
+*) Playground Page
+    - Optimization - stop/start the timers based on if the tab is active or not?
+        https://webkit.org/blog/8970/how-web-content-can-affect-power-usage/
+        https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
+    - Add CodeMirror support for GraphQL
+        At the time of writing GraphQL is not a built-in mode for CodeMirror:
+            https://codemirror.net/mode/index.html
+        Instead Facebook uses their own custom mode and it requires a custom build process and not CDN, see:
+            https://github.com/graphql/graphiql/tree/master/packages/codemirror-graphql
+
+*) DataFormsJS\js\React\PolyfillService.jsx
+    - Allow the polyfill URL to be optionally passed via a prop
+
+*) DataFormsJS\js\React\jsPlugins.js
+    How to handle [Plugin.onRouteUnload()]? Not yet needed with common framework plugins but needed
+    for future plugins that use [window.setInterval] or [window.setTimeout]
+
+*) DataFormsJS\js\Plugins\highlighter.js
+    - Allow users to define text results such as "{count} Records matched [{value}]"
+    - Need ability to handle multiple langauges
+
+*) todomvc Example
+    - Possibly publish it as a seperate Repository with notes on how to copy?
+    - Or keep core files with notes on how to install?
+    - Future - run unit tests against it:
+        https://github.com/tastejs/todomvc/tree/master/tests
+
+*) Add unit tests for momentjs with handlebars - or add to a seperate page?
+    - Originally it was included but has been removed from the initial release:
+            <div id="moment-01">{{moment (now) "YYYY.MM.DD"}}</div>
+            <div id="moment-02">{{moment dateTime "YYYY.MM.DD, h:mm:ss A"}}</div>
+            { id: "moment-01", value: (new Date()).getFullYear(), type: "contains" },
+            { id: "moment-02", value: "2015.01.31, 1:23:45 PM" },
+
+*) Chosen Plugin, need examples or docs showing how callbacks from [app.events.on] are used
+
+*) New [data-format] Plugin?
+    - Could it be used with <data-table> for Columns?
+    - Or should this also be build into the <data-table> Control? Examples:
+        data-col-align-left="col1, col2"
+        data-col-format-number="col1, col2"
+    - Initial testing could be done with the [places-demo-js] example
+
+*) Entry Form Demo [entry-form-demo]
+    - Impore layout
+    - Add an info page on how it works
+    - Add a new date field and then create an use a plugin for [pickadate]
+        https://amsul.ca/pickadate.js/
+        This will require including jQuery on the page. Both jQuery and pickadate
+        should be hosted using a CDN.
+    - Add a seperate line item table for the main records to demonstrate how
+        [EntryForm.js], [ListEditor.js] can be used to edit related records.
+        line item table will go on a seperate tab on the main screen then
+        list screens will simply report on how many records exist per record.
+
+*) Log Demo [log-table-hbs.htm], [log-table-vue.htm], etc
+    - move <h1>, and <nav> outside of the render section so that they do not flash
+        when cleared from each screen. Would need to make sure the [clear filter]
+        button doesn't get set multiple times.
+        Also possibly do this for the <input filter> control.
+
+*) Web Components
+    - All web components are stable but in early development, many features needed
+    - Lazy Loading of scripts when using <url-hash-router>
+        - will work similar to the framework [app.lazyLoad] and [data-lazy-load]
+        - possibly use [window.lazyLoad = {}] to define all lazy load scripts
+        - existing demos such as [places-demo-web.htm] then need to be updated to load scripts only when used
+    - <i18n-service> outside of the hash router or <i18n-service url-params> under the hash router.
+        How to do something like this with <data-table>?
+            <a href="#/{{../i18n_Locale}}/regions/{{iso}}">
+        Possibly:
+            col-link-template="#/:window.i18n_Locale/regions/:iso"
+        Another option if using <i18n-service> outside of the hash router could be to define
+        [i18n-key="value"] attributes on elements that <i18n-service> would update.
+        The <i18n-service> then might have to use JS code such as the following to handle updates
+            document.querySelector('url-hash-router').addEventListener('contentLoaded')
+            await componentsAreDefined(document)]
+        Likely try several versions to see what makes the most sense
+    - Likely create <handlebars-template> and <vue-template>
+        - It will then use a [get value()] and [set value(data)] like the [data-table.js]
+            so that the model can be passed to it. It should then cache the renderd <script>
+            element inside of it and render it in the <*-template> block.
+        - Setting a new value will re-render the template.
+        - If windows.Handlebars or windows.Vue is undefined then they should be downloaded from a CDN
+        - Possible example:
+            <url-hash-router>
+                <url-hash-route path="/:lang/regions/:country">
+                    <json-data
+                        url="http://localhost:3000/html/data/geonames/regions/:country"
+                        url-params>
+
+                        <is-loaded>
+                            <handlebars-template data-bind>
+                                <script type="text/x-template">
+                                    {{#each countries}}
+                                    {{/each}}
+                                </script>
+                            </handlebars-template>
+                        </is-loaded>
+                    </json-data>
+                </url-hash-route>
+            </url-hash-router>
+    - [web-components\utils.js] possibly add more generic functions from the main [DataForms.js]
+      for example [showErrorAlert()]
+    - web-components\json-data.js
+        - Create a similar [graphql-data.js] file and class for GraphQL support.
+            It will behave similar to [json-data.js] and include features from the standard [pages/jsonData.js].
+        - Allow override of default [fetch()] options
+        - Need specific usage documentation, example:
+            Child elements <is-loading>, <has-error>, <is-loaded> all quickly
+            flash unless the custom css [json-data:not(:defined)...] is included.
+            - Currently demo page has comments.
+    - web-components\data-table.js
+        - Add ability to define user defined error messages, labels, etc;
+            simlar to the [Controls\data-table.js] file. Handle these with
+            custom html attributes.
+        - Need ability to format data, possible options:
+            data-format-date="col1, col2"
+            data-format-cols="col1:date, col2:number"
+            data-format-cols="0:bool, 1:datetime"  # also by index
+            also custom labels for bool values such as "yes" or "no"
+        - Related the standard Framework JS Control <data-table> will need a similar update
+            Formatting needed:
+                http://127.0.0.1:8080/places-demo-web
+                http://127.0.0.1:8080/places-demo-js#/en/
+            Formatting works:
+                http://127.0.0.1:8080/places-demo-hbs#/en/
+                http://127.0.0.1:8080/places-demo-graphql#/en/
+                http://127.0.0.1:8080/places-demo-react#/en/
+                http://127.0.0.1:8080/places-demo-vue#/en/
+    - Come up with a good method for formatting numbers, dates, etc. With Vue the standard
+        Framework provides the directive [v-format-number] and for Handlebars there are
+        Handlebars helpers such as [formatNumber]. Similar functionality is needed for web components,
+        however at the time of writing there is no custom web attribute API to use.
+    - See example [places-demo-web.htm]
+        - DataFormsJS\examples\html\place-web.htm
+            <i class="[place.country_code] flag" data-bind-attr="class"></i>
+                does not work because [place.country_code] needs to be lowercase
+            [place.ascii_name] should only show if it is different then [place.name]
+            [is="input-filter"] should only show if [place.alternate_names.length > 10]
+            Date and Number Formatting, Calculations for [place.elevation]
+        - Because most other demos use templating, react, vue the above items are handled.
+          Should they be handled by the Web Components? If so it can add a lot of code
+          and make them more complex.
+        - An alternative to making the web components more complex would be to use the planned
+            <handlebars-template> and <vue-template>
+
+*) Create seperate JSX files based on React Components in a new folder for Preact?
+   Or can the current React Components be used?
+    https://preactjs.com/
+
+*) GraphQL
+    - Add GraphQL support on [pages/entryForm.js]
+    - Add support for other GraphQL types such as Float.
+        Currently only Strings and Ints are supported, see:
+        https://graphql.org/graphql-js/basic-types/
+        - Related Code:
+            app.buildGraphQLVariables()
+    - Can the file [app\app.js] be easily updated to avoid using "SELECT *"
+        on SQL queries and get only the requested fields. Only do this if it
+        doesn't take too much code because the file is meant to be a simple
+        and readable demo. See the following link:
+        https://www.prisma.io/blog/graphql-server-basics-demystifying-the-info-argument-in-graphql-resolvers-6f26249f613a
+    - Add GET support for GraphQL in:
+        DataFormsJS\js\controls\json-data.js
+      See how it can be done from:
+        DataFormsJS\js\pages\jsonData.js
+      When adding a demo page needs to be created to test
+
+*) Create pluings and examples for popular JS libraries
+    https://www.chartjs.org/
+    http://ckeditor.com/
+    https://www.tiny.cloud/
+    https://codemirror.net/
+    Many, many more
+
+*) Demo Pages
+    - Use a page to show summary data on charts, example
+        Pie Chart with Population by Continent
+    - Geonames Data Service that shows Country Names in User's local langauge
+    - Entry Form Demo
+        Add a related detail record tab and show in a tab for the main record.
+        It will be used to show how the [listEditor.js] works with a main record.
+    - Places demo
+        Add versions for Nunjucks and Underscore templating but likely exclude
+        from the home page and just show in the examples section. Nunjucks and
+        Underscore will need either a future [data-format] plugin or other code
+        updates to handle date and number formatting.
+
+*) Number and Date/Time formatting for all demos [places-demo-*]
+    - Needed on JS and Web Components demos
+
+*) Support for HTML Pushstate
+    - First create a web component <url-pushstate-router> based on <url-hash-router>
+    - Then later add to the main framework if it makes sense too
+    - If adding to the main framework the code should be kept small
+
+*) Create Unit Tests for Vue
+    This will be similar to the main unit test files for each template,
+    however there will be many differences so it will take some time to create this.
+
+    To track when controller/plugins are called modify and use this:
+    app.onUpdateViewComplete = function(source) { console.log(source); };
+
+*) Possible Updates for Vue
+    SPA is currently required for Vue
+    Example Non-SPA demo [DataFormsJS\examples\countries-no-spa-hbs.htm]
+    currently cannot be converted to Vue
+
+*) Create Unit Tests for the following functions:
+    Controller.onRouteUnload
+
+*) Fix unit tests for IE 11
+    Originally all unit tests worked but not some are not working
+    Some logic such as was added:
+        if (!isIE) {
+    Additionally some tests related to JS Controls are broken however JS controls are confirmed with work with IE
+    when using: http://127.0.0.1:8080/js-control-demos-hbs#/
+
+*) Additional Unit Testing for the following functions, props, etc:
+    data-engine:
+        Validate error message in [app.setup()] at [(viewEngine === ViewEngines.Unknown)]
+        This will be similar to the unit test for "template-invalid-path"
+    app.deepClone() - Test with getter/setter props
+    app.loadScript()
+    [app.lazyLoad] and all related features including [app.loadScripts]
+        See additional comments in next item below
+    app.loadJsControl(), examples
+        - verify [app.activeJsControls[n].data] objects
+        - manually call and recall [app.loadJsControl()]
+    app.unloadAllJsControls()
+        - manually test before a route is unloaded or when page is called with updateView
+    [data-default-route] used to specify default route from script element (used on the main web site)
+    app.locals
+    controller.settings
+        - using Arrays, Objects, etc
+    Event Order for manual calls to [refreshHtmlControl()] and [refreshAllHtmlControls()]
+        and how they call [refreshPlugins()] and [loadAllJsControls()].
+        This can probably be checked in test "Route Change and Event Order"
+        - Parmas should be tested for these functions as well
+    addPlugin(name, function)
+        Currently only [addPlugin(name, object)] is validated
+    addPage() and addController()
+        When creating Unit Tests for Vue these two functions should exclude the function [onBeforeRender]
+        from validation in case a controller only defines that function. When using Vue [onBeforeRender()]
+        is not called - low priority updated needed in [DataForms.js] for this
+    app.setttings.getRequestHeaders
+        - Example:
+            app.settings.requestHeaders = { "X-Test-Header": "Test123", "X-Test2": "ABC" };
+            app.settings.requestHeadersByHostName = { localhost: { "X-Test-Header": "123456789" }};
+            app.getRequestHeaders("http://localhost/test");
+            app.getRequestHeaders("https://www.example.com/");
+    Test paramaters for all [apply(app.activeModel, app.activeParameters)] code
+    app.handleGlobalErrors()
+    <templates> = [display:none] for IE but not other browsers
+    plugin.onRouteLoad
+    Create a seperate page for testing features if no controllers are included on a page
+        verify that plungins run, etc
+    data-set-text-content
+    app.getTemplateType()
+        Error under [(script.tagName !== 'TEMPLATE' && script.tagName !== 'SCRIPT')] is not tested
+    CSS Error Styles that were added after Unit Tests were initially created:
+        '.dataformsjs-error,.dataformsjs-fatal-error{',
+            'white-space:pre;',
+            'text-align:left;',
+
+
+*) Update for previous Unit Tests that changed when [app.lazyLoad] as added.
+    - Before [app.lazyLoad] the pages had to be defined when controllers were added
+      so this code was included under [DataFormsJS.js -> addController()]
+        if (controller.pageType !== null && controller.pageType !== undefined) {
+            ...
+            validateObjectExists(this.pages[controller.pageType], 'app.pages.' + controller.pageType, funcName);
+            validateTypeOf(this.pages[controller.pageType].model, 'object', 'app.pages.' + controller.pageType + '.model', funcName);
+    - And the following were tested in [unit-testing.js]:
+            try {
+                expectedMessage = "[app.pages.MissingPage] must first be defined before the function app.addController(path=Test) is called";
+                app.addController({ path: "Test", pageType: "MissingPage" });
+                assert.ok(false, "Test should have failed");
+            } catch (e) {
+                assert.ok(e instanceof TypeError, "Execption should be a TypeError");
+                assert.equal(e.message, expectedMessage, expectedMessage);
+            }
+
+            try {
+                //First add an invalid page manually without using app.addPage()
+                //This error would happen if the developer overwrites a page object
+                //as a invalid type or if they manually add an invalid page.
+                app.pages.InvalidPage = { model: function () { return ""; } };
+                tester.pagesCount++;
+
+                //Run the test
+                expectedMessage = "[app.pages.InvalidPage.model] was not defined as a object when the function app.addController(path=Test) was called";
+                app.addController({ path: "Test", pageType: "InvalidPage" });
+                assert.ok(false, "Test should have failed");
+            } catch (e) {
+                assert.ok(e instanceof TypeError, "Execption should be a TypeError");
+                assert.equal(e.message, expectedMessage, expectedMessage);
+            }
+    - That validation is now handled in [function setControllerFromPage(controller)] with the following code
+			if (app.pages[controller.pageType] === undefined) {
+				error = 'The page [' + controller.pageType + '] has not been loaded for Controller[path=' + controller.path + '].';
+			} else if (typeof app.pages[controller.pageType].model !== 'object') {
+				error = 'Error - The [model] property for page object [' + controller.pageType + '] must be a valid JavaScript Object.';
+			}
+    - The new validaiton needs to be tested and will have to use hash routing to check the view after hash change for the errors
+
+*) DataFormsJS Object
+    *) app.addPage("name", callback)
+        if function is passed then it will create page as
+            { model:{}, onRendered:callback }
+        similar to how [app.addPlugin()] works with a callback function
+    *) More HTML defaults for things such as [app.settings.defaultRoute]?
+        document.documentElement.getAttribute('data-show-errors')
+    *) app.routeMatches() should not match "/" to [data-route="/:count"]
+    *) Need a redirect function, currently using this in one of the demos:
+        app.addController({ path:"/", onBeforeRender:function() {
+            window.location.hash = "#/20";
+        }});
+        * Something will need to be fixed now since ":lang" will be used
+        on the main site
+    *) Add [app.settings.fetchOptionsByHostName] which will be similar
+        to [requestHeadersByHostName] and add a related [getFetchOptons()]
+        function that will be similar to [getRequestHeaders()].
+
+*) Page [entryForm]
+    *) Add support for radio input controls
+    *) Add support for additional [data-type] values
+    *) Keep [Save] button disabled if there are no changes
+        Try adding this first as a seperate plugin
+    *) <input type="file"> likely to be handled with various plugin options and example server code
+        see the image classification demo for now
+    *) Add validation options to highlight invalid controls
+    *) Possibly here or in [plugins/listEditor.js] add a [saveFormat] option with values such as
+        "all-records" or "changes-only". Variaous Server Side code examples need to go with it
+
+*) Control [json-data]
+    *) Nested templates are currently not supported, does it make sense to support?
+        See example in [examples\places-demo-hbs.htm]
+
+*) Plugin [clickUrlAction]
+    *) Add options for showing loading or indicator, etc or a or callback for user to handle
+    *) If a new page is loaded before this service downloads then don't write back to active model
+        To start a simple currentUrl <> previousUrl can be used
+    *) Action "refresh-html-controls" should also support an optional [data-controls-selector]
+
+*) Control [data-table.js]
+    Add support for [col-link-template] and [col-link-fields] just like is used in the Web Components.
+    This may remove the need for a custom plugin used in [examples\places-demo-js.htm], however
+    the root [i18n_Locale] variable will have to be figured out how to add it.
+
+*) Extension validation
+    *) Many more validations needed including all HTML standard attributes such as <input pattern>
+
+*) Improvements for [app.showErrorAlert()] to show all errors as a list?
+    For example keep adding errors to a <ul> control and allow user to clear them.
+
+*) Unit Test all Possible Errors
+    For example a specific plugin that throws an exception from [onRendered()]
+
+*) New Unit Test Page to Test Controls, Plugins, etc when not using Single-Page-App (Controllers)
+
+*) Support Built-In Timers for both Controller and Controls?
+    data-refresh-time-interval="1000"
+    Currently [refreshTimeInterval] is avaialble on the [json-data] Control
+*) Handlebars Helpers
+    - Make sure all helpers are tested - examples of needed [nlbr, yesNo, yesNoNull]
+    - More testing of different languages, etc
+    - Test all options for ifCond
+    - 'join' function to work on array properties
+
+*) Low Priority - Make main site features work with Polyfill Service when using older IE, Known requirements:
+    IE 10: Element.prototype.dataset
+    IE 9: console,console.log
+    IE 8: Array.prototype.forEach,Event,Event.hashchange,Object.keys,console,console.log
+    IE 7: Array.prototype.forEach,Event,Event.hashchange,Object.keys,console,console.log,document.querySelector
+
+    - Currently IE 7 (and probably 8) will be broken unless the last comma "," is removed from the final
+       property in an object or item in a list. IE 8 will add an extra [undefined] item while IE7 won't
+       parse the script. Related option for eslint. If supporting down to IE8 in the future then update core
+       file only for this option. This will not be published though but rather if old IE can work then
+       it can be documented.
+          /* eslint comma-dangle: ["error", "never"] */
+
+    - Currently the polyfill service has a bug where [Element.prototype.dataset] is not being returned
+      when using IE 10.
+
+    - Typically (as of 2019) almost no one uses old IE however older corporate intranet sites often target
+      older versions of IE using <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9">
+      Modern apps can be linked via <iframe> however they have to work with old IE to do so.
+
+    textContent needed from here:
+    http://eligrey.com/blog/post/textcontent-in-ie8/
+
+    Also related if using HTML:
+    <!--[if lt IE 9]>
+    <script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+    <script src="js/polyfill-textContent"></script>
+    <![endif]-->
+
+    polyfill.io v2 supports older versions of IE compared to v3; for example [hashchange] is
+    supported in IE 6 using v2.

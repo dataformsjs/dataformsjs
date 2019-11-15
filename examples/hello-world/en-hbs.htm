@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>DataFormsJS - Hello World Demo</title>
+        <link rel="stylesheet" href="hello-world.css">
+    </head>
+    <body>
+        <div id="view"></div>
+
+        <template data-route="/">
+            <h1>Hello World!</h1>
+            <p>Modify this <a href="#/Your-Name">URL</a> with your name.</p>
+			<div class="home-page-animation">
+                <img src="sun.svg" class="sun">
+                <div class="orbit">
+                    <img src="planet.svg" class="planet">
+                    <img src="moon.svg" class="moon">
+                </div>
+            </div>
+        </template>
+        
+        <script type="text/x-template" data-engine="handlebars" data-route="/:name">
+            <h1>Hello {{name}}!</h1>
+            <p>Back to <a href="#">Home</a></p>
+        </script>
+
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/DataFormsJS.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/handlebars@4.5.1/dist/handlebars.min.js"></script>
+    </body>
+</html>

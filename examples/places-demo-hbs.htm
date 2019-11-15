@@ -1,0 +1,173 @@
+<!doctype html>
+<html 
+    lang="en" 
+    data-show-errors
+    data-i18n-default="en"
+    data-i18n-locales="en,jp"
+    data-i18n-file="countries">
+    <head>
+        <meta charset="utf-8">
+        <title data-i18n="Countries Demo | Handlebars"></title>
+        <link rel="stylesheet" href="css/countries.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
+    </head>
+    <body>
+        <div id="view"></div>
+
+        <!-- 
+            Templates/Views can be both included on the page or downloaded.
+            In this example the main page and several "HTML Controls" are
+            embedded in the page while other Templates are downloaded only
+            if needed.
+        -->
+
+        <script type="text/x-template" data-engine="handlebars" id="loading-screen">
+            <h3>{{i18n 'Loading...'}}</h3>
+        </script>
+
+        <script type="text/x-template" data-engine="handlebars" id="error-screen">
+            <h3 class="error">{{i18n 'Error'}} - {{errorMessage}}</h3>
+        </script>
+
+        <script
+            type="text/x-template"
+            data-engine="handlebars"
+            data-default-route
+            data-route="/:lang/"
+            data-page="jsonData"
+            data-url="https://www.dataformsjs.com/data/geonames/countries"
+            data-load-only-once="true">
+
+            {{#if isLoading}}<div data-template-id="loading-screen"></div>{{/if}}
+            {{#if hasError}}<div data-template-id="error-screen"></div>{{/if}}
+            {{#if isLoaded}}
+                <h1>{{i18n 'Countries'}}</h1>
+
+                <nav>
+                    <a href="#/{{i18n_Locale}}/search">{{i18n 'Search'}}</a>
+                    <a href="#/{{i18n_Locale}}/info">{{i18n 'Info'}}</a>
+                </nav>
+                
+                <input
+                    data-filter-selector="table"
+                    data-filter-results-text-selector="h1"
+                    data-filter-results-text-all="{{i18n '{totalCount} Countries'}}"
+                    data-filter-results-text-filtered="{{i18n 'Showing {displayCount} of {totalCount} Countries'}}"
+                    placeholder="{{i18n 'Enter filter, example \'North America\''}}">
+
+                <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
+                    <thead>
+                        <tr>
+                            <th>{{i18n 'Code'}}</th>
+                            <th>{{i18n 'Name'}}</th>
+                            <th>{{i18n 'Size (KM)'}}</th>
+                            <th>{{i18n 'Population'}}</th>
+                            <th>{{i18n 'Continent'}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each countries}}
+                        <tr>
+                            <td><a href="#/{{../i18n_Locale}}/regions/{{iso}}">{{iso}}</a></td>
+                            <td>
+                                <i class="{{lowerCase iso}} flag"></i>
+                                {{country}}
+                            </td>
+                            <td class="align-right" data-value="{{area_km}}">{{formatNumber area_km}}</td>
+                            <td class="align-right" data-value="{{population}}">{{formatNumber population}}</td>
+                            <td>{{continent}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            {{/if}}
+        </script>
+
+        <script
+            type="text/x-template"
+            data-engine="handlebars"
+            data-route="/:lang/regions/:country"
+            data-page="jsonData"
+            data-url="https://www.dataformsjs.com/data/geonames/regions/:country"
+            data-load-only-once="true"
+            src="html/regions-hbs.htm">
+        </script>
+
+        <script
+            type="text/x-template"
+            data-engine="handlebars"
+            data-route="/:lang/cities/:country/:region"
+            data-page="jsonData"
+            data-url="https://www.dataformsjs.com/data/geonames/cities/:country/:region"
+            data-load-only-once="true"
+            src="html/cities-hbs.htm">
+        </script>
+
+        <script
+            type="text/x-template"
+            data-engine="handlebars"
+            data-route="/:lang/city/:id"
+            data-page="jsonData"
+            data-url="https://www.dataformsjs.com/data/geonames/place/:id"
+            data-load-only-once="true"
+            data-lazy-load="leafletCss, leafletJs, leafletPlugin"
+            src="html/place-hbs.htm">
+        </script>
+
+        <script
+            type="text/x-template"
+            data-engine="handlebars"
+            data-route="/:lang/search"
+            data-page="jsonData"
+            data-url="https://www.dataformsjs.com/data/geonames/countries?order_by=country"
+            data-load-only-once="true"
+            data-lazy-load="json_data, dataBind, keydownAction, chosen, chosenPlugin"
+            src="html/search-places-hbs.htm">
+        </script>
+
+        <script
+            type="text/x-template"
+            data-engine="handlebars"
+            data-route="/:lang/info"
+            data-src="html/places-info-hbs.htm">
+        </script>
+
+        <!-- Handlebars -->
+        <script src="https://cdn.jsdelivr.net/npm/handlebars@4.5.1/dist/handlebars.min.js"></script>
+        
+        <!-- DataFormsJS -->
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/DataFormsJS.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/pages/jsonData.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/extensions/handlebars-helpers.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/i18n.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/filter.min.js"></script>
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/sort.min.js"></script>
+        <script>
+            // Lazy Load the following scripts only if needed based on attribute [data-lazy-load].
+            // When scripts need to be downloaded in a specific order then use an array otherwise
+            // one script per key is recommended. When a controller uses multiple lazy load items
+            // they are downloaded asynchronous however items in the array are download only after
+            // the previous item is loaded.
+            app.lazyLoad = {
+                chosen: [
+                    // [jquery] must be included before [chosen] and [countries-chosen.css]
+                    // must be loaded after [chosen.css].
+                    'https://code.jquery.com/jquery-3.4.1.min.js',
+                    'https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.css',
+                    'https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.jquery.min.js',
+                    // '../vendor/jquery-3.4.1.min.js',
+                    // '../vendor/chosen.css',
+                    // '../vendor/chosen.jquery.min.js',
+                    'css/countries-chosen.css',
+                ],
+                chosenPlugin: 'https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/chosen.min.js',
+                dataBind: 'https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/dataBind.min.js',
+                keydownAction: 'https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/keydownAction.min.js',
+                json_data: 'https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/controls/json-data.min.js',
+                leafletCss: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.css',
+                leafletJs: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.js',
+                leafletPlugin: 'https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/plugins/leaflet.min.js',
+            };
+        </script>
+    </body>
+</html>

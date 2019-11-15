@@ -1,0 +1,51 @@
+
+This text file provides a brief overview of how to update the files for local development.
+Reasons for local development include:
+    - No access to the internet at times
+    - Testing new development features on existing demos
+
+
+These instructions work when running exaples from both node [DataFormsJS\examples\server.js]
+and also when running a local build of the main site [Website\index.php]
+
+
+*) For local development the following changes can be made to HTML files under [DataFormsJS\examples]
+
+    Replace the root dir all JS/JSX CDN Links with "../js/"
+
+    Example Before:
+        <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/DataFormsJS.min.js"></script>
+        <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/DataFormsJS.jsx"></script>
+    After:
+        <script type="text/babel" src="../js/DataFormsJS.min.js"></script>
+        <script type="text/babel" src="../js/react/DataFormsJS.jsx"></script>
+
+    This applies to the import statments on Web Component HTML examples as well:
+    Before:
+        import { componentsAreSetup } from 'https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/web-components/utils.min.js';
+    After:
+        import { componentsAreSetup } from '../js/web-components/utils.min.js';
+            
+    For Hello World examples under [DataFormsJS\examples\hello-world]
+
+    Go up to levels to the root folder:
+    <script src="../../js/DataFormsJS.js"></script>
+
+
+*) Vendor Directory - If using Vue, React, Handlebars, etc locally then create a [DataFormsJS\vendor] Directory
+   and place vendor scripts directly in it. Then in the examples update relevant code:
+
+    Before:
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    After:
+        <script src="../vendor/vue.js"></script>
+
+    If developing with local flags from [semantic-ui] download both [flag.min.css] and [flags.png], and update the css
+    to look in the same directory:
+
+    Before:
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
+    After:
+        <link rel="stylesheet" href="../vendor/flag.min.css">
+
+    The [.gitignore] file excludes the [vendor] directory from source control

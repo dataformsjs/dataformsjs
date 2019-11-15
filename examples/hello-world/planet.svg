@@ -1,0 +1,29 @@
+<svg width="82px" height="82px" viewBox="0 0 82 82" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <radialGradient cx="50%" cy="50%" fx="50%" fy="50%" r="69.8283609%" id="radialGradient-1">
+            <stop stop-color="#3B84C4" offset="0%"></stop>
+            <stop stop-color="#8DB7DD" offset="100%"></stop>
+        </radialGradient>
+        <radialGradient cx="31.9972019%" cy="50%" fx="31.9972019%" fy="50%" r="74.3549977%" gradientTransform="translate(0.319972,0.500000),scale(0.725159,1.000000),rotate(90.000000),translate(-0.319972,-0.500000)" id="radialGradient-2">
+            <stop stop-color="#807070" offset="0%"></stop>
+            <stop stop-color="#C5A5A6" offset="100%"></stop>
+        </radialGradient>
+        <radialGradient cx="36.8250782%" cy="29.8250395%" fx="36.8250782%" fy="29.8250395%" r="40.2870014%" gradientTransform="translate(0.368251,0.298250),scale(1.000000,0.786441),rotate(63.372200),translate(-0.368251,-0.298250)" id="radialGradient-3">
+            <stop stop-color="#8C828B" offset="0%"></stop>
+            <stop stop-color="#BDB7BC" offset="100%"></stop>
+        </radialGradient>
+        <radialGradient cx="42.8064615%" cy="57.5227916%" fx="42.8064615%" fy="57.5227916%" r="73.6929766%" gradientTransform="translate(0.428065,0.575228),scale(1.000000,0.822959),rotate(23.512869),translate(-0.428065,-0.575228)" id="radialGradient-4">
+            <stop stop-color="#DFE1EC" offset="0%"></stop>
+            <stop stop-color="#B2B8D2" offset="100%"></stop>
+        </radialGradient>
+    </defs>
+    <g id="Playground" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Planet">
+            <circle id="Oval" stroke="#3B84C4" fill="url(#radialGradient-1)" cx="41" cy="41" r="40"></circle>
+            <path d="M5.82224517,43.998464 C11.9384668,35.0744184 19.035242,49.024223 26.7078858,47.8842768 C34.3805295,46.7443306 52.8983892,39.9781069 56.3588412,48.1980573 C59.8192932,56.4180077 48.5646959,59.9508364 39.5561729,73.0818367 C37.6831027,75.8120606 36.3208868,78.329567 35.25521,80.5901437 C19.3962877,78.3098717 6.54282523,66.7251747 2.40484183,51.5459531 C3.3572154,48.5554322 4.53153619,45.8817093 5.82224517,43.998464 Z" id="Combined-Shape" stroke="#5E5F5A" fill="url(#radialGradient-2)"></path>
+            <path d="M70.111066,13.5682187 L70.1395358,13.5975029 C76.8738563,20.7559781 81,30.3961328 81,41 C81,48.2288623 79.0824103,55.0098475 75.728158,60.8620284 C75.1382326,60.6928651 74.5756784,60.5053137 74.0446098,60.2991201 C64.9725922,56.7768024 74.5673283,51.0730103 65.6151548,39.7659756 C56.6629813,28.4589409 37.5818733,24.4126128 41.5309976,19.2328311 C45.3650788,14.2039431 53.428187,4.85956201 70.111066,13.5682187 Z" id="Combined-Shape" stroke="#585157" fill-opacity="0.4" fill="url(#radialGradient-3)"></path>
+            <path d="M24.6455249,18.2591101 C25.8833667,26.7235132 32.2105915,33.6203669 24.6455249,35.8145762 C20.2327331,37.0944841 11.0958644,31.4673567 3.31276114,27.5672246 C7.69138433,15.2787744 17.9112353,5.76181453 30.6302171,2.35725111 C32.9597701,6.13631435 23.454991,10.1181999 24.6455249,18.2591101 Z" id="Combined-Shape" stroke="#8087B3" fill="url(#radialGradient-4)"></path>
+            <circle id="Oval" stroke="#3B84C4" stroke-width="2" cx="41" cy="41" r="40"></circle>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,24 @@
+/* CSS overrides for jQuery Chosen so it has closer padding and style to other input elements */
+
+.chosen-container {
+    text-align: left;
+    margin: 20px;
+    display: block;
+}
+
+.chosen-drop { padding:10px; } 
+
+.chosen-container-single .chosen-single {
+    height: 34px;
+    line-height: 34px;
+    border-radius: 0;
+}
+
+.chosen-container-single .chosen-single span { text-align: center; }
+
+.chosen-container-single .chosen-single div b {
+    top: 10%;
+    position: absolute;
+}
+
+.chosen-container-single .chosen-single abbr { top:10px; }

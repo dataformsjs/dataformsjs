@@ -1,0 +1,18 @@
+<section>
+    <div class="content">
+        <h1 v-i18n="'Image Prediction Demo'"></h1>
+        <input type="file" accept="image/*" @change="selectImages" multiple>
+    </div>
+</section>
+<div>
+    <ul class="results">
+        <li v-for="image in images">
+            <img v-bind:src="image.src" />
+            <div class="loading" v-if="image.isUploading" v-i18n="'Uploading...'"></div>
+            <div class="error" v-if="image.hasError" v-i18n="'Error'"></div>
+            <div v-for="prediction in image.predictions" v-bind:class="resultClass(prediction.probability)">
+                {{ prediction.label }} = <span v-format-percent:5="prediction.probability"></span>
+            </div>
+        </li>
+    </ul>
+</div>

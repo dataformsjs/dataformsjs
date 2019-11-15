@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title data-i18n="Countries Demo | No SPA | React"></title>
+        <link rel="stylesheet" href="css/countries.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
+    </head>
+    <body>
+        <div id="view">
+            <h1>Countries</h1>
+            
+            <div id="root"></div>
+        </div>
+    </div>
+
+    <script>
+        // Allow [babel-standalone] to use [import and exports] with JSX files
+        window.exports = window;
+        function require(module) {
+            switch (module) {
+                case 'react':
+                    return window.React;
+                case 'react-dom':
+                    return window.ReactDOM;
+                default:
+                    return window[module];
+            }
+        }
+    </script>
+
+    <!-- React -->
+    <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+    <!--
+        Babel for JSX
+        Use [babel-standalone@6] for IE Support.
+        Babel 7 [@babel] can be used for modern browsers.
+    -->
+    <!--
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <!-- DataFormsJS React Components -->
+    <!--
+    <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/ErrorBoundary.jsx"></script>
+    <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/PolyfillService.jsx"></script>
+    <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/JsonData.jsx"></script>
+    <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/InputFilter.jsx"></script>
+    <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/SortableTable.jsx"></script>
+    <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/I18n.js"></script>
+    <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/Format.js"></script>
+    <script type="text/babel" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/react/LeafletMap.jsx"></script>
+    -->
+    <script src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/DataFormsJS.React.min.js"></script>
+
+    <script type="text/babel">
+        const format = new Format();
+
+        function ShowLoading() {
+            return <h3 className="loading">Loading...</h3>;
+        }
+
+        function ShowError(props) {
+            return <p className="error">{props.error}</p>;
+        }
+
+        function ShowCountries(props) {
+            return (
+                <React.Fragment>
+                    <InputFilter
+                        filter-selector="table"
+                        filter-results-selector="h1"
+                        filter-results-text-all="{totalCount} Countries"
+                        filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
+                        placeholder="Enter filter, example 'North America'" />
+
+                    <SortableTable
+                        data-sort-class-odd="row-odd"
+                        data-sort-class-even="row-even">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Name</th>
+                                <th>Size (KM)</th>
+                                <th>Population</th>
+                                <th>Continent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {props.data && props.data.countries && props.data.countries.map(country => {
+                                return (
+                                    <tr key={country.iso}>
+                                        <td>{country.iso}</td>
+                                        <td>
+                                            <i class={country.iso.toLowerCase() + ' flag'}></i>
+                                            <span>{country.country}</span>
+                                        </td>
+                                        <td className="align-right" data-value={country.area_km}>{format.number(country.area_km)}</td>
+                                        <td className="align-right" data-value={country.population}>{format.number(country.population)}</td>
+                                        <td>{country.continent}</td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </SortableTable>
+                </React.Fragment>
+            )
+        }
+
+        class App extends React.Component {
+            render() {
+                return (
+                    <ErrorBoundary>
+                        <PolyfillService>
+                            <JsonData
+                                url="https://www.dataformsjs.com/data/geonames/countries"
+                                isLoading={<ShowLoading />}
+                                hasError={<ShowError />}
+                                isLoaded={<ShowCountries />} />
+                        </PolyfillService>
+                    </ErrorBoundary>
+                )
+            }
+        }
+
+        ReactDOM.render(
+            <App />,
+            document.getElementById('root')
+        );
+    </script>
+</body>

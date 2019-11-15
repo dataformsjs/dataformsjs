@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>DataFormsJS | Hello Worldデモ| Webコンポーネント</title>
+        <link rel="stylesheet" href="hello-world.css">
+    </head>
+    <body>
+        <div id="view"></div>
+         
+        <url-hash-router view-selector="#view">
+                    
+            <url-hash-route path="/">
+                <template>
+                    <h1>こんにちは世界！</h1>
+                    <p>この<a href="#/あなたの名前">URL</a>を自分の名前で変更します。</p>
+                    <div class="home-page-animation">
+                        <img src="sun.svg" class="sun">
+                        <div class="orbit">
+                            <img src="planet.svg" class="planet">
+                            <img src="moon.svg" class="moon">
+                        </div>
+                    </div>
+                </template>
+            </url-hash-route>
+
+            <url-hash-route path="/:name">
+                <template>
+                    <h1><span url-param="name"></span>こんにちは！</h1>
+                    <p><a href="#">家に帰る</a></p>
+                </template>
+            </url-hash-route>
+
+        </url-hash-router>
+        
+        <script type="module" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/web-components/url-hash-router.min.js"></script>
+        <script nomodule src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/web-components/safari-nomodule.min.js"></script>
+        <script nomodule src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/web-components/old-browser-warning.min.js"></script>        
+    </body>
+</html>

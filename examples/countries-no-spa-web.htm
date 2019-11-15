@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title data-i18n="Countries Demo | No SPA | Web Components"></title>
+        <link rel="stylesheet" href="css/countries.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
+        <style>
+            /* Prevent custom web components from appearing during rendering include the following CSS */
+            json-data:not(:defined),
+            is-loading:not(:defined),
+            has-error:not(:defined),
+            is-loaded:not(:defined) { display:none; }
+        </style>
+    </head>
+    <body>
+        <div id="view">
+            <h1>Countries</h1>
+            
+            <json-data url="https://www.dataformsjs.com/data/geonames/countries">
+                <is-loading>
+                    <span class="loading">Loading...</span>
+                </is-loading>
+                <has-error>
+                    <span class="error" data-bind="errorMessage"></span>
+                </has-error>
+                <is-loaded>
+                    <input
+                        is="input-filter"
+                        filter-selector="table"
+                        filter-results-selector="h1"
+                        filter-results-text-all="{totalCount} Countries"
+                        filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
+                        placeholder="Enter filter, example 'North America'">
+
+                    <data-table
+                        data-bind="countries"
+                        labels="Code, Name, Size (KM), Population, Continent"
+                        table-attr="is=sortable-table,
+                                    data-sort-class-odd=row-odd,
+                                    data-sort-class-even=row-even">
+                    </data-table>
+                </is-loaded>
+            </json-data>
+        </div>
+    </div>
+
+    <!-- DataFormsJS Web Components -->
+    <script type="module" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/web-components/url-hash-router.min.js"></script>
+    <script type="module" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/web-components/json-data.min.js"></script>
+    <script type="module" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/web-components/data-table.min.js"></script>
+    <script type="module" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/web-components/input-filter.min.js"></script>
+    <script type="module" src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/web-components/sortable-table.min.js"></script>
+
+    <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
+    <script nomodule src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/web-components/safari-nomodule.min.js"></script>
+    <script nomodule src="https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/web-components/old-browser-warning.min.js"></script>
+
+    <!--
+        Add images to the <table is="data-table"> element using standard JavaScript DOM methods
+    -->
+    <script type="module">
+        import { componentsAreSetup } from 'https://d2xbd92kui7v97.cloudfront.net/js/1.0.0/web-components/utils.min.js';
+
+        const jsonData = document.querySelector('json-data');
+        if (jsonData !== null) {
+            // [contentReady === true] can happen on the first page load if the
+            // data loads very fast - (before <script type="module"> finished loading).
+            if (jsonData.contentReady) {
+                showTableImages();
+            } else {
+                jsonData.addEventListener('contentReady', showTableImages);
+            }
+        }
+
+        // Add Flag Images to the <table> once it has been rendered.
+        async function showTableImages() {
+            // Wait till all web components are setup
+            await componentsAreSetup();
+
+            // Exit if page has no table
+            const table = document.querySelector('table');
+            if (table === null || table.tBodies === null || table.tBodies.length !== 1) {
+                return;
+            }
+
+            // Add flags to all rows
+            const tableRows = table.tBodies[0].rows;
+            const rowCount = tableRows.length;
+            for (let x = 0; x < rowCount; x++) {
+                const row = tableRows[x];
+                const iso = row.cells[0].textContent.trim().toLowerCase();
+                const flag = document.createElement('i');
+                flag.className = iso + ' flag';
+                row.cells[1].insertAdjacentElement('afterbegin', flag);
+            }
+        }   
+    </script>
+</body>
+</html>

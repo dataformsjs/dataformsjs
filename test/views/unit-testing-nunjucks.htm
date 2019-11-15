@@ -1,0 +1,283 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>DataFormsJS Unit Testing with Nunjucks Templating</title>
+        <!-- <link rel="stylesheet" href="vendor/qunit/qunit-2.9.1.css"> -->
+        <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.9.2.css">
+        <style>
+            .nav { text-align: center; margin-bottom: 40px; }
+            .nav p { font-weight: bold; }
+            .nav ul { list-style-type: none; }
+            .nav li { margin:8px; }
+            .nav li a { padding:4px 8px; }
+            .nav .active { background-color:green; color:white; }
+        </style>
+    </head>
+    <body>
+        <div class="nav">
+            <h1>Unit Testing with Nunjucks Templating</h1>
+            <a href="./">Back to Home Page</a>
+            <p>Unit Tests:</p>
+            <ul>
+                <li><a href="unit-testing-handlebars">Unit Testing with Handlebars Templating</a></li>
+                <li><a class="active" href="unit-testing-nunjucks">Unit Testing with Nunjucks Templating</a></li>
+                <li><a href="unit-testing-underscore">Unit Testing with Underscore Templating</a></li>
+                <li><a href="unit-testing-mixed-templates">Unit Testing using Multiple Template Engines</a></li>
+            </ul>
+        </div>
+        
+        <div id="qunit"></div>
+        <div id="view" style="display:none;"></div>
+
+        <script type="text/x-template" data-engine="nunjucks" data-route="/" data-content="Initial view has loaded">
+            {{ content }}
+        </script>
+
+        <template data-route="/template-view">
+            <div>Template View</div>
+        </template>         
+
+        <script type="text/x-template" data-engine="nunjucks" id="template-test">Test Route</script>
+
+        <script type="text/x-template" data-engine="nunjucks" data-route="/event-order" data-page="unitTestEventOrder">
+	        [event-order]
+            {% for event in events %}
+                {{ event }}{% if loop.last %}{% else %},{% endif %}
+            {% endfor %}
+        </script>
+
+        <script 
+	        type="text/x-template" data-engine="nunjucks" 
+		    src="html/unit-test-control-nunjucks.htm" 
+			data-route="/download-script-src" 
+			data-model="unitTestScriptSrc"></script>
+        
+        <script 
+	        type="text/x-template" data-engine="nunjucks" 
+        	data-src="html/unit-test-control-nunjucks.htm" 
+	        data-route="/download-script-data-src" 
+		    data-model="unitTestScriptDataSrc"></script>
+		    
+        <script 
+	        type="text/x-template" data-engine="nunjucks" 
+        	data-src="html/unit-test-control-nunjucks.htm" 
+	        data-route="/download-script-data-src2" 
+		    data-model="unitTestControls"></script>
+		    
+        <script 
+	        type="text/x-template" data-engine="nunjucks" 
+        	data-src="html/unit-test-array-list-page.htm" 
+	        data-route="/download-control-data-src"
+		    data-model="unitTestControls"></script>
+
+        <script 
+	        type="text/x-template" data-engine="nunjucks" 
+		    id="template-array-list-control"
+        	data-src="html/unit-test-array-list-control-nunjucks.htm"></script>
+			
+		<script type="text/x-template" data-engine="nunjucks" data-route="/nunjucks-defined-environment">
+			[{{ appViewEngine() }}][{{ helloWorld() }}]
+		</script>
+		
+		<script type="text/x-template" data-engine="nunjucks" data-route="/nunjucks-default-environment">
+			[{{ appViewEngine() }}][{{ helloWorld() }}]
+		</script>		
+			
+        <script type="text/x-template" data-engine="nunjucks" data-route="/page-json-data" data-page="jsonData" data-url="unit-testing/page-json-data">
+            {% if isLoading %}[page-json-data]Page is Loading{% endif %}
+            {% if isLoaded %}[page-json-data]{{ serverMessage }}{% endif %}
+            {% if hasError %}[page-json-data]{{ errorMessage }}{% endif %}
+        </script>
+
+        <script type="text/x-template" data-engine="nunjucks" data-route="/page-json-data-with-prop" data-page="jsonData" data-url="unit-testing/page-json-data" data-prop="data">
+            {% if isLoading %}[page-json-data-with-prop]Page is Loading{% endif %}
+            {% if isLoaded %}[page-json-data-with-prop]{{ data.serverMessage }}{% endif %}
+            {% if hasError %}[page-json-data-with-prop]{{ data.errorMessage }}{% endif %}
+        </script>        
+
+        <script type="text/x-template" data-engine="nunjucks" 
+            data-route="/missing-page-json-data" 
+            data-page="jsonData" 
+            data-url="404"
+            data-load-only-once="true">
+            {% if isLoading %}[missing-page-json-data]Page is Loading{% endif %}
+            {% if isLoaded %}[missing-page-json-data]Page is Loaded{% endif %}
+            {% if hasError %}[missing-page-json-data]{{ errorMessage }}{% endif %}
+        </script>
+
+        <script type="text/x-template" data-engine="nunjucks" data-route="/page-json-data-missing-route" data-page="jsonData">
+            {% if isLoading %}[page-json-data-missing-route]Page is Loading{% endif %}
+            {% if isLoaded %}[page-json-data-missing-route]Page is Loaded{% endif %}
+            {% if hasError %}[page-json-data-missing-route]{{ errorMessage }}{% endif %}
+        </script>
+
+        <script type="text/x-template" data-engine="nunjucks" data-route="/page-json-data-error" data-page="jsonData" data-url="unit-testing/page-json-data-error">
+            {% if isLoading %}[page-json-data-error]Page is Loading{% endif %}
+            {% if isLoaded %}[page-json-data-error]Page is Loaded{% endif %}
+            {% if hasError %}[page-json-data-error]{{ errorMessage }}{% endif %}
+        </script>
+
+        <script type="text/x-template" data-engine="nunjucks" data-route="/page-reload-json-data" data-page="jsonData" data-url="unit-testing/page-json-data">
+            {% if isLoading %}[page-reload-json-data]Page is Loading{% endif %}
+            {% if isLoaded %}[page-reload-json-data]{{ serverMessage }}{% endif %}
+            {% if hasError %}[page-reload-json-data]{{ errorMessage }}{% endif %}
+        </script>
+
+        <script type="text/x-template" data-engine="nunjucks" data-route="/page-json-data-load-only-once" data-page="jsonData" data-url="unit-testing/page-json-data" data-load-only-once="true">
+            {% if isLoading %}[page-json-data-load-only-once]Page is Loading{% endif %}
+            {% if isLoaded %}[page-json-data-load-only-once]{{ serverMessage }}{% endif %}
+            {% if hasError %}[page-json-data-load-only-once]{{ errorMessage }}{% endif %}
+        </script>
+
+        <script type="text/x-template" data-engine="nunjucks" data-route="/page-json-data-record/:id" data-page="jsonData" data-url="unit-testing/page-json-data-record/:id" data-load-only-once="true">
+            {% if isLoading %}[page-json-data-record]Page is Loading for {{id}}{% endif %}
+            {% if isLoaded %}[page-json-data-record]Id: {{recordId}}{% endif %}
+            {% if hasError %}[page-json-data-record]{{ errorMessage }}{% endif %}
+        </script>
+
+        <script type="text/x-template" data-engine="nunjucks" data-route="/page-json-data-wrong-type" data-page="jsonData" data-url="unit-testing/plain-text">
+            {% if isLoading %}[page-json-data-wrong-type]Page is Loading{% endif %}
+            {% if isLoaded %}[page-json-data-wrong-type]Page is Loaded{% endif %}
+            {% if hasError %}[page-json-data-wrong-type]{{ errorMessage }}{% endif %}
+        </script>
+
+        <script type="text/x-template" data-engine="nunjucks" data-route="/control-test" data-model="unitTestControls">
+            <div id="controls" data-template-id="controls-template"></div>
+            <div id="error-controls" data-template-id="error-controls-template"></div>
+            <div id="error-test"></div>
+        </script>
+
+        <script type="text/x-template" data-engine="nunjucks" id="controls-template">
+            <div id="control-1" data-template-id="control-template-1"></div>
+            <div class="control-2" data-template-id="control-template-1"></div>
+            <div data-template-id="control-embed-template"></div>
+	        <div id="downloaded-control" data-template-url="html/unit-test-control-nunjucks.htm"></div>
+            <div data-download1 data-template-url="html/unit-test-download1-nunjucks.htm"></div>
+            <div data-call-embed data-template-url="html/unit-test-control-call-embed.htm"></div>
+            <div id="escape-string" data-template-id="control-escape-string"></div>
+        </script>
+
+        <script type="text/x-template" data-engine="nunjucks" id="error-controls-template">
+            <div id="control-error-1a" data-template-id="id-and-url" data-template-url="id-and-url"></div>
+            <div id="control-error-1b" data-template-id="id-and-url" data-template-url="id-and-url"></div>
+            <span class="control-error-1c" data-template-id="id-and-url" data-template-url="id-and-url"></span>
+
+            <div id="control-error-2a" data-template-id="missing-template"></div>
+            <div id="control-error-2b" data-template-id="missing-template"></div>
+            <span class="control-error-2c" data-template-id="missing-template"></span>
+
+            <div id="control-error-3a" data-template-url="missing-url.htm"></div>
+            <div id="control-error-3b" data-template-url="missing-url.htm"></div>
+            <span class="control-error-3c" data-template-url="missing-url.htm"></span>
+            
+            <div id="control-error-4a" data-template-id="control-unknown-template"></div>
+            <div id="control-error-4b" data-template-id="control-unknown-template"></div>
+            <span class="control-error-4c" data-template-id="control-unknown-template"></span>
+            
+            <div id="control-error-5a" data-template-id="control-invalid-template"></div>
+            <div id="control-error-5b" data-template-id="control-invalid-template"></div>
+            <span class="control-error-5c" data-template-id="control-invalid-template"></span>
+            
+            <div id="control-error-6a" data-template-url="html/unit-test-parse-error-nunjucks.htm"></div>
+            <div id="control-error-6b" data-template-url="html/unit-test-parse-error-nunjucks.htm"></div>
+            <span class="control-error-6c" data-template-url="html/unit-test-parse-error-nunjucks.htm"></span>
+            
+            <div id="control-title" data-template-id="control-template-title"></div>
+        </script>
+
+        <script type="text/x-template" data-engine="nunjucks" id="control-template-1">
+            <ul>
+            {% for value in values %}
+                <li>{{ value }}</li>
+            {% endfor %}
+            </ul>
+        </script>
+
+        <script type="text/x-template" data-engine="nunjucks" id="control-embed-template">
+            <div id="control-embed" data-template-id="control-template-2"></div>
+        </script>
+
+        <script type="text/x-template" data-engine="nunjucks" id="control-template-2">
+            Embed:[{{ title }}][{% for value in values %}{{ value }},{% endfor %}]
+        </script>
+
+        <script type="text/x-template" data-engine="nunjucks" id="control-template-call-from-download">
+            Download_Then_Embed:[{{ title }}][{% for value in values %}{{ value }},{% endfor %}]
+        </script>
+
+        <script type="text/x-template" data-engine="nunjucks" id="control-escape-string">
+            {{ escapeString }}
+        </script>
+
+        <script type="text/x-unknown-template" id="control-unknown-template">
+            [control-unknown-template]
+        </script>
+
+        <script type="text/x-template" data-engine="nunjucks" id="control-template-title">
+            <span>{{ title }}</span>
+        </script>
+
+        <script type="text/x-template" data-engine="nunjucks" id="control-invalid-template">
+            {% if error %}
+        </script>
+        
+        <script type="text/x-error-template" id="template-invalid-path" data-route>
+	        Invalid [data-route]
+        </script>
+
+        <template data-route="/js-controls">
+            <hello-world data-name="Conrad"></hello-world>
+            <div data-control="hello-world"></div>
+            <hello-world data-control="hello-world"></hello-world>
+            <div data-control="custom-list"></div>
+            <custom-list data-list-count="3"></custom-list>
+            <event-order id="test-control-event-order"></event-order>
+            <div data-control="error-test"></div>
+            <div id="error-test"></div>
+            <error-function-test data-error-at="onLoad"></error-function-test>
+            <error-function-test data-error-at="html"></error-function-test>
+            <error-function-test data-error-at="onUnload"></error-function-test>            
+        </template>
+        
+        <!-- DataFormsJS Core Files -->
+        <!--
+        <script src="src/DataFormsJS.js"></script>
+        <script src="src/extensions/events.js"></script>
+        <script src="src/pages/jsonData.js"></script>
+        -->
+        <script src="src/DataFormsJS.min.js"></script>
+        <script src="src/extensions/events.min.js"></script>
+        <script src="src/pages/jsonData.min.js"></script>
+
+		<!-- DataFormsJS Unit Testing Files Specific to this Page -->
+        <script src="js/DataFormsJS-Models-Unit-Testing.js"></script>
+        <script src="js/DataFormsJS-Pages-Unit-Test-Event-Order.js"></script>
+        <script src="js/DataFormsJS-Plugins-Unit-Test-Event-Order.js"></script>
+
+        <!-- Include Template Engines - specified after core DataFormsJS files to make sure that script load order doesn't mater -->
+        <!--
+            <script src="vendor/handlebars-v4.0.12.min.js"></script>
+            <script src="vendor/nunjucks.min.js"></script>
+            <script src="vendor/underscore-min-1.8.3.js"></script>
+
+            <script src="https://cdn.jsdelivr.net/npm/handlebars@4.5.1/dist/handlebars.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/nunjucks@3.2.0/browser/nunjucks.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/underscore@1.9.1/underscore.min.js"></script>
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/handlebars@4.5.1/dist/handlebars.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/nunjucks@3.2.0/browser/nunjucks.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/underscore@1.9.1/underscore.min.js"></script>
+        
+        <!-- QUnit -->
+        <!--
+            <script src="vendor/qunit/qunit-2.9.1.js"></script>
+            <script src="https://code.jquery.com/qunit/qunit-2.9.2.js" integrity="sha256-EQ5rv6kPFPKQUYY+P4H6fm/le+yFRLVAb//2PfBswfE=" crossorigin="anonymous"></script>
+        -->
+        <script src="https://code.jquery.com/qunit/qunit-2.9.2.js" integrity="sha256-EQ5rv6kPFPKQUYY+P4H6fm/le+yFRLVAb//2PfBswfE=" crossorigin="anonymous"></script>
+
+		<!-- Unit Testing Script -->
+		<script src="js/unit-testing-core.js"></script>
+        <script src="js/unit-testing.js"></script>
+    </body>
+</html>

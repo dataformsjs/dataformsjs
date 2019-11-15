@@ -1,0 +1,25 @@
+{{#if isLoading}}<h2>{{i18n 'Loading...'}}</h2>{{/if}}
+{{#if hasError}}<h2>{{i18n 'Error'}} - {{errorMessage}}</h2>{{/if}}
+{{#if isLoaded}}
+    <section>
+        <div>
+            <input
+                type="text"
+                data-filter-selector=".image-categories li"
+                data-filter-results-text-selector="h1"
+                data-filter-results-text-all="{totalCount} Image Categories"
+                data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Image Categories"
+                placeholder="Enter filter, example [dog] or [cat]"
+                data-i18n-attr="data-filter-results-text-all, data-filter-results-text-filtered, placeholder">
+        </div>
+
+        <div class="content">
+            <h1></h1>
+            <ul class="image-categories">
+                {{#each categories}}
+                    <li>{{this}}</li>
+                {{/each}}
+            </ul>
+        </div>
+    </section>
+{{/if}}
