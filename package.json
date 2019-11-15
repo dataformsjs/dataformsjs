@@ -1,12 +1,11 @@
 {
   "name": "dataformsjs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://www.dataformsjs.com/#/en/",
   "description": "A minimal JavaScript Framework and standalone components for rapid development of high quality websites and single page applications.",
   "browser": {},
   "files": [
-    "js/*.js",
-    "js/*.jsx"
+    "js"
   ],
   "scripts": {
     "test": "echo \"Tests require a Web Browser, see comments in [test/server.js]\" && exit 1"
