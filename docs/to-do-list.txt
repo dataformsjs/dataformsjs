@@ -20,18 +20,9 @@ TODO List
 **** Priority Items Start
 ****
 
-*) Publish to NPM
-
-*) Fix Certificate Issue on Main Server
-    ** Does not work:
-        https://dataformsjs.com/
-    ** Works:
-        https://www.dataformsjs.com/#/en/
 
 *) Link Getting Started Page back to GitHub and add npm instructions
     https://www.npmjs.com/package/dataformsjs
-
-*) Switch to [https://cdn.jsdelivr.net/] for the CDN
 
 *) Update docs with new instructions to use GitHub Repositories for downloading site content rather than S3
     Website\docs\Main Site Server Setup.txt
