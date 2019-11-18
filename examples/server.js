@@ -82,6 +82,11 @@ app.get('/js/:dir/:file', (req, res, dir, file) => {
     app.sendFile(res, filePath);
 });
 
+app.get('/js/:dir1/:dir2/:file', (req, res, dir1, dir2, file) => {
+    const filePath = path.join(__dirname, '..', 'js', decodeURIComponent(dir1), decodeURIComponent(dir2), decodeURIComponent(file));
+    app.sendFile(res, filePath);
+});
+
 app.get('/vendor/:file', (req, res, file) => {
     const filePath = path.join(__dirname, '..', 'vendor', decodeURIComponent(file));
     app.sendFile(res, filePath);

@@ -17,11 +17,19 @@
  *     const format = new DataFormsJS.Format();
  */
 
-import PolyfillService from './PolyfillService.jsx';
-import ErrorBoundary from './ErrorBoundary.jsx';
-import JsonData from './JsonData.jsx';
-import InputFilter from './InputFilter.jsx';
-import SortableTable from './SortableTable.jsx';
+/* Validates with both [jshint] and [eslint] */
+/* For online eslint - Source Type = 'module' must be manually selected. */
+/* jshint esversion:6 */
+/* eslint-env browser, es6 */
+/* eslint quotes: ["error", "single", { "avoidEscape": true }] */
+/* eslint spaced-comment: ["error", "always"] */
+/* eslint-disable no-console */
+
+import PolyfillService from './PolyfillService.js';
+import ErrorBoundary from './ErrorBoundary.js';
+import JsonData from './JsonData.js';
+import InputFilter from './InputFilter.js';
+import SortableTable from './SortableTable.js';
 import Format from './Format.js';
 import I18n from './I18n.js';
 

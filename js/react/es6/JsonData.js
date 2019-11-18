@@ -78,14 +78,15 @@
  * @license  MIT
  */
 
-import React from 'react';
-
-/* Validates with [eslint] */
-/* For online eslint - Source Type = 'module' must be manually selected and 'jsx' must be checked. */
+ /* Validates with both [jshint] and [eslint] */
+/* For online eslint - Source Type = 'module' must be manually selected. */
+/* jshint esversion:6 */
 /* eslint-env browser, es6 */
 /* eslint quotes: ["error", "single", { "avoidEscape": true }] */
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
+
+import React from 'react';
 
 /**
  * Data Caching for when [loadOnlyOnce={true}] is used
@@ -331,25 +332,54 @@ export default class JsonData extends React.Component {
     }
 
     render() {
-        return (
-            <React.Fragment>
-                <IsLoading
-                    fetchState={this.state.fetchState}>
-                    {this.props.isLoading}
-                </IsLoading>
-                <HasError
-                    fetchState={this.state.fetchState}
-                    error={this.state.error}>
-                    {this.props.hasError}
-                </HasError>
-                <IsLoaded
-                    fetchState={this.state.fetchState}
-                    data={this.state.data}
-                    params={this.state.params}
-                    handleChange={this.handleChange}>
-                    {this.props.isLoaded}
-                </IsLoaded>
-            </React.Fragment>
+        // JSX Version:
+        //
+        // return (
+        //     <React.Fragment>
+        //         <IsLoading
+        //             fetchState={this.state.fetchState}>
+        //             {this.props.isLoading}
+        //         </IsLoading>
+        //         <HasError
+        //             fetchState={this.state.fetchState}
+        //             error={this.state.error}>
+        //             {this.props.hasError}
+        //         </HasError>
+        //         <IsLoaded
+        //             fetchState={this.state.fetchState}
+        //             data={this.state.data}
+        //             params={this.state.params}
+        //             handleChange={this.handleChange}>
+        //             {this.props.isLoaded}
+        //         </IsLoaded>
+        //     </React.Fragment>
+        // );
+        return React.createElement(
+            React.Fragment,
+            null, 
+            React.createElement(
+                IsLoading,
+                { fetchState: this.state.fetchState },
+                this.props.isLoading
+            ),
+            React.createElement(
+                HasError,
+                {
+                    fetchState: this.state.fetchState,
+                    error: this.state.error,
+                },
+                this.props.hasError
+            ),
+            React.createElement(
+                IsLoaded,
+                {
+                    fetchState: this.state.fetchState,
+                    data: this.state.data,
+                    params: this.state.params,
+                    handleChange: this.handleChange,
+                },
+                this.props.isLoaded
+            ),
         );
     }
 }

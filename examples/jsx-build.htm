@@ -12,13 +12,10 @@
      </head>
     <body>
         <h1>JSX File Build</h1>
-        <p>This page uses Babel Standalone to build a [DataFormsJS.React.js] from React/JSX files. The JS file should then be copied to the correct location.</p>
+        <p>The generated JS files from the zip should then be copied to [dataformsjs/js/react/es5], and after run [node dataformsjs/scripts/build.js].</p>
         <p>The JSX build process for the CDN/JS File is currently a manually process using this page. The reason is that only a few files are built and using a browser page prevents the need for downloading a large number of required node modules for Babel. When using [create-react-app] or another React build process the JSX and JavaScript files will be handled by the build process of the app. This process will be changed in the near future.</p>
 
-        <button id="combine">Create File [DataFormsJS.React.js]</button>
-
-        <!-- Works but not currently used: -->
-        <button id="multiple" style="display:none;">Build Multiple Files</button>
+        <button id="combine">Create File [DataFormsJS.React.zip]</button>
 
         <!--
             Babel Version 6
@@ -28,27 +25,10 @@
         <!-- Using latest version Babel 7 -->        
         <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
+        <!-- https://stuk.github.io/jszip/ -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.2.2/jszip.min.js"></script>
+
         <script>
-            async function convertScript(url) {
-                const text = await fetch(url)
-                .then(response => {
-                    return response.text();
-                }).then(text => {
-                    return text;
-                });
-
-                let fileName = url.split('/');
-                fileName = fileName[fileName.length-1];
-                fileName = fileName.replace('.jsx', '.js');
-                
-                const js = babelTransform(text);
-                
-                // A one second timeout prevents a "multiple download" warning from the browser
-                window.setTimeout(function() {
-                    exportScript(fileName, js);
-                }, 1000);
-            }
-
             async function downloadScript(url) {
                 return await fetch(url)
                 .then(response => {
@@ -62,8 +42,7 @@
                 return Babel.transform(text, { presets: ['es2015', 'stage-3', 'react'], comments: false }).code;
             }
 
-            function exportScript(fileName, js) {
-                const blob = new Blob([js], { type: 'application/javascript; charset=utf-8;' });      
+            function exportBlob(fileName, blob) {
                 const link = document.createElement('a');
                 if (link.download !== undefined) {
                     const url = URL.createObjectURL(blob);
@@ -79,31 +58,33 @@
             }
 
             document.querySelector('#combine').onclick = async () => {
-                const text = await Promise.all([
+                const files = await Promise.all([
                     // All components and classes for React except [DataFormsJS.jsx] are included.
                     // [DataFormsJS.jsx] is excluded because it is only intended for local development
                     // with [create-react-app] and similar projects.
-                    downloadScript('../js/react/ErrorBoundary.jsx'),
-                    downloadScript('../js/react/PolyfillService.jsx'),
-                    downloadScript('../js/react/JsonData.jsx'),
-                    downloadScript('../js/react/InputFilter.jsx'),
-                    downloadScript('../js/react/SortableTable.jsx'),
-                    downloadScript('../js/react/I18n.js'),
-                    downloadScript('../js/react/Format.js'),
-                    downloadScript('../js/react/LeafletMap.jsx'),
+                    downloadScript('../js/react/es6/ErrorBoundary.js'),
+                    downloadScript('../js/react/es6/PolyfillService.js'),
+                    downloadScript('../js/react/es6/JsonData.js'),
+                    downloadScript('../js/react/es6/InputFilter.js'),
+                    downloadScript('../js/react/es6/SortableTable.js'),
+                    downloadScript('../js/react/es6/I18n.js'),
+                    downloadScript('../js/react/es6/Format.js'),
+                    downloadScript('../js/react/es6/LeafletMap.js'),
                 ]).then(contents => {
                     // Combine all classes and make needed syntax updates
+                    const allComponents = [];
                     for (let n = 0, m = contents.length; n < m; n++) {
+                        allComponents.push(contents[n]);
                         if (n > 0) {
                             // Include this only on the first class
-                            contents[n] = contents[n].replace("import React from 'react';", '');
+                            allComponents[n] = allComponents[n].replace("import React from 'react';", '');
                         }
-                        contents[n] = contents[n].replace('export default class', 'export class');
-                        contents[n] = contents[n].replace('@license', ''); // Required for all comments to be deleted
+                        allComponents[n] = allComponents[n].replace('export default class', 'export class');
+                        allComponents[n] = allComponents[n].replace('@license', ''); // Required for all comments to be deleted
                     }
                     // Create a [DataFormsJS] class as a Namespace.
                     // The resulting file allows either <JsonData> or <DataFormsJS.JsonData> to be used.
-                    contents.push(`
+                        allComponents.push(`
                         export class DataFormsJS {
                             static get ErrorBoundary() { return ErrorBoundary; }
                             static get PolyfillService() { return PolyfillService; }
@@ -115,23 +96,36 @@
                             static get LeafletMap() { return LeafletMap; }
                         };
                     `);
-                    return contents.join('\n');
+                    return [
+                        { file:'DataFormsJS.js',     js:allComponents.join('\n') },
+                        { file:'ErrorBoundary.js',   js:contents[0] },
+                        { file:'PolyfillService.js', js:contents[1] },
+                        { file:'JsonData.js',        js:contents[2] },
+                        { file:'InputFilter.js',     js:contents[3] },
+                        { file:'SortableTable.js',   js:contents[4] },
+                        { file:'I18n.js',            js:contents[5] },
+                        { file:'Format.js',          js:contents[6] },
+                        { file:'LeafletMap.js',      js:contents[7] },
+                    ];
                 });
 
-                const js = babelTransform(text);
-                let header = '// @link https://www.dataformsjs.com';
-                header += '\n// @author Conrad Sollitt (http://www.conradsollitt.com)';
-                header += '\n// @license MIT\n';
-                exportScript('DataFormsJS.React.js', header + js);
-            };
+                const zip = new JSZip();
+                for (let n = 0, m = files.length; n < m; n++) {
+                    const file = files[n];
+                    const js = babelTransform(file.js);
+                    if (n === 0) {
+                        let header = '// @link https://www.dataformsjs.com';
+                        header += '\n// @author Conrad Sollitt (http://www.conradsollitt.com)';
+                        header += '\n// @license MIT\n';
+                        zip.file(file.file, header + js);
+                    } else {
+                        zip.file(file.file, js);
+                    }
+                }
 
-            document.querySelector('#multiple').onclick = () => {
-                // IMPORTANT - This button is hidden and no longer includes all scripts
-                convertScript('../js/react/JsonData.jsx');
-                convertScript('../js/react/InputFilter.jsx');
-                convertScript('../js/react/SortableTable.jsx');
-                convertScript('../js/react/I18n.js');
-                convertScript('../js/react/Format.js');
+                zip.generateAsync({type:"blob"}).then(function(content) {
+                    exportBlob('DataFormsJS.React.zip', content);
+                });
             };
         </script>
     </body>

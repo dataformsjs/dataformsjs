@@ -18,14 +18,15 @@
  * including the file [DataFormsJS\js\React\jsPlugins.js]. See demos and docs for more.
  */
 
-import React from 'react';
-
-/* Validates with [eslint] */
-/* For online eslint - Source Type = 'module' must be manually selected and 'jsx' must be checked. */
+/* Validates with both [jshint] and [eslint] */
+/* For online eslint - Source Type = 'module' must be manually selected. */
+/* jshint esversion:6 */
 /* eslint-env browser, es6 */
 /* eslint quotes: ["error", "single", { "avoidEscape": true }] */
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
+
+import React from 'react';
 
 export default class InputFilter extends React.Component {
     constructor(props) {
@@ -134,6 +135,11 @@ export default class InputFilter extends React.Component {
     }
 
     render() {
-        return <input {...this.props} onChange={this.onChange} ref={this.input} />
+        // JSX Version:
+        // return <input {...this.props} onChange={this.onChange} ref={this.input} />
+        return React.createElement('input', Object.assign({}, this.props, {
+            onChange: this.onChange,
+            ref: this.input
+        }));
     }
 }

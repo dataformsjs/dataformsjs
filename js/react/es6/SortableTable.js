@@ -15,14 +15,15 @@
  * The class is based on the standard framework plugin [DataFormsJS\js\Plugins\sort.js]
  */
 
-import React from 'react';
-
-/* Validates with [eslint] */
-/* For online eslint - Source Type = 'module' must be manually selected and 'jsx' must be checked. */
+/* Validates with both [jshint] and [eslint] */
+/* For online eslint - Source Type = 'module' must be manually selected. */
+/* jshint esversion:6 */
 /* eslint-env browser, es6 */
 /* eslint quotes: ["error", "single", { "avoidEscape": true }] */
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
+
+import React from 'react';
 
 export default class SortableTable extends React.Component {
     constructor(props) {
@@ -255,8 +256,13 @@ export default class SortableTable extends React.Component {
     }
 
     render() {
-        return (<table {...this.props} ref={this.table}>
-            {this.props.children}
-        </table>)
+        // JSX Version:
+        //
+        // return <table {...this.props} ref={this.table}>
+        //     {this.props.children}
+        // </table>
+        return React.createElement('table', Object.assign({}, this.props, {
+            ref: this.table
+        }), this.props.children);
     }
 }

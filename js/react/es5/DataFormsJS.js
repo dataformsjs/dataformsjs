@@ -16,8 +16,6 @@ function _instanceof(left, right) { if (right != null && typeof Symbol !== "unde
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
 function _classCallCheck(instance, Constructor) { if (!_instanceof(instance, Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -62,14 +60,14 @@ var ErrorBoundary = function (_React$Component) {
     key: "render",
     value: function render() {
       if (this.state.errorInfo) {
-        return _react.default.createElement("div", null, _react.default.createElement("h2", {
+        return _react.default.createElement('div', null, _react.default.createElement('h2', {
           style: {
             textAlign: 'left',
             color: 'white',
             backgroundColor: '#bc0000',
             padding: '1em'
           }
-        }, "An error has occurred"), _react.default.createElement("details", {
+        }, 'An error has occurred'), _react.default.createElement('details', {
           style: {
             whiteSpace: 'pre-wrap',
             textAlign: 'left',
@@ -77,7 +75,7 @@ var ErrorBoundary = function (_React$Component) {
             backgroundColor: 'red',
             padding: '1em'
           }
-        }, this.state.error && this.state.error.toString(), _react.default.createElement("br", null), this.state.errorInfo.componentStack));
+        }, this.state.error && this.state.error.toString(), _react.default.createElement('br', null), this.state.errorInfo.componentStack));
       }
 
       return this.props.children;
@@ -542,7 +540,7 @@ var InputFilter = function (_React$Component4) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement("input", _extends({}, this.props, {
+      return _react.default.createElement('input', Object.assign({}, this.props, {
         onChange: this.onChange,
         ref: this.input
       }));
@@ -756,7 +754,7 @@ var SortableTable = function (_React$Component5) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement("table", _extends({}, this.props, {
+      return _react.default.createElement('table', Object.assign({}, this.props, {
         ref: this.table
       }), this.props.children);
     }
@@ -1151,8 +1149,8 @@ var LeafletMap = function (_React$Component6) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement("div", {
-        className: "leaflet-map",
+      return _react.default.createElement('div', {
+        className: 'leaflet-map',
         ref: this.div
       });
     }

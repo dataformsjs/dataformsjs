@@ -20,6 +20,38 @@ TODO List
 **** Priority Items Start
 ****
 
+*) Active Changes for React
+    - Code for new version [2.0.0] - Need to update docs and publish, the following will now work from create-react-app
+        // Namespace (All Components Combined) - Both [es5] or [es6] directories work
+        // import { ErrorBoundary, PolyfillService, JsonData } from 'dataformsjs/js/react/es6/DataFormsJS.js';
+        // import { ErrorBoundary, PolyfillService, JsonData } from 'dataformsjs/js/react/es5/DataFormsJS.js';
+
+        // ES6 - Works to use [<DataFormsJS.ErrorBoundary>]
+        // import DataFormsJS from 'dataformsjs/js/react/es6/DataFormsJS.js';
+
+        // ES5 - Works to use [<DataFormsJS.ErrorBoundary>]
+        // Use slightly different syntax from [create-react-app]
+        // import { DataFormsJS } from 'dataformsjs/js/react/es5/DataFormsJS.js';
+
+        // ES6 Individual Components:
+        import JsonData from 'dataformsjs/js/react/es6/JsonData.js';
+        import PolyfillService from 'dataformsjs/js/react/es6/PolyfillService.js';
+        import ErrorBoundary from 'dataformsjs/js/react/es6/ErrorBoundary.js';
+
+        // ES5 Individual Components
+        // import JsonData from 'dataformsjs/js/react/es5/JsonData.js';
+        // import PolyfillService from 'dataformsjs/js/react/es5/PolyfillService.js';
+        // import ErrorBoundary from 'dataformsjs/js/react/es5/ErrorBoundary.js';
+    - Online code, update docs, etc:
+        Works online:
+            <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/2.0.0/react/es5/DataFormsJS.js"></script>
+        ES6 Version does not (only works from Create-React-App)
+            <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/2.0.0/react/es6/DataFormsJS.js"></script>
+    - Update quick-ref docs and related code comments in [DataFormsJS.jsx]
+        - Also update:
+            dataformsjs\docs\Local Development.txt
+    - Publish all example and playground changes to the production server
+    
 *) Link Getting Started Page to NPM and add instructions
     https://www.dataformsjs.com/#/en/getting-started
     https://www.npmjs.com/package/dataformsjs
@@ -33,9 +65,6 @@ TODO List
         Playground\scripts\install.php
         Website\scripts\install.php
 
-*) [package.json] - make updates so classes can easily be imported with [create-app-react] and other projects.
-    - Then update quick-ref docs and related code comments in [DataFormsJS.jsx]
-
 *) Playground\README.md
     - Add a [How it works] and link to the FastSitePHP version with some notes on differences
 
@@ -45,7 +74,11 @@ TODO List
 *) Finish testing all pages on many different devices and browsers
     Will be done over the next week
     - Known Issues:
+        - Home page animation is broken in IE 11 and Edge
+            Possibly due to recent changes for nested <tspan> elements
+        - Firefox Home Page Icons do not scale correctly
         - Try smaller font size for code examples on mobile devices
+        - Nav Menu on AI/ML Demos for narrow screens/phones
         - Image: https://www.dataformsjs.com/img/examples/ai-ml-image-classification.svg
             Does not show correctly in Safari due to SVG Brightness filter.
             Come up with a fix for a browsers or remove the filter and

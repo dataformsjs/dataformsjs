@@ -22,14 +22,15 @@
  *     [DataFormsJS\examples\html\image-home-react.jsx]
  */
 
-import React from 'react';
-
-/* Validates with [eslint] */
-/* For online eslint - Source Type = 'module' must be manually selected and 'jsx' must be checked. */
+ /* Validates with both [jshint] and [eslint] */
+/* For online eslint - Source Type = 'module' must be manually selected. */
+/* jshint esversion:6 */
 /* eslint-env browser, es6 */
 /* eslint quotes: ["error", "single", { "avoidEscape": true }] */
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
+
+import React from 'react';
 
 export default class PolyfillService extends React.Component {
     constructor(props) {

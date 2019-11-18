@@ -22,6 +22,15 @@
  * @link https://react-leaflet.js.org
  */
 
+ /* Validates with both [jshint] and [eslint] */
+/* For online eslint - Source Type = 'module' must be manually selected. */
+/* global L */
+/* jshint esversion:6 */
+/* eslint-env browser, es6 */
+/* eslint quotes: ["error", "single", { "avoidEscape": true }] */
+/* eslint spaced-comment: ["error", "always"] */
+/* eslint-disable no-console */
+
 import React from 'react';
 
 export default class LeafletMap extends React.Component {
@@ -72,6 +81,11 @@ export default class LeafletMap extends React.Component {
     }
 
     render() {
-        return <div className="leaflet-map" ref={this.div} />
+        // JSX Version:
+        // return <div className="leaflet-map" ref={this.div} />
+        return React.createElement('div', {
+            className: 'leaflet-map',
+            ref: this.div
+        });
     }
 }

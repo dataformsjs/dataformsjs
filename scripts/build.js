@@ -19,7 +19,7 @@
  * For React Component changes prior to running this script run
  * [DataFormsJS\examples\server.js] then open:
  *     http://127.0.0.1:8080/jsx-build
- *     - Then download the file as [DataFormsJS\js\DataFormsJS.React.js]
+ *     - Then download the zip file [DataFormsJS.React.zip] and replace contents in [js/react/es5]
  *
  * The reason that local node dependencies are not being used is because the
  * project is copied from computer to computer during initial development
@@ -94,9 +94,11 @@ function installGlobal(name) {
  */
 async function getAllFiles() {
     const rootDir = __dirname + '/../js/';
-    const jsDir = ['controls', 'extensions', 'pages', 'plugins'];
+    const jsDir = ['controls', 'extensions', 'pages', 'plugins', 'react'];
     const webDir = ['web-components'];
     const webJsFiles = ['jsPlugins.js', 'old-browser-warning.js', 'safari-nomodule.js'];
+    const reactES5 = ['react/es5'];
+    const reactES6 = ['react/es6'];
 
     // Get all JavaScript files for [uglify-js]
     let jsFiles = await getJsFiles(rootDir);
@@ -104,9 +106,13 @@ async function getAllFiles() {
         const files = await getJsFiles(rootDir + dir);
         jsFiles = jsFiles.concat(files);
     });
-
-    // Get all JavaScript Web Component files for [uglify-es]
-    const webFiles = await getJsFiles(rootDir + webDir);
+    const reactFilesES5 = await getJsFiles(rootDir + reactES5);
+    jsFiles = jsFiles.concat(reactFilesES5);
+    
+    // Get all JavaScript React and Web Component files for [uglify-es]
+    let webFiles = await getJsFiles(rootDir + webDir);
+    const reactFilesES6 = await getJsFiles(rootDir + reactES6);
+    webFiles = webFiles.concat(reactFilesES6);
 
     // Move specific JavaScript files from Web Component list to JS list
     webJsFiles.forEach(file => {
