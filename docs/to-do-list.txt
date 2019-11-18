@@ -20,43 +20,12 @@ TODO List
 **** Priority Items Start
 ****
 
-*) Active Changes for React
-    - Code for new version [2.0.0] - Need to update docs and publish, the following will now work from create-react-app
-        // Namespace (All Components Combined) - Both [es5] or [es6] directories work
-        // import { ErrorBoundary, PolyfillService, JsonData } from 'dataformsjs/js/react/es6/DataFormsJS.js';
-        // import { ErrorBoundary, PolyfillService, JsonData } from 'dataformsjs/js/react/es5/DataFormsJS.js';
-
-        // ES6 - Works to use [<DataFormsJS.ErrorBoundary>]
-        // import DataFormsJS from 'dataformsjs/js/react/es6/DataFormsJS.js';
-
-        // ES5 - Works to use [<DataFormsJS.ErrorBoundary>]
-        // Use slightly different syntax from [create-react-app]
-        // import { DataFormsJS } from 'dataformsjs/js/react/es5/DataFormsJS.js';
-
-        // ES6 Individual Components:
-        import JsonData from 'dataformsjs/js/react/es6/JsonData.js';
-        import PolyfillService from 'dataformsjs/js/react/es6/PolyfillService.js';
-        import ErrorBoundary from 'dataformsjs/js/react/es6/ErrorBoundary.js';
-
-        // ES5 Individual Components
-        // import JsonData from 'dataformsjs/js/react/es5/JsonData.js';
-        // import PolyfillService from 'dataformsjs/js/react/es5/PolyfillService.js';
-        // import ErrorBoundary from 'dataformsjs/js/react/es5/ErrorBoundary.js';
-    - Online code, update docs, etc:
-        Works online:
-            <script src="https://cdn.jsdelivr.net/npm/dataformsjs@2.0.0/js/react/es5/DataFormsJS.js"></script>
-        ES6 Version does not (only works from Create-React-App)
-            <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@2.0.0/js/react/es6/DataFormsJS.js"></script>
-    - Update quick-ref docs and related code comments in [DataFormsJS.jsx]
-        - Also update:
-            dataformsjs\docs\Local Development.txt
-    - Publish all example and playground changes to the production server
-    
-*) Link Getting Started Page to NPM and add instructions
-    https://www.dataformsjs.com/#/en/getting-started
-    https://www.npmjs.com/package/dataformsjs
-    File:
-        website/public/html/getting-started.htm
+*) Need to publish recent changes to the main web server and playground server:
+    - Main page
+    - Getting Started Page
+    - Quick Ref Code Updates
+    - Playground Template Site
+    - All examples using new CDN
 
 *) Update docs with new instructions to use GitHub Repositories for downloading site content rather than S3
     Website\docs\Main Site Server Setup.txt
