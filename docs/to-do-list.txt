@@ -44,9 +44,9 @@ TODO List
         // import ErrorBoundary from 'dataformsjs/js/react/es5/ErrorBoundary.js';
     - Online code, update docs, etc:
         Works online:
-            <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/2.0.0/react/es5/DataFormsJS.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/dataformsjs@2.0.0/js/react/es5/DataFormsJS.js"></script>
         ES6 Version does not (only works from Create-React-App)
-            <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/2.0.0/react/es6/DataFormsJS.js"></script>
+            <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@2.0.0/js/react/es6/DataFormsJS.js"></script>
     - Update quick-ref docs and related code comments in [DataFormsJS.jsx]
         - Also update:
             dataformsjs\docs\Local Development.txt
@@ -107,6 +107,17 @@ TODO List
 ****
 **** Priority Items End
 ****
+
+*) Improve UX of the Quick Ref Page
+    https://www.dataformsjs.com/#/en/quick-reference
+    - Filtering on all code doesn't work well due to generic terms "JavaScript" "Template", "Vue", etc
+        Too many items are returned
+    - Likely use a topic based list where the user can click and view one code block at a time
+        The topic list itself can be filtered
+    - Needs to work well and look good for both mobile and desktop
+    - May use new hash url:
+        "#/:lang/quick-reference/:topic"
+        However all code should be downloaded only once and displayed in memory
 
 *) Many Docs need to be created along with API page(s)
     - API needs a quick search/filter feature to look up any attribute/class/function/etc

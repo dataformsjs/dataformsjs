@@ -37,7 +37,7 @@ function ShowCity(props) {
                     <div>
                         <label>{i18n.text('Country (ISO)')}</label>
                         <span>{props.data.place.country_code}</span>
-                        <i className={props.data.place.country_code.toLowerCase() + 'flag'}></i>
+                        <i className={props.data.place.country_code.toLowerCase() + ' flag'}></i>
                     </div>
                     <div>
                         <label>{i18n.text('Region (State, Province, etc.)')}</label>
