@@ -25,12 +25,6 @@ TODO List
     playground\docs\Playground Server Setup.txt
     website\docs\Python Webserver Setup for AI_ML Functions.txt
 
-*) Playground\README.md
-    - Add a [How it works] and link to the FastSitePHP version with some notes on differences
-
-*) Link CDN page to the main DataFormsJS site and update colors/theme on it
-    https://d2xbd92kui7v97.cloudfront.net/index.html
-
 *) Finish testing all pages on many different devices and browsers
     Will be done over the next week
     - Known Issues:
