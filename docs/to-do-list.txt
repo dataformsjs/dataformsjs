@@ -20,19 +20,10 @@ TODO List
 **** Priority Items Start
 ****
 
-*) Need to publish recent changes to the main web server and playground server:
-    - Main page
-    - Getting Started Page
-    - Quick Ref Code Updates
-    - Playground Template Site
-    - All examples using new CDN
-
 *) Update docs with new instructions to use GitHub Repositories for downloading site content rather than S3
-    Website\docs\Main Site Server Setup.txt
-    Playground\docs\Playground Server Setup.txt
-    - Also related after all GitHub Repositories are published:
-        Playground\scripts\install.php
-        Website\scripts\install.php
+    website\docs\Main Site Server Setup.txt
+    playground\docs\Playground Server Setup.txt
+    website\docs\Python Webserver Setup for AI_ML Functions.txt
 
 *) Playground\README.md
     - Add a [How it works] and link to the FastSitePHP version with some notes on differences
@@ -137,13 +128,21 @@ TODO List
       the entire file would be less than a few hunderd lines and only a few kb in size when gzip'd
     - the script should also define needed [window.exports = window; / function require(module) {)]
       functions to be used by babel standalone or JS
-    - Likely when building for modern browsers most 'import' statements such as 'import React ...'
-      would be commented out or removed from the JS build version
     - It's likley that an alternative router component <UrlHashRouter> will be created with this
       that can be used instead of React Router. The reason is that a much smaller component
       can be created and the main reason would be to add support for lazy-loading of scripts
       similar to the main framework for [app.lazyLoad] and [data-lazy-load]. This feature would
       probably be shared with the new [jsxLoader.js] file.
+    - To test in the Playground:
+        - Copy all code from [JsonData.js] locally, then make changes:
+            Comment out or remove:
+                // import React from 'react';
+            Add to file:
+                window.JsonData = JsonData;
+        - From main page [app-react.htm] use:
+            <script type="module" src="JsonData.js"></script>
+        - Basically the current es6 code works from a browser but needs a global export
+          and 'import React' removed. This should be handled by the [jsxLoader.js] file.
 
 *) Web Components Polyfill using either the main Framework or standalone scripts?
     - Currently IE, Older Safari, etc will display a warning message instead of Polyfill for Web Components
