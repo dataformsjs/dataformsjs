@@ -28,6 +28,7 @@ TODO List
 *) Finish testing all pages on many different devices and browsers
     Will be done over the next week
     - Known Issues:
+        - Update site for new favicons
         - Home page animation is broken in IE 11 and Edge
             Possibly due to recent changes for nested <tspan> elements
         - Firefox Home Page Icons do not scale correctly
@@ -37,6 +38,7 @@ TODO List
             Does not show correctly in Safari due to SVG Brightness filter.
             Come up with a fix for a browsers or remove the filter and
             manually calculate the needed values.
+            * Image now fixed for Safari Desktop - need to update server and confirm on mobile
 
 *) Use preconnect optiomization? Need to test how will it improves preformance from different locations in the world.
     <link href="https://playground.dataformsjs.com" rel="preconnect" crossorigin>
