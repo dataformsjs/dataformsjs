@@ -16,21 +16,30 @@ ul.results li {
 }
 @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
     ul.image-categories { width:90vh; }
+    body { margin:40px; }
+    nav, h2 { padding:20px; }
+    ul.info { margin-left:20px; }
 }
-body { margin:40px; }
-nav, h2 { padding:20px; }
-ul.info { margin-left:20px; }
 
 /* Page Style */
 body {
     background-color: rgba(240, 248, 255, 1);
-    margin: calc(var(--padding) * 2);
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
 }
+@media (min-width:600px) {
+    body { 
+        margin: calc(var(--padding) * 2);
+    }
+}
 
 nav { margin: var(--padding); }
-nav a { padding:10px 20px; color:black; text-decoration: none; }
+nav a {
+    padding:10px 20px;
+    color:black;
+    text-decoration: none;
+    display:inline-block;
+}
 nav a.active {
     background-color:white;
     box-shadow: var(--shadow);
@@ -45,9 +54,15 @@ h2 { margin:var(--padding); }
     background-color: #fff;
     box-shadow: var(--shadow);
     padding: var(--padding) calc(var(--padding) * 2);
-    margin: calc(var(--padding) * 2);
+    margin: 0;
+    margin-bottom: calc(var(--padding) * 2);
     text-align: center;
     flex-direction: column;
+}
+@media (min-width:600px) {
+    .content {
+        margin: calc(var(--padding) * 2);
+    }
 }
 .field {
     text-align:left;
