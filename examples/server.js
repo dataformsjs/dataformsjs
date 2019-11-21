@@ -61,6 +61,11 @@ app.get('/', async (req, res) => {
     res.end(html);
 });
 
+app.get('/favicon.ico', (req, res) => {
+    const filePath = path.join(__dirname, '../server/favicon.ico');
+    app.sendFile(res, filePath);
+});
+
 app.get('/:file', (req, res, file) => {
     const fileName = (file + (file.includes('.') ? '' : '.htm'));
     const filePath = path.join(__dirname, fileName);

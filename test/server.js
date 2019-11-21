@@ -51,6 +51,11 @@ views.forEach((view) => {
     });
 });
 
+app.get('/favicon.ico', (req, res) => {
+    const filePath = path.join(__dirname, '../server/favicon.ico');
+    app.sendFile(res, filePath);
+});
+
 app.get('/src/:file', (req, res, file) => {
     const filePath = path.join(__dirname, '..', 'js', decodeURIComponent(file));
     app.sendFile(res, filePath);

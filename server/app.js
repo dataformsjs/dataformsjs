@@ -41,9 +41,10 @@ const mimeTypes = {
     png: 'image/png',
     jpg: 'image/jpeg',
     svg: 'image/svg+xml',
+    ico: 'image/x-icon',
 };
 
-const binaryFiles = ['png', 'jpg'];
+const binaryFiles = ['png', 'jpg', 'ico'];
 
 // Export an Object which contains defined routes, and starts the server.
 // Functions that start with [send*] such as [sendJson()] are used for
