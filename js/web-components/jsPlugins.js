@@ -72,6 +72,8 @@
             'background-color:red;',
             'box-shadow:0 1px 5px 0 rgba(0,0,0,.5);',
             'background-image:linear-gradient(#e00,#c00);',
+            '/*white-space:pre;*/', // See comments in [DataFormsJS.js]
+            'text-align:left;',
             '}',
 
             '.dataformsjs-error{',

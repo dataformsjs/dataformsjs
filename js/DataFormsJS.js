@@ -881,7 +881,10 @@
             'background-color:red;',
             'box-shadow:0 1px 5px 0 rgba(0,0,0,.5);',
             'background-image:linear-gradient(#e00,#c00);',
-            'white-space:pre;',
+            // Next line is included but commented out because it should not show on mobile
+            // however on desktop with DevTools the commented out version makes it easy for a
+            // developer to toggle on errors that use line breaks and white space formatting.
+            '/*white-space:pre;*/',
             'text-align:left;',
             '}',
 
