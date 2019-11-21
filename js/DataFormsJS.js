@@ -579,7 +579,8 @@
                                 console.error(e);
                             }
                         }
-                        // Render the view
+                        // Reset scroll position and render the view
+                        window.scrollTo(0, 0);
                         app.updateView();
                     }
 
