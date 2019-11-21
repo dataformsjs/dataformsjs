@@ -24,7 +24,8 @@
  * The reason that local node dependencies are not being used is because the
  * project is copied from computer to computer during initial development
  * so no local node packages are being used to keep the project size small.
- * The build process will likely change once DataFormsJS is published.
+ * The build process will likely change in the near future now that DataFormsJS
+ * has been published.
  *
  * This script has no error handling so if there is a build error it will
  * stop the script which is intended.

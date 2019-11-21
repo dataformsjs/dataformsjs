@@ -53,7 +53,9 @@
  *     <JsonData
  *         ...
  *         loadOnlyOnce={true}
- *         onViewUpdated={callback}>
+ *         onViewUpdated={callback}
+ *         fetchOptions={{}}
+ *         fetchHeaders={{}}>
  *     </JsonData>
  *
  * [loadOnlyOnce] defaults to undefined/{false} so data and state are always reloaded
@@ -72,6 +74,14 @@
  * to use in most React Apps however if you want to execute standard JS to manipulate
  * or read DOM once data is ready then this property can be used. An example of this
  * is shown in [DataFormsJS\examples\log-table-react.htm]
+ *
+ * [fetchOptions] and [fetchHeaders] allow for the app to control the request options
+ * and send request headers for the component. The default options used are:
+ *     {
+ *         mode: 'cors',
+ *         cache: 'no-store',
+ *         credentials: 'same-origin',
+ *     }
  *
  * @link     https://www.dataformsjs.com
  * @author   Conrad Sollitt (http://www.conradsollitt.com)
@@ -256,19 +266,31 @@ export default class JsonData extends React.Component {
 
     fetchData() {
         const url = this.buildUrl(this.state.params);
+
+        // Exit if this function was called while the data is still be fetched
         if (this._isFetching) {
             return;
         }
         this._isFetching = true;
 
+        // Options for fetch
+        let options = {
+            mode: 'cors',
+            cache: 'no-store',
+            credentials: 'same-origin',
+        };
+        if (this.props.fetchOptions) {
+            options = this.props.fetchOptions;
+        }
+        if (this.props.fetchHeaders) {
+            options.headers = this.props.fetchHeaders;
+        }
+
+        // Set state to render <IsLoading> then fetch data
         this.setState({
             fetchState: 0,
         }, () => {
-            fetch(url, {
-                mode: 'cors',
-                cache: 'no-store',
-				credentials: 'same-origin',
-			})
+            fetch(url, options)
             .then(response => {
                 const status = response.status;
                 if ((status >= 200 && status < 300) || status === 304) {
@@ -356,7 +378,7 @@ export default class JsonData extends React.Component {
         // );
         return React.createElement(
             React.Fragment,
-            null, 
+            null,
             React.createElement(
                 IsLoading,
                 { fetchState: this.state.fetchState },

@@ -343,14 +343,24 @@ var JsonData = function (_React$Component3) {
       }
 
       this._isFetching = true;
+      var options = {
+        mode: 'cors',
+        cache: 'no-store',
+        credentials: 'same-origin'
+      };
+
+      if (this.props.fetchOptions) {
+        options = this.props.fetchOptions;
+      }
+
+      if (this.props.fetchHeaders) {
+        options.headers = this.props.fetchHeaders;
+      }
+
       this.setState({
         fetchState: 0
       }, function () {
-        fetch(url, {
-          mode: 'cors',
-          cache: 'no-store',
-          credentials: 'same-origin'
-        }).then(function (response) {
+        fetch(url, options).then(function (response) {
           var status = response.status;
 
           if (status >= 200 && status < 300 || status === 304) {

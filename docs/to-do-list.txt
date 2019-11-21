@@ -35,10 +35,6 @@ TODO List
     <link href="https://playground.dataformsjs.com" rel="preconnect" crossorigin>
     <link href="https://ai-ml.dataformsjs.com" rel="preconnect" crossorigin>
 
-*) React <JsonData> and Web Components <json-data>
-    - Support for custom Request Headers is needed. For React this will likely be passed as a new prop
-    - For how the standard Framework handles this see code related to [app.settings.requestHeaders].
-
 *) iOS Safari and Samsung Internet
     https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/is
     * Web Components using the [is] attribute are not supported, currently affects:
@@ -69,6 +65,16 @@ TODO List
     - May use new hash url:
         "#/:lang/quick-reference/:topic"
         However all code should be downloaded only once and displayed in memory
+
+*) Web Components <json-data>
+    - Support for custom Request Headers is needed.
+    - For how the standard Framework handles this see code related to [app.settings.requestHeaders].
+    - React <JsonData> uses props
+    - The Web Components version will likely use global variables to be defined from JS:
+        <script>
+            window.requestHeaders = {}
+            window.requestHeadersByHostName = {}
+        And then the Framework [app.getRequestHeaders] and related code can be used as a starting point
 
 *) Many Docs need to be created along with API page(s)
     - API needs a quick search/filter feature to look up any attribute/class/function/etc
@@ -157,6 +163,8 @@ TODO List
 
 *) React Build:
     - Convert http://127.0.0.1:8080/jsx-build to a build page on the main site
+    - Code from [jsx-build] should be merged with [dataformsjs\scripts\build.js]  
+        so that there is only a single script for the build process
     - Many options will be needed on how to build:
         - which components and classes
         - babel options?
