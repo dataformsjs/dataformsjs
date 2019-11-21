@@ -4,7 +4,10 @@
     <a href="#/">Countries</a>
 </nav>
 
-<json-data url="https://www.dataformsjs.com/data/geonames/regions/:country" url-params>
+<json-data
+    url="https://www.dataformsjs.com/data/geonames/regions/:country"
+    url-params
+    load-only-once="true">    
     <is-loading>
         <span class="loading">Loading...</span>
     </is-loading>

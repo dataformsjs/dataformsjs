@@ -29,8 +29,6 @@ TODO List
     Will be done over the next week
     - Known Issues:
         - Home page animation is broken in IE 11 and Edge
-            Possibly due to recent changes for nested <tspan> elements
-        - Firefox Home Page Icons do not scale correctly - fixed - publish, then re-test all browsers
         - Try smaller font size for code examples on mobile devices
 
 *) Use preconnect optiomization? Need to test how will it improves preformance from different locations in the world.
@@ -41,15 +39,21 @@ TODO List
     - Support for custom Request Headers is needed. For React this will likely be passed as a new prop
     - For how the standard Framework handles this see code related to [app.settings.requestHeaders].
 
-*) Allow optional caching for Web  Component <json-data>
-    similar to the standard [pages/jsonData.js] and React <JsonData>. To see how this works use
-    dev tools with one of the following demos:
-        http://127.0.0.1:8080/places-demo-hbs#/en/
-        http://127.0.0.1:8080/places-demo-vue#/en/
-        http://127.0.0.1:8080/places-demo-graphql#/en/
-        http://127.0.0.1:8080/places-demo-react.htm#/en/
-    The standard [jsonData.js] uses properties [loadOnlyOnce] and [submittedFetchUrl]
-    for this while React code uses [JsonData] and [const dataCache = [];]
+*) iOS Safari and Samsung Internet
+    https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/is
+    * Web Components using the [is] attribute are not supported, currently affects:
+        <input is="input-filter">
+        <ul is="data-list">
+        <div is="leaflet-map">
+        <table is="sortable-table">
+    - Preference is to keep the existing format as the browsers will support it one day
+        and come up with a polyfill to support it, otherwise the elements other than "sortable-table"
+        will need to be hidden from unsupported devices.
+    - Possibly polyfill from <json-data> or <url-hash-router>? Need to test:
+        document.querySelector('[is]').isConnected
+    - Another option would be to not support [is] and instead use <input-filter>, etc
+        This is not preferred though
+    - If no polyfill is created then add more info in docs so limitations are clear for developers
 
 ****
 **** Priority Items End

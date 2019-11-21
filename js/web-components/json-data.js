@@ -3,7 +3,7 @@
  *
  * This component downloads data from a specified JSON Web Service and binds
  * the data to elements on the rendered template.
- * 
+ *
  * @link     https://www.dataformsjs.com
  * @author   Conrad Sollitt (http://www.conradsollitt.com)
  * @license  MIT
@@ -27,6 +27,49 @@ shadowTmpl.innerHTML = `
     <style>:host { display:block; }</style>
     <slot></slot>
 `;
+
+/**
+ * Data Caching for when [load-only-once="true"] is used
+ *
+ * Data is saved only once per URL path.
+ *
+ * Example Path:
+ *     https://example.com/data/:list
+ *
+ * Page Views:
+ *     https://example.com/data/records1 (Data Saved to Cache)
+ *     https://example.com/data/records2 (Cache data is overwritten)
+ *     https://example.com/docs
+ *     https://example.com/data/records2 (Data read from Cache because last URL was matched)
+ */
+const dataCache = [];
+
+function saveDataToCache(url, params, data) {
+    for (const cache of dataCache) {
+        if (cache.url === url) {
+            cache.params = JSON.stringify(params);
+            cache.data = data;
+            return;
+        }
+    }
+    dataCache.push({
+        url: url,
+        params: JSON.stringify(params),
+        data: data,
+    });
+}
+
+function getDataFromCache(url, params) {
+    for (const cache of dataCache) {
+        if (cache.url === url) {
+            if (params === cache.params || (params === null && cache.params === 'null')) {
+                return cache.data;
+            }
+            break;
+        }
+    }
+    return null;
+}
 
 /**
  * Class for <json-data> Custom Element
@@ -85,6 +128,11 @@ class JsonData extends HTMLElement {
         return this.getAttribute('url-params');
     }
 
+    get loadOnlyOnce() {
+        const value = this.getAttribute('load-only-once');
+        return (value === 'true');
+    }
+
     get isLoading() {
         return this.state.isLoading;
     }
@@ -132,7 +180,8 @@ class JsonData extends HTMLElement {
     }
 
     fetch() {
-        let url = this.getAttribute('url');
+        const urlPath = this.url;
+        let url = urlPath;
         if (url === null || url === '') {
             this.showError('Error, element <json-data> is missing attribute [url]');
             this.state.contentReady = true;
@@ -140,17 +189,29 @@ class JsonData extends HTMLElement {
             return;
         }
 
-        // If [url-params] is defined by empty then wait for 
+        // If [url-params] is defined by empty then wait for
         // it to be set before fetching data.
         let urlParams = this.getAttribute('url-params');
         if (urlParams === '' && url.includes(':')) {
             return;
         }
 
+        // Load from Cache if [load-only-once="true"] and the
+        // same content was previously viewed.
+        if (this.loadOnlyOnce) {
+            const data = getDataFromCache(urlPath, urlParams);
+            if (data !== null) {
+                this._setLoadedState(data);
+                this.state.contentReady = true;
+                this.dispatchEvent(new Event('contentReady'));
+                return;
+            }
+        }
+
         if (urlParams) {
             urlParams = JSON.parse(urlParams);
             url = buildUrl(url, urlParams);
-        }        
+        }
 
         this.isLoading = true;
         this.isLoaded = false;
@@ -176,15 +237,10 @@ class JsonData extends HTMLElement {
             return response.json();
         })
         .then(data => {
-            this.isLoading = false;
-            this.isLoaded = true;
-            this.hasError = false;
-            this.state.errorMessage = null;
-            Object.assign(this.state, data);
-            if (typeof data.hasError === 'boolean') {
-                this.hasError = data.hasError;
+            if (this.loadOnlyOnce) {
+                saveDataToCache(urlPath, urlParams, data);
             }
-            this.bindData();
+            this._setLoadedState(data);
         })
         .catch(error => {
             this.showError(error);
@@ -202,6 +258,18 @@ class JsonData extends HTMLElement {
         this.state.errorMessage = message;
         this.bindData();
         console.error(message);
+    }
+
+    _setLoadedState(data) {
+        this.isLoading = false;
+        this.isLoaded = true;
+        this.hasError = false;
+        this.state.errorMessage = null;
+        Object.assign(this.state, data);
+        if (typeof data.hasError === 'boolean') {
+            this.hasError = data.hasError;
+        }
+        this.bindData();
     }
 
     async bindData() {

@@ -31,7 +31,7 @@
                         <a href="#/info">Info</a>
                     </nav>
 
-                    <json-data url="https://www.dataformsjs.com/data/geonames/countries">
+                    <json-data url="https://www.dataformsjs.com/data/geonames/countries" load-only-once="true">
                         <is-loading>
                             <span class="loading">Loading...</span>
                         </is-loading>
@@ -74,7 +74,7 @@
 
         <!-- DataFormsJS Web Components -->
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@2.0.0/js/web-components/url-hash-router.min.js"></script>
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@2.0.0/js/web-components/json-data.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@2.0.0/js/web-components/web-components/json-data.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@2.0.0/js/web-components/data-table.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@2.0.0/js/web-components/input-filter.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@2.0.0/js/web-components/sortable-table.min.js"></script>
@@ -110,6 +110,8 @@
         </script>
 
         <script type="module">
+            /* jshint esversion:8 */
+
             import { componentsAreSetup } from 'https://cdn.jsdelivr.net/npm/dataformsjs@2.0.0/js/web-components/utils.min.js';
 
             const router = document.querySelector('url-hash-router');
@@ -145,7 +147,9 @@
                 const events = ['isLoading', 'hasError', 'isLoaded', 'contentReady'];
                 for (const jsonData of elements) {
                     if (jsonData.contentReady) {
-                        // This should only happen on the initial page load if the web service runs very fast.
+                        // This should happen on the initial page load, if the web service runs very fast,
+                        // or when the cached data is used. Search this file for "jsonData.contentReady" to
+                        // see how it is handled for table images.
                         console.log('jsonData.contentReady = true (events will not run)');
                     } else {
                         for (const event of events) {
@@ -172,13 +176,15 @@
             }
         
             // Called when the page is first opened on each hash/route change
-            function setupTableImages() {
+            async function setupTableImages() {
                 const jsonData = document.querySelector('json-data');
                 if (jsonData !== null) {
                     // [contentReady === true] can happen on the first page load if the
                     // data loads very fast - (before <script type="module"> finished loading).
                     if (jsonData.contentReady) {
-                        showTableImages();
+                        // Wait untill all web components are setup
+                        await componentsAreSetup();
+                        showTableImages({ target:jsonData });
                     } else {
                         jsonData.addEventListener('contentReady', showTableImages);
                     }
@@ -187,7 +193,7 @@
 
             // Add Flag Images to the <table> once it has been rendered.
             async function showTableImages(e) {
-                // Wait till all web components are setup
+                // Wait untill all web components are setup
                 await componentsAreSetup();
 
                 // Exit if page has no table
