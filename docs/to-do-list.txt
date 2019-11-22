@@ -30,12 +30,6 @@ TODO List
     playground\docs\Playground Server Setup.txt
     website\docs\Python Webserver Setup for AI_ML Functions.txt
 
-*) Finish testing all pages on many different devices and browsers
-    Will be done over the next week
-    - Known Issues:
-        - Home page animation is broken in IE 11 and Edge
-        - Try smaller font size for code examples on mobile devices
-
 *) Use preconnect optiomization? Need to test how will it improves preformance from different locations in the world.
     <link href="https://playground.dataformsjs.com" rel="preconnect" crossorigin>
     <link href="https://ai-ml.dataformsjs.com" rel="preconnect" crossorigin>
@@ -310,10 +304,22 @@ TODO List
         data.a.push(4)
         data2.a.indexOf(4)
 
+*) Home Page - Fix Main Computer Animation for IE 11 and Edge?
+    Currently the animation is broken. IE and Edge support CSS animations
+    with SVG elements well but it appears that using JS events on certain
+    types of SVG elements does not work. A possible fix would be to check
+    user agent and if IE or Edge then use window.setTimeout() instead of
+    transitionend - Might not be worth it though because of low number of 
+    developers who use IE.
+        domEl.addEventListener('transitionend', transitionEnd);
+
 *) [Website\public\sitemap.xml]
     In the future this file will be generated as more languages are added.
-    Rather than including all examples one language for each demo is selected (a mix of Handlebars, Vue, React, Web Components)
-    and some examples are excluded such as the log demo and entry form demo since they only include random data and no info.
+    - Rather than including all examples one language for each demo is selected (a mix of Handlebars, Vue, React, Web Components)
+      and some examples are excluded such as the log demo and entry form demo since they only include random data and no info.
+    - For each demo the selected version should be also be used for canonical links, example:
+        <link rel="canonical" href="https://www.dataformsjs.com/examples/places-demo-hbs.htm">
+    - For new demos that will be excluded from the sitemap they should still have a canonical link added
 
 *) AI/ML Demos
     - Add links back to Python server code and JS Client code once published on Github
