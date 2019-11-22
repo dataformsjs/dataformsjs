@@ -10,8 +10,8 @@ Overall the core Framework files are expected to remain stable however the versi
   * Breaking change for Web Component &lt;ul is="data-list"&gt; - Changed element to &lt;"data-list"&gt;
   * utils.js - Added new function polyfillCustomElements()
   * [input-filter.js], [sortable-table.js], [leaflet-map.js] - Added [window._webComponentPolyfills] and related code
-* React Component <JsonData> - Added new optional props [fetchOptions] and [fetchOptions]
-* Web Component <json-data> - Added data caching support with new attribute [load-only-once="true"]
+* React Component &lt;JsonData&gt; - Added new optional props [fetchOptions] and [fetchOptions]
+* Web Component &lt;json-data&gt; - Added data caching support with new attribute [load-only-once="true"]
 * DataFormsJS.js - Set scroll position to [0, 0] on hash change for SPA's
 * DataFormsJS.js and jsPlugins.js for both React and Web Components - Updated CSS [white-space] style for [.dataformsjs-error] and [.dataformsjs-fatal-error]
 
