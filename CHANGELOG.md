@@ -6,7 +6,7 @@ Overall the core Framework files are expected to remain stable however the versi
 
 ## 3.0.0 (November 21, 2019)
 
-* Web Components - Add polyfill support for Safari, Samsung Internet, and Edge
+* Web Components - Add polyfill support for specific components for Safari, Samsung Internet, and Edge
   * Breaking change for Web Component &lt;ul is="data-list"&gt; - Changed element to &lt;"data-list"&gt;
   * utils.js - Added new function polyfillCustomElements()
   * [input-filter.js], [sortable-table.js], [leaflet-map.js] - Added [window._webComponentPolyfills] and related code
