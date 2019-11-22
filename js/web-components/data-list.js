@@ -2,7 +2,7 @@
  * DataFormsJS <ul is="data-list"> Web Component
  *
  * This component renders a standard <table> after [value] is set from JavaScript
- * with an array of objects. This component works with the <json-data> to display 
+ * with an array of objects. This component works with the <json-data> to display
  * data once it is downloaded.
  */
 
@@ -16,9 +16,20 @@
 
 import { render } from './utils.js';
 
-class DataList extends HTMLUListElement {
+/**
+ * Shadow DOM for Custom Elements
+ */
+const shadowTmpl = document.createElement('template');
+shadowTmpl.innerHTML = `
+    <style>:host { display:block; }</style>
+    <slot></slot>
+`;
+
+class DataList extends HTMLElement {
     constructor() {
-        super();        
+        super();
+        const shadowRoot = this.attachShadow({mode: 'open'});
+        shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
         this.setAttribute('not-setup', '');
         this.state = { list: null };
     }
@@ -31,11 +42,10 @@ class DataList extends HTMLUListElement {
         this.state.list = list;
         this.renderList();
     }
-    
+
     renderList() {
         // Ignore if [value] has not yet been set
         const list = this.state.list;
-        console.log('list:', list);
         if (list === null || list === '') {
             this.innerHTML = '';
             return;
@@ -56,10 +66,11 @@ class DataList extends HTMLUListElement {
         }
 
         // List Items
-        const html = [];
+        const html = ['<ul>'];
         for (const item of list) {
             html.push(render`<li>${item}</li>`);
         }
+        html.push('</ul>')
         this.innerHTML = html.join('');
 
         // Remove this attribute after the first time a list has been rendered
@@ -67,4 +78,4 @@ class DataList extends HTMLUListElement {
     }
 }
 
-window.customElements.define('data-list', DataList, { extends: 'ul' });
+window.customElements.define('data-list', DataList);

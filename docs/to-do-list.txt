@@ -20,6 +20,11 @@ TODO List
 **** Priority Items Start
 ****
 
+*) Safari, Samsung Internet, and Edge (Active Development for Web Components Polyfill)
+    - Code related to [window._webComponentPolyfills] and [polyfillCustomElements]
+    - Confirmed on Safari desktop
+    - Finish testing on iOS Safari, Samsung Internet, and Edge
+
 *) Update docs with new instructions to use GitHub Repositories for downloading site content rather than S3
     website\docs\Main Site Server Setup.txt
     playground\docs\Playground Server Setup.txt
@@ -34,22 +39,6 @@ TODO List
 *) Use preconnect optiomization? Need to test how will it improves preformance from different locations in the world.
     <link href="https://playground.dataformsjs.com" rel="preconnect" crossorigin>
     <link href="https://ai-ml.dataformsjs.com" rel="preconnect" crossorigin>
-
-*) iOS Safari and Samsung Internet
-    https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/is
-    * Web Components using the [is] attribute are not supported, currently affects:
-        <input is="input-filter">
-        <ul is="data-list">
-        <div is="leaflet-map">
-        <table is="sortable-table">
-    - Preference is to keep the existing format as the browsers will support it one day
-        and come up with a polyfill to support it, otherwise the elements other than "sortable-table"
-        will need to be hidden from unsupported devices.
-    - Possibly polyfill from <json-data> or <url-hash-router>? Need to test:
-        document.querySelector('[is]').isConnected
-    - Another option would be to not support [is] and instead use <input-filter>, etc
-        This is not preferred though
-    - If no polyfill is created then add more info in docs so limitations are clear for developers
 
 ****
 **** Priority Items End

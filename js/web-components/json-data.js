@@ -17,7 +17,14 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
-import { buildUrl, setElementText, getBindValue, bindAttrTmpl, componentsAreDefined } from './utils.js';
+import {
+    buildUrl,
+    setElementText,
+    getBindValue,
+    bindAttrTmpl,
+    componentsAreDefined,
+    polyfillCustomElements
+} from './utils.js';
 
 /**
  * Shadow DOM for Custom Elements
@@ -294,6 +301,9 @@ class JsonData extends HTMLElement {
         for (const element of elements) {
             bindAttrTmpl(element, 'data-bind-attr', this.state);
         }
+
+        // For Safari, Samsung Internet, and Edge
+        polyfillCustomElements();
     }
 }
 

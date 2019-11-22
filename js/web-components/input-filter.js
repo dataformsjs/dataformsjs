@@ -118,3 +118,13 @@ class InputFilter extends HTMLInputElement {
 }
 
 window.customElements.define('input-filter', InputFilter, { extends: 'input' });
+
+// For Safari, Samsung Internet, and Edge
+window._webComponentPolyfills = window._webComponentPolyfills || [];
+window._webComponentPolyfills.push({
+    element: 'input-filter',
+    extends: 'input',
+    setup: (el) => {
+        el.addEventListener('input', InputFilter.prototype.filter);
+    },
+});

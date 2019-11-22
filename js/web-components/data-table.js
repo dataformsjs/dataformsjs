@@ -2,7 +2,7 @@
  * DataFormsJS <data-table> Web Component
  *
  * This component renders a standard <table> after [value] is set from JavaScript
- * with an array of objects. This component works with the <json-data> to display 
+ * with an array of objects. This component works with the <json-data> to display
  * data once it is downloaded.
  */
 
@@ -28,12 +28,9 @@ shadowTmpl.innerHTML = `
 class DataTable extends HTMLElement {
     constructor() {
         super();
-        
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
-
         this.setAttribute('not-setup', '');
-
         this.state = {
             list: null,
             hasBeenLoaded: false,
@@ -66,7 +63,7 @@ class DataTable extends HTMLElement {
         this.state.list = list;
         this.renderTable();
     }
-    
+
     renderTable() {
         // Ignore if [value] has not yet been set
         const list = this.state.list;

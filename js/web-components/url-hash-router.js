@@ -18,7 +18,14 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
-import { render, setElementText, bindAttrTmpl, showError, componentsAreDefined } from './utils.js';
+import {
+    render,
+    setElementText,
+    bindAttrTmpl,
+    showError,
+    componentsAreDefined,
+    polyfillCustomElements
+} from './utils.js';
 
 /**
  * Shadow DOM for Custom Elements
@@ -108,6 +115,9 @@ function setView(router, view, html, urlParams) {
     for (const element of elements) {
         bindAttrTmpl(element, 'url-attr-param', urlParams);
     }
+
+    // For Safari, Samsung Internet, and Edge
+    polyfillCustomElements();
 
     // Custom Event
     router.dispatchEvent(new Event('contentLoaded'));

@@ -10,6 +10,9 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
+// Module level variable that is set only once
+let polyfillIsNeeded = null;
+
 /**
  * Helper function to convert special characters to HTML entities.
  *
@@ -206,8 +209,50 @@ export function showError(el, message)
 }
 
 /**
- * Return a promise that can be used to check if custom web components.
- * The promise will resolve once all document components are defined.
+ * As of late 2019 Safari, Samsung Internet, and Edge do not support extending
+ * standard elements using custom elements with [is="custom-element"].
+ * 
+ * This function is used to call the polyfill setup code. Custom elements that
+ * use the [is] attriubte should call need to define a object in [window._webComponentPolyfills]
+ * in order to use this. See examples from [sortable-table.js] and [input-filter.js].
+ */
+export function polyfillCustomElements() {
+    // Check if the polyfill is needed. Example result:
+    //   Chrome: false
+    //   Safari: true
+    if (polyfillIsNeeded === null) {
+        class WebComponentCheck extends HTMLDivElement {};
+        window.customElements.define('web-component-polyfill-check', WebComponentCheck, { extends: 'div' });
+        let docEl = document.querySelector('body');
+        if (!docEl) {
+            docEl = document.documentElement;
+        }
+        docEl.insertAdjacentHTML('beforeend', '<div is="web-component-polyfill-check"></div>');
+        const div = document.querySelector('div[is="web-component-polyfill-check"]');
+        polyfillIsNeeded = !(div instanceof WebComponentCheck);
+        docEl.removeChild(div);
+    }
+
+    // Update all elements on screen that need the polyfill
+    if (polyfillIsNeeded && Array.isArray(window._webComponentPolyfills)) {
+        for (const polyfill of window._webComponentPolyfills) {
+            const elements = document.querySelectorAll(`${polyfill.extends}[is="${polyfill.element}"]`);
+            for (const element of elements) {
+                try {
+                    polyfill.setup(element);
+                } catch (e) {
+                    console.error(e);
+                    console.log(polyfill.element);
+                    console.log(element);
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Return a promise that can be used to check if custom web components are
+ * defined. The promise will resolve once all document components are defined.
  * When components are first added to DOM they are not yet defined until
  * the browser finishes creating this classes, this happens very quickly
  * however if code that depends on the components runs before they are

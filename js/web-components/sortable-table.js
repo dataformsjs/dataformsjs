@@ -50,7 +50,11 @@ class SortableTable extends HTMLTableElement {
         // Add click events to all the last header row of all columns
         const row = table.tHead.rows[table.tHead.rows.length-1];
         for (let cellIndex = 0, cellCount = row.cells.length; cellIndex < cellCount; cellIndex++) {
-            row.cells[cellIndex].addEventListener('click', this.sortColumn);
+            if (this instanceof HTMLTableElement) {
+                row.cells[cellIndex].addEventListener('click', SortableTable.prototype.sortColumn);
+            } else {
+                row.cells[cellIndex].addEventListener('click', this.sortColumn);
+            }
             row.cells[cellIndex].style.cursor = 'pointer';
         }
     }
@@ -151,3 +155,13 @@ class SortableTable extends HTMLTableElement {
 }
 
 window.customElements.define('sortable-table', SortableTable, { extends: 'table' });
+
+// For Safari, Samsung Internet, and Edge
+window._webComponentPolyfills = window._webComponentPolyfills || [];
+window._webComponentPolyfills.push({
+    element: 'sortable-table',
+    extends: 'table',
+    setup: (el) => {
+        SortableTable.prototype.setupTable.apply(el);
+    },
+});
