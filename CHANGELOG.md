@@ -4,8 +4,12 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components.
 
-## (Active Changes - Published to GitHub but not yet NPM)
+## 3.0.0 (November 21, 2019)
 
+* Web Components - Add polyfill support for Safari, Samsung Internet, and Edge
+  * Breaking change for Web Component &lt;ul is="data-list"&gt; - Changed element to &lt;"data-list"&gt;
+  * utils.js - Added new function polyfillCustomElements()
+  * [input-filter.js], [sortable-table.js], [leaflet-map.js] - Added [window._webComponentPolyfills] and related code
 * React Component <JsonData> - Added new optional props [fetchOptions] and [fetchOptions]
 * Web Component <json-data> - Added data caching support with new attribute [load-only-once="true"]
 * DataFormsJS.js - Set scroll position to [0, 0] on hash change for SPA's
