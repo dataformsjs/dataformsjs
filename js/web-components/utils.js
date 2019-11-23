@@ -9,6 +9,8 @@
 /* eslint quotes: ["error", "single", { "avoidEscape": true }] */
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
+/* eslint no-async-promise-executor: "off" */
+/* eslint no-prototype-builtins: "off" */
 
 // Module level variable that is set only once
 let polyfillIsNeeded = null;
@@ -209,7 +211,58 @@ export function showError(el, message)
 }
 
 /**
- * As of late 2019 Safari, Samsung Internet, and Edge do not support extending
+ * Show an error in an element. This will style the element
+ * with a red background and white text. If called twice
+ * the message will overwrite the previous message.
+ * 
+ * Unlike error alerts in the standard framework the user
+ * does not have the ability to close these alerts.
+ *
+ * @param {string} message
+ */
+export function showErrorAlert(message) {
+    const id = 'dataformsjs-fatal-error';
+    let div = document.getElementById(id);
+    if (div) {
+        div.textContent = message;
+    } else {
+        div = document.createElement('div');
+        div.id = id;
+        div.style.color = '#fff';
+        div.style.backgroundColor = '#f00';
+        div.style.backgroundImage = 'linear-gradient(#e00, #c00)';
+        div.style.boxShadow = '0 1px 5px 0 rgba(0,0,0,.5)';
+        div.style.zIndex = '1000000';
+        div.style.padding = '20px';
+        div.style.fontSize = '1.5em';
+        div.style.margin = '20px';
+        div.style.position = 'fixed';
+        div.style.top = '10px';
+        div.textContent = message;
+        document.body.appendChild(div);
+    }
+    console.error(message);
+}
+
+/**
+ * Show a error alert with a message for older browsers.
+ * 
+ * This is intended for browsers that support <script type="module">
+ * but do not support [window.customElements.define()]. This function 
+ * gets called by individual web component.
+ * 
+ * This issue is known to affect Microsoft Edge Browsers using the 
+ * EdgeHTML rendering engine.
+ */
+export function showOldBrowserWarning() {
+    if (window.customElements === undefined || window.customElements.define === undefined) {
+        const message = 'Thank you for visiting! However some features on this page require a newer Browser or OS than the one that you are currently using. If you have a different browser available then please open this page with it.';
+        showErrorAlert(message);    
+    }
+}
+
+/**
+ * As of late 2019 Safari and Samsung Internet do not support extending
  * standard elements using custom elements with [is="custom-element"].
  * 
  * This function is used to call the polyfill setup code. Custom elements that
@@ -221,7 +274,7 @@ export function polyfillCustomElements() {
     //   Chrome: false
     //   Safari: true
     if (polyfillIsNeeded === null) {
-        class WebComponentCheck extends HTMLDivElement {};
+        class WebComponentCheck extends HTMLDivElement {}
         window.customElements.define('web-component-polyfill-check', WebComponentCheck, { extends: 'div' });
         let docEl = document.querySelector('body');
         if (!docEl) {

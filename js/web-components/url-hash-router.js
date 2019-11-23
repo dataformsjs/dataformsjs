@@ -24,7 +24,8 @@ import {
     bindAttrTmpl,
     showError,
     componentsAreDefined,
-    polyfillCustomElements
+    polyfillCustomElements,
+    showOldBrowserWarning
 } from './utils.js';
 
 /**
@@ -339,5 +340,6 @@ class UrlHashRoute extends HTMLElement {
 /**
  * Define Custom Elements
  */
+showOldBrowserWarning();
 window.customElements.define('url-hash-router', UrlHashRouter);
 window.customElements.define('url-hash-route', UrlHashRoute);

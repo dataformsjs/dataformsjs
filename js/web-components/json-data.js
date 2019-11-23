@@ -23,7 +23,8 @@ import {
     getBindValue,
     bindAttrTmpl,
     componentsAreDefined,
-    polyfillCustomElements
+    polyfillCustomElements,
+    showOldBrowserWarning
 } from './utils.js';
 
 /**
@@ -307,6 +308,10 @@ class JsonData extends HTMLElement {
     }
 }
 
+/**
+ * Define Custom Elements
+ */
+showOldBrowserWarning();
 window.customElements.define('json-data', JsonData);
 
 /**

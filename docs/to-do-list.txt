@@ -24,6 +24,7 @@ TODO List
     - Code related to [window._webComponentPolyfills] and [polyfillCustomElements]
     - Confirmed on Safari desktop and iOS, Samsung Internet
     * All Web Component Demos are broken in Edge - need to fix or display error
+        - Need to confirm last commit on multiple devices and edge then publish to npm
 
 ****
 **** Priority Items End
