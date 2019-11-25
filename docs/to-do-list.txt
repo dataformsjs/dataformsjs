@@ -11,24 +11,10 @@ TODO List
 |   *) More Unit Testing
 |   *) Additional Scripts and Features
 |
-|   Other than a few items at the top there is no priority to this list.
+|   There is no priority to this list.
 |   All contributions are welcome.
 |
 --------------------------------------------------------------------------
-
-****
-**** Priority Items Start
-****
-
-*) Safari, Samsung Internet, and Edge (Active Development for Web Components Polyfill)
-    - Code related to [window._webComponentPolyfills] and [polyfillCustomElements]
-    - Confirmed on Safari desktop and iOS, Samsung Internet
-    * All Web Component Demos are broken in Edge - need to fix or display error
-        - Need to confirm last commit on multiple devices and edge then publish to npm
-
-****
-**** Priority Items End
-****
 
 *) Improve UX of the Quick Ref Page
     https://www.dataformsjs.com/#/en/quick-reference

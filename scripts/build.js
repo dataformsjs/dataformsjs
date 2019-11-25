@@ -6,6 +6,9 @@
  *     npm install uglify-es -g
  *     https://www.npmjs.com/package/uglify-js
  *     https://www.npmjs.com/package/uglify-es
+ * 
+ * If running this file from Mac or Linux use sudo:
+ *     sudo node build.js
  *
  * Both commands share the use global shell command [uglifyjs] so if you
  * run this file you may need to switch back to the more widely used [uglify-js]
@@ -69,8 +72,9 @@ const execOptions = { timeout: tenSeconds };
         execSync(cmd, execOptions);
     });
 
-    // Update copyright on core files
+    // Additional file updates
     await updateCopyright(jsFiles, webFiles);
+    await updateImport(webFiles);
 })();
 
 /**
@@ -159,5 +163,22 @@ async function updateCopyright(jsFiles, webFiles) {
         let contents = await readFile(file, 'utf8');
         contents = copyright + contents;
         await writeFile(file, contents);
+    }
+}
+
+/**
+ * Update import statements for Web Components use minified version:
+ *     import { ... } from './utils.js';
+ * becomes:
+ *     import { ... } from './utils-min.js';
+ *
+ * @param {array} webFiles
+ */
+async function updateImport(webFiles) {
+    for (const file of webFiles) {
+        const outFile = file.replace('.js', '.min.js');
+        let contents = await readFile(outFile, 'utf8');
+        contents = contents.replace('./utils.js', './utils.min.js').replace('./utils-sort.js', './utils-sort.min.js');
+        await writeFile(outFile, contents);
     }
 }

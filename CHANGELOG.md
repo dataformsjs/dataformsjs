@@ -4,11 +4,12 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components.
 
-## (Active Development Updates - Not yet published to npm)
+## 3.1.0 (November 25, 2019)
 
 * Web Components - New functions in [js/web-components/utils.js] - [showErrorAlert()] and [showOldBrowserWarning()]
 * Web Components - [showOldBrowserWarning()] checks modern browsers that support &lt;script type="module"&gt; but do not support custom elements (known to affect MS Edge using the EdgeHTML rendering engine)
 * Web Components - Check Old Browsers from &lt;url-hash-router&gt; and &lt;json-data&gt;
+* Web Components - Updated all [*.min.js] files to use the [*.min.js] version of related files from import statements
 
 ## 3.0.0 (November 21, 2019)
 
