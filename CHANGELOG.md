@@ -4,6 +4,10 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components.
 
+## 3.1.2 (November 25, 2019)
+
+* Fixed error from previous fix where plugins that call [next(false)] from [onRouteLoad(next)] would not trigger the next route to finish loading. Affected [js/plugins/i18n.js].
+
 ## 3.1.1 (November 25, 2019)
 
 * DataFormsJS.js - Fix for race conditions where a previous page is still loading and the new page is called multiple times. The errors would only show on pages that use a lot of custom JavaScript and if the user clicks quickly from page to page while services or resources were still loading.

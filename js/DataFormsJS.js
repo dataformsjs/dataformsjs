@@ -638,6 +638,7 @@
                             plugin = app.plugins[plugin];
                             fn[fnIndex].call(plugin, (function(loadRoute) {
                                 if (loadRoute === false) {
+                                    isLoadingRoute = false;
                                     return;
                                 }
                                 fnIndex++;

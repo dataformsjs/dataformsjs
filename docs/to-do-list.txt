@@ -458,8 +458,6 @@ TODO List
         however at the time of writing there is no custom web attribute API to use.
     - See example [places-demo-web.htm]
         - DataFormsJS\examples\html\place-web.htm
-            <i class="[place.country_code] flag" data-bind-attr="class"></i>
-                does not work because [place.country_code] needs to be lowercase
             [place.ascii_name] should only show if it is different then [place.name]
             [is="input-filter"] should only show if [place.alternate_names.length > 10]
             Date and Number Formatting, Calculations for [place.elevation]

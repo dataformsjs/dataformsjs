@@ -8,7 +8,7 @@
  *     https://www.npmjs.com/package/uglify-es
  * 
  * If running this file from Mac or Linux use sudo:
- *     sudo node build.js
+ *     sudo node ./dataformsjs/scripts/build.js
  *
  * Both commands share the use global shell command [uglifyjs] so if you
  * run this file you may need to switch back to the more widely used [uglify-js]
