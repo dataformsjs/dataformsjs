@@ -32,7 +32,7 @@
             <div>
                 <label v-i18n="'Country (ISO)'"></label>
                 <span>{{ place.country_code }}</span>
-                <i class="{{ place.country_code.toLowerCase() }} flag"></i>
+                <i v-bind:class="place.country_code.toLowerCase() + ' flag'"></i>
             </div>
             <div>
                 <label v-i18n="'Region (State, Province, etc.)'"></label>

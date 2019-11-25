@@ -175,7 +175,7 @@
                     }
                 }
             }
-        
+
             // Called when the page is first opened on each hash/route change
             async function setupTableImages() {
                 const jsonData = document.querySelector('json-data');
@@ -194,8 +194,17 @@
 
             // Add Flag Images to the <table> once it has been rendered.
             async function showTableImages(e) {
+                // console.log(e);
+
                 // Wait untill all web components are setup
                 await componentsAreSetup();
+
+                // Update icon for the place page
+                if (document.querySelector('url-hash-router').currentRoute.path === '/city/:id') {
+                    const flagEl = document.querySelector('i.flag');
+                    flagEl.className = flagEl.className.toLowerCase();
+                    return;
+                }
 
                 // Exit if page has no table
                 const table = document.querySelector('table');
@@ -209,7 +218,7 @@
                     pageIso = JSON.parse(e.target.urlParams);
                     pageIso = (pageIso.country ? pageIso.country.toLowerCase() : null);
                 }
-                
+
                 // Add flags to all rows
                 const tableRows = table.tBodies[0].rows;
                 const rowCount = tableRows.length;
@@ -220,7 +229,7 @@
                     flag.className = iso + ' flag';
                     row.cells[1].insertAdjacentElement('afterbegin', flag);
                 }
-            }   
+            }
         </script>
     </body>
 </html>
