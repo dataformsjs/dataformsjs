@@ -63,6 +63,9 @@
     ];
     var isUpdatingView = false;
     var isUpdatingAllControls = false;
+    var isLoadingRoute = false;
+    var previousUrl = null;
+    var routeLoadingCount = 0;
     var renderInterval = null;
     var vueUpdateView = false;
     var vueWatcherDepPrevLen = 0;
@@ -463,6 +466,41 @@
             error,
             plugin;
 
+        // Handle race conditions where this function is called while the previous page
+        // is still loading or rendering. Typically this only causes errors on routes
+        // that use a lot of custom JavaScript and the route’s web services (or resources)
+        // are loading slowly and the user is clicking from page to page very fast.
+        // This is not unit tested, rather uncomment the [console.log] statements
+        // and for slow resources. For example, using code in 'website\app\app.php'
+        // [$app->get('/*' ...] and running this script with the local site.
+        if (routeLoadingCount > 200) {
+            app.showErrorAlert(app.settings.errors.pageLoading);
+            routeLoadingCount = 0;
+            isLoadingRoute = false;
+            return;
+        }
+        if (isLoadingRoute) {
+            if (previousUrl === path) {
+                return; // Still loading same route
+            }
+            // console.log('***** isLoadingRoute=true *****');
+            window.setTimeout(hashChangeEvent, 200);
+            routeLoadingCount++;
+            return;
+        }
+        if (isUpdatingView) {
+            if (previousUrl === path) {
+                return; // Still rendering same route
+            }
+            // console.log('***** isUpdatingView=true *****');
+            window.setTimeout(hashChangeEvent, 200);
+            routeLoadingCount++;
+            return;
+        }
+        isLoadingRoute = true;
+        routeLoadingCount = 0;
+        previousUrl = path;
+
         // Is # the first character? If yes remove it
         if (path.indexOf('#') === 0) {
             path = path.substr(1);
@@ -532,6 +570,7 @@
         // Route not found, redirect to the default
         if (controller === null && defaultIndex !== -1) {
             window.location.hash = '#' + app.settings.defaultRoute;
+            isLoadingRoute = false;
             return;
         }
 
@@ -540,6 +579,7 @@
             // No controllers so SPA is not being used, render/load Controls and call Plugins
             if (app.controllers.length === 0) {
                 app.updateView();
+                isLoadingRoute = false;
                 return;
             }
             // Show error that happens only if there is an invalid default route.
@@ -547,6 +587,7 @@
                 error = 'Error - The route [' + path + '] does not have a <script data-route> element or [Controller] defined. Check to make sure that a controller or script for default route [' + app.settings.defaultRoute + '] exists.';
                 app.showError(document.querySelector(app.settings.viewSelector), error);
             }
+            isLoadingRoute = false;
         } else {
             // Set active controller/route and load both controller and model
             app.activeController = controller;
@@ -582,6 +623,7 @@
                         // Reset scroll position and render the view
                         window.scrollTo(0, 0);
                         app.updateView();
+                        isLoadingRoute = false;
                     }
 
                     // Recursive function that gets called if using plugins with
@@ -609,6 +651,7 @@
                             app.showErrorAlert('Error from Plugin [' + fnName[fnIndex] + '] on [onRouteLoad()]: ' + e.toString());
                             console.error(e);
                             app.updateView();
+                            isLoadingRoute = false;
                         }
                     }
 
@@ -845,6 +888,9 @@
             },
             polyfillUrl: 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Object.assign,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat',
             graphqlUrl: null,
+            errors: {
+                pageLoading: 'Error loading the current page because the previous page is still loading and is taking a long time. Please refresh the page and try again.',
+            },
         },
 
         // References to the active objects and settings of the current view.

@@ -43,8 +43,9 @@
             assert.equal(app.settings.logFetchRequests, false, 'Default Settings for app.settings.logFetchRequests: ' + app.settings.logFetchRequests);
             assert.deepEqual(app.settings.requestHeaders, {}, 'Default Settings for app.settings.requestHeaders: ' + JSON.stringify(app.settings.requestHeaders));
             assert.deepEqual(app.settings.requestHeadersByHostName, {}, 'Default Settings for app.settings.requestHeadersByHostName: ' + JSON.stringify(app.settings.requestHeadersByHostName));
-            assert.equal(Object.keys(app.settings).length, 8, 'Number of properties in app.settings');
-
+            assert.equal(app.settings.errors.pageLoading, 'Error loading the current page because the previous page is still loading and is taking a long time. Please refresh the page and try again.', 'Default settings for app.settings.errors.pageLoading: ' + app.settings.errors.pageLoading);
+            assert.equal(Object.keys(app.settings).length, 9, 'Number of properties in app.settings');
+            
             switch (app.viewEngine()) {
                 case 'Handlebars':
                 case 'Nunjucks':
