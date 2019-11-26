@@ -32,7 +32,7 @@ Download this Repository. It’s small to download because this repository has n
 * Additional Scripts, React Components, Web Components, and Features.
 * New Ideas - If you have ideas on how to improve then please open an issue to discuss.
 
-The [docs/to-do-list.txt] file contains the full list of items that are currently pending and is good place to start.
+The [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt) file contains the full list of items that are currently pending and is good place to start.
 
 ## <span style="color:green;">$</span> Paid Translators Needed!
 
@@ -58,7 +58,7 @@ The author of DataFormsJS had a number of busy jobs at the time and was also wor
 
 _All sizes are based on minified scripts and gzip compression from the web server._
 
-* **DataFormsJS Framework – 9.8kb** (120 kb uncompressed and full version)
+* **DataFormsJS Framework – 9.4kb** (120 kb uncompressed and full version)
 * Additional files (controllers, plugins, etc) are typically only 1-3 kb each.
 * In general when using the Framework expect about 15 kb for the intial page load, and then several kb for additional pages that load extra plugins, pages, controllers, etc.
 * React (All Components in JavaScript) – 6.1 kb

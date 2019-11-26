@@ -102,6 +102,15 @@ TODO List
         - Basically the current es6 code works from a browser but needs a global export
           and 'import React' removed. This should be handled by the [jsxLoader.js] file.
 
+*) IE Cache Busting Needed
+    - When last checked the github fetch polyfill (used by DataFormsJS) does not 
+      include cache busting which means that IE can show old content on JSON Services
+        https://github.com/github/fetch
+    - Either the polyfill needs to be updated or it should be handled by DataFormsJS 
+    - The reason for this is that IE 11 uses very aggresive caching.
+    - In jQuery this cache busting is handled by using [cache:false]:
+        jQuery.ajax({cache:false})
+
 *) Web Components Polyfill using either the main Framework or standalone scripts?
     - Currently IE, Older Safari, etc will display a warning message instead of Polyfill for Web Components
     - Polyfills will be considered (and likely developed in the future) for Web Components but they
