@@ -16,6 +16,13 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+*) Priority - Site Templates are broken if viewing a Handlebars page
+    then going to back to templates (applies to Vue and handlebars).
+    Example view getting started page, then quick ref, then go back to template.
+    Basically the site is using handlebars to render the content.
+    Debug code at the following to find the issue:
+        app.refreshHtmlControl(code, function() {
+
 *) Improve UX of the Quick Ref Page
     https://www.dataformsjs.com/#/en/quick-reference
     - Filtering on all code doesn't work well due to generic terms "JavaScript" "Template", "Vue", etc
