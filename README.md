@@ -1,4 +1,9 @@
-# 🌟 Welcome to DataFormsJS!
+
+<p align="center">
+	<img src="https://github.com/dataformsjs/static-files/raw/master/img/logo/favicon-144.png">
+</p>
+
+# :star2: Welcome to DataFormsJS!
 
 **Thanks for visiting!**
 
@@ -8,18 +13,87 @@ DataFormsJS is a new JavaScript Framework and Standalone React and Web Component
 
 This repository contains DataFormsJS’s Framework, Example Pages, and Unit Tests. The main website exists on another repository.
 
-## 🚀 Getting Started
+## :exclamation: Why use DataFormsJS?
+![Why use DataFormsJS?](https://github.com/dataformsjs/static-files/blob/master/img/readme/why-use-dataformsjs-826x595.png)
+
+## :rocket: Getting Started
 
 **Getting started with DataFormsJS is extremely easy.**
 
-Develop online using the code playground: <a href="https://www.dataformsjs.com/#/en/playground" target="_blank">https://www.dataformsjs.com/#/en/playground</a>
+**Develop online** using the code playground: https://www.dataformsjs.com/#/en/playground
 
-Download a template file using scripts from a CDN: <a href="https://www.dataformsjs.com/#/en/getting-started" target="_blank">https://www.dataformsjs.com/#/en/getting-started</a>
+**Download a template file** using scripts from a CDN: https://www.dataformsjs.com/#/en/getting-started
 
-Download this Repository. It’s small to download because this repository has no local dependencies and loads Handlebars, Vue, and React from a CDN. To run all example files Node needs to be installed and then you can run one of the following servers:
+Install from **npm**, this option works great if you are using create-react-app or want a copy of all files locally:
+```
+npm install dataformsjs
+```
+
+**Download this Repository**. It’s small to download because this repository has no local dependencies and loads Handlebars, Vue, and React from a CDN. To run all example files Node needs to be installed and then you can run one of the following servers:
 
 * examples/server.js
 * test/server.js
+
+## :page_facing_up: Example Code
+
+This example uses Vue for templating. If you save it with a text editor you can view it locally in your browser. Additionally the main site contains many templates and examples.
+
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>DataFormsJS Example using Vue</title>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a href="#/">Home</a>
+                <a href="#/data">Data Example</a>
+            </nav>
+        </header>
+
+        <main id="view"></main>
+
+        <template data-route="/">
+            <h1>Hello World!</h1>
+        </template>
+        
+        <script
+            type="text/x-template"
+            data-engine="vue"
+            data-route="/data"
+            data-page="jsonData"
+            data-url="https://www.dataformsjs.com/data/geonames/countries"
+            data-load-only-once="true"
+            data-lazy-load="jsonData, flags"
+            data-countries>
+
+            <h3 v-if="isLoading" v-cloak class="loading">Loading...</h3>
+            <h3 v-if="hasError" v-cloak class="error">{{ errorMessage }}</h3>
+            <div v-if="isLoaded" v-cloak>
+                <h1>Countries</h1>
+                <ul>
+                    <li v-for="country in countries">
+                        <i v-bind:class="country.iso.toLowerCase() + ' flag'"></i>
+                        <span>{{ country.country }}<span>
+                    </li>
+                </ul>
+            </div>
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.1.2/js/DataFormsJS.min.js"></script>
+        <script>
+            app.lazyLoad = {
+                jsonData: 'https://cdn.jsdelivr.net/npm/dataformsjs@3.1.2/js/pages/jsonData.min.js',
+                flags: 'https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css',
+            };
+        </script>
+    </body>
+</html>
+```
 
 ## 🤝 Contributing
 
@@ -34,7 +108,7 @@ Download this Repository. It’s small to download because this repository has n
 
 The [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt) file contains the full list of items that are currently pending and is good place to start.
 
-## <span style="color:green;">$</span> Paid Translators Needed!
+## :moneybag: Paid Translators Needed!
 
 **Are you fluent in English and another language? <a href="https://www.fastsitephp.com/en/translators-needed" target="_blank">If so then please get in touch</a>.**
 
