@@ -224,6 +224,9 @@
         if (controller === null) {
             templateId = element.getAttribute('data-template-id');
             templateUrl = element.getAttribute('data-template-url');
+            if (app.activeController !== null) {
+                templateEngine = app.activeController.viewEngine;
+            }
         } else {
             // Get Controller Settings
             templateId = controller.viewId;

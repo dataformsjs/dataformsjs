@@ -16,22 +16,6 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-*) Priority - In active development - Site Templates for Vue break in specific conditions.
-    - Hard to replicate but try: refresh page on getting-started select vue, click to quick-ref page, 
-      then click back to getting started and toggle between the vue templates.
-    - Either it's due to a minor bug with [app.refreshHtmlControl()] when using text templates,
-        or it's an issue with JS for the page.
-    - It appears the site is using handlebars to render the content.
-    - Debug code at the following to find the issue:
-        app.refreshHtmlControl(code, function() {
-    - Issue is with:
-        app.activeController.viewEngine === "Text"
-        and [app.refreshHtmlControl()]
-    - It's not a common senario and wouldn't affect most apps.
-    - To debug use local main site, and step through code, relevant code for devtools:
-        document.querySelectorAll('code')[1].textContent
-
-
 *) Improve UX of the Quick Ref Page
     https://www.dataformsjs.com/#/en/quick-reference
     - Filtering on all code doesn't work well due to generic terms "JavaScript" "Template", "Vue", etc
