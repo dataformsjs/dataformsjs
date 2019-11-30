@@ -13,8 +13,8 @@ DataFormsJS is a new JavaScript Framework and Standalone React and Web Component
 
 This repository contains DataFormsJS’s Framework, Example Pages, and Unit Tests. The main website exists on another repository.
 
-## :exclamation: Why use DataFormsJS?
-![Why use DataFormsJS?](https://github.com/dataformsjs/static-files/blob/master/img/readme/why-use-dataformsjs-826x595.png)
+## :dizzy: Why use DataFormsJS?
+![Why use DataFormsJS?](https://raw.githubusercontent.com/dataformsjs/static-files/master/img/readme/why-use-dataformsjs-826x595.png)
 
 ## :rocket: Getting Started
 
