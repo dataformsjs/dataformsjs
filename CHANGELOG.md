@@ -7,6 +7,7 @@ Overall the core Framework files are expected to remain stable however the versi
 ## 3.1.3 (November 29, 2019)
 
 * Fixed error when using multple rendering engines in a single app where changes to the URL source on existing HTML controls would use the wrong rendering engine. Rare edge case error that affected the main site.
+* Updated npm package.json file to include the broswer property
 
 ## 3.1.2 (November 25, 2019)
 

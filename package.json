@@ -3,7 +3,7 @@
   "version": "3.1.3",
   "homepage": "https://www.dataformsjs.com/#/en/",
   "description": "A minimal JavaScript Framework and standalone components for rapid development of high quality websites and single page applications.",
-  "browser": {},
+  "browser": "js/DataFormsJS.min.js",
   "files": [
     "js"
   ],
