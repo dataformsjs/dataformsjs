@@ -84,10 +84,10 @@ This example uses Vue for templating. If you save it with a text editor you can 
         </script>
 
         <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.1.2/js/DataFormsJS.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.1.4/js/DataFormsJS.min.js"></script>
         <script>
             app.lazyLoad = {
-                jsonData: 'https://cdn.jsdelivr.net/npm/dataformsjs@3.1.2/js/pages/jsonData.min.js',
+                jsonData: 'https://cdn.jsdelivr.net/npm/dataformsjs@3.1.4/js/pages/jsonData.min.js',
                 flags: 'https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css',
             };
         </script>
