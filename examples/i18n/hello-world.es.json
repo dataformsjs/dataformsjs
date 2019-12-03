@@ -1,0 +1,13 @@
+{
+    "title": "Hello World Demo",
+    "webc": "Componentes Web",
+    "hello_world": "Hola Mundo!",
+    "modify_this": "Modifique esta",
+    "URL": "URL",
+    "with_your_name": "con su nombre.",
+    "hello": "Hola",
+    "hello_name": "Hola {{nombre}}!",
+    "back_home": "De vuelta a casa",
+    "param_name": "nombre",
+    "param_your_name": "Tu-Nombre"
+}
