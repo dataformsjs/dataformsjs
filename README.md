@@ -39,9 +39,9 @@ npm install dataformsjs
 ```
 dataformsjs
 ├── examples
-│   ├── server.js
+│   └── server.js
 └── test
-    ├── server.js
+    └── server.js
 ```
 
 JavaScript files for the Framework and standalone React and Web Components exist under the [js] directory. 
