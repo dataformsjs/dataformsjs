@@ -15,9 +15,9 @@ This repository contains DataFormsJS’s Framework, Example Pages, and Unit Test
 
 ## :dizzy: Why use DataFormsJS?
 
-|<img src="https://www.dataformsjs.com/img/icons/fast.svg" alt="Fast" width="60">|<img src="https://www.dataformsjs.com/img/icons/small-size.svg" alt="Small Size" width="60">|<img src="https://www.dataformsjs.com/img/icons/light-switch.svg" alt="Easy to Learn" width="60">|
+|<img src="https://www.dataformsjs.com/img/icons/fast.svg" alt="Faster Development" width="60">|<img src="https://www.dataformsjs.com/img/icons/small-size.svg" alt="Small Size" width="60">|<img src="https://www.dataformsjs.com/img/icons/light-switch.svg" alt="Easy to Learn" width="60">|
 |---|---|---|
-|**Fast** Display data from Web and GraphQL Services using only HTML Markup and define App and Site features using HTML Attributes.|**Small Size** All files are small in size and downloaded only when used allowing for greater performance and a smaller site.|**Easy to Learn** DataFormsJS is built around HTML, CSS, JavaScript, Templating and has a minimal JavaScript and HTML API so you can get started immediately.|
+|**Faster Development** Display data from Web and GraphQL Services using only HTML Markup and define App and Site features using HTML Attributes.|**Small Size** All files are small in size and downloaded only when used allowing for greater performance and a smaller site.|**Easy to Learn** DataFormsJS is built around HTML, CSS, JavaScript, Templating and has a minimal JavaScript and HTML API so you can get started immediately.|
 
 |<img src="https://www.dataformsjs.com/img/icons/column.svg" alt="Stability" width="60">|<img src="https://www.dataformsjs.com/img/icons/water.svg" alt="Flexibility" width="60">|<img src="https://www.dataformsjs.com/img/icons/star.svg" alt="Better Sites" width="60">|
 |---|---|---|
