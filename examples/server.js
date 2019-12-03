@@ -91,6 +91,7 @@ app.get('/hello-world/:lang/:file', (req, res, lang, file) => {
     const langPath = path.join(__dirname, `i18n/hello-world.${lang}.json`);
     app.openFile(res, langPath, (json) => {
         const i18n = JSON.parse(json);
+        i18n.lang = lang;
         // 2) Read html file: [dataformsjs\examples\hello-world\{file}]
         const htmlPath = path.join(__dirname, `hello-world/${file}`);
         console.log(htmlPath);
