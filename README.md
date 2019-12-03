@@ -14,15 +14,21 @@ DataFormsJS is a new JavaScript Framework and Standalone React and Web Component
 This repository contains DataFormsJS’s Framework, Example Pages, and Unit Tests. The main website exists on another repository.
 
 ## :dizzy: Why use DataFormsJS?
-![Why use DataFormsJS?](https://raw.githubusercontent.com/dataformsjs/static-files/master/img/readme/why-use-dataformsjs-826x595.png)
+
+|<img src="https://www.dataformsjs.com/img/icons/fast.svg" alt="Fast" width="60">|<img src="https://www.dataformsjs.com/img/icons/small-size.svg" alt="Small Size" width="60">|<img src="https://www.dataformsjs.com/img/icons/light-switch.svg" alt="Easy to Learn" width="60">|
+|---|---|---|
+|**Fast** Display data from Web and GraphQL Services using only HTML Markup and define App and Site features using HTML Attributes.|**Small Size** All files are small in size and downloaded only when used allowing for greater performance and a smaller site.|**Easy to Learn** DataFormsJS is built around HTML, CSS, JavaScript, Templating and has a minimal JavaScript and HTML API so you can get started immediately.|
+
+|<img src="https://www.dataformsjs.com/img/icons/column.svg" alt="Stability" width="60">|<img src="https://www.dataformsjs.com/img/icons/water.svg" alt="Flexibility" width="60">|<img src="https://www.dataformsjs.com/img/icons/star.svg" alt="Better Sites" width="60">|
+|---|---|---|
+|**Stability** Designed for long term use; a site developed with DataFormsJS today will work great and be easy to maintain decades from now.|**Flexibility** Works well with other code and the API is designed for flexibility and custom features. If you can think it, you can build it with DataFormsJS.|**Better Sites** DataFormsJS is designed to be a great experience for both developers and end users allowing you to create better sites.|
+
+|Works with|<img src="https://www.dataformsjs.com/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://www.dataformsjs.com/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://www.dataformsjs.com/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://www.dataformsjs.com/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|and more!|
+|---|---|---|---|---|---|
 
 ## :rocket: Getting Started
 
 **Getting started with DataFormsJS is extremely easy.**
-
-**Develop online** using the code playground: https://www.dataformsjs.com/#/en/playground
-
-**Download a template file** using scripts from a CDN: https://www.dataformsjs.com/#/en/getting-started
 
 Install from **npm**, this option works great if you are using create-react-app or want a copy of all files locally:
 ```
@@ -33,6 +39,12 @@ npm install dataformsjs
 
 * examples/server.js
 * test/server.js
+
+**Download a template file** using scripts from a CDN: https://www.dataformsjs.com/#/en/getting-started
+
+**Develop online** using the code playground: https://www.dataformsjs.com/#/en/playground
+
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground.png" alt="Code Playground" width="400">
 
 ## :page_facing_up: Example Code
 
