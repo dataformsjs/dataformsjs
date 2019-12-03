@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>DataFormsJS - Hello World Demo</title>
+        <title>DataFormsJS - {{title}}</title>
         <link rel="stylesheet" href="hello-world.css">
         <link rel="canonical" href="https://www.dataformsjs.com/examples/hello-world/en-web.htm">
     </head>
@@ -11,8 +11,8 @@
         <div id="view"></div>
 
         <template data-route="/">
-            <h1>Hello World!</h1>
-            <p>Modify this <a href="#/Your-Name">URL</a> with your name.</p>
+            <h1>{{hello_world}}</h1>
+            <p>{{modify_this}} <a href="#/{{param_your_name}}">{{URL}}</a> {{with_your_name}}</p>
 			<div class="home-page-animation">
                 <img src="sun.svg" class="sun">
                 <div class="orbit">
@@ -22,12 +22,12 @@
             </div>
         </template>
         
-        <script type="text/x-template" data-engine="handlebars" data-route="/:name">
-            <h1>Hello {{name}}!</h1>
-            <p>Back to <a href="#">Home</a></p>
-        </script>
+        <template data-route="/:{{param_name}}">
+            <h1>{{hello}} <span data-bind="{{param_name}}"></span></h1>
+            <p><a href="#">{{back_home}}</a></p>
+        </template>
 
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.1.4/js/DataFormsJS.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/handlebars@4.5.1/dist/handlebars.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.1.4/js/plugins/dataBind.min.js"></script>
     </body>
 </html>

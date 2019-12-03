@@ -58,7 +58,7 @@ app.get('/', async (req, res) => {
         html += `<li><a href="${file}">${file}</a></li>`;
     });
     html += '</ul>';
-    res.end(html);
+    app.sendHtml(res, html);
 });
 
 app.get('/favicon.ico', (req, res) => {
@@ -70,6 +70,40 @@ app.get('/:file', (req, res, file) => {
     const fileName = (file + (file.includes('.') ? '' : '.htm'));
     const filePath = path.join(__dirname, fileName);
     app.sendFile(res, filePath);
+});
+
+// To keep hello world files simple (when viewing source from a browser)
+// the js plugin [i18n] is not used, rather the content of the file is updated
+// using find/replace with i18n key values before sending to the client. 
+//
+// http://127.0.0.1:8080/hello-world/en/hbs.htm
+// http://127.0.0.1:8080/hello-world/en/js.htm
+// http://127.0.0.1:8080/hello-world/en/web.htm
+app.get('/hello-world/:lang/:file', (req, res, lang, file) => {
+    // CSS or SVG file
+    if (!file.endsWith('.htm')) {
+        const filePath = path.join(__dirname, `hello-world/${file}`);
+        app.sendFile(res, filePath);
+        return;
+    }
+    // HTML File
+    // 1) First read the i18n file: [dataformsjs\examples\i18n\hello-world.{lang}.json]
+    const langPath = path.join(__dirname, `i18n/hello-world.${lang}.json`);
+    app.openFile(res, langPath, (json) => {
+        const i18n = JSON.parse(json);
+        // 2) Read html file: [dataformsjs\examples\hello-world\{file}]
+        const htmlPath = path.join(__dirname, `hello-world/${file}`);
+        console.log(htmlPath);
+        app.openFile(res, htmlPath, (content) => {
+            // 3) Replace all i18n keys in the file
+            let html = content;
+            for (const key of Object.keys(i18n)) {
+                html = html.replace(new RegExp('{{' + key + '}}', 'g'), i18n[key]);
+            }
+            // 4) return HTML content
+            app.sendHtml(res, html);
+        });
+    });
 });
 
 app.get('/js/:file', (req, res, file) => {

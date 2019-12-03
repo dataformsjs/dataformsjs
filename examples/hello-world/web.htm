@@ -3,9 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>DataFormsJS | Hello Worldデモ| Webコンポーネント</title>
+        <title>DataFormsJS - {{title}} - {{webc}}</title>
         <link rel="stylesheet" href="hello-world.css">
-        <link rel="canonical" href="https://www.dataformsjs.com/examples/hello-world/jp-web.htm">
+        <link rel="canonical" href="https://www.dataformsjs.com/examples/hello-world/en-web.htm">
     </head>
     <body>
         <div id="view"></div>
@@ -14,8 +14,8 @@
                     
             <url-hash-route path="/">
                 <template>
-                    <h1>こんにちは世界！</h1>
-                    <p>この<a href="#/あなたの名前">URL</a>を自分の名前で変更します。</p>
+                    <h1>{{hello_world}}</h1>
+                    <p>{{modify_this}} <a href="#/{{param_your_name}}">{{URL}}</a> {{with_your_name}}</p>
                     <div class="home-page-animation">
                         <img src="sun.svg" class="sun">
                         <div class="orbit">
@@ -26,10 +26,10 @@
                 </template>
             </url-hash-route>
 
-            <url-hash-route path="/:name">
+            <url-hash-route path="/:{{param_name}}">
                 <template>
-                    <h1><span url-param="name"></span>こんにちは！</h1>
-                    <p><a href="#">家に帰る</a></p>
+                    <h1>{{hello}} <span url-param="{{param_name}}"></span></h1>
+                    <p><a href="#">{{back_home}}</a></p>
                 </template>
             </url-hash-route>
 
