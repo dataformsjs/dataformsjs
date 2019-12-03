@@ -1,4 +1,3 @@
-
 <p align="center">
 	<img src="https://github.com/dataformsjs/static-files/raw/master/img/logo/favicon-144.png">
 </p>
@@ -37,14 +36,32 @@ npm install dataformsjs
 
 **Download this Repository**. It’s small to download because this repository has no local dependencies and loads Handlebars, Vue, and React from a CDN. To run all example files Node needs to be installed and then you can run one of the following servers:
 
-* examples/server.js
-* test/server.js
+```
+dataformsjs
+├── examples
+│   ├── server.js
+└── test
+    ├── server.js
+```
 
-**Download a template file** using scripts from a CDN: https://www.dataformsjs.com/#/en/getting-started
+JavaScript files for the Framework and standalone React and Web Components exist under the [js] directory. 
+
+```
+dataformsjs
+└── js
+    ├── DataFormsJS.js
+    ├── react\*.js
+    ├── web-components\*.js
+    └── *
+```
 
 **Develop online** using the code playground: https://www.dataformsjs.com/#/en/playground
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground.png" alt="Code Playground" width="400">
+
+**Download a template file** using scripts from a CDN: https://www.dataformsjs.com/#/en/getting-started
+
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Getting Started Templates" width="400">
 
 ## :page_facing_up: Example Code
 
