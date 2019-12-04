@@ -124,7 +124,7 @@ This example uses Vue for templating. If you save it with a text editor you can 
 </html>
 ```
 
-## 🤝 Contributing
+## :handshake: Contributing
 
 **All contributions are welcome.** For major changes including breaking changes to existing code or updating existing graphics and files, please open an issue first to discuss what you would like to change. Some examples of items to contribute:
 
@@ -155,7 +155,7 @@ Now that both React and Vue have become very popular separate React Components h
 
 **Why did it take so long to release?**
 
-The author of DataFormsJS had a number of busy jobs at the time and was also working on another large project at the same time (<a href="https://www.fastsitephp.com/en/" target="_blank">FastSitePHP</a>).
+The author of DataFormsJS had a number of busy jobs at the time and was also working on another large project at the same time [FastSitePHP](https://www.fastsitephp.com/en/).
 
 **How large is DataFormsJS?**
 
