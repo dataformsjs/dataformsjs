@@ -24,7 +24,7 @@ Este repositorio contiene el Marco de DataFormsJS, Páginas de ejemplo y Pruebas
 |¡Funciona con|<img src="https://www.dataformsjs.com/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://www.dataformsjs.com/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://www.dataformsjs.com/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://www.dataformsjs.com/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|y más!|
 |---|---|---|---|---|---|
 
-|¡Aprende algo nuevo!|<img src="https://www.dataformsjs.com/img/icons/web-components.svg" alt="Web Components" width="64">|Web Components|
+|¡Aprende algo nuevo!|<img src="https://www.dataformsjs.com/img/icons/web-components.svg" alt="Web Components" height="64" width="64">|Web Components|
 |---|---|---|
 
 ## :rocket: Empezando
@@ -59,11 +59,15 @@ dataformsjs
 
 **Desarrolle en línea** utilizando el código de juegos: https://www.dataformsjs.com/#/es/playground
 
-<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground.png" alt="Code Playground" width="400">
+<p align="center">
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground.png" alt="Code Playground" width="800">
+</p>
 
 **Descargar un archivo de plantilla** Descargue un archivo de plantilla usando scripts de un CDN: https://www.dataformsjs.com/#/es/getting-started
 
-<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Plantillas de inicio" width="400">
+<p align="center">
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Plantillas de inicio" width="800">
+</p>
 
 ## :page_facing_up: Example Code
 
