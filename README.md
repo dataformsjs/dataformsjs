@@ -60,11 +60,15 @@ dataformsjs
 
 **Develop online** using the code playground: https://www.dataformsjs.com/#/en/playground
 
-<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground.png" alt="Code Playground" width="400">
+<p align="center">
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground.png" alt="Code Playground" width="800">
+</p>
 
 **Download a template file** using scripts from a CDN: https://www.dataformsjs.com/#/en/getting-started
 
-<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Getting Started Templates" width="400">
+<p align="center">
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Getting Started Templates" width="800">
+</p>
 
 ## :page_facing_up: Example Code
 
