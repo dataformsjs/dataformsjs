@@ -24,6 +24,9 @@ Este repositorio contiene el Marco de DataFormsJS, Páginas de ejemplo y Pruebas
 |¡Funciona con|<img src="https://www.dataformsjs.com/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://www.dataformsjs.com/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://www.dataformsjs.com/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://www.dataformsjs.com/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|y más!|
 |---|---|---|---|---|---|
 
+|¡Aprende algo nuevo!|<img src="https://www.dataformsjs.com/img/icons/web-components.svg" alt="Web Components" width="64">|Web Components|
+|---|---|---|
+
 ## :rocket: Empezando
 
 **Comenzar con DataFormsJS es extremadamente fácil.**
