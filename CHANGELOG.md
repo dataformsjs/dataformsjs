@@ -4,6 +4,10 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components.
 
+## 3.1.5 (December 4, 2019)
+
+* Plugin [i18n.js] - Added support for i18n nav menus for the selected page and multiple languages with new attributes [data-i18n-nav-lang] and [data-i18n-nav-selected].
+
 ## 3.1.4 (November 29, 2019)
 
 * Updated readme file for npm

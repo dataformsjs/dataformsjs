@@ -17,6 +17,8 @@
  *     data-i18n-attr
  *     data-i18n-href
  *     data-i18n-replace-text
+ *     data-i18n-nav-lang
+ *     data-i18n-nav-selected
  *
  * When used with Handlebars the following helper will be created:
  *     {{i18n key}}
@@ -39,6 +41,7 @@
 /* eslint strict: ["error", "function"] */
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint no-console: ["error", { allow: ["log", "warn", "error"] }] */
+/* eslint no-prototype-builtins: "off" */
 
 (function () {
     'use strict';
@@ -301,7 +304,8 @@
                 data,
                 x,
                 y,
-                attr;
+                attr,
+                navLang;
 
             // Use either document or specific element
             rootElement = (rootElement ? rootElement : document); 
@@ -385,6 +389,22 @@
                     }
                 }
                 element.innerHTML = html;
+            }
+
+            // Update all Nav Links on the document (not just the root element)
+            // that have [data-i18n-nav-lang] so they point the current page
+            // using the language from the link.
+            elements = document.querySelectorAll('[data-i18n-nav-lang]');
+            for (n = 0, m = elements.length; n < m; n++) {
+                element = elements[n];
+                navLang = element.getAttribute('data-i18n-nav-lang');
+                element.href = window.location.hash.replace('#/' + i18n.currentLocale + '/', '#/' + navLang + '/');
+            }
+
+            // Update text for selected Lang on document Nav elements
+            elements = document.querySelectorAll('[data-i18n-nav-selected]');
+            for (n = 0, m = elements.length; n < m; n++) {
+                elements[n].textContent = i18n.currentLocale.toUpperCase();
             }
         },
 
