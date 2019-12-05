@@ -7,17 +7,17 @@ This document provides a brief overview of changes needed when adding new langua
 The following setup is recommended for local development.
 
 ~~~
-dataformsjs {root-directory}
-├── dataformsjs [repository]
-├── playground [repository]
-└── website [repository]
+dataformsjs    {root-directory}
+├── dataformsjs  [repository]
+├── playground   [repository]
+└── website      [repository]
 ~~~
 
 If you need to install PHP see documents for (Windows, macOS, and Linux) from: https://www.fastsitephp.com/en/getting-started
 
 Currently specific languages are desired and translation work can be paid. For more see: https://www.fastsitephp.com/en/translators-needed
 
-Google Translate is used for initial translations and then human translators fix errors from Google Translate.
+Files are copied from English, Google Translate is used for initial translations, and then human translators fix errors from Google Translate.
 
 ## JSON Files
 
@@ -27,6 +27,7 @@ Files for specific languages end with `*.{lang}.json` and the main files for the
 * `website\public\i18n`
 
 https://github.com/dataformsjs/dataformsjs/tree/master/examples/i18n
+
 https://github.com/dataformsjs/website/tree/master/public/i18n
 
 ## Related HTML Files
@@ -34,6 +35,8 @@ https://github.com/dataformsjs/website/tree/master/public/i18n
 https://github.com/dataformsjs/website/blob/master/app/Views/index.htm
 
 See line #5: `data-i18n-locales="en,..."`. Once all JSON files are created copy the full text for the [data-i18n-locales] attribute and then find/replace globally in all files using a Code Editor. As of 12/2019 there are 30 instances in 12 files.
+
+In the main file above search for `i18n-menu` and add the new language so it shows on the nav menus. There are two locations (one for desktop and one for mobile). Also search for `app.plugins.i18n.currentLocale` and make needed changes so the language links to the translated GitHub readme.
 
 # Code Playground Template
 
