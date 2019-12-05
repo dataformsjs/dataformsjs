@@ -119,10 +119,10 @@ Este ejemplo usa Vue para crear plantillas. Si lo guarda con un editor de texto,
         </script>
 
         <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.1.5/js/DataFormsJS.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/DataFormsJS.min.js"></script>
         <script>
             app.lazyLoad = {
-                jsonData: 'https://cdn.jsdelivr.net/npm/dataformsjs@3.1.5/js/pages/jsonData.min.js',
+                jsonData: 'https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/pages/jsonData.min.js',
                 flags: 'https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css',
             };
         </script>
