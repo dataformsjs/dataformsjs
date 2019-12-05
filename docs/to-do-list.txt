@@ -16,6 +16,15 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+*) Script needed to sync published changes from GitHub on the main production server.
+    Server setup is described here:
+        https://github.com/dataformsjs/website/blob/master/docs/Main%20Site%20Server%20Setup.txt
+    Currently changes are synced manually and it's time consuming.
+    For an example of an existing server-side script that runs on the server to change files see:
+        https://github.com/dataformsjs/website/blob/master/scripts/update-html-files-cdn-version.php
+    Also needed for the Playground site however only the template sub-folder will be synced
+        https://github.com/dataformsjs/playground/tree/master/app_data/template
+
 *) Improve UX of the Quick Ref Page
     https://www.dataformsjs.com/#/en/quick-reference
     - Filtering on all code doesn't work well due to generic terms "JavaScript" "Template", "Vue", etc
