@@ -404,7 +404,7 @@
             // Update text for selected Lang on document Nav elements
             elements = document.querySelectorAll('[data-i18n-nav-selected]');
             for (n = 0, m = elements.length; n < m; n++) {
-                elements[n].textContent = i18n.currentLocale.toUpperCase();
+                elements[n].textContent = i18n.currentLocale;
             }
         },
 
