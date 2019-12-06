@@ -38,6 +38,10 @@ See line #5: `data-i18n-locales="en,..."`. Once all JSON files are created copy 
 
 In the main file above search for `i18n-menu` and add the new language so it shows on the nav menus. There are two locations (one for desktop and one for mobile). Also search for `app.plugins.i18n.currentLocale` and make needed changes so the language links to the translated GitHub readme.
 
+The order of languages for the Nav Menu will be initially based on global internet usage for each language; however this may change in the future:
+
+https://en.wikipedia.org/wiki/Languages_used_on_the_Internet
+
 # Code Playground Template
 
 Each language has it's own template directory/folder. Text content and code comments are updated to the translated language.
