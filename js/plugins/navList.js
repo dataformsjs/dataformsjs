@@ -30,7 +30,7 @@
         });
 
         var path;
-        if (app.routingMode()  === 'hash') {
+        if (app.routingMode() === 'hash') {
             path = (window.location.hash === '' ? '#/' : window.location.hash);
         } else {
             path = window.location.pathname;
