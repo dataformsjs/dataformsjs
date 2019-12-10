@@ -2,15 +2,15 @@
 	<img src="https://github.com/dataformsjs/static-files/raw/master/img/logo/favicon-144.png">
 </p>
 
-# :star2: Welcome to DataFormsJS!
+# :star2: DataFormsJSへようこそ！
 
-**Thanks for visiting!**
+**訪問してくれてありがとう！**
 
-_If you are seeing this message then you are one of the earliest visitors!_ 🌠👍
+_このメッセージが表示されている場合、あなたは最も早い訪問者の一人です！_ 🌠👍
 
-DataFormsJS is a new JavaScript Framework and Standalone React and Web Components. DataFormsJS is small in size, easy to learn, designed for fast development, and to make for a great experience for both developers and end-users. Although it’s new (first published in November of 2019) DataFormsJS was written and used over many years and is extremely stable containing a large number of unit tests.
+DataFormsJSは、新しいJavaScriptフレームワークとスタンドアロンのReactおよびWebコンポーネントです。 DataFormsJSはサイズが小さく、習得が容易で、迅速な開発のために設計されており、開発者とエンドユーザーの両方に素晴らしい体験を提供します。 新しい（2019年11月に最初に公開された）DataFormsJSは長年にわたって記述および使用されており、多数の単体テストを含む非常に安定しています。
 
-This repository contains DataFormsJS’s Framework, Example Pages, and Unit Tests. The main website exists on another repository.
+このリポジトリには、DataFormsJSのフレームワーク、サンプルページ、ユニットテストが含まれています。 メインWebサイトは別のリポジトリに存在します。
 
 ## :dizzy: Why use DataFormsJS?
 
