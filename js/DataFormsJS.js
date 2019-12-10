@@ -70,6 +70,7 @@
     var vueUpdateView = false;
     var vueWatcherDepPrevLen = 0;
     var isIE = (navigator.userAgent.indexOf('Trident/') !== -1);
+    var routingMode = null;
 
     function validateTypeOf(value, typeName, propName, callingFunction) {
         if (typeof value !== typeName) {
@@ -458,8 +459,8 @@
      * Render the view or call functions based on the URL hash.
      * Called from [app.setup()] and the window [hashchange] event.
      */
-    function hashChangeEvent() {
-        var path = window.location.hash,
+    function routeChangeEvent() {
+        var path = (routingMode === 'hash' ? window.location.hash : window.location.pathname),
             controller = null,
             n,
             m,
@@ -487,7 +488,7 @@
                 return; // Still loading same route
             }
             // console.log('***** isLoadingRoute=true *****');
-            window.setTimeout(hashChangeEvent, 200);
+            window.setTimeout(routeChangeEvent, 200);
             routeLoadingCount++;
             return;
         }
@@ -496,7 +497,7 @@
                 return; // Still rendering same route
             }
             // console.log('***** isUpdatingView=true *****');
-            window.setTimeout(hashChangeEvent, 200);
+            window.setTimeout(routeChangeEvent, 200);
             routeLoadingCount++;
             return;
         }
@@ -572,7 +573,7 @@
 
         // Route not found, redirect to the default
         if (controller === null && defaultIndex !== -1) {
-            window.location.hash = '#' + app.settings.defaultRoute;
+            app.routeChange(app.settings.defaultRoute);
             isLoadingRoute = false;
             return;
         }
@@ -1076,6 +1077,70 @@
                 }
                 return (contentType.indexOf('application/json') === 0 ? response.json() : response.text());
             });
+        },
+
+        /**
+         * Return the routing mode. Either 'hash' or 'history'.
+         * Defaults to 'hash'. This only gets set to 'history' if the page
+         * uses <html data-routing-mode="history"> when it is first loaded.
+         * 
+         * 'hash' routing uses the [hashchange] API while 'history' uses
+         * the HTML5 History API. Hash routing works with any page and does't
+         * require server side code however History routing typically requires
+         * server-side changes and additional JS code which is why 'hash' is
+         * the default.
+         * 
+         * @return {string}
+         */
+        routingMode: function () {
+            return routingMode;
+        },
+
+        /**
+         * Change the route path. When using default hash routing, this does not
+         * need to be used. Instead simply set [window.location.hash = '#...'].
+         * 
+         * When using HTML5 History Routing this function calls [window.history.pushState]
+         * with the [path] parameter and displays the new route.
+         * 
+         * @param {string} path 
+         */
+        routeChange: function (path) {
+            if (typeof path !== 'string') {
+                throw new TypeError('Expected string for app.routeChange(path)');
+            }
+            if (routingMode === 'history') {
+                window.history.pushState(null, null, path);
+                routeChangeEvent();
+            } else {
+                window.location.hash = (path.indexOf('#') === 0 ? path : '#' + path);
+            }
+        },
+
+        /**
+         * Use this function to setup manual HTML5 pushstate links. Be default
+         * links that match <a href="/..."> are handled by DataFormsJS, however
+         * if you are using the HTML5 History API for routing and setup custom
+         * links on this page this function can be used for click events:
+         *     link.addEventListener('click', app.pushStateClick);
+         * 
+         * @param {Event} e 
+         */
+        pushStateClick: function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var el = e.target;
+            while (el && !el.href) {
+                // Loop up to the <a> node if a click
+                // event came from a child node.
+                el = el.parentNode;
+            }
+            if (el.href) {
+                app.routeChange(el.href);
+            } else {
+                console.error('app.pushStateClick() called for an unknown link');
+            }
+            return false;
         },
 
         /**
@@ -1587,6 +1652,15 @@
 
             // Private function under [updateView()]
             function afterRender(source, model) {
+                // When using the HTML5 History API update links that start with <a href="/...">
+                // and do not include the [data-no-pushstate] attribute to use [window.history.pushState].
+                if (routingMode === 'history') {
+                    var links = document.querySelectorAll('a[href^="/"]:not([data-no-pushstate]');
+                    Array.prototype.forEach.call(links, function(link) {
+                        link.addEventListener('click', app.pushStateClick);
+                    });
+                }
+
                 // Plugins.onRendered()
                 for (var plugin in app.plugins) {
                     if (app.plugins.hasOwnProperty(plugin) && app.plugins[plugin].onRendered !== undefined) {
@@ -2632,6 +2706,15 @@
             // Get general settings from <html> attributes
             app.settings.graphqlUrl = document.documentElement.getAttribute('data-graphql-url');
 
+            // Routing mode ('history' or 'hash') is set only once
+            // when the page is first loaded. Defaults to 'hash'.
+            if (routingMode === null) {
+                routingMode = document.documentElement.getAttribute('data-routing-mode');
+                if (routingMode !== 'history') {
+                    routingMode = 'hash';
+                }
+            }
+            
             // Automatically add templates as routes that have the attribute [data-route] defined
             var templateSelector = 'script[type="text/x-template"][data-route],template[data-route]';
             var scripts = document.querySelectorAll(templateSelector);
@@ -2740,8 +2823,12 @@
             // Handle hash changes and set the first view (active from url or default).
             // Note, if setup() is called twice addEventListener() does not create duplicate
             // Event Listeners because addEventListener() discards duplicate functions.
-            window.addEventListener('hashchange', hashChangeEvent);
-            hashChangeEvent();
+            if (routingMode === 'hash') {
+                window.addEventListener('hashchange', routeChangeEvent);
+            } else {
+                window.addEventListener('popstate', routeChangeEvent);
+            }
+            routeChangeEvent();
         }
     };
 
