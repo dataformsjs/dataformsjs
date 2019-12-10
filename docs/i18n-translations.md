@@ -52,19 +52,11 @@ https://en.wikipedia.org/wiki/Languages_used_on_the_Internet
 
 # Code Playground Template
 
-Each language has it's own template directory/folder. Text content and code comments are updated to the translated language.
+Each language has it's own template directory/folder. Once a directory is created for a language then it can be used for to create sites. Text content and code comments are updated to the translated language.
 
 `playground\app_data\template\{lang}`
 
 https://github.com/dataformsjs/playground/tree/master/app_data/template
-
-## Code Playground Language Whitelist
-
-PHP code has to be updated so the language can be used.
-
-https://github.com/dataformsjs/playground/blob/master/app/app.php
-
-Line 49: `function getLangauage($lang) {`
 
 ## Main Site Readme
 
