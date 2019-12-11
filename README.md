@@ -164,7 +164,7 @@ Now that both React and Vue have become very popular separate React Components h
 
 **Why did it take so long to release?**
 
-The author of DataFormsJS had a number of busy jobs at the time and was also working on another large project at the same time [FastSitePHP](https://www.fastsitephp.com/en/).
+The author of DataFormsJS had a number of busy jobs at the time and was also working on another large project at the same time [FastSitePHP](https://www.fastsitephp.com/).
 
 **How large is DataFormsJS?**
 

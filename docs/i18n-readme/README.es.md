@@ -59,13 +59,13 @@ dataformsjs
     └── *
 ```
 
-**Desarrolle en línea** utilizando el código de juegos: https://www.dataformsjs.com/#/es/playground
+**Desarrolle en línea** utilizando el código de juegos: https://www.dataformsjs.com/es/playground
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground.png" alt="Code Playground" width="800">
 </p>
 
-**Descargar un archivo de plantilla** Descargue un archivo de plantilla usando scripts de un CDN: https://www.dataformsjs.com/#/es/getting-started
+**Descargar un archivo de plantilla** Descargue un archivo de plantilla usando scripts de un CDN: https://www.dataformsjs.com/es/getting-started
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Plantillas de inicio" width="800">
