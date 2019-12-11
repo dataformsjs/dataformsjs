@@ -17,7 +17,7 @@ TODO List
 --------------------------------------------------------------------------
 
 *) Improve UX of the Quick Ref Page
-    https://www.dataformsjs.com/#/en/quick-reference
+    https://www.dataformsjs.com/en/quick-reference
     - Filtering on all code doesn't work well due to generic terms "JavaScript" "Template", "Vue", etc
         Too many items are returned
     - Likely use a topic based list where the user can click and view one code block at a time

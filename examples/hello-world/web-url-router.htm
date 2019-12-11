@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>DataFormsJS - {{title}} - {{webc}}</title>
+        <link rel="stylesheet" href="hello-world.css">
+        <link rel="canonical" href="https://www.dataformsjs.com/examples/hello-world/{{lang}}/web.htm">
+    </head>
+    <body>
+        <div id="view"></div>
+        
+        <!--
+            Hidden file for developer testing of the <url-router> and <url-route> Web Components.
+
+            This file is hidden because neither the main server or the test server are setup to handle
+            HTML5 History Routes on this file. The main server is setup to use HTML5 History Routes
+            for the main site itself and not any of the examples.
+
+            This file works unless the user refresh on the Hello {Name} page because that would result
+            in a 404 errors since the server is not setup to handle child routes on this page.
+        -->
+        <url-router view-selector="#view">
+                    
+            <url-route path="/examples/hello-world/{{lang}}/web-url-router.htm" default-route>
+                <template>
+                    <h1>{{hello_world}}</h1>
+                    <p>{{modify_this}} <a href="/examples/hello-world/{{lang}}/web-url-router.htm/{{param_your_name}}">{{URL}}</a> {{with_your_name}}</p>
+                    <div class="home-page-animation">
+                        <img src="sun.svg" class="sun">
+                        <div class="orbit">
+                            <img src="planet.svg" class="planet">
+                            <img src="moon.svg" class="moon">
+                        </div>
+                    </div>
+                </template>
+            </url-route>
+
+            <url-route path="/examples/hello-world/{{lang}}/web-url-router.htm/:{{param_name}}">
+                <template>
+                    <h1>{{hello}} <span url-param="{{param_name}}"></span></h1>
+                    <p><a href="/examples/hello-world/{{lang}}/web-url-router.htm">{{back_home}}</a></p>
+                    <p><a href="/examples/hello-world/{{lang}}/web-url-router.htm/redirect/test">Redirect Test</a></p>
+                </template>
+            </url-route>
+
+            <url-route
+                path="/examples/hello-world/{{lang}}/web-url-router.htm/redirect/test"
+                redirect="/examples/hello-world/{{lang}}/web-url-router.htm/Redirected" />
+        </url-router>
+        
+        <script type="module" src="/js/web-components/url-router.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@3.2.0/js/web-components/safari-nomodule.min.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@3.2.0/js/web-components/old-browser-warning.min.js"></script>        
+    </body>
+</html>

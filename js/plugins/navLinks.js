@@ -28,8 +28,14 @@
             a.classList.remove('active');
         });
 
-        var hash = (window.location.hash === '' ? '#/' : window.location.hash);
-        elements = element.querySelectorAll("nav a[href='" + hash + "']");
+        var path;
+        if (app.routingMode() === 'hash') {
+            path = (window.location.hash === '' ? '#/' : window.location.hash);
+        } else {
+            path = window.location.pathname;
+        }
+
+        elements = element.querySelectorAll("nav a[href='" + path + "']");
         Array.prototype.slice.call(elements).forEach(function (a) {
             a.classList.add('active');
         });

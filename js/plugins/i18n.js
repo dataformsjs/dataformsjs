@@ -197,8 +197,17 @@
             this.currentLocale = null;
 
             // Get lang from URL '/:lang/path1/path2/etc'
-            if (isValid && window.location.hash.indexOf('#/') === 0) {
-                this.currentLocale = window.location.hash.split('/')[1];
+            var hashRouting = (app.routingMode()  === 'hash');
+            if (hashRouting) {
+                if (isValid && window.location.hash.indexOf('#/') === 0) {
+                    this.currentLocale = window.location.hash.split('/')[1];
+                }
+            } else {
+                if (isValid && window.location.pathname.split('/').length > 1) {
+                    this.currentLocale = window.location.pathname.split('/')[1];
+                }
+            }
+            if (this.currentLocale !== null) {
                 if (this.currentLocale === '' || this.supportedLocales.indexOf(this.currentLocale) === -1) {
                     this.currentLocale = null;
                 }
@@ -210,7 +219,11 @@
             if (this.currentLocale === null) {
                 next(false);
                 if (window.app && window.app.controller && window.app.controller('/:lang/') !== null) {
-                    window.location = '#/' + this.defaultLocale + '/';
+                    if (hashRouting) {
+                        window.location = '#/' + this.defaultLocale + '/';
+                    } else {
+                        app.changeRoute('/' + this.defaultLocale + '/');
+                    }
                 }
                 return;
             }
@@ -305,7 +318,10 @@
                 x,
                 y,
                 attr,
-                navLang;
+                navLang,
+                hashRouting = (app.routingMode()  === 'hash'),
+                href,
+                isI18nHref;
 
             // Use either document or specific element
             rootElement = (rootElement ? rootElement : document); 
@@ -345,7 +361,9 @@
             for (n = 0, m = elements.length; n < m; n++) {
                 element = elements[n];
                 data = element.getAttribute('href').split('/');
-                if (element.getAttribute('href').indexOf('#/') !== -1 && data.length > 1) {
+                href = element.getAttribute('href');
+                isI18nHref = (hashRouting ? href.indexOf('#/') === 0 : href.indexOf('/') === 0); 
+                if (isI18nHref && data.length > 1) {
                     data[1] = this.currentLocale;
                     element.href = data.join('/');
                 }
@@ -398,7 +416,12 @@
             for (n = 0, m = elements.length; n < m; n++) {
                 element = elements[n];
                 navLang = element.getAttribute('data-i18n-nav-lang');
-                element.href = window.location.hash.replace('#/' + i18n.currentLocale + '/', '#/' + navLang + '/');
+                if (hashRouting) {
+                    element.href = window.location.hash.replace('#/' + i18n.currentLocale + '/', '#/' + navLang + '/');
+                } else {
+                    element.href = window.location.pathname.replace('/' + i18n.currentLocale + '/', '/' + navLang + '/');
+                    element.addEventListener('click', app.pushStateClick);
+                }
             }
 
             // Update text for selected Lang on document Nav elements
