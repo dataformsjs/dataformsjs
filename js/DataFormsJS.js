@@ -459,7 +459,7 @@
      * Render the view or call functions based on the URL hash.
      * Called from [app.setup()] and the window [hashchange] event.
      */
-    function routeChangeEvent() {
+    function handleRouteChange() {
         var path = (routingMode === 'hash' ? window.location.hash : window.location.pathname),
             controller = null,
             n,
@@ -488,7 +488,7 @@
                 return; // Still loading same route
             }
             // console.log('***** isLoadingRoute=true *****');
-            window.setTimeout(routeChangeEvent, 200);
+            window.setTimeout(handleRouteChange, 200);
             routeLoadingCount++;
             return;
         }
@@ -497,7 +497,7 @@
                 return; // Still rendering same route
             }
             // console.log('***** isUpdatingView=true *****');
-            window.setTimeout(routeChangeEvent, 200);
+            window.setTimeout(handleRouteChange, 200);
             routeLoadingCount++;
             return;
         }
@@ -573,7 +573,13 @@
 
         // Route not found, redirect to the default
         if (controller === null && defaultIndex !== -1) {
-            app.routeChange(app.settings.defaultRoute);
+            // If the default path is a page for a specific language and the
+            // i18n plugin is being used then redirect to the default language.
+            var newPath = app.settings.defaultRoute;
+            if (app.settings.defaultRoute === '/:lang/' && app.plugins.i18n !== undefined && app.plugins.i18n.defaultLocale) {
+                newPath = '/' + app.plugins.i18n.defaultLocale + '/';
+            }
+            app.changeRoute(newPath);
             isLoadingRoute = false;
             return;
         }
@@ -1105,13 +1111,13 @@
          * 
          * @param {string} path 
          */
-        routeChange: function (path) {
+        changeRoute: function (path) {
             if (typeof path !== 'string') {
-                throw new TypeError('Expected string for app.routeChange(path)');
+                throw new TypeError('Expected string for app.changeRoute(path)');
             }
             if (routingMode === 'history') {
                 window.history.pushState(null, null, path);
-                routeChangeEvent();
+                handleRouteChange();
             } else {
                 window.location.hash = (path.indexOf('#') === 0 ? path : '#' + path);
             }
@@ -1136,7 +1142,7 @@
                 el = el.parentNode;
             }
             if (el.href) {
-                app.routeChange(el.href);
+                app.changeRoute(el.href);
             } else {
                 console.error('app.pushStateClick() called for an unknown link');
             }
@@ -2824,11 +2830,11 @@
             // Note, if setup() is called twice addEventListener() does not create duplicate
             // Event Listeners because addEventListener() discards duplicate functions.
             if (routingMode === 'hash') {
-                window.addEventListener('hashchange', routeChangeEvent);
+                window.addEventListener('hashchange', handleRouteChange);
             } else {
-                window.addEventListener('popstate', routeChangeEvent);
+                window.addEventListener('popstate', handleRouteChange);
             }
-            routeChangeEvent();
+            handleRouteChange();
         }
     };
 

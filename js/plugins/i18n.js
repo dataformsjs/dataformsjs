@@ -222,7 +222,7 @@
                     if (hashRouting) {
                         window.location = '#/' + this.defaultLocale + '/';
                     } else {
-                        app.routeChange('/' + this.defaultLocale + '/');
+                        app.changeRoute('/' + this.defaultLocale + '/');
                     }
                 }
                 return;
