@@ -4,6 +4,10 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components.
 
+## 3.3.1 (December 11, 2019)
+
+* Fixed error `app.routingMode is not a function` when standard plugins [i18n.js], [navList.js], [navLinks.js] are used with React or Web Components
+
 ## 3.3.0 (December 11, 2019)
 
 * Added Support for HTML5 History API
@@ -12,6 +16,7 @@ Overall the core Framework files are expected to remain stable however the versi
   * Main framework file [DataFormsJS.js] updated with new public functions [changeRoute(path), routingMode(), pushStateClick(event)] - https://github.com/dataformsjs/dataformsjs/blob/master/js/DataFormsJS.js
   * Updated Plugins: [i18n.js], [navList.js], [navLinks.js] - https://github.com/dataformsjs/dataformsjs/tree/master/js/plugins
   * Web Components - Added &lt;url-router&gt; and &lt;url-route&gt; in https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/url-router.js
+  * Web Components Example Page - https://www.dataformsjs.com/examples/hello-world/en/web-url-router.htm
 
 ## 3.2.0 (December 6, 2019)
 

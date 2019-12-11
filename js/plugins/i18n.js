@@ -197,7 +197,7 @@
             this.currentLocale = null;
 
             // Get lang from URL '/:lang/path1/path2/etc'
-            var hashRouting = (app.routingMode()  === 'hash');
+            var hashRouting = (app.routingMode === undefined || app.routingMode()  === 'hash');
             if (hashRouting) {
                 if (isValid && window.location.hash.indexOf('#/') === 0) {
                     this.currentLocale = window.location.hash.split('/')[1];
@@ -319,7 +319,7 @@
                 y,
                 attr,
                 navLang,
-                hashRouting = (app.routingMode()  === 'hash'),
+                hashRouting = (app.routingMode === undefined || app.routingMode()  === 'hash'),
                 href,
                 isI18nHref;
 
