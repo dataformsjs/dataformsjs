@@ -76,10 +76,11 @@ app.get('/:file', (req, res, file) => {
 // the js plugin [i18n] is not used, rather the content of the file is updated
 // using find/replace with i18n key values before sending to the client. 
 //
-// http://127.0.0.1:8080/hello-world/en/hbs.htm
-// http://127.0.0.1:8080/hello-world/en/js.htm
-// http://127.0.0.1:8080/hello-world/en/web.htm
-app.get('/hello-world/:lang/:file', (req, res, lang, file) => {
+// http://127.0.0.1:8080/examples/hello-world/en/hbs.htm
+// http://127.0.0.1:8080/examples/hello-world/en/js.htm
+// http://127.0.0.1:8080/examples/hello-world/en/web.htm
+// http://127.0.0.1:8080/examples/hello-world/en/web-url-router.htm
+app.get('/examples/hello-world/:lang/:file', (req, res, lang, file) => {
     // CSS or SVG file
     if (!file.endsWith('.htm')) {
         const filePath = path.join(__dirname, `hello-world/${file}`);

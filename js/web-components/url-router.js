@@ -1,28 +1,15 @@
 /**
  * DataFormsJS <url-router> and <url-route> Web Components
  *
- * These component handles URL routing and can be used to create
- * Single Page Applications (SPA) without having to use a large
- * JavaScript framework. These components are similar to
- * <url-hash-router> and <url-hash-route> components.
+ * These component handles URL routing with the HTML5 History API and can be
+ * used to create Single Page Applications (SPA) without having to use a large
+ * JavaScript framework. These components are similar to <url-hash-router>
+ * and <url-hash-route> components.
  *
  * @link     https://www.dataformsjs.com
  * @author   Conrad Sollitt (http://www.conradsollitt.com)
  * @license  MIT
  */
- 
-/*    
-    TODO - in early development, related dev links:
-    https://developer.mozilla.org/en-US/docs/Web/API/History/pushState
-
-    Once this version is finished the main app will be updated.
-    Currently this file works when clicking on the links, however any
-    related server code needs to be updated to actually handle the specific paths.
-
-    The examples on dataformsjs.com such as the hello world will likely keep
-    using hash routing, however the main site will be updated to use the 
-    DOM History API. 
-*/
 
 /* Validates with both [jshint] and [eslint] */
 /* For online eslint - Source Type = 'module' must be manually selected. */
@@ -54,10 +41,10 @@ shadowTmpl.innerHTML = `
 
 /**
  * Private function to download route templates from the [src] attribute.
- * 
- * @param {UrlHashRouter} router
+ *
+ * @param {UrlRouter} router
  * @param {HTMLElement} view
- * @param {UrlHashRoute} route 
+ * @param {UrlRouter} route
  * @param {object} urlParams
  */
 function downloadTemplate(router, view, route, urlParams) {
@@ -99,10 +86,10 @@ function downloadTemplate(router, view, route, urlParams) {
 
 /**
  * Private function called when the route changes
- * 
- * @param {UrlHashRouter} router
+ *
+ * @param {UrlRouter} router
  * @param {HTMLElement} view
- * @param {string} html 
+ * @param {string} html
  * @param {object} urlParams
  */
 function setView(router, view, html, urlParams) {
@@ -119,12 +106,12 @@ function setView(router, view, html, urlParams) {
     // Update value/textContent for all elements with [url-param] attribute
     elements = view.querySelectorAll('[url-param]');
     for (const element of elements) {
-        const field = element.getAttribute('url-param'); 
+        const field = element.getAttribute('url-param');
         const value = (urlParams[field] === undefined ? '' : urlParams[field]);
         setElementText(element, value);
     }
 
-    // Update all elements with the [url-attr-param] attribute. 
+    // Update all elements with the [url-attr-param] attribute.
     // This will typically be used to replace <a href> and other
     // attributes with values from the URL.
     elements = view.querySelectorAll('[url-attr-param]');
@@ -135,14 +122,31 @@ function setView(router, view, html, urlParams) {
     // For Safari, Samsung Internet, and Edge
     polyfillCustomElements();
 
+    // When using the HTML5 History API update links that start with <a href="/...">
+    // and do not include the [data-no-pushstate] attribute to use [window.history.pushState].
+    const links = document.querySelectorAll('a[href^="/"]:not([data-no-pushstate]');
+    for (const link of links) {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (e.currentTarget.href) {
+                window.history.pushState(null, null, e.currentTarget.href);
+                router.updateView();
+            } else {
+                showErrorAlert('Error, link click does not work because href is missing.');
+            }
+            return false;
+        });
+    }
+
     // Custom Event
     router.dispatchEvent(new Event('contentLoaded'));
 }
 
 /**
- * Class for <url-hash-router> Custom Element
+ * Class for <url-router> Custom Element
  */
-class UrlHashRouter extends HTMLElement {
+class UrlRouter extends HTMLElement {
     constructor() {
         super();
         const shadowRoot = this.attachShadow({mode: 'open'});
@@ -164,26 +168,26 @@ class UrlHashRouter extends HTMLElement {
         return this._currentRoute;
     }
 
-    get rootUrl() {
-        const rootUrl = document.documentElement.getAttribute('data-root-url');
-        if (rootUrl === null) {
-            showErrorAlert('Missing Attribute <html data-root-url="{root_url}>');
-            return null;
-        }
-        return rootUrl;
-    }
+    // get rootUrl() {
+    //     const rootUrl = document.documentElement.getAttribute('data-root-url');
+    //     if (rootUrl === null) {
+    //         showErrorAlert('Missing Attribute <html data-root-url="{root_url}>');
+    //         return null;
+    //     }
+    //     return rootUrl;
+    // }
 
-    get path() {
-        const rootUrl = this.rootUrl;
-        if (rootUrl === null) {
-            return null;
-        } else if (window.location.href.indexOf(rootUrl) !== 0) {
-            showErrorAlert('Unknown path for <url-router>');
-            return null;
-        }
-        const path = window.location.href.substr(rootUrl.length);
-        return path;
-    }
+    // get path() {
+    //     const rootUrl = this.rootUrl;
+    //     if (rootUrl === null) {
+    //         return null;
+    //     } else if (window.location.href.indexOf(rootUrl) !== 0) {
+    //         showErrorAlert('Unknown path for <url-router>');
+    //         return null;
+    //     }
+    //     const path = window.location.href.substr(rootUrl.length);
+    //     return path;
+    // }
 
     /**
      * Called when the element is added to the page
@@ -193,27 +197,6 @@ class UrlHashRouter extends HTMLElement {
         // Wait until child route elements are defined otherwise
         // custom properties such as [path] will not be available.
         await componentsAreDefined(this, 'url-route');
-
-        // Update local links to use the DOM History API
-        // TODO - [setTimeout] is a hack until the event order is determined
-        window.setTimeout(() => {
-            const links = document.querySelectorAll('a[href^="#"]');
-            for (const link of links) {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const rootUrl = this.rootUrl;
-                    if (rootUrl === null) {
-                        return; // [this.rootUrl] will show an error
-                    }
-                    const pos = link.href.indexOf('#');
-                    const path = link.href.substr(pos+1);
-                    window.history.pushState(null, null, rootUrl + path);
-                    this.updateView();
-                    return false;
-                });
-            }    
-        }, 200);
 
         // Reset
         this._currentRoute = null;
@@ -231,10 +214,8 @@ class UrlHashRouter extends HTMLElement {
         }
 
 		// Get URL Path
-        let path = this.path;
-        if (path === null) {
-            return; // [this.path] will show an error
-        } else if (path === '') {
+        let path = window.location.pathname;
+        if (path === '') {
             path = '/';
         }
 
@@ -251,9 +232,9 @@ class UrlHashRouter extends HTMLElement {
             if (result.isMatch) {
                 // Redirect Route?
                 const redirect = route.redirect;
-                if (redirect !== null) {
-                    // window.location.hash = '#' + redirect;
-                    console.log('TODO - handle [route.redirect]');
+                if (redirect !== null && redirect !== window.location.pathname) {
+                    window.history.pushState(null, null, route.redirect);
+                    this.updateView();
                     return;
                 }
                 // Show Route from <template>, for routes that use [src]
@@ -275,12 +256,12 @@ class UrlHashRouter extends HTMLElement {
 
         // No matching route, use a default route if one exists
         if (defaultRoute) {
-            // const path = defaultRoute.path;
-            // if (path !== '' && path.indexOf(':') === -1) {
-                // window.location.hash = '#' + defaultRoute.path;
-                console.log('TODO - need to handle [defaultRoute]');
+            const path = defaultRoute.path;
+            if (path !== '' && path.indexOf(':') === -1) {
+                window.history.pushState(null, null, path);
+                this.updateView();
                 return;
-            // }
+            }
         }
 
         // No matching and no default route
@@ -290,17 +271,17 @@ class UrlHashRouter extends HTMLElement {
 
     /**
      * Check if a Route path is a match to a specified URL hash.
-     * 
+     *
      * Examples:
      *     routeMatches('/page1', '/page2')
      *         returns { isMatch:false }
-     * 
+     *
      *     routeMatches('/orders/edit/123', '/:record/:view/:id')
      *         returns {
      *             isMatch: true,
      *             urlParams: { record:'orders', view:'edit', id:'123' }
      *         }
-     * 
+     *
      * @param {string} path The URL hash to compare against
      * @param {string} routePath The route, dynamic values are prefixed with ':'
      * @return {object}
@@ -339,7 +320,7 @@ class UrlHashRouter extends HTMLElement {
 
     /**
      * Show an error in the element. This is used for fatal errors related to setup.
-     * @param {string} message 
+     * @param {string} message
      */
     showFatalError(message) {
         this.style.display = 'block';
@@ -355,15 +336,15 @@ class UrlHashRouter extends HTMLElement {
 }
 
 /**
- * Class for <url-hash-route> Custom Element
+ * Class for <url-route> Custom Element
  */
-class UrlHashRoute extends HTMLElement {
+class UrlRoute extends HTMLElement {
     constructor() {
         super();
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
     }
-    
+
     get path() {
         return this.getAttribute('path');
     }
@@ -399,5 +380,5 @@ class UrlHashRoute extends HTMLElement {
  * Define Custom Elements
  */
 showOldBrowserWarning();
-window.customElements.define('url-router', UrlHashRouter);
-window.customElements.define('url-route', UrlHashRoute);
+window.customElements.define('url-router', UrlRouter);
+window.customElements.define('url-route', UrlRoute);
