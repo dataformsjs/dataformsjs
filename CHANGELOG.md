@@ -4,6 +4,10 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components.
 
+## 3.3.3 (December 11, 2019)
+
+* Readme file update so images show in npm
+
 ## 3.3.2 (December 11, 2019)
 
 * Fixed Web Components edge case error if both [utils.js] and [utils.min.js] are used on the same page, error only showed up in console and didn't impact the page. https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/utils.js
