@@ -217,7 +217,7 @@ TODO List
     - Need demos for Handlebar Helpers, Vue Directives and React Format class
     - All Parameters for I18N Files and Classes, example for React:
         const defaultLocale = 'en';
-        const supportedLocales = ['en', 'jp'];
+        const supportedLocales = ['en', 'ja'];
         const fileName = 'countries';
         const fileDir = 'http://localhost:3000/i18n';
         const i18n = new I18n(defaultLocale, supportedLocales, fileName, fileDir);
@@ -520,11 +520,6 @@ TODO List
 
 *) Number and Date/Time formatting for all demos [places-demo-*]
     - Needed on JS and Web Components demos
-
-*) Support for HTML Pushstate
-    - First create a web component <url-pushstate-router> based on <url-hash-router>
-    - Then later add to the main framework if it makes sense too
-    - If adding to the main framework the code should be kept small
 
 *) Create Unit Tests for Vue
     This will be similar to the main unit test files for each template,
