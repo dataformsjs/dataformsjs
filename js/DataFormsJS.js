@@ -1135,14 +1135,8 @@
         pushStateClick: function (e) {
             e.preventDefault();
             e.stopPropagation();
-            var el = e.target;
-            while (el && !el.href) {
-                // Loop up to the <a> node if a click
-                // event came from a child node.
-                el = el.parentNode;
-            }
-            if (el.href) {
-                app.changeRoute(el.href);
+            if (e.currentTarget.href) {
+                app.changeRoute(e.currentTarget.href);
             } else {
                 console.error('app.pushStateClick() called for an unknown link');
             }
