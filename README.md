@@ -150,7 +150,7 @@ The [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master
 
 DataFormsJS is looking for paid translators so that it can be translated into multiple languages quickly. Translations can be done in many steps so even if you have just an hour or two it will be enough to help and earn some money.
 
-Languages currently needed: Arabic, Chinese Simplified (zh-Hans), French, German, Italian, Japanese, Korean, Persian, Russian
+Languages currently needed: Arabic, French, German, Italian, Japanese, Persian, Russian
 
 ## :question: FAQ
 
