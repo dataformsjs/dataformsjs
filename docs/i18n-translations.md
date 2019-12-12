@@ -62,7 +62,7 @@ https://github.com/dataformsjs/playground/tree/master/app_data/template
 
 ## Main Site Readme
 
-Some of this content is duplicated from the main home page so some content simply be copied after translating JSON files.
+Some of this content is duplicated from the main home page so some content simply be copied after translating JSON files. The 'Paid Translators Needed' section should be manually deleted on the copied file.
 
 `dataformsjs\docs\i18n-readme\README.{lang}.md`
 
