@@ -2,42 +2,42 @@
 	<img src="https://github.com/dataformsjs/static-files/raw/master/img/logo/favicon-144.png">
 </p>
 
-# :star2: Bem-vindo ao DataFormsJS!
+# :star2: Bem vindo ao DataFormsJS!
 
 **Obrigado pela visita!**
 
 _Se você estiver vendo esta mensagem, será um dos primeiros visitantes!_ 🌠👍
 
-DataFormsJS is a new JavaScript Framework and Standalone React and Web Components. DataFormsJS is small in size, easy to learn, designed for fast development, and to make for a great experience for both developers and end-users. Although it’s new (first published in November of 2019) DataFormsJS was written and used over many years and is extremely stable containing a large number of unit tests.
+DataFormsJS é um novo framework JavaScript e app autônomo de React e Web Components. Sendo pequeno, fácil de aprender, projetado para desenvolvimento rápido o DataFormsJS proporcionando uma grande experiência para desenvolvedores e usuários finais. Mesmo sendo novo (publicado em novembro de 2019), o DataFormsJS foi escrito e usado por muitos anos e tem um sólido nível de estabilidade com um grande número de testes de unidade.
 
-This repository contains DataFormsJS’s Framework, Example Pages, and Unit Tests. The main website exists on another repository.
+Este repositório contém o framework DataFormsJS, páginas exemplo e testes de undiade. O site principal (/website) está em outro repositório.
 
-## :dizzy: Why use DataFormsJS?
+## :dizzy: Por que utilizar o DataFormsJS?
 
-|<img src="https://www.dataformsjs.com/img/icons/fast.svg" alt="Faster Development" width="60">|<img src="https://www.dataformsjs.com/img/icons/small-size.svg" alt="Small Size" width="60">|<img src="https://www.dataformsjs.com/img/icons/light-switch.svg" alt="Easy to Learn" width="60">|
+|<img src="https://www.dataformsjs.com/img/icons/fast.svg" alt="Desenvolvmento Rápido" width="60">|<img src="https://www.dataformsjs.com/img/icons/small-size.svg" alt="Pequeno em Tamanho" width="60">|<img src="https://www.dataformsjs.com/img/icons/light-switch.svg" alt="Fácil de Aprender" width="60">|
 |---|---|---|
-|**Faster Development** Display data from Web and GraphQL Services using only HTML Markup and define App and Site features using HTML Attributes.|**Small Size** All files are small in size and downloaded only when used allowing for greater performance and a smaller site.|**Easy to Learn** DataFormsJS is built around HTML, CSS, JavaScript, Templating and has a minimal JavaScript and HTML API so you can get started immediately.|
+|**Desenvolvimento Rápido** Mostre dados dos serviços Web e GraphQL usando marcação HTML e define as características do App e Site utilizando atributos HTML.|**Tamanho Pequeno** Todos os arquivo são pequenos e baixados somente quando usados permitindo melhor desempenho e um site menor.|**Fácil de Aprender** O DataFormsJS é desenvolvido em torno de HTML, CSS, JavaScript, Templating e tem uma API minima de JavaScript and HTML para que você possa iniciar imediatamente.|
 
-|<img src="https://www.dataformsjs.com/img/icons/column.svg" alt="Stability" width="60">|<img src="https://www.dataformsjs.com/img/icons/water.svg" alt="Flexibility" width="60">|<img src="https://www.dataformsjs.com/img/icons/star.svg" alt="Better Sites" width="60">|
+|<img src="https://www.dataformsjs.com/img/icons/column.svg" alt="Estabilidade" width="60">|<img src="https://www.dataformsjs.com/img/icons/water.svg" alt="Flexibilidade" width="60">|<img src="https://www.dataformsjs.com/img/icons/star.svg" alt="Sites Melhores" width="60">|
 |---|---|---|
-|**Stability** Designed for long term use; a site developed with DataFormsJS today will work great and be easy to maintain decades from now.|**Flexibility** Works well with other code and the API is designed for flexibility and custom features. If you can think it, you can build it with DataFormsJS.|**Better Sites** DataFormsJS is designed to be a great experience for both developers and end users allowing you to create better sites.|
+|**Estabilidade** Desenvolvido para uso de longo prazo; um site desenvolvido com DataFormsJS hoje funcionará e será de fácil manutenção por décadas.|**Flexibilidade** Funciona bem com outros códigos e a API é desenvolvida para flexibilidade e características personalizadas. Se você consegue imaginar, você consegue desenvolvê-lo com o DataFormsJS.|**Sites Melhores** O DataFormsJS é desenvolvido para ser uma grande experiência para desenvolvedores e usuários finais permitindo que você crie sites melhores.|
 
-|Works with|<img src="https://www.dataformsjs.com/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://www.dataformsjs.com/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://www.dataformsjs.com/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://www.dataformsjs.com/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|and more!|
+|Funciona com|<img src="https://www.dataformsjs.com/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://www.dataformsjs.com/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://www.dataformsjs.com/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://www.dataformsjs.com/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|e mais!|
 |---|---|---|---|---|---|
 
-|Learn something new!|<div><img src="https://www.dataformsjs.com/img/icons/web-components.svg" alt="Web Components" width="64"></div><div>Web Components</div>|
+|Aprenda uma coisa nova!|<div><img src="https://www.dataformsjs.com/img/icons/web-components.svg" alt="Web Components" width="64"></div><div>Web Components</div>|
 |---|---|
 
-## :rocket: Getting Started
+## :rocket: Começando
 
-**Getting started with DataFormsJS is extremely easy.**
+**Começando com o DataFormsJS é extremamente fácil.**
 
-Install from **npm**, this option works great if you are using create-react-app or want a copy of all files locally:
+Instale utilizando **npm**, esta opção funciona muito bem se você está usando create-react-app ou quer uma cópia local de todos os arquivos:
 ```
 npm install dataformsjs
 ```
 
-**Download this Repository**. It’s small to download because this repository has no local dependencies and loads Handlebars, Vue, and React from a CDN. To run all example files Node needs to be installed and then you can run one of the following servers:
+**Baixe este Repositório**. É pequeno para baixar porque este repositório não tem dependências locais e carrega o Handlebars, o Vue e o React de um CDN. Para rodar todos os arquivos de exemplo o Node precisa ser instalado para que você possa rodar um dos seguintes servidores:
 
 ```
 dataformsjs
@@ -47,7 +47,7 @@ dataformsjs
     └── server.js
 ```
 
-JavaScript files for the Framework and standalone React and Web Components exist under the [js] directory. 
+Os arquivos JavaScript para o framework e app autonomos em React e Web Components existem sob o diretório [js].
 
 ```
 dataformsjs
@@ -58,21 +58,21 @@ dataformsjs
     └── *
 ```
 
-**Develop online** using the code playground: https://www.dataformsjs.com/#/en/playground
+**Desenvolva online** usando o Code Playground: https://www.dataformsjs.com/#/en/playground
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground.png" alt="Code Playground" width="800">
 </p>
 
-**Download a template file** using scripts from a CDN: https://www.dataformsjs.com/#/en/getting-started
+**Baixe um arquivo modelo** usando scripts de um CDN: https://www.dataformsjs.com/#/en/getting-started
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Getting Started Templates" width="800">
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Começando com Modelos" width="800">
 </p>
 
-## :page_facing_up: Example Code
+## :page_facing_up: Código Exemplo
 
-This example uses Vue for templating. If you save it with a text editor you can view it locally in your browser. Additionally the main site contains many templates and examples.
+Este exemplo usa Vue para templating. Se você salvar isso com um editor de texto poderá visualizá-lo localmente em seu navegador. Além disso o site principal contém muitos modelos e exemplos.
 
 ```html
 <!doctype html>
@@ -80,22 +80,22 @@ This example uses Vue for templating. If you save it with a text editor you can 
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>DataFormsJS Example using Vue</title>
+        <title>Exemplo do DataFormsJS usando Vue</title>
     </head>
     <body>
         <header>
             <nav>
-                <a href="#/">Home</a>
-                <a href="#/data">Data Example</a>
+                <a href="#/">Início</a>
+                <a href="#/data">Dados de Exemplo</a>
             </nav>
         </header>
 
         <main id="view"></main>
 
         <template data-route="/">
-            <h1>Hello World!</h1>
+            <h1>Olá Mundo!</h1>
         </template>
-        
+
         <script
             type="text/x-template"
             data-engine="vue"
@@ -106,10 +106,10 @@ This example uses Vue for templating. If you save it with a text editor you can 
             data-lazy-load="jsonData, flags"
             data-countries>
 
-            <h3 v-if="isLoading" v-cloak class="loading">Loading...</h3>
+            <h3 v-if="isLoading" v-cloak class="loading">Carregando...</h3>
             <h3 v-if="hasError" v-cloak class="error">{{ errorMessage }}</h3>
             <div v-if="isLoaded" v-cloak>
-                <h1>Countries</h1>
+                <h1>Países</h1>
                 <ul>
                     <li v-for="country in countries">
                         <i v-bind:class="country.iso.toLowerCase() + ' flag'"></i>
@@ -133,65 +133,65 @@ This example uses Vue for templating. If you save it with a text editor you can 
 
 ## :handshake: Contributing
 
-**All contributions are welcome.** For major changes including breaking changes to existing code or updating existing graphics and files, please open an issue first to discuss what you would like to change. Some examples of items to contribute:
+**Toda contribuição é bem vinda.** Para grandes mudanças incluindo mudanças sifnificativas em código existente ou atualizando gráficos e arquivos, por favor abra primeiro um pedido para discutir o que gostaria que fosse modificado. Alguns exemplos de itens para contribuir:
 
-* Typos and Grammar Mistakes - If you see any please fix and submit.
-* Documentation and Tutorials. Currently most documentation is in the quick reference section and code comments so a lot of documentation will be needed and written over time.
-* Many more examples will be developed in the future. If you have ideas please submit.
-* Additional Unit Tests and Testing Methods - Core Framework files and features are Unit Tested however every line of code should be Unit Tested in all files. Currently there is are no Unit Tests for Vue, React, and Web Components.
-* Additional Scripts, React Components, Web Components, and Features.
-* New Ideas - If you have ideas on how to improve then please open an issue to discuss.
+* Erros de digitação e erros de Gramática - Se vir algum por favor conserte-o e envie-o.
+* Documentação e Tutoriais. Atualmente a maior parte da documentação está na seção Referência Rápida e comentários de código então bastante documentação será escrita com o tempo.
+* Futuramente muito mais exemplos serão desenvolvidos. Se você tem ideias, por favor envie-as.
+* Testes de unidade adicionais e metodologias de teste - Arquivos do núcleo do framework e funcionalidades são testadas através de testes de unidade no entanto cada linha de código deveria ser testada dessa forma em todos os arquivos. Atualmente não exitem testes de unidade para Vue, React e Web Components.
+* Scripts adicionais, components React, Web Components e funcionalidades.
+* Novas Ideias - Se você tem ideias de como melhorar por favor abra um pedido para que possamos discutir. (??)
 
-The [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt) file contains the full list of items that are currently pending and is good place to start.
+O arquivo [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt) contém a lista complete de itens que estão atualmente pendentes e é um bom ponto para começar.
 
-## :moneybag: Paid Translators Needed!
+## :moneybag: Procurando por Tradutores Remunerados!
 
-**Are you fluent in English and another language? <a href="https://www.fastsitephp.com/en/translators-needed" target="_blank">If so then please get in touch</a>.**
+**Você é fluente em Inglês e outra língua? <a href="https://www.fastsitephp.com/en/translators-needed" target="_blank">Se se sim, por favor entre em contato</a>.**
 
-DataFormsJS is looking for paid translators so that it can be translated into multiple languages quickly. Translations can be done in many steps so even if you have just an hour or two it will be enough to help and earn some money.
+O DataFormsJS está procurando por tradutores remunerados para que possa ser traduzido para múltiplos idiomas rapidamente. Traduções podem ser feitas em várias etapas, então mesmo se você tiver somente uma hora ou duas será o suficiente para ajudar ganhando algum dinheiro.
 
-Languages currently needed: Arabic, Chinese Simplified (zh-Hans), French, German, Italian, Japanese, Korean, Persian, Russian
+Idiomans atualmente necessitando de tradutores: Árabe, Chinês Simplificado (zh-Hans), Francês, Alemão, Italiano, Japonês, Coreano, Persa, Russo
 
 ## :question: FAQ
 
-**Why was DataFormsJS Created?**
+**Por que o DataFormsJS foi criado?**
+- PAREI AQUI -
+O desenvolvimento e uso do inicial  do DataFormsJS ocorreu de forma privada em 2013 para permitir um desenvolvimento rápido de alta qualidade e Aplicativos de Página Única livres de erros (SPA). O DataFormsJS foi desenvolvido para ser pequeno, ótimo desempenho e para proporcionar um processo de desenvolvimento muito mais rápido que os outros frameworks. Alguns dos motivos para o desenvolvimento rápido inclui mostar serviços JSON usando somente marcação e Templating (Handlebars, Underscore etc.) e definindo as características de App e Site usando atributos HTML e pequenos plugins JavaScript.
 
-Initial development and use of DataFormsJS occurred privately in 2013 to allow for rapid development of high quality and bug free Single Page Applications (SPA). DataFormsJS was designed to have a small size, great performance, and to be much faster for development compared to other Frameworks. A few of the reasons for fast development include displaying JSON services using only Markup and Templating (Handlebars, Underscore, etc.) and defining App and Site features using HTML attributes and small JavaScript Plugins.
+Versões anteriores do DataFormsJS foram utilizadas em algumas empresas vários tipos diferentes de apps.
 
-Early versions of DataFormsJS were used a number of companies in many different types of apps. 
+Agora que React e Vue são muito populares, componentes individuais para React foram desenvolvidos para ajudar como desenvolvimento React e o framework foi expandido para suportar Vue. Além disso Web Components individuais foram desenvolvidos para permitir funcionalidade similar em navegadores modernos sem o uso de um framework JavaScript.
 
-Now that both React and Vue have become very popular separate React Components have been developed to help with React Development and the Framework has been expanded to support Vue. Additionally separate Web Components have been developed to allow for similar functionality in modern browsers without using a JavaScript framework.
+**Por que levou tanto tempo para lançá-lo?**
 
-**Why did it take so long to release?**
+O autor do DataFormsJS tinha vários trabalhos que o deixavam muito ocupado na época e também estava trabalhando em outro grande projeto ao mesmo tempo o [FastSitePHP](https://www.fastsitephp.com/en/).
 
-The author of DataFormsJS had a number of busy jobs at the time and was also working on another large project at the same time [FastSitePHP](https://www.fastsitephp.com/en/).
+**Qual o tamanho do DataFormsJS?**
 
-**How large is DataFormsJS?**
+_Todos os tamanhos são baseados nas versões minificadas dos scripts e compressão gzip dos servidores web._
 
-_All sizes are based on minified scripts and gzip compression from the web server._
+* **O Framework DataFormsJS – 9.4KB** (120 KB da versão completa e descompactada)
+* Arquivos adicionais (controllers, plugins, etc) são tipicamente de 1 a 3 KB cada.
+* Em geral ao usar o framework espere algo em torno de 15 KB para o carregamento da página inicial e daí vários KB para páginas adicionais que carregam plugins extras, páginas, controllers etc.
+* React (Todos so componentes em JavaScript) – 6.1 KB
+* Components React individuais estão entre 3 e 12 KB ao descompactar e incluindo componentes.
+* Web Components são tipicamente em torno de 1 a 3 KB cada, você usará um conjunto de componentes então nos apps de exemplo isso adiciona em torno de 15 KB para cada app.
 
-* **DataFormsJS Framework – 9.4kb** (120 kb uncompressed and full version)
-* Additional files (controllers, plugins, etc) are typically only 1-3 kb each.
-* In general when using the Framework expect about 15 kb for the intial page load, and then several kb for additional pages that load extra plugins, pages, controllers, etc.
-* React (All Components in JavaScript) – 6.1 kb
-* Individual React Components are between 3 and 12 KB when uncompressed and including comments.
-* Web Components are typically around 1 to 3 KB each, typically you will use a number of components so in the example apps this adds up to about 15 kb for each app.
+Enquanto o framework DataFormsJS for pequeno ele será geralmetne utilizado com mecanismos de Templating ou de Visualização:
 
-While the DataFormsJS Framework is small it will generally be used with a larger Templating or View Engine:
+* Handlebars: ~ 22 KB
+* Vue: ~ 33 KB
+* Underscore: ~ 6 KB
+* Nunjucks - ~ 25 KB
 
-* Handlebars: ~ 22 kb
-* Vue: ~ 33 kb
-* Underscore: ~ 6 kb
-* Nunjucks - ~ 25 kb
+Além disso em um site maior ou mais complexo, é esperado que código de terceiros aumentem a quantidade de JavaScript. Por exemplo o editor de texto CodeMirror usado no site Code Playground tem em torno 250 KB de tamanho, no entanto o DataFormsJS tem a habilidade de baixar sometne código de terceiros quando for necessário.
 
-Additionally in a complex or large site third-party code is expected to account for the largest amount of JavaScript. For example CodeMirror Text Editor used on the Playground site is around 250 kb, however DataFormsJS has the ability to download only third-party code when it will be needed.
+**Quais são os planos futuros para o DataFormsJS?**
 
-**What are the future plans for DataFormsJS?**
+O DataFormsJS está aqui para is here para um longo uso e será desenvolvido indefinidamente com novas funcionalidades, componentes, exemplos, documentações etc. Mesmo o DataFormsJS sendo um framework ele também inclui componentes web autônomos os quais podem ser utilizados sem o framework. Com o tempo plugins adicionais para o framework e componenets web serão desenvolvidos.
 
-DataFormsJS is here for the long run and will be developed indefinitely with new features, components, examples, docs, etc. While DataFormsJS is a Framework it also includes standalone web components which can be used without the Framework. Over time many additional framework plugins and web components will be developed.
+O DataFormsJS continuará a ser desenvolvido de forma que seja possível desenvolvimento web (por exemplo: o site Code Playground) e seu pequeno tamanho será mantido além de somente carregar scripts quando necessário.
 
-DataFormsJS will continue to be developed in a manner that allows for web based development (for example: the playground site) and will be kept small in size loading scripts only when needed.
+## :memo: Licença
 
-## :memo: License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+Este projeto está licenciado sob a **Licença MIT** - veja a [LICENÇA](LICENSE) para detalhes.
