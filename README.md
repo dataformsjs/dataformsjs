@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="https://github.com/dataformsjs/static-files/raw/master/img/logo/favicon-144.png">
+	<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/logo/favicon-144.png">
 </p>
 
 # :star2: Welcome to DataFormsJS!
@@ -14,18 +14,18 @@ This repository contains DataFormsJS’s Framework, Example Pages, and Unit Test
 
 ## :dizzy: Why use DataFormsJS?
 
-|<img src="https://github.com/dataformsjs/website/blob/master/public/img/icons/fast.svg" alt="Faster Development" width="60">|<img src="https://github.com/dataformsjs/website/blob/master/public/img/icons/small-size.svg" alt="Small Size" width="60">|<img src="https://github.com/dataformsjs/website/blob/master/public/img/icons/light-switch.svg" alt="Easy to Learn" width="60">|
+|<img src="https://www.dataformsjs.com/img/icons/fast.svg" alt="Faster Development" width="60">|<img src="https://www.dataformsjs.com/img/icons/small-size.svg" alt="Small Size" width="60">|<img src="https://www.dataformsjs.com/img/icons/light-switch.svg" alt="Easy to Learn" width="60">|
 |---|---|---|
 |**Faster Development** Display data from Web and GraphQL Services using only HTML Markup and define App and Site features using HTML Attributes.|**Small Size** All files are small in size and downloaded only when used allowing for greater performance and a smaller site.|**Easy to Learn** DataFormsJS is built around HTML, CSS, JavaScript, Templating and has a minimal JavaScript and HTML API so you can get started immediately.|
 
-|<img src="https://github.com/dataformsjs/website/blob/master/public/img/icons/column.svg" alt="Stability" width="60">|<img src="https://github.com/dataformsjs/website/blob/master/public/img/icons/water.svg" alt="Flexibility" width="60">|<img src="https://github.com/dataformsjs/website/blob/master/public/img/icons/star.svg" alt="Better Sites" width="60">|
+|<img src="https://www.dataformsjs.com/img/icons/column.svg" alt="Stability" width="60">|<img src="https://www.dataformsjs.com/img/icons/water.svg" alt="Flexibility" width="60">|<img src="https://www.dataformsjs.com/img/icons/star.svg" alt="Better Sites" width="60">|
 |---|---|---|
 |**Stability** Designed for long term use; a site developed with DataFormsJS today will work great and be easy to maintain decades from now.|**Flexibility** Works well with other code and the API is designed for flexibility and custom features. If you can think it, you can build it with DataFormsJS.|**Better Sites** DataFormsJS is designed to be a great experience for both developers and end users allowing you to create better sites.|
 
-|Works with|<img src="https://github.com/dataformsjs/website/blob/master/public/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://github.com/dataformsjs/website/blob/master/public/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://github.com/dataformsjs/website/blob/master/public/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://github.com/dataformsjs/website/blob/master/public/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|and more!|
+|Works with|<img src="https://www.dataformsjs.com/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://www.dataformsjs.com/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://www.dataformsjs.com/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://www.dataformsjs.com/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|and more!|
 |---|---|---|---|---|---|
 
-|Learn something new!|<div><img src="https://github.com/dataformsjs/website/blob/master/public/img/icons/web-components.svg" alt="Web Components" width="64"></div><div>Web Components</div>|
+|Learn something new!|<div><img src="https://www.dataformsjs.com/img/icons/web-components.svg" alt="Web Components" width="64"></div><div>Web Components</div>|
 |---|---|
 
 ## :rocket: Getting Started
@@ -58,13 +58,13 @@ dataformsjs
     └── *
 ```
 
-**Develop online** using the code playground: https://www.dataformsjs.com/#/en/playground
+**Develop online** using the code playground: https://www.dataformsjs.com/en/playground
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground.png" alt="Code Playground" width="800">
 </p>
 
-**Download a template file** using scripts from a CDN: https://www.dataformsjs.com/#/en/getting-started
+**Download a template file** using scripts from a CDN: https://www.dataformsjs.com/en/getting-started
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Getting Started Templates" width="800">
@@ -150,7 +150,7 @@ The [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master
 
 DataFormsJS is looking for paid translators so that it can be translated into multiple languages quickly. Translations can be done in many steps so even if you have just an hour or two it will be enough to help and earn some money.
 
-Languages currently needed: Arabic, Chinese Simplified (zh-Hans), French, German, Italian, Japanese, Korean, Persian, Russian
+Languages currently needed: Arabic, French, German, Italian, Japanese, Persian, Russian
 
 ## :question: FAQ
 
@@ -164,13 +164,13 @@ Now that both React and Vue have become very popular separate React Components h
 
 **Why did it take so long to release?**
 
-The author of DataFormsJS had a number of busy jobs at the time and was also working on another large project at the same time [FastSitePHP](https://www.fastsitephp.com/en/).
+The author of DataFormsJS had a number of busy jobs at the time and was also working on another large project at the same time [FastSitePHP](https://www.fastsitephp.com/).
 
 **How large is DataFormsJS?**
 
 _All sizes are based on minified scripts and gzip compression from the web server._
 
-* **DataFormsJS Framework – 9.4kb** (120 kb uncompressed and full version)
+* **DataFormsJS Framework – 10 kb** (120 kb uncompressed and full version)
 * Additional files (controllers, plugins, etc) are typically only 1-3 kb each.
 * In general when using the Framework expect about 15 kb for the intial page load, and then several kb for additional pages that load extra plugins, pages, controllers, etc.
 * React (All Components in JavaScript) – 6.1 kb

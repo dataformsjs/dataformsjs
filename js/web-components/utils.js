@@ -275,7 +275,12 @@ export function polyfillCustomElements() {
     //   Safari: true
     if (polyfillIsNeeded === null) {
         class WebComponentCheck extends HTMLDivElement {}
-        window.customElements.define('web-component-polyfill-check', WebComponentCheck, { extends: 'div' });
+        if (window.customElements.get('web-component-polyfill-check') === undefined) {
+            // Only define the custom element once, if a page attempts to load
+            // both 'utils.min.js' and 'utils.js' versions then an error can show
+            // in console if the element is not first checked.
+            window.customElements.define('web-component-polyfill-check', WebComponentCheck, { extends: 'div' });
+        }
         let docEl = document.querySelector('body');
         if (!docEl) {
             docEl = document.documentElement;

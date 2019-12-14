@@ -21,7 +21,7 @@
 (function () {
     'use strict';
 
-    function updateNavList(element) {
+    function updateNavList(element) {       
         element = (element === undefined ? document : element);
 
         var elements = element.querySelectorAll('nav li.active');
@@ -29,8 +29,14 @@
             li.classList.remove('active');
         });
 
-        var hash = (window.location.hash === '' ? '#/' : window.location.hash);
-        elements = element.querySelectorAll("nav li a[href='" + hash + "']");
+        var path;
+        if (app.routingMode === undefined || app.routingMode() === 'hash') {
+            path = (window.location.hash === '' ? '#/' : window.location.hash);
+        } else {
+            path = window.location.pathname;
+        }
+
+        elements = element.querySelectorAll("nav li a[href='" + path + "']");
         Array.prototype.slice.call(elements).forEach(function (li) {
             if (li.parentNode) {
                 li.parentNode.classList.add('active');

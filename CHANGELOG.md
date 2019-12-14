@@ -4,6 +4,28 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components.
 
+## 3.3.3 (December 11, 2019)
+
+* Readme file update so images show in npm
+
+## 3.3.2 (December 11, 2019)
+
+* Fixed Web Components edge case error if both [utils.js] and [utils.min.js] are used on the same page, error only showed up in console and didn't impact the page. https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/utils.js
+
+## 3.3.1 (December 11, 2019)
+
+* Fixed error `app.routingMode is not a function` when standard plugins [i18n.js], [navList.js], [navLinks.js] are used with React or Web Components
+
+## 3.3.0 (December 11, 2019)
+
+* Added Support for HTML5 History API
+  * Hash URL's and Routing are still used at default
+  * To use with the main Framework specify the routing mode in the root HTML element &lt;html data-routing-mode="history"&gt;
+  * Main framework file [DataFormsJS.js] updated with new public functions [changeRoute(path), routingMode(), pushStateClick(event)] - https://github.com/dataformsjs/dataformsjs/blob/master/js/DataFormsJS.js
+  * Updated Plugins: [i18n.js], [navList.js], [navLinks.js] - https://github.com/dataformsjs/dataformsjs/tree/master/js/plugins
+  * Web Components - Added &lt;url-router&gt; and &lt;url-route&gt; in https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/url-router.js
+  * Web Components Example Page - https://www.dataformsjs.com/examples/hello-world/en/web-url-router.htm
+
 ## 3.2.0 (December 6, 2019)
 
 * Plugin [i18n.js] - Changed textContent of [data-i18n-nav-lang] to use specified capitalization rather than upper-case. The previous release [3.1.5] should have actually been [3.2.0] because it introduced new features.

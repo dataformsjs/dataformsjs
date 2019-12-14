@@ -144,7 +144,7 @@ Este exemplo usa Vue para templating. Se você salvar isso com um editor de text
 
 O arquivo [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt) contém a lista complete de itens que estão atualmente pendentes e é um bom ponto para começar.
 
-## :moneybag: Procurando por Tradutores Remunerados!
+## :moneybag: Procura-se Tradutores Remunerados!
 
 **Você é fluente em Inglês e outra língua? <a href="https://www.fastsitephp.com/en/translators-needed" target="_blank">Se se sim, por favor entre em contato</a>.**
 

@@ -59,13 +59,13 @@ dataformsjs
     └── *
 ```
 
-**Desarrolle en línea** utilizando el código de juegos: https://www.dataformsjs.com/#/es/playground
+**Desarrolle en línea** utilizando el código de juegos: https://www.dataformsjs.com/es/playground
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground.png" alt="Code Playground" width="800">
 </p>
 
-**Descargar un archivo de plantilla** Descargue un archivo de plantilla usando scripts de un CDN: https://www.dataformsjs.com/#/es/getting-started
+**Descargar un archivo de plantilla** Descargue un archivo de plantilla usando scripts de un CDN: https://www.dataformsjs.com/es/getting-started
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Plantillas de inicio" width="800">
@@ -163,7 +163,7 @@ El autor de DataFormsJS tenía varios trabajos ocupados en ese momento y tambié
 
 _Todos los tamaños se basan en scripts minificados y compresión gzip del servidor web._
 
-* **DataFormsJS Framework – 9.4kb** (120 kb sin comprimir y versión completa)
+* **DataFormsJS Framework – 10 kb** (120 kb sin comprimir y versión completa)
 * Los archivos adicionales (controladores, complementos, etc.) suelen tener solo 1-3 kb cada uno.
 * En general, cuando use el Framework, espere aproximadamente 15 kb para la carga inicial de la página, y luego varios kb para páginas adicionales que carguen complementos, páginas, controladores, etc.
 * React (todos los componentes en JavaScript) - 6.1 kb

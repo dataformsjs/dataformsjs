@@ -58,13 +58,13 @@ dataformsjs
     └── *
 ```
 
-**Develop online** using the code playground: https://www.dataformsjs.com/#/en/playground
+**Develop online** using the code playground: https://www.dataformsjs.com/jp/playground
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground.png" alt="Code Playground" width="800">
 </p>
 
-**Download a template file** using scripts from a CDN: https://www.dataformsjs.com/#/en/getting-started
+**Download a template file** using scripts from a CDN: https://www.dataformsjs.com/jp/getting-started
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Getting Started Templates" width="800">
@@ -144,14 +144,6 @@ This example uses Vue for templating. If you save it with a text editor you can 
 
 The [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt) file contains the full list of items that are currently pending and is good place to start.
 
-## :moneybag: Paid Translators Needed!
-
-**Are you fluent in English and another language? <a href="https://www.fastsitephp.com/en/translators-needed" target="_blank">If so then please get in touch</a>.**
-
-DataFormsJS is looking for paid translators so that it can be translated into multiple languages quickly. Translations can be done in many steps so even if you have just an hour or two it will be enough to help and earn some money.
-
-Languages currently needed: Arabic, Chinese Simplified (zh-Hans), French, German, Italian, Japanese, Korean, Persian, Russian
-
 ## :question: FAQ
 
 **Why was DataFormsJS Created?**
@@ -170,7 +162,7 @@ The author of DataFormsJS had a number of busy jobs at the time and was also wor
 
 _All sizes are based on minified scripts and gzip compression from the web server._
 
-* **DataFormsJS Framework – 9.4kb** (120 kb uncompressed and full version)
+* **DataFormsJS Framework – 10 kb** (120 kb uncompressed and full version)
 * Additional files (controllers, plugins, etc) are typically only 1-3 kb each.
 * In general when using the Framework expect about 15 kb for the intial page load, and then several kb for additional pages that load extra plugins, pages, controllers, etc.
 * React (All Components in JavaScript) – 6.1 kb
