@@ -1,12 +1,12 @@
 <p align="center">
-	<img src="https://github.com/dataformsjs/static-files/raw/master/img/logo/favicon-144.png">
+	<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/logo/favicon-144.png">
 </p>
 
-# :star2: Bem-vindo ao DataFormsJS!
+# :star2: Welcome to DataFormsJS!
 
-**Obrigado pela visita!**
+**Thanks for visiting!**
 
-_Se você estiver vendo esta mensagem, será uma das primeiras visitas!_ 🌠👍
+_If you are seeing this message then you are one of the earliest visitors!_ 🌠👍
 
 DataFormsJS is a new JavaScript Framework and Standalone React and Web Components. DataFormsJS is small in size, easy to learn, designed for fast development, and to make for a great experience for both developers and end-users. Although it’s new (first published in November of 2019) DataFormsJS was written and used over many years and is extremely stable containing a large number of unit tests.
 
@@ -47,7 +47,7 @@ dataformsjs
     └── server.js
 ```
 
-JavaScript files for the Framework and standalone React and Web Components exist under the [js] directory. 
+JavaScript files for the Framework and standalone React and Web Components exist under the [js] directory.
 
 ```
 dataformsjs
@@ -58,13 +58,13 @@ dataformsjs
     └── *
 ```
 
-**Develop online** using the code playground: https://www.dataformsjs.com/pt-BR/playground
+**Develop online** using the code playground: https://www.dataformsjs.com/en/playground
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground.png" alt="Code Playground" width="800">
 </p>
 
-**Download a template file** using scripts from a CDN: https://www.dataformsjs.com/pt-BR/getting-started
+**Download a template file** using scripts from a CDN: https://www.dataformsjs.com/en/getting-started
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Getting Started Templates" width="800">
@@ -95,7 +95,7 @@ This example uses Vue for templating. If you save it with a text editor you can 
         <template data-route="/">
             <h1>Hello World!</h1>
         </template>
-        
+
         <script
             type="text/x-template"
             data-engine="vue"
@@ -144,19 +144,27 @@ This example uses Vue for templating. If you save it with a text editor you can 
 
 The [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt) file contains the full list of items that are currently pending and is good place to start.
 
+## :moneybag: Paid Translators Needed!
+
+**Are you fluent in English and another language? <a href="https://www.fastsitephp.com/en/translators-needed" target="_blank">If so then please get in touch</a>.**
+
+DataFormsJS is looking for paid translators so that it can be translated into multiple languages quickly. Translations can be done in many steps so even if you have just an hour or two it will be enough to help and earn some money.
+
+Languages currently needed: Arabic, French, German, Italian, Japanese, Persian, Russian
+
 ## :question: FAQ
 
 **Why was DataFormsJS Created?**
 
 Initial development and use of DataFormsJS occurred privately in 2013 to allow for rapid development of high quality and bug free Single Page Applications (SPA). DataFormsJS was designed to have a small size, great performance, and to be much faster for development compared to other Frameworks. A few of the reasons for fast development include displaying JSON services using only Markup and Templating (Handlebars, Underscore, etc.) and defining App and Site features using HTML attributes and small JavaScript Plugins.
 
-Early versions of DataFormsJS were used a number of companies in many different types of apps. 
+Early versions of DataFormsJS were used a number of companies in many different types of apps.
 
 Now that both React and Vue have become very popular separate React Components have been developed to help with React Development and the Framework has been expanded to support Vue. Additionally separate Web Components have been developed to allow for similar functionality in modern browsers without using a JavaScript framework.
 
 **Why did it take so long to release?**
 
-The author of DataFormsJS had a number of busy jobs at the time and was also working on another large project at the same time [FastSitePHP](https://www.fastsitephp.com/en/).
+The author of DataFormsJS had a number of busy jobs at the time and was also working on another large project at the same time [FastSitePHP](https://www.fastsitephp.com/).
 
 **How large is DataFormsJS?**
 

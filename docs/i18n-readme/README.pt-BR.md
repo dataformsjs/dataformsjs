@@ -30,9 +30,9 @@ Este repositório contém o framework DataFormsJS, páginas exemplo e testes de 
 
 ## :rocket: Começando
 
-**Começando com o DataFormsJS é extremamente fácil.**
+**Começar a utilizar o DataFormsJS é extremamente fácil.**
 
-Instale utilizando **npm**, esta opção funciona muito bem se você está usando create-react-app ou quer uma cópia local de todos os arquivos:
+Instale-o utilizando **npm**, esta opção funciona muito bem se você está usando create-react-app ou quer uma cópia local de todos os arquivos:
 ```
 npm install dataformsjs
 ```
@@ -133,13 +133,13 @@ Este exemplo usa Vue para templating. Se você salvar isso com um editor de text
 
 ## :handshake: Contributing
 
-**Toda contribuição é bem vinda.** Para grandes mudanças incluindo mudanças sifnificativas em código existente ou atualizando gráficos e arquivos, por favor abra primeiro um pedido para discutir o que gostaria que fosse modificado. Alguns exemplos de itens para contribuir:
+**Toda contribuição é bem vinda.** Para grandes mudanças incluindo mudanças significativas em código existente ou atualizando gráficos e arquivos, por favor abra primeiro um pedido para discutir o que gostaria que fosse modificado. Alguns exemplos de itens para contribuir:
 
 * Erros de digitação e erros de Gramática - Se vir algum por favor conserte-o e envie-o.
 * Documentação e Tutoriais. Atualmente a maior parte da documentação está na seção Referência Rápida e comentários de código então bastante documentação será escrita com o tempo.
 * Futuramente muito mais exemplos serão desenvolvidos. Se você tem ideias, por favor envie-as.
 * Testes de unidade adicionais e metodologias de teste - Arquivos do núcleo do framework e funcionalidades são testadas através de testes de unidade no entanto cada linha de código deveria ser testada dessa forma em todos os arquivos. Atualmente não exitem testes de unidade para Vue, React e Web Components.
-* Scripts adicionais, components React, Web Components e funcionalidades.
+* Scripts adicionais, componentes React, Web Components e funcionalidades.
 * Novas Ideias - Se você tem ideias de como melhorar por favor abra um pedido para que possamos discutir. (??)
 
 O arquivo [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt) contém a lista complete de itens que estão atualmente pendentes e é um bom ponto para começar.
@@ -177,7 +177,7 @@ _Todos os tamanhos são baseados nas versões minificadas dos scripts e compress
 * Components React individuais estão entre 3 e 12 KB ao descompactar e incluindo componentes.
 * Web Components são tipicamente em torno de 1 a 3 KB cada, você usará um conjunto de componentes então nos apps de exemplo isso adiciona em torno de 15 KB para cada app.
 
-Enquanto o framework DataFormsJS for pequeno ele será geralmetne utilizado com mecanismos de Templating ou de Visualização:
+Enquanto o framework DataFormsJS for pequeno ele será geralmente utilizado com mecanismos de Templating ou de Visualização:
 
 * Handlebars: ~ 22 KB
 * Vue: ~ 33 KB
@@ -194,4 +194,4 @@ O DataFormsJS continuará a ser desenvolvido de forma que seja possível desenvo
 
 ## :memo: Licença
 
-Este projeto está licenciado sob a **Licença MIT** - veja a [LICENÇA](LICENSE) para detalhes.
+Este projeto está sob o licenciamento **MIT** - veja a [LICENÇA](LICENSE) para detalhes.
