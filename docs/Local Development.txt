@@ -20,7 +20,7 @@ and also when running a local build of the main site [Website\index.php]
         <script type="text/babel" src="../js/DataFormsJS.min.js"></script>
         <script type="text/babel" src="../js/react/DataFormsJS.jsx"></script>
 
-    This applies to the import statments on Web Component HTML examples as well:
+    This applies to the import statements on Web Component HTML examples as well:
     Before:
         import { componentsAreSetup } from 'https://cdn.jsdelivr.net/npm/dataformsjs@3.3.3/js/web-components/utils.min.js';
     After:

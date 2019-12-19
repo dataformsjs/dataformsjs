@@ -188,7 +188,7 @@ Além disso em um site maior ou mais complexo, é esperado que código de tercei
 
 **Quais são os planos futuros para o DataFormsJS?**
 
-O DataFormsJS está aqui para is here para um longo uso e será desenvolvido indefinidamente com novas funcionalidades, componentes, exemplos, documentações etc. Mesmo o DataFormsJS sendo um framework ele também inclui componentes web autônomos os quais podem ser utilizados sem o framework. Com o tempo plugins adicionais para o framework e componenets web serão desenvolvidos.
+O DataFormsJS está aqui para is here para um longo uso e será desenvolvido indefinidamente com novas funcionalidades, componentes, exemplos, documentações etc. Mesmo o DataFormsJS sendo um framework ele também inclui componentes web autônomos os quais podem ser utilizados sem o framework. Com o tempo plugins adicionais para o framework e componentes web serão desenvolvidos.
 
 O DataFormsJS continuará a ser desenvolvido de forma que seja possível desenvolvimento web (por exemplo: o site Code Playground) e seu pequeno tamanho será mantido além de somente carregar scripts quando necessário.
 
