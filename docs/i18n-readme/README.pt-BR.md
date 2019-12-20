@@ -155,7 +155,6 @@ Idiomans atualmente necessitando de tradutores: Árabe, Chinês Simplificado (zh
 ## :question: FAQ
 
 **Por que o DataFormsJS foi criado?**
-- PAREI AQUI -
 O desenvolvimento e uso do inicial  do DataFormsJS ocorreu de forma privada em 2013 para permitir um desenvolvimento rápido de alta qualidade e Aplicativos de Página Única livres de erros (SPA). O DataFormsJS foi desenvolvido para ser pequeno, ótimo desempenho e para proporcionar um processo de desenvolvimento muito mais rápido que os outros frameworks. Alguns dos motivos para o desenvolvimento rápido inclui mostar serviços JSON usando somente marcação e Templating (Handlebars, Underscore etc.) e definindo as características de App e Site usando atributos HTML e pequenos plugins JavaScript.
 
 Versões anteriores do DataFormsJS foram utilizadas em algumas empresas vários tipos diferentes de apps.
