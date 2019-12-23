@@ -2,6 +2,22 @@
 	<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/logo/favicon-144.png">
 </p>
 
+<table>
+	<tbody>
+		<tr align="center"><td colspan="2"> :globe_with_meridians: :earth_americas: :earth_asia: :earth_africa: </td></tr>
+		<tr>
+			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-readme/README.zh-CN.md">中文 (简体)</a>
+			</td>
+			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-readme/README.zh-CN.md">欢迎来到 DataFormsJS</a></td>
+		</tr>
+		<tr>
+			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-readme/README.pt-BR.md">Português (do Brasil)</a>
+			</td>
+			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-readme/README.pt-BR.md">Bem vindo ao DataFormsJS</a></td>
+		</tr>
+	</tbody>
+</table>
+
 # :star2: Welcome to DataFormsJS!
 
 **Thanks for visiting!**
