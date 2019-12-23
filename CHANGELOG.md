@@ -60,14 +60,14 @@ Overall the core Framework files and API are expected to remain stable however t
 ## 3.1.0 (November 25, 2019)
 
 * Web Components - New functions in `js/web-components/utils.js` - `showErrorAlert()` and `showOldBrowserWarning()`
-* Web Components - `showOldBrowserWarning()` checks modern browsers that support &lt;script type="module"&gt; but do not support custom elements (known to affect MS Edge using the EdgeHTML rendering engine)
+* Web Components - `showOldBrowserWarning()` checks modern browsers that support `script type="module` but do not support custom elements (known to affect MS Edge using the EdgeHTML rendering engine)
 * Web Components - Check Old Browsers from `url-hash-router` and `json-data`
 * Web Components - Updated all `*.min.js` files to use the `*.min.js` version of related files from import statements
 
 ## 3.0.0 (November 21, 2019)
 
 * Web Components - Add polyfill support for specific components for Safari, Samsung Internet, and Edge
-  * Breaking change for Web Component &lt;ul is="data-list"&gt; - Changed element to &lt;"data-list"&gt;
+  * Breaking change for Web Component `ul is="data-list"` - Changed element to `"data-list"`
   * utils.js - Added new function polyfillCustomElements()
   * `input-filter.js, sortable-table.js, leaflet-map.js` - Added `window._webComponentPolyfills` and related code
 * React Component `JsonData` - Added new optional props `fetchOptions` and `fetchHeaders`
