@@ -10,7 +10,10 @@
   "scripts": {
     "test": "echo \"Tests require a Web Browser, see comments in [test/server.js]\" && exit 1"
   },
-  "keywords": ["dataformsjs", "framework", "handlebars", "vue", "react", "web components"],
+  "keywords": [
+    "dataformsjs", "framework", "handlebars", "vue", "react",
+    "web components", "spa", "handlebars", "single page app"
+  ],
   "author": "Conrad Sollitt (http://www.conradsollitt.com)",
   "license": "MIT",
   "repository": {
