@@ -2,7 +2,8 @@
  * DataFormsJS [i18n] Plugin for Internationalization (I18N)
  *
  * This class provides an easy to use API for sites and apps that need to
- * support multiple languages.
+ * support multiple languages. The main [DataFormsJS.js] file also uses this API
+ * if included in a multilingual site to determine the default page for a user.
  *
  * [i18n] is spelled "Internationalisation" in British English. [i18n] is an
  * acronym/numeronym that represents ("i" + 18 characters + "n"). The difference is
@@ -45,9 +46,6 @@
 
 (function () {
     'use strict';
-
-    // Private variables for this function scope
-    var settingsAreLoaded = false;
 
     /**
      * I18N Plugin Object
@@ -126,15 +124,10 @@
         },
 
         /**
-         * Read Settings from the <html> element when the plugin
-         * is first used.
+         * Read Settings from the <html> element. This gets called as soon
+         * as this file is loaded.
          */
         readSettings: function() {
-            // Check if settings have already be read
-            if (settingsAreLoaded) {
-                return;
-            }
-
             // Settings that have default values filled in
             var el = document.documentElement;
             var value = el.getAttribute('data-i18n-file');
@@ -156,9 +149,6 @@
                     this.supportedLocales = this.supportedLocales.split(',').map(function(s) { return s.trim(); });
                 }
             }
-
-            // Make settings as read
-            settingsAreLoaded = true;
         },
 
         /**
@@ -192,7 +182,6 @@
          */
         onRouteLoad: function(next) {
             // Get Settings
-            this.readSettings();
             var isValid = this.validateSettings();
             this.currentLocale = null;
 
@@ -436,6 +425,10 @@
          * automatically when the page is loaded.
          */
         setup: function () {
+            // Read settings for [defaultLocale, supportedLocales, etc]
+            // as soon as this file is loaded.
+            i18n.readSettings();
+
             // Create Handlebars Helper
             if (window.Handlebars) {
                 Handlebars.registerHelper('i18n', function (key, options) {

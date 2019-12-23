@@ -938,6 +938,19 @@ var I18n = function () {
     get: function get() {
       return this.state.currentLocale;
     }
+  }, {
+    key: "getUserDefaultLang",
+    get: function get() {
+      if (navigator.languages && navigator.languages.length && this.state.supportedLocales && this.state.supportedLocales.length) {
+        for (var n = 0, m = navigator.languages.length; n < m; n++) {
+          if (this.state.supportedLocales.indexOf(navigator.languages[n]) !== -1) {
+            return navigator.languages[n];
+          }
+        }
+      }
+
+      return this.state.defaultLocale;
+    }
   }]);
 
   return I18n;

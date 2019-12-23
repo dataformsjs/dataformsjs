@@ -16,6 +16,10 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+*) Demo Pages that support multiple languages (i18n) should have nav language menus like the main site
+    Example Page:
+        https://www.dataformsjs.com/examples/places-demo-hbs.htm
+
 *) Improve UX of the Quick Ref Page
     https://www.dataformsjs.com/en/quick-reference
     - Filtering on all code doesn't work well due to generic terms "JavaScript" "Template", "Vue", etc

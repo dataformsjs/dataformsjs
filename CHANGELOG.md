@@ -4,6 +4,12 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components.
 
+## 3.4.0 (December 23, 2019)
+
+* New features for i18n Support to use a user's default language for multilingual sites
+  * Main `DataFormsJS.js` and `plugins/i18n.js` files work together and use `navigator.languages` to redirect to a user default language when language is not specified in initial URL
+  * React Class `I18n`, added property `getUserDefaultLang` which can be used by an app with `supportedLocales` to get the locale for the user
+
 ## 3.3.3 (December 11, 2019)
 
 * Readme file update so images show in npm
@@ -21,18 +27,18 @@ Overall the core Framework files are expected to remain stable however the versi
 * Added Support for HTML5 History API
   * Hash URL's and Routing are still used at default
   * To use with the main Framework specify the routing mode in the root HTML element &lt;html data-routing-mode="history"&gt;
-  * Main framework file [DataFormsJS.js] updated with new public functions [changeRoute(path), routingMode(), pushStateClick(event)] - https://github.com/dataformsjs/dataformsjs/blob/master/js/DataFormsJS.js
-  * Updated Plugins: [i18n.js], [navList.js], [navLinks.js] - https://github.com/dataformsjs/dataformsjs/tree/master/js/plugins
+  * Main framework file `DataFormsJS.js` updated with new public functions `changeRoute(path), routingMode(), pushStateClick(event)` - https://github.com/dataformsjs/dataformsjs/blob/master/js/DataFormsJS.js
+  * Updated Plugins: `i18n.js, navList.js, navLinks.js` - https://github.com/dataformsjs/dataformsjs/tree/master/js/plugins
   * Web Components - Added &lt;url-router&gt; and &lt;url-route&gt; in https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/url-router.js
   * Web Components Example Page - https://www.dataformsjs.com/examples/hello-world/en/web-url-router.htm
 
 ## 3.2.0 (December 6, 2019)
 
-* Plugin [i18n.js] - Changed textContent of [data-i18n-nav-lang] to use specified capitalization rather than upper-case. The previous release [3.1.5] should have actually been [3.2.0] because it introduced new features.
+* Plugin `i18n.js` - Changed textContent of `data-i18n-nav-lang` to use specified capitalization rather than upper-case. The previous release [3.1.5] should have actually been [3.2.0] because it introduced new features.
 
 ## 3.1.5 (December 4, 2019)
 
-* Plugin [i18n.js] - Added support for i18n nav menus for the selected page and multiple languages with new attributes [data-i18n-nav-lang] and [data-i18n-nav-selected].
+* Plugin `i18n.js` - Added support for i18n nav menus for the selected page and multiple languages with new attributes `data-i18n-nav-lang` and `data-i18n-nav-selected`.
 
 ## 3.1.4 (November 29, 2019)
 

@@ -68,6 +68,22 @@ export default class I18n {
         return this.state.currentLocale;
     }
 
+    get getUserDefaultLang() {
+        // First check if any of the supported languages match a user's language.
+        // These are the languages sent with the Request 'Accept-Language' header.
+        if (navigator.languages && navigator.languages.length &&
+            this.state.supportedLocales && this.state.supportedLocales.length
+        ) {
+            for (let n = 0, m = navigator.languages.length; n < m; n++) {
+                if (this.state.supportedLocales.indexOf(navigator.languages[n]) !== -1) {
+                    return navigator.languages[n];
+                }
+            }
+        }
+        // No language matched, use default for the site if defined
+        return this.state.defaultLocale;
+    }
+
     onHashChange() {
         const i18n = this;
         const state = this.state;

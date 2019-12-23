@@ -576,8 +576,29 @@
             // If the default path is a page for a specific language and the
             // i18n plugin is being used then redirect to the default language.
             var newPath = app.settings.defaultRoute;
-            if (app.settings.defaultRoute === '/:lang/' && app.plugins.i18n !== undefined && app.plugins.i18n.defaultLocale) {
-                newPath = '/' + app.plugins.i18n.defaultLocale + '/';
+            if (app.settings.defaultRoute === '/:lang/' &&
+                app.plugins.i18n !== undefined &&
+                typeof app.plugins.i18n.readSettings === 'function'
+            ) {
+                app.plugins.i18n.readSettings();
+                // First check if any of the supported languages match a user's language.
+                // These are the languages sent with the Request 'Accept-Language' header.
+                var langMatched = false;
+                if (navigator.languages && navigator.languages.length &&
+                    app.plugins.i18n.supportedLocales && app.plugins.i18n.supportedLocales.length
+                ) {
+                    for (n = 0, m = navigator.languages.length; n < m; n++) {
+                        if (app.plugins.i18n.supportedLocales.indexOf(navigator.languages[n]) !== -1) {
+                            newPath = '/' + navigator.languages[n] + '/';
+                            langMatched = true;
+                            break;
+                        }
+                    }
+                }
+                // No language matched, use default for the site if defined
+                if (!langMatched && app.plugins.i18n.defaultLocale) {
+                    newPath = '/' + app.plugins.i18n.defaultLocale + '/';
+                }
             }
             app.changeRoute(newPath);
             isLoadingRoute = false;
