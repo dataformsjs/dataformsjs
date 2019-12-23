@@ -425,10 +425,6 @@
          * automatically when the page is loaded.
          */
         setup: function () {
-            // Read settings for [defaultLocale, supportedLocales, etc]
-            // as soon as this file is loaded.
-            i18n.readSettings();
-
             // Create Handlebars Helper
             if (window.Handlebars) {
                 Handlebars.registerHelper('i18n', function (key, options) {
@@ -469,6 +465,12 @@
             }
         },
     };
+
+    /**
+     * Read settings for [defaultLocale, supportedLocales, etc]
+     * as soon as this file is loaded.
+     */
+    i18n.readSettings();
 
     /**
      * Add Handlebars Helpers and Vue Directives when page is first loaded

@@ -4,6 +4,10 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components.
 
+## 3.4.1 (December 23, 2019)
+
+* Fix for `plugins/i18n.js` to read settings before the first route loads, behavior similar to all releases before `3.4.0`.
+
 ## 3.4.0 (December 23, 2019)
 
 * New features for i18n Support to use a user's default language for multilingual sites
