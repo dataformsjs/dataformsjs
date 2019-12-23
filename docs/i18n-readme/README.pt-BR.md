@@ -140,7 +140,7 @@ Este exemplo usa Vue para templating. Se você salvar isso com um editor de text
 * Futuramente muito mais exemplos serão desenvolvidos. Se você tem ideias, por favor envie-as.
 * Testes de unidade adicionais e metodologias de teste - Arquivos do núcleo do framework e funcionalidades são testadas através de testes de unidade no entanto cada linha de código deveria ser testada dessa forma em todos os arquivos. Atualmente não exitem testes de unidade para Vue, React e Web Components.
 * Scripts adicionais, componentes React, Web Components e funcionalidades.
-* Novas Ideias - Se você tem ideias de como melhorar por favor abra um pedido para que possamos discutir. (??)
+* Novas Ideias - Se você tem ideias de como melhorar por favor abra um pedido para que possamos discutir.
 
 O arquivo [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt) contém a lista complete de itens que estão atualmente pendentes e é um bom ponto para começar.
 
@@ -155,7 +155,6 @@ Idiomans atualmente necessitando de tradutores: Árabe, Chinês Simplificado (zh
 ## :question: FAQ
 
 **Por que o DataFormsJS foi criado?**
-- PAREI AQUI -
 O desenvolvimento e uso do inicial  do DataFormsJS ocorreu de forma privada em 2013 para permitir um desenvolvimento rápido de alta qualidade e Aplicativos de Página Única livres de erros (SPA). O DataFormsJS foi desenvolvido para ser pequeno, ótimo desempenho e para proporcionar um processo de desenvolvimento muito mais rápido que os outros frameworks. Alguns dos motivos para o desenvolvimento rápido inclui mostar serviços JSON usando somente marcação e Templating (Handlebars, Underscore etc.) e definindo as características de App e Site usando atributos HTML e pequenos plugins JavaScript.
 
 Versões anteriores do DataFormsJS foram utilizadas em algumas empresas vários tipos diferentes de apps.
