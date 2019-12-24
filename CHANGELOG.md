@@ -2,7 +2,13 @@
 
 DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-versioning).
 
-Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components.
+Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
+
+## Website (December 24, 2019)
+
+* Spanish `es` translations complete for all JSON files on the main site
+  * https://www.dataformsjs.com/es/
+  * **Thanks Tibaldo Pirela Reyes** for helping with translations! https://github.com/tpirelar
 
 ## 3.4.1 (December 23, 2019)
 
