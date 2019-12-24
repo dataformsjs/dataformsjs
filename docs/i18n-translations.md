@@ -74,6 +74,16 @@ Some of this content is duplicated from the main home page so some content simpl
 
 https://github.com/dataformsjs/dataformsjs/tree/master/docs/i18n-readme
 
+## Additional Readme updates
+
+Readme files for the other repositories will have a single row added to the table at the top of the file. Copy and tanslate the English row.
+
+https://github.com/dataformsjs/website/blob/master/README.md
+
+https://github.com/dataformsjs/playground/blob/master/README.md
+
+https://github.com/dataformsjs/static-files/blob/master/README.md
+
 ## Quick Reference Code
 
 Code comments are updated to the translated language.
