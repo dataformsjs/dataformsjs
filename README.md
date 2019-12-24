@@ -19,9 +19,19 @@ _If you are seeing this message then you are one of the earliest visitors!_ 🌠
 			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-readme/README.zh-CN.md">欢迎来到 DataFormsJS</a></td>
 		</tr>
 		<tr>
+			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-readme/README.es.md">Español</a>
+			</td>
+			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-readme/README.es.md">Bienvenido a DataFormsJS</a></td>
+		</tr>
+		<tr>
 			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-readme/README.pt-BR.md">Português (do Brasil)</a>
 			</td>
 			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-readme/README.pt-BR.md">Bem vindo ao DataFormsJS</a></td>
+		</tr>
+		<tr>
+			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-readme/README.ja.md">日本語</a>
+			</td>
+			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-readme/README.ja.md">DataFormsJSへようこそ</a></td>
 		</tr>
 	</tbody>
 </table>
