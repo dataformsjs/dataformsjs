@@ -114,6 +114,7 @@ th, td {
     }
     .form-fields i.flag:not(.icon) { margin-top:5px; margin-left:10px; }
 }
+html[lang='ar'] table i.flag:not(.icon) { margin:0 0 0 .5em; }
 
 div[data-leaflet],
 .leaflet-map,
@@ -134,6 +135,7 @@ ul.info  {
     max-width: 800px;
     padding: 0 30px;
 }
+html[lang='ar'] ul.info { text-align:right; }
 ul.info li { line-height: 1.4em; margin-bottom:10px; }
 
 table tbody tr:nth-child(odd) { background-color: white; }

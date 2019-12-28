@@ -138,6 +138,7 @@ ul.info  {
     text-align: left;
     max-width: 800px;
 }
+html[lang='ar'] ul.info { text-align:right; }
 ul.info li { line-height: 1.4em; margin-bottom: calc(var(--padding) / 2); }
 
 ul.results li.legend {

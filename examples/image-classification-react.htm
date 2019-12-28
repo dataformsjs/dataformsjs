@@ -8,7 +8,7 @@
     <link rel="canonical" href="https://www.dataformsjs.com/examples/image-classification-react.htm">
 </head>
 <body>
-    <div id="root"></div>
+    <div id="root" dir="auto"></div>
 
     <script>
         // Allow [babel-standalone] to use [import and exports] with JSX files
@@ -92,7 +92,7 @@
         const NavLink = window.ReactRouterDOM.NavLink;
 
         const defaultLocale = 'en';
-        const supportedLocales = ['en', 'ja', 'es', 'pt-BR'];
+        const supportedLocales = ['en', 'ja', 'es', 'pt-BR', 'ar'];
         const fileName = 'image-classification';
         const i18n = new I18n(defaultLocale, supportedLocales, fileName);
         const defaultLang = i18n.getUserDefaultLang;

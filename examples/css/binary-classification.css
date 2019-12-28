@@ -88,6 +88,7 @@ ul {
     text-align: left;
     max-width: 800px;
 }
+html[lang='ar'] ul { text-align:right; }
 
 li { line-height: 1.4em; margin-bottom: calc(var(--padding) / 2); }
 
