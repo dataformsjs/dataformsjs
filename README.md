@@ -2,6 +2,12 @@
 	<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/logo/favicon-144.png">
 </p>
 
+# :star2: Welcome to DataFormsJS!
+
+**Thanks for visiting!**
+
+_If you are seeing this message then you are one of the earliest visitors!_ 🌠👍
+
 <table>
 	<tbody>
 		<tr align="center"><td colspan="2">
@@ -13,18 +19,22 @@
 			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-readme/README.zh-CN.md">欢迎来到 DataFormsJS</a></td>
 		</tr>
 		<tr>
+			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-readme/README.es.md">Español</a>
+			</td>
+			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-readme/README.es.md">Bienvenido a DataFormsJS</a></td>
+		</tr>
+		<tr>
 			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-readme/README.pt-BR.md">Português (do Brasil)</a>
 			</td>
 			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-readme/README.pt-BR.md">Bem vindo ao DataFormsJS</a></td>
 		</tr>
+		<tr>
+			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-readme/README.ja.md">日本語</a>
+			</td>
+			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-readme/README.ja.md">DataFormsJSへようこそ</a></td>
+		</tr>
 	</tbody>
 </table>
-
-# :star2: Welcome to DataFormsJS!
-
-**Thanks for visiting!**
-
-_If you are seeing this message then you are one of the earliest visitors!_ 🌠👍
 
 DataFormsJS is a new JavaScript Framework and Standalone React and Web Components. DataFormsJS is small in size, easy to learn, designed for fast development, and to make for a great experience for both developers and end-users. Although it’s new (first published in November of 2019) DataFormsJS was written and used over many years and is extremely stable containing a large number of unit tests.
 
