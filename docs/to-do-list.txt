@@ -16,15 +16,6 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-*) Create Class I18n [dataformsjs\js\react\es6\I18n.js] should set <html lang="lang"> like the standard Framework plugin
-    - Update ready for testing once new npm build is published
-    - Once published compare margin on table icons at:
-        http://localhost:3000/examples/places-demo-react.htm#/ar/
-        http://localhost:3000/examples/places-demo-vue.htm#/ar/
-      And <ul> alignment in:
-        http://localhost:3000/examples/image-classification-react.htm#/ar/info
-        http://localhost:3000/examples/image-classification-vue.htm#/ar/info
-
 *) Improve UX of the Quick Ref Page
     https://www.dataformsjs.com/en/quick-reference
     - Filtering on all code doesn't work well due to generic terms "JavaScript" "Template", "Vue", etc
