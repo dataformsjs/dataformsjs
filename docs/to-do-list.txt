@@ -16,10 +16,6 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-*) Demo Pages that support multiple languages (i18n) should have nav language menus like the main site
-    Example Page:
-        https://www.dataformsjs.com/examples/places-demo-hbs.htm
-
 *) Create Class I18n [dataformsjs\js\react\es6\I18n.js] should set <html lang="lang"> like the standard Framework plugin
     - See: https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/i18n.js
         Line 227: document.documentElement.lang = this.currentLocale
@@ -147,17 +143,6 @@ TODO List
         This would be determined during development based on what makes sense.
     - Using the main framework would be preferred to reduce additional duplicate code and because
         when gzipped the framework is small (9.6 kb for version 1.0.0).
-
-*) React Build:
-    - Convert http://127.0.0.1:8080/jsx-build to a build page on the main site
-    - Code from [jsx-build] should be merged with [dataformsjs\scripts\build.js]  
-        so that there is only a single script for the build process
-    - Many options will be needed on how to build:
-        - which components and classes
-        - babel options?
-        - Include or exclude [DataFormsJS] namespace object
-    - Similar to how the prismjs download works:
-        https://prismjs.com/download.html
 
 *) Docs and demos to Create
     - Cleanup [DataFormsJS\examples\handlebars-helpers.htm] and add to to the main

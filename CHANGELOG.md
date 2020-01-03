@@ -8,7 +8,7 @@ Overall the core Framework files and API are expected to remain stable however t
 
 * HTML5 History API Update so that if [ctrl] is held down when a link is clicked then the click event is ignored so that the link can be opened in a new tab.
   * Affects files `DataFormsJS.js` and `js/web-components/url-router.js` 
-* Updated Build Process TODO
+* Updated Build Process to use local npm `devDependencies` from `package.json` rather than Global CLI commands and a Browser-based page for Babel
 
 ## Website (December 24, 2019)
 
