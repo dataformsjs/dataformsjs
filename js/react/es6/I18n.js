@@ -201,6 +201,7 @@ export default class I18n {
         if (title) {
             title.textContent = this.text(title.getAttribute('data-i18n'));
         }
+        document.documentElement.lang = this.state.currentLocale;
     }
 
     /**

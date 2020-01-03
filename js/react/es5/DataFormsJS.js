@@ -6,15 +6,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DataFormsJS = exports.LeafletMap = exports.Format = exports.I18n = exports.SortableTable = exports.InputFilter = exports.JsonData = exports.PolyfillService = exports.ErrorBoundary = void 0;
+exports.DataFormsJS = exports.SortableTable = exports.PolyfillService = exports.LeafletMap = exports.JsonData = exports.InputFilter = exports.I18n = exports.Format = exports.ErrorBoundary = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return !!right[Symbol.hasInstance](left); } else { return left instanceof right; } }
-
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return !!right[Symbol.hasInstance](left); } else { return left instanceof right; } }
 
 function _classCallCheck(instance, Constructor) { if (!_instanceof(instance, Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -87,367 +87,359 @@ var ErrorBoundary = function (_React$Component) {
 
 exports.ErrorBoundary = ErrorBoundary;
 
-var PolyfillService = function (_React$Component2) {
-  _inherits(PolyfillService, _React$Component2);
-
-  function PolyfillService(props) {
-    var _this2;
-
-    _classCallCheck(this, PolyfillService);
-
-    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(PolyfillService).call(this, props));
-    _this2.state = {
-      isReady: false
-    };
-    return _this2;
+var Format = function () {
+  function Format() {
+    _classCallCheck(this, Format);
   }
 
-  _createClass(PolyfillService, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this3 = this;
-
-      var condition = Array.from && window.Promise && window.fetch ? true : false;
-      var url = 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Object.assign,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat';
-      this.loadScript(condition, url, function () {
-        _this3.setState({
-          isReady: true
-        });
-      });
+  _createClass(Format, [{
+    key: "number",
+    value: function number(value) {
+      return formatNumber(value, {});
     }
   }, {
-    key: "loadScript",
-    value: function loadScript(condition, url, callback) {
-      function dowloadScript(success, error) {
-        var script = document.createElement('script');
-
-        script.onload = function () {
-          success();
-        };
-
-        script.onerror = function () {
-          console.error('Error loading Script: ' + url);
-          error();
-        };
-
-        script.src = url;
-        document.head.appendChild(script);
-      }
-
-      if (condition === false || condition === undefined) {
-        if (callback === undefined) {
-          return new Promise(function (resolve, reject) {
-            dowloadScript(resolve, reject);
-          });
-        }
-
-        dowloadScript(callback, callback);
-      } else {
-        if (callback === undefined) {
-          return new Promise(function (resolve) {
-            resolve();
-          });
-        }
-
-        callback();
-      }
+    key: "currency",
+    value: function currency(value, currencyCode) {
+      var intlOptions = {
+        style: 'currency',
+        currency: currencyCode,
+        maximumFractionDigits: 2
+      };
+      return formatNumber(value, intlOptions);
     }
   }, {
-    key: "render",
-    value: function render() {
-      if (!this.state.isReady) {
-        return null;
-      }
-
-      return this.props.children;
+    key: "percent",
+    value: function percent(value) {
+      var decimalPlaces = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      var intlOptions = {
+        style: 'percent',
+        maximumFractionDigits: decimalPlaces,
+        minimumFractionDigits: decimalPlaces
+      };
+      return formatNumber(value, intlOptions);
+    }
+  }, {
+    key: "date",
+    value: function date(value) {
+      return formatDateTime(value, {});
+    }
+  }, {
+    key: "dateTime",
+    value: function dateTime(value) {
+      var intlOptions = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+      };
+      return formatDateTime(value, intlOptions);
+    }
+  }, {
+    key: "time",
+    value: function time(value) {
+      var intlOptions = {
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+      };
+      return formatDateTime(value, intlOptions);
     }
   }]);
 
-  return PolyfillService;
-}(_react.default.Component);
+  return Format;
+}();
 
-exports.PolyfillService = PolyfillService;
-var dataCache = [];
+exports.Format = Format;
 
-function saveDataToCache(url, params, data) {
-  for (var n = 0, m = dataCache.length; n < m; n++) {
-    var cache = dataCache[n];
-
-    if (cache.url === url) {
-      cache.params = JSON.stringify(params);
-      cache.data = data;
-      return;
-    }
-  }
-
-  dataCache.push({
-    url: url,
-    params: JSON.stringify(params),
-    data: data
-  });
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-function getDataFromCache(url, params) {
-  for (var n = 0, m = dataCache.length; n < m; n++) {
-    var cache = dataCache[n];
+function formatDateTime(dateTime, options) {
+  if (window.Intl === undefined) {
+    return dateTime;
+  }
 
-    if (cache.url === url) {
-      if (JSON.stringify(params) === cache.params) {
-        return cache.data;
+  try {
+    if (_instanceof(dateTime, Date)) {
+      return new Intl.DateTimeFormat(navigator.language, options).format(dateTime);
+    } else {
+      var localDate = new Date(dateTime);
+      return new Intl.DateTimeFormat(navigator.language, options).format(localDate);
+    }
+  } catch (e) {
+    console.warn('Error formatting Date/Time Value:');
+    console.log(navigator.language);
+    console.log(options);
+    console.log(dateTime);
+    console.log(e);
+    return 'Error';
+  }
+}
+
+function formatNumber(value, options) {
+  var style,
+      maximumFractionDigits,
+      digitGrouping = null,
+      decimalMark = null,
+      currencySymbol = null,
+      numberParts,
+      formattedValue,
+      language;
+  language = navigator.language ? navigator.language : navigator.userLanguage;
+
+  if (value === null || value === '') {
+    return null;
+  }
+
+  if (!isNumber(value)) {
+    console.warn('Warning value specified in DateFormsJS Handlebars Helper function formatNumber() is not a number:');
+    console.log(value);
+    return value;
+  }
+
+  if (window.Intl === undefined) {
+    style = options.style ? options.style : null;
+    maximumFractionDigits = options.maximumFractionDigits ? options.maximumFractionDigits : 0;
+
+    if (style === 'percent') {
+      return (value * 100).toFixed(maximumFractionDigits) + '%';
+    }
+
+    switch (language) {
+      case 'en-us':
+        digitGrouping = ',';
+        decimalMark = '.';
+        currencySymbol = '$';
+        break;
+    }
+
+    if (digitGrouping !== null) {
+      numberParts = value.toString().split('.');
+      numberParts[0] = numberParts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      formattedValue = numberParts.join(decimalMark);
+
+      if (style === 'currency') {
+        return currencySymbol + formattedValue;
+      } else {
+        return formattedValue;
       }
-
-      break;
     }
+
+    return value;
   }
 
-  return null;
+  try {
+    return new Intl.NumberFormat(language, options).format(value);
+  } catch (e) {
+    console.warn('Error formatting Numeric Value:');
+    console.log(language);
+    console.log(options);
+    console.log(value);
+    console.log(e);
+    return 'Error';
+  }
 }
 
-function IsLoading(props) {
-  var show = props.fetchState === 0;
+var I18n = function () {
+  function I18n(defaultLocale, supportedLocales) {
+    var fileName = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '_';
+    var fileDir = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'i18n';
 
-  if (!show || !props.children) {
-    return null;
-  }
+    _classCallCheck(this, I18n);
 
-  return props.children;
-}
+    if (typeof defaultLocale !== 'string') {
+      throw new Error('Error - I18n - Missing default locale See examples for usage.');
+    } else if (!Array.isArray(supportedLocales)) {
+      throw new Error('Error - I18n - Missing or invalid supported locales. See examples for usage.');
+    }
 
-function HasError(props) {
-  var show = props.fetchState === -1;
-
-  if (!show || !props.children) {
-    return null;
-  }
-
-  var error = props.error;
-
-  if (typeof error === 'string' && error.indexOf('Error') === -1) {
-    error = 'Error - ' + error;
-  }
-
-  return _react.default.cloneElement(props.children, {
-    error: error
-  });
-}
-
-function IsLoaded(props) {
-  var show = props.fetchState === 1;
-
-  if (!show) {
-    return null;
-  }
-
-  return _react.default.cloneElement(props.children, {
-    data: props.data,
-    params: props.params,
-    handleChange: props.handleChange
-  });
-}
-
-var JsonData = function (_React$Component3) {
-  _inherits(JsonData, _React$Component3);
-
-  function JsonData(props) {
-    var _this4;
-
-    _classCallCheck(this, JsonData);
-
-    _this4 = _possibleConstructorReturn(this, _getPrototypeOf(JsonData).call(this, props));
-    _this4._isFetching = false;
-    _this4._isMounted = false;
-    _this4.fetchData = _this4.fetchData.bind(_assertThisInitialized(_this4));
-    _this4.handleChange = _this4.handleChange.bind(_assertThisInitialized(_this4));
-    _this4.state = {
-      fetchState: 0,
-      error: null,
-      params: _this4.getUrlParams(),
-      data: null
+    this.state = {
+      fileName: fileName,
+      fileDir: fileDir,
+      defaultLocale: defaultLocale,
+      supportedLocales: supportedLocales,
+      currentLocale: null,
+      langText: {},
+      langCache: {},
+      startCallback: null,
+      loadedCallback: null
     };
-    return _this4;
+    window.addEventListener('hashchange', this.onHashChange.bind(this));
+    this.onHashChange();
   }
 
-  _createClass(JsonData, [{
-    key: "getUrlParams",
-    value: function getUrlParams() {
-      var params = {};
+  _createClass(I18n, [{
+    key: "onLangStart",
+    value: function onLangStart(callback) {
+      this.state.startCallback = callback;
+    }
+  }, {
+    key: "onLangLoaded",
+    value: function onLangLoaded(callback) {
+      this.state.loadedCallback = callback;
+    }
+  }, {
+    key: "onHashChange",
+    value: function onHashChange() {
+      var i18n = this;
+      var state = this.state;
+      var currentLocale = null;
 
-      for (var prop in this.props) {
-        if (prop !== 'url' && typeof this.props[prop] === 'string') {
-          params[prop] = this.props[prop];
+      if (window.location.hash.indexOf('#/') === 0) {
+        currentLocale = window.location.hash.split('/')[1];
+
+        if (currentLocale === '' || state.supportedLocales.indexOf(currentLocale) === -1) {
+          currentLocale = null;
         }
       }
 
-      return params;
-    }
-  }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this._isMounted = true;
-
-      if (this.props.loadOnlyOnce) {
-        var data = getDataFromCache(this.props.url, this.getUrlParams());
-
-        if (data !== null) {
-          this.setState({
-            fetchState: 1,
-            data: data
-          });
-          return;
-        }
+      if (currentLocale === null) {
+        currentLocale = state.defaultLocale;
       }
 
-      this.fetchData();
-    }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps, prevState) {
-      var prevUrl = this.buildUrl(prevState.params);
-      var newUrl = this.buildUrl(this.props);
-
-      if (prevUrl !== newUrl) {
-        this.setState({
-          params: this.getUrlParams()
-        }, this.fetchData);
-      }
-    }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      this._isMounted = false;
-    }
-  }, {
-    key: "buildUrl",
-    value: function buildUrl(params) {
-      var url = this.props.url;
-
-      if (Object.keys(params).length > 0) {
-        for (var param in params) {
-          if (url.indexOf(':' + param) > -1) {
-            url = url.replace(new RegExp(':' + param, 'g'), encodeURIComponent(params[param]));
-          }
-        }
-      }
-
-      return url;
-    }
-  }, {
-    key: "fetchData",
-    value: function fetchData() {
-      var _this5 = this;
-
-      var url = this.buildUrl(this.state.params);
-
-      if (this._isFetching) {
+      if (state.currentLocale === currentLocale) {
         return;
       }
 
-      this._isFetching = true;
-      var options = {
-        mode: 'cors',
-        cache: 'no-store',
-        credentials: 'same-origin'
-      };
+      state.currentLocale = currentLocale;
 
-      if (this.props.fetchOptions) {
-        options = this.props.fetchOptions;
+      if (this.state.startCallback) {
+        this.state.startCallback();
       }
 
-      if (this.props.fetchHeaders) {
-        options.headers = this.props.fetchHeaders;
+      var url = state.fileDir + '/' + state.fileName + '.' + state.currentLocale + '.json';
+
+      if (state.langCache[url] !== undefined) {
+        state.langText = state.langCache[url];
+        i18n.updatePageTitle();
+
+        if (state.loadedCallback) {
+          state.loadedCallback();
+        }
+      } else {
+        if (window.fetch !== undefined) {
+          fetch(url, {
+            mode: 'cors',
+            cache: 'no-store',
+            credentials: 'same-origin'
+          }).then(function (response) {
+            var status = response.status;
+
+            if (status >= 200 && status < 300 || status === 304) {
+              return Promise.resolve(response);
+            } else {
+              var error = 'Error loading data. Server Response Code: ' + status + ', Response Text: ' + response.statusText;
+              return Promise.reject(error);
+            }
+          }).then(function (response) {
+            return response.json();
+          }).then(function (json) {
+            state.langCache[url] = json;
+          }).catch(function (error) {
+            var errorMessage = 'Error Downloading I18N file: [' + url + '], Response Code Status: ' + error.message;
+            console.error(errorMessage);
+            state.langCache[url] = {};
+          }).finally(function () {
+            state.langText = state.langCache[url];
+            i18n.updatePageTitle();
+
+            if (state.loadedCallback) {
+              state.loadedCallback();
+            }
+          });
+        } else {
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', url);
+
+          xhr.onload = function () {
+            var error = null;
+
+            try {
+              var status = this.status;
+
+              if (status >= 200 && status < 300 || status === 304) {
+                state.langCache[url] = JSON.parse(this.responseText);
+              } else {
+                error = 'Response Status Code: ' + status;
+              }
+            } catch (e) {
+              error = e.toString();
+            }
+
+            if (error !== null) {
+              var errorMessage = 'Error Downloading I18N file: [' + url + '], Error: ' + error;
+              console.error(errorMessage);
+              state.langCache[url] = {};
+            }
+
+            state.langText = state.langCache[url];
+            i18n.updatePageTitle();
+
+            if (state.loadedCallback) {
+              state.loadedCallback();
+            }
+          };
+
+          xhr.send();
+        }
       }
-
-      this.setState({
-        fetchState: 0
-      }, function () {
-        fetch(url, options).then(function (response) {
-          var status = response.status;
-
-          if (status >= 200 && status < 300 || status === 304) {
-            return Promise.resolve(response);
-          } else {
-            var error = 'Error loading data. Server Response Code: ' + status + ', Response Text: ' + response.statusText;
-            return Promise.reject(error);
-          }
-        }).then(function (response) {
-          return response.json();
-        }).then(function (data) {
-          if (_this5._isMounted) {
-            _this5.setState({
-              fetchState: 1,
-              data: data
-            });
-          }
-
-          if (_this5.props.loadOnlyOnce) {
-            saveDataToCache(_this5.props.url, _this5.getUrlParams(), data);
-          }
-        }).catch(function (error) {
-          if (_this5._isMounted) {
-            _this5.setState({
-              fetchState: -1,
-              error: error.toString()
-            });
-          }
-        }).finally(function () {
-          _this5._isFetching = false;
-
-          _this5.updateView();
-        });
-      });
     }
   }, {
-    key: "handleChange",
-    value: function handleChange() {
-      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    key: "updatePageTitle",
+    value: function updatePageTitle() {
+      var title = document.querySelector('html title[data-i18n]');
 
-      if (this._isMounted) {
-        this.setState({
-          data: data === null ? this.state.data : data
-        });
+      if (title) {
+        title.textContent = this.text(title.getAttribute('data-i18n'));
       }
+
+      document.documentElement.lang = this.state.currentLocale;
     }
   }, {
-    key: "updateView",
-    value: function updateView() {
-      if (typeof this.props.onViewUpdated === 'function') {
-        this.props.onViewUpdated();
-      }
+    key: "text",
+    value: function text(key) {
+      return this.state.langText && this.state.langText[key] ? this.state.langText[key] : key;
     }
   }, {
-    key: "render",
-    value: function render() {
-      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(IsLoading, {
-        fetchState: this.state.fetchState
-      }, this.props.isLoading), _react.default.createElement(HasError, {
-        fetchState: this.state.fetchState,
-        error: this.state.error
-      }, this.props.hasError), _react.default.createElement(IsLoaded, {
-        fetchState: this.state.fetchState,
-        data: this.state.data,
-        params: this.state.params,
-        handleChange: this.handleChange
-      }, this.props.isLoaded));
+    key: "currentLocale",
+    get: function get() {
+      return this.state.currentLocale;
+    }
+  }, {
+    key: "getUserDefaultLang",
+    get: function get() {
+      if (navigator.languages && navigator.languages.length && this.state.supportedLocales && this.state.supportedLocales.length) {
+        for (var n = 0, m = navigator.languages.length; n < m; n++) {
+          if (this.state.supportedLocales.indexOf(navigator.languages[n]) !== -1) {
+            return navigator.languages[n];
+          }
+        }
+      }
+
+      return this.state.defaultLocale;
     }
   }]);
 
-  return JsonData;
-}(_react.default.Component);
+  return I18n;
+}();
 
-exports.JsonData = JsonData;
+exports.I18n = I18n;
 
-var InputFilter = function (_React$Component4) {
-  _inherits(InputFilter, _React$Component4);
+var InputFilter = function (_React$Component2) {
+  _inherits(InputFilter, _React$Component2);
 
   function InputFilter(props) {
-    var _this6;
+    var _this2;
 
     _classCallCheck(this, InputFilter);
 
-    _this6 = _possibleConstructorReturn(this, _getPrototypeOf(InputFilter).call(this, props));
-    _this6.onChange = _this6.onChange.bind(_assertThisInitialized(_this6));
-    _this6.input = _react.default.createRef();
-    return _this6;
+    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(InputFilter).call(this, props));
+    _this2.onChange = _this2.onChange.bind(_assertThisInitialized(_this2));
+    _this2.input = _react.default.createRef();
+    return _this2;
   }
 
   _createClass(InputFilter, [{
@@ -561,19 +553,438 @@ var InputFilter = function (_React$Component4) {
 }(_react.default.Component);
 
 exports.InputFilter = InputFilter;
+var dataCache = [];
 
-var SortableTable = function (_React$Component5) {
-  _inherits(SortableTable, _React$Component5);
+function saveDataToCache(url, params, data) {
+  for (var n = 0, m = dataCache.length; n < m; n++) {
+    var cache = dataCache[n];
+
+    if (cache.url === url) {
+      cache.params = JSON.stringify(params);
+      cache.data = data;
+      return;
+    }
+  }
+
+  dataCache.push({
+    url: url,
+    params: JSON.stringify(params),
+    data: data
+  });
+}
+
+function getDataFromCache(url, params) {
+  for (var n = 0, m = dataCache.length; n < m; n++) {
+    var cache = dataCache[n];
+
+    if (cache.url === url) {
+      if (JSON.stringify(params) === cache.params) {
+        return cache.data;
+      }
+
+      break;
+    }
+  }
+
+  return null;
+}
+
+function IsLoading(props) {
+  var show = props.fetchState === 0;
+
+  if (!show || !props.children) {
+    return null;
+  }
+
+  return props.children;
+}
+
+function HasError(props) {
+  var show = props.fetchState === -1;
+
+  if (!show || !props.children) {
+    return null;
+  }
+
+  var error = props.error;
+
+  if (typeof error === 'string' && error.indexOf('Error') === -1) {
+    error = 'Error - ' + error;
+  }
+
+  return _react.default.cloneElement(props.children, {
+    error: error
+  });
+}
+
+function IsLoaded(props) {
+  var show = props.fetchState === 1;
+
+  if (!show) {
+    return null;
+  }
+
+  return _react.default.cloneElement(props.children, {
+    data: props.data,
+    params: props.params,
+    handleChange: props.handleChange
+  });
+}
+
+var JsonData = function (_React$Component3) {
+  _inherits(JsonData, _React$Component3);
+
+  function JsonData(props) {
+    var _this3;
+
+    _classCallCheck(this, JsonData);
+
+    _this3 = _possibleConstructorReturn(this, _getPrototypeOf(JsonData).call(this, props));
+    _this3._isFetching = false;
+    _this3._isMounted = false;
+    _this3.fetchData = _this3.fetchData.bind(_assertThisInitialized(_this3));
+    _this3.handleChange = _this3.handleChange.bind(_assertThisInitialized(_this3));
+    _this3.state = {
+      fetchState: 0,
+      error: null,
+      params: _this3.getUrlParams(),
+      data: null
+    };
+    return _this3;
+  }
+
+  _createClass(JsonData, [{
+    key: "getUrlParams",
+    value: function getUrlParams() {
+      var params = {};
+
+      for (var prop in this.props) {
+        if (prop !== 'url' && typeof this.props[prop] === 'string') {
+          params[prop] = this.props[prop];
+        }
+      }
+
+      return params;
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this._isMounted = true;
+
+      if (this.props.loadOnlyOnce) {
+        var data = getDataFromCache(this.props.url, this.getUrlParams());
+
+        if (data !== null) {
+          this.setState({
+            fetchState: 1,
+            data: data
+          });
+          return;
+        }
+      }
+
+      this.fetchData();
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps, prevState) {
+      var prevUrl = this.buildUrl(prevState.params);
+      var newUrl = this.buildUrl(this.props);
+
+      if (prevUrl !== newUrl) {
+        this.setState({
+          params: this.getUrlParams()
+        }, this.fetchData);
+      }
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this._isMounted = false;
+    }
+  }, {
+    key: "buildUrl",
+    value: function buildUrl(params) {
+      var url = this.props.url;
+
+      if (Object.keys(params).length > 0) {
+        for (var param in params) {
+          if (url.indexOf(':' + param) > -1) {
+            url = url.replace(new RegExp(':' + param, 'g'), encodeURIComponent(params[param]));
+          }
+        }
+      }
+
+      return url;
+    }
+  }, {
+    key: "fetchData",
+    value: function fetchData() {
+      var _this4 = this;
+
+      var url = this.buildUrl(this.state.params);
+
+      if (this._isFetching) {
+        return;
+      }
+
+      this._isFetching = true;
+      var options = {
+        mode: 'cors',
+        cache: 'no-store',
+        credentials: 'same-origin'
+      };
+
+      if (this.props.fetchOptions) {
+        options = this.props.fetchOptions;
+      }
+
+      if (this.props.fetchHeaders) {
+        options.headers = this.props.fetchHeaders;
+      }
+
+      this.setState({
+        fetchState: 0
+      }, function () {
+        fetch(url, options).then(function (response) {
+          var status = response.status;
+
+          if (status >= 200 && status < 300 || status === 304) {
+            return Promise.resolve(response);
+          } else {
+            var error = 'Error loading data. Server Response Code: ' + status + ', Response Text: ' + response.statusText;
+            return Promise.reject(error);
+          }
+        }).then(function (response) {
+          return response.json();
+        }).then(function (data) {
+          if (_this4._isMounted) {
+            _this4.setState({
+              fetchState: 1,
+              data: data
+            });
+          }
+
+          if (_this4.props.loadOnlyOnce) {
+            saveDataToCache(_this4.props.url, _this4.getUrlParams(), data);
+          }
+        }).catch(function (error) {
+          if (_this4._isMounted) {
+            _this4.setState({
+              fetchState: -1,
+              error: error.toString()
+            });
+          }
+        }).finally(function () {
+          _this4._isFetching = false;
+
+          _this4.updateView();
+        });
+      });
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange() {
+      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+      if (this._isMounted) {
+        this.setState({
+          data: data === null ? this.state.data : data
+        });
+      }
+    }
+  }, {
+    key: "updateView",
+    value: function updateView() {
+      if (typeof this.props.onViewUpdated === 'function') {
+        this.props.onViewUpdated();
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(IsLoading, {
+        fetchState: this.state.fetchState
+      }, this.props.isLoading), _react.default.createElement(HasError, {
+        fetchState: this.state.fetchState,
+        error: this.state.error
+      }, this.props.hasError), _react.default.createElement(IsLoaded, {
+        fetchState: this.state.fetchState,
+        data: this.state.data,
+        params: this.state.params,
+        handleChange: this.handleChange
+      }, this.props.isLoaded));
+    }
+  }]);
+
+  return JsonData;
+}(_react.default.Component);
+
+exports.JsonData = JsonData;
+
+var LeafletMap = function (_React$Component4) {
+  _inherits(LeafletMap, _React$Component4);
+
+  function LeafletMap(props) {
+    var _this5;
+
+    _classCallCheck(this, LeafletMap);
+
+    _this5 = _possibleConstructorReturn(this, _getPrototypeOf(LeafletMap).call(this, props));
+    _this5.div = _react.default.createRef();
+    return _this5;
+  }
+
+  _createClass(LeafletMap, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var lat = parseFloat(this.props.latitude);
+      var long = parseFloat(this.props.longitude);
+      var zoom = parseInt(this.props.zoom, 10);
+      var markerText = this.props.marker;
+      var numAttr = [{
+        attr: 'latitude',
+        value: lat
+      }, {
+        attr: 'longitude',
+        value: long
+      }, {
+        attr: 'zoom',
+        value: zoom
+      }];
+
+      for (var n = 0, m = numAttr.length; n < m; n++) {
+        if (isNaN(numAttr[n].value)) {
+          console.error('<LeafletMap> - Invalid Prop for [' + numAttr[n].attr + '], value was not a number.');
+          console.log(numAttr[n].attr);
+          console.log(this.props);
+          return;
+        }
+      }
+
+      var map = L.map(this.div.current).setView([lat, long], zoom);
+      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      if (markerText !== null) {
+        var marker = L.marker([lat, long]).addTo(map);
+
+        if (markerText) {
+          marker.bindPopup(markerText);
+        }
+
+        marker.openPopup();
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react.default.createElement('div', {
+        className: 'leaflet-map',
+        ref: this.div
+      });
+    }
+  }]);
+
+  return LeafletMap;
+}(_react.default.Component);
+
+exports.LeafletMap = LeafletMap;
+
+var PolyfillService = function (_React$Component5) {
+  _inherits(PolyfillService, _React$Component5);
+
+  function PolyfillService(props) {
+    var _this6;
+
+    _classCallCheck(this, PolyfillService);
+
+    _this6 = _possibleConstructorReturn(this, _getPrototypeOf(PolyfillService).call(this, props));
+    _this6.state = {
+      isReady: false
+    };
+    return _this6;
+  }
+
+  _createClass(PolyfillService, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this7 = this;
+
+      var condition = Array.from && window.Promise && window.fetch ? true : false;
+      var url = 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Object.assign,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat';
+      this.loadScript(condition, url, function () {
+        _this7.setState({
+          isReady: true
+        });
+      });
+    }
+  }, {
+    key: "loadScript",
+    value: function loadScript(condition, url, callback) {
+      function dowloadScript(success, error) {
+        var script = document.createElement('script');
+
+        script.onload = function () {
+          success();
+        };
+
+        script.onerror = function () {
+          console.error('Error loading Script: ' + url);
+          error();
+        };
+
+        script.src = url;
+        document.head.appendChild(script);
+      }
+
+      if (condition === false || condition === undefined) {
+        if (callback === undefined) {
+          return new Promise(function (resolve, reject) {
+            dowloadScript(resolve, reject);
+          });
+        }
+
+        dowloadScript(callback, callback);
+      } else {
+        if (callback === undefined) {
+          return new Promise(function (resolve) {
+            resolve();
+          });
+        }
+
+        callback();
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      if (!this.state.isReady) {
+        return null;
+      }
+
+      return this.props.children;
+    }
+  }]);
+
+  return PolyfillService;
+}(_react.default.Component);
+
+exports.PolyfillService = PolyfillService;
+
+var SortableTable = function (_React$Component6) {
+  _inherits(SortableTable, _React$Component6);
 
   function SortableTable(props) {
-    var _this7;
+    var _this8;
 
     _classCallCheck(this, SortableTable);
 
-    _this7 = _possibleConstructorReturn(this, _getPrototypeOf(SortableTable).call(this, props));
-    _this7.sortColumn = _this7.sortColumn.bind(_assertThisInitialized(_this7));
-    _this7.table = _react.default.createRef();
-    return _this7;
+    _this8 = _possibleConstructorReturn(this, _getPrototypeOf(SortableTable).call(this, props));
+    _this8.sortColumn = _this8.sortColumn.bind(_assertThisInitialized(_this8));
+    _this8.table = _react.default.createRef();
+    return _this8;
   }
 
   _createClass(SortableTable, [{
@@ -775,415 +1186,6 @@ var SortableTable = function (_React$Component5) {
 
 exports.SortableTable = SortableTable;
 
-var I18n = function () {
-  function I18n(defaultLocale, supportedLocales) {
-    var fileName = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '_';
-    var fileDir = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'i18n';
-
-    _classCallCheck(this, I18n);
-
-    if (typeof defaultLocale !== 'string') {
-      throw new Error('Error - I18n - Missing default locale See examples for usage.');
-    } else if (!Array.isArray(supportedLocales)) {
-      throw new Error('Error - I18n - Missing or invalid supported locales. See examples for usage.');
-    }
-
-    this.state = {
-      fileName: fileName,
-      fileDir: fileDir,
-      defaultLocale: defaultLocale,
-      supportedLocales: supportedLocales,
-      currentLocale: null,
-      langText: {},
-      langCache: {},
-      startCallback: null,
-      loadedCallback: null
-    };
-    window.addEventListener('hashchange', this.onHashChange.bind(this));
-    this.onHashChange();
-  }
-
-  _createClass(I18n, [{
-    key: "onLangStart",
-    value: function onLangStart(callback) {
-      this.state.startCallback = callback;
-    }
-  }, {
-    key: "onLangLoaded",
-    value: function onLangLoaded(callback) {
-      this.state.loadedCallback = callback;
-    }
-  }, {
-    key: "onHashChange",
-    value: function onHashChange() {
-      var i18n = this;
-      var state = this.state;
-      var currentLocale = null;
-
-      if (window.location.hash.indexOf('#/') === 0) {
-        currentLocale = window.location.hash.split('/')[1];
-
-        if (currentLocale === '' || state.supportedLocales.indexOf(currentLocale) === -1) {
-          currentLocale = null;
-        }
-      }
-
-      if (currentLocale === null) {
-        currentLocale = state.defaultLocale;
-      }
-
-      if (state.currentLocale === currentLocale) {
-        return;
-      }
-
-      state.currentLocale = currentLocale;
-
-      if (this.state.startCallback) {
-        this.state.startCallback();
-      }
-
-      var url = state.fileDir + '/' + state.fileName + '.' + state.currentLocale + '.json';
-
-      if (state.langCache[url] !== undefined) {
-        state.langText = state.langCache[url];
-        i18n.updatePageTitle();
-
-        if (state.loadedCallback) {
-          state.loadedCallback();
-        }
-      } else {
-        if (window.fetch !== undefined) {
-          fetch(url, {
-            mode: 'cors',
-            cache: 'no-store',
-            credentials: 'same-origin'
-          }).then(function (response) {
-            var status = response.status;
-
-            if (status >= 200 && status < 300 || status === 304) {
-              return Promise.resolve(response);
-            } else {
-              var error = 'Error loading data. Server Response Code: ' + status + ', Response Text: ' + response.statusText;
-              return Promise.reject(error);
-            }
-          }).then(function (response) {
-            return response.json();
-          }).then(function (json) {
-            state.langCache[url] = json;
-          }).catch(function (error) {
-            var errorMessage = 'Error Downloading I18N file: [' + url + '], Response Code Status: ' + error.message;
-            console.error(errorMessage);
-            state.langCache[url] = {};
-          }).finally(function () {
-            state.langText = state.langCache[url];
-            i18n.updatePageTitle();
-
-            if (state.loadedCallback) {
-              state.loadedCallback();
-            }
-          });
-        } else {
-          var xhr = new XMLHttpRequest();
-          xhr.open('GET', url);
-
-          xhr.onload = function () {
-            var error = null;
-
-            try {
-              var status = this.status;
-
-              if (status >= 200 && status < 300 || status === 304) {
-                state.langCache[url] = JSON.parse(this.responseText);
-              } else {
-                error = 'Response Status Code: ' + status;
-              }
-            } catch (e) {
-              error = e.toString();
-            }
-
-            if (error !== null) {
-              var errorMessage = 'Error Downloading I18N file: [' + url + '], Error: ' + error;
-              console.error(errorMessage);
-              state.langCache[url] = {};
-            }
-
-            state.langText = state.langCache[url];
-            i18n.updatePageTitle();
-
-            if (state.loadedCallback) {
-              state.loadedCallback();
-            }
-          };
-
-          xhr.send();
-        }
-      }
-    }
-  }, {
-    key: "updatePageTitle",
-    value: function updatePageTitle() {
-      var title = document.querySelector('html title[data-i18n]');
-
-      if (title) {
-        title.textContent = this.text(title.getAttribute('data-i18n'));
-      }
-    }
-  }, {
-    key: "text",
-    value: function text(key) {
-      return this.state.langText && this.state.langText[key] ? this.state.langText[key] : key;
-    }
-  }, {
-    key: "currentLocale",
-    get: function get() {
-      return this.state.currentLocale;
-    }
-  }, {
-    key: "getUserDefaultLang",
-    get: function get() {
-      if (navigator.languages && navigator.languages.length && this.state.supportedLocales && this.state.supportedLocales.length) {
-        for (var n = 0, m = navigator.languages.length; n < m; n++) {
-          if (this.state.supportedLocales.indexOf(navigator.languages[n]) !== -1) {
-            return navigator.languages[n];
-          }
-        }
-      }
-
-      return this.state.defaultLocale;
-    }
-  }]);
-
-  return I18n;
-}();
-
-exports.I18n = I18n;
-
-var Format = function () {
-  function Format() {
-    _classCallCheck(this, Format);
-  }
-
-  _createClass(Format, [{
-    key: "number",
-    value: function number(value) {
-      return formatNumber(value, {});
-    }
-  }, {
-    key: "currency",
-    value: function currency(value, currencyCode) {
-      var intlOptions = {
-        style: 'currency',
-        currency: currencyCode,
-        maximumFractionDigits: 2
-      };
-      return formatNumber(value, intlOptions);
-    }
-  }, {
-    key: "percent",
-    value: function percent(value) {
-      var decimalPlaces = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      var intlOptions = {
-        style: 'percent',
-        maximumFractionDigits: decimalPlaces,
-        minimumFractionDigits: decimalPlaces
-      };
-      return formatNumber(value, intlOptions);
-    }
-  }, {
-    key: "date",
-    value: function date(value) {
-      return formatDateTime(value, {});
-    }
-  }, {
-    key: "dateTime",
-    value: function dateTime(value) {
-      var intlOptions = {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric'
-      };
-      return formatDateTime(value, intlOptions);
-    }
-  }, {
-    key: "time",
-    value: function time(value) {
-      var intlOptions = {
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric'
-      };
-      return formatDateTime(value, intlOptions);
-    }
-  }]);
-
-  return Format;
-}();
-
-exports.Format = Format;
-
-function isNumber(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
-}
-
-function formatDateTime(dateTime, options) {
-  if (window.Intl === undefined) {
-    return dateTime;
-  }
-
-  try {
-    if (_instanceof(dateTime, Date)) {
-      return new Intl.DateTimeFormat(navigator.language, options).format(dateTime);
-    } else {
-      var localDate = new Date(dateTime);
-      return new Intl.DateTimeFormat(navigator.language, options).format(localDate);
-    }
-  } catch (e) {
-    console.warn('Error formatting Date/Time Value:');
-    console.log(navigator.language);
-    console.log(options);
-    console.log(dateTime);
-    console.log(e);
-    return 'Error';
-  }
-}
-
-function formatNumber(value, options) {
-  var style,
-      maximumFractionDigits,
-      digitGrouping = null,
-      decimalMark = null,
-      currencySymbol = null,
-      numberParts,
-      formattedValue,
-      language;
-  language = navigator.language ? navigator.language : navigator.userLanguage;
-
-  if (value === null || value === '') {
-    return null;
-  }
-
-  if (!isNumber(value)) {
-    console.warn('Warning value specified in DateFormsJS Handlebars Helper function formatNumber() is not a number:');
-    console.log(value);
-    return value;
-  }
-
-  if (window.Intl === undefined) {
-    style = options.style ? options.style : null;
-    maximumFractionDigits = options.maximumFractionDigits ? options.maximumFractionDigits : 0;
-
-    if (style === 'percent') {
-      return (value * 100).toFixed(maximumFractionDigits) + '%';
-    }
-
-    switch (language) {
-      case 'en-us':
-        digitGrouping = ',';
-        decimalMark = '.';
-        currencySymbol = '$';
-        break;
-    }
-
-    if (digitGrouping !== null) {
-      numberParts = value.toString().split('.');
-      numberParts[0] = numberParts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      formattedValue = numberParts.join(decimalMark);
-
-      if (style === 'currency') {
-        return currencySymbol + formattedValue;
-      } else {
-        return formattedValue;
-      }
-    }
-
-    return value;
-  }
-
-  try {
-    return new Intl.NumberFormat(language, options).format(value);
-  } catch (e) {
-    console.warn('Error formatting Numeric Value:');
-    console.log(language);
-    console.log(options);
-    console.log(value);
-    console.log(e);
-    return 'Error';
-  }
-}
-
-var LeafletMap = function (_React$Component6) {
-  _inherits(LeafletMap, _React$Component6);
-
-  function LeafletMap(props) {
-    var _this8;
-
-    _classCallCheck(this, LeafletMap);
-
-    _this8 = _possibleConstructorReturn(this, _getPrototypeOf(LeafletMap).call(this, props));
-    _this8.div = _react.default.createRef();
-    return _this8;
-  }
-
-  _createClass(LeafletMap, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var lat = parseFloat(this.props.latitude);
-      var long = parseFloat(this.props.longitude);
-      var zoom = parseInt(this.props.zoom, 10);
-      var markerText = this.props.marker;
-      var numAttr = [{
-        attr: 'latitude',
-        value: lat
-      }, {
-        attr: 'longitude',
-        value: long
-      }, {
-        attr: 'zoom',
-        value: zoom
-      }];
-
-      for (var n = 0, m = numAttr.length; n < m; n++) {
-        if (isNaN(numAttr[n].value)) {
-          console.error('<LeafletMap> - Invalid Prop for [' + numAttr[n].attr + '], value was not a number.');
-          console.log(numAttr[n].attr);
-          console.log(this.props);
-          return;
-        }
-      }
-
-      var map = L.map(this.div.current).setView([lat, long], zoom);
-      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a> contributors'
-      }).addTo(map);
-
-      if (markerText !== null) {
-        var marker = L.marker([lat, long]).addTo(map);
-
-        if (markerText) {
-          marker.bindPopup(markerText);
-        }
-
-        marker.openPopup();
-      }
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return _react.default.createElement('div', {
-        className: 'leaflet-map',
-        ref: this.div
-      });
-    }
-  }]);
-
-  return LeafletMap;
-}(_react.default.Component);
-
-exports.LeafletMap = LeafletMap;
-
 var DataFormsJS = function () {
   function DataFormsJS() {
     _classCallCheck(this, DataFormsJS);
@@ -1193,26 +1195,6 @@ var DataFormsJS = function () {
     key: "ErrorBoundary",
     get: function get() {
       return ErrorBoundary;
-    }
-  }, {
-    key: "PolyfillService",
-    get: function get() {
-      return PolyfillService;
-    }
-  }, {
-    key: "JsonData",
-    get: function get() {
-      return JsonData;
-    }
-  }, {
-    key: "InputFilter",
-    get: function get() {
-      return InputFilter;
-    }
-  }, {
-    key: "SortableTable",
-    get: function get() {
-      return SortableTable;
     }
   }, {
     key: "Format",
@@ -1225,9 +1207,29 @@ var DataFormsJS = function () {
       return I18n;
     }
   }, {
+    key: "InputFilter",
+    get: function get() {
+      return InputFilter;
+    }
+  }, {
+    key: "JsonData",
+    get: function get() {
+      return JsonData;
+    }
+  }, {
     key: "LeafletMap",
     get: function get() {
       return LeafletMap;
+    }
+  }, {
+    key: "PolyfillService",
+    get: function get() {
+      return PolyfillService;
+    }
+  }, {
+    key: "SortableTable",
+    get: function get() {
+      return SortableTable;
     }
   }]);
 
