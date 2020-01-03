@@ -8,7 +8,7 @@
 
 _如果你看到这条信息，说明您是我们最早期的用户!_ 🌠👍
 
-DataFormsJS是一个新的JavaScript框架独立于Reaction和Web组件。DataFormsJS体积小，易于学习，设计用于快速开发，并为开发人员和最终用户带来极好的体验。虽然它是新的(2019年11月首次发布)，但DataFormsJS经过多年的编写和使用，非常稳定，包含了大量的单元测试。
+DataFormsJS是一个新的JavaScript框架独立于React和Web组件。DataFormsJS体积小，易于学习，设计用于快速开发，并为开发人员和最终用户带来极好的体验。虽然它是新的(2019年11月首次发布)，但DataFormsJS经过多年的编写和使用，非常稳定，包含了大量的单元测试。
 
 该项目包含DataFormsJS的框架、示例页面和单元测试。主网站代码位于 dataformsjs/websie。
 
@@ -32,30 +32,34 @@ DataFormsJS是一个新的JavaScript框架独立于Reaction和Web组件。DataFo
 
 **入门 DataFormsJS 非常简单.**
 
-使用 **npm** 安装, 如果您正在使用Create-Reaction-app或希望在本地复制所有文件，则此选项非常有用:
+使用 **npm** 安装, 如果您正在使用`create-react-app`或希望在本地复制所有文件，则此选项非常有用:
 ```
 npm install dataformsjs
 ```
 
-**下载本储存库**. 它下载起来很小，因为这个存储库没有本地依赖项，并且从CDN加载Handlebar、Vue和Reaction。要运行所有示例文件，需要安装Node，然后您可以运行以下服务器之一:
+**下载本储存库**. 下载量很小，因为该存储库没有依赖性，并且可以从CDN加载HandlebarsJS，Vue和React。 要查看示例页面，需要安装Node，然后可以使用以下方法启动本地服务器：
+```
+npm start
+```
+
+框架和独立React和Web组件的JavaScript文件位于js目录下。 完整目录结构：
 
 ```
 dataformsjs
+├── docs
 ├── examples
+│   ├── *.htm
 │   └── server.js
-└── test
-    └── server.js
-```
-
-框架和独立Reaction以及Web组件的JavaScript文件位于 [js] 目录.
-
-```
-dataformsjs
 └── js
-    ├── DataFormsJS.js
-    ├── react\*.js
-    ├── web-components\*.js
-    └── *
+│   ├── DataFormsJS.js
+│   ├── react\*.js
+│   ├── web-components\*.js
+│   └── *\*.js
+├── scripts\*.js
+├── server\app.js
+└── test
+    ├── *.htm
+    └── server.js
 ```
 
 **在线演示** 可以在线上直接运行代码: https://www.dataformsjs.com/en/playground
@@ -143,14 +147,6 @@ dataformsjs
 * 新想法 - 如果您对如何改进有想法，欢迎打开一个issue并进行讨论.
 
 [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt) 你可以在这个文件里找到目录清单，便于展开工作.
-
-## :moneybag: 我们需要翻译!
-
-**如果你对某个语言有信心? <a href="https://www.fastsitephp.com/en/translators-needed" target="_blank">一定要点击我</a>.**
-
-DataFormsJS正在寻找付费翻译员，以便它可以快速翻译成多种语言。翻译可以分很多步骤来完成，所以即使你只有一两个小时的时间，帮上忙赚点钱也足够了.
-
-当前需要的语言：阿拉伯语、法语、德语、意大利语、日语、波斯语、俄语
 
 ## :question: FAQ
 
