@@ -4,7 +4,7 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
-## 3.4.2 (Next release - in active development)
+## 3.4.2 (January 3, 2020)
 
 * HTML5 History API Update so that if [ctrl] is held down when a link is clicked then the click event is ignored so that the link can be opened in a new tab.
   * Affects files `DataFormsJS.js` and `js/web-components/url-router.js` 
