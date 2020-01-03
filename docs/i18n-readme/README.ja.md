@@ -32,30 +32,34 @@ DataFormsJSは、新しいJavaScriptフレームワークとスタンドアロ�
 
 **Getting started with DataFormsJS is extremely easy.**
 
-Install from **npm**, this option works great if you are using create-react-app or want a copy of all files locally:
+Install from **npm**, this option works great if you are using `create-react-app` or want a copy of all files locally:
 ```
 npm install dataformsjs
 ```
 
-**Download this Repository**. It’s small to download because this repository has no local dependencies and loads Handlebars, Vue, and React from a CDN. To run all example files Node needs to be installed and then you can run one of the following servers:
+**Download this Repository**. It’s small to download because this repository has no dependencies and loads HandlebarsJS, Vue, and React from a CDN. To view example pages Node needs to be installed and then you can start the local server using:
+```
+npm start
+```
+
+JavaScript files for the Framework and standalone React and Web Components exist under the `js` directory. Full Directory Structure:
 
 ```
 dataformsjs
+├── docs
 ├── examples
+│   ├── *.htm
 │   └── server.js
-└── test
-    └── server.js
-```
-
-JavaScript files for the Framework and standalone React and Web Components exist under the [js] directory. 
-
-```
-dataformsjs
 └── js
-    ├── DataFormsJS.js
-    ├── react\*.js
-    ├── web-components\*.js
-    └── *
+│   ├── DataFormsJS.js
+│   ├── react\*.js
+│   ├── web-components\*.js
+│   └── *\*.js
+├── scripts\*.js
+├── server\app.js
+└── test
+    ├── *.htm
+    └── server.js
 ```
 
 **Develop online** using the code playground: https://www.dataformsjs.com/jp/playground
