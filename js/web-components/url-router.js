@@ -127,6 +127,12 @@ function setView(router, view, html, urlParams) {
     const links = document.querySelectorAll('a[href^="/"]:not([data-no-pushstate]');
     for (const link of links) {
         link.addEventListener('click', (e) => {
+            // Ignore if user is holding the [ctrl] key so that
+            // the link can be opened in a new tab.
+            if (e.ctrlKey === true) {
+                return;
+            }
+            // Change route based on the link
             e.preventDefault();
             e.stopPropagation();
             if (e.currentTarget.href) {

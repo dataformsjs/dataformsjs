@@ -1154,6 +1154,12 @@
          * @param {Event} e 
          */
         pushStateClick: function (e) {
+            // Ignore if user is holding the [ctrl] key so that
+            // the link can be opened in a new tab.
+            if (e.ctrlKey === true) {
+                return;
+            }
+            // Change route based on the link
             e.preventDefault();
             e.stopPropagation();
             if (e.currentTarget.href) {
