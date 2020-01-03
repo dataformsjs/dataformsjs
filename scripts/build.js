@@ -34,6 +34,9 @@ const Babel = require('@babel/standalone');
 const UglifyJS = require('uglify-js');
 const UglifyES = require('uglify-es');
 
+// Handle CRLF for Windows when comparing files
+const isWindows = (process.platform === 'win32');
+
 /**
  * Main function
  */
@@ -41,7 +44,10 @@ const UglifyES = require('uglify-es');
     // Small copyright header to core files. Only a few files are updated.
     // Bascially one file for the Framework, one file for React,
     // and two files for Web Components.
-    const copyright = '// @link https://www.dataformsjs.com\n// @author Conrad Sollitt (http://www.conradsollitt.com)\n// @license MIT\n';
+    let copyright = '// @link https://www.dataformsjs.com\n// @author Conrad Sollitt (http://www.conradsollitt.com)\n// @license MIT\n';
+    if (isWindows) {
+        copyright = copyright.replace(/\n/g, '\r\n');
+    }
 
     // Build React [js/react/es5/*.js] files from [js/react/es6*.js]
     let { filesChecked, filesUpdated } = await buildReactFiles(copyright);
@@ -80,6 +86,9 @@ const UglifyES = require('uglify-es');
                 continue;
             }
             let newCode = result.code;
+            if (isWindows) {
+                newCode = newCode.replace(/\n/g, '\r\n');
+            }
 
             // Add copyright
             let addCopyright;
@@ -143,9 +152,6 @@ async function buildReactFiles(copyright) {
     // Options for Babel
     const options = { presets: ['es2015', 'stage-3', 'react'], comments: false };
 
-    // Handle CRLF for Windows when comparing files
-    const isWindows = (process.platform === 'win32');
-
     // Read and process files one at a time
     let filesChecked = 0;
     let filesUpdated = 0;
@@ -194,13 +200,14 @@ async function buildReactFiles(copyright) {
     let js = Babel.transform(allComponents.join('\n'), options).code;
     js = copyright + js;
 
-    // Compare with existing [DataFormsJS.js] File
+    // Compare with existing [DataFormsJS.js] File.
+    // When comparing convert CRLF -> LF to avoid issues.
     const outFile = path.join(rootDir, 'es5', 'DataFormsJS.js');
     let codeOld = null;
     if (fs.existsSync(outFile)) {
         codeOld = await readFile(outFile, 'utf8');
     }
-    if (codeOld !== js) {
+    if (codeOld.replace(/\r\n/g, '\n') !== js.replace(/\r\n/g, '\n')) {
         console.log('Updating file: ' + outFile);
         await writeFile(outFile, js);
         filesUpdated++;
