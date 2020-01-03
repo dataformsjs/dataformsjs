@@ -33,30 +33,34 @@ Este repositorio contiene el Marco de DataFormsJS, Páginas de ejemplo y Pruebas
 
 **Comenzar con DataFormsJS es extremadamente fácil.**
 
-Instale desde **npm**, esta opción funciona muy bien si está utilizando create-react-app o desea una copia de todos los archivos localmente:
+Instale desde **npm**, esta opción funciona muy bien si está utilizando `create-react-app` o desea una copia de todos los archivos localmente:
 ```
 npm install dataformsjs
 ```
 
-**Descargue este repositorio**. Es pequeño para descargar porque este repositorio no tiene dependencias locales y carga Handlebars, Vue y React desde un CDN. Para ejecutar todos los archivos de ejemplo, debe instalarse Node y luego puede ejecutar uno de los siguientes servidores:
+**Descargue este repositorio**. Es pequeño para descargar porque este repositorio no tiene dependencias y carga HandlebarsJS, Vue y React desde un CDN. Para ver páginas de ejemplo, debe instalarse Node y luego puede iniciar el servidor local usando:
+```
+npm start
+```
+
+Los archivos JavaScript para el Framework y React y Web Components independientes existen en el directorio `js`. Estructura completa del directorio:
 
 ```
 dataformsjs
+├── docs
 ├── examples
+│   ├── *.htm
 │   └── server.js
-└── test
-    └── server.js
-```
-
-Los archivos JavaScript para Framework y React y Web Components independientes existen en el directorio [js].
-
-```
-dataformsjs
 └── js
-    ├── DataFormsJS.js
-    ├── react\*.js
-    ├── web-components\*.js
-    └── *
+│   ├── DataFormsJS.js
+│   ├── react\*.js
+│   ├── web-components\*.js
+│   └── *\*.js
+├── scripts\*.js
+├── server\app.js
+└── test
+    ├── *.htm
+    └── server.js
 ```
 
 **Desarrolle en línea** utilizando el código de juegos: https://www.dataformsjs.com/es/playground
