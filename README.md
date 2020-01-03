@@ -60,7 +60,7 @@ This repository contains DataFormsJS’s Framework, Example Pages, and Unit Test
 
 **Getting started with DataFormsJS is extremely easy.**
 
-Install from **npm**, this option works great if you are using create-react-app or want a copy of all files locally:
+Install from **npm**, this option works great if you are using `create-react-app` or want a copy of all files locally:
 ```
 npm install dataformsjs
 ```
