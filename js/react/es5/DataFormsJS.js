@@ -395,6 +395,8 @@ var I18n = function () {
       if (title) {
         title.textContent = this.text(title.getAttribute('data-i18n'));
       }
+
+      document.documentElement.lang = this.state.currentLocale;
     }
   }, {
     key: "text",

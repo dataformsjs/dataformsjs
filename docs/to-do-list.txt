@@ -17,12 +17,8 @@ TODO List
 --------------------------------------------------------------------------
 
 *) Create Class I18n [dataformsjs\js\react\es6\I18n.js] should set <html lang="lang"> like the standard Framework plugin
-    - See: https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/i18n.js
-        Line 227: document.documentElement.lang = this.currentLocale
-    - https://github.com/dataformsjs/dataformsjs/blob/master/js/react/es6/I18n.js
-        Update where [i18n.updatePageTitle();] is called
-    - This will require a new build
-    - Once published comapre margin on table icons at:
+    - Update ready for testing once new npm build is published
+    - Once published compare margin on table icons at:
         http://localhost:3000/examples/places-demo-react.htm#/ar/
         http://localhost:3000/examples/places-demo-vue.htm#/ar/
       And <ul> alignment in:

@@ -50,7 +50,7 @@ const UglifyES = require('uglify-es');
     const {jsFiles, webFiles} = await getAllFiles();
     const fileGroups = [
         { files:jsFiles,  es6:false, minifier:UglifyJS, title:'JavaScript Files' },
-        { files:webFiles, es6:true,  minifier:UglifyES, title:'Web Component' },
+        { files:webFiles, es6:true,  minifier:UglifyES, title:'Web Components / React' },
     ];
     let fileErrors = 0;
 
