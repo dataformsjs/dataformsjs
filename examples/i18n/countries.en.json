@@ -52,5 +52,8 @@
     "info_3": "This app is written in several different front-end technologies to show different options of using DataFormsJS (HandlebarsJS, Vue, React, Web Components, and JavaScript).",
     "info_4": "When using the core Framework (HandlebarsJS, Vue, and JavaScript) scripts are dynamically downloaded only when first used which allows for greater performance and a smaller site when the first page loads.",
     "info_5": "The React example uses Babel Standalone with DataFormsJS React Components and JSX Templates for the Pages.",
-    "info_6": "This app uses data from the GeoNames Database, flags from Semantic UI, mapping from Leaflet with OpenStreeMap, and additional third-party components on HandlebarsJS and GraphQL demos including jQuery and the Chosen jQuery plugin."
+    "info_6": "This app uses data from the GeoNames Database, flags from Semantic UI, mapping from Leaflet with OpenStreeMap, and additional third-party components on HandlebarsJS and GraphQL demos including jQuery and the Chosen jQuery plugin.",
+    "source_code": "Source Code",
+    "html_js_only": "HTML/JavaScript (No Templating)",
+    "web_components": "Web Components"
 }

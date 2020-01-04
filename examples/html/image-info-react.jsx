@@ -36,6 +36,17 @@ function PageInfo() {
                     <li><a href="https://unsplash.com/photos/FGEHnEMaZnE" target="_blank">{i18n.text('info_12')}</a></li>
                 </ul>
 
+                <h2 className="source-code">
+                    <span>{i18n.text('source_code')}</span>
+                    <img src="https://www.dataformsjs.com/img/logos/GitHub-Mark-32px.png" alt="GitHub" />
+                </h2>
+                <ul className="info">
+                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-vue.htm" target="_blank">Vue</a></li>
+                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-react.htm" target="_blank">React</a></li>
+                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-hbs.htm" target="_blank">Handlebars</a></li>
+                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification.js" target="_blank">{i18n.text('src_js_vue_hbs')}</a></li>
+                </ul>
+
                 <h2>{i18n.text('Links')}</h2>
                 <ul className="info">
                     {links.map(link => {

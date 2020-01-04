@@ -141,6 +141,13 @@ ul.info  {
 html[lang='ar'] ul.info { text-align:right; }
 ul.info li { line-height: 1.4em; margin-bottom: calc(var(--padding) / 2); }
 
+h2.source-code {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+h2.source-code img { margin-left:16px; }
+
 ul.results li.legend {
     margin: 0;
     margin-bottom: 40px;

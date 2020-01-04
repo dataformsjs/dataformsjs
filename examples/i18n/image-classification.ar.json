@@ -29,5 +29,7 @@
     "info_12": "التزلج والجبال صور بواسطة Samuel Ferrara on Unsplash",
     "prob_high": ">= 67 ٪ الاحتمال",
     "prob_med": ">= 33 ٪ و <67 ٪",
-    "prob_low": "<33 ٪ الاحتمال"
+    "prob_low": "<33 ٪ الاحتمال",
+    "source_code": "مصدر الرمز",
+    "src_js_vue_hbs": "جافا سكريبت (Vue and HandlebarsJS)"
 }

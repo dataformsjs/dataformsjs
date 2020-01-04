@@ -83,6 +83,13 @@ section { text-align: center; }
 label { margin-right:var(--padding) }
 input, button { padding:4px 8px; }
 
+h2.source-code {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+h2.source-code img { margin-left:16px; }
+
 ul {
     margin-left: var(--padding);
     text-align: left;

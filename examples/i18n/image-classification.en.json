@@ -29,5 +29,7 @@
     "info_12": "Skiing and Mountain Photo by Samuel Ferrara on Unsplash",
     "prob_high": ">= 67% Probability",
     "prob_med": ">= 33% and < 67%",
-    "prob_low": "< 33% Probability"
+    "prob_low": "< 33% Probability",
+    "source_code": "Source Code",
+    "src_js_vue_hbs": "JavaScript (Vue and HandlebarsJS)"
 }

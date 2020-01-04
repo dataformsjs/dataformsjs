@@ -134,9 +134,22 @@ ul.info  {
     text-align: left;
     max-width: 800px;
     padding: 0 30px;
+    margin-bottom: 40px;
 }
 html[lang='ar'] ul.info { text-align:right; }
 ul.info li { line-height: 1.4em; margin-bottom:10px; }
+
+h2.source-code {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+h2.source-code img { margin-left:16px; }
+h2.source-code,
+h2.links {
+    border-top: 2px solid black;
+    padding-top: 16px;
+}
 
 table tbody tr:nth-child(odd) { background-color: white; }
 table tbody tr:nth-child(even) { background-color: #f6f8fa; }

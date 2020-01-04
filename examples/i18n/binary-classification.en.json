@@ -32,5 +32,6 @@
     "info_6": "This specific example uses a model built from a well-studied dataset “Pima Indians Diabetes Database” to predict if a patient has diabetes or does not have diabetes. This dataset is widely used in introductory Machine Learning examples and it’s a good starting point to learn core concepts of Machine Learning.",
     "info_7": "The standard [entryForm.js] file is used to handle data downloading and submitting through HTML and Templating without the need for extra JavaScript code.",
     "info_8": "A custom page [binaryPredictionPage] defined in [binary-classification.js] is used to extend [entryForm.js] and add logic for defining new random values.",
-    "training_info": "Here are 10 example records (out of 768 total records) that were used to develop the model."
+    "training_info": "Here are 10 example records (out of 768 total records) that were used to develop the model.",
+    "source_code": "Source Code"
 }

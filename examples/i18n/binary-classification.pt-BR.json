@@ -32,5 +32,6 @@
     "info_6": "Este específico exemplo usa um modelo desenvolvido à partitr de um conjunto de dados bem estudado o “Pima Indians Diabetes Database” para to prever se um paciente tem diabetes ou não tem diabetes. Este conjunto de dados é amplamente usado em exemplos introdutórios de Machine Learning e é um bom ponto de partida para aprender coneitos fundamentais de Machine Learning.",
     "info_7": "O arquivo padrão [entryForm.js] é usado para manipular dados baixados e enviá-los através de HTML e Templating sem a necessiade de código JavaScript extra.",
     "info_8": "Uma página personalizada [binaryPredictionPage] definida em [binary-classification.js] é usada para extender [entryForm.js] e adicionar lógica para definir novos valores aleatórios.",
-    "training_info": "Aqui estão 10 registros de exemplo (de um total de 768 registros) que foram utilizandos no desenvolvimento do modelo."
+    "training_info": "Aqui estão 10 registros de exemplo (de um total de 768 registros) que foram utilizandos no desenvolvimento do modelo.",
+    "source_code": "Código Fonte"
 }

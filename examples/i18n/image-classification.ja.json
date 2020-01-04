@@ -29,5 +29,7 @@
     "info_12": "UnsplashのSamuel Ferraraによるスキーと山の写真",
     "prob_high": "> = 67％の確率",
     "prob_med": "> = 33％および<67％",
-    "prob_low": "<33％の確率"
+    "prob_low": "<33％の確率",
+    "source_code": "ソースコード",
+    "src_js_vue_hbs": "JavaScript（VueおよびHandlebarsJS）"
 }

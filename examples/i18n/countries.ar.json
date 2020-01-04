@@ -52,5 +52,8 @@
     "info_3": "تمت كتابة هذا التطبيق في العديد من التقنيات الأمامية المختلفة لإظهار خيارات مختلفة لاستخدام DataFormsJS (HandlebarsJS ، Vue ، React ، Web Components ، و JavaScript).",
     "info_4": "عند استخدام البرامج الأساسية Framework (HandlebarsJS و Vue و JavaScript) ، يتم تنزيل البرامج النصية ديناميكيًا فقط عند استخدامها لأول مرة مما يسمح بمزيد من الأداء وموقع أصغر عند تحميل الصفحة الأولى.",
     "info_5": "يستخدم مثال React Babel Standalone مع DataFormsJS React Components و JSX Templates for Pages.",
-    "info_6": "يستخدم هذا التطبيق بيانات من قاعدة بيانات GeoNames ، وأعلام من Semiant UI ، ورسم خرائط من Leaflet مع OpenStreeMap ، ومكونات إضافية تابعة لجهات أخرى على HandlebarsJS و GraphQL demos بما في ذلك jQuery و Chosen jQuery plugin."
+    "info_6": "يستخدم هذا التطبيق بيانات من قاعدة بيانات GeoNames ، وأعلام من Semiant UI ، ورسم خرائط من Leaflet مع OpenStreeMap ، ومكونات إضافية تابعة لجهات أخرى على HandlebarsJS و GraphQL demos بما في ذلك jQuery و Chosen jQuery plugin.",
+    "source_code": "مصدر الرمز",
+    "html_js_only": "HTML/JavaScript (لا توجد نماذج)",
+    "web_components": "مكونات الويب"
 }

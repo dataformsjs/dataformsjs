@@ -29,7 +29,20 @@ function PageInfo({match}) {
                     <li>{i18n.text('info_6')}</li>
                 </ul>
 
-                <h2>{i18n.text('Links')}</h2>
+                <h2 className="source-code">
+                    <span>{i18n.text('source_code')}</span>
+                    <img src="https://www.dataformsjs.com/img/logos/GitHub-Mark-32px.png" alt="GitHub" />
+                </h2>
+                <ul class="info">
+                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-react.htm" target="_blank">React</a></li>
+                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-vue.htm" target="_blank">Vue</a></li>
+                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-hbs.htm" target="_blank">Handlebars</a></li>
+                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-graphql.htm" target="_blank">GraphQL</a></li>
+                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-web.htm" target="_blank">{i18n.text('web_components')}</a></li>
+                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-js.htm" target="_blank">{i18n.text('html_js_only')}</a></li>
+                </ul>
+
+                <h2 className="links">{i18n.text('Links')}</h2>
                 <ul className="info">
                     {links.map(link => {
                         return <li key={link}><a href={link} target="_blank">{link}</a></li>

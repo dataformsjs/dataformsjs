@@ -52,5 +52,8 @@
     "info_3": "このアプリは、DataFormsJS（HandlebarsJS、Vue、React、Web Components、およびJavaScript）を使用するさまざまなオプションを示すために、いくつかの異なるフロントエンドテクノロジで記述されています。",
     "info_4": "コアフレームワーク（HandlebarsJS、Vue、およびJavaScript）を使用する場合、スクリプトは最初に使用したときにのみ動的にダウンロードされるため、最初のページの読み込み時にパフォーマンスが向上し、サイトが小さくなります。",
     "info_5": "Reactの例では、DataFormsJS Reactコンポーネントとページ用のJSXテンプレートを備えたBabel Standaloneを使用しています。",
-    "info_6": "このアプリは、GeoNamesデータベースのデータ、セマンティックUIのフラグ、OpenStreeMapを使用したLeafletのマッピング、jQueryおよびChosen jQueryプラグインを含むHandlebarsJSおよびGraphQLデモの追加のサードパーティコンポーネントを使用します。"
+    "info_6": "このアプリは、GeoNamesデータベースのデータ、セマンティックUIのフラグ、OpenStreeMapを使用したLeafletのマッピング、jQueryおよびChosen jQueryプラグインを含むHandlebarsJSおよびGraphQLデモの追加のサードパーティコンポーネントを使用します。",
+    "source_code": "ソースコード",
+    "html_js_only": "HTML/JavaScript（テンプレートなし）",
+    "web_components": "Web Components"
 }
