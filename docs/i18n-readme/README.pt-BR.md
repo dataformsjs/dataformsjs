@@ -148,14 +148,6 @@ Este exemplo usa Vue para templating. Se você salvar isso com um editor de text
 
 O arquivo [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt) contém a lista complete de itens que estão atualmente pendentes e é um bom ponto para começar.
 
-## :moneybag: Procura-se Tradutores Remunerados!
-
-**Você é fluente em Inglês e outra língua? <a href="https://www.fastsitephp.com/en/translators-needed" target="_blank">Se se sim, por favor entre em contato</a>.**
-
-O DataFormsJS está procurando por tradutores remunerados para que possa ser traduzido para múltiplos idiomas rapidamente. Traduções podem ser feitas em várias etapas, então mesmo se você tiver somente uma hora ou duas será o suficiente para ajudar ganhando algum dinheiro.
-
-Idiomans atualmente necessitando de tradutores: Árabe, Chinês Simplificado (zh-Hans), Francês, Alemão, Italiano, Japonês, Coreano, Persa, Russo
-
 ## :question: FAQ
 
 **Por que o DataFormsJS foi criado?**
