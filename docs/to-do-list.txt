@@ -6,6 +6,7 @@ TODO List
 |   In General:
 |
 |   *) Translations
+|      https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-translations.md
 |   *) More Examples (for all or most scripts and features)
 |   *) More Documentation
 |   *) More Unit Testing
