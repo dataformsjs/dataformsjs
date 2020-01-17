@@ -51,7 +51,7 @@
  */
 
 /* Validates with both [jshint] and [eslint] */
-/* global app */
+/* global app, Vue */
 /* jshint strict: true */
 /* eslint-env browser */
 /* eslint quotes: ["error", "single", { "avoidEscape": true }] */
@@ -116,6 +116,7 @@
             graphqlSrc: null,
             graphqlQuery: null,
             errorTextGraphQLErrors: '{count} GraphQL Errors occured. See console for full details.',
+            vueInstance: null,
         },
 
         /**
@@ -137,7 +138,7 @@
                 activeModelProp = null,
                 url,
                 init = null,
-                usingVue = (app.activeController.viewEngine === 'Vue');
+                usingVue = (app.activeController && app.activeController.viewEngine === 'Vue');
 
             // Exit if already loading
             if (control.isLoading) {
@@ -279,12 +280,27 @@
             // When using Vue the affected model properties can be anywhere on the
             // page so refresh all page plugins. Templates are not refreshed (re-rendered)
             // when using Vue.
-            if (app.activeController.viewEngine === 'Vue') {
+            if ((app.activeController && app.activeController.viewEngine === 'Vue') || control.vueInstance !== null) {
                 if (error === undefined) {
-                    app.refreshPlugins();
+                    if (control.vueInstance !== null) {
+                        control.vueInstance.$nextTick(app.refreshPlugins);
+                    } else {
+                        app.refreshPlugins();
+                    }
                 } else {
                     app.showError(element, error);
                 }
+                return;
+            }
+
+            // If no [activeModel] has been created and Vue is being used then assume that
+            // the control is being used on a page without SPA routing and create a new Vue
+            // instance for the control.
+            if (app.activeModel === null && window.Vue !== undefined && control.vueInstance === null) {
+                control.vueInstance = new Vue({
+                    el: element,
+                    data: control,
+                });
                 return;
             }
 

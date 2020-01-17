@@ -643,7 +643,7 @@
                     function routeLoad() {
                         // Set active template and call controller route load method
                         app.activeTemplate = template;
-                        if (controller.onRouteLoad !== undefined && app.activeController.viewEngine !== ViewEngines.Vue) {
+                        if (controller.onRouteLoad !== undefined && app.activeController && app.activeController.viewEngine !== ViewEngines.Vue) {
                             try {
                                 controller.onRouteLoad.apply(app.activeModel, app.activeParameters);
                             } catch (e) {
@@ -1918,7 +1918,7 @@
                     }
                 }
             }
-            if (app.activeController.viewEngine === ViewEngines.Vue) {
+            if (app.activeController && app.activeController.viewEngine === ViewEngines.Vue) {
                 app.activeVueModel.$nextTick(refreshAll);
             } else {
                 refreshAll();
@@ -1941,11 +1941,11 @@
             // Build Query Selector based on [data-control] attribute
             // and custom Control Names. For example a control named
             // 'custom-list' will search for elements with the same tag name.
-            var selectors = ['[data-control]:not([data-control-loaded])'];
+            var selectors = ['[data-control]:not([data-control-loaded]):not([data-control-is-loading])'];
             var controlNames = Object.keys(app.controls);
             controlNames.forEach(function(name) {
                 if (name.indexOf('-') !== -1 && name.indexOf(' ') === -1) {
-                    selectors.push(name + ':not([data-control-loaded])');
+                    selectors.push(name + ':not([data-control-loaded]):not([data-control-is-loading])');
                 }
             });
             var selector = selectors.join(',');
@@ -2067,6 +2067,12 @@
                 model = app.activeModel;
             }
 
+            // Prevent controls from loading while [onLoad] is being called
+            if (element.getAttribute('data-control-is-loading') !== null) {
+                return;
+            }
+            element.setAttribute('data-control-is-loading', '');
+
             // Call events [onLoad()] then [html()]
             hadError = false;
             try
@@ -2094,6 +2100,7 @@
 
             // Mark control as loaded and add to active list
             element.setAttribute('data-control-loaded', '');
+            element.removeAttribute('data-control-is-loading');
             app.activeJsControls.push({
                 element: element,
                 control: name,
