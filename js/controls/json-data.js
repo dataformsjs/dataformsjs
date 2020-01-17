@@ -15,10 +15,12 @@
  *
  * Search Screen - HTML Page Source:
  *     https://github.com/dataformsjs/dataformsjs/blob/master/examples/html/search-places-hbs.htm
+ *     https://github.com/dataformsjs/dataformsjs/blob/master/examples/html/search-places-vue.htm
  *     https://github.com/dataformsjs/dataformsjs/blob/master/examples/html/search-places-graphql.htm
  *
  * Example Usage - Directly on a page without a search screen and without using an SPA:
  *     https://www.dataformsjs.com/examples/countries-no-spa-hbs.htm
+ *     https://www.dataformsjs.com/examples/countries-no-spa-vue.htm
  *     https://www.dataformsjs.com/examples/countries-no-spa-js.htm
  *
  * Example Code:
@@ -140,6 +142,18 @@
                 init = null,
                 usingVue = (app.activeController && app.activeController.viewEngine === 'Vue');
 
+            // When using Vue only assign key web service state props back to Vue.
+            // This avoids issues of [control.url] from overwriting the same
+            // property on the controller (for example whne using the jsonData page).
+            function assignControlToVue() {
+                Object.assign(app.activeVueModel, {
+                    isLoading: control.isLoading,
+                    isLoaded: control.isLoaded,
+                    hasError: control.hasError,
+                    errorMessage: control.errorMessage,
+                });
+            }
+
             // Exit if already loading
             if (control.isLoading) {
                 return;
@@ -151,7 +165,7 @@
             // If using a property of the active model then get it or create
             // it as an object and assign control props.
             if (usingVue) {
-                Object.assign(app.activeVueModel, control);
+                assignControlToVue();
             } else if (control.modelProp !== null) {
                 app.activeModel[control.modelProp] = app.activeModel[control.modelProp] || {};
                 activeModelProp = app.activeModel[control.modelProp];
@@ -197,7 +211,7 @@
                 // Assign downloaded JSON to either the control or the model
                 if (!control.graphqlQuery) {
                     if (usingVue) {
-                        Object.assign(app.activeVueModel, control);
+                        assignControlToVue();
                         Object.assign(app.activeVueModel, data);
                     } else if (activeModelProp === null) {
                         Object.assign(control, data);
@@ -208,7 +222,7 @@
                 } else {
                     // If using GraphQL then copy from the [data] property.
                     if (usingVue) {
-                        Object.assign(app.activeVueModel, control);
+                        assignControlToVue();
                         Object.assign(app.activeVueModel, data);
                     } else if (activeModelProp === null) {
                         Object.assign(control, data.data);
@@ -247,7 +261,7 @@
                 control.hasError = true;
                 control.errorMessage = error;
                 if (usingVue) {
-                    Object.assign(app.activeVueModel, control);
+                    assignControlToVue();
                 } else if (activeModelProp !== null) {
                     Object.assign(activeModelProp, control);
                 }

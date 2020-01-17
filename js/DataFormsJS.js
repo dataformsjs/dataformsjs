@@ -546,6 +546,11 @@
         // Destroy the Vue View Model
         if (app.activeVueModel !== null) {
             app.activeVueModel.$destroy();
+            // Convert data from the Vue Instance to a plain JavaScript Object
+            // and save it back to the models object.
+            if (app.activeController && app.activeController.modelName && app.models[app.activeController.modelName] && app.activeVueModel.$data) {
+                app.models[app.activeController.modelName] = JSON.parse(JSON.stringify(app.activeVueModel.$data));
+            }
         }
 
         // Clear the Current Route
@@ -1619,15 +1624,19 @@
                                     methods: app.activeController.methods,
                                     computed: app.activeController.computed,
                                     mounted: function () {
-                                        if (app.activeController.onRouteLoad !== undefined) {
-                                            try {
-                                                app.activeController.onRouteLoad.apply(this, app.activeParameters);
-                                            } catch (e) {
-                                                app.showErrorAlert('Error from Controller [path=' + app.activeController.path + '] on [onRouteLoad()]: ' + e.toString());
-                                                console.error(e);
+                                        var vm = this;
+                                        vm.$nextTick(function () {
+                                            if (app.activeController.onRouteLoad !== undefined) {
+                                                try {
+                                                    app.activeController.onRouteLoad.apply(vm, app.activeParameters);
+                                                } catch (e) {
+                                                    app.showErrorAlert('Error from Controller [path=' + app.activeController.path + '] on [onRouteLoad()]: ' + e.toString());
+                                                    console.error(e);
+                                                }
                                             }
-                                        }
-                                        afterRender('vue_mounted', this);
+                                            app.loadAllJsControls();
+                                            afterRender('vue_mounted', vm);
+                                        });
                                     },
                                     updated: function () {
                                         // Only run the update when a DOM change happens

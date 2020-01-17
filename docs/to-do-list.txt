@@ -17,25 +17,6 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-*) Vue Places Demo
-    - URL:
-        https://www.dataformsjs.com/examples/places-demo-vue.htm
-    - Behavior of search screen is different than the handlebars demos
-        https://www.dataformsjs.com/examples/places-demo-hbs.htm
-        https://www.dataformsjs.com/examples/places-demo-graphql.htm
-    - Steps:
-        - Going to search screen
-        - search for "Paris"
-        - click to a city link
-        - navigate back to main page
-        - click search page
-        * the [cities] list is not maintained in Vue as it is in Handlebars
-    - The Vue search screen is new and was added on Januaray 16 2020
-    - This fix might require an update to the main app object
-        https://github.com/dataformsjs/dataformsjs/blob/master/js/DataFormsJS.js
-    - Either that or a possible update to the <json-data> control
-        https://github.com/dataformsjs/dataformsjs/blob/master/js/controls/json-data.js
-
 *) React JSX Loader
     - This is in active development (mid-Janurary 2020) and will likely be published within a month or so.
     - Basically a JavaScript file will be loaded <script src="jsxLoader.js"> which would check if a modern
