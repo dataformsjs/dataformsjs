@@ -4,6 +4,17 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 3.5.0 (January 16, 2020)
+
+* Added ability to use `js/controls/json-data.js` with `Vue`, demos will be published on the site after npm release
+  * Previously the control only worked with `HandlebarsJS` or other other templating engines and not Virtual DOM.
+  * Update includes ablity to use Vue with non-SPA apps.
+* Improvements for `Vue` with the main framework app file `js/DataFormsJS.js`
+  * `app.refreshPlugins()` - Plugins do not call the `onRendered()` function until `$nextTick()` of the Active Vue Model
+  * `app.updateView()` - Better support for Framework JavaScript Controls by calling `app.loadAllJsControls()` in `$nextTick()` after the Vue Model is initially updated.
+* DataFormsJS Namespace for React Components `js/react/es6/DataFormsJS.js` - Added the `LeafletMap` Component
+* Edge case bug fix to prevent `app.loadJsControl()` from calling `control.onLoad()` while it is still loading
+
 ## 3.4.2 (January 3, 2020)
 
 * HTML5 History API Update so that if [ctrl] is held down when a link is clicked then the click event is ignored so that the link can be opened in a new tab.
