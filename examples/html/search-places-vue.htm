@@ -12,19 +12,22 @@
         <a v-bind:href="'#/' + i18n_Locale + '/'" v-i18n="'Countries'"></a>
     </nav>
 
-    <form>
+    <form class="flex-col">
         <!--
             If jQuery Chosen was not used then the following would be used for a standard <select>
                 <option value="" v-i18n="'-- Select a Country (Optional) --'"></option>
             Instead [data-placeholder] is used for Chosen
         -->
-        <select data-bind="country" class="chosen-select"
+        <select
+            data-bind="country"
+            class="chosen-select"
             data-chosen-options="{&quot;allow_single_deselect&quot;:true}"
             data-placeholder="-- Select a Country (Optional) --"
             v-i18n-attr="'data-placeholder'">
                 <option value=""></option>
                 <option v-for="country in countries" v-bind:value="country.iso">{{ country.country }}</option>
         </select>
+
 
         <input
             data-bind="city"
@@ -46,13 +49,13 @@
 
     <div v-if="cities" class="flex-col">
         <h3 v-if="isLoading" v-i18n="'Loading...'"></h3>
-        <h3 v-if="hasError">{{ search.errorMessage }}</h3>
+        <h3 v-if="hasError">{{ errorMessage }}</h3>
         <div v-if="isLoaded">
             <h2>{{ cities.length }} <span v-i18n="'Cities Found'"></span></h2>
 
             <div v-if="cities.length" class="flex-col">
                 <input data-filter-selector="table"
-                    data-filter-results-text-selector="h1"
+                    data-filter-results-text-selector="h2"
                     data-filter-results-text-all="{totalCount} Cities Found"
                     data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Cities"
                     placeholder="Enter filter"

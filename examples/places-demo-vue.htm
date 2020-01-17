@@ -122,7 +122,7 @@
             data-page="jsonData"
             data-url="https://www.dataformsjs.com/data/geonames/countries?order_by=country"
             data-load-only-once="true"
-            data-lazy-load="json_data, dataBind, keydownAction, chosen, chosenPlugin"
+            data-lazy-load="json_data, keydownAction, chosen, chosenPlugin"
             data-countries
             data-cities
             src="html/search-places-vue.htm">
@@ -169,8 +169,15 @@
                     'https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.jquery.min.js',
                     'css/countries-chosen.css',
                 ],
-                chosenPlugin: 'https://cdn.jsdelivr.net/npm/dataformsjs@3.5.0/js/plugins/chosen.min.js',
-                dataBind: 'https://cdn.jsdelivr.net/npm/dataformsjs@3.5.0/js/plugins/dataBind.min.js',
+                chosenPlugin: [
+                    // For this demo the [dataBind] plugin is loaded before [chosen]
+                    // to make sure that the <select> value will be set before the chose
+                    // control is created. Otherwise the following jQuery code would have
+                    // to be called to trigger the update.
+                    //     $('.chosen-select').trigger('chosen:updated');
+                    'https://cdn.jsdelivr.net/npm/dataformsjs@3.5.0/js/plugins/dataBind.min.js',
+                    'https://cdn.jsdelivr.net/npm/dataformsjs@3.5.0/js/plugins/chosen.min.js',
+                ],
                 keydownAction: 'https://cdn.jsdelivr.net/npm/dataformsjs@3.5.0/js/plugins/keydownAction.min.js',
                 json_data: 'https://cdn.jsdelivr.net/npm/dataformsjs@3.5.0/js/controls/json-data.min.js',
                 leafletCss: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.css',
