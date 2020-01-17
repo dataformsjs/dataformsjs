@@ -21,7 +21,7 @@
 
     <template id="countries-list">
         <div class="is-loading"><div>Loading...</div></div>
-        <div class="has-error"><div>Error</div></div>
+        <div class="has-error"><div class="error">Error</div></div>
         <div class="is-loaded flex-col">
             <div>
                 <input
@@ -32,6 +32,8 @@
                     placeholder="Enter filter, example 'Japan'">
             </div>
             
+            <p>Click on a column to sort rows based on column values.</p>
+
             <data-table 
                 data-source="countries"
                 data-labels="Code, Name, Size (KM), Population, Continent"

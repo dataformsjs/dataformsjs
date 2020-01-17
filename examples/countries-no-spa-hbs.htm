@@ -21,7 +21,7 @@
 
     <script type="text/x-template" data-engine="handlebars" id="countries-list">
         {{#if isLoading}}<div>Loading...</div>{{/if}}
-        {{#if hasError}}<div style="background-color:red; color:white;">{{errorMessage}}</div>{{/if}}
+        {{#if hasError}}<div class="error">{{errorMessage}}</div>{{/if}}
         {{#if isLoaded}}
             <div>
                 <input
@@ -31,6 +31,8 @@
                     data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
                     placeholder="Enter filter, example 'Japan'">
             </div>
+
+            <p>Click on a column to sort rows based on column values.</p>
 
             <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
                 <thead>
