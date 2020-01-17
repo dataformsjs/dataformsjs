@@ -90,6 +90,7 @@
         <script type="text/babel" src="./html/cities-react.jsx"></script>
         <script type="text/babel" src="./html/place-react.jsx"></script>
         <script type="text/babel" src="./html/places-info-react.jsx"></script>
+        <script type="text/babel" src="./html/search-places-react.jsx"></script>
 
         <script type="text/babel">
             const Router = window.ReactRouterDOM.HashRouter;
@@ -118,6 +119,7 @@
                         <h1>{i18n.text('Countries')}</h1>
 
                         <nav>
+                            <Link to={'/' + props.params.lang + '/search'}>{i18n.text('Search')}</Link>
                             <Link to={'/' + props.params.lang + '/info'}>{i18n.text('Info')}</Link>
                         </nav>
 
@@ -200,6 +202,7 @@
                                         <Route path="/:lang/regions/:country" component={PageRegions} />
                                         <Route path="/:lang/cities/:country/:region" component={PageCities} />
                                         <Route path="/:lang/city/:id" component={PageCity} />
+                                        <Route path="/:lang/search" component={PageSearch} />
                                         <Route path="/:lang/info" component={PageInfo} />
                                     </React.Fragment>
                                 </Router>
