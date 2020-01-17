@@ -1,7 +1,7 @@
 /**
  * DataFormsJS Namespace for React Components
  * 
- * This file can be used with [create-react-app] so that all DataFormsJS Components
+ * This file can be used with `create-react-app` so that all DataFormsJS Components
  * can be imported from a single file.
  * 
  * Import Example:
@@ -32,6 +32,7 @@ import InputFilter from './InputFilter.js';
 import SortableTable from './SortableTable.js';
 import Format from './Format.js';
 import I18n from './I18n.js';
+import LeafletMap from './LeafletMap.js';
 
 /**
  * Create and export all Components under the default DataFormsJS namespace
@@ -44,6 +45,7 @@ const DataFormsJS = {
     SortableTable: SortableTable,
     Format: Format,
     I18n: I18n,
+    LeafletMap: LeafletMap,
 };
 export default DataFormsJS;
 
@@ -58,4 +60,5 @@ export {
     SortableTable,
     Format,
     I18n,
+    LeafletMap,
 };
