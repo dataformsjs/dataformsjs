@@ -19,7 +19,7 @@
  * In addition to the standard DataFormsJS Framework standalone classes for
  * React and Web Components are available which provide similar functionality.
  *
- * Copyright 2019 Conrad Sollitt and Authors. For full details of copyright
+ * Copyright Conrad Sollitt and Authors. For full details of copyright
  * and license, view the LICENSE file that is distributed with DataFormsJS.
  *
  * @link     https://www.dataformsjs.com
@@ -1110,13 +1110,13 @@
          * Return the routing mode. Either 'hash' or 'history'.
          * Defaults to 'hash'. This only gets set to 'history' if the page
          * uses <html data-routing-mode="history"> when it is first loaded.
-         * 
+         *
          * 'hash' routing uses the [hashchange] API while 'history' uses
          * the HTML5 History API. Hash routing works with any page and does't
          * require server side code however History routing typically requires
          * server-side changes and additional JS code which is why 'hash' is
          * the default.
-         * 
+         *
          * @return {string}
          */
         routingMode: function () {
@@ -1126,11 +1126,11 @@
         /**
          * Change the route path. When using default hash routing, this does not
          * need to be used. Instead simply set [window.location.hash = '#...'].
-         * 
+         *
          * When using HTML5 History Routing this function calls [window.history.pushState]
          * with the [path] parameter and displays the new route.
-         * 
-         * @param {string} path 
+         *
+         * @param {string} path
          */
         changeRoute: function (path) {
             if (typeof path !== 'string') {
@@ -1150,8 +1150,8 @@
          * if you are using the HTML5 History API for routing and setup custom
          * links on this page this function can be used for click events:
          *     link.addEventListener('click', app.pushStateClick);
-         * 
-         * @param {Event} e 
+         *
+         * @param {Event} e
          */
         pushStateClick: function (e) {
             // Ignore if user is holding the [ctrl] key so that
@@ -1598,9 +1598,6 @@
 
                     // Refresh HTML Controls
                     app.refreshAllHtmlControls(function () {
-                        // Load JS Controls
-                        app.loadAllJsControls();
-
                         // Create a [Vue] object only once per Route/Controller load
                         if (app.activeController && app.activeController.viewEngine === ViewEngines.Vue) {
                             // If a rendering error occurs the main view element will be removed from
@@ -1637,6 +1634,7 @@
                                         // after [app.updateView()] is called.
                                         this.$nextTick(function () {
                                             if (vueUpdateView) {
+                                                app.loadAllJsControls();
                                                 afterRender('vue_updated');
                                                 var w = this._watcher;
                                                 if (w && w.deps && w.deps.length) {
@@ -1659,6 +1657,9 @@
                                 });
                             }
                         } else {
+                            // Load JS Controls
+                            app.loadAllJsControls();
+
                             // Call additional Controller/Plugin functions.
                             // For Vue this will first be called on the [mounted] event.
                             afterRender('updateView');
@@ -1897,23 +1898,30 @@
          * @param {HTMLElement|undefined} element
          */
         refreshPlugins: function(element) {
-            for (var plugin in app.plugins) {
-                if (app.plugins.hasOwnProperty(plugin) && app.plugins[plugin].onRendered !== undefined) {
-                    try {
-                        if (element === undefined) {
-                            app.plugins[plugin].onRendered();
-                        } else {
-                            // [length === 1] means if [function(element)] is defined.
-                            // Functions without a defined argument [function()] will not be called.
-                            if (app.plugins[plugin].onRendered.length === 1) {
-                                app.plugins[plugin].onRendered(element);
+            function refreshAll() {
+                for (var plugin in app.plugins) {
+                    if (app.plugins.hasOwnProperty(plugin) && app.plugins[plugin].onRendered !== undefined) {
+                        try {
+                            if (element === undefined) {
+                                app.plugins[plugin].onRendered();
+                            } else {
+                                // [length === 1] means if [function(element)] is defined.
+                                // Functions without a defined argument [function()] will not be called.
+                                if (app.plugins[plugin].onRendered.length === 1) {
+                                    app.plugins[plugin].onRendered(element);
+                                }
                             }
+                        } catch (e) {
+                            app.showErrorAlert('Error from Plugin [' + plugin + '] on [onRendered()]: ' + e.toString());
+                            console.error(e);
                         }
-                    } catch (e) {
-                        app.showErrorAlert('Error from Plugin [' + plugin + '] on [onRendered()]: ' + e.toString());
-                        console.error(e);
                     }
                 }
+            }
+            if (app.activeController.viewEngine === ViewEngines.Vue) {
+                app.activeVueModel.$nextTick(refreshAll);
+            } else {
+                refreshAll();
             }
         },
 
@@ -2741,7 +2749,7 @@
                     routingMode = 'hash';
                 }
             }
-            
+
             // Automatically add templates as routes that have the attribute [data-route] defined
             var templateSelector = 'script[type="text/x-template"][data-route],template[data-route]';
             var scripts = document.querySelectorAll(templateSelector);

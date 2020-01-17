@@ -79,15 +79,13 @@ TODO List
       a broswer. Disable in needed files by adding. Currently done in the main [DataFormsJS.js] file.
         /* eslint no-prototype-builtins: "off" */
 
-*) Create Search Screen for the following pages:
-        http://127.0.0.1:8080/places-demo-vue#/en/
+*) Create Search Screen for the following page:
         http://127.0.0.1:8080/places-demo-web
-        http://127.0.0.1:8080/places-demo-react#/en/
-   See standard framework demos with Handlebars:
+   See standard framework demos with Handlebars, Vue, and React:
         http://127.0.0.1:8080/places-demo-hbs#/en/
         http://127.0.0.1:8080/places-demo-graphql#/en/
-   Start with Vue because it uses the Standard framework
-   This will likely require new or updated pluigns for Vue and new classes for React
+        http://127.0.0.1:8080/places-demo-vue#/en/
+        http://127.0.0.1:8080/places-demo-react#/en/
 
 *) Most Core Framework Code in [DataForms.js] and [pages/jsonData.js] are Unit Tested for
         Handlebars, Nunjucks, and Underscore, however similar testing has not yet been

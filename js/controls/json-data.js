@@ -1,5 +1,53 @@
 /**
- * DataFormsJS <data-table> Control
+ * DataFormsJS <json-data> Control
+ *
+ * This control is similar to the main page object `jsonData` but it works
+ * with-in a webpage rather than as the main page/controller. This control works
+ * well with search screens that need to display the result of a web service or
+ * GraphQL service from searching and it can also be used to display JSON Data
+ * on a webpage that does not use routing from the framework. It can also be
+ * used to display the result of multiple JSON or GraphQL Services on one page.
+ *
+ * Example Usage - Search Screen:
+ *     https://www.dataformsjs.com/examples/places-demo-hbs.htm#/en/search
+ *     https://www.dataformsjs.com/examples/places-demo-vue.htm#/en/search
+ *     https://www.dataformsjs.com/examples/places-demo-graphql.htm#/en/search
+ *
+ * Search Screen - HTML Page Source:
+ *     https://github.com/dataformsjs/dataformsjs/blob/master/examples/html/search-places-hbs.htm
+ *     https://github.com/dataformsjs/dataformsjs/blob/master/examples/html/search-places-graphql.htm
+ *
+ * Example Usage - Directly on a page without a search screen and without using an SPA:
+ *     https://www.dataformsjs.com/examples/countries-no-spa-hbs.htm
+ *     https://www.dataformsjs.com/examples/countries-no-spa-js.htm
+ *
+ * Example Code:
+ *      # Search Screen with a Handlebars Template, the Template will be downloaded on the button click
+ *      # and Web Service data will be assigned to `app.activeModel.search` because the attribute
+ *      # [data-model-prop] is used, the template will be rendered with-in the <json-data> element.
+ *      <json-data
+ *          data-url="https://www.dataformsjs.com/data/geonames/search?country=:country&city=:city"
+ *          data-click-selector=".btn-search"
+ *          data-template-url="html/search-places-results-hbs.htm"
+ *          data-model-prop="search"
+ *          class="section">
+ *      </json-data>
+ *
+ *      # If using GraphSQL instead of a JSON service use the attribute [data-graphql-src] instead of [data-url]:
+ *      <json-data
+ *          data-graphql-src="graphql/places-search.graphql"
+ *
+ *      # Example for Vue, downloaded data will be assigned directly to the Vue Model Instance `app.activeVueModel`
+ *      <json-data
+ *          data-url="https://www.dataformsjs.com/data/geonames/search?country=:country&city=:city"
+ *          data-click-selector=".btn-search">
+ *      </json-data>
+ *
+ *      # Use directly on a page with an inline template, no SPA needed:
+ *      <json-data
+ *          data-url="https://www.dataformsjs.com/data/geonames/countries"
+ *          data-template-id="countries-list">
+ *      </json-data>
  */
 
 /* Validates with both [jshint] and [eslint] */
@@ -32,7 +80,7 @@
         if (element.querySelector('.is-loading, is-loaded, .has-error') === null) {
             return;
         }
-        
+
         // Create CSS and Update View
         app.loadCss('dataformsjs-control-json-data', css);
         element.classList.remove('dataformsjs-control-loading');
@@ -88,7 +136,8 @@
             var control = this,
                 activeModelProp = null,
                 url,
-                init = null;
+                init = null,
+                usingVue = (app.activeController.viewEngine === 'Vue');
 
             // Exit if already loading
             if (control.isLoading) {
@@ -100,7 +149,9 @@
 
             // If using a property of the active model then get it or create
             // it as an object and assign control props.
-            if (control.modelProp !== null) {
+            if (usingVue) {
+                Object.assign(app.activeVueModel, control);
+            } else if (control.modelProp !== null) {
                 app.activeModel[control.modelProp] = app.activeModel[control.modelProp] || {};
                 activeModelProp = app.activeModel[control.modelProp];
                 Object.assign(activeModelProp, control);
@@ -144,7 +195,10 @@
 
                 // Assign downloaded JSON to either the control or the model
                 if (!control.graphqlQuery) {
-                    if (activeModelProp === null) {
+                    if (usingVue) {
+                        Object.assign(app.activeVueModel, control);
+                        Object.assign(app.activeVueModel, data);
+                    } else if (activeModelProp === null) {
                         Object.assign(control, data);
                     } else {
                         Object.assign(activeModelProp, control);
@@ -152,7 +206,10 @@
                     }
                 } else {
                     // If using GraphQL then copy from the [data] property.
-                    if (activeModelProp === null) {
+                    if (usingVue) {
+                        Object.assign(app.activeVueModel, control);
+                        Object.assign(app.activeVueModel, data);
+                    } else if (activeModelProp === null) {
                         Object.assign(control, data.data);
                     } else {
                         Object.assign(activeModelProp, control);
@@ -171,7 +228,7 @@
                     }
                 }
 
-                // Render the HTML
+                // Render the HTML or refresh all Plugins for Vue
                 jsonData.renderControl(element, control);
 
                 // Custom callback events
@@ -188,11 +245,13 @@
                 control.isLoaded = false;
                 control.hasError = true;
                 control.errorMessage = error;
-                if (activeModelProp !== null) {
+                if (usingVue) {
+                    Object.assign(app.activeVueModel, control);
+                } else if (activeModelProp !== null) {
                     Object.assign(activeModelProp, control);
-                }     
+                }
 
-                // Render the HTML
+                // Render the HTML or refresh all Plugins for Vue
                 jsonData.renderControl(element, control, error);
 
                 // Custom callback events
@@ -216,6 +275,18 @@
         renderControl: function(element, control, error) {
             // Update CSS on the Control for Loading/Loaded/Error
             setControlClass(element, control);
+
+            // When using Vue the affected model properties can be anywhere on the
+            // page so refresh all page plugins. Templates are not refreshed (re-rendered)
+            // when using Vue.
+            if (app.activeController.viewEngine === 'Vue') {
+                if (error === undefined) {
+                    app.refreshPlugins();
+                } else {
+                    app.showError(element, error);
+                }
+                return;
+            }
 
             // Render or Refresh Control
             if (element.getAttribute('data-template-id') !== null || element.getAttribute('data-template-url') !== null) {
@@ -272,7 +343,7 @@
         setupControl: function (control, element) {
             // Handle the [data-click-selector] Attribute. If defined on the <json-data>
             // Control then data is not fetched until the user clicks the element specified
-            // from the selector. This feature along with the [dataBind] plugin allows 
+            // from the selector. This feature along with the [dataBind] plugin allows
             // for search pages and forms to be developed through HTML.
             if (control.clickSelector !== null) {
                 var btn = document.querySelector(control.clickSelector);
