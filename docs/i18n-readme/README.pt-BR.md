@@ -144,7 +144,7 @@ Este exemplo usa Vue para templating. Se você salvar isso com um editor de text
 * Futuramente muito mais exemplos serão desenvolvidos. Se você tem ideias, por favor envie-as.
 * Testes de unidade adicionais e metodologias de teste - Arquivos do núcleo do framework e funcionalidades são testadas através de testes de unidade no entanto cada linha de código deveria ser testada dessa forma em todos os arquivos. Atualmente não exitem testes de unidade para Vue, React e Web Components.
 * Scripts adicionais, componentes React, Web Components e funcionalidades.
-* Novas Ideias - Se você tem ideias de como melhorar por favor abra um pedido para que possamos discutir.
+* Novas Ideias - Se você tem ideias de como melhorar por favor abra uma questão para que possamos discutir.
 
 O arquivo [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt) contém a lista complete de itens que estão atualmente pendentes e é um bom ponto para começar.
 
