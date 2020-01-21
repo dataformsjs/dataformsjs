@@ -14,15 +14,15 @@ and also when running a local build of the main site [Website\index.php]
     Replace the root dir all JS/JSX CDN Links with "../js/"
 
     Example Before:
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/DataFormsJS.min.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/react/DataFormsJS.jsx"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/DataFormsJS.min.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/DataFormsJS.jsx"></script>
     After:
         <script type="text/babel" src="../js/DataFormsJS.min.js"></script>
         <script type="text/babel" src="../js/react/DataFormsJS.jsx"></script>
 
     This applies to the import statements on Web Component HTML examples as well:
     Before:
-        import { componentsAreSetup } from 'https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/web-components/utils.min.js';
+        import { componentsAreSetup } from 'https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/web-components/utils.min.js';
     After:
         import { componentsAreSetup } from '../js/web-components/utils.min.js';
             

@@ -74,22 +74,23 @@
 
         <!-- DataFormsJS React Components -->
         <!--
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/react/es6/ErrorBoundary.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/react/es6/PolyfillService.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/react/es6/JsonData.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/react/es6/InputFilter.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/react/es6/SortableTable.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/react/es6/I18n.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/react/es6/Format.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/react/es6/LeafletMap.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/ErrorBoundary.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/PolyfillService.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/JsonData.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/InputFilter.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/SortableTable.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/I18n.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/Format.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/LeafletMap.js"></script>
         -->
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/react/es5/DataFormsJS.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es5/DataFormsJS.min.js"></script>
         
         <!-- JSX Templates for this App -->
         <script type="text/babel" src="./html/regions-react.jsx"></script>
         <script type="text/babel" src="./html/cities-react.jsx"></script>
         <script type="text/babel" src="./html/place-react.jsx"></script>
         <script type="text/babel" src="./html/places-info-react.jsx"></script>
+        <script type="text/babel" src="./html/search-places-react.jsx"></script>
 
         <script type="text/babel">
             const Router = window.ReactRouterDOM.HashRouter;
@@ -118,6 +119,7 @@
                         <h1>{i18n.text('Countries')}</h1>
 
                         <nav>
+                            <Link to={'/' + props.params.lang + '/search'}>{i18n.text('Search')}</Link>
                             <Link to={'/' + props.params.lang + '/info'}>{i18n.text('Info')}</Link>
                         </nav>
 
@@ -200,6 +202,7 @@
                                         <Route path="/:lang/regions/:country" component={PageRegions} />
                                         <Route path="/:lang/cities/:country/:region" component={PageCities} />
                                         <Route path="/:lang/city/:id" component={PageCity} />
+                                        <Route path="/:lang/search" component={PageSearch} />
                                         <Route path="/:lang/info" component={PageInfo} />
                                     </React.Fragment>
                                 </Router>

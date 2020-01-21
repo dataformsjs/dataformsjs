@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title data-i18n="Countries Demo | No SPA | Web Components"></title>
+        <title>Countries Demo | No SPA | Web Components</title>
         <link rel="stylesheet" href="css/countries.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
         <link rel="canonical" href="https://www.dataformsjs.com/examples/countries-no-spa-hbs.htm">
@@ -35,6 +35,13 @@
                         filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
                         placeholder="Enter filter, example 'North America'">
 
+                    <p>Click on a column to sort rows based on column values.</p>
+                    <p>
+                        <a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/countries-no-spa-web.htm" target="_blank">
+                            <img src="https://www.dataformsjs.com/img/logos/GitHub-Mark-32px.png" alt="GitHub">
+                        </a>
+                    </p>
+
                     <data-table
                         data-bind="countries"
                         labels="Code, Name, Size (KM), Population, Continent"
@@ -48,21 +55,21 @@
     </div>
 
     <!-- DataFormsJS Web Components -->
-    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/web-components/url-hash-router.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/web-components/json-data.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/web-components/data-table.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/web-components/input-filter.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/web-components/sortable-table.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/web-components/url-hash-router.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/web-components/json-data.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/web-components/data-table.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/web-components/input-filter.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/web-components/sortable-table.min.js"></script>
 
     <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
-    <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/web-components/safari-nomodule.min.js"></script>
-    <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/web-components/old-browser-warning.min.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/web-components/safari-nomodule.min.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/web-components/old-browser-warning.min.js"></script>
 
     <!--
         Add images to the <table is="data-table"> element using standard JavaScript DOM methods
     -->
     <script type="module">
-        import { componentsAreSetup } from 'https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/web-components/utils.min.js';
+        import { componentsAreSetup } from 'https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/web-components/utils.min.js';
 
         const jsonData = document.querySelector('json-data');
         if (jsonData !== null) {

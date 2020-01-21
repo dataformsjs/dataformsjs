@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title data-i18n="Countries Demo | No SPA | React"></title>
+        <title>Countries Demo | No SPA | React</title>
         <link rel="stylesheet" href="css/countries.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
         <link rel="canonical" href="https://www.dataformsjs.com/examples/countries-no-spa-hbs.htm">
@@ -48,16 +48,16 @@
 
     <!-- DataFormsJS React Components -->
     <!--
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/react/es6/ErrorBoundary.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/react/es6/PolyfillService.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/react/es6/JsonData.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/react/es6/InputFilter.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/react/es6/SortableTable.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/react/es6/I18n.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/react/es6/Format.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/react/es6/LeafletMap.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/ErrorBoundary.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/PolyfillService.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/JsonData.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/InputFilter.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/SortableTable.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/I18n.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/Format.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/LeafletMap.js"></script>
     -->
-    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.4.2/js/react/es5/DataFormsJS.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es5/DataFormsJS.min.js"></script>
 
     <script type="text/babel">
         const format = new Format();
@@ -79,6 +79,13 @@
                         filter-results-text-all="{totalCount} Countries"
                         filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
                         placeholder="Enter filter, example 'North America'" />
+
+                    <p>Click on a column to sort rows based on column values.</p>
+                    <p>
+                        <a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/countries-no-spa-react.htm" target="_blank">
+                            <img src="https://www.dataformsjs.com/img/logos/GitHub-Mark-32px.png" alt="GitHub" />
+                        </a>
+                    </p>
 
                     <SortableTable
                         data-sort-class-odd="row-odd"

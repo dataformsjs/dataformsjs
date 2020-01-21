@@ -4,6 +4,28 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 3.5.1 (January 17, 2020)
+
+* Improvments for using `Vue`
+  * `js/DataFormsJS.js` - When the Vue Instance Model is destroyed using `$destroy()` it is now added back to the `app.models` cache as a plain JavaScript Object. Minor update so a site will use less memory and allow for easier debugging from Browser Dev Tools. 
+  * `js/DataFormsJS.js` - When the `mounted()` event is called it waits for `vm.$nextTick` and also calls `app.loadAllJsControls();`
+  * `js/controls/json-data.js` - Only assigned key control properties `[isLoading, isLoaded, hasError, errorMessage]` are set to the active Vue Model, this prevents issues with the `js/pages/jsonData.js` and related controllers/pages such as overwritting common controller properties `[url, graphqlId, etc.]`.
+  * These improvements for `Vue` improve how framework JS controls work with Vue. Example is on search screen in the places demo: https://www.dataformsjs.com/examples/places-demo-vue.htm#/en/search
+
+## 3.5.0 (January 16, 2020)
+
+* Added ability to use `js/controls/json-data.js` with `Vue`
+  * Previously the control only worked with `HandlebarsJS` or other other templating engines and not Virtual DOM.
+  * Update includes ablity to use Vue with non-SPA apps.
+  * Demos:
+    * https://www.dataformsjs.com/examples/countries-no-spa-vue.htm
+    * https://www.dataformsjs.com/examples/places-demo-vue.htm#/en/search
+* Improvements for `Vue` with the main framework app file `js/DataFormsJS.js`
+  * `app.refreshPlugins()` - Plugins do not call the `onRendered()` function until `$nextTick()` of the Active Vue Model
+  * `app.updateView()` - Better support for Framework JavaScript Controls by calling `app.loadAllJsControls()` in `$nextTick()` after the Vue Model is initially updated.
+* DataFormsJS Namespace for React Components `js/react/es6/DataFormsJS.js` - Added the `LeafletMap` Component
+* Edge case bug fix to prevent `app.loadJsControl()` from calling `control.onLoad()` while it is still loading
+
 ## 3.4.2 (January 3, 2020)
 
 * HTML5 History API Update so that if [ctrl] is held down when a link is clicked then the click event is ignored so that the link can be opened in a new tab.

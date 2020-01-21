@@ -6,6 +6,7 @@ TODO List
 |   In General:
 |
 |   *) Translations
+|      https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-translations.md
 |   *) More Examples (for all or most scripts and features)
 |   *) More Documentation
 |   *) More Unit Testing
@@ -15,6 +16,29 @@ TODO List
 |   All contributions are welcome.
 |
 --------------------------------------------------------------------------
+
+*) React JSX Loader
+    - This is in active development (mid-Janurary 2020) and will likely be published within a month or so.
+    - Basically a JavaScript file will be loaded <script src="jsxLoader.js"> which would check if a modern
+        browser is being used and if so then simply convert JSX code to modern JS and if a legacy browser
+        (IE, old safari, etc) then it would load and use babel standalone.
+    - The reason for this would be to allow JSX development for production sites without
+      a build process using [create-react-app], Webpack, etc.
+    - babel standalone works but is very large, however it would be ok for desktop IE users, etc
+    - It's likley that an alternative router component <UrlHashRouter> will be created with this
+      that can be used instead of React Router. The reason is that a much smaller component
+      can be created and the main reason would be to add support for lazy-loading of scripts
+      similar to the main framework for [app.lazyLoad] and [data-lazy-load]. This feature would
+      probably be shared with the new [jsxLoader.js] file.
+
+*) IE Cache Busting Needed
+    - When last checked the github fetch polyfill (used by DataFormsJS) does not
+      include cache busting which means that IE can show old content on JSON Services
+        https://github.com/github/fetch
+    - Either the polyfill needs to be updated or it should be handled by DataFormsJS
+    - The reason for this is that IE 11 uses very aggresive caching.
+    - In jQuery this cache busting is handled by using [cache:false]:
+        jQuery.ajax({cache:false})
 
 *) Improve UX of the Quick Ref Page
     https://www.dataformsjs.com/en/quick-reference
@@ -55,15 +79,13 @@ TODO List
       a broswer. Disable in needed files by adding. Currently done in the main [DataFormsJS.js] file.
         /* eslint no-prototype-builtins: "off" */
 
-*) Create Search Screen for the following pages:
-        http://127.0.0.1:8080/places-demo-vue#/en/
+*) Create Search Screen for the following page:
         http://127.0.0.1:8080/places-demo-web
-        http://127.0.0.1:8080/places-demo-react#/en/
-   See standard framework demos with Handlebars:
+   See standard framework demos with Handlebars, Vue, and React:
         http://127.0.0.1:8080/places-demo-hbs#/en/
         http://127.0.0.1:8080/places-demo-graphql#/en/
-   Start with Vue because it uses the Standard framework
-   This will likely require new or updated pluigns for Vue and new classes for React
+        http://127.0.0.1:8080/places-demo-vue#/en/
+        http://127.0.0.1:8080/places-demo-react#/en/
 
 *) Most Core Framework Code in [DataForms.js] and [pages/jsonData.js] are Unit Tested for
         Handlebars, Nunjucks, and Underscore, however similar testing has not yet been
@@ -73,43 +95,6 @@ TODO List
 
 *) Create Server-side Starter Sites in all widely used Languages and Frameworks
     - Include ability for content to be defined server-side and saved to a SQLite Db
-
-*) React JSX Loader?
-    This is being considered and would take some time to develop. Basically a JavaScript file
-    would be created <script src="jsxLoader.js"> which would check if a modern browser is being
-    used and if so then simply convert JSX code to modern JS and if a legacy browser (IE, old safari, etc)
-    then it would load and use babel standalone.
-    - The reason for this would be to allow JSX development for production sites without
-      a build process using [create-react-app], Webpack, etc.
-    - babel standalone works but is very large, however it would be ok for desktop IE users, etc
-    - If doing this the code to compile or transpile JSX to JS needs to be kept small, ideally
-      the entire file would be less than a few hunderd lines and only a few kb in size when gzip'd
-    - the script should also define needed [window.exports = window; / function require(module) {)]
-      functions to be used by babel standalone or JS
-    - It's likley that an alternative router component <UrlHashRouter> will be created with this
-      that can be used instead of React Router. The reason is that a much smaller component
-      can be created and the main reason would be to add support for lazy-loading of scripts
-      similar to the main framework for [app.lazyLoad] and [data-lazy-load]. This feature would
-      probably be shared with the new [jsxLoader.js] file.
-    - To test in the Playground:
-        - Copy all code from [JsonData.js] locally, then make changes:
-            Comment out or remove:
-                // import React from 'react';
-            Add to file:
-                window.JsonData = JsonData;
-        - From main page [app-react.htm] use:
-            <script type="module" src="JsonData.js"></script>
-        - Basically the current es6 code works from a browser but needs a global export
-          and 'import React' removed. This should be handled by the [jsxLoader.js] file.
-
-*) IE Cache Busting Needed
-    - When last checked the github fetch polyfill (used by DataFormsJS) does not 
-      include cache busting which means that IE can show old content on JSON Services
-        https://github.com/github/fetch
-    - Either the polyfill needs to be updated or it should be handled by DataFormsJS 
-    - The reason for this is that IE 11 uses very aggresive caching.
-    - In jQuery this cache busting is handled by using [cache:false]:
-        jQuery.ajax({cache:false})
 
 *) Web Components Polyfill using either the main Framework or standalone scripts?
     - Currently IE, Older Safari, etc will display a warning message instead of Polyfill for Web Components

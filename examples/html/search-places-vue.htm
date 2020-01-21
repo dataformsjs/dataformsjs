@@ -1,0 +1,92 @@
+<!--
+    Rather than using [ v-if="isLoading" and v-if="isLoaded" ] like on most Vue pages this page
+    checks if data for the search screeen is available. The standard [isLoading, hasError, isLoaded]
+    logic is used to display search results from the <json-data> control.
+-->
+<h3 v-if="!countries" v-cloak v-i18n="'Loading...'"></h3>
+<p v-if="hasError && !countries" v-cloak><span v-i18n="'Error'"></span> - {{ errorMessage }}</p>
+<div v-if="countries" v-cloak class="flex-col">
+    <h1 v-i18n="'Search'"></h1>
+
+    <nav>
+        <a v-bind:href="'#/' + i18n_Locale + '/'" v-i18n="'Countries'"></a>
+    </nav>
+
+    <form class="flex-col">
+        <!--
+            If jQuery Chosen was not used then the following would be used for a standard <select>
+                <option value="" v-i18n="'-- Select a Country (Optional) --'"></option>
+            Instead [data-placeholder] is used for Chosen
+        -->
+        <select
+            data-bind="country"
+            class="chosen-select"
+            data-chosen-options="{&quot;allow_single_deselect&quot;:true}"
+            data-placeholder="-- Select a Country (Optional) --"
+            v-i18n-attr="'data-placeholder'">
+                <option value=""></option>
+                <option v-for="country in countries" v-bind:value="country.iso">{{ country.country }}</option>
+        </select>
+
+
+        <input
+            data-bind="city"
+            data-enter-key-click-selector=".btn-search"
+            placeholder="Search for a City, example 'Paris' or 'London'"
+            v-i18n-attr="'data-placeholder'">
+
+        <!--
+            When the search button is clicked on the <json-data> element will be triggered
+            based on [data-click-selector] and related properties in [app.activeVueModel]
+            will be updated to change the DOM as would be expected.
+        -->
+        <button class="btn-search" type="button" v-i18n="'Search'"></button>
+        <json-data
+            data-url="https://www.dataformsjs.com/data/geonames/search?country=:country&city=:city"
+            data-click-selector=".btn-search">
+        </json-data>
+    </form>
+
+    <div v-if="cities" class="flex-col">
+        <h3 v-if="isLoading" v-i18n="'Loading...'"></h3>
+        <h3 v-if="hasError">{{ errorMessage }}</h3>
+        <div v-if="isLoaded">
+            <h2>{{ cities.length }} <span v-i18n="'Cities Found'"></span></h2>
+
+            <div v-if="cities.length" class="flex-col">
+                <input data-filter-selector="table"
+                    data-filter-results-text-selector="h2"
+                    data-filter-results-text-all="{totalCount} Cities Found"
+                    data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Cities"
+                    placeholder="Enter filter"
+                    v-i18n-attr="'data-filter-results-text-all, data-filter-results-text-filtered, placeholder'">
+
+                <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
+                    <thead>
+                        <tr>
+                            <th v-i18n="'Country'"></th>
+                            <th v-i18n="'Name'"></th>
+                            <th v-i18n="'Population'"></th>
+                            <th v-i18n="'Elevation'"></th>
+                            <th v-i18n="'Timezone'"></th>
+                            <th v-i18n="'Date Last Modified'"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="city in cities">
+                            <td>
+                                <i v-bind:class="city.country_code.toLowerCase() + ' flag'"></i>
+                                <span>{{ city.country_code }}</span>
+                            </td>
+                            <td><a v-bind:href="'#/' + i18n_Locale + '/city/' + city.geonames_id">{{ city.name }}</a></td>
+                            <td class="align-right" v-bind:data-value="city.population" v-format-number="city.population"></td>
+                            <td class="align-right" v-bind:data-value="city.elevation" v-format-number="city.elevation"></td>
+                            <td>{{ city.timezone }}</td>
+                            <td class="align-right" v-format-date="city.modification_date"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

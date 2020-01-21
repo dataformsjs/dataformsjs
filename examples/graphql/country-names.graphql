@@ -1,6 +1,7 @@
 {
-    countries(orderBy: "country") {
+    countries {
         iso
         country
+        population
     }
 }

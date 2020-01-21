@@ -17,9 +17,11 @@ dataformsjs    {root-directory}
 
 If you need to install PHP see documents for (Windows, macOS, and Linux) from: https://www.fastsitephp.com/en/getting-started
 
-Currently specific languages are desired and translation work can be paid. For more see: https://www.fastsitephp.com/en/translators-needed
-
 Files are copied from English, Google Translate is used for initial translations, and then human translators fix errors from Google Translate.
+
+Languages currently needed: Arabic, French, German, Italian, Japanese, Persian, Russian
+
+Languages currently being tranlsated: Chinese Simplified (zh-CN), Chinese Traditional (zh-TW), Korean, Portuguese
 
 ## Generating the files
 

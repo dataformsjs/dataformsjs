@@ -19,7 +19,7 @@
  * In addition to the standard DataFormsJS Framework standalone classes for
  * React and Web Components are available which provide similar functionality.
  *
- * Copyright 2019 Conrad Sollitt and Authors. For full details of copyright
+ * Copyright Conrad Sollitt and Authors. For full details of copyright
  * and license, view the LICENSE file that is distributed with DataFormsJS.
  *
  * @link     https://www.dataformsjs.com
@@ -546,6 +546,11 @@
         // Destroy the Vue View Model
         if (app.activeVueModel !== null) {
             app.activeVueModel.$destroy();
+            // Convert data from the Vue Instance to a plain JavaScript Object
+            // and save it back to the models object.
+            if (app.activeController && app.activeController.modelName && app.models[app.activeController.modelName] && app.activeVueModel.$data) {
+                app.models[app.activeController.modelName] = JSON.parse(JSON.stringify(app.activeVueModel.$data));
+            }
         }
 
         // Clear the Current Route
@@ -643,7 +648,7 @@
                     function routeLoad() {
                         // Set active template and call controller route load method
                         app.activeTemplate = template;
-                        if (controller.onRouteLoad !== undefined && app.activeController.viewEngine !== ViewEngines.Vue) {
+                        if (controller.onRouteLoad !== undefined && app.activeController && app.activeController.viewEngine !== ViewEngines.Vue) {
                             try {
                                 controller.onRouteLoad.apply(app.activeModel, app.activeParameters);
                             } catch (e) {
@@ -1110,13 +1115,13 @@
          * Return the routing mode. Either 'hash' or 'history'.
          * Defaults to 'hash'. This only gets set to 'history' if the page
          * uses <html data-routing-mode="history"> when it is first loaded.
-         * 
+         *
          * 'hash' routing uses the [hashchange] API while 'history' uses
          * the HTML5 History API. Hash routing works with any page and does't
          * require server side code however History routing typically requires
          * server-side changes and additional JS code which is why 'hash' is
          * the default.
-         * 
+         *
          * @return {string}
          */
         routingMode: function () {
@@ -1126,11 +1131,11 @@
         /**
          * Change the route path. When using default hash routing, this does not
          * need to be used. Instead simply set [window.location.hash = '#...'].
-         * 
+         *
          * When using HTML5 History Routing this function calls [window.history.pushState]
          * with the [path] parameter and displays the new route.
-         * 
-         * @param {string} path 
+         *
+         * @param {string} path
          */
         changeRoute: function (path) {
             if (typeof path !== 'string') {
@@ -1150,8 +1155,8 @@
          * if you are using the HTML5 History API for routing and setup custom
          * links on this page this function can be used for click events:
          *     link.addEventListener('click', app.pushStateClick);
-         * 
-         * @param {Event} e 
+         *
+         * @param {Event} e
          */
         pushStateClick: function (e) {
             // Ignore if user is holding the [ctrl] key so that
@@ -1598,9 +1603,6 @@
 
                     // Refresh HTML Controls
                     app.refreshAllHtmlControls(function () {
-                        // Load JS Controls
-                        app.loadAllJsControls();
-
                         // Create a [Vue] object only once per Route/Controller load
                         if (app.activeController && app.activeController.viewEngine === ViewEngines.Vue) {
                             // If a rendering error occurs the main view element will be removed from
@@ -1622,21 +1624,26 @@
                                     methods: app.activeController.methods,
                                     computed: app.activeController.computed,
                                     mounted: function () {
-                                        if (app.activeController.onRouteLoad !== undefined) {
-                                            try {
-                                                app.activeController.onRouteLoad.apply(this, app.activeParameters);
-                                            } catch (e) {
-                                                app.showErrorAlert('Error from Controller [path=' + app.activeController.path + '] on [onRouteLoad()]: ' + e.toString());
-                                                console.error(e);
+                                        var vm = this;
+                                        vm.$nextTick(function () {
+                                            if (app.activeController.onRouteLoad !== undefined) {
+                                                try {
+                                                    app.activeController.onRouteLoad.apply(vm, app.activeParameters);
+                                                } catch (e) {
+                                                    app.showErrorAlert('Error from Controller [path=' + app.activeController.path + '] on [onRouteLoad()]: ' + e.toString());
+                                                    console.error(e);
+                                                }
                                             }
-                                        }
-                                        afterRender('vue_mounted', this);
+                                            app.loadAllJsControls();
+                                            afterRender('vue_mounted', vm);
+                                        });
                                     },
                                     updated: function () {
                                         // Only run the update when a DOM change happens
                                         // after [app.updateView()] is called.
                                         this.$nextTick(function () {
                                             if (vueUpdateView) {
+                                                app.loadAllJsControls();
                                                 afterRender('vue_updated');
                                                 var w = this._watcher;
                                                 if (w && w.deps && w.deps.length) {
@@ -1659,6 +1666,9 @@
                                 });
                             }
                         } else {
+                            // Load JS Controls
+                            app.loadAllJsControls();
+
                             // Call additional Controller/Plugin functions.
                             // For Vue this will first be called on the [mounted] event.
                             afterRender('updateView');
@@ -1897,23 +1907,30 @@
          * @param {HTMLElement|undefined} element
          */
         refreshPlugins: function(element) {
-            for (var plugin in app.plugins) {
-                if (app.plugins.hasOwnProperty(plugin) && app.plugins[plugin].onRendered !== undefined) {
-                    try {
-                        if (element === undefined) {
-                            app.plugins[plugin].onRendered();
-                        } else {
-                            // [length === 1] means if [function(element)] is defined.
-                            // Functions without a defined argument [function()] will not be called.
-                            if (app.plugins[plugin].onRendered.length === 1) {
-                                app.plugins[plugin].onRendered(element);
+            function refreshAll() {
+                for (var plugin in app.plugins) {
+                    if (app.plugins.hasOwnProperty(plugin) && app.plugins[plugin].onRendered !== undefined) {
+                        try {
+                            if (element === undefined) {
+                                app.plugins[plugin].onRendered();
+                            } else {
+                                // [length === 1] means if [function(element)] is defined.
+                                // Functions without a defined argument [function()] will not be called.
+                                if (app.plugins[plugin].onRendered.length === 1) {
+                                    app.plugins[plugin].onRendered(element);
+                                }
                             }
+                        } catch (e) {
+                            app.showErrorAlert('Error from Plugin [' + plugin + '] on [onRendered()]: ' + e.toString());
+                            console.error(e);
                         }
-                    } catch (e) {
-                        app.showErrorAlert('Error from Plugin [' + plugin + '] on [onRendered()]: ' + e.toString());
-                        console.error(e);
                     }
                 }
+            }
+            if (app.activeController && app.activeController.viewEngine === ViewEngines.Vue) {
+                app.activeVueModel.$nextTick(refreshAll);
+            } else {
+                refreshAll();
             }
         },
 
@@ -1933,11 +1950,11 @@
             // Build Query Selector based on [data-control] attribute
             // and custom Control Names. For example a control named
             // 'custom-list' will search for elements with the same tag name.
-            var selectors = ['[data-control]:not([data-control-loaded])'];
+            var selectors = ['[data-control]:not([data-control-loaded]):not([data-control-is-loading])'];
             var controlNames = Object.keys(app.controls);
             controlNames.forEach(function(name) {
                 if (name.indexOf('-') !== -1 && name.indexOf(' ') === -1) {
-                    selectors.push(name + ':not([data-control-loaded])');
+                    selectors.push(name + ':not([data-control-loaded]):not([data-control-is-loading])');
                 }
             });
             var selector = selectors.join(',');
@@ -2059,6 +2076,12 @@
                 model = app.activeModel;
             }
 
+            // Prevent controls from loading while [onLoad] is being called
+            if (element.getAttribute('data-control-is-loading') !== null) {
+                return;
+            }
+            element.setAttribute('data-control-is-loading', '');
+
             // Call events [onLoad()] then [html()]
             hadError = false;
             try
@@ -2086,6 +2109,7 @@
 
             // Mark control as loaded and add to active list
             element.setAttribute('data-control-loaded', '');
+            element.removeAttribute('data-control-is-loading');
             app.activeJsControls.push({
                 element: element,
                 control: name,
@@ -2741,7 +2765,7 @@
                     routingMode = 'hash';
                 }
             }
-            
+
             // Automatically add templates as routes that have the attribute [data-route] defined
             var templateSelector = 'script[type="text/x-template"][data-route],template[data-route]';
             var scripts = document.querySelectorAll(templateSelector);
