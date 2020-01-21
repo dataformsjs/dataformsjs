@@ -10,13 +10,13 @@ _Se você estiver vendo esta mensagem, será um dos primeiros visitantes!_ 🌠�
 
 DataFormsJS é um novo framework JavaScript e app autônomo de React e Web Components. Sendo pequeno, fácil de aprender, projetado para desenvolvimento rápido o DataFormsJS proporcionando uma grande experiência para desenvolvedores e usuários finais. Mesmo sendo novo (publicado em novembro de 2019), o DataFormsJS foi escrito e usado por muitos anos e tem um sólido nível de estabilidade com um grande número de testes de unidade.
 
-Este repositório contém o framework DataFormsJS, páginas exemplo e testes de undiade. O site principal (/website) está em outro repositório.
+Este repositório contém o framework DataFormsJS, páginas exemplo e testes de unidade. O site principal (/website) está em outro repositório.
 
 ## :dizzy: Por que utilizar o DataFormsJS?
 
-|<img src="https://www.dataformsjs.com/img/icons/fast.svg" alt="Desenvolvmento Rápido" width="60">|<img src="https://www.dataformsjs.com/img/icons/small-size.svg" alt="Pequeno em Tamanho" width="60">|<img src="https://www.dataformsjs.com/img/icons/light-switch.svg" alt="Fácil de Aprender" width="60">|
+|<img src="https://www.dataformsjs.com/img/icons/fast.svg" alt="Desenvolvimento Rápido" width="60">|<img src="https://www.dataformsjs.com/img/icons/small-size.svg" alt="Pequeno em Tamanho" width="60">|<img src="https://www.dataformsjs.com/img/icons/light-switch.svg" alt="Fácil de Aprender" width="60">|
 |---|---|---|
-|**Desenvolvimento Rápido** Mostre dados dos serviços Web e GraphQL usando marcação HTML e define as características do App e Site utilizando atributos HTML.|**Tamanho Pequeno** Todos os arquivo são pequenos e baixados somente quando usados permitindo melhor desempenho e um site menor.|**Fácil de Aprender** O DataFormsJS é desenvolvido em torno de HTML, CSS, JavaScript, Templating e tem uma API minima de JavaScript and HTML para que você possa iniciar imediatamente.|
+|**Desenvolvimento Rápido** Mostre dados dos serviços Web e GraphQL usando marcação HTML e define as características do App e Site utilizando atributos HTML.|**Tamanho Pequeno** Todos os arquivo são pequenos e baixados somente quando usados permitindo melhor desempenho e um site menor.|**Fácil de Aprender** O DataFormsJS é desenvolvido em torno de HTML, CSS, JavaScript, Modelos e tem uma API minima de JavaScript and HTML para que você possa iniciar imediatamente.|
 
 |<img src="https://www.dataformsjs.com/img/icons/column.svg" alt="Estabilidade" width="60">|<img src="https://www.dataformsjs.com/img/icons/water.svg" alt="Flexibilidade" width="60">|<img src="https://www.dataformsjs.com/img/icons/star.svg" alt="Sites Melhores" width="60">|
 |---|---|---|
@@ -76,7 +76,7 @@ dataformsjs
 
 ## :page_facing_up: Código Exemplo
 
-Este exemplo usa Vue para templating. Se você salvar isso com um editor de texto poderá visualizá-lo localmente em seu navegador. Além disso o site principal contém muitos modelos e exemplos.
+Este exemplo usa Vue para modelos. Se você salvar isso com um editor de texto poderá visualizá-lo localmente em seu navegador. Além disso o site principal contém muitos modelos e exemplos.
 
 ```html
 <!doctype html>
@@ -151,7 +151,7 @@ O arquivo [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/
 ## :question: FAQ
 
 **Por que o DataFormsJS foi criado?**
-O desenvolvimento e uso do inicial  do DataFormsJS ocorreu de forma privada em 2013 para permitir um desenvolvimento rápido de alta qualidade e Aplicativos de Página Única livres de erros (SPA). O DataFormsJS foi desenvolvido para ser pequeno, ótimo desempenho e para proporcionar um processo de desenvolvimento muito mais rápido que os outros frameworks. Alguns dos motivos para o desenvolvimento rápido inclui mostar serviços JSON usando somente marcação e Templating (Handlebars, Underscore etc.) e definindo as características de App e Site usando atributos HTML e pequenos plugins JavaScript.
+O desenvolvimento e uso do inicial  do DataFormsJS ocorreu de forma privada em 2013 para permitir um desenvolvimento rápido de alta qualidade e Aplicativos de Página Única livres de erros (SPA). O DataFormsJS foi desenvolvido para ser pequeno, ótimo desempenho e para proporcionar um processo de desenvolvimento muito mais rápido que os outros frameworks. Alguns dos motivos para o desenvolvimento rápido inclui mostrar serviços JSON usando somente marcação e modelos (Handlebars, Underscore etc.) e definindo as características de App e Site usando atributos HTML e pequenos plugins JavaScript.
 
 Versões anteriores do DataFormsJS foram utilizadas em algumas empresas vários tipos diferentes de apps.
 
@@ -172,14 +172,14 @@ _Todos os tamanhos são baseados nas versões minificadas dos scripts e compress
 * Components React individuais estão entre 3 e 12 KB ao descompactar e incluindo componentes.
 * Web Components são tipicamente em torno de 1 a 3 KB cada, você usará um conjunto de componentes então nos apps de exemplo isso adiciona em torno de 15 KB para cada app.
 
-Enquanto o framework DataFormsJS for pequeno ele será geralmente utilizado com mecanismos de Templating ou de Visualização:
+Enquanto o framework DataFormsJS for pequeno ele será geralmente utilizado com mecanismos de Modelos ou de Visualização:
 
 * Handlebars: ~ 22 KB
 * Vue: ~ 33 KB
 * Underscore: ~ 6 KB
 * Nunjucks - ~ 25 KB
 
-Além disso em um site maior ou mais complexo, é esperado que código de terceiros aumentem a quantidade de JavaScript. Por exemplo o editor de texto CodeMirror usado no site Code Playground tem em torno 250 KB de tamanho, no entanto o DataFormsJS tem a habilidade de baixar sometne código de terceiros quando for necessário.
+Além disso em um site maior ou mais complexo, é esperado que código de terceiros aumentem a quantidade de JavaScript. Por exemplo o editor de texto CodeMirror usado no site Code Playground tem em torno 250 KB de tamanho, no entanto o DataFormsJS tem a habilidade de baixar somente código de terceiros quando for necessário.
 
 **Quais são os planos futuros para o DataFormsJS?**
 
