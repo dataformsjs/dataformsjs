@@ -321,6 +321,7 @@
                 callback(addTemplate(null, templateId, templateUrl, templateEngine, false, text));
             })
             .catch(function(error) {
+                console.error(error);
                 var errorMessage = 'Error Downloading Template: [' + scriptUrl + '], Error: ' + error;
                 callback(addTemplate(null, templateId, templateUrl, templateEngine, true, errorMessage));
             });
@@ -1692,7 +1693,7 @@
                 // When using the HTML5 History API update links that start with <a href="/...">
                 // and do not include the [data-no-pushstate] attribute to use [window.history.pushState].
                 if (routingMode === 'history') {
-                    var links = document.querySelectorAll('a[href^="/"]:not([data-no-pushstate]');
+                    var links = document.querySelectorAll('a[href^="/"]:not([data-no-pushstate])');
                     Array.prototype.forEach.call(links, function(link) {
                         link.addEventListener('click', app.pushStateClick);
                     });
