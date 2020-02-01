@@ -16,7 +16,7 @@ Este repositório contém o framework DataFormsJS, páginas exemplo e testes de 
 
 |<img src="https://www.dataformsjs.com/img/icons/fast.svg" alt="Desenvolvimento Rápido" width="60">|<img src="https://www.dataformsjs.com/img/icons/small-size.svg" alt="Pequeno em Tamanho" width="60">|<img src="https://www.dataformsjs.com/img/icons/light-switch.svg" alt="Fácil de Aprender" width="60">|
 |---|---|---|
-|**Desenvolvimento Rápido** Mostre dados dos serviços Web e GraphQL usando marcação HTML e define as características do App e Site utilizando atributos HTML.|**Tamanho Pequeno** Todos os arquivo são pequenos e baixados somente quando usados permitindo melhor desempenho e um site menor.|**Fácil de Aprender** O DataFormsJS é desenvolvido em torno de HTML, CSS, JavaScript, Modelos e tem uma API minima de JavaScript and HTML para que você possa iniciar imediatamente.|
+|**Desenvolvimento Rápido** Mostre dados dos Web Services e GraphQL usando marcação HTML e define as características do App e Site utilizando atributos HTML.|**Tamanho Pequeno** Todos os arquivo são pequenos e baixados somente quando usados permitindo melhor desempenho e um site menor.|**Fácil de Aprender** O DataFormsJS é desenvolvido em torno de HTML, CSS, JavaScript, Modelos e tem uma API minima de JavaScript and HTML para que você possa iniciar imediatamente.|
 
 |<img src="https://www.dataformsjs.com/img/icons/column.svg" alt="Estabilidade" width="60">|<img src="https://www.dataformsjs.com/img/icons/water.svg" alt="Flexibilidade" width="60">|<img src="https://www.dataformsjs.com/img/icons/star.svg" alt="Sites Melhores" width="60">|
 |---|---|---|
