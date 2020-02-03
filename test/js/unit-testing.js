@@ -20,6 +20,7 @@
     'use strict';
 
     var isIE = (navigator.userAgent.indexOf('Trident/') !== -1);
+    var isFirefox = (navigator.userAgent.indexOf('Firefox/') !== -1);
 
     document.addEventListener('DOMContentLoaded', function () {
         // Default expected DataFormJS Settings based on the current page
@@ -182,7 +183,8 @@
             var expectedHtml = 'Template View';
             var shouldCompileTemplate = true;
             tester.pageTester(hash, shouldCompileTemplate, expectedHtml, assert, done, function () {
-                var type = app.getTemplateType(document.querySelector('template[data-route="/template-view"'));
+                // script[data-engine="text"] is for IE
+                var type = app.getTemplateType(document.querySelector('template[data-route="/template-view"],script[data-engine="text"][data-route="/template-view"]'));
                 assert.equal(type, 'Text', 'app.getTemplateType(<template>): ' + type);
             });
         });
@@ -975,8 +977,8 @@
                         'box-shadow': [
                             '0px 1px 5px 0px rgba(0,0,0,0.5)',
                             '0 1px 5px 0 rgba(0,0,0,.5)',
-                              'rgba(0, 0, 0, 0.5) 0px 1px 5px 0px',
-                              'rgba(0, 0, 0, 0.498039) 0px 1px 5px 0px',
+                            'rgba(0, 0, 0, 0.5) 0px 1px 5px 0px',
+                            'rgba(0, 0, 0, 0.498039) 0px 1px 5px 0px',
                         ],
                         'z-index': '1000000',
                         'padding': '20px',
@@ -1002,33 +1004,46 @@
                         'margin-left': '10px',
                         'box-shadow': [
                             '0 0 2px 1px rgba(0,0,0,0.3)',
-                              'rgba(0, 0, 0, 0.3) 0px 0px 2px 1px',
-                              'rgba(0, 0, 0, 0.298039) 0px 0px 2px 1px',
+                            '0px 0px 2px 1px rgba(0,0,0,0.3)',
+                            'rgba(0, 0, 0, 0.3) 0px 0px 2px 1px',
+                            'rgba(0, 0, 0, 0.298039) 0px 0px 2px 1px',
                         ],
                         'background-image': 'linear-gradient(rgb(204, 0, 0), rgb(170, 0, 0))',
                         'border-radius': '5px',
                     }
                 }
             ];
-            if (!isIE) {
-                elements.forEach(function(element) {
-                    var tagName = element.el.tagName;
-                    var cssProps = element.cssProps;
-                    for (var prop in cssProps) {
-                        if (cssProps.hasOwnProperty(prop)) {
-                            var expected = cssProps[prop];
-                            var value = window.getComputedStyle(element.el, null).getPropertyValue(prop);
-                            var description = tagName + ' CSS Computed Value [' + prop + ']: ' + value;
-                            if (Array.isArray(expected)) {
-                                var found = (expected.indexOf(value) !== -1);
-                                assert.ok(found, description);
-                            } else {
-                                assert.equal(value, expected, description);
-                            }
+            // Both IE and Firefox return empty strings '' when using shorthand properties
+            // [margin/padding/etc]. To get them to work they would require long or full properties:
+            // ['margin-right', 'border-top-left-radius', 'border-bottom-color']. Rather than checking
+            // a large list the shorthand properties are simply removed for browsers that do not 
+            // support them. If any changes are made they need to be visualy confirmed with all 
+            // supported browsers.
+            if (isIE || isFirefox) {
+                delete elements[0].cssProps.margin;
+                delete elements[0].cssProps.padding;
+                delete elements[1].cssProps.margin;
+                delete elements[1].cssProps.padding;
+                delete elements[1].cssProps.border;
+                delete elements[1].cssProps['border-radius'];
+            }
+            elements.forEach(function(element) {
+                var tagName = element.el.tagName;
+                var cssProps = element.cssProps;
+                for (var prop in cssProps) {
+                    if (cssProps.hasOwnProperty(prop)) {
+                        var expected = cssProps[prop];
+                        var value = window.getComputedStyle(element.el, null).getPropertyValue(prop);
+                        var description = tagName + ' CSS Computed Value [' + prop + ']: ' + value;
+                        if (Array.isArray(expected)) {
+                            var found = (expected.indexOf(value) !== -1);
+                            assert.ok(found, description);
+                        } else {
+                            assert.equal(value, expected, description);
                         }
                     }
-                });
-            }
+                }
+            });
 
             // Close the fatal error alert by clicking the [X] button
             assert.ok(div.parentNode === document.querySelector('body'), 'Checking Parent Node of [.dataformsjs-fatal-error] before [X] button click');
@@ -1081,7 +1096,7 @@
         // Test the [app.showError()] function, this is similar to
         // the above Test related to [app.showErrorAlert()]
         QUnit.test('app.showError()', function (assert) {
-            var expected, value, description;
+            var expected, value, description, outerHTML;
 
             // Make sure the error style element does not exist
             var errorStyle = document.getElementById('dataformsjs-style-errors');
@@ -1091,7 +1106,9 @@
             var view = document.querySelector(app.settings.viewSelector);
             view.innerHTML = '<strong>Content</strong>';
             expected = '<div id="view" style="display:none;"><strong>Content</strong></div>';
-            assert.equal(view.outerHTML, expected, 'Checking View Outer HTML: ' + view.outerHTML);
+            outerHTML = view.outerHTML;
+            outerHTML = outerHTML.replace('display: none;', 'display:none;'); // This is known to happen with IE 11
+            assert.equal(outerHTML, expected, 'Checking View Outer HTML: ' + view.outerHTML);
 
             // Call function
             var errorText = 'Test with app.showError()';
@@ -1106,7 +1123,9 @@
             assert.equal(view.childNodes.length, 1, 'Checking View Child Nodes: ' + view.childNodes.length);
             assert.equal(view.textContent, errorText, 'Checking View Text: ' + view.textContent);
             expected = '<div id="view" style="display:none;"><span class="dataformsjs-error">Test with app.showError()</span></div>';
-            assert.equal(view.outerHTML, expected, 'Checking View Outer HTML: ' + view.outerHTML);
+            outerHTML = view.outerHTML;
+            outerHTML = outerHTML.replace('display: none;', 'display:none;'); // This is known to happen with IE 11
+            assert.equal(outerHTML, expected, 'Checking View Outer HTML: ' + view.outerHTML);
 
             // Check the expected style
             var span = view.querySelector('.dataformsjs-error');
@@ -1120,27 +1139,31 @@
                 'box-shadow': [
                     '0px 1px 5px 0px rgba(0,0,0,0.5)',
                     '0 1px 5px 0 rgba(0,0,0,.5)',
-                      'rgba(0, 0, 0, 0.5) 0px 1px 5px 0px',
-                      'rgba(0, 0, 0, 0.498039) 0px 1px 5px 0px',
+                    'rgba(0, 0, 0, 0.5) 0px 1px 5px 0px',
+                    'rgba(0, 0, 0, 0.498039) 0px 1px 5px 0px',
                 ],
-                'padding': '10px',
+                'padding-left': '10px',
+                'padding-right': '10px',
+                'padding-top': '10px',
+                'padding-bottom': '10px',
                 'font-size': '16px',
-                'margin': '5px',
+                'margin-left': '5px',
+                'margin-right': '5px',
+                'margin-top': '5px',
+                'margin-bottom': '5px',
                 'display': 'inline-block',
             };
 
-            if (!isIE) {
-                for (var prop in cssProps) {
-                    if (cssProps.hasOwnProperty(prop)) {
-                        expected = cssProps[prop];
-                        value = window.getComputedStyle(span, null).getPropertyValue(prop);
-                        description = 'Error CSS Computed Value [' + prop + ']: ' + value;
-                        if (Array.isArray(expected)) {
-                            var found = (expected.indexOf(value) !== -1);
-                            assert.ok(found, description);
-                        } else {
-                            assert.equal(value, expected, description);
-                        }
+            for (var prop in cssProps) {
+                if (cssProps.hasOwnProperty(prop)) {
+                    expected = cssProps[prop];
+                    value = window.getComputedStyle(span, null).getPropertyValue(prop);
+                    description = 'Error CSS Computed Value [' + prop + ']: ' + value;
+                    if (Array.isArray(expected)) {
+                        var found = (expected.indexOf(value) !== -1);
+                        assert.ok(found, description);
+                    } else {
+                        assert.equal(value, expected, description);
                     }
                 }
             }
@@ -1601,10 +1624,11 @@
                     case 'Underscore':
                         errorType = 'SyntaxError';
                         // [Underscore] will return different error messages for different browsers
-                        // so currently on the first word of the error messages is checked. Examples:
+                        // so don't check the actual error text
                         //	 Chrome on Mac: 'Unexpected token )'
                         //	 Safari on Mac: 'Unexpected end of script'
-                        errorStart = 'Unexpected ';
+                        //   Firefox Windows: 'missing } after function body'
+                        errorStart = '';
                         break;
                 }
 
@@ -2174,7 +2198,6 @@
                     tester.pageTester(hash, true, expectedHtml, assert, done, function () {
                         app.nunjucksEnvironment = null;
                     });
-                    tester.modelsCount++;
                 });
 
                 // Similar to the above test but not using [app.nunjucksEnvironment]
@@ -2210,7 +2233,6 @@
                     // Change the view
                     window.location.hash = hash;
                     tester.compiledTemplates++;
-                    tester.modelsCount++;
                 });
                 break;
             default:
@@ -2242,6 +2264,18 @@
                 assert.equal(model.loadCount, 1, 'Checking model.loadCount: ' + model.loadCount);
                 assert.equal(model.errorCount, 0, 'Checking model.errorCount: ' + model.errorCount);
                 assert.ok(typeof model.fetchTimeInMilliseconds() === 'number', 'Checking model.fetchTimeInMilliseconds(): ' + model.fetchTimeInMilliseconds());
+
+                // When IE is used a technique known as Cache Busting is used so the last URL
+                // should look like: 'unit-testing/page-json-data?_=1433806192243'
+                var expectedUrl = /^unit-testing\/page-json-data\?_=\d+$/;
+                var lastUrl = tester.submittedUrls[tester.submittedUrls.length - 1];
+                lastUrl = lastUrl.url;
+                if (isIE) {
+                    assert.ok(expectedUrl.test(lastUrl), 'URL for last request is in the expected format for IE: ' + lastUrl);
+                } else {
+                    expectedUrl = 'unit-testing/page-json-data';
+                    assert.equal(lastUrl, expectedUrl, "URL for last request is in the expected format: " + lastUrl);
+                }
 
                 // This controller/page as created from HTML script so verify attributes
                 var script = document.querySelector('script[data-route="/page-json-data"]');
@@ -2415,6 +2449,10 @@
         // 1) Load '#/page-reload-json-data'
         // 2) Load '#/'
         // 3) Load '#/page-reload-json-data'
+        //
+        // NOTE - this route often fails in IE 11.
+        // Typically this route and the below route will work 50% of the time and fail 50% of the time.
+        // In all other browsers is should work 100% of the time.
         QUnit.test('Page jsonData with default [loadOnlyOnce=false]', function (assert) {
             // Asynchronous test
             var done = assert.async();
@@ -2452,6 +2490,10 @@
         // 1) Load '#/page-json-data-load-only-once'
         // 2) Load '#/'
         // 3) Load '#/page-json-data-load-only-once'
+        //
+        // NOTE - this route often fails in IE 11.
+        // Typically this route and the above route will work 50% of the time and fail 50% of the time.
+        // In all other browsers is should work 100% of the time.
         QUnit.test('Page jsonData with [loadOnlyOnce=true]', function (assert) {
             // Asynchronous test
             var done = assert.async();
@@ -2721,7 +2763,7 @@
         QUnit.test('DataFormJS Unit Test Complete Property Count', function (assert) {
             // Call app.setup() again to make sure that it is safe to call twice
             // and that templates and other objects are not redefined.
-            app.setup();
+            app.setup();    
 
             // At the end of this function the hash should be '#/' so that if that page is
             // refresh it will start with the correct route.

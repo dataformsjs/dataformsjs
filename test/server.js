@@ -67,11 +67,6 @@ app.get('/src/:dir/:file', (req, res, dir, file) => {
     res.file(filePath);
 });
 
-app.get('/vendor/:file', (req, res, file) => {
-    const filePath = path.join(__dirname, '..', 'vendor', decodeURIComponent(file));
-    res.file(filePath);
-});
-
 app.get('/unit-testing/page-json-data', (req, res) => {
     const data = { serverMessage: 'Response from Server' };
     res.setHeader('X-Unit-Test', 'DataFormsJS JSON');

@@ -31,15 +31,6 @@ TODO List
       similar to the main framework for [app.lazyLoad] and [data-lazy-load]. This feature would
       probably be shared with the new [jsxLoader.js] file.
 
-*) IE Cache Busting Needed
-    - When last checked the github fetch polyfill (used by DataFormsJS) does not
-      include cache busting which means that IE can show old content on JSON Services
-        https://github.com/github/fetch
-    - Either the polyfill needs to be updated or it should be handled by DataFormsJS
-    - The reason for this is that IE 11 uses very aggresive caching.
-    - In jQuery this cache busting is handled by using [cache:false]:
-        jQuery.ajax({cache:false})
-
 *) Improve UX of the Quick Ref Page
     https://www.dataformsjs.com/en/quick-reference
     - Filtering on all code doesn't work well due to generic terms "JavaScript" "Template", "Vue", etc
@@ -508,12 +499,32 @@ TODO List
 *) Create Unit Tests for the following functions:
     Controller.onRouteUnload
 
-*) Fix unit tests for IE 11
-    Originally all unit tests worked but not some are not working
-    Some logic such as was added:
-        if (!isIE) {
-    Additionally some tests related to JS Controls are broken however JS controls are confirmed with work with IE
-    when using: http://127.0.0.1:8080/js-control-demos-hbs#/
+*) Improve Unit tests for IE 11
+    - Typically they work about 50% of the time, however several routes have an
+      issue related to calls for [tester.pageTester2]
+    - It appears that [app.onUpdateViewComplete] is being called twice the first time
+      that it should be called. The reason for this is not yet known.
+    - It's not yet determine if this is a bug or related to IE behavior. Regardless
+      DataFormsJS has been used extensively with IE Users for many years before it was
+      released so it's known to work well with IE.
+    - To test the issue find and update the following code in [dataformsjs\test\js\unit-testing-core.js]:
+                // After checking the 'Page is Loading' message define a new
+                // [onUpdateViewComplete] function to check the final response.
+                app.onUpdateViewComplete = function () {
+                    // Now check the 2nd state (usually after a web service response)
+                    assert.equal(window.location.hash, hash, 'Hash Check - ' + hash);
+                    if (expectHtml2 !== null) {
+                        //// **** This block is the section to add for manual testing.
+                        if (hash === '#/page-json-data-load-only-once' || hash === '#/page-reload-json-data' || hash === '#/missing-page-json-data') {
+                            var html = document.getElementById('view').textContent.trim();
+                            if (html !== expectHtml2) {
+                                console.log(hash);
+                                console.log(expectHtml2);
+                                console.log(html);    
+                            }
+                        }
+                        tester.checkElement('view', expectHtml2, assert);
+                    }    
 
 *) Additional Unit Testing for the following functions, props, etc:
     data-engine:

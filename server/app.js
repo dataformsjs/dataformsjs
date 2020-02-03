@@ -7,7 +7,7 @@
  *
  * Important - This script is very minimal by design and only allows for
  * very basic request and response features needed for local development,
- * it works well but has few features so is not intended for production servers.
+ * it works well but has few features so is not intended for production apps.
  *
  * Example Usage:
  *     examples/server.js    https://github.com/dataformsjs/dataformsjs/blob/master/examples/server.js
@@ -102,8 +102,9 @@ const app = {
                 // Match the requested path to a defined route
                 const reqPath = url.parse(req.url).pathname;
                 for (let n = 0, m = this.routes.length; n < m; n++) {
-                    // First check method [GET|POST]
-                    if (this.routes[n].method !== req.method) {
+                    // First check method [GET|POST|HEAD]
+                    const method = this.routes[n].method;
+                    if (method !== req.method && !(method === 'GET' && req.method === 'HEAD')) {
                         continue;
                     }
                     // Match on path
@@ -267,26 +268,24 @@ function setupResponse(req, res) {
 
     // Used internally once headers and status code are defined
     res.send = (content) => {
-        // Send the response immediately if not using ETags or if the
-        // response status code is not in the 2## range.
-        if (res._useETag === undefined || (res.statusCode < 200 || res.statusCode >= 300)) {
-            res.end(content);
-            return;
+        // Handle ETags. Note, this is a very basic check and not a full featured
+        // 304 response function that handles 'Last-Modified' or other logic.
+        if (res._useETag === true && res.statusCode >= 200 && res.statusCode < 300) {
+            // Use MD5 and a Weak ETag for the Response.
+            const md5 = crypto.createHash('md5').update(content).digest('hex');
+            const etag = 'W/"' + md5 + '"';
+            res.setHeader('ETag', etag);
+
+            // Compare to Request 'If-None-Match' header. If content is an exact
+            // match then set status code to 304 'Not Modified' for a cached response.
+            const ifNoneMatch = (req.headers['if-none-match'] === undefined ? null : req.headers['if-none-match']);
+            if (ifNoneMatch === etag) {
+                res.statusCode = 304;
+            }
         }
 
-        // Send an ETag Response. Note, this is a very basic check
-        // and not a full featured 304 response function.
-
-        // Use MD5 and a Weak ETag for the Response.
-        const md5 = crypto.createHash('md5').update(content).digest('hex');
-        const etag = 'W/"' + md5 + '"';
-        res.setHeader('ETag', etag);
-
-        // Compare to Request 'If-None-Match' header. If content is an exact
-        // match then send a 304 'Not Modified' Response without the content.
-        const ifNoneMatch = (req.headers['if-none-match'] === undefined ? null : req.headers['if-none-match']);
-        if (ifNoneMatch === etag) {
-            res.statusCode = 304;
+        // Send content
+        if (req.method === 'HEAD' || res.statusCode === 204 || res.statusCode === 304) {
             res.end();
         } else {
             res.end(content);

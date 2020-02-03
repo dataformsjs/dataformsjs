@@ -4,6 +4,13 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## Next Release (Changes on Master Branch)
+
+* Improvements for IE 11
+  * Bug fix for when `template` elements were used that included embedded HTML. IE doesn't support the `template` element so DataFormsJS converts them to `script type="text/x-template"` elements when the page is loaded. Previously it simply hide the `template` elements but an edge case error was found when Framework JavaScript controls were used in the embedded templates.
+  * Added Cache Busting for IE when `app.fetch()` is called with `cache = no-cache|no-store`. Earlier pre-release versions of DataFormsJS used this but it was removed once the GitHub fetch Polyfill was used.
+* Updated Unit Tests so that they work with Firefox and IE 11. Originally Unit Testing occurred in all Browsers but changed to Webkit only prior to the initial release due to time constrains.
+
 ## 3.5.2 (January 28, 2020)
 
 * `js/DataFormsJS.js` - Bug fix for HTML5 History API nav menus with Safari on iOS 9 (iPad 2, iPhone 6, and older devices)

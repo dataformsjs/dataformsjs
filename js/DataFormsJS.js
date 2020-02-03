@@ -1080,6 +1080,27 @@
                 }
             }
 
+            // IE 11 uses very aggressive caching and the GitHub Fetch Polyfill which is used does
+            // not handle it when [cache = 'no-cache'/'no-store'] is used. The workaround it to use
+            // a technique known as cache busting. When using IE an a no cache option the URL will
+            // have the query string `?_={timestamp}` so that the browser always make a new request
+            // rather than load cached JSON data. This applies only to GET and HEAD requests. Regex
+            // for `reParamSearch` is from: https://github.com/jquery/jquery/blob/master/src/ajax.js
+            if (isIE && (options.method === undefined || options.method === 'GET' || options.method === 'HEAD')) {
+                if (options.cache === 'no-store' || options.cache === 'no-cache') {
+                    // Search for a '_' parameter in the query string
+                    var reParamSearch = /([?&])_=[^&]*/;
+                    if (reParamSearch.test(url)) {
+                        // If it already exists then set the value with the current time
+                        url = url.replace(reParamSearch, '$1_=' + (new Date()).getTime());
+                    } else {
+                        // Otherwise add a new '_' parameter to the end with the current time
+                        var reQueryString = /\?/;
+                        url += (reQueryString.test(url) ? '&' : '?') + '_=' + (new Date()).getTime();
+                    }
+                }
+            }
+
             // Make the request
             return fetch(url, options)
             .then(function(response) {
@@ -1958,6 +1979,7 @@
                     selectors.push(name + ':not([data-control-loaded]):not([data-control-is-loading])');
                 }
             });
+            // Combine all selectors to one selector
             var selector = selectors.join(',');
 
             // [element] is typically specified only when refreshing a specific HTML control
@@ -2275,6 +2297,7 @@
          *     'vue'               = 'Vue',
          *     'nunjucks'          = 'Nunjucks',
          *     'underscore'        = 'Underscore',
+         *     'text'              = 'Text'
          *     (all other values)  = 'Unknown'
          *
          * With a <template> 'text' is returned.
@@ -2305,6 +2328,8 @@
                     return ViewEngines.Nunjucks;
                 case 'underscore':
                     return ViewEngines.Underscore;
+                case 'text':
+                    return ViewEngines.Text;
                 default:
                     return ViewEngines.Unknown;
             }
@@ -2767,6 +2792,23 @@
                 }
             }
 
+            // IE 11 considers <template> elements as valid elements so it applies [querySelector()]
+            // and related methods to elements under <templates>'s so replace with them <script type="text/x-template">.
+            // This avoid's issues of <template> elements that contain embedded content.
+            if (isIE) {
+                var templates = document.querySelectorAll('template');
+                Array.prototype.forEach.call(templates, function(template) {
+                    var script = document.createElement('script');
+                    for (var n = 0, m = template.attributes.length; n < m; n++) {
+                        script.setAttribute(template.attributes[n].name, template.attributes[n].value);
+                    }
+                    script.type = 'text/x-template';
+                    script.setAttribute('data-engine', 'text');
+                    script.innerHTML = template.innerHTML;
+                    template.parentNode.replaceChild(script, template);
+                });
+            }
+
             // Automatically add templates as routes that have the attribute [data-route] defined
             var templateSelector = 'script[type="text/x-template"][data-route],template[data-route]';
             var scripts = document.querySelectorAll(templateSelector);
@@ -2796,7 +2838,7 @@
                     return;
                 } else if (viewEngine === ViewEngines.Unknown) {
                     console.log(script);
-                    app.showErrorAlert(new TypeError('A script element <script id="' + script.id + '" type="' + script.type + '" data-engine="' + script.getAttribute('data-engine') + '" data-route="' + script.getAttribute('data-route') + '"> must have a valid engine type defined in [data-engine]. Valid values are [handlebars, vue, underscore, nunjucks].'));
+                    app.showErrorAlert(new TypeError('A script element <script id="' + script.id + '" type="' + script.type + '" data-engine="' + script.getAttribute('data-engine') + '" data-route="' + script.getAttribute('data-route') + '"> must have a valid engine type defined in [data-engine]. Valid values are [handlebars, vue, underscore, nunjucks, text].'));
                     return;
                 }
 
@@ -2820,11 +2862,11 @@
                     viewId = undefined;
                 }
 
-                // Convert HTML 'data-*' attributes to a Controller Settings.
+                // Convert core HTML 'data-*' attributes to a Controller Settings.
                 // Values will be either bool or strings. Example:
                 //   'data-url' becomes 'settings.url'
                 //   'data-save-url' becomes 'settings.saveUrl'
-                var skipProps = ['route', 'page', 'model', 'src'];
+                var skipProps = ['route', 'page', 'model', 'src', 'engine'];
                 for (var prop in script.dataset) {
                     if (skipProps.indexOf(prop) === -1) {
                         var value = script.dataset[prop];
@@ -2863,14 +2905,6 @@
                 // Update the script as having it's controller added
                 script.setAttribute('data-controller-added', 'true');
             });
-
-            // IE 11 will show <template> elements as content so hide them
-            if (isIE) {
-                var templates = document.querySelectorAll('template');
-                Array.prototype.forEach.call(templates, function(template) {
-                    template.style.display = 'none';
-                });
-            }
 
             // Handle hash changes and set the first view (active from url or default).
             // Note, if setup() is called twice addEventListener() does not create duplicate
