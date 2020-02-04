@@ -18,7 +18,7 @@ TODO List
 --------------------------------------------------------------------------
 
 *) React JSX Loader
-    - This is in active development (mid-Janurary 2020) and will likely be published within a month or so.
+    - This is in active development (February 2020) and will likely be published within a month or so.
     - Basically a JavaScript file will be loaded <script src="jsxLoader.js"> which would check if a modern
         browser is being used and if so then simply convert JSX code to modern JS and if a legacy browser
         (IE, old safari, etc) then it would load and use babel standalone.
@@ -48,6 +48,28 @@ TODO List
         "#/:lang/quick-reference/:topic"
         However all code should be downloaded only once and displayed in memory
 
+*) Add an optional property to the main DataFormsJS/app File to display a progress element
+   while scripts are being loaded in-between routes when using `app.lazyLoad`
+    - Example:
+        app.settings.progressSelector = '.page-loading'
+    - If the element exists it will be displayed [element.display = ''] and then set back to [element.display = 'none] after
+    - When using lazy loading for JS and CSS files there is typically no noticeable delay
+        on desktops and fast mobile devices. However if large scripts are loaded
+    - Example, uses the places demo SPA from a phone with a slow connection on an old phone.
+      There will be a slight delay loading a city page due to the [leafletjs] being loaded
+      on the first view of the city page.
+        https://www.dataformsjs.com/examples/places-demo-vue.htm
+    - Docs can also be created showing and recommending how to use a CSS delay in showing the element.
+      See example of CSS from the getting start page CSS:
+        https://www.dataformsjs.com/en/getting-started
+        https://d2xbd92kui7v97.cloudfront.net/site/css/getting-started.css
+
+*) The Hacker News API Demo (link below) will likely be combined into a larger Public API's Demo
+    - https://www.dataformsjs.com/examples/hacker-news-react.htm
+    - Other API's to start:
+        https://api.github.com/emojis
+    - Once completed the page can be added to the examples section on the main site
+
 *) Web Components <json-data>
     - Support for custom Request Headers is needed.
     - For how the standard Framework handles this see code related to [app.settings.requestHeaders].
@@ -62,6 +84,7 @@ TODO List
     - API needs a quick search/filter feature to look up any attribute/class/function/etc
         and find where it is defined and how to use it.
     - UI/UX still needs to be decided on for API docs
+    - Or Docs can simply be added to GitHub as Markdown Docs
 
 *)  Create an [I18N] API for Web Components and initially use with:
     http://127.0.0.1:8080/places-demo-web
