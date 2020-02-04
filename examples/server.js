@@ -30,6 +30,8 @@
 /* jshint esversion:8, node:true */
 /* eslint-env node, es6 */
 
+'use strict';
+
 const app = require('./../server/app.js');
 const path = require('path');
 const fs = require('fs');

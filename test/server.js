@@ -2,7 +2,7 @@
  * Node.js Web Server for Unit Testing
  *
  * This has no dependencies outside of built-in Node.js objects and the
- * [app.js] file; see additional comments in [app.js].
+ * local web server files, see additional comments in [app.js].
  *
  * Note - several tests defined in this file are currently not used
  * and were part of earlier unit tests that were removed before publishing.
@@ -29,8 +29,14 @@
 /* jshint esversion:8, node:true */
 /* eslint-env node, es6 */
 
-const app = require('./../server/app.js');
+'use strict';
+
 const path = require('path');
+
+const app = require('./../server/app.js');
+const bodyParser = require('./../server/middleware/body-parser.js');
+const etag = require('./../server/middleware/etag.js');
+// const cors = require('./../server/middleware/cors.js');
 
 const port = 5000;
 
@@ -40,6 +46,19 @@ const views = [
     'unit-testing-underscore',
     'unit-testing-mixed-templates'
 ];
+
+app.use(bodyParser());
+app.use(etag());
+
+// Example CORS usage:
+//
+// app.use(cors()); // This would send { 'Access-Control-Allow-Origin': '*' }
+//
+// app.use(cors({
+//     'Access-Control-Allow-Origin': '{request.origin}',
+//     'Access-Control-Allow-Headers': 'Authorization, Content-Type, If-None-Match',
+//     'Access-Control-Allow-Credentials': 'true',
+// }));
 
 app.get('/', (req, res) => {
     let html = '<h1>DataFormsJS Unit Testing</h1><ul>';

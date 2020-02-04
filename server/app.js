@@ -9,6 +9,9 @@
  * very basic request and response features needed for local development,
  * it works well but has few features so is not intended for production apps.
  *
+ * Since this file is small you can step through the code using a debugger
+ * which makes it is usefull for learning purposes.
+ *
  * Example Usage:
  *     examples/server.js    https://github.com/dataformsjs/dataformsjs/blob/master/examples/server.js
  *     test/server.js        https://github.com/dataformsjs/dataformsjs/blob/master/test/server.js
@@ -23,20 +26,19 @@
 /* jshint esversion:8, node:true */
 /* eslint-env node, es6 */
 
+'use strict';
+
 const http = require('http');
 const url = require('url');
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
-const querystring = require('querystring');
 
 const app = {
-    // Array of defined routes
+    // Arrays for middleware and routes
+    middleware: [ setupResponse ],
     routes: [],
 
     // Config Options
-    maxPostSize: (1024 * 1024), // 1 MB
-    showDetailedError: true, // Shows errors by default because this script is intended for local development
     mimeTypes: {
         htm: 'text/html; charset=UTF-8',
         html: 'text/html; charset=UTF-8',
@@ -52,21 +54,31 @@ const app = {
         ico: 'image/x-icon',
     },
 
+    // Add Middleware
+    use: function (callback) {
+        this.middleware.push(callback);
+    },
+
     // Add a GET Route
     get: function (path, callback) {
-        this.routes.push({path: path, method: 'GET', callback: callback});
+        this.routes.push({ path: path, method: 'GET', callback: callback });
     },
 
     // Add a POST Route
     post: function (path, callback) {
-        this.routes.push({path: path, method: 'POST', callback: callback});
+        this.routes.push({ path: path, method: 'POST', callback: callback });
     },
 
-    // Used to check if a route matches, returns an array of [bool:matches, array|null:args]
+    // Allow the route to handle ANY method
+    route: function (path, callback) {
+        this.routes.push({ path: path, method: null, callback: callback });
+    },
+
+    // Used to check if a route matches, returns an array of [bool:matches, array:args]
     routeMatches: (pattern, path) => {
         // Quick check for exact match
         if (pattern === path && pattern.indexOf(':') === -1) {
-            return [ true, null ];
+            return [ true, [] ];
         }
 
         // Check for ':variables' and add to an array
@@ -79,7 +91,7 @@ const app = {
                     if (patternParts[n].length > 0 && patternParts[n].indexOf(':') === 0) {
                         args.push(decodeURIComponent(pathParts[n]));
                     } else {
-                        return [ false, null ];
+                        return [ false, [] ];
                     }
                 }
             }
@@ -92,29 +104,40 @@ const app = {
 
     // Call this to start the server
     run: function(port, siteRootDir) {
-        const server = http.createServer((req, res) => {
+        const server = http.createServer(async (req, res) => {
             try {
-                // Setup and add custom methods to the built-in Node Request and Response Objects
-                handleAsyncErrors(res);
-                setupRequest(req);
-                setupResponse(req, res);
+                // Call middleware functions
+                for (let n = 0, m = this.middleware.length; n < m; n++) {
+                    const fn = this.middleware[n];
+                    if (fn.constructor.name === 'AsyncFunction') {
+                        await fn(req, res);
+                    } else {
+                        fn(req, res);
+                    }
+                    // If headers are sent assume that middleware handled the response
+                    if (res.headersSent) {
+                        return;
+                    }
+                }
 
                 // Match the requested path to a defined route
+                const reqMethod = req.method;
                 const reqPath = url.parse(req.url).pathname;
                 for (let n = 0, m = this.routes.length; n < m; n++) {
                     // First check method [GET|POST|HEAD]
                     const method = this.routes[n].method;
-                    if (method !== req.method && !(method === 'GET' && req.method === 'HEAD')) {
+                    if (!(method === reqMethod || (method === 'GET' && reqMethod === 'HEAD') || method === null)) {
                         continue;
                     }
                     // Match on path
                     const pattern = this.routes[n].path;
                     const [matches, args] = this.routeMatches(pattern, reqPath);
                     if (matches) {
-                        if (args) {
-                            this.routes[n].callback.apply(null, [req, res].concat(args));
+                        const fn = this.routes[n].callback;
+                        if (fn.constructor.name === 'AsyncFunction') {
+                            await fn.apply(null, [req, res].concat(args));
                         } else {
-                            this.routes[n].callback(req, res);
+                            fn.apply(null, [req, res].concat(args));
                         }
                         return;
                     }
@@ -154,56 +177,10 @@ const app = {
     },
 };
 
-// Catch unhandled errors from async routes and send the error page.
-function handleAsyncErrors(res) {
-    process.removeAllListeners('unhandledRejection');
-    process.on('unhandledRejection', (reason) => {
-        if (!res.headersSent) {
-            res.error(typeof reason === 'string' ? 'Processs.unhandledRejection: ' + reason : reason);
-        }
-    });
-}
-
-function setupRequest(req) {
-    // Read and return a Promise with posted content as a string from the Request.
-    req.content = (encoding = 'utf8') => {
-        return new Promise(function(resolve, reject) {
-            let content = [];
-            let length = 0;
-            req.on('data', (chunk) => {
-                content.push(chunk);
-                // Safety check in case this script is used on a production server.
-                // Typically  this would be handled by the web-server (nginx, etc)
-                // with a 413 Response before this code is executed.
-                length += chunk.length;
-                if (length >= app.maxPostSize) {
-                    reject('Payload Too Large');
-                }
-            }).on('end', () => {
-                content = Buffer.concat(content).toString(encoding);
-                resolve(content);
-            }).on('error', (err) => {
-                reject(err);
-            });
-        });
-    };
-
-    // Read and parse a basic Form POST (doesn't handle files)
-    req.form = () => {
-        return req.content().then(content => {
-            return (content === '' ? {} : querystring.parse(content));
-        });
-    };
-
-    // Read and Parse a JSON POST
-    req.json = () => {
-        return req.content().then(content => {
-            return JSON.parse(content);
-        });
-    };
-}
-
 function setupResponse(req, res) {
+    // Allow middleware to add callback functions that get called on `res.send`
+    res.onSend = [];
+
     // Send an HTML Response
     res.html = (html) => {
         res.setHeader('Content-Type', 'text/html; charset=UTF-8');
@@ -232,10 +209,7 @@ function setupResponse(req, res) {
     res.error = (err) => {
         console.error(err);
         res.statusCode = 500;
-        let html = '<h1>An error has occurred</h1>';
-        if (app.showDetailedError) {
-            html += `<p><pre>${app.escapeHtml(err.stack ? err.stack.toString() : err.toString())}</pre></p>`;
-        }
+        const html = `<h1>An error has occurred</h1><p><pre>${app.escapeHtml(err.stack ? err.stack.toString() : err.toString())}</pre></p>`;
         res.html(html);
     };
 
@@ -260,28 +234,11 @@ function setupResponse(req, res) {
         });
     };
 
-    // Allow the Response to use ETags with 304 Caching
-    res.etag = () => {
-        res._useETag = true;
-        return res;
-    };
-
     // Used internally once headers and status code are defined
     res.send = (content) => {
-        // Handle ETags. Note, this is a very basic check and not a full featured
-        // 304 response function that handles 'Last-Modified' or other logic.
-        if (res._useETag === true && res.statusCode >= 200 && res.statusCode < 300) {
-            // Use MD5 and a Weak ETag for the Response.
-            const md5 = crypto.createHash('md5').update(content).digest('hex');
-            const etag = 'W/"' + md5 + '"';
-            res.setHeader('ETag', etag);
-
-            // Compare to Request 'If-None-Match' header. If content is an exact
-            // match then set status code to 304 'Not Modified' for a cached response.
-            const ifNoneMatch = (req.headers['if-none-match'] === undefined ? null : req.headers['if-none-match']);
-            if (ifNoneMatch === etag) {
-                res.statusCode = 304;
-            }
+        // Middleware callback functions
+        for (let n = 0, m = res.onSend.length; n < m; n++) {
+            res.onSend[n](content);
         }
 
         // Send content
