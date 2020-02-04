@@ -1,5 +1,7 @@
 "use strict";
 
+if (window.exports === undefined) { window.exports = window; }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });

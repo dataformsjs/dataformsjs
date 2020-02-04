@@ -5,6 +5,10 @@
  * and easily in a dynamic manner and depending on the state of the web service
  * will show or hide components from [isLoading, isLoaded, hasError].
  *
+ * Examples:
+ *     https://www.dataformsjs.com/examples/places-demo-react.htm
+ *     https://www.dataformsjs.com/examples/image-classification-react.htm
+ *
  * Example Usage:
  *     function ShowOrderPage({match}) {
  *         return (
@@ -88,7 +92,7 @@
  * @license  MIT
  */
 
- /* Validates with both [jshint] and [eslint] */
+/* Validates with both [jshint] and [eslint] */
 /* For online eslint - Source Type = 'module' must be manually selected. */
 /* jshint esversion:6 */
 /* eslint-env browser, es6 */

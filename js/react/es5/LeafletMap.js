@@ -1,13 +1,11 @@
 "use strict";
 
+if (window.exports === undefined) { window.exports = window; }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return !!right[Symbol.hasInstance](left); } else { return left instanceof right; } }
 
@@ -38,7 +36,7 @@ var LeafletMap = function (_React$Component) {
     _classCallCheck(this, LeafletMap);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(LeafletMap).call(this, props));
-    _this.div = _react.default.createRef();
+    _this.div = React.createRef();
     return _this;
   }
 
@@ -87,7 +85,7 @@ var LeafletMap = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement('div', {
+      return React.createElement('div', {
         className: 'leaflet-map',
         ref: this.div
       });
@@ -95,6 +93,6 @@ var LeafletMap = function (_React$Component) {
   }]);
 
   return LeafletMap;
-}(_react.default.Component);
+}(React.Component);
 
 exports.default = LeafletMap;

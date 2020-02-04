@@ -10,6 +10,7 @@ Overall the core Framework files and API are expected to remain stable however t
   * Bug fix for when `template` elements were used that included embedded HTML. IE doesn't support the `template` element so DataFormsJS converts them to `script type="text/x-template"` elements when the page is loaded. Previously it simply hide the `template` elements but an edge case error was found when Framework JavaScript controls were used in the embedded templates.
   * Added Cache Busting for IE when `app.fetch()` is called with `cache = no-cache|no-store`. Earlier pre-release versions of DataFormsJS used this but it was removed once the GitHub fetch Polyfill was used.
 * Updated Unit Tests so that they work with Firefox and IE 11. Originally Unit Testing occurred in all Browsers but changed to Webkit only prior to the initial release due to time constrains.
+* Updates for React Components - Removed the requirement for custom `import and exports` definitions when using `babel-standalone` from a browser.
 
 ## 3.5.2 (January 28, 2020)
 

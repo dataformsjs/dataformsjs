@@ -1,13 +1,11 @@
 "use strict";
 
+if (window.exports === undefined) { window.exports = window; }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return !!right[Symbol.hasInstance](left); } else { return left instanceof right; } }
 
@@ -106,6 +104,6 @@ var PolyfillService = function (_React$Component) {
   }]);
 
   return PolyfillService;
-}(_react.default.Component);
+}(React.Component);
 
 exports.default = PolyfillService;

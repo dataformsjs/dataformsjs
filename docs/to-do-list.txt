@@ -31,6 +31,12 @@ TODO List
       similar to the main framework for [app.lazyLoad] and [data-lazy-load]. This feature would
       probably be shared with the new [jsxLoader.js] file.
 
+*) Create a standalone Vue Component <json-data>
+    - It will go in a new directory `js/vue`
+    - Behavior and API will be similar to the existing Framework and React code:
+        <json-data> Framework Control and Web Component
+        React JsonData Component 
+
 *) Improve UX of the Quick Ref Page
     https://www.dataformsjs.com/en/quick-reference
     - Filtering on all code doesn't work well due to generic terms "JavaScript" "Template", "Vue", etc

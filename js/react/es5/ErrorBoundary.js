@@ -1,13 +1,11 @@
 "use strict";
 
+if (window.exports === undefined) { window.exports = window; }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return !!right[Symbol.hasInstance](left); } else { return left instanceof right; } }
 
@@ -57,14 +55,14 @@ var ErrorBoundary = function (_React$Component) {
     key: "render",
     value: function render() {
       if (this.state.errorInfo) {
-        return _react.default.createElement('div', null, _react.default.createElement('h2', {
+        return React.createElement('div', null, React.createElement('h2', {
           style: {
             textAlign: 'left',
             color: 'white',
             backgroundColor: '#bc0000',
             padding: '1em'
           }
-        }, 'An error has occurred'), _react.default.createElement('details', {
+        }, 'An error has occurred'), React.createElement('details', {
           style: {
             whiteSpace: 'pre-wrap',
             textAlign: 'left',
@@ -72,7 +70,7 @@ var ErrorBoundary = function (_React$Component) {
             backgroundColor: 'red',
             padding: '1em'
           }
-        }, this.state.error && this.state.error.toString(), _react.default.createElement('br', null), this.state.errorInfo.componentStack));
+        }, this.state.error && this.state.error.toString(), React.createElement('br', null), this.state.errorInfo.componentStack));
       }
 
       return this.props.children;
@@ -80,6 +78,6 @@ var ErrorBoundary = function (_React$Component) {
   }]);
 
   return ErrorBoundary;
-}(_react.default.Component);
+}(React.Component);
 
 exports.default = ErrorBoundary;

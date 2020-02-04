@@ -1,13 +1,11 @@
 "use strict";
 
+if (window.exports === undefined) { window.exports = window; }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return !!right[Symbol.hasInstance](left); } else { return left instanceof right; } }
 
@@ -29,6 +27,99 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+/**
+ * DataFormsJS React Component <JsonData>
+ *
+ * <JsonData> allows a page or elements on a page to use JSON web services quickly
+ * and easily in a dynamic manner and depending on the state of the web service
+ * will show or hide components from [isLoading, isLoaded, hasError].
+ *
+ * Examples:
+ *     https://www.dataformsjs.com/examples/places-demo-react.htm
+ *     https://www.dataformsjs.com/examples/image-classification-react.htm
+ *
+ * Example Usage:
+ *     function ShowOrderPage({match}) {
+ *         return (
+ *             <JsonData
+ *                 url="https://example.com/orders/:orderType/:orderId"
+ *                 orderType={match.params.orderType}
+ *                 orderId={match.params.orderId}
+ *                 isLoading={<ShowLoading />}
+ *                 hasError={<ShowError />}
+ *                 isLoaded={<ShowOrder />}>
+ *             </JsonData>
+ *         )
+ *     }
+ *
+ * The above example assumes <ShowLoading>, <ShowError>, and <ShowOrder>
+ * are components defined by the app and <ShowOrderPage> with {match.params.*}
+ * are passed from router such as React Router:
+ *     <Route path="/orders/:orderType/:orderId" component={<ShowOrderPage />} />
+ *
+ * [orderType] and [orderId] are defined dynamically on <JsonData> and
+ * will passed to <ShowOrder> as:
+ *     {props.params.orderType}
+ *     {props.params.orderId}
+ *
+ * The downloaded data will be available in <ShowOrder> as:
+ *     {props.data}
+ *
+ * Additionally if a component needs to update the state of the downloaded data
+ * from <JsonData> it can be done from the [isLoaded] component by calling:
+ *      this.props.handleChange();
+ * or to overwrite [state.data]:
+ *      this.props.handleChange({prop1, prop2, etc});
+ *
+ * For example if the Web Service returned:
+ *     { orderId:123, totalAmount:999.99, lineItems:[] }
+ * Then you can use:
+ *     {props.data.orderId}
+ *     {props.data.totalAmount}
+ *     {props.data.lineItems.map(...)}
+ *
+ * Minimal Setup:
+ *     Only [url] and [isLoaded] are required:
+ *         <JsonData url="https://example.com/data" isLoaded={<ShowData />} />
+ *
+ * Additional Properties:
+ *     <JsonData
+ *         ...
+ *         loadOnlyOnce={true}
+ *         onViewUpdated={callback}
+ *         fetchOptions={{}}
+ *         fetchHeaders={{}}>
+ *     </JsonData>
+ *
+ * [loadOnlyOnce] defaults to undefined/{false} so data and state are always reloaded
+ * when the component is created. In a SPA this would happen each time the page
+ * changes. For an SPA that needs to show many pages with real-time data this is
+ * ideal, however if you data does not change often or if the state should be kept
+ * between page changes then use [loadOnlyOnce={true}]. A good example of this is
+ * the demo page [DataFormsJS\examples\image-classification-react.htm]; in the demo
+ * if [loadOnlyOnce] is not {true} then images would reset during page changes but
+ * because it is set to {true} the images are kept and the state remains valid even
+ * if clicking to another page in the SPA while images are sitll being classified
+ * from the web service.
+ *
+ * [onViewUpdated] is an optional callback that can be used to handle custom DOM
+ * updates after data has been fetched and state has been set. It would not be common
+ * to use in most React Apps however if you want to execute standard JS to manipulate
+ * or read DOM once data is ready then this property can be used. An example of this
+ * is shown in [DataFormsJS\examples\log-table-react.htm]
+ *
+ * [fetchOptions] and [fetchHeaders] allow for the app to control the request options
+ * and send request headers for the component. The default options used are:
+ *     {
+ *         mode: 'cors',
+ *         cache: 'no-store',
+ *         credentials: 'same-origin',
+ *     }
+ *
+ * @link     https://www.dataformsjs.com
+ * @author   Conrad Sollitt (http://www.conradsollitt.com)
+ * @license  MIT
+ */
 var dataCache = [];
 
 function saveDataToCache(url, params, data) {
@@ -88,7 +179,7 @@ function HasError(props) {
     error = 'Error - ' + error;
   }
 
-  return _react.default.cloneElement(props.children, {
+  return React.cloneElement(props.children, {
     error: error
   });
 }
@@ -100,7 +191,7 @@ function IsLoaded(props) {
     return null;
   }
 
-  return _react.default.cloneElement(props.children, {
+  return React.cloneElement(props.children, {
     data: props.data,
     params: props.params,
     handleChange: props.handleChange
@@ -279,12 +370,12 @@ var JsonData = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(IsLoading, {
+      return React.createElement(React.Fragment, null, React.createElement(IsLoading, {
         fetchState: this.state.fetchState
-      }, this.props.isLoading), _react.default.createElement(HasError, {
+      }, this.props.isLoading), React.createElement(HasError, {
         fetchState: this.state.fetchState,
         error: this.state.error
-      }, this.props.hasError), _react.default.createElement(IsLoaded, {
+      }, this.props.hasError), React.createElement(IsLoaded, {
         fetchState: this.state.fetchState,
         data: this.state.data,
         params: this.state.params,
@@ -294,6 +385,6 @@ var JsonData = function (_React$Component) {
   }]);
 
   return JsonData;
-}(_react.default.Component);
+}(React.Component);
 
 exports.default = JsonData;

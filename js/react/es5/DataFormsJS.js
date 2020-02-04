@@ -3,14 +3,12 @@
 // @license MIT
 "use strict";
 
+if (window.exports === undefined) { window.exports = window; }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.DataFormsJS = exports.SortableTable = exports.PolyfillService = exports.LeafletMap = exports.JsonData = exports.InputFilter = exports.I18n = exports.Format = exports.ErrorBoundary = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -60,14 +58,14 @@ var ErrorBoundary = function (_React$Component) {
     key: "render",
     value: function render() {
       if (this.state.errorInfo) {
-        return _react.default.createElement('div', null, _react.default.createElement('h2', {
+        return React.createElement('div', null, React.createElement('h2', {
           style: {
             textAlign: 'left',
             color: 'white',
             backgroundColor: '#bc0000',
             padding: '1em'
           }
-        }, 'An error has occurred'), _react.default.createElement('details', {
+        }, 'An error has occurred'), React.createElement('details', {
           style: {
             whiteSpace: 'pre-wrap',
             textAlign: 'left',
@@ -75,7 +73,7 @@ var ErrorBoundary = function (_React$Component) {
             backgroundColor: 'red',
             padding: '1em'
           }
-        }, this.state.error && this.state.error.toString(), _react.default.createElement('br', null), this.state.errorInfo.componentStack));
+        }, this.state.error && this.state.error.toString(), React.createElement('br', null), this.state.errorInfo.componentStack));
       }
 
       return this.props.children;
@@ -83,7 +81,7 @@ var ErrorBoundary = function (_React$Component) {
   }]);
 
   return ErrorBoundary;
-}(_react.default.Component);
+}(React.Component);
 
 exports.ErrorBoundary = ErrorBoundary;
 
@@ -438,7 +436,7 @@ var InputFilter = function (_React$Component2) {
 
     _this2 = _possibleConstructorReturn(this, _getPrototypeOf(InputFilter).call(this, props));
     _this2.onChange = _this2.onChange.bind(_assertThisInitialized(_this2));
-    _this2.input = _react.default.createRef();
+    _this2.input = React.createRef();
     return _this2;
   }
 
@@ -542,7 +540,7 @@ var InputFilter = function (_React$Component2) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement('input', Object.assign({}, this.props, {
+      return React.createElement('input', Object.assign({}, this.props, {
         onChange: this.onChange,
         ref: this.input
       }));
@@ -550,7 +548,7 @@ var InputFilter = function (_React$Component2) {
   }]);
 
   return InputFilter;
-}(_react.default.Component);
+}(React.Component);
 
 exports.InputFilter = InputFilter;
 var dataCache = [];
@@ -612,7 +610,7 @@ function HasError(props) {
     error = 'Error - ' + error;
   }
 
-  return _react.default.cloneElement(props.children, {
+  return React.cloneElement(props.children, {
     error: error
   });
 }
@@ -624,7 +622,7 @@ function IsLoaded(props) {
     return null;
   }
 
-  return _react.default.cloneElement(props.children, {
+  return React.cloneElement(props.children, {
     data: props.data,
     params: props.params,
     handleChange: props.handleChange
@@ -803,12 +801,12 @@ var JsonData = function (_React$Component3) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(IsLoading, {
+      return React.createElement(React.Fragment, null, React.createElement(IsLoading, {
         fetchState: this.state.fetchState
-      }, this.props.isLoading), _react.default.createElement(HasError, {
+      }, this.props.isLoading), React.createElement(HasError, {
         fetchState: this.state.fetchState,
         error: this.state.error
-      }, this.props.hasError), _react.default.createElement(IsLoaded, {
+      }, this.props.hasError), React.createElement(IsLoaded, {
         fetchState: this.state.fetchState,
         data: this.state.data,
         params: this.state.params,
@@ -818,7 +816,7 @@ var JsonData = function (_React$Component3) {
   }]);
 
   return JsonData;
-}(_react.default.Component);
+}(React.Component);
 
 exports.JsonData = JsonData;
 
@@ -831,7 +829,7 @@ var LeafletMap = function (_React$Component4) {
     _classCallCheck(this, LeafletMap);
 
     _this5 = _possibleConstructorReturn(this, _getPrototypeOf(LeafletMap).call(this, props));
-    _this5.div = _react.default.createRef();
+    _this5.div = React.createRef();
     return _this5;
   }
 
@@ -880,7 +878,7 @@ var LeafletMap = function (_React$Component4) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement('div', {
+      return React.createElement('div', {
         className: 'leaflet-map',
         ref: this.div
       });
@@ -888,7 +886,7 @@ var LeafletMap = function (_React$Component4) {
   }]);
 
   return LeafletMap;
-}(_react.default.Component);
+}(React.Component);
 
 exports.LeafletMap = LeafletMap;
 
@@ -969,7 +967,7 @@ var PolyfillService = function (_React$Component5) {
   }]);
 
   return PolyfillService;
-}(_react.default.Component);
+}(React.Component);
 
 exports.PolyfillService = PolyfillService;
 
@@ -983,7 +981,7 @@ var SortableTable = function (_React$Component6) {
 
     _this8 = _possibleConstructorReturn(this, _getPrototypeOf(SortableTable).call(this, props));
     _this8.sortColumn = _this8.sortColumn.bind(_assertThisInitialized(_this8));
-    _this8.table = _react.default.createRef();
+    _this8.table = React.createRef();
     return _this8;
   }
 
@@ -1175,14 +1173,14 @@ var SortableTable = function (_React$Component6) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement('table', Object.assign({}, this.props, {
+      return React.createElement('table', Object.assign({}, this.props, {
         ref: this.table
       }), this.props.children);
     }
   }]);
 
   return SortableTable;
-}(_react.default.Component);
+}(React.Component);
 
 exports.SortableTable = SortableTable;
 

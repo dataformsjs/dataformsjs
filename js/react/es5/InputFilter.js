@@ -1,13 +1,11 @@
 "use strict";
 
+if (window.exports === undefined) { window.exports = window; }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return !!right[Symbol.hasInstance](left); } else { return left instanceof right; } }
 
@@ -39,7 +37,7 @@ var InputFilter = function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(InputFilter).call(this, props));
     _this.onChange = _this.onChange.bind(_assertThisInitialized(_this));
-    _this.input = _react.default.createRef();
+    _this.input = React.createRef();
     return _this;
   }
 
@@ -143,7 +141,7 @@ var InputFilter = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement('input', Object.assign({}, this.props, {
+      return React.createElement('input', Object.assign({}, this.props, {
         onChange: this.onChange,
         ref: this.input
       }));
@@ -151,6 +149,6 @@ var InputFilter = function (_React$Component) {
   }]);
 
   return InputFilter;
-}(_react.default.Component);
+}(React.Component);
 
 exports.default = InputFilter;
