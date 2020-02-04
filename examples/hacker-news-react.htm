@@ -62,34 +62,36 @@
             https://www.dataformsjs.com
         -->
         <!--
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/ErrorBoundary.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/PolyfillService.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/JsonData.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/InputFilter.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/Format.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/ErrorBoundary.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/PolyfillService.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/JsonData.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/InputFilter.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/Format.js"></script>
         -->
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es5/DataFormsJS.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es5/DataFormsJS.min.js"></script>
 
 
         <script type="text/babel">
 
             function ShowLoading() {
-                return <h3 className="loading">Loading...</h3>;
+                return <div className="loading">Loading...</div>;
             }
 
             function ShowError(props) {
-                return <p className="error">{props.error}</p>;
+                return <div className="error">{props.error}</div>;
             }
 
             function ShowTopStories(props) {
                 // By default the Hacker News API returns hunderds of items so get only the first 50
                 let idList = (props.data && props.data.length > 50 ? props.data.slice(0, 50) : []);
-
-                // Use <JsonData> to download the details of each Hacker News Post
                 return (
                     <React.Fragment>
+
                         <header>
-                            <h1><a href="https://news.ycombinator.com/" target="_blank">Hacker News Demo</a> <span></span></h1>
+                            <h1>
+                                <a href="https://news.ycombinator.com/" target="_blank">Hacker News Demo</a>
+                                <span></span>
+                            </h1>
                             <InputFilter
                                 filter-selector="ul li"
                                 filter-results-selector="h1 span"
@@ -97,10 +99,12 @@
                                 filter-results-text-filtered="Showing {displayCount} of {totalCount} News Items"
                                 placeholder="Enter filter, example 'show' or 'google'" />
                         </header>
+
                         <ul>
                             {idList.map(id => {
+                                // Use a nested <JsonData> to download the details of each Hacker News Post
                                 return (
-                                    <li key={id}>
+                                    <li key={id}>                                        
                                         <JsonData
                                             url={'https://hacker-news.firebaseio.com/v0/item/' + id + '.json'}
                                             hasError={<ShowError />}
@@ -114,12 +118,31 @@
             }
 
             function ShowNewsItem(props) {
-                // Calculate some variables for the news item
                 const comments = (props.data.kids && props.data.kids.length ? props.data.kids.length : 0);
                 const hasUrl = (props.data.url !== undefined);
+                return (
+                    <div>
+                        <strong>{props.data.title}</strong>
+                        {hasUrl && <div className="post-link">
+                            <span><a href={props.data.url} target="_blank">{props.data.url}</a></span>
+                        </div>}
+                        <div>
+                            <span>{props.data.score} points</span>
+                            <span>by {props.data.by}</span>
+                            <span>created {getTimeDiff(props.data.time)}</span>
+                            <span><a href={'https://news.ycombinator.com/item?id=' + props.data.id} target="_blank">{comments} comments</a></span>
+                        </div>
+                    </div>
+                )
+            }
 
+            // Return in format similar to Hacker News based on a Unix Timestamp:
+            //    1 minute ago
+            //    10 minutes ago
+            //    1 hour ago
+            function getTimeDiff(timestamp) {
                 const now = new Date();
-                const commentTime = new Date(props.data.time * 1000);
+                const commentTime = new Date(timestamp * 1000);
                 const diff = now.getTime() - commentTime.getTime();
                 const minutes = Math.floor(diff / 60000);
                 let timeDiff;
@@ -138,21 +161,7 @@
                     // is correct for create time.
                     timeDiff =  + Math.floor(minutes / 60 / 24) + ' days ago';
                 }
-
-                return (
-                    <div>
-                        <strong>{props.data.title}</strong>
-                        {hasUrl && <div className="post-link">
-                            <span><a href={props.data.url} target="_blank">{props.data.url}</a></span>
-                        </div>}
-                        <div>
-                            <span>{props.data.score} points</span>
-                            <span>by {props.data.by}</span>
-                            <span>created {timeDiff}</span>
-                            <span><a href={'https://news.ycombinator.com/item?id=' + props.data.id} target="_blank">{comments} comments</a></span>
-                        </div>
-                    </div>
-                )
+                return timeDiff;
             }
 
             class App extends React.Component {

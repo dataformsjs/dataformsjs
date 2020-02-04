@@ -65,7 +65,8 @@ ul li a { color: #828282; }
 .post-link a { color:hsla(0, 0%, 41%, 1); }
 
 ul li a:visited,
-.post-link a:visited { color:hsla(0, 0%, 61%, 1); }
+.post-link a:visited,
+.loading { color:hsla(0, 0%, 61%, 1); }
 
 @media (min-width: 600px) {
     h1 span {
