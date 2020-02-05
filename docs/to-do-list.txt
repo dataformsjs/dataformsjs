@@ -48,6 +48,10 @@ TODO List
         "#/:lang/quick-reference/:topic"
         However all code should be downloaded only once and displayed in memory
 
+*) Main Web Site and Playground Sites
+    - Use HTTP/2 instead of http/1.1
+    - Recommendation based on Chrome DevTools Lighthouse Audit for Best Practices
+
 *) Add an optional property to the main DataFormsJS/app File to display a progress element
    while scripts are being loaded in-between routes when using `app.lazyLoad`
     - Example:
@@ -215,6 +219,11 @@ TODO List
         const fileName = 'countries';
         const fileDir = 'http://localhost:3000/i18n';
         const i18n = new I18n(defaultLocale, supportedLocales, fileName, fileDir);
+    - Build process for JS on the main site:
+        npm install uglify-js -g
+        uglifyjs page-home-page.js -o page-home-page{YYYYMMDD}.min.js -c -m
+        uglifyjs page-home-page.js -o page-home-page.20200205.min.js -c -m
+        uglifyjs prism.modified.js -o prism.modified.min.js -c -m
     - Document different build options that can be used
         Uglify-js https://www.npmjs.com/package/uglify-js
         Google Closure Compiler https://developers.google.com/closure/compiler/
