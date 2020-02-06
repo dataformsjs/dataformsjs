@@ -208,7 +208,7 @@ While the DataFormsJS Framework is small it will generally be used with a larger
 * Underscore: ~ 6 kb
 * Nunjucks - ~ 25 kb
 
-Additionally in a complex or large site third-party code is expected to account for the largest amount of JavaScript. For example CodeMirror Text Editor used on the Playground site is around 250 kb, however DataFormsJS has the ability to download only third-party code when it will be needed.
+Additionally in a complex or large site third-party code is expected to account for the largest amount of JavaScript. For example CodeMirror Text Editor used on the Playground site is around 250 kb, however DataFormsJS has the ability to download third-party code only when it will be needed based on the URL.
 
 **What are the future plans for DataFormsJS?**
 
