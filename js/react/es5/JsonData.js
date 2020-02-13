@@ -103,10 +103,10 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
  * from the web service.
  *
  * [onViewUpdated] is an optional callback that can be used to handle custom DOM
- * updates after data has been fetched and state has been set. It would not be common
- * to use in most React Apps however if you want to execute standard JS to manipulate
- * or read DOM once data is ready then this property can be used. An example of this
- * is shown in [DataFormsJS\examples\log-table-react.htm]
+ * updates or Unit Testing during data state changes [isLoading, isLoaded, hasError].
+ * It would not be common to use in most React Apps however if you want to execute
+ * standard JS to manipulate or read DOM once data is ready then this property can be used.
+ * An example of this is shown in [DataFormsJS\examples\log-table-react.htm]
  *
  * [fetchOptions] and [fetchHeaders] allow for the app to control the request options
  * and send request headers for the component. The default options used are:
@@ -187,7 +187,7 @@ function HasError(props) {
 function IsLoaded(props) {
   var show = props.fetchState === 1;
 
-  if (!show) {
+  if (!show || !props.children) {
     return null;
   }
 
@@ -313,6 +313,8 @@ var JsonData = function (_React$Component) {
       this.setState({
         fetchState: 0
       }, function () {
+        _this2.updateView();
+
         fetch(url, options).then(function (response) {
           var status = response.status;
 
@@ -364,7 +366,11 @@ var JsonData = function (_React$Component) {
     key: "updateView",
     value: function updateView() {
       if (typeof this.props.onViewUpdated === 'function') {
-        this.props.onViewUpdated();
+        try {
+          this.props.onViewUpdated();
+        } catch (e) {
+          console.error(e);
+        }
       }
     }
   }, {

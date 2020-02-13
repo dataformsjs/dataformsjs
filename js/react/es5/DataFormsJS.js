@@ -618,7 +618,7 @@ function HasError(props) {
 function IsLoaded(props) {
   var show = props.fetchState === 1;
 
-  if (!show) {
+  if (!show || !props.children) {
     return null;
   }
 
@@ -744,6 +744,8 @@ var JsonData = function (_React$Component3) {
       this.setState({
         fetchState: 0
       }, function () {
+        _this4.updateView();
+
         fetch(url, options).then(function (response) {
           var status = response.status;
 
@@ -795,7 +797,11 @@ var JsonData = function (_React$Component3) {
     key: "updateView",
     value: function updateView() {
       if (typeof this.props.onViewUpdated === 'function') {
-        this.props.onViewUpdated();
+        try {
+          this.props.onViewUpdated();
+        } catch (e) {
+          console.error(e);
+        }
       }
     }
   }, {
