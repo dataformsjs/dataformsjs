@@ -1,6 +1,7 @@
 "use strict";
 
 if (window.exports === undefined) { window.exports = window; }
+if (window.React === undefined && window.preact !== undefined) { var React = window.preact; }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -141,6 +142,13 @@ var InputFilter = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      if (window !== undefined && window.React === window.preact) {
+        return React.createElement('input', Object.assign({}, this.props, {
+          onInput: this.onChange,
+          ref: this.input
+        }));
+      }
+
       return React.createElement('input', Object.assign({}, this.props, {
         onChange: this.onChange,
         ref: this.input

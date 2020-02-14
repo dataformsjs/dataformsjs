@@ -10,6 +10,9 @@ Overall the core Framework files and API are expected to remain stable however t
   * Added support for missing `isLoaded` elements so that `JsonData` can be used to ping the server without displaying data. For example `<JsonData url="https://www.dataformsjs.com/data/geonames/countries" />`
   * Update for `onViewUpdated` event so that is called on the initial loading state before data is fetched. Previously it was only called after data has downloaded or if there was an error downloading data.
   * Added Error Handling for custom `onViewUpdated` events. The prevents issues from display data when an error occurs in third-party or app code.
+* Improved Support for [Preact](https://preactjs.com) when using React Components
+  * React Components ES5 Build Version will detect if `preact` is being used instead of `React` and work automatically
+  * `InputFilter` will detect if `preact` is being used as an alias in a web page for `React` and then use `onInput` instead of `onChange`
 
 ## 3.5.3 (February 2, 2020)
 

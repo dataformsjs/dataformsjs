@@ -135,8 +135,19 @@ export default class InputFilter extends React.Component {
     }
 
     render() {
-        // JSX Version:
+        // JSX Version for React:
         // return <input {...this.props} onChange={this.onChange} ref={this.input} />
+
+        // Quick check in case Preact is being used as an alias for React on a Webpage.
+        // If so then use `onInput` instead of `onChange`.
+        if (window !== undefined && window.React === window.preact) {
+            return React.createElement('input', Object.assign({}, this.props, {
+                onInput: this.onChange,
+                ref: this.input
+            }));
+        }
+        
+        // React
         return React.createElement('input', Object.assign({}, this.props, {
             onChange: this.onChange,
             ref: this.input

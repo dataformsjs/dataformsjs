@@ -101,7 +101,7 @@ export default class I18n {
         if (currentLocale === null) {
             currentLocale = state.defaultLocale;
         }
-        // No change then ext
+        // No change then exit
         if (state.currentLocale === currentLocale) {
             return;
         }
