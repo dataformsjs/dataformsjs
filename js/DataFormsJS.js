@@ -2928,7 +2928,7 @@
 
     // Setup the app when the page is ready
     document.addEventListener('DOMContentLoaded', function () {
-        var condition = (Array.from && window.Promise && window.fetch ? true : false);
+        var condition = (Array.from && window.Promise && window.fetch && Promise.prototype.finally ? true : false);
         app.loadScript(condition, app.settings.polyfillUrl, app.setup);
     });
 })();
