@@ -159,8 +159,7 @@
                     // For GraphQL if the page is being viewed directly from the file system or in an
                     // 'about:blank' page then use a GET request instead of a POST. This will only work
                     // for GraphQL Services that send CORS '*' and do not use Authentication. This feature
-                    // is not needed by most apps but was created so that that the [getting-started] and
-                    // demo pages when downloaded or opened directly.
+                    // is not needed by most apps but can be used by local development or for downloaded pages.
                     if (window.location.origin === 'file://' || window.location.origin === 'null') {
                         model.submittedFetchUrl += (model.submittedFetchUrl.indexOf('?') === -1 ? '?' : '&');
                         model.submittedFetchUrl += 'query=' + encodeURIComponent(model.graphqlQuery.trim());

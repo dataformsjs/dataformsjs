@@ -18,7 +18,7 @@
     <body>
         <div id="view">
             <h1>Countries</h1>
-            
+
             <json-data url="https://www.dataformsjs.com/data/geonames/countries">
                 <is-loading>
                     <span class="loading">Loading...</span>
@@ -36,11 +36,6 @@
                         placeholder="Enter filter, example 'North America'">
 
                     <p>Click on a column to sort rows based on column values.</p>
-                    <p>
-                        <a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/countries-no-spa-web.htm" target="_blank">
-                            <img src="https://www.dataformsjs.com/img/logos/GitHub-Mark-32px.png" alt="GitHub">
-                        </a>
-                    </p>
 
                     <data-table
                         data-bind="countries"
@@ -103,7 +98,7 @@
                 flag.className = iso + ' flag';
                 row.cells[1].insertAdjacentElement('afterbegin', flag);
             }
-        }   
+        }
     </script>
 </body>
 </html>

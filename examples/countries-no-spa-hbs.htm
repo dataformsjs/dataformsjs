@@ -11,8 +11,8 @@
     <body>
         <div id="view">
             <h1>Countries</h1>
-            
-            <json-data 
+
+            <json-data
                 data-url="https://www.dataformsjs.com/data/geonames/countries"
                 data-template-id="countries-list">
             </json-data>
@@ -27,17 +27,12 @@
                 <input
                     data-filter-selector="table"
                     data-filter-results-text-selector="h1"
-                    data-filter-results-text-all="{totalCount} Countries" 
+                    data-filter-results-text-all="{totalCount} Countries"
                     data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
                     placeholder="Enter filter, example 'North America'">
             </div>
 
             <p>Click on a column to sort rows based on column values.</p>
-            <p>
-                <a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/countries-no-spa-hbs.htm" target="_blank">
-                    <img src="https://www.dataformsjs.com/img/logos/GitHub-Mark-32px.png" alt="GitHub">
-                </a>
-            </p>
 
             <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
                 <thead>
