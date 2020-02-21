@@ -1,6 +1,6 @@
 {
   "name": "dataformsjs",
-  "version": "3.5.3",
+  "version": "3.5.4",
   "homepage": "https://www.dataformsjs.com/",
   "description": "A minimal JavaScript Framework and standalone components for rapid development of high quality websites and single page applications.",
   "browser": "js/DataFormsJS.min.js",
