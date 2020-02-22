@@ -38,7 +38,7 @@ The script is tested with a variety of devices and browsers including the follow
   * IE 11
   * Safari iOS
 
-It also works and is tested with React alternative libaries such as Preact.
+In addition to React it also works and is tested with the React alternative libary Preact.
 
 The `jsxLoader.js` script is very small to download (5.1 kB - min and gzip) and compiles code very fast (often in milliseconds for each JSX script).
 
