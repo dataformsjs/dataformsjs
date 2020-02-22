@@ -115,6 +115,13 @@
             script.type = startingScriptType;
         });
 
+        QUnit.test('Check Polyfills from [js/scripts/polyfills.js]', function (assert) {
+            assert.equal('\t\n test '.trimLeft(), 'test ', 'String.prototype.trimLeft()');
+            assert.equal('\t\n test '.trimStart(), 'test ', 'String.prototype.trimStart()');
+            assert.equal(' test \t\n'.trimRight(), ' test', 'String.prototype.trimRight()');
+            assert.equal(' test \t\n'.trimEnd(), ' test', 'String.prototype.trimEnd()');
+        });
+
         QUnit.test('Redirect with [app.settings.defaultRoute] with [/404] Route', function (assert) {
             // Asynchronous test
             var done = assert.async();

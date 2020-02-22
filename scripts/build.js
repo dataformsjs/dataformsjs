@@ -234,7 +234,7 @@ async function buildReactFiles(copyright) {
  */
 async function getAllFiles() {
     const rootDir = __dirname + '/../js/';
-    const jsDir = ['controls', 'extensions', 'pages', 'plugins', 'react'];
+    const jsDir = ['controls', 'extensions', 'pages', 'plugins', 'react', 'scripts'];
     const webDir = ['web-components'];
     const webJsFiles = ['jsPlugins.js', 'old-browser-warning.js', 'safari-nomodule.js'];
     const reactES5 = ['react/es5'];

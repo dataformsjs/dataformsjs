@@ -159,6 +159,7 @@ export default class I18n {
                     }
                 });
             } else {
+                console.warn('Using class `I18n` without [jsxLoader.js] or a [fetch] polyfill is being depreciated and will be removed in a future release of DataFormsJS. This is due to the planned removal of <PolyfillService>.');
                 const xhr = new XMLHttpRequest();
                 xhr.open('GET', url);
                 xhr.onload = function () {

@@ -1,3 +1,4 @@
+'use strict';
 
 const links = [
     'https://www.tensorflow.org',
@@ -45,6 +46,7 @@ function PageInfo() {
                     <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-react.htm" target="_blank">React</a></li>
                     <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-hbs.htm" target="_blank">Handlebars</a></li>
                     <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification.js" target="_blank">{i18n.text('src_js_vue_hbs')}</a></li>
+                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/html/image-home-react.jsx" target="_blank">JSX (React)</a></li>
                 </ul>
 
                 <h2>{i18n.text('Links')}</h2>

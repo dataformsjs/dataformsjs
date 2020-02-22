@@ -17,20 +17,6 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-*) React JSX Loader
-    - This is in active development (February 2020) and will likely be published within a month or so.
-    - Basically a JavaScript file will be loaded <script src="jsxLoader.js"> which would check if a modern
-        browser is being used and if so then simply convert JSX code to modern JS and if a legacy browser
-        (IE, old safari, etc) then it would load and use babel standalone.
-    - The reason for this would be to allow JSX development for production sites without
-      a build process using [create-react-app], Webpack, etc.
-    - babel standalone works but is very large, however it would be ok for desktop IE users, etc
-    - It's likley that an alternative router component <UrlHashRouter> will be created with this
-      that can be used instead of React Router. The reason is that a much smaller component
-      can be created and the main reason would be to add support for lazy-loading of scripts
-      similar to the main framework for [app.lazyLoad] and [data-lazy-load]. This feature would
-      probably be shared with the new [jsxLoader.js] file.
-
 *) Create a standalone Vue Component <json-data>
     - It will go in a new directory `js/vue`
     - Behavior and API will be similar to the existing Framework and React code:
@@ -47,6 +33,35 @@ TODO List
     - May use new hash url:
         "#/:lang/quick-reference/:topic"
         However all code should be downloaded only once and displayed in memory
+
+*) Allow Unit Tests to run from the main site
+    - The reason is so anyone can test the Framework and React components easily with any Browser.
+    - This will require slightly different folder structure and some minor updates in html.
+        dataformsjs\test\*
+    - The main website will need a PHP version of the Unit Test Routes: [dataformsjs\test\server.js]
+        It can go in a new route file [website\app\routes-test.php]
+    - This will require some minor updates to the sync server script once the new folder structure is ready.
+        website\scripts\sync-server-from-github.sh
+    - Ideally there will be no change to code under [dataformsjs\test\*], this should be able to 
+        be handled with find/replace from the bash script (or a seperate php, pythong, etc script that runs on the server)
+
+*) Unit Testing for Vue
+    Start by copying [test\views\unit-testing-underscore.htm] as [test\views\unit-testing-vue.htm]
+    and then see if the core Framework Unit Tests can be modified to handle Vue similar to how it's
+    done between Handlebars, Nunjucks, and Underscore
+
+*) Playground Site
+    - Add liniting for React/JSX, Babel recently started doing this online in the REPL:
+        https://babeljs.io/repl
+    - Currently JS is linted using jshint on the Playground, to lint JSX babel standalone will 
+        likley be used with a custom Code Mirror Plugin
+    - When adding update the JS page code to load jshint and a linter for JSX only if the
+        user is actually going to create a site. It can be downloaded in the background
+        while the site is being created.
+
+*) Template Files
+    - File [dataformsjs\examples\_template.htm] should be seperated for different options and include a hello world or display of JSON data:
+        _template_{hbs, vue, react}.htm
 
 *) Main Web Site and Playground Sites
     - Use HTTP/2 instead of http/1.1
@@ -73,6 +88,34 @@ TODO List
     - Other API's to start:
         https://api.github.com/emojis
     - Once completed the page can be added to the examples section on the main site
+
+*) jsxLoader.js
+    - More unit testing (every line of code needs to be verified), unit tests run from:
+        http://127.0.0.1:5000/unit-testing-react
+        http://127.0.0.1:5000/unit-testing-preact
+    - Babel 6 Standalone is used because it works with IE 11.
+        - Can Babel 7 be used instead (and near feture Babel 8)?
+        - During initial testing in development it did not work after spending some time to try differnt polyfills.
+        - Babel 7: https://unpkg.com/@babel/standalone/babel.min.js
+        - There is a known unit test error when using Babel 6 with IE for the Unit Test element:
+                <input id="file-2" type="file" accept="image/*" multiple="" />
+        - Because Babel doesn't handle the [multiple=""]. Can this be fixed if using newer versions of Babel?
+        - The error does not happen when using the compiler from [jsxLoader.js].
+    - Development Tips for working with the Parser:
+        - Make sure to set the following on the calling page:
+            jsxLoader.logCompileTime = true;
+            jsxLoader.logCompileDetails = true;
+        - Once possible location of error has been found add code similar to the below item,
+            search for 'debug here' in DevTools and then add a breakpoint:
+                if (state.value === " render") {
+                    console.log('debug here');
+                    console.log(node);
+                    console.log(tokens);
+                }
+    - This demo does not fully work so it's in code but not linked from the main site.
+      Seems like it may be an issue due to Rax and not the jsxLoader. See comments in the HTML file.
+        http://127.0.0.1:8080/countries-no-spa-rax.htm
+
 
 *) Web Components <json-data>
     - Support for custom Request Headers is needed.
@@ -105,6 +148,7 @@ TODO List
 
 *) Create Search Screen for the following page:
         http://127.0.0.1:8080/places-demo-web
+        This requires creating a new web component (either generic or part of the app)
    See standard framework demos with Handlebars, Vue, and React:
         http://127.0.0.1:8080/places-demo-hbs#/en/
         http://127.0.0.1:8080/places-demo-graphql#/en/
@@ -342,9 +386,6 @@ TODO List
         Instead Facebook uses their own custom mode and it requires a custom build process and not CDN, see:
             https://github.com/graphql/graphiql/tree/master/packages/codemirror-graphql
 
-*) DataFormsJS\js\React\PolyfillService.jsx
-    - Allow the polyfill URL to be optionally passed via a prop
-
 *) DataFormsJS\js\React\jsPlugins.js
     How to handle [Plugin.onRouteUnload()]? Not yet needed with common framework plugins but needed
     for future plugins that use [window.setInterval] or [window.setTimeout]
@@ -476,10 +517,6 @@ TODO List
           and make them more complex.
         - An alternative to making the web components more complex would be to use the planned
             <handlebars-template> and <vue-template>
-
-*) Create seperate JSX files based on React Components in a new folder for Preact?
-   Or can the current React Components be used?
-    https://preactjs.com/
 
 *) GraphQL
     - Add GraphQL support on [pages/entryForm.js]

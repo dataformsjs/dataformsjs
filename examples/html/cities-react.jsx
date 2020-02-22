@@ -1,15 +1,49 @@
+'use strict';
+
 export function PageCities({match}) {
+    // NOTE - this can be updated to change which web service runs.
+    // Both options are included as examples.
+    const useGraphQL = true;
+
+    // JSON Web Service
+    if (useGraphQL === false) {
+        return (
+            <JsonData
+                url="https://www.dataformsjs.com/data/geonames/cities/:country/:region"
+                lang={match.params.lang}
+                country={match.params.country}
+                region={match.params.region}
+                isLoading={<ShowLoading />}
+                hasError={<ShowError />}
+                isLoaded={<ShowCities />}
+                loadOnlyOnce={true}>
+            </JsonData>
+        );
+    }
+
+    // GraphQL Service
+    //
+    // The property [querySrc] specifies the URL to a GraphQL Query.
+    // For the example a relative URL is being used, however a full URL
+    // such as [https://www.dataformsjs.com/examples/graphql/cities.graphql]
+    // can also be used.
+    //
+    // The variable [lang] is not used by the GraphQL service but included
+    // so that it gets passed to <ShowRegions> as {props.params.lang}
     return (
         <JsonData
-            url="https://www.dataformsjs.com/data/geonames/cities/:country/:region"
-            lang={match.params.lang}
-            country={match.params.country}
-            region={match.params.region}
+            url="https://www.dataformsjs.com/graphql"
+            graphQL={true}
+            querySrc="graphql/cities.graphql"
+            variables={{
+                lang: match.params.lang,
+                country: match.params.country,
+                region: match.params.region,
+            }}
             isLoading={<ShowLoading />}
             hasError={<ShowError />}
             isLoaded={<ShowCities />}
-            loadOnlyOnce={true}>
-        </JsonData>
+            loadOnlyOnce={true} />
     );
 }
 

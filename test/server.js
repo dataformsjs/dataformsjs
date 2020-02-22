@@ -44,7 +44,9 @@ const views = [
     'unit-testing-handlebars',
     'unit-testing-nunjucks',
     'unit-testing-underscore',
-    'unit-testing-mixed-templates'
+    'unit-testing-mixed-templates',
+    'unit-testing-react',
+    'unit-testing-preact',
 ];
 
 app.use(bodyParser());
@@ -83,6 +85,11 @@ app.get('/src/:file', (req, res, file) => {
 
 app.get('/src/:dir/:file', (req, res, dir, file) => {
     const filePath = path.join(__dirname, '..', 'js', decodeURIComponent(dir), decodeURIComponent(file));
+    res.file(filePath);
+});
+
+app.get('/src/:dir1:/:dir2/:file', (req, res, dir1, dir2, file) => {
+    const filePath = path.join(__dirname, '..', 'js', decodeURIComponent(dir1), decodeURIComponent(dir2), decodeURIComponent(file));
     res.file(filePath);
 });
 

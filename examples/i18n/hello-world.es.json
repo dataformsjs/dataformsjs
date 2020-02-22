@@ -9,5 +9,7 @@
     "hello_name": "Hola {{nombre}}!",
     "back_home": "De vuelta a casa",
     "param_name": "nombre",
-    "param_your_name": "Tu-Nombre"
+    "param_your_name": "Tu-Nombre",
+    "jsx_loader": "DataFormsJS [jsxLoader.js] se está utilizando para compilar rápidamente JSX a JS.",
+    "babel_loader": "Está utilizando un navegador anterior, por lo que Babel se está utilizando para compilar JSX a JS."
 }

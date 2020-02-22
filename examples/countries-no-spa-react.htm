@@ -11,53 +11,32 @@
     <body>
         <div id="view">
             <h1>Countries</h1>
-            
+
             <div id="root"></div>
         </div>
     </div>
-
-    <script>
-        // Allow [babel-standalone] to use [import and exports] with JSX files
-        window.exports = window;
-        function require(module) {
-            switch (module) {
-                case 'react':
-                    return window.React;
-                case 'react-dom':
-                    return window.ReactDOM;
-                default:
-                    return window[module];
-            }
-        }
-    </script>
 
     <!-- React -->
     <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 
-    <!--
-        Babel for JSX
-        Use [babel-standalone@6] for IE Support.
-        Babel 7 [@babel] can be used for modern browsers.
-    -->
-    <!--
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    -->
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-
     <!-- DataFormsJS React Components -->
     <!--
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/ErrorBoundary.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/PolyfillService.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/JsonData.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/InputFilter.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/SortableTable.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/I18n.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/Format.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/LeafletMap.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/ErrorBoundary.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/JsonData.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/InputFilter.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/SortableTable.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/Format.js"></script>
     -->
-    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es5/DataFormsJS.min.js"></script>
+    <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es5/DataFormsJS.min.js"></script>
+
+    <!-- DataFormsJS JSX Loader -->
+    <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/jsxLoader.min.js"></script>
+    <script>
+        // Set to `true` to view compiler details
+        jsxLoader.logCompileTime = true;
+        jsxLoader.logCompileDetails = true;
+    </script>
 
     <script type="text/babel">
         const format = new Format();
@@ -81,11 +60,6 @@
                         placeholder="Enter filter, example 'North America'" />
 
                     <p>Click on a column to sort rows based on column values.</p>
-                    <p>
-                        <a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/countries-no-spa-react.htm" target="_blank">
-                            <img src="https://www.dataformsjs.com/img/logos/GitHub-Mark-32px.png" alt="GitHub" />
-                        </a>
-                    </p>
 
                     <SortableTable
                         data-sort-class-odd="row-odd"
@@ -124,13 +98,11 @@
             render() {
                 return (
                     <ErrorBoundary>
-                        <PolyfillService>
-                            <JsonData
-                                url="https://www.dataformsjs.com/data/geonames/countries"
-                                isLoading={<ShowLoading />}
-                                hasError={<ShowError />}
-                                isLoaded={<ShowCountries />} />
-                        </PolyfillService>
+                        <JsonData
+                            url="https://www.dataformsjs.com/data/geonames/countries"
+                            isLoading={<ShowLoading />}
+                            hasError={<ShowError />}
+                            isLoaded={<ShowCountries />} />
                     </ErrorBoundary>
                 )
             }

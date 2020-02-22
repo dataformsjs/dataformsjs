@@ -1,0 +1,72 @@
+<!doctype html>
+<!--
+    This file is intended for local development when modifying the [jsxLoader.js] file.
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>JSX Loader Testing</title>
+        <style>
+            body { padding:20px; }
+            .test { background-color: lightblue; }
+        </style>
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <!--
+            React
+        -->
+        <!-- <script src="/vendor/react.production.min.js"></script>
+        <script src="/vendor/react-dom.production.min.js"></script> -->
+
+        <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+        <!-- <script src="https://unpkg.com/preact"></script> -->
+        
+        <!--
+            React Router
+            https://reacttraining.com/react-router/
+            https://github.com/ReactTraining/react-router
+
+        <script src="https://unpkg.com/react-router/umd/react-router.min.js"></script>
+        <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
+		-->
+
+        <!--
+            DataFormsJS React Components
+        -->
+        <!--
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/ErrorBoundary.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/LazyLoad.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/JsonData.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/InputFilter.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/SortableTable.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/I18n.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/Format.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/LeafletMap.js"></script>
+        -->
+        <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es5/DataFormsJS.min.js"></script>
+
+        <!--
+            Add additional libraries as needed for testing, example:
+                https://github.com/jonschlinkert/remarkable
+        -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/remarkable@2.0.0/dist/remarkable.min.js"></script>
+        <script>
+            const Remarkable = remarkable.Remarkable;
+        </script> -->
+
+        <!-- <script src="/js/react/jsxLoader.js"></script> -->
+        <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/jsxLoader.min.js"></script>
+        <script>
+            jsxLoader.logCompileTime = true;
+            jsxLoader.logCompileDetails = true;
+        </script>
+
+        <!-- App Code -->
+        <script type="text/babel" src="jsx-loader-dev.jsx"></script>   
+    </body>
+</html>

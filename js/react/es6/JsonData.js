@@ -1,15 +1,16 @@
 /**
  * DataFormsJS React Component <JsonData>
  *
- * <JsonData> allows a page or elements on a page to use JSON web services quickly
- * and easily in a dynamic manner and depending on the state of the web service
- * will show or hide components from [isLoading, isLoaded, hasError].
+ * <JsonData> allows a page or elements on a page to use either JSON web services
+ * or GraphQL Services to easily download and display data. Depending on the state
+ * of the web service <JsonData> will show or hide components from
+ * [isLoading, isLoaded, hasError].
  *
  * Examples:
  *     https://www.dataformsjs.com/examples/places-demo-react.htm
  *     https://www.dataformsjs.com/examples/image-classification-react.htm
  *
- * Example Usage:
+ * Example Usage (JSON Web Service):
  *     function ShowOrderPage({match}) {
  *         return (
  *             <JsonData
@@ -36,8 +37,33 @@
  * The downloaded data will be available in <ShowOrder> as:
  *     {props.data}
  *
- * Additionally if a component needs to update the state of the downloaded data
- * from <JsonData> it can be done from the [isLoaded] component by calling:
+ * Example Usage (GraphQL Service):
+ *     function ShowPage({match}) {
+ *         return (
+ *             <JsonData
+ *                 url="https://www.dataformsjs.com/graphql"
+ *                 graphQL={true}
+ *                 querySrc="https://www.dataformsjs.com/examples/graphql/cities.graphql"
+ *                 variables={{
+ *                     country: match.params.country,
+ *                     region: match.params.region,
+ *                 }}
+ *                 isLoading={<ShowLoading />}
+ *                 hasError={<ShowError />}
+ *                 isLoaded={<ShowCities />}>
+ *             </JsonData>
+ *         )
+ *     }
+ *
+ * The above GraphQL example is from the places demo app which provides examples for both
+ * GraphQL and JSON Web services. In addition to specifying a download URL for the GraphQL
+ * query it can also be defined in the property [query]. See example code at:
+ *     https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-react.htm
+ *     https://github.com/dataformsjs/dataformsjs/blob/master/examples/html/regions-react.jsx
+ *     https://github.com/dataformsjs/dataformsjs/blob/master/examples/html/cities-react.jsx
+ *
+ * If a component needs to update the state of the downloaded data from <JsonData>
+ * it can be done from the [isLoaded] component by calling:
  *      this.props.handleChange();
  * or to overwrite [state.data]:
  *      this.props.handleChange({prop1, prop2, etc});
@@ -50,8 +76,12 @@
  *     {props.data.lineItems.map(...)}
  *
  * Minimal Setup:
- *     Only [url] and [isLoaded] are required:
+ *     Only [url] and [isLoaded] are required to display data:
  *         <JsonData url="https://example.com/data" isLoaded={<ShowData />} />
+ *     If a server needs to be pinged without display data then specify only the URL:
+ *         <JsonData url="https://example.com/data" />
+ *     For GraphQL [graphQL={true}] needs to be defined and either [query] or [querySrc] must be specified:
+ *         <JsonData url="https://example.com/data" graphQL={true} query={`..`} />
  *
  * Additional Properties:
  *     <JsonData
@@ -116,31 +146,33 @@ import React from 'react';
  *     https://example.com/docs
  *     https://example.com/data/records2 (Data read from Cache because last URL was matched)
  */
-const dataCache = [];
+const jsonDataCache = [];
+const graphQL_Cache = {};
 
-function saveDataToCache(url, params, data) {
+function saveDataToCache(url, query, params, data) {
     // [for (,,,)] is used instead of [for (... of ...)] due to a
     // fatal error when using Babel Standalone with browser code.
     // If babel is fixed for IE then [for...of] can be used in the future.
-    for (let n = 0, m = dataCache.length; n < m; n++) {
-        const cache = dataCache[n];
-        if (cache.url === url) {
+    for (let n = 0, m = jsonDataCache.length; n < m; n++) {
+        const cache = jsonDataCache[n];
+        if (cache.url === url && cache.query === query) {
             cache.params = JSON.stringify(params);
             cache.data = data;
             return;
         }
     }
-    dataCache.push({
+    jsonDataCache.push({
         url: url,
+        query: query,
         params: JSON.stringify(params),
         data: data,
     });
 }
 
-function getDataFromCache(url, params) {
-    for (let n = 0, m = dataCache.length; n < m; n++) {
-        const cache = dataCache[n];
-        if (cache.url === url) {
+function getDataFromCache(url, query, params) {
+    for (let n = 0, m = jsonDataCache.length; n < m; n++) {
+        const cache = jsonDataCache[n];
+        if (cache.url === url && cache.query === query) {
             if (JSON.stringify(params) === cache.params) {
                 return cache.data;
             }
@@ -203,7 +235,7 @@ function IsLoaded(props) {
  * @param {object} props
  */
 export default class JsonData extends React.Component {
-    constructor(props) {
+        constructor(props) {
         super(props);
         this._isFetching = false;
         this._isMounted = false;
@@ -215,11 +247,14 @@ export default class JsonData extends React.Component {
             error: null,
             params: this.getUrlParams(),
             data: null,
-        }
+        };
     }
 
     getUrlParams() {
         const params = {};
+        if (this.props && this.props.graphQL === true) {
+            return (this.props.variables === undefined ? {} : this.props.variables);
+        }
         for (const prop in this.props) {
             if (prop !== 'url' && typeof this.props[prop] === 'string') {
                 params[prop] = this.props[prop];
@@ -230,8 +265,17 @@ export default class JsonData extends React.Component {
 
     componentDidMount() {
         this._isMounted = true;
+
+        // If using GraphQL with a downloaded query then first check cache if it has already been downloaded
+        if (this.props.graphQL === true && this.props.query === undefined && this.props.querySrc !== undefined) {
+            if (graphQL_Cache[this.props.querySrc] !== undefined) {
+                this.props.query = graphQL_Cache[this.props.querySrc];
+            }
+        }
+
+        // Load data from cache if it matches previous request
         if (this.props.loadOnlyOnce) {
-            const data = getDataFromCache(this.props.url, this.getUrlParams());
+            const data = getDataFromCache(this.props.url, this.props.query, this.getUrlParams());
             if (data !== null) {
                 this.setState({
                     fetchState: 1,
@@ -240,15 +284,50 @@ export default class JsonData extends React.Component {
                 return;
             }
         }
+
+        // Download GraphQL Query from the [querySrc] is specified before running `fetchData()`.
+        if (this.props.graphQL === true && this.props.query === undefined && this.props.querySrc !== undefined) {
+            const querySrc = this.props.querySrc;
+            const jsonData = this;
+
+            fetch(querySrc, null, 'text/plain')
+            .then(response => {
+                const status = response.status;
+                if ((status >= 200 && status < 300) || status === 304) {
+                    return Promise.resolve(response);
+                } else {
+                    const error = 'Error loading data. Server Response Code: ' + status + ', Response Text: ' + response.statusText;
+                    return Promise.reject(error);
+                }
+            })
+            .then(response => response.text())
+            .then(function(text) {
+                graphQL_Cache[querySrc] = text;
+                jsonData.props.query = graphQL_Cache[querySrc];
+                jsonData.fetchData();
+            })
+            .catch(function(error) {
+                throw new Error('Error Downloading GraphQL Script: [' + querySrc + '], Error: ' + error.toString());
+            });
+            return;
+        }
+
+        // Start downloading data
         this.fetchData();
     }
 
     // Fetch new data when props change
     componentDidUpdate(prevProps, prevState) {
-        const prevUrl = this.buildUrl(prevState.params);
-        const newUrl = this.buildUrl(this.props);
-        if (prevUrl !== newUrl) {
-            this.setState({ params: this.getUrlParams() }, this.fetchData)
+        let needsRefresh;
+        if (this.props.graphQL === true) {
+            needsRefresh = (JSON.stringify(prevProps.variables) !== JSON.stringify(this.props.variables));
+        } else {
+            const prevUrl = this.buildUrl(prevState.params);
+            const newUrl = this.buildUrl(this.props);
+            needsRefresh = (prevUrl !== newUrl);
+        }
+        if (needsRefresh) {
+            this.setState({ params: this.getUrlParams() }, this.fetchData);
         }
     }
 
@@ -258,7 +337,7 @@ export default class JsonData extends React.Component {
 
     buildUrl(params) {
         let url = this.props.url;
-        if (Object.keys(params).length > 0) {
+        if (this.props.graphQL !== true && Object.keys(params).length > 0) {
             for (var param in params) {
                 if (url.indexOf(':' + param) > -1) {
                     url = url.replace(new RegExp(':' + param, 'g'), encodeURIComponent(params[param]));
@@ -269,25 +348,52 @@ export default class JsonData extends React.Component {
     }
 
     fetchData() {
-        const url = this.buildUrl(this.state.params);
+        let url = this.buildUrl(this.state.params);
 
-        // Exit if this function was called while the data is still be fetched
+        // Exit if this function was called while the data is still being fetched
         if (this._isFetching) {
             return;
         }
         this._isFetching = true;
 
-        // Options for fetch
+        // Default Options for fetch
         let options = {
             mode: 'cors',
             cache: 'no-store',
             credentials: 'same-origin',
         };
+
+        // Allow calling site to override the default options and specify request headers
         if (this.props.fetchOptions) {
             options = this.props.fetchOptions;
         }
         if (this.props.fetchHeaders) {
             options.headers = this.props.fetchHeaders;
+        }
+
+        // Update options if using GraphQL
+        if (this.props.graphQL === true) {
+            const variables = (this.props.variables === undefined ? {} : this.props.variables);
+            // For GraphQL if the page is being viewed directly from the file system or in an
+            // 'about:blank' page then use a GET request instead of a POST. This will only work
+            // for GraphQL Services that send CORS '*' and do not use Authentication. This feature
+            // is not needed by most apps but can be used by local development or for downloaded pages.
+            if (window.location.origin === 'file://' || window.location.origin === 'null') {
+                url += (url.indexOf('?') === -1 ? '?' : '&');
+                url += 'query=' + encodeURIComponent(this.props.query.trim());
+                url += '&variables=' + encodeURIComponent(JSON.stringify(variables));
+            } else {
+                options.method = 'POST';
+                if (options.headers === undefined) {
+                    options.headers = { 'Content-Type': 'application/json' };
+                } else {
+                    options.headers['Content-Type'] = 'application/json';
+                }
+                options.body = JSON.stringify({
+                    query: this.props.query,
+                    variables: variables,
+                });
+            }
         }
 
         // Set state to render <IsLoading> then fetch data
@@ -310,14 +416,30 @@ export default class JsonData extends React.Component {
             })
             .then(response => response.json())
             .then(data => {
+                const graphQL = (this.props.graphQL === true);
+                if (graphQL) {
+                    // GraphQL can return both valid data and errors at the same time.
+                    // If there is an error then show the error instead of data.
+                    if (data.errors && data.errors.length) {
+                        let errorMessage;
+                        if (data.errors.length === 1 && data.errors[0].message) {
+                            errorMessage = '[GraphQL Error]: ' + data.errors[0].message;
+                        } else {
+                            const errorTextGraphQLErrors = (typeof this.props.errorTextGraphQLErrors === 'string' ? this.props.errorTextGraphQLErrors : '{count} GraphQL Errors occured. See console for full details.');
+                            errorMessage = errorTextGraphQLErrors.replace('{count}', data.errors.length);
+                        }
+                        console.error(data.errors);
+                        throw errorMessage;
+                    }
+                }
                 if (this._isMounted) {
                     this.setState({
                         fetchState: 1,
-                        data: data,
+                        data: (graphQL ? data.data : data),
                     });
                 }
                 if (this.props.loadOnlyOnce) {
-                    saveDataToCache(this.props.url, this.getUrlParams(), data);
+                    saveDataToCache(this.props.url, this.props.query, this.getUrlParams(), (graphQL ? data.data : data));
                 }
             })
             .catch(error => {
@@ -325,7 +447,7 @@ export default class JsonData extends React.Component {
                     this.setState({
                         fetchState: -1,
                         error: error.toString(),
-                    })
+                    });
                 }
             })
             .finally(() => {
@@ -413,7 +535,7 @@ export default class JsonData extends React.Component {
                     handleChange: this.handleChange,
                 },
                 this.props.isLoaded
-            ),
+            )
         );
     }
 }

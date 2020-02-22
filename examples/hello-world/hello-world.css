@@ -3,7 +3,8 @@ html {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
-#view { 
+#view,
+#root { 
     display: flex;
     flex-direction: column;
     padding: 20px;

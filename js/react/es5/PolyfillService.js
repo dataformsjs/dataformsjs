@@ -37,6 +37,7 @@ var PolyfillService = function (_React$Component) {
     _classCallCheck(this, PolyfillService);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(PolyfillService).call(this, props));
+    console.warn('The <PolyfillService> Component/Class is being depreciated and will be removed in a future release of DataFormsJS. Features of this class are now replaced by [jsxLoader.js] and <LazyLoad>.');
     _this.state = {
       isReady: false
     };

@@ -22,7 +22,7 @@
  *     [DataFormsJS\examples\html\image-home-react.jsx]
  */
 
- /* Validates with both [jshint] and [eslint] */
+/* Validates with both [jshint] and [eslint] */
 /* For online eslint - Source Type = 'module' must be manually selected. */
 /* jshint esversion:6 */
 /* eslint-env browser, es6 */
@@ -35,6 +35,7 @@ import React from 'react';
 export default class PolyfillService extends React.Component {
     constructor(props) {
         super(props);
+        console.warn('The <PolyfillService> Component/Class is being depreciated and will be removed in a future release of DataFormsJS. Features of this class are now replaced by [jsxLoader.js] and <LazyLoad>.');
         this.state = {
             isReady: false,
         };

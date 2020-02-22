@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * This file is used by [examples/image-classification-react.htm]
  * and is similar to to JavaScript code [examples/image-classification.js].
@@ -114,7 +116,8 @@ class ShowImages extends React.Component {
     }
 
     // Resize an image for prediction before uploading.
-    // See full comments in [DataFormsJS\examples\image-classification.js]
+    // See full comments in [DataFormsJS\examples\image-classification.js].
+    // This code does not resize for quality but rather for classification based on the image model.
     resizeImage(src) {
         return new Promise(function(resolve) {
             const img = new Image();
@@ -129,11 +132,10 @@ class ShowImages extends React.Component {
                 canvas.height = img.height;
                 ctx.drawImage(img, 0, 0, img.width, img.height);
                 
-                // IE 11 needs a polyfill for [canvas.toBlob],
-                // the polyfill is only loaded if needed.
-                const polyfill = new PolyfillService();
+                // IE 11 needs a polyfill for [canvas.toBlob]; the polyfill is loaded only if needed.
+                const lazy = new LazyLoad();
                 const polyfillUrl = 'https://cdn.jsdelivr.net/npm/blueimp-canvas-to-blob@3.16.0/js/canvas-to-blob.min.js';
-                polyfill.loadScript(canvas.toBlob, polyfillUrl).then(function() {
+                lazy.loadPolyfill(canvas.toBlob, polyfillUrl).then(function() {
                     canvas.toBlob(resolve, 'image/jpeg', 0.90);
                 });
                 

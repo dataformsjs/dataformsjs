@@ -4,6 +4,24 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 3.6.0 (February 20, 2020)
+
+* Added Web Based Compiler for React/JSX `jsxLoader.js`.
+  * For use as an alternative to Babel, webpack, etc
+  * Also works for React alternatives including Preact and Alibaba Rax
+  * All React Demos on the main web site and repository now use `jsxLoader.js`
+  * Added additional demos to the main site for React and initial demos for Preact and Rax
+* Added new `LazyLoad` React Component for code splitting of JSX code on large apps and lazy loading of JavaScript and CSS files.
+* Added Initial Unit Testing for React Components and the JSX Loader
+* `JsonData` Component
+  * Added GraphQL Support with new properties:
+    * `graphQL={true}`
+    * `query="{query}"`
+    * `querySrc="{url}"`
+    * `variables={}` 
+* Added `js/scripts/polyfills.js` using feature detection to polyfill `trimStart()`, `trimEnd()`, `trimLeft()`, and `trimRight()`
+* With the new features this `PolyfillService` Component/Class is being depreciated and will be removed in a future release. A console warning is provided if using the class. A console warning is also included in the `I18n` class which currently uses either `fetch` or `XMLHttpRequest`.
+
 ## 3.5.4 (February 20, 2020)
 
 * `DataFormsJS` - Added pollyfill check and support if `Promise.prototype.finally` is missing. This was found to affect the UC Browser.

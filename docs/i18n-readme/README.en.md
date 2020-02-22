@@ -4,9 +4,7 @@
 
 # :star2: Welcome to DataFormsJS!
 
-**Thanks for visiting!**
-
-_If you are seeing this message then you are one of the earliest visitors!_ 🌠👍
+**Thanks for visiting!** 🌠👍
 
 DataFormsJS is a new JavaScript Framework and Standalone React and Web Components. DataFormsJS is small in size, easy to learn, designed for fast development, and to make for a great experience for both developers and end-users. Although it’s new (first published in November of 2019) DataFormsJS was written and used over many years and is extremely stable containing a large number of unit tests.
 

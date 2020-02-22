@@ -6,26 +6,10 @@
         <title data-i18n="Countries Demo | React"></title>
         <link rel="stylesheet" href="css/countries.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
         <link rel="canonical" href="https://www.dataformsjs.com/examples/places-demo-hbs.htm">
 	</head>
     <body>
         <div id="root" dir="auto"></div>
-
-        <script>
-            // Allow [babel-standalone] to use [import and exports] with JSX files
-            window.exports = window;
-            function require(module) {
-                switch (module) {
-                    case 'react':
-                        return window.React;
-                    case 'react-dom':
-                        return window.ReactDOM;
-                    default:
-                        return window[module];
-                }
-            }
-        </script>
 
         <!-- React -->
         <!--
@@ -34,28 +18,9 @@
 
         <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-
-        <script src="../vendor/react.production.min.js" crossorigin="anonymous"></script>
-        <script src="../vendor/react-dom.production.min.js" crossorigin="anonymous"></script>
-
-        <script src="../vendor/react.development.js" crossorigin="anonymous"></script>
-        <script src="../vendor/react-dom.development.js" crossorigin="anonymous"></script>
         -->
         <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-
-        <!--
-            Babel for JSX
-            Use [babel-standalone@6] for IE Support.
-            Babel 7 [@babel] can be used for modern browsers.
-        -->
-        <!--
-        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-        <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
-        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-        <script src="../vendor/babel.min.js"></script>
-        -->
-        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
         <!--
             React Router
@@ -69,26 +34,33 @@
         <script src="https://unpkg.com/react-router/umd/react-router.min.js"></script>
         <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
 
-        <!-- https://leafletjs.com -->
-        <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
-
         <!-- DataFormsJS React Components -->
         <!--
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/ErrorBoundary.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/PolyfillService.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/JsonData.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/InputFilter.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/SortableTable.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/I18n.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/Format.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/LeafletMap.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/ErrorBoundary.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/LazyLoad.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/JsonData.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/InputFilter.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/SortableTable.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/I18n.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/Format.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/LeafletMap.js"></script>
         -->
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es5/DataFormsJS.min.js"></script>
-        
-        <!-- JSX Templates for this App -->
+        <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es5/DataFormsJS.min.js"></script>
+
+        <!-- DataFormsJS JSX Loader -->
+        <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/jsxLoader.min.js"></script>
+        <script>
+            // Set to `true` to see compiler details
+            jsxLoader.logCompileTime = false;
+            jsxLoader.logCompileDetails = false;
+        </script>
+
+        <!--
+            JSX Templates for this App
+            Additionally [place-react.jsx] is loaded dynamically from <LazyLoad>
+        -->
         <script type="text/babel" src="./html/regions-react.jsx"></script>
         <script type="text/babel" src="./html/cities-react.jsx"></script>
-        <script type="text/babel" src="./html/place-react.jsx"></script>
         <script type="text/babel" src="./html/places-info-react.jsx"></script>
         <script type="text/babel" src="./html/search-places-react.jsx"></script>
 
@@ -163,23 +135,94 @@
                 )
             }
 
+            // Download Data for the Main Page and show once ready
             function PageCountries({match}) {
+                // NOTE - this can be updated to change which web service runs.
+                // Both options are included as examples.
+                const useGraphQL = true;
+
+                // JSON Web Service
+                if (useGraphQL === false) {
+                    return (
+                        <JsonData
+                            url="https://www.dataformsjs.com/data/geonames/countries"
+                            lang={match.params.lang}
+                            isLoading={<ShowLoading />}
+                            hasError={<ShowError />}
+                            isLoaded={<ShowCountries />}
+                            loadOnlyOnce={true} />
+                    );
+                }
+
+                // GraphQL Service
+                // In this example the prop [variables] is used so language
+                // can be passed as a param to <ShowCountries> however it is 
+                // not needed or used for the GraphQL service.
                 return (
                     <JsonData
-                        url="https://www.dataformsjs.com/data/geonames/countries"
-                        lang={match.params.lang}
+                        url="https://www.dataformsjs.com/graphql"
+                        graphQL={true}
+                        query={`
+                            {
+                                countries {
+                                    iso
+                                    country
+                                    area_km
+                                    population
+                                    continent
+                                }
+                            }
+                        `}
+                        variables={{
+                            lang: match.params.lang, 
+                        }}
                         isLoading={<ShowLoading />}
                         hasError={<ShowError />}
                         isLoaded={<ShowCountries />}
-                        loadOnlyOnce={true}>
-                    </JsonData>
+                        loadOnlyOnce={true} />
+                );
+            }
+
+            // Download leaflet (Maps) and [place-react.jsx] when the city page
+            // is first accessed. These scripts will not be downloaded unless the
+            // page is accessed. Once loaded `ShowCity` from [place-react.jsx]
+            // will be dynamically called.
+            function LoadMapAndPage(props) {
+                return (
+                    <LazyLoad
+                        scripts={[
+                            // https://leafletjs.com
+                            'https://unpkg.com/leaflet@1.5.1/dist/leaflet.css',
+                            'https://unpkg.com/leaflet@1.5.1/dist/leaflet.js',
+                            './html/place-react.jsx',
+                        ]}
+                        isLoading={<ShowLoading />}
+                        isLoaded='ShowCity'
+                        data={props.data}
+                        params={props.params} />
+                );
+            }
+
+            function PageCity({match}) {
+                return (
+                    <JsonData
+                        url="https://www.dataformsjs.com/data/geonames/place/:id"
+                        lang={match.params.lang}
+                        id={match.params.id}
+                        isLoading={<ShowLoading />}
+                        hasError={<ShowError />}
+                        isLoaded={<LoadMapAndPage />}
+                        loadOnlyOnce={true} />
                 );
             }
 
             class App extends React.Component {
-                state = {
-                    langLoaded: true,
-                };
+                constructor(props) {
+                    super(props);
+                    this.state = {
+                        langLoaded: null,
+                    };
+                }
 
                 componentDidMount() {
                     i18n.onLangStart(() => { this.setState({ langLoaded:false }); });
@@ -192,21 +235,19 @@
                     }
                     return (
                         <ErrorBoundary>
-                            <PolyfillService>
-                                <Router>
-                                    <React.Fragment>
-                                        <Route exact path="/" render={() => (
-                                            <Redirect to={'/' + defaultLang + '/'} />
-                                        )}/>
-                                        <Route exact path="/:lang/" component={PageCountries} />
-                                        <Route path="/:lang/regions/:country" component={PageRegions} />
-                                        <Route path="/:lang/cities/:country/:region" component={PageCities} />
-                                        <Route path="/:lang/city/:id" component={PageCity} />
-                                        <Route path="/:lang/search" component={PageSearch} />
-                                        <Route path="/:lang/info" component={PageInfo} />
-                                    </React.Fragment>
-                                </Router>
-                            </PolyfillService>
+                            <Router>
+                                <React.Fragment>
+                                    <Route exact path="/" render={() => (
+                                        <Redirect to={'/' + defaultLang + '/'} />
+                                    )}/>
+                                    <Route exact path="/:lang/" component={PageCountries} />
+                                    <Route path="/:lang/regions/:country" component={PageRegions} />
+                                    <Route path="/:lang/cities/:country/:region" component={PageCities} />
+                                    <Route path="/:lang/city/:id" component={PageCity} />
+                                    <Route path="/:lang/search" component={PageSearch} />
+                                    <Route path="/:lang/info" component={PageInfo} />
+                                </React.Fragment>
+                            </Router>
                         </ErrorBoundary>
                     )
                 }

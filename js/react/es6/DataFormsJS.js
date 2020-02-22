@@ -33,6 +33,7 @@ import SortableTable from './SortableTable.js';
 import Format from './Format.js';
 import I18n from './I18n.js';
 import LeafletMap from './LeafletMap.js';
+import LazyLoad from './LazyLoad.js';
 
 /**
  * Create and export all Components under the default DataFormsJS namespace
@@ -46,6 +47,7 @@ const DataFormsJS = {
     Format: Format,
     I18n: I18n,
     LeafletMap: LeafletMap,
+    LazyLoad: LazyLoad,
 };
 export default DataFormsJS;
 
@@ -61,4 +63,5 @@ export {
     Format,
     I18n,
     LeafletMap,
+    LazyLoad,
 };

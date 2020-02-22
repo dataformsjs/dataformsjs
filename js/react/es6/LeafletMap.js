@@ -22,7 +22,7 @@
  * @link https://react-leaflet.js.org
  */
 
- /* Validates with both [jshint] and [eslint] */
+/* Validates with both [jshint] and [eslint] */
 /* For online eslint - Source Type = 'module' must be manually selected. */
 /* global L */
 /* jshint esversion:6 */

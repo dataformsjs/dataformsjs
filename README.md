@@ -4,9 +4,7 @@
 
 # :star2: Welcome to DataFormsJS!
 
-**Thanks for visiting!**
-
-_If you are seeing this message then you are one of the earliest visitors!_ 🌠👍
+**Thanks for visiting!** 🌠👍
 
 <table>
 	<tbody>
@@ -159,6 +157,72 @@ This example uses Vue for templating. If you save it with a text editor you can 
                 flags: 'https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css',
             };
         </script>
+    </body>
+</html>
+```
+
+This example uses React with the `jsxLoader.min.js` script for converting JSX to JS directly it the browser and it includes DataFormsJS React Components from `DataFormsJS.min.js`. If you copy the contents of this code it will also work in a browser.
+
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>DataFormsJS Example using React</title>
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <script type="text/babel">
+            function ShowLoading() {
+                return <div className="loading">Loading...</div>;
+            }
+
+            function ShowError(props) {
+                return <div className="error">{props.error}</div>;
+            }
+
+            function ShowCountries(props) {
+                return (
+                    <React.Fragment>
+                        <h1>Countries</h1>
+                        <ul>
+                            {props.data && props.data.countries && props.data.countries.map(country => {
+                                return (
+                                    <li key={country.iso}>{country.country}</li>
+                                )
+                            })}
+                        </ul>
+                    </React.Fragment>
+                )
+            }
+
+            class App extends React.Component {
+                render() {
+                    return (
+                        <ErrorBoundary>
+                            <JsonData
+                                url="https://www.dataformsjs.com/data/geonames/countries"
+                                isLoading={<ShowLoading />}
+                                hasError={<ShowError />}
+                                isLoaded={<ShowCountries />}
+                                loadOnlyOnce={true} />
+                        </ErrorBoundary>
+                    )
+                }
+            }
+
+            ReactDOM.render(
+                <App />,
+                document.getElementById('root')
+            );
+        </script>
+
+        <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es5/DataFormsJS.min.js"></script>
+        <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/jsxLoader.min.js"></script>
     </body>
 </html>
 ```

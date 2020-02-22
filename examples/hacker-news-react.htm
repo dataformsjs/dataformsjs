@@ -23,21 +23,6 @@
     <body>
         <div id="root"></div>
 
-        <script>
-            // Allow [babel-standalone] to use [import and exports] with JSX files
-            window.exports = window;
-            function require(module) {
-                switch (module) {
-                    case 'react':
-                        return window.React;
-                    case 'react-dom':
-                        return window.ReactDOM;
-                    default:
-                        return window[module];
-                }
-            }
-        </script>
-
         <!--
             React
             https://reactjs.org
@@ -46,30 +31,26 @@
         <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 
         <!--
-            Babel for JSX
-            Use [babel-standalone@6] for IE Support.
-            Babel 7 [@babel] can be used for modern browsers.
-            https://babeljs.io
+            DataFormsJS JSX Loader
+            https://www.dataformsjs.com
         -->
-        <!--
-        <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin="anonymous"></script>
-        <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin="anonymous"></script>
-        -->
-        <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin="anonymous"></script>
+        <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/jsxLoader.min.js"></script>
+        <script>
+            // Set to `true` to see compiler details
+            jsxLoader.logCompileTime = true;
+            jsxLoader.logCompileDetails = true;
+        </script>
 
         <!--
             DataFormsJS React Components
-            https://www.dataformsjs.com
         -->
         <!--
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/ErrorBoundary.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/PolyfillService.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/JsonData.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/InputFilter.js"></script>
-        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es6/Format.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/ErrorBoundary.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/JsonData.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/InputFilter.js"></script>
+        <script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/Format.js"></script>
         -->
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.3/js/react/es5/DataFormsJS.min.js"></script>
-
+        <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es5/DataFormsJS.min.js"></script>
 
         <script type="text/babel">
 
@@ -104,7 +85,7 @@
                             {idList.map(id => {
                                 // Use a nested <JsonData> to download the details of each Hacker News Post
                                 return (
-                                    <li key={id}>                                        
+                                    <li key={id}>
                                         <JsonData
                                             url={'https://hacker-news.firebaseio.com/v0/item/' + id + '.json'}
                                             hasError={<ShowError />}
@@ -168,22 +149,18 @@
                 render() {
                     return (
                         <ErrorBoundary>
-                            <PolyfillService>
+                            {/*
+                                Download a list of ID's for Hacker News Items using <JsonData>
 
-                                {/*
-                                    Download a list of ID's for Hacker News Items using <JsonData>
-
-                                    Change the URL to [ `showstories.json`, `askstories.json`, etc. ] to
-                                    view other news lists. This demo is designed to be simple so
-                                    only one list is showing.
-                                */}
-                                <JsonData
-                                    url="https://hacker-news.firebaseio.com/v0/topstories.json"
-                                    isLoading={<ShowLoading />}
-                                    hasError={<ShowError />}
-                                    isLoaded={<ShowTopStories />} />
-
-                            </PolyfillService>
+                                Change the URL to [ `showstories.json`, `askstories.json`, etc. ] to
+                                view other news lists. This demo is designed to be simple so
+                                only one list is showing.
+                            */}
+                            <JsonData
+                                url="https://hacker-news.firebaseio.com/v0/topstories.json"
+                                isLoading={<ShowLoading />}
+                                hasError={<ShowError />}
+                                isLoaded={<ShowTopStories />} />
                         </ErrorBoundary>
                     )
                 }
