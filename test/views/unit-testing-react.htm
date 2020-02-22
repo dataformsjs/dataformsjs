@@ -76,23 +76,22 @@
                     isSupportedBrowser = false;
                 }
                 if (isSupportedBrowser) {
-                    // var evalCode = 'const { id, ...other } = { id:123, test:456 }';
-                    jsxLoader.evalCode = 'const { id, ...other } = { id:123, test:456 }';
-                    // var spreadSyntaxIsSupported;
-                    // try {
-                    //     eval(evalCode);
-                    //     spreadSyntaxIsSupported = true;
-                    // } catch (e) {
-                    //     spreadSyntaxIsSupported = false;
-                    // }
-                    // if (!spreadSyntaxIsSupported) {
-                    //     jsxLoader.jsUpdates.push({ find: /({\.\.\.props},|{\.\.\.other},)/g, replace: '' });
-                    //     jsxLoader.jsUpdates.push({ find: /{\.\.\.props}/g, replace: '' });
-                    //     jsxLoader.jsUpdates.push({ find: /\.\.\.other/g, replace: '' });
-                    //     jsxLoader.jsUpdates.push({ find: /other\./g, replace: '//' });
-                    //     jsxLoader.jsUpdates.push({ find: /{,/g, replace: '{' });
-                    //     jsxLoader.jsUpdates.push({ find: /\(Greeting, \)/g, replace: '(Greeting)' });
-                    // }
+                    var evalCode = 'const { id, ...other } = { id:123, test:456 }';
+                    var spreadSyntaxIsSupported;
+                    try {
+                        eval(evalCode);
+                        spreadSyntaxIsSupported = true;
+                    } catch (e) {
+                        spreadSyntaxIsSupported = false;
+                    }
+                    if (!spreadSyntaxIsSupported) {
+                        jsxLoader.jsUpdates.push({ find: /({\.\.\.props},|{\.\.\.other},)/g, replace: '' });
+                        jsxLoader.jsUpdates.push({ find: /{\.\.\.props}/g, replace: '' });
+                        jsxLoader.jsUpdates.push({ find: /\.\.\.other/g, replace: '' });
+                        jsxLoader.jsUpdates.push({ find: /other\./g, replace: '//' });
+                        jsxLoader.jsUpdates.push({ find: /{,/g, replace: '{' });
+                        jsxLoader.jsUpdates.push({ find: /\(Greeting, \)/g, replace: '(Greeting)' });
+                    }
                 }
             }
         </script>
