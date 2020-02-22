@@ -2,7 +2,7 @@
     <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/logo/DataFormsJS-144px.png" height="64" title="DataFormsJS JSX Loader">
 </h1>
 
-<p align="center">An ultra-fast and tiny browser based compiler for JSX / React.</p>
+<p align="center">An ultra-fast and tiny (5.1 kB) browser based compiler for JSX / React.</p>
 <hr>
 
 ## What is it? :tada:
@@ -17,7 +17,7 @@ A single JavaScript file `jsxLoader.js` that compiles / transpiles JSX to JS for
 
 The `jsxLoader.js` script was created to provide a fast method for including React with JSX on web pages and web apps with no build process, CLI tools, or large dependencies needed; simply use React with JSX in a webpage or site and included needed CDN or JavaScript files.
 
-CLI Development tools such as `webpack`, `babel`, and `create-react-app` are great but they do not make sense for all sites, web pages, and development workflows; and Babel Standalone is huge to include on each page - 320 KB when gzipped and 1.5 MB of JavaScipt for the Browser to process. With a browser based options for JSX you can **easily include React Components on any page** without having to build the entire site using React or JSX.
+CLI Development tools such as `webpack`, `babel`, and `create-react-app` are great but they do not make sense for all sites, web pages, and development workflows; and Babel Standalone is huge to include on each page - 320 kB when gzipped and 1.5 MB of JavaScipt for the Browser to process. With a browser based options for JSX you can **easily include React Components on any page** without having to build the entire site using React or JSX.
 
 Old Browsers typically account for less than 5 % of users for most sites - mostly IE and old iOS/Safari. Generally if someone is browsing from IE they are used to slow pages and if someone is browsing from an old iPhone or iPad they end up with many broken sites so simply having a site work is good even if it's slow. This script provides a good trade-off - fast for most users with modern browsers and it still works on old browsers.
 
@@ -40,7 +40,7 @@ The script is tested with a variety of devices and browsers including the follow
 
 It also works and is tested with React alternative libaries such as Preact.
 
-The `jsxLoader.js` script is very small to download (18 kb) and compiles code very fast (often in milliseconds for each JSX script).
+The `jsxLoader.js` script is very small to download (5.1 kB - min and gzip) and compiles code very fast (often in milliseconds for each JSX script).
 
 ## How to use? :star2:
 
