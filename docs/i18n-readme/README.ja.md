@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="https://github.com/dataformsjs/static-files/raw/master/img/logo/favicon-144.png">
+	<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/logo/DataFormsJS-144px.png">
 </p>
 
 # :star2: DataFormsJSへようこそ！

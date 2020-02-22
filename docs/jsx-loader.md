@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/logo/favicon-144.png" height="64" title="DataFormsJS JSX Loader">
+    <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/logo/DataFormsJS-144px.png" height="64" title="DataFormsJS JSX Loader">
 </h1>
 
 <p align="center">An ultra-fast and tiny browser based compiler for JSX / React.</p>
