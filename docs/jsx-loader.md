@@ -84,6 +84,7 @@ The `jsxLoader.js` script is very small to download (5.1 kB - min and gzip) and 
 * https://www.dataformsjs.com/examples/log-table-react.htm
 * https://www.dataformsjs.com/examples/countries-no-spa-react.htm
 * https://www.dataformsjs.com/examples/countries-no-spa-graphql.htm
+* https://www.dataformsjs.com/examples/hacker-news-react.htm
 
 ### Preact <img src="https://www.dataformsjs.com/img/logos/preact.svg" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/en/preact.htm
