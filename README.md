@@ -269,6 +269,7 @@ _All sizes are based on minified scripts and gzip compression from the web serve
 
 While the DataFormsJS Framework is small it will generally be used with a larger Templating or View Engine:
 
+* React: ~ 40 kb
 * Handlebars: ~ 22 kb
 * Vue: ~ 33 kb
 * Underscore: ~ 6 kb
