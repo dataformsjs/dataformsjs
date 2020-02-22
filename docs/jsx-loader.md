@@ -9,6 +9,8 @@
 
 A single JavaScript file `jsxLoader.js` that compiles / transpiles JSX to JS for modern browsers and for old browsers it will download and use Polyfills and Babel Standalone.
 
+https://github.com/dataformsjs/dataformsjs/blob/master/js/react/jsxLoader.js
+
 ## Why :question:
 
 The `jsxLoader.js` script was created to provide a fast method for including React with JSX on web pages and web apps with no build process, CLI tools, or large dependencies needed; simply use React with JSX in a webpage or site and included needed CDN or JavaScript files.
@@ -74,19 +76,19 @@ The `jsxLoader.js` script is very small to download (18 kb) and compiles code ve
 ## Demos :globe_with_meridians:
 
 ### React <img src="https://www.dataformsjs.com/img/logos/react.svg" width="32" height="32">
-* `http://localhost:3000/examples/hello-world/en/react.htm`
+* https://www.dataformsjs.com/examples/hello-world/en/react.htm
 * https://www.dataformsjs.com/examples/places-demo-react.htm
 * https://www.dataformsjs.com/examples/image-classification-react.htm
 * https://www.dataformsjs.com/examples/log-table-react.htm
 * https://www.dataformsjs.com/examples/countries-no-spa-react.htm
-* `http://localhost:3000/examples/countries-no-spa-graphql.htm`
+* https://www.dataformsjs.com/examples/countries-no-spa-graphql.htm
 
-### Preact
-* `http://localhost:3000/examples/hello-world/en/preact.htm`
-* `http://localhost:3000/examples/countries-no-spa-preact.htm`
+### Preact <img src="https://www.dataformsjs.com/img/logos/preact.svg" width="32" height="32">
+* https://www.dataformsjs.com/examples/hello-world/en/preact.htm
+* https://www.dataformsjs.com/examples/countries-no-spa-preact.htm
 
-### Rax
-* `http://localhost:3000/examples/hello-world/en/rax.htm`
+### Rax <img src="https://www.dataformsjs.com/img/logos/rax.png" width="32" height="32">
+* https://www.dataformsjs.com/examples/hello-world/en/rax.htm
 
 ## Try it online in the Code Playground :rocket:
 
@@ -233,7 +235,7 @@ Additionally this script shows that `{children}` can be used instead of the `isL
 
 ## Advanced Usage and Internals :microscope:
 
-You can view the code here! All code is in a single file and includes many helpfull comments to allow for understanding of how it works.
+You can [view the code here](https://github.com/dataformsjs/dataformsjs/blob/master/js/react/jsxLoader.js)! All code is in a single file and includes many helpfull comments to allow for understanding of how it works.
 
 The jsxLoader script provides a number of properties and functions that can be used to customize how it runs. Below are the most common uses.
 
@@ -266,7 +268,7 @@ The jsxLoader script provides a number of properties and functions that can be u
 
 When using `jsxLoader.logCompileTime` the time it takes to compile each script will be logged to the DevTools console.
 
-<img src="https://dataformsjs.s3-us-west-1.amazonaws.com/img/screenshots/jsx-loader-log-compile-time.png" alt="Log Compile time to DevTools Console">
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-loader-log-compile-time.png" alt="Log Compile time to DevTools Console">
 
 ### jsxLoader.logCompileDetails
 
@@ -276,7 +278,7 @@ When using `jsxLoader.logCompileDetails` full details of the main compiler steps
 * Abstract Syntax Tree (AST) generated from the Tokens
 * Generated Code from the AST
 
-<img src="https://dataformsjs.s3-us-west-1.amazonaws.com/img/screenshots/jsx-loader-log-compile-details.png" alt="Log Compile Details to DevTools Console">
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-loader-log-compile-details.png" alt="Log Compile Details to DevTools Console">
 
 ### Use Babel for Apps that include the Spread Sytnax
 
@@ -348,13 +350,13 @@ The `jsxLoader.js` script runs on the Document `DOMContentLoaded` event and firs
 
 Scripts added on the page will have a `data-compiler` attribute with the value of either `jsxLoader` or `Babel` to indicate which compiler was used. If the script was downloaded then it will include the `data-src` attribute with the URL of the original JSX script.
 
-<img src="https://dataformsjs.s3-us-west-1.amazonaws.com/img/screenshots/jsx-added-to-page-as-js.png" alt="JSX Code compiled to JavaScript">
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-added-to-page-as-js.png" alt="JSX Code compiled to JavaScript">
 
 ## Known Issues :warning:
 
 * In general if a known issue requires a lot of code it will likely not be supported because this script is intended as a small and fast JSX parser/compiler and not a full featured JavaScript parser/compiler.
 * Error messages may not be very friendly for some unexpected syntax errors so using linting in a Code Editor is recommened during development to avoid errors from `jsxLoader.js`. If you develop with Visual Studio Code or other popular editors this should happen automatically. If you have syntax errors with the generated code and it’s not clear why then using Chrome DevTools is recommended. Because generated JavaScript is added back in dynamic elements most Browsers will display the wrong location of the error but Chrome will often show it in the correct location.
-    <img src="https://dataformsjs.s3-us-west-1.amazonaws.com/img/screenshots/jsx-debug-error-in-chrome.png" alt="Debug Errors with Chrome Dev Tools">
+    <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-debug-error-in-chrome.png" alt="Debug Errors with Chrome Dev Tools">
 * Minimized `for` loops may cause issues: `for(n=0;n<m;n++)` as the `<m;n++)` will likely be parsed as an element. However if a full file is minimized it will be processed as JavaScript which means minimized Components will generally work by default.
 * Sometimes extra child whitespace is generated in child nodes of `React.createElement('element', props, ...children)` compared to what would be created when using Babel. Generally this doesn’t happen often but it has been found in the [log demo page](https://www.dataformsjs.com/examples/log-table-react.htm). This issue has no visual effect on the page, no performance decrease, and doesn't happen often so it's considered acceptable.
 *  Text that looks like elements inside of complex nested template literals (template strings) may cause parsing errors or unexpected results:
