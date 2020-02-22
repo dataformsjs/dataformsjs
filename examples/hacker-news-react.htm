@@ -103,7 +103,7 @@
                 const hasUrl = (props.data.url !== undefined);
                 return (
                     <div>
-                        <strong>{props.data.title}</strong>
+                        <a href={props.data.url} className="post-title" target="_blank"><strong>{props.data.title}</strong></a>
                         {hasUrl && <div className="post-link">
                             <span><a href={props.data.url} target="_blank">{props.data.url}</a></span>
                         </div>}

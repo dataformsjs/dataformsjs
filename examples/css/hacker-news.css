@@ -52,7 +52,6 @@ ul li {
     color: #828282;
     font-size: .8em;
 }
-ul li strong { color:#000; }
 ul li span { margin-left: 8px; }
 ul li span::after {
     content: '|';
@@ -67,6 +66,9 @@ ul li a { color: #828282; }
 ul li a:visited,
 .post-link a:visited,
 .loading { color:hsla(0, 0%, 61%, 1); }
+
+ul li a.post-title { color:#000; text-decoration: none; }
+ul li a.post-title:visited { color:hsla(0, 0%, 61%, 1); }
 
 @media (min-width: 600px) {
     h1 span {
