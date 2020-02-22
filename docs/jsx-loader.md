@@ -46,13 +46,13 @@ The `jsxLoader.js` script is very small to download (18 kb) and compiles code ve
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 
 <!-- Include the DataFormsJS JSX Loader -->
-<script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/jsxLoader.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.4/js/react/jsxLoader.min.js"></script>
 
 <!--
     Include JSX components and scripts using [type="text/babel"].
     This is the same method that would be used with Babel Standalone.
 -->
-<script type="text/babel" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es6/JsonData.js"></script>
+<script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.4/js/react/es6/JsonData.js"></script>
 <script type="text/babel">
 
     class HelloMessage extends React.Component {

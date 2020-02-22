@@ -221,8 +221,8 @@ This example uses React with the `jsxLoader.min.js` script for converting JSX to
 
         <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-        <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/es5/DataFormsJS.min.js"></script>
-        <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/3.6.0/react/jsxLoader.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.4/js/react/es5/DataFormsJS.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.4/js/react/jsxLoader.min.js"></script>
     </body>
 </html>
 ```
