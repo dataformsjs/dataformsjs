@@ -311,6 +311,8 @@ There are several options:
 
 Old versions of Safari (example: iOS 9) support `class` but not support `let` or `const`. By default these versions of Safari will use Babel, however the jsxLoader can be used to compile JSX with some customization. This would need to be handled by the developer of the app to make sure that find and replace updates for `const, let, var` work correctly for the site using it. As of 2020 the percentage is users this would affect is very low however Babel is very slow on old mobile devices.
 
+Additionally versions of Safari that do no support `const` or `let` will also not support features such as arrow function expression `=>` so using Babel is recommended unless you have many devices to fully test.
+
 ```js
 // This would need to run before the Document `DOMContentLoaded` event
 (function() {
