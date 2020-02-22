@@ -287,7 +287,7 @@ There are several options:
 
 1) Avoid using the spread syntax 
 2) Use code shown in the example below that uses Babel for these Browsers
-3) Use complex find and replace code (example in the Unit Tests) to handle it
+3) Use complex find and replace code to handle it, example in the [Unit Tests](https://github.com/dataformsjs/dataformsjs/blob/master/test/views/unit-testing-react.htm)
 
 ```js
 (function (){
