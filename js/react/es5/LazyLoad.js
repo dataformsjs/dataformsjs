@@ -244,10 +244,10 @@ var LazyLoad = function (_React$Component) {
             }
           }
 
-          if (globalThis !== undefined && globalThis[component] !== undefined) {
-            return React.createElement(globalThis[component], elProps);
-          } else if (window !== undefined && window[component] !== undefined) {
+          if (window !== undefined && window[component] !== undefined) {
             return React.createElement(window[component], elProps);
+          } else if (globalThis !== undefined && globalThis[component] !== undefined) {
+            return React.createElement(globalThis[component], elProps);
           } else {
             throw new TypeError('Component <LazyLoad isLoaded=' + JSON.stringify(component) + '> was not found. Check if your script is missing or has a compile error.');
           }
