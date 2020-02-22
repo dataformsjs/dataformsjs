@@ -241,29 +241,26 @@ You can [view the code here](https://github.com/dataformsjs/dataformsjs/blob/mas
 
 The jsxLoader script provides a number of properties and functions that can be used to customize how it runs. Below are the most common uses.
 
-```html
-<script src="jsxLoader.js"></script>
-<script>
-    // View compiler speed for each script in DevTools console
-    jsxLoader.logCompileTime = true;
+```js
+// View compiler speed for each script in DevTools console
+jsxLoader.logCompileTime = true;
 
-    // View the generated code for each script in DevTools console
-    jsxLoader.logCompileDetails = true;
+// View the generated code for each script in DevTools console
+jsxLoader.logCompileDetails = true;
 
-    // Call this if using Preact instead of React. Additionaly if your Preact
-    // app has unexpected errors when using it you can easily copy, modify, and
-    // use a custom version of the function so that it works with your app.
-    jsxLoader.usePreact();
+// Call this if using Preact instead of React. Additionaly if your Preact
+// app has unexpected errors when using it you can easily copy, modify, and
+// use a custom version of the function so that it works with your app.
+jsxLoader.usePreact();
 
-    // Add custom file and replace logic for your app or site.
-    jsxLoader.jsUpdates.push({
-        find: /import { useState } from 'react';/g,
-        replace: 'var useState = React.useState;'
-    });
+// Add custom file and replace logic for your app or site.
+jsxLoader.jsUpdates.push({
+    find: /import { useState } from 'react';/g,
+    replace: 'var useState = React.useState;'
+});
 
-    // Additional properties and options exist and can be viewed
-    // in the source of the [jsxLoader.js] file.
-<script>
+// Additional properties and options exist and can be viewed
+// in the source of the [jsxLoader.js] file.
 ```
 
 ### jsxLoader.logCompileTime
