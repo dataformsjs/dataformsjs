@@ -9,7 +9,9 @@
 
 A single JavaScript file `jsxLoader.js` that compiles / transpiles JSX to JS for modern browsers and for old browsers it will download and use Polyfills and Babel Standalone.
 
-https://github.com/dataformsjs/dataformsjs/blob/master/js/react/jsxLoader.js
+**Source:** https://github.com/dataformsjs/dataformsjs/blob/master/js/react/jsxLoader.js
+
+**Demo:** https://www.dataformsjs.com/examples/hello-world/en/react.htm
 
 ## Why :question:
 
