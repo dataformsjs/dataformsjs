@@ -13,7 +13,10 @@
  * To install dependencies download this repository and then run:
  *     npm install
  * 
- * To run:
+ * To run from project root:
+ *     node run build
+ * 
+ * Or run the file directly:
  *     node build.js
  *
  * Originally DataFormsJS React Components were built in a browser using

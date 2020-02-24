@@ -190,7 +190,7 @@ class App extends React.Component {
 }
 ```
 
-This also includes the JavaScript spread syntax which only has partial support for modern browsers. For example `...numbers` will work with Chrome, Firefox, Edge, etc but it will not work with the UC Browser which is widely used in Asian Countries. If you use the spread syntax in your app see additional notes in the [Advanced Usage] section of this document.
+This also includes the JavaScript spread syntax which only has partial support for modern browsers. For example `...numbers` will work with Chrome, Firefox, etc but it will not work with all versions of Edge or the UC Browser which is widely used in Asian Countries. If you use the spread syntax in your app see additional notes in the [Advanced Usage] section of this document.
 
 ## Code Splitting :scissors:
 
@@ -285,11 +285,11 @@ When using `jsxLoader.logCompileDetails` full details of the main compiler steps
 
 ### Use Babel for Apps that include the Spread Sytnax
 
-If you have a site that uses code like this `<Greeting {...props} />` the JSX Loader will convert it to `React.createElement(Greeting, ...props)` for modern browsers however not all modern browsers support this syntax. This is particularly important if your site is viewed by users in Asian Countries that use the UC Browser (as of 2020).
+If you have a site that uses code like this `<Greeting {...props} />` the JSX Loader will convert it to `React.createElement(Greeting, ...props)` for modern browsers however not all modern browsers support this syntax. This is particularly important if your site is viewed by users in Asian Countries that use the UC Browser (as of 2020) or viewed by users who use Edge (Default Browser in Windows 10).
 
 There are several options:
 
-1) Avoid using the spread syntax 
+1) Avoid using the spread syntax
 2) Use code shown in the example below that uses Babel for these Browsers
 
 ```js
@@ -303,6 +303,48 @@ The `jsxLoader.js` script runs on the Document `DOMContentLoaded` event and firs
 Scripts added on the page will have a `data-compiler` attribute with the value of either `jsxLoader` or `Babel` to indicate which compiler was used. If the script was downloaded then it will include the `data-src` attribute with the URL of the original JSX script.
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-added-to-page-as-js.png" alt="JSX Code compiled to JavaScript">
+
+### Local Development
+
+Typically the minimized version `jsxLoader.min.js` will be used for production while the `jsxLoader.js` is the full version of the script that is used for development. It has no dependencies and is browser based so once it is included on a page you can step through the code using Browser DevTools.
+
+### Building [jsxLoader.min.js] from [jsxLoader.js]
+
+All `*.min.js` files in DataFormsJS are built from the full file version of the same name using a build script that depends on `uglify-js`, `uglify-es`, and `Babel`. The `jsxLoader.min.js` can be built using only `uglify-js`.
+
+```bash
+# From project root
+node install
+node run build
+```
+
+Or run the [.\scripts\build.js](https://github.com/dataformsjs/dataformsjs/blob/master/scripts/build.js) script directly: `node build.js`.
+
+### Unit Testing
+
+Unit Tests for `jsxLoader.js` run from a browser using Mocha. Often React Components are tested from a mock browser environment using Jest, however it’s important that the `jsxLoader.js` be tested from an actual browser so that it can be verified in as many environments as possible and because it downloads and Polyfills and Babel for some browsers.
+
+This method also helps verify that the behavior of the compiled JS code from `jsxLoader.js` matches the same result from Babel. For example modern browsers need to be confirmed as well as IE 11 (which uses Babel).
+
+```bash
+# Install Node
+# https://nodejs.org
+
+# Download [dataformsjs/dataformsjs] repository:
+# https://github.com/dataformsjs/dataformsjs
+
+# Start Server from project root.
+# The local test and demo server for DataFormsJS has no dependencies
+# outside of built-in Node.js objects.
+node ./test/server.js
+
+# Or run the file directly
+cd test
+node server.js
+
+# View the unit test site and run tests:
+# http://127.0.0.1:5000/
+```
 
 ## Known Issues :warning:
 

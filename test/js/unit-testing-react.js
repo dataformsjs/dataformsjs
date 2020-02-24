@@ -26,9 +26,9 @@ var expect = chai.expect;
 // Babel script count is based on DataFormsJS React Components are loaded in [unit-testing-react.htm]
 var componentScripts = document.querySelectorAll('script[type="text/babel"][src*="src/react/es6"]').length;
 var expectedScriptCount = {
-    addedToPage: 5 + componentScripts,
-    compiler: 4 + componentScripts,
-    compilerAndSrc: 1 + componentScripts,
+    addedToPage: 6 + componentScripts,
+    compiler: 5 + componentScripts,
+    compilerAndSrc: 2 + componentScripts,
 };
 
 // Get starting value because by the time Tests run this will be updated

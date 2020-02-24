@@ -93,6 +93,15 @@ TODO List
     - More unit testing (every line of code needs to be verified), unit tests run from:
         http://127.0.0.1:5000/unit-testing-react
         http://127.0.0.1:5000/unit-testing-preact
+    - Possible new functions to support JavaScript version by year for new Sytax, example:
+        jsxLoader.requireES2018 = function() {
+            this.evalCode = '"use strict"; const { id, ...other } = { id:123, test:456 };';
+        };
+        For example if the app uses spread sytax and calls `jsxLoader.requireES2018()` then
+        browsers that don't support it (UC Browser, Edge) would use Babel. Currently this
+        feature requires the developer of the app to to update `evalCode`.
+        This issue is documented in the main JSX doc:
+            https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
     - Babel 6 Standalone is used because it works with IE 11.
         - Can Babel 7 be used instead (and near feture Babel 8)?
         - During initial testing in development it did not work after spending some time to try differnt polyfills.

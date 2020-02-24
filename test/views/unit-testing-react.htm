@@ -35,6 +35,7 @@
         <section class="test-content json-data"></section>
         <section class="test-content json-error"></section>
         <section class="test-content added-by-test"></section>
+        <section class="test-content spread-syntax"></section>
 
         <!--
             React
@@ -58,42 +59,6 @@
             // View content from console if needed:
             jsxLoader.logCompileTime = true;
             jsxLoader.logCompileDetails = false;
-
-            // Check for Modern Browsers that do not support the Spread Syntax.
-            // This will cause some tests to fail but should allow for most to pass.
-            // It only runs if the browser needs Polyfills.
-            //
-            // Known to affect:
-            //   https://www.ucweb.com/
-            //   https://en.wikipedia.org/wiki/UCWeb
-            //
-            if (jsxLoader.needsPolyfill) {
-                var isSupportedBrowser;
-                try {
-                    eval(jsxLoader.evalCode);
-                    isSupportedBrowser = true;
-                } catch (e) {
-                    isSupportedBrowser = false;
-                }
-                if (isSupportedBrowser) {
-                    var evalCode = 'const { id, ...other } = { id:123, test:456 }';
-                    var spreadSyntaxIsSupported;
-                    try {
-                        eval(evalCode);
-                        spreadSyntaxIsSupported = true;
-                    } catch (e) {
-                        spreadSyntaxIsSupported = false;
-                    }
-                    if (!spreadSyntaxIsSupported) {
-                        jsxLoader.jsUpdates.push({ find: /({\.\.\.props},|{\.\.\.other},)/g, replace: '' });
-                        jsxLoader.jsUpdates.push({ find: /{\.\.\.props}/g, replace: '' });
-                        jsxLoader.jsUpdates.push({ find: /\.\.\.other/g, replace: '' });
-                        jsxLoader.jsUpdates.push({ find: /other\./g, replace: '//' });
-                        jsxLoader.jsUpdates.push({ find: /{,/g, replace: '{' });
-                        jsxLoader.jsUpdates.push({ find: /\(Greeting, \)/g, replace: '(Greeting)' });
-                    }
-                }
-            }
         </script>
 
         <!--
@@ -160,6 +125,10 @@
             The inline babel scripts are dependant on each other in the order
             defined and both must be loaded after [unit-testing.jsx]. This is
             done to verify that [jsxLoader.js] adds scripts in the correct order.
+
+            [unit-testing-spread.jsx] does not depend on any other files but
+            it is seperated from other code because it will not work with all
+            commonly used modern browsers (as of early 2020).
         -->
         <script type="text/babel">
             class App extends React.Component {
@@ -187,6 +156,7 @@
         <script type="text/babel" src="/js/404.jsx"></script>
         <script type="text/babel" src="/js/error.jsx"></script>
         <script type="text/babel" src="/js/unit-testing.jsx"></script>
+        <script type="text/babel" src="/js/unit-testing-spread.jsx"></script>
 
         <!--
             This will be loaded by a Unit Test. Only scripts with [type="text/babel"]

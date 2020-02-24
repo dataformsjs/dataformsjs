@@ -106,19 +106,6 @@ function NumberDescriber(props) {
     return <div id={props.id}>{props.number} is an {description} number</div>;
 }
 
-function Greeting(props) {
-    return <div class="greeting">{props.firstName} {props.lastName}</div>
-}
-
-function DisplayProps(props) {
-    const { id, ...other } = props;
-    other.message += ' test';
-    return <React.Fragment>
-            <div {...other} id="display-prop-test">{id + ' test'}</div>
-            <div {...props} >{id}</div>
-        </React.Fragment>;
-}
-
 function DisplayUsers({users}) {
     return (
         <ul class="users">
@@ -142,7 +129,6 @@ function DisplayUsers2(props) {
 
 class UnitTestPage extends React.Component {
     render() {
-        const props = {firstName: 'First', lastName: 'Last'};
         const users = [
             { id:1, name:"User1" },
             { id:2, name:"User2" },
@@ -253,8 +239,6 @@ class UnitTestPage extends React.Component {
                 <Page pageType="video">{'Video'}</Page>
                 <NumberDescriber id="odd-number" number={1}></NumberDescriber>
                 <NumberDescriber id="even-number" number={2}></NumberDescriber>
-                <Greeting {...props} />
-                <DisplayProps id="display-prop-1" message="Hello World"></DisplayProps>
                 <DisplayUsers users={users} />
                 <DisplayUsers2 users={users} />
             </React.Fragment>
