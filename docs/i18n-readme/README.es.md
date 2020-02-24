@@ -231,24 +231,24 @@ El autor de DataFormsJS tenía varios trabajos ocupados en ese momento y tambié
 
 _Todos los tamaños se basan en scripts minificados y compresión gzip del servidor web._
 
-* **DataFormsJS Framework – 10 kb** (120 kb sin comprimir y versión completa)
-* Los archivos adicionales (controladores, complementos, etc.) suelen tener solo 1-3 kb cada uno.
-* En general, cuando use el Framework, espere aproximadamente 15 kb para la carga inicial de la página, y luego varios kb para páginas adicionales que carguen complementos, páginas, controladores, etc.
+* **DataFormsJS Framework – 10 kB** (120 kB versión completa sin comprimir)
+* Los archivos adicionales (controladores, complementos, etc.) suelen tener solo 1-3 kB cada uno.
+* En general, cuando use el Framework, espere aproximadamente 15 kB para la carga inicial de la página, y luego varios kB para páginas adicionales que carguen complementos, páginas, controladores, etc.
 
-* **React JSX Loader** – 5.1 kb
-* **React (todos los componentes en JavaScript)** – 7 kb
+* **React JSX Loader – 5.1 kB** (76 kB versión completa sin comprimir)
+* **React (todos los componentes en JavaScript) – 7 kB**
 * Los componentes de reacción individuales tienen entre 3 y 12 KB cuando no están comprimidos e incluyen comentarios.
-* Los componentes web generalmente tienen entre 1 y 3 KB cada uno, por lo general, utilizará una serie de componentes, por lo que en las aplicaciones de ejemplo, esto suma aproximadamente 15 kb para cada aplicación.
+* Los componentes web generalmente tienen entre 1 y 3 KB cada uno, por lo general, utilizará una serie de componentes, por lo que en las aplicaciones de ejemplo, esto suma aproximadamente 15 kB para cada aplicación.
 
 Si bien el marco DataFormsJS es pequeño, generalmente se utilizará con un motor de visualización o plantilla más grande:
 
-* React: ~ 40 kb
-* Handlebars: ~ 22 kb
-* Vue: ~ 33 kb
-* Underscore: ~ 6 kb
-* Nunjucks - ~ 25 kb
+* React: ~ 40 kB
+* Handlebars: ~ 22 kB
+* Vue: ~ 33 kB
+* Underscore: ~ 6 kB
+* Nunjucks - ~ 25 kB
 
-Además, en un sitio complejo o grande, se espera que el código de terceros represente la mayor cantidad de JavaScript. Por ejemplo, CodeMirror Text Editor usado en el sitio Playground tiene alrededor de 250 kb, sin embargo DataFormsJS tiene la capacidad de descargar solo código de terceros cuando sea necesario.
+Además, en un sitio complejo o grande, se espera que el código de terceros represente la mayor cantidad de JavaScript. Por ejemplo, CodeMirror Text Editor usado en el sitio Playground tiene alrededor de 250 kB, sin embargo DataFormsJS tiene la capacidad de descargar solo código de terceros cuando sea necesario.
 
 **How do I use the JSX Loader for React?**
 
