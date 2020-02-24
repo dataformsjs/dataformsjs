@@ -13,6 +13,14 @@
             }
             .nav div { margin-top:10px; }
             .error { background-color:red; color:white; padding:2em; font-size:2em; }
+            .browser-warnings { text-align: center; }
+            .browser-warnings > div { 
+                padding: 1em;
+                display: inline-flex;
+                margin: auto;
+                border: 1px solid red;
+                color: red;
+            }
             #root,
             .test-content {
                 padding: 50px;
@@ -20,16 +28,22 @@
                 margin: 50px;
                 /* display: none; */
             }
+            #polyfill-status { color:#999; }
             table { border-collapse: collapse; }
             table, th, td { border: 1px solid black; padding:.5em 1em; }
+            #mocha-stats { background-color: white; }
 		</style>
     </head>
     <body>
 		<div class="nav">
             <a href="./">Back to all Unit Tests</a>
             <div id="compile-type">Compiler: <strong></strong></div>
+            <div id="polyfill-status" style="display: none;">(Polyfill Downloaded)</div>
         </div>
 
+        <div class="browser-warnings">
+            <div class="spread-syntax" style="display: none;"></div>
+        </div>
         <div id="mocha"></div>
         <div id="root"></div>
         <section class="test-content json-data"></section>
@@ -53,8 +67,11 @@
 
 		<!--
             DataFormsJS JSX Loader
+
+            This should success when using both [jsxLoader.js] and [jsxLoader.min.js].
+            When making updates to the file both need to be tested.
         -->
-        <script src="src/react/jsxLoader.js"></script>
+        <script src="src/react/jsxLoader.min.js"></script>
         <script>
             // View content from console if needed:
             jsxLoader.logCompileTime = true;
@@ -189,35 +206,6 @@
             mocha.checkLeaks();
         </script>
         <script src="/js/unit-testing-react.js"></script>
-        <script class="mocha-exec">
-            document.addEventListener('DOMContentLoaded', function() {
-                var callCount = 0;
-                var interval = window.setInterval(function() {
-                    // Prevent fatal development errors from calling timeout over and over.
-                    // Otherwise the browser can hang from a large number of quick calls to `window.setInterval()`.
-                    callCount++;
-                    if (callCount > 20) {
-                        window.clearInterval(interval);
-                        var error = 'Unexpected error loading scripts, check DevTools';
-                        var root = document.getElementById('root');
-                        root.textContent = error;
-                        root.className = 'error';
-                        root.style.display = '';
-                        throw new Error(error);
-                    }
-
-                    // Wait until [jsxLoader.js] has finished loading all files
-                    if (jsxLoader.hasPendingScripts()) {
-                        return;
-                    }
-
-                    // Show compiler used and run tests
-                    window.clearInterval(interval);
-                    var library = (window.preact !== undefined ? ' (Preact)' : '');
-                    document.querySelector('#compile-type strong').textContent = (jsxLoader.isSupportedBrowser ? 'jsxLoader' : 'Babel') + library;
-                    mocha.run();
-                }, 100);
-            });
-        </script>
+        <script class="mocha-exec" src="/js/unit-testing-react-setup.js"></script>
     </body>
 </html>

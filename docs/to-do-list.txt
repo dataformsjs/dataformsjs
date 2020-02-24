@@ -102,6 +102,18 @@ TODO List
         feature requires the developer of the app to to update `evalCode`.
         This issue is documented in the main JSX doc:
             https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
+    - Consider the following update on future release:
+        Before:
+            eval(jsxLoader.evalCode);
+            evalCode: '"use strict"; class foo {}; let result = 1 + 1;',
+        After:
+            new Function('"use strict";' + jsxLoader.evalCode)();
+            evalCode: 'class foo {}; let result = 1 + 1;',
+        Before Update:
+            Confirm this will work with old Safari on iOS (iPad 2, iPhone 6 without updates, etc)
+        The later version `new Function` is more secure but in general both options should never
+        be used for input from the user. Both options are valid for `jsxLoader` due the need in
+        checking browser syntax environment.
     - Babel 6 Standalone is used because it works with IE 11.
         - Can Babel 7 be used instead (and near feture Babel 8)?
         - During initial testing in development it did not work after spending some time to try differnt polyfills.
