@@ -21,7 +21,7 @@ Este repositorio contiene el Marco de DataFormsJS, Páginas de ejemplo y Pruebas
 |---|---|---|
 |**Estabilidad** Diseñado para uso a largo plazo; un sitio desarrollado con DataFormsJS hoy funcionará muy bien y será fácil de mantener en décadas.|**Flexibilidad** Funciona bien con otro código y la API está diseñada para ofrecer flexibilidad y características personalizadas. Si puede pensarlo, puede construirlo con DataFormsJS.|**Mejores sitios** DataFormsJS está diseñado para ser una gran experiencia tanto para desarrolladores como para usuarios finales, permitiéndole crear mejores sitios.|
 
-|¡Funciona con|<img src="https://www.dataformsjs.com/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://www.dataformsjs.com/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://www.dataformsjs.com/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://www.dataformsjs.com/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|y más!|
+|¡Funciona con|<img src="https://www.dataformsjs.com/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://www.dataformsjs.com/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://www.dataformsjs.com/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://www.dataformsjs.com/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|y más!|
 |---|---|---|---|---|---|
 
 |¡Aprende algo nuevo!|<div><img src="https://www.dataformsjs.com/img/icons/web-components.svg" alt="Web Components" width="64"></div><div>Web Components</div>|

@@ -20,7 +20,7 @@ DataFormsJS是一个新的JavaScript框架独立于React和Web组件。DataForms
 |---|---|---|
 |**稳定性** 设计用于长期使用；今天使用DataFormsJS开发的站点将工作得很好，并且几十年后也易于维护.|**灵活性** 它可以很好地与其他代码配合使用，并且API的设计具有灵活性和自定义功能。如果可以，您可以使用DataFormsJS构建它.|**更棒的网站** DataFormsJS旨在为开发人员和最终用户提供出色的体验，使您能够创建更好的站点.|
 
-|Works with|<img src="https://www.dataformsjs.com/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://www.dataformsjs.com/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://www.dataformsjs.com/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://www.dataformsjs.com/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|and more!|
+|Works with|<img src="https://www.dataformsjs.com/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://www.dataformsjs.com/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://www.dataformsjs.com/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://www.dataformsjs.com/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|and more!|
 |---|---|---|---|---|---|
 
 |Learn something new!|<div><img src="https://www.dataformsjs.com/img/icons/web-components.svg" alt="Web Components" width="64"></div><div>Web Components</div>|
