@@ -31,7 +31,7 @@ The script is tested with a variety of devices and browsers including the follow
   * Chrome
   * Safari - Desktop and iOS (iPhone/iPad)
   * Firefox
-  * Edge (EdgeHTML)
+  * Edge (Chromium and EdgeHTML)
   * Samsung Internet
   * UC Browser
 * Legacy Browsers:
@@ -46,10 +46,13 @@ The `jsxLoader.js` script is very small to download (5.1 kB - min and gzip) and 
 
 ```html
 <!-- Include React on the Page -->
-<script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react@16.12.0/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 
-<!-- Include the DataFormsJS JSX Loader -->
+<!--
+    Include the DataFormsJS JSX Loader.
+    Either [jsxLoader.min.js] or [jsxLoader.js] can be used.
+-->
 <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.1/js/react/jsxLoader.min.js"></script>
 
 <!--
@@ -111,11 +114,11 @@ Once this script was created all React demos for DataFormsJS were able to use it
 
 ### Handling node require and import statements
 
-Because JSX is converted directly to JS for the browser, code that uses `require` and `import` statements for node will not work in the browser. However it does provide a flexible API that can be used to customize the generated code so that `import` and `require` statements or other code can be handled by the browser.
+Because JSX is converted directly to JS for the browser, code that uses `require` and `import` statements for node will not work in the browser. However the `jsxLoader.js` script provides a flexible API that can be used to customize the generated code so that `import` and `require` statements or other code can be handled by the browser.
 
 For example, if you use the following in your JSX Code:
 
-```javaScript
+```js
 import { useState } from 'react';
 ```
 
@@ -211,7 +214,7 @@ function LoadMapAndPage(props) {
                 './html/place-react.jsx',
             ]}
             isLoading={<ShowLoading />}
-            isLoaded='isLoaded'
+            isLoaded="ShowCity"
             data={props.data}
             params={props.params} />
     );
@@ -220,7 +223,7 @@ function LoadMapAndPage(props) {
 
 By default all `scripts` are downloaded asynchronously without waiting for ealier scripts to complete. This option is the fastest however it will not work for all code. In the below example `chosen.jquery.min.js` must be loaded after `jquery-3.4.1.min.js` so the property `loadScriptsInOrder` is used to tell `LazyLoad` to load scripts in sequential order.
 
-Additionally this script shows that `{children}` can be used instead of the `isLoaded` property.
+Additionally the below snippet shows that `{children}` can be used instead of the `isLoaded` property.
 
 ```jsx
 <LazyLoad
@@ -288,62 +291,9 @@ There are several options:
 
 1) Avoid using the spread syntax 
 2) Use code shown in the example below that uses Babel for these Browsers
-3) Use complex find and replace code to handle it, example in the [Unit Tests](https://github.com/dataformsjs/dataformsjs/blob/master/test/views/unit-testing-react.htm)
 
 ```js
-(function (){
-    if (jsxLoader.needsPolyfill) {
-        var isSupportedBrowser;
-        try {
-            eval(jsxLoader.evalCode);
-            isSupportedBrowser = true;
-        } catch (e) {
-            isSupportedBrowser = false;
-        }
-        if (isSupportedBrowser) {
-            jsxLoader.evalCode = 'const { id, ...other } = { id:123, test:456 }';
-        }
-    }
-})();
-```
-
-### Add Support for old Safari (old iPhones, iPads, etc)
-
-Old versions of Safari (example: iOS 9) support `class` but not support `let` or `const`. By default these versions of Safari will use Babel, however the jsxLoader can be used to compile JSX with some customization. This would need to be handled by the developer of the app to make sure that find and replace updates for `const, let, var` work correctly for the site using it. As of 2020 the percentage is users this would affect is very low however Babel is very slow on old mobile devices.
-
-Additionally versions of Safari that do no support `const` or `let` will also not support features such as arrow function expression `=>` so using Babel is recommended unless you have many devices to fully test.
-
-```js
-// This would need to run before the Document `DOMContentLoaded` event
-(function() {
-    // Only run check if the user is using an old browser
-    if (jsxLoader.needsPolyfill) {
-        // Are `const` and `let` supported?
-        var isSupportedBrowser;
-        try {
-            eval(jsxLoader.evalCode);
-            isSupportedBrowser = true;
-        } catch (e) {
-            isSupportedBrowser = false;
-        }
-        if (!isSupportedBrowser) {
-            // Is `class` supported?
-            var evalCode = '"use strict"; class foo {}';
-            try {
-                eval(evalCode);
-                isSupportedBrowser = true;
-            } catch (e) {
-                isSupportedBrowser = false;
-            }
-            // If `class` is supported but not `const|let`
-            // then replace it with `var ` in the generated code.
-            if (isSupportedBrowser) {
-                jsxLoader.evalCode = evalCode;
-                jsxLoader.jsUpdates.push({ find: /(const |let )/g, replace: 'var ' });
-            }
-        }
-    }
-})();
+jsxLoader.evalCode = '"use strict"; const { id, ...other } = { id:123, test:456 };';
 ```
 
 ### How JS Code is added to the Page
