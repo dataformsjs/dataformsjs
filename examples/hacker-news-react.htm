@@ -37,9 +37,38 @@
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.1/js/react/jsxLoader.min.js"></script>
         <script>
             // Set to `true` to see compiler details
-            jsxLoader.logCompileTime = false;
+            jsxLoader.logCompileTime = true;
             jsxLoader.logCompileDetails = false;
         </script>
+        
+        <!--
+            Babel for JSX
+            To test using Babel instead of the `jsxLoader.js` comment out code related to jsxLoader
+            and uncomment the Babel Standalone code below.
+
+            Use [babel-standalone@6] for IE Support.
+            Babel 7 [@babel] can be used for modern browsers.
+
+            <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+            <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        -->
+        <!--
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <script>
+            // Allow [babel-standalone] to use [import and exports] with JSX files
+            window.exports = window;
+            function require(module) {
+                switch (module) {
+                    case 'react':
+                        return window.React;
+                    case 'react-dom':
+                        return window.ReactDOM;
+                    default:
+                        return window[module];
+                }
+            }
+        </script>
+        -->
 
         <!--
             DataFormsJS React Components
