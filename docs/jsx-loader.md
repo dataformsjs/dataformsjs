@@ -34,6 +34,7 @@ The script is tested with a variety of devices and browsers including the follow
   * Edge (Chromium and EdgeHTML)
   * Samsung Internet
   * UC Browser
+  * Opera
 * Legacy Browsers:
   * IE 11
   * Safari iOS
@@ -290,7 +291,7 @@ If you have a site that uses code like this `<Greeting {...props} />` the JSX Lo
 There are several options:
 
 1) Avoid using the spread syntax
-2) Use code shown in the example below that uses Babel for these Browsers
+2) Use code shown in the snippet below so that Babel will be used for Browsers which do no support the spread syntax
 
 ```js
 jsxLoader.evalCode = '"use strict"; const { id, ...other } = { id:123, test:456 };';
@@ -345,6 +346,18 @@ node server.js
 # View the unit test site and run tests:
 # http://127.0.0.1:5000/
 ```
+
+The image below shows what the Unit Test page looks like. When testing with a modern browser `jsxLoader` will appear in the upper-left-hand corner of the screen.
+
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-testing-modern-browser.png" alt="Unit Testing with Modern Browser">
+
+When testing with a legacy browser such as IE 11 `Babel` will be shown along with `(Polyfill Downloaded)`.
+
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-testing-ie-11.png" alt="Unit Testing with IE 11">
+
+If a modern browser is being tested that doesn't support that spread syntax then a helpful warning will be displayed because it will cause some tests to fail. Additionally `(Polyfill Downloaded)` will appear for modern browsers that need to download Polyfills (typically if `Promise.prototype.finally` is missing).
+
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-testing-uc-browser.png" alt="Unit Testing with UC Browser">
 
 ## Known Issues :warning:
 
