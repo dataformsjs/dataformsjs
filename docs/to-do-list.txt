@@ -90,6 +90,10 @@ TODO List
     - Once completed the page can be added to the examples section on the main site
 
 *) jsxLoader.js
+    - Need to add support for React Shorthand Fragements
+        https://reactjs.org/blog/2017/11/28/react-v16.2.0-fragment-support.html
+        <>
+        </>
     - More unit testing (every line of code needs to be verified), unit tests run from:
         http://127.0.0.1:5000/unit-testing-react
         http://127.0.0.1:5000/unit-testing-preact
