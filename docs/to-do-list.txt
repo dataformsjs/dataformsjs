@@ -45,16 +45,11 @@ TODO List
             https://www.dataformsjs.com/unit-testing/nunjucks
             https://www.dataformsjs.com/unit-testing/preact
             https://www.dataformsjs.com/unit-testing/underscore
+    - A main '/unit-testing/' page needs to be created and can likely be linked
+        from the footer
     - Tests need update so local dev and server match on tests
     - This is the file being updated to sync tests from local copy to server:
         https://github.com/dataformsjs/website/blob/master/scripts/sync-server-from-github.sh
-        * Currently it has a bug when running the standard way:
-            bash /var/www/scripts/sync-server-from-github.sh
-        * Current work around
-            cd ~
-            nano sync.sh
-            # copy and paste file contents
-            bash sync.sh
     - To work from main site on localhost, line #210 in the following PHP vendor file might have to be updated:
         https://github.com/fastsitephp/fastsitephp/blob/master/src/Lang/I18N.php
         Before:
