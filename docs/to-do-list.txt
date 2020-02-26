@@ -35,28 +35,20 @@ TODO List
         However all code should be downloaded only once and displayed in memory
 
 *) Allow Unit Tests to run from the main site
-    - The reason is so anyone can test the Framework and React components easily with any Browser.
     - NOTE - This is in active development and will be completed soon
-        - Also some tests may be broken until this is finished.
-        - Test URL's:
-            https://www.dataformsjs.com/unit-testing/react
-            https://www.dataformsjs.com/unit-testing/handlebars
-            https://www.dataformsjs.com/unit-testing/mixed-templates
-            https://www.dataformsjs.com/unit-testing/nunjucks
-            https://www.dataformsjs.com/unit-testing/preact
-            https://www.dataformsjs.com/unit-testing/underscore
-    - A main '/unit-testing/' page needs to be created and can likely be linked
-        from the footer
-    - Tests need update so local dev and server match on tests
-    - This is the file being updated to sync tests from local copy to server:
+    - The reason is so anyone can test the Framework and React components easily with any Browser.
+    - Test URL's:
+        https://www.dataformsjs.com/unit-testing/react
+        https://www.dataformsjs.com/unit-testing/handlebars
+        https://www.dataformsjs.com/unit-testing/mixed-templates
+        https://www.dataformsjs.com/unit-testing/nunjucks
+        https://www.dataformsjs.com/unit-testing/preact
+        https://www.dataformsjs.com/unit-testing/underscore
+    - A main '/:lang/unit-tests' page needs to be created 
+        - It can likely be linked from the footer
+        - The route '/unit-testing/' will need to redirect to '/:lang/unit-tests' based on the users main language
+    - This is the file that sync tests from local copy to server, it may or may not need more updates:
         https://github.com/dataformsjs/website/blob/master/scripts/sync-server-from-github.sh
-    - To work from main site on localhost, line #210 in the following PHP vendor file might have to be updated:
-        https://github.com/fastsitephp/fastsitephp/blob/master/src/Lang/I18N.php
-        Before:
-            $url = (isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '');
-        After:
-            $url = $app->requestedPath();
-        Need to investigate more
 
 *) Unit Testing for Vue
     Start by copying [test\views\unit-testing-underscore.htm] as [test\views\unit-testing-vue.htm]
@@ -106,6 +98,7 @@ TODO List
     - More unit testing (every line of code needs to be verified), unit tests run from:
         http://127.0.0.1:5000/unit-testing-react
         http://127.0.0.1:5000/unit-testing-preact
+    - It's possible that every line it tested but it's not yet known for sure 
     - Possible new functions to support JavaScript version by year for new Sytax, example:
         jsxLoader.requireES2018 = function() {
             this.evalCode = '"use strict"; const { id, ...other } = { id:123, test:456 };';

@@ -2,7 +2,7 @@
     <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/docs/jsx-loader.png" title="DataFormsJS JSX Loader">
 </h1>
 
-<p align="center">An ultra-fast and tiny (5.1 kB) browser based compiler for JSX / React.</p>
+<p align="center">An ultra-fast and tiny (5.2 kB) browser based compiler for JSX / React.</p>
 <hr>
 
 ## What is it? :tada:
@@ -49,7 +49,7 @@ The script is tested with a variety of devices and browsers including the follow
 
 In addition to React it also works and is tested with the React alternative libary Preact.
 
-The `jsxLoader.js` script is very small to download (5.1 kB - min and gzip) and compiles code very fast (often in milliseconds for each JSX script).
+The `jsxLoader.js` script is very small to download (5.2 kB - min and gzip) and compiles code very fast (often in milliseconds for each JSX script).
 
 ## How to use? :star2:
 
