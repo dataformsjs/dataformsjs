@@ -2258,7 +2258,7 @@
             tester.pageTester2('#/page-json-data', true, '[page-json-data]Page is Loading', '[page-json-data]Response from Server', expectedData, false, assert, done, function () {
                 // Check jsonData model properties after the view is finished loading
                 var model = app.activeModel;
-                var url = 'unit-testing/page-json-data';
+                var url = '/unit-testing/page-json-data';
                 assert.equal(model.url, url, 'Checking model.url: ' + model.url);
                 assert.equal(model.submittedFetchUrl, url, 'Checking model.submittedFetchUrl: ' + model.submittedFetchUrl);
                 assert.equal(model.isLoading, false, 'Checking model.isLoading: ' + model.isLoading);
@@ -2273,14 +2273,14 @@
                 assert.ok(typeof model.fetchTimeInMilliseconds() === 'number', 'Checking model.fetchTimeInMilliseconds(): ' + model.fetchTimeInMilliseconds());
 
                 // When IE is used a technique known as Cache Busting is used so the last URL
-                // should look like: 'unit-testing/page-json-data?_=1433806192243'
+                // should look like: '/unit-testing/page-json-data?_=1433806192243'
                 var expectedUrl = /^unit-testing\/page-json-data\?_=\d+$/;
                 var lastUrl = tester.submittedUrls[tester.submittedUrls.length - 1];
                 lastUrl = lastUrl.url;
                 if (isIE) {
                     assert.ok(expectedUrl.test(lastUrl), 'URL for last request is in the expected format for IE: ' + lastUrl);
                 } else {
-                    expectedUrl = 'unit-testing/page-json-data';
+                    expectedUrl = '/unit-testing/page-json-data';
                     assert.equal(lastUrl, expectedUrl, "URL for last request is in the expected format: " + lastUrl);
                 }
 
@@ -2288,7 +2288,7 @@
                 var script = document.querySelector('script[data-route="/page-json-data"]');
                 assert.equal(script.tagName, 'SCRIPT', 'script.tagName: ' + script.tagName);
                 assert.equal(script.getAttribute('data-page'), 'jsonData', 'Script [data-page]: ' + script.getAttribute('data-page'));
-                assert.equal(script.getAttribute('data-url'), 'unit-testing/page-json-data', 'Script [data-url]: ' + script.getAttribute('data-url'));
+                assert.equal(script.getAttribute('data-url'), '/unit-testing/page-json-data', 'Script [data-url]: ' + script.getAttribute('data-url'));
             });
         });
 
@@ -2302,7 +2302,7 @@
             tester.pageTester2('#/page-json-data-with-prop', true, '[page-json-data-with-prop]Page is Loading', '[page-json-data-with-prop]Response from Server', expectedData, false, assert, done, function () {
                 // Check jsonData model properties after the view is finished loading
                 var model = app.activeModel;
-                var url = 'unit-testing/page-json-data';
+                var url = '/unit-testing/page-json-data';
                 assert.equal(model.url, url, 'Checking model.url: ' + model.url);
                 assert.equal(model.data.serverMessage, expectedData.serverMessage, 'Checking model.data.serverMessage: ' + model.data.serverMessage);
                 assert.equal(model.loadCount, 1, 'Checking model.loadCount: ' + model.loadCount);
@@ -2412,7 +2412,7 @@
                 assert.equal(model.hasError, true, 'Checking model.hasError: ' + model.hasError);
                 assert.equal(model.loadCount, 1, 'Checking model.loadCount: ' + model.loadCount);
                 assert.equal(model.errorCount, 0, 'Checking model.errorCount: ' + model.errorCount);
-                assert.equal(model.submittedFetchUrl, 'unit-testing/page-json-data-error', 'Checking model.submittedFetchUrl: ' + model.submittedFetchUrl);
+                assert.equal(model.submittedFetchUrl, '/unit-testing/page-json-data-error', 'Checking model.submittedFetchUrl: ' + model.submittedFetchUrl);
 
                 // Check the Response Code of the Submitted Request
                 var lastUrl = tester.submittedUrls[tester.submittedUrls.length - 1];
@@ -2439,7 +2439,7 @@
                 assert.equal(model.hasError, true, 'Checking model.hasError: ' + model.hasError);
                 assert.equal(model.loadCount, 0, 'Checking model.loadCount: ' + model.loadCount);
                 assert.equal(model.errorCount, 1, 'Checking model.errorCount: ' + model.errorCount);
-                assert.equal(model.submittedFetchUrl, 'unit-testing/plain-text', 'Checking model.submittedFetchUrl: ' + model.submittedFetchUrl);
+                assert.equal(model.submittedFetchUrl, '/unit-testing/plain-text', 'Checking model.submittedFetchUrl: ' + model.submittedFetchUrl);
                 assert.equal(model.errorTextFetchError, expectedErrorText, 'Checking model.errorTextFetchError: ' + model.errorTextFetchError);
 
                 // Check the Response Code of the Submitted Request
@@ -2543,7 +2543,7 @@
             var done = assert.async();
 
             // 1) Define the First Test Page - '#/page-json-data-record/1'
-            var url = 'unit-testing/page-json-data-record/:id';
+            var url = '/unit-testing/page-json-data-record/:id';
             var hash = '#/page-json-data-record/1';
             var hash2 = '#/page-json-data-record/2';
             var loadingMsg = '[page-json-data-record]Page is Loading for 1';
@@ -2553,7 +2553,7 @@
                 var model = app.activeModel;
                 assert.equal(model.loadCount, 1, 'Checking model.loadCount - ' + model.loadCount);
                 assert.equal(model.url, url, 'Checking model.submittedFetchUrl - ' + model.url);
-                assert.equal(model.submittedFetchUrl, 'unit-testing/page-json-data-record/1', 'Checking model.submittedFetchUrl - ' + model.submittedFetchUrl);
+                assert.equal(model.submittedFetchUrl, '/unit-testing/page-json-data-record/1', 'Checking model.submittedFetchUrl - ' + model.submittedFetchUrl);
                 assert.equal(app.buildUrl('/:id/:id'), '/1/1', 'Checking function app.buildUrl("/:id/:id"): "/1/1"');
 
                 // 2) Redirect back to default URL - '#/'
@@ -2568,7 +2568,7 @@
                         var model = app.activeModel;
                         assert.equal(model.loadCount, 2, 'Checking model.loadCount - ' + model.loadCount);
                         assert.equal(model.url, url, 'Checking model.submittedFetchUrl - ' + model.url);
-                        assert.equal(model.submittedFetchUrl, 'unit-testing/page-json-data-record/2', 'Checking model.submittedFetchUrl - ' + model.submittedFetchUrl);
+                        assert.equal(model.submittedFetchUrl, '/unit-testing/page-json-data-record/2', 'Checking model.submittedFetchUrl - ' + model.submittedFetchUrl);
                         assert.equal(app.buildUrl('/:id/:id'), '/2/2', 'Checking function app.buildUrl("/:id/:id"): "/2/2"');
 
                         // 4) Redirect back to default URL - '#/'

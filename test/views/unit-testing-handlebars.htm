@@ -26,6 +26,20 @@
 	            <li><a href="unit-testing-underscore">Unit Testing with Underscore Templating</a></li>
                 <li><a href="unit-testing-mixed-templates">Unit Testing with Multiple Template Engines</a></li>                
             </ul>
+            <script>
+                // Update URL's if running from main web site
+                (function() {
+                    'use strict';
+                    if (window.location.href.indexOf('/unit-testing/') !== -1) {
+                        var links = document.querySelectorAll('.nav [href^="unit-testing-"]');
+                        Array.prototype.forEach.call(links, function(link) {
+                            var href = link.getAttribute('href');
+                            href = href.replace('unit-testing-', '');
+                            link.setAttribute('href', href);
+                        });
+                    }
+                })();
+            </script>
         </div>
 
         <div id="qunit"></div>
@@ -111,7 +125,7 @@
         <script type="text/x-template" data-engine="handlebars" 
             data-route="/page-json-data" 
             data-page="jsonData" 
-            data-url="unit-testing/page-json-data">
+            data-url="/unit-testing/page-json-data">
             {{#if isLoading}}[page-json-data]Page is Loading{{/if}}
             {{#if isLoaded}}[page-json-data]{{serverMessage}}{{/if}}
             {{#if hasError}}[page-json-data]{{errorMessage}}{{/if}}
@@ -120,7 +134,7 @@
         <script type="text/x-template" data-engine="handlebars" 
             data-route="/page-json-data-with-prop" 
             data-page="jsonData" 
-            data-url="unit-testing/page-json-data"
+            data-url="/unit-testing/page-json-data"
             data-prop="data">
             {{#if isLoading}}[page-json-data-with-prop]Page is Loading{{/if}}
             {{#if isLoaded}}[page-json-data-with-prop]{{data.serverMessage}}{{/if}}
@@ -143,31 +157,31 @@
             {{#if hasError}}[page-json-data-missing-route]{{errorMessage}}{{/if}}
         </script>
 
-        <script type="text/x-template" data-engine="handlebars" data-route="/page-json-data-error" data-page="jsonData" data-url="unit-testing/page-json-data-error">
+        <script type="text/x-template" data-engine="handlebars" data-route="/page-json-data-error" data-page="jsonData" data-url="/unit-testing/page-json-data-error">
             {{#if isLoading}}[page-json-data-error]Page is Loading{{/if}}
             {{#if isLoaded}}[page-json-data-error]Page is Loaded{{/if}}
             {{#if hasError}}[page-json-data-error]{{errorMessage}}{{/if}}
         </script>
 
-        <script type="text/x-template" data-engine="handlebars" data-route="/page-reload-json-data" data-page="jsonData" data-url="unit-testing/page-json-data">
+        <script type="text/x-template" data-engine="handlebars" data-route="/page-reload-json-data" data-page="jsonData" data-url="/unit-testing/page-json-data">
             {{#if isLoading}}[page-reload-json-data]Page is Loading{{/if}}
             {{#if isLoaded}}[page-reload-json-data]{{serverMessage}}{{/if}}
             {{#if hasError}}[page-reload-json-data]{{errorMessage}}{{/if}}
         </script>
 
-        <script type="text/x-template" data-engine="handlebars" data-route="/page-json-data-load-only-once" data-page="jsonData" data-url="unit-testing/page-json-data" data-load-only-once="true">
+        <script type="text/x-template" data-engine="handlebars" data-route="/page-json-data-load-only-once" data-page="jsonData" data-url="/unit-testing/page-json-data" data-load-only-once="true">
             {{#if isLoading}}[page-json-data-load-only-once]Page is Loading{{/if}}
             {{#if isLoaded}}[page-json-data-load-only-once]{{serverMessage}}{{/if}}
             {{#if hasError}}[page-json-data-load-only-once]{{errorMessage}}{{/if}}
         </script>
 
-        <script type="text/x-template" data-engine="handlebars" data-route="/page-json-data-record/:id" data-page="jsonData" data-url="unit-testing/page-json-data-record/:id" data-load-only-once="true">
+        <script type="text/x-template" data-engine="handlebars" data-route="/page-json-data-record/:id" data-page="jsonData" data-url="/unit-testing/page-json-data-record/:id" data-load-only-once="true">
             {{#if isLoading}}[page-json-data-record]Page is Loading for {{id}}{{/if}}
             {{#if isLoaded}}[page-json-data-record]Id: {{recordId}}{{/if}}
             {{#if hasError}}[page-json-data-record]{{errorMessage}}{{/if}}
         </script>
 
-        <script type="text/x-template" data-engine="handlebars" data-route="/page-json-data-wrong-type" data-page="jsonData" data-url="unit-testing/plain-text">
+        <script type="text/x-template" data-engine="handlebars" data-route="/page-json-data-wrong-type" data-page="jsonData" data-url="/unit-testing/plain-text">
             {{#if isLoading}}[page-json-data-wrong-type]Page is Loading{{/if}}
             {{#if isLoaded}}[page-json-data-wrong-type]Page is Loaded{{/if}}
             {{#if hasError}}[page-json-data-wrong-type]{{errorMessage}}{{/if}}
@@ -273,16 +287,16 @@
         
         <!-- DataFormsJS Core Files -->
         <!--
-        <script src="src/DataFormsJS.js"></script>
-        <script src="src/extensions/events.js"></script>
-        <script src="src/extensions/handlebars-helpers.js"></script>
-        <script src="src/pages/jsonData.js"></script>
+        <script src="/src/DataFormsJS.js"></script>
+        <script src="/src/extensions/events.js"></script>
+        <script src="/src/extensions/handlebars-helpers.js"></script>
+        <script src="/src/pages/jsonData.js"></script>
         -->
-        <script src="src/DataFormsJS.min.js"></script>
-        <script src="src/extensions/events.min.js"></script>
-        <script src="src/extensions/handlebars-helpers.min.js"></script>
-        <script src="src/pages/jsonData.min.js"></script>
-        <script src="src/scripts/polyfills.min.js"></script>
+        <script src="/src/DataFormsJS.min.js"></script>
+        <script src="/src/extensions/events.min.js"></script>
+        <script src="/src/extensions/handlebars-helpers.min.js"></script>
+        <script src="/src/pages/jsonData.min.js"></script>
+        <script src="/src/scripts/polyfills.min.js"></script>
 
 		<!-- DataFormsJS Unit Testing Files Specific to this Page -->
         <script src="js/DataFormsJS-Models-Unit-Testing.js"></script>

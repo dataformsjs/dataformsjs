@@ -37,13 +37,14 @@ TODO List
 *) Allow Unit Tests to run from the main site
     - The reason is so anyone can test the Framework and React components easily with any Browser.
     - NOTE - This is in active development and will be completed soon
-        Links (must be clicked on each link - nav links are broken):
-        https://www.dataformsjs.com/test/unit-testing-handlebars.htm
-        https://www.dataformsjs.com/test/unit-testing-mixed-templates.htm
-        https://www.dataformsjs.com/test/unit-testing-nunjucks.htm
-        https://www.dataformsjs.com/test/unit-testing-preact.htm
-        https://www.dataformsjs.com/test/unit-testing-react.htm
-        https://www.dataformsjs.com/test/unit-testing-underscore.htm
+        - Also some tests may be broken until this is finished.
+        - Test URL's:
+            https://www.dataformsjs.com/unit-testing/react
+            https://www.dataformsjs.com/unit-testing/handlebars
+            https://www.dataformsjs.com/unit-testing/mixed-templates
+            https://www.dataformsjs.com/unit-testing/nunjucks
+            https://www.dataformsjs.com/unit-testing/preact
+            https://www.dataformsjs.com/unit-testing/underscore
     - Tests need update so local dev and server match on tests
     - This is the file being updated to sync tests from local copy to server:
         https://github.com/dataformsjs/website/blob/master/scripts/sync-server-from-github.sh
@@ -54,6 +55,13 @@ TODO List
             nano sync.sh
             # copy and paste file contents
             bash sync.sh
+    - To work from main site on localhost, line #210 in the following PHP vendor file might have to be updated:
+        https://github.com/fastsitephp/fastsitephp/blob/master/src/Lang/I18N.php
+        Before:
+            $url = (isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '');
+        After:
+            $url = $app->requestedPath();
+        Need to investigate more
 
 *) Unit Testing for Vue
     Start by copying [test\views\unit-testing-underscore.htm] as [test\views\unit-testing-vue.htm]

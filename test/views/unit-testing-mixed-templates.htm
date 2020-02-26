@@ -26,6 +26,20 @@
                 <li><a href="unit-testing-underscore">Unit Testing using Underscore Templating Engine</a></li>
                 <li><a class="active" href="unit-testing-mixed-templates">Unit Testing with Multiple Template Engines</a></li>
             </ul>
+            <script>
+                // Update URL's if running from main web site
+                (function() {
+                    'use strict';
+                    if (window.location.href.indexOf('/unit-testing/') !== -1) {
+                        var links = document.querySelectorAll('.nav [href^="unit-testing-"]');
+                        Array.prototype.forEach.call(links, function(link) {
+                            var href = link.getAttribute('href');
+                            href = href.replace('unit-testing-', '');
+                            link.setAttribute('href', href);
+                        });
+                    }
+                })();
+            </script>
         </div>
 
         <div id="qunit"></div>
@@ -67,13 +81,13 @@
 
 		<!-- DataFormsJS -->
 		<!--
-        <script src="src/DataFormsJS.js"></script>
-        <script src="src/extensions/events.js"></script>
-        <script src="src/extensions/handlebars-helpers.js"></script>
+        <script src="/src/DataFormsJS.js"></script>
+        <script src="/src/extensions/events.js"></script>
+        <script src="/src/extensions/handlebars-helpers.js"></script>
 		-->
-        <script src="src/DataFormsJS.min.js"></script>
-        <script src="src/extensions/events.min.js"></script>
-        <script src="src/extensions/handlebars-helpers.min.js"></script>
+        <script src="/src/DataFormsJS.min.js"></script>
+        <script src="/src/extensions/events.min.js"></script>
+        <script src="/src/extensions/handlebars-helpers.min.js"></script>
 		
         <!-- Include Template Engines - specified after core DataFormsJS files to make sure that script load order doesn't mater -->
         <!--
