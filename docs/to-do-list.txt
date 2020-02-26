@@ -35,6 +35,7 @@ TODO List
         However all code should be downloaded only once and displayed in memory
 
 *) Allow Unit Tests to run from the main site
+    - NOTE - This is in active development
     - The reason is so anyone can test the Framework and React components easily with any Browser.
     - This will require slightly different folder structure and some minor updates in html.
         dataformsjs\test\*
@@ -102,14 +103,6 @@ TODO List
         feature requires the developer of the app to to update `evalCode`.
         This issue is documented in the main JSX doc:
             https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
-    - Babel 6 Standalone is used because it works with IE 11.
-        - Can Babel 7 be used instead (and near feture Babel 8)?
-        - During initial testing in development it did not work after spending some time to try differnt polyfills.
-        - Babel 7: https://unpkg.com/@babel/standalone/babel.min.js
-        - There is a known unit test error when using Babel 6 with IE for the Unit Test element:
-                <input id="file-2" type="file" accept="image/*" multiple="" />
-        - Because Babel doesn't handle the [multiple=""]. Can this be fixed if using newer versions of Babel?
-        - The error does not happen when using the compiler from [jsxLoader.js].
     - Development Tips for working with the Parser:
         - Make sure to set the following on the calling page:
             jsxLoader.logCompileTime = true;
