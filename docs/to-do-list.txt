@@ -35,16 +35,25 @@ TODO List
         However all code should be downloaded only once and displayed in memory
 
 *) Allow Unit Tests to run from the main site
-    - NOTE - This is in active development
     - The reason is so anyone can test the Framework and React components easily with any Browser.
-    - This will require slightly different folder structure and some minor updates in html.
-        dataformsjs\test\*
-    - The main website will need a PHP version of the Unit Test Routes: [dataformsjs\test\server.js]
-        It can go in a new route file [website\app\routes-test.php]
-    - This will require some minor updates to the sync server script once the new folder structure is ready.
-        website\scripts\sync-server-from-github.sh
-    - Ideally there will be no change to code under [dataformsjs\test\*], this should be able to 
-        be handled with find/replace from the bash script (or a seperate php, pythong, etc script that runs on the server)
+    - NOTE - This is in active development and will be completed soon
+        Links (must be clicked on each link - nav links are broken):
+        https://www.dataformsjs.com/test/unit-testing-handlebars.htm
+        https://www.dataformsjs.com/test/unit-testing-mixed-templates.htm
+        https://www.dataformsjs.com/test/unit-testing-nunjucks.htm
+        https://www.dataformsjs.com/test/unit-testing-preact.htm
+        https://www.dataformsjs.com/test/unit-testing-react.htm
+        https://www.dataformsjs.com/test/unit-testing-underscore.htm
+    - Tests need update so local dev and server match on tests
+    - This is the file being updated to sync tests from local copy to server:
+        https://github.com/dataformsjs/website/blob/master/scripts/sync-server-from-github.sh
+        * Currently it has a bug when running the standard way:
+            bash /var/www/scripts/sync-server-from-github.sh
+        * Current work around
+            cd ~
+            nano sync.sh
+            # copy and paste file contents
+            bash sync.sh
 
 *) Unit Testing for Vue
     Start by copying [test\views\unit-testing-underscore.htm] as [test\views\unit-testing-vue.htm]
