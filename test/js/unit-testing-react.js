@@ -41,15 +41,15 @@ describe('jsxLoader.js', function() {
         });
 
         it('should have jsxLoader.polyfillUrl', function() {
-            expect(jsxLoader).to.have.property('polyfillUrl', 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Object.assign,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat,WeakSet,Symbol');
+            expect(jsxLoader).to.have.property('polyfillUrl', 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Object.assign,Object.keys,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat,WeakSet,Symbol,Number.isInteger,String.prototype.codePointAt,String.fromCodePoint');
         });
 
         it('should have jsxLoader.babelUrl', function() {
-            expect(jsxLoader).to.have.property('babelUrl', 'https://unpkg.com/babel-standalone@6/babel.min.js');
+            expect(jsxLoader).to.have.property('babelUrl', 'https://unpkg.com/@babel/standalone@7.8.4/babel.min.js');
         });
 
         it('should have jsxLoader.babelOptions', function() {
-            expect(jsxLoader.babelOptions).to.deep.equal({ presets: ['es2015', 'stage-2', 'react'] });
+            expect(jsxLoader.babelOptions).to.deep.equal({ presets: ['es2015', 'react'] });
         });
 
         it('should have jsxLoader.logCompileTime', function() {
@@ -61,7 +61,7 @@ describe('jsxLoader.js', function() {
         });
 
         it('should have jsxLoader.evalCode', function() {
-            expect(jsxLoader).to.have.property('evalCode', '"use strict"; class foo {}; let result = 1 + 1;');
+            expect(jsxLoader).to.have.property('evalCode', 'class foo {}; let result = 1 + 1;');
         });
 
         it('should have jsxLoader.jsUpdates', function() {
@@ -91,6 +91,10 @@ describe('jsxLoader.js', function() {
 
         it('should have jsxLoader.isSupportedBrowser set to a boolean', function() {
             expect(typeof jsxLoader.isSupportedBrowser).to.equal('boolean');
+        });
+
+        it('should have jsxLoader.needsPolyfill set to a boolean', function() {
+            expect(typeof jsxLoader.needsPolyfill).to.equal('boolean');
         });
 
         it('should have jsxLoader.maxRecursiveCalls', function() {
@@ -123,6 +127,10 @@ describe('jsxLoader.js', function() {
 
         it('should have jsxLoader.downloadScript()', function() {
             expect(jsxLoader.downloadScript).to.be.instanceof(Function);
+        });
+
+        it('should have jsxLoader.addAdditionalPolyfills()', function() {
+            expect(jsxLoader.addAdditionalPolyfills).to.be.instanceof(Function);
         });
 
         it('should have jsxLoader.compiler', function() {
@@ -454,6 +462,11 @@ describe('jsxLoader.js', function() {
             var node = document.querySelector('.users-2 #user2-2');
             expect(node.textContent).to.equal('User2 Test');
         });
+
+        it('should support shorthand fragments <>', function() {
+            var el = document.querySelector('.shorthand-fragment');
+            expect(el.textContent).to.equal('Shorthand Fragment Check');
+        });
     });
 
     // NOTE - this section covers the compiler but in general all compiler logic should be handled by
@@ -659,6 +672,9 @@ describe('<JsonData>', function() {
                 if (callCount > 200) {
                     window.clearInterval(interval);
                     var error = 'Unexpected error loading <JsonData>, check DevTools';
+                    if (el === null) {
+                        el = el = document.querySelector('.test-content.json-error');
+                    }
                     el.textContent = error;
                     el.className = 'error';
                     el.style.display = '';

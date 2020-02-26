@@ -127,6 +127,16 @@ function DisplayUsers2(props) {
     );
 }
 
+// Make sure <React.Fragment> shorthand <> is supported.
+// For Older Browsers that use Babel this requires Babel 7 instead of Babel 6.
+function ShorthandFragment() {
+    return (
+        <>
+            <div className="shorthand-fragment">Shorthand Fragment Check</div>
+        </>
+    );
+}
+
 class UnitTestPage extends React.Component {
     render() {
         const users = [
@@ -241,6 +251,7 @@ class UnitTestPage extends React.Component {
                 <NumberDescriber id="even-number" number={2}></NumberDescriber>
                 <DisplayUsers users={users} />
                 <DisplayUsers2 users={users} />
+                <ShorthandFragment />        
             </React.Fragment>
         );
     }

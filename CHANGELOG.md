@@ -4,6 +4,15 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 3.6.2 (February 25, 2020)
+
+* `jsxLoader.js`
+  * Added support for Shorthand React.Fragment Syntax `<>` 
+  * Switched Babel Standalone from Version 6 to Version 7.8.4
+  * Switched eval code syntax to use `new Function('"use strict";' + jsxLoader.evalCode)();` instead of `eval(jsxLoader.evalCode);`
+  * Load additional Polyfills from `polyfill.io` service and added `jsxLoader.addAdditionalPolyfills()` function.
+  * Added additional Unit Tests
+
 ## 3.6.1 (February 20, 2020)
 
 * Bug fix `<LazyLoad>` so that it works with Safari on iOS 9 when using Dynamic Components in the `isLoaded` prop.

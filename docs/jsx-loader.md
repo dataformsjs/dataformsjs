@@ -298,7 +298,7 @@ There are several options:
 2) Use code shown in the snippet below so that Babel will be used for Browsers which do no support the spread syntax
 
 ```js
-jsxLoader.evalCode = '"use strict"; const { id, ...other } = { id:123, test:456 };';
+jsxLoader.evalCode = 'const { id, ...other } = { id:123, test:456 };';
 ```
 
 ### How JS Code is added to the Page

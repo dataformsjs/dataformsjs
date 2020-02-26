@@ -10,6 +10,9 @@
  * The result of this script is that React/JSX can be used directly in production webpages
  * without having to use a large build process and dependancy download to convert JSX to JS.
  *
+ * Documentation:
+ *     https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
+ *
  * The starting point and core structure of this compiler is based on (The Super Tiny Compiler)
  * [jamiebuilds/the-super-tiny-compiler]:
  *     https://git.io/compiler
@@ -94,14 +97,13 @@
         /**
          * Polyfill URL that is used for older browsers
          */
-        polyfillUrl: 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Object.assign,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat,WeakSet,Symbol',
+        polyfillUrl: 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Object.assign,Object.keys,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat,WeakSet,Symbol,Number.isInteger,String.prototype.codePointAt,String.fromCodePoint',
 
         /**
          * Babel URL and options used for older browsers.
-         * Babel 6 Standalone is used because it works with IE 11 and old versions of Safari.
          */
-        babelUrl: 'https://unpkg.com/babel-standalone@6/babel.min.js',
-        babelOptions: { presets: ['es2015', 'stage-2', 'react'] },
+        babelUrl: 'https://unpkg.com/@babel/standalone@7.8.4/babel.min.js',
+        babelOptions: { presets: ['es2015', 'react'] },
 
         /**
          * Print compile start, end, and time taken to console.
@@ -115,10 +117,10 @@
         logCompileDetails: false,
 
         /**
-         * Code here is passed to the `eval()` function when the [DOMContentLoaded()]
-         * event is triggered on page load. If the code does not error then the internal
-         * compiler will be used to convert JSX to JS, however if there is an error then
-         * Polyfills and Babel will be downloaded and used.
+         * Code here is evaluated when the [DOMContentLoaded()] event is triggered on
+         * page load. If the code does not error then the internal compiler will be
+         * used to convert JSX to JS, however if there is an error then Polyfills
+         * and Babel will be downloaded and used.
          *
          * This property can be overwritten before the page finishes loading in case you would
          * like to target specific browsers or featuers. In the first example below Firefox, Edge
@@ -128,11 +130,14 @@
          *     window.jsxLoader.evalCode = "throw 'Test';";   // Use Babel for all Browsers
          *
          * This example (`class` check only) would allow jsxLoader to be used over Babel in old Safari
-         * (example: iOS 9, iPad 2, etc) however all JSX code would have to use `var` instead of `const|let`.
+         * (example: iOS 9, iPad 2, iPhone 6 without upgrades, etc) however all JSX code would have to
+         * use `var` instead of `const|let` and could not uses `=>` arrow functions.
          *
-         *     window.jsxLoader.evalCode = ""use strict"; class foo {}";
+         *     window.jsxLoader.evalCode = 'class foo {}';
+         *
+         * For additional options and uses see the documentation (link near top of this file).
          */
-        evalCode: '"use strict"; class foo {}; let result = 1 + 1;',
+        evalCode: 'class foo {}; let result = 1 + 1;',
 
         /**
          * Condition to check for if the browser needs a Polyfill or not
@@ -400,6 +405,31 @@
             };
             script.src = url;
             document.head.appendChild(script);
+        },
+
+        /**
+         * Add additional polyfills needed for Babel that are not included from [polyfill.io].
+         * This function can be overwritten by the app if needed. As of early 2020 [polyfill.io]
+         * now includes the new `trimStart()` and `trimEnd()` functions, however Babel 7 uses
+         * the non-standard `trimLeft()` and `trimRight()`.
+         */
+        addAdditionalPolyfills: function() {
+            if (String.prototype.trimLeft === undefined) {
+                String.prototype.trimLeft = function() {
+                    return this.replace(/^\s+/, '');
+                };
+            }
+            if (String.prototype.trimStart === undefined) {
+                String.prototype.trimStart = String.prototype.trimLeft;
+            }
+            if (String.prototype.trimRight === undefined) {
+                String.prototype.trimRight = function() {
+                    return this.replace(/\s+$/, '');
+                };
+            }
+            if (String.prototype.trimEnd === undefined) {
+                String.prototype.trimEnd = String.prototype.trimRight;
+            }
         },
 
         /**
@@ -1103,6 +1133,9 @@
 
                     if (token.type === tokenTypes.e_start) {
                         var elName = token.value.replace('<', '').replace('/', '').replace('>', '');
+                        if (elName === '') {
+                            elName = 'React.Fragment';
+                        }
                         var firstChar = elName[0];
                         var node = {
                             type: astTypes.createElement,
@@ -1444,12 +1477,11 @@
      */
     document.addEventListener('DOMContentLoaded', function() {
         // Check Environment
-        // Use `eval()` to check the browser supports the `class` keyword. If so then the
-        // compiler from [jsxLoader] will be used, otherwise Babel will be used. With the
-        // default settings this will result in most end users using the [jsxLoader] while
-        // users that are using IE and older versions of Safari/iOS will use Babel.
+        // Create a new function and call the code from `evalCode` to check the browser
+        // supports the `class` keyword along with `let` and `const`. If so then the compiler
+        // from [jsxLoader] will be used, otherwise Babel will be used.
         try {
-            eval(jsxLoader.evalCode);
+            new Function('"use strict";' + jsxLoader.evalCode)();
             jsxLoader.isSupportedBrowser = true;
         } catch (e) {
             jsxLoader.isSupportedBrowser = false;
@@ -1460,11 +1492,11 @@
             // Modern Browsers
             jsxLoader.setup();
         } else if (jsxLoader.isSupportedBrowser) {
-            // Legacy Browsers that evaluate `evalCode` but are missing needed features.
-            // For example Safari in iOS 9 supports `class` but doesn't include `fetch`
-            // or `Promise.prototype.finally`. By default Safari in iOS 9 will use Babel
-            // unless code in `evalCode` is updated. See comments on the `evalCode` property.
+            // Modern Browsers that evaluate `evalCode` but are missing needed features.
+            // For example UC Browser (as of early 2020) supports Promises but is missing
+            // `Promise.prototype.finally`.
             jsxLoader.downloadScript(jsxLoader.polyfillUrl, function() {
+                jsxLoader.addAdditionalPolyfills();
                 jsxLoader.setup();
             });
         } else {
@@ -1472,6 +1504,7 @@
             // This includes IE 11 and old versions of Safari.
             jsxLoader.addBabelPolyfills();
             jsxLoader.downloadScript(jsxLoader.polyfillUrl, function() {
+                jsxLoader.addAdditionalPolyfills();
                 jsxLoader.downloadScript(jsxLoader.babelUrl, function() {
                     jsxLoader.setup();
                 });

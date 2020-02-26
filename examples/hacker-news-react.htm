@@ -44,16 +44,20 @@
         <!--
             Babel for JSX
             To test using Babel instead of the `jsxLoader.js` comment out code related to jsxLoader
-            and uncomment the Babel Standalone code below.
+            and uncomment the Babel Standalone code below. Both Babel 6 and 7 Work.
 
-            Use [babel-standalone@6] for IE Support.
-            Babel 7 [@babel] can be used for modern browsers.
+            Babel 6: babel-standalone@6
+            Babel 7: @babel
+
+            To test with IE (and other old browsers) both Polyfill URL's are needed
 
             <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
             <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
         -->
         <!--
-        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.1/js/scripts/polyfills.min.js"></script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Object.assign,Object.keys,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat,WeakSet,Symbol,Number.isInteger,String.prototype.codePointAt,String.fromCodePoint"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
         <script>
             // Allow [babel-standalone] to use [import and exports] with JSX files
             window.exports = window;
