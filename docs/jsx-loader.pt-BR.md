@@ -90,7 +90,7 @@ O script `jsxLoader.js` é muito pequeno para baixar (5.2 kB - min e em gzip) e 
 ## Demos :globe_with_meridians:
 
 ### React <img src="https://www.dataformsjs.com/img/logos/react.svg" width="32" height="32">
-* https://www.dataformsjs.com/examples/hello-world/en/react.htm
+* https://www.dataformsjs.com/examples/hello-world/pt-BR/react.htm
 * https://www.dataformsjs.com/examples/places-demo-react.htm
 * https://www.dataformsjs.com/examples/image-classification-react.htm
 * https://www.dataformsjs.com/examples/log-table-react.htm
@@ -99,11 +99,11 @@ O script `jsxLoader.js` é muito pequeno para baixar (5.2 kB - min e em gzip) e 
 * https://www.dataformsjs.com/examples/hacker-news-react.htm
 
 ### Preact <img src="https://www.dataformsjs.com/img/logos/preact.svg" width="32" height="32">
-* https://www.dataformsjs.com/examples/hello-world/en/preact.htm
+* https://www.dataformsjs.com/examples/hello-world/pt-BR/preact.htm
 * https://www.dataformsjs.com/examples/countries-no-spa-preact.htm
 
 ### Rax <img src="https://www.dataformsjs.com/img/logos/rax.png" width="32" height="32">
-* https://www.dataformsjs.com/examples/hello-world/en/rax.htm
+* https://www.dataformsjs.com/examples/hello-world/pt-BR/rax.htm
 
 ## Teste-o online no Code Playground :rocket:
 
