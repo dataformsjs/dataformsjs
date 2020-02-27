@@ -64,7 +64,7 @@ TODO List
     - Recommendation based on Chrome DevTools Lighthouse Audit for Best Practices
 
 *) Possibly link to Unit Tests from the footer on the main site
-    - Current URL:
+    - Current URL (hidden - not linked from anywhere):
         https://www.dataformsjs.com/unit-testing/
     - Possible new URL:
         https://www.dataformsjs.com/en/unit-tests
