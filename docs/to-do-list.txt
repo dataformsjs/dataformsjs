@@ -15,15 +15,19 @@ TODO List
 |   There is no priority to this list.
 |   All contributions are welcome.
 |
+|   Generally every item in this list is of low priority and more of a
+|   wish list item rather than an actual need. The higest priority items
+|   are at the top and start with `**)`.
+|
 --------------------------------------------------------------------------
 
-*) Create a standalone Vue Component <json-data>
+**) Create a standalone Vue Component <json-data>
     - It will go in a new directory `js/vue`
     - Behavior and API will be similar to the existing Framework and React code:
         <json-data> Framework Control and Web Component
-        React JsonData Component 
+        React JsonData Component
 
-*) Improve UX of the Quick Ref Page
+**) Improve UX of the Quick Ref Page
     https://www.dataformsjs.com/en/quick-reference
     - Filtering on all code doesn't work well due to generic terms "JavaScript" "Template", "Vue", etc
         Too many items are returned
@@ -34,43 +38,49 @@ TODO List
         "#/:lang/quick-reference/:topic"
         However all code should be downloaded only once and displayed in memory
 
-*) Allow Unit Tests to run from the main site
-    - NOTE - This is in active development and will be completed soon
-    - The reason is so anyone can test the Framework and React components easily with any Browser.
-    - Test URL's:
-        https://www.dataformsjs.com/unit-testing/react
-        https://www.dataformsjs.com/unit-testing/handlebars
-        https://www.dataformsjs.com/unit-testing/mixed-templates
-        https://www.dataformsjs.com/unit-testing/nunjucks
-        https://www.dataformsjs.com/unit-testing/preact
-        https://www.dataformsjs.com/unit-testing/underscore
-    - A main '/:lang/unit-tests' page needs to be created 
-        - It can likely be linked from the footer
-        - The route '/unit-testing/' will need to redirect to '/:lang/unit-tests' based on the users main language
-    - This is the file that sync tests from local copy to server, it may or may not need more updates:
-        https://github.com/dataformsjs/website/blob/master/scripts/sync-server-from-github.sh
-
-*) Unit Testing for Vue
-    Start by copying [test\views\unit-testing-underscore.htm] as [test\views\unit-testing-vue.htm]
-    and then see if the core Framework Unit Tests can be modified to handle Vue similar to how it's
-    done between Handlebars, Nunjucks, and Underscore
-
-*) Playground Site
+**) Playground Site
     - Add liniting for React/JSX, Babel recently started doing this online in the REPL:
         https://babeljs.io/repl
-    - Currently JS is linted using jshint on the Playground, to lint JSX babel standalone will 
+    - Currently JS is linted using jshint on the Playground, to lint JSX babel standalone will
         likley be used with a custom Code Mirror Plugin
     - When adding update the JS page code to load jshint and a linter for JSX only if the
         user is actually going to create a site. It can be downloaded in the background
         while the site is being created.
 
+**) Combine Main Server and AI/ML Server into one.
+    - Servers:
+        https://www.dataformsjs.com/
+        https://ai-ml.dataformsjs.com/
+    - This site doesn't get enough traffic to need seperate servers
+    - Planned to use nginx for PHP, Node/GraphQL, Python/Flask on the same server
+    - Related setup docs for current setup:
+        https://github.com/dataformsjs/website/blob/master/docs/Main%20Site%20Server%20Setup.txt
+        https://github.com/dataformsjs/website/blob/master/docs/Python%20Webserver%20Setup%20for%20AI_ML%20Functions.txt
+    - This will likely be documented in a new markdown doc
+
+**) Main Web Site and Playground Sites
+    - Use HTTP/2 instead of http/1.1
+        This can be done if migrating servers to nginx instead of Apache
+    - Recommendation based on Chrome DevTools Lighthouse Audit for Best Practices
+
+*) Possibly link to Unit Tests from the footer on the main site
+    - Current URL:
+        https://www.dataformsjs.com/unit-testing/
+    - Possible new URL:
+        https://www.dataformsjs.com/en/unit-tests
+    - The current URL would then redirect
+    - New page would need to look nice and provide a brief overview
+    - Currently many Vue unit tests fail if using IE so this might have to be fixed first
+        (either that or simply add notes to the page regarding IE and Vue)
+
 *) Template Files
     - File [dataformsjs\examples\_template.htm] should be seperated for different options and include a hello world or display of JSON data:
         _template_{hbs, vue, react}.htm
 
-*) Main Web Site and Playground Sites
-    - Use HTTP/2 instead of http/1.1
-    - Recommendation based on Chrome DevTools Lighthouse Audit for Best Practices
+*) Additional Unit Testing for Vue
+    - Currently Vue has to skip many tests due to how Virtual DOM works differently than templating
+    - Possbily a new page, not yet decided on, low priority as everything works and it passes many tests
+    - Currently many tests fail in IE with the Vue, however all demos work correctly
 
 *) Add an optional property to the main DataFormsJS/app File to display a progress element
    while scripts are being loaded in-between routes when using `app.lazyLoad`
@@ -98,7 +108,7 @@ TODO List
     - More unit testing (every line of code needs to be verified), unit tests run from:
         http://127.0.0.1:5000/unit-testing-react
         http://127.0.0.1:5000/unit-testing-preact
-    - It's possible that every line it tested but it's not yet known for sure 
+    - It's possible that every line it tested but it's not yet known for sure
     - Possible new functions to support JavaScript version by year for new Sytax, example:
         jsxLoader.requireES2018 = function() {
             this.evalCode = '"use strict"; const { id, ...other } = { id:123, test:456 };';
@@ -161,12 +171,6 @@ TODO List
         http://127.0.0.1:8080/places-demo-graphql#/en/
         http://127.0.0.1:8080/places-demo-vue#/en/
         http://127.0.0.1:8080/places-demo-react#/en/
-
-*) Most Core Framework Code in [DataForms.js] and [pages/jsonData.js] are Unit Tested for
-        Handlebars, Nunjucks, and Underscore, however similar testing has not yet been
-        started on for Vue. Additional Unit Tests need to be developed for sperate
-        React Components and Web Components.
-    - Overall every line of code needs to be tested for core files
 
 *) Create Server-side Starter Sites in all widely used Languages and Frameworks
     - Include ability for content to be defined server-side and saved to a SQLite Db
@@ -379,10 +383,6 @@ TODO List
           a load balancer will be added.
     - Possibly combine to a single demo and add more AI/ML examples such as Object Detection
 
-*) Add scripts to launch unit tests or examples using the users default browser.
-    - The scripts can be then added to [package.json]
-    - For Unit Testing likely use a puppeteer script
-
 *) Playground Page
     - Optimization - stop/start the timers based on if the tab is active or not?
         https://webkit.org/blog/8970/how-web-content-can-affect-power-usage/
@@ -566,13 +566,6 @@ TODO List
 *) Number and Date/Time formatting for all demos [places-demo-*]
     - Needed on JS and Web Components demos
 
-*) Create Unit Tests for Vue
-    This will be similar to the main unit test files for each template,
-    however there will be many differences so it will take some time to create this.
-
-    To track when controller/plugins are called modify and use this:
-    app.onUpdateViewComplete = function(source) { console.log(source); };
-
 *) Possible Updates for Vue
     SPA is currently required for Vue
     Example Non-SPA demo [DataFormsJS\examples\countries-no-spa-hbs.htm]
@@ -602,11 +595,11 @@ TODO List
                             if (html !== expectHtml2) {
                                 console.log(hash);
                                 console.log(expectHtml2);
-                                console.log(html);    
+                                console.log(html);
                             }
                         }
                         tester.checkElement('view', expectHtml2, assert);
-                    }    
+                    }
 
 *) Additional Unit Testing for the following functions, props, etc:
     data-engine:
