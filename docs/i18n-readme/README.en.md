@@ -125,7 +125,7 @@ This example uses Vue for templating. If you save it with a text editor you can 
         <template data-route="/">
             <h1>Hello World!</h1>
         </template>
-        
+
         <script
             type="text/x-template"
             data-engine="vue"
@@ -161,7 +161,7 @@ This example uses Vue for templating. If you save it with a text editor you can 
 </html>
 ```
 
-This example uses React with the `jsxLoader.min.js` script for converting JSX to JS directly it the browser and it includes DataFormsJS React Components from `DataFormsJS.min.js`. If you copy the contents of this code it will also work in a browser.
+This example uses React with the `jsxLoader.min.js` script for converting JSX to JS directly in the browser and it includes DataFormsJS React Components from `DataFormsJS.min.js`. If you copy the contents of this code it will also work in a browser.
 
 ```html
 <!doctype html>
@@ -246,7 +246,7 @@ The [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master
 
 Initial development and use of DataFormsJS occurred privately in 2013 to allow for rapid development of high quality and bug free Single Page Applications (SPA). DataFormsJS was designed to have a small size, great performance, and to be much faster for development compared to other Frameworks. A few of the reasons for fast development include displaying JSON services using only Markup and Templating (Handlebars, Underscore, etc.) and defining App and Site features using HTML attributes and small JavaScript Plugins.
 
-Early versions of DataFormsJS were used a number of companies in many different types of apps. 
+Early versions of DataFormsJS were used a number of companies in many different types of apps.
 
 Now that both React and Vue have become very popular separate React Components have been developed to help with React Development and the Framework has been expanded to support Vue. Additionally separate Web Components have been developed to allow for similar functionality in modern browsers without using a JavaScript framework.
 
