@@ -63,6 +63,37 @@ TODO List
         This can be done if migrating servers to nginx instead of Apache
     - Recommendation based on Chrome DevTools Lighthouse Audit for Best Practices
 
+**) Markdown Docs to Create
+    - Build Processs
+    - How Unit Testing Works
+        See additional notes in this doc related to Unit Testing
+    - Both of the above topics are covered briefly in:
+        https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
+
+**) Add an optional property to the main DataFormsJS/app File to display a progress element
+   while scripts are being loaded in-between routes when using `app.lazyLoad`
+    - Example:
+        app.settings.progressSelector = '.page-loading'
+    - If the element exists it will be displayed [element.display = ''] and then set back to [element.display = 'none] after
+    - When using lazy loading for JS and CSS files there is typically no noticeable delay
+        on desktops and fast mobile devices. However if large scripts are loaded
+    - Example, uses the places demo SPA from a phone with a slow connection on an old phone.
+      There will be a slight delay loading a city page due to the [leafletjs] being loaded
+      on the first view of the city page.
+        https://www.dataformsjs.com/examples/places-demo-vue.htm
+    - Docs can also be created showing and recommending how to use a CSS delay in showing the element.
+      See example of CSS from the getting start page CSS:
+        https://www.dataformsjs.com/en/getting-started
+        https://d2xbd92kui7v97.cloudfront.net/site/css/getting-started.css
+
+**) Demos
+    - https://www.dataformsjs.com/examples/entry-form-demo-hbs.htm
+        Need Vue and React Versions
+        This will likely require JS updates for Vue and new Compontents for React
+    - https://www.dataformsjs.com/examples/binary-classification-vue.htm#/en/
+        Need a React Version
+        Will likely build a new generic React Component for this
+
 *) Possibly link to Unit Tests from the footer on the main site
     - Current URL (hidden - not linked from anywhere):
         https://www.dataformsjs.com/unit-testing/
@@ -81,22 +112,6 @@ TODO List
     - Currently Vue has to skip many tests due to how Virtual DOM works differently than templating
     - Possbily a new page, not yet decided on, low priority as everything works and it passes many tests
     - Currently many tests fail in IE with the Vue, however all demos work correctly
-
-*) Add an optional property to the main DataFormsJS/app File to display a progress element
-   while scripts are being loaded in-between routes when using `app.lazyLoad`
-    - Example:
-        app.settings.progressSelector = '.page-loading'
-    - If the element exists it will be displayed [element.display = ''] and then set back to [element.display = 'none] after
-    - When using lazy loading for JS and CSS files there is typically no noticeable delay
-        on desktops and fast mobile devices. However if large scripts are loaded
-    - Example, uses the places demo SPA from a phone with a slow connection on an old phone.
-      There will be a slight delay loading a city page due to the [leafletjs] being loaded
-      on the first view of the city page.
-        https://www.dataformsjs.com/examples/places-demo-vue.htm
-    - Docs can also be created showing and recommending how to use a CSS delay in showing the element.
-      See example of CSS from the getting start page CSS:
-        https://www.dataformsjs.com/en/getting-started
-        https://d2xbd92kui7v97.cloudfront.net/site/css/getting-started.css
 
 *) The Hacker News API Demo (link below) will likely be combined into a larger Public API's Demo
     - https://www.dataformsjs.com/examples/hacker-news-react.htm
