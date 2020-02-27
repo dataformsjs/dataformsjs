@@ -11,7 +11,7 @@ Um único arquivo JavaScript `jsxLoader.js` que compila / [transcompila](https:/
 
 **Source:** https://github.com/dataformsjs/dataformsjs/blob/master/js/react/jsxLoader.js
 
-**Demo:** https://www.dataformsjs.com/examples/hello-world/en/react.htm
+**Demo:** https://www.dataformsjs.com/examples/hello-world/pt-BR/react.htm
 
 ## Por quê :question:
 
@@ -107,7 +107,7 @@ O script `jsxLoader.js` é muito pequeno para baixar (5.2 kB - min e em gzip) e 
 
 ## Teste-o online no Code Playground :rocket:
 
-<a href="https://www.dataformsjs.com/en/playground">https://www.dataformsjs.com/en/playground</a>
+<a href="https://www.dataformsjs.com/pt-BR/playground">https://www.dataformsjs.com/pt-BR/playground</a>
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground-React.png" alt="Code Playground do React">
 
