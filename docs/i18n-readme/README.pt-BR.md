@@ -14,7 +14,7 @@ Este repositório contém o framework DataFormsJS, páginas exemplo e testes de 
 
 |<img src="https://www.dataformsjs.com/img/icons/fast.svg" alt="Desenvolvimento Rápido" width="60">|<img src="https://www.dataformsjs.com/img/icons/small-size.svg" alt="Pequeno em Tamanho" width="60">|<img src="https://www.dataformsjs.com/img/icons/light-switch.svg" alt="Fácil de Aprender" width="60">|
 |---|---|---|
-|**Desenvolvimento Rápido** Mostre dados dos serviços Web e GraphQL usando marcação HTML e define as características do App e Site utilizando atributos HTML.|**Tamanho Pequeno** Todos os arquivo são pequenos e baixados somente quando usados permitindo melhor desempenho e um site menor.|**Fácil de Aprender** O DataFormsJS é desenvolvido em torno de HTML, CSS, JavaScript, Modelos e tem uma API minima de JavaScript and HTML para que você possa iniciar imediatamente.|
+|**Desenvolvimento Rápido** Mostre dados dos Web Services e GraphQL usando marcação HTML e define as características do App e Site utilizando atributos HTML.|**Tamanho Pequeno** Todos os arquivo são pequenos e baixados somente quando usados permitindo melhor desempenho e um site menor.|**Fácil de Aprender** O DataFormsJS é desenvolvido em torno de HTML, CSS, JavaScript, Modelos e tem uma API minima de JavaScript and HTML para que você possa iniciar imediatamente.|
 
 |<img src="https://www.dataformsjs.com/img/icons/column.svg" alt="Estabilidade" width="60">|<img src="https://www.dataformsjs.com/img/icons/water.svg" alt="Flexibilidade" width="60">|<img src="https://www.dataformsjs.com/img/icons/star.svg" alt="Sites Melhores" width="60">|
 |---|---|---|
@@ -133,7 +133,7 @@ Este exemplo usa Vue para modelos. Se você salvar isso com um editor de texto p
 </html>
 ```
 
-This example uses React with the `jsxLoader.min.js` script for converting JSX to JS directly it the browser and it includes DataFormsJS React Components from `DataFormsJS.min.js`. If you copy the contents of this code it will also work in a browser.
+Este exemplo utiliza React com o script `jsxLoader.min.js` para converter JSX para JS diretamente no navegador e isto inclui o DataFormsJS React Components do `DataFormsJS.min.js`. Se você copiar o conteúdo deste código, isso funcionará também em um navegador.
 
 ```html
 <!doctype html>
@@ -141,14 +141,14 @@ This example uses React with the `jsxLoader.min.js` script for converting JSX to
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>DataFormsJS Example using React</title>
+        <title>DataFormsJS Exemplo utilizando React</title>
     </head>
     <body>
         <div id="root"></div>
 
         <script type="text/babel">
             function ShowLoading() {
-                return <div className="loading">Loading...</div>;
+                return <div className="loading">Carregando...</div>;
             }
 
             function ShowError(props) {
@@ -158,7 +158,7 @@ This example uses React with the `jsxLoader.min.js` script for converting JSX to
             function ShowCountries(props) {
                 return (
                     <React.Fragment>
-                        <h1>Countries</h1>
+                        <h1>Países</h1>
                         <ul>
                             {props.data && props.data.countries && props.data.countries.map(country => {
                                 return (
@@ -248,9 +248,9 @@ Enquanto o framework DataFormsJS for pequeno ele será geralmente utilizado com 
 
 Além disso em um site maior ou mais complexo, é esperado que código de terceiros aumentem a quantidade de JavaScript. Por exemplo o editor de texto CodeMirror usado no site Code Playground tem em torno 250 KB de tamanho, no entanto o DataFormsJS tem a habilidade de baixar somente código de terceiros quando for necessário.
 
-**How do I use the JSX Loader for React?**
+**Como eu utilizo o JSX Loader para React?**
 
-See the main document: https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
+Veja o documento principal: https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.pt-BR.md
 
 **Quais são os planos futuros para o DataFormsJS?**
 
