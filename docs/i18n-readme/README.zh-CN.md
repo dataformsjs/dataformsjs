@@ -1,12 +1,10 @@
 <p align="center">
-	<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/logo/favicon-144.png">
+	<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/logo/DataFormsJS-144px.png">
 </p>
 
 # :star2: 欢迎来到 DataFormsJS!
 
-**非常感谢您的访问!**
-
-_如果你看到这条信息，说明您是我们最早期的用户!_ 🌠👍
+**非常感谢您的访问!** 🌠👍
 
 DataFormsJS是一个新的JavaScript框架独立于React和Web组件。DataFormsJS体积小，易于学习，设计用于快速开发，并为开发人员和最终用户带来极好的体验。虽然它是新的(2019年11月首次发布)，但DataFormsJS经过多年的编写和使用，非常稳定，包含了大量的单元测试。
 
@@ -22,7 +20,7 @@ DataFormsJS是一个新的JavaScript框架独立于React和Web组件。DataForms
 |---|---|---|
 |**稳定性** 设计用于长期使用；今天使用DataFormsJS开发的站点将工作得很好，并且几十年后也易于维护.|**灵活性** 它可以很好地与其他代码配合使用，并且API的设计具有灵活性和自定义功能。如果可以，您可以使用DataFormsJS构建它.|**更棒的网站** DataFormsJS旨在为开发人员和最终用户提供出色的体验，使您能够创建更好的站点.|
 
-|Works with|<img src="https://www.dataformsjs.com/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://www.dataformsjs.com/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://www.dataformsjs.com/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://www.dataformsjs.com/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|and more!|
+|Works with|<img src="https://www.dataformsjs.com/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://www.dataformsjs.com/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://www.dataformsjs.com/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://www.dataformsjs.com/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|and more!|
 |---|---|---|---|---|---|
 
 |Learn something new!|<div><img src="https://www.dataformsjs.com/img/icons/web-components.svg" alt="Web Components" width="64"></div><div>Web Components</div>|
@@ -135,6 +133,72 @@ dataformsjs
 </html>
 ```
 
+This example uses React with the `jsxLoader.min.js` script for converting JSX to JS directly it the browser and it includes DataFormsJS React Components from `DataFormsJS.min.js`. If you copy the contents of this code it will also work in a browser.
+
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>DataFormsJS Example using React</title>
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <script type="text/babel">
+            function ShowLoading() {
+                return <div className="loading">Loading...</div>;
+            }
+
+            function ShowError(props) {
+                return <div className="error">{props.error}</div>;
+            }
+
+            function ShowCountries(props) {
+                return (
+                    <React.Fragment>
+                        <h1>Countries</h1>
+                        <ul>
+                            {props.data && props.data.countries && props.data.countries.map(country => {
+                                return (
+                                    <li key={country.iso}>{country.country}</li>
+                                )
+                            })}
+                        </ul>
+                    </React.Fragment>
+                )
+            }
+
+            class App extends React.Component {
+                render() {
+                    return (
+                        <ErrorBoundary>
+                            <JsonData
+                                url="https://www.dataformsjs.com/data/geonames/countries"
+                                isLoading={<ShowLoading />}
+                                hasError={<ShowError />}
+                                isLoaded={<ShowCountries />}
+                                loadOnlyOnce={true} />
+                        </ErrorBoundary>
+                    )
+                }
+            }
+
+            ReactDOM.render(
+                <App />,
+                document.getElementById('root')
+            );
+        </script>
+
+        <script src="https://unpkg.com/react@16.12.0/umd/react.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/react/es5/DataFormsJS.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/react/jsxLoader.min.js"></script>
+    </body>
+</html>
+```
+
 ## :handshake: Contributing
 
 **All contributions are welcome.** 对于重大更改，包括中断对现有代码的更改或更新现有图形和文件，请先打开一个问题，讨论您想要更改的内容。要贡献的项目的一些示例:
@@ -166,21 +230,28 @@ DataFormsJS的作者当时有许多繁忙的工作，同时还在从事另一个
 
 _所有大小都基于来自Web服务器的缩小脚本和gzip压缩._
 
-* **DataFormsJS 框架压缩后 – 10 kb** (120 kb 未压缩时)
-* 其他文件 诸如 (controllers, plugins, etc) 一般只有 1-3 kb 每个文件.
+* **DataFormsJS 框架压缩后 – 10 kB** (120 kB 未压缩时)
+* 其他文件 诸如 (controllers, plugins, etc) 一般只有 1-3 kB 每个文件.
 * 通常，在使用框架时，初始页面加载大小约为15KB，然后加载额外插件、页面、控制器等的附加页面大小约为几KB.
-* React (包含所有组件) – 6.1 kb
+
+* **React JSX Loader – 5.2 kB** (77 kB 未压缩时)
+* **React (包含所有组件) – 7 kB**
 * 单独的Reaction组件在解压缩并包含注释时在3到12 KB之间.
 * 每个Web组件通常约为1至3 KB，通常您将使用多个组件，因此在示例应用程序中，每个应用程序的总大小约为15 KB.
 
 虽然DataFormsJS框架很小，但它通常会与较大的模板或视图引擎一起使用:
 
-* Handlebars: ~ 22 kb
-* Vue: ~ 33 kb
-* Underscore: ~ 6 kb
-* Nunjucks - ~ 25 kb
+* React: ~ 40 kB
+* Handlebars: ~ 22 kB
+* Vue: ~ 33 kB
+* Underscore: ~ 6 kB
+* Nunjucks - ~ 25 kB
 
 此外，在复杂或大型站点中，预计第三方代码将占据最大数量的JavaScript。例如，在线运行代码站点上使用的CodeMirror文本编辑器大约为250 KB，但是DataFormsJS能够在需要时仅下载第三方代码.
+
+**How do I use the JSX Loader for React?**
+
+See the main document: https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
 
 **DataFormsJS的未来计划是什么?**
 

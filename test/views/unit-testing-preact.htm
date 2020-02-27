@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>DataFormsJS Preact Components Unit Testing</title>
+        <!-- <link rel="stylesheet" href="vendor/mocha/mocha.css"> -->
+        <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
+        <style>
+			.nav {
+                font-family: Arial, Helvetica, sans-serif;
+                margin: 20px;
+            }
+            .nav div { margin-top:10px; }
+            .error { background-color:red; color:white; padding:2em; font-size:2em; }
+            .browser-warnings { text-align: center; }
+            .browser-warnings > div { 
+                padding: 1em;
+                display: inline-flex;
+                margin: auto;
+                border: 1px solid red;
+                color: red;
+            }
+            #root,
+            .test-content {
+                padding: 50px;
+                border: 1px solid black;
+                margin: 50px;
+                /* display: none; */
+            }
+            #polyfill-status { color:#999; }
+            table { border-collapse: collapse; }
+            table, th, td { border: 1px solid black; padding:.5em 1em; }
+            #mocha-stats { background-color: white; }
+		</style>
+    </head>
+    <body>
+		<div class="nav">
+            <a href="./">Back to all Unit Tests</a>
+            <div id="compile-type">Compiler: <strong></strong></div>
+            <div id="polyfill-status" style="display: none;">(Polyfill Downloaded)</div>
+        </div>
+
+        <div class="browser-warnings">
+            <div class="spread-syntax" style="display: none;"></div>
+        </div>
+        <div id="mocha"></div>
+        <div id="root"></div>
+        <section class="test-content json-data"></section>
+        <section class="test-content json-error"></section>
+        <section class="test-content added-by-test"></section>
+        <section class="test-content spread-syntax"></section>
+
+        <!--
+            Preact
+            https://preactjs.com/
+        -->
+        <script src="https://unpkg.com/preact"></script>
+
+		<!--
+            DataFormsJS JSX Loader
+
+            This should success when using both [jsxLoader.js] and [jsxLoader.min.js].
+            When making updates to the file both need to be tested.
+        -->
+        <script src="/src/react/jsxLoader.min.js"></script>
+        <script>
+            // Setup [jsxLoader.js] to use Preact
+            jsxLoader.usePreact();
+
+            // View content from console if needed:
+            jsxLoader.logCompileTime = true;
+            jsxLoader.logCompileDetails = false;
+        </script>
+
+        <!--
+            DataFormJS React Components (also works with Preact)
+
+            All of these options should work for testing DataFormsJS Components when using Preact.
+
+            # 1) Check the single build file
+            <script src="/src/react/es5/DataFormsJS.min.js"></script>
+
+            # 2) Include individual component files using the es5 build
+            <script src="/src/react/es5/ErrorBoundary.js"></script>
+            <script src="/src/react/es5/PolyfillService.js"></script>
+            <script src="/src/react/es5/JsonData.js"></script>
+            <script src="/src/react/es5/InputFilter.js"></script>
+            <script src="/src/react/es5/SortableTable.js"></script>
+            <script src="/src/react/es5/I18n.js"></script>
+            <script src="/src/react/es5/Format.js"></script>
+            <script src="/src/react/es5/LeafletMap.js"></script>
+            <script src="/src/react/es5/LazyLoad.js"></script>
+
+            # 3) Include individual component source files for babel/jsxLoader - es6 build
+            <script type="text/babel" src="/src/react/es6/ErrorBoundary.js"></script>
+            <script type="text/babel" src="/src/react/es6/PolyfillService.js"></script>
+            <script type="text/babel" src="/src/react/es6/JsonData.js"></script>
+            <script type="text/babel" src="/src/react/es6/InputFilter.js"></script>
+            <script type="text/babel" src="/src/react/es6/SortableTable.js"></script>
+            <script type="text/babel" src="/src/react/es6/I18n.js"></script>
+            <script type="text/babel" src="/src/react/es6/Format.js"></script>
+            <script type="text/babel" src="/src/react/es6/LeafletMap.js"></script>
+            <script type="text/babel" src="/src/react/es6/LazyLoad.js"></script>
+
+            # 4) Minimized individual es6 component files
+            <script type="text/babel" src="/src/react/es6/ErrorBoundary.min.js"></script>
+            <script type="text/babel" src="/src/react/es6/PolyfillService.min.js"></script>
+            <script type="text/babel" src="/src/react/es6/JsonData.min.js"></script>
+            <script type="text/babel" src="/src/react/es6/InputFilter.min.js"></script>
+            <script type="text/babel" src="/src/react/es6/SortableTable.min.js"></script>
+            <script type="text/babel" src="/src/react/es6/I18n.min.js"></script>
+            <script type="text/babel" src="/src/react/es6/Format.min.js"></script>
+            <script type="text/babel" src="/src/react/es6/LeafletMap.min.js"></script>
+            <script type="text/babel" src="/src/react/es6/LazyLoad.min.js"></script>
+        -->
+        <script src="/src/react/es5/DataFormsJS.min.js"></script>
+
+        <!--
+            https://mochajs.org/
+
+            <script src="vendor/chai/chai.js"></script>
+            <script src="vendor/mocha/mocha.js"></script>
+
+            <script src="https://unpkg.com/chai/chai.js"></script>
+            <script src="https://unpkg.com/mocha/mocha.js"></script>
+        -->
+        <script src="https://unpkg.com/chai/chai.js"></script>
+        <script src="https://unpkg.com/mocha/mocha.js"></script>
+
+        <!--
+            Unit Testing Scripts
+
+            Files [404.jsx] and [error.jsx] are included to make sure
+            that content is still loaded from [unit-testing.jsx].
+
+            The inline babel scripts are dependant on each other in the order
+            defined and both must be loaded after [unit-testing.jsx]. This is
+            done to verify that [jsxLoader.js] adds scripts in the correct order.
+
+            [unit-testing-spread.jsx] does not depend on any other files but
+            it is seperated from other code because it will not work with all
+            commonly used modern browsers (as of early 2020).
+        -->
+        <script type="text/babel">
+            class App extends React.Component {
+                render() {
+                    return <UnitTestPage />
+                }
+            }
+        </script>
+        <script type="text/babel">
+            ReactDOM.render(
+                <App />,
+                document.getElementById('root')
+            );
+
+            ReactDOM.render(
+                <TestJsonDataSuccess />,
+                document.querySelector('.test-content.json-data')
+            );
+
+            ReactDOM.render(
+                <TestJsonDataError />,
+                document.querySelector('.test-content.json-error')
+            );
+        </script>
+        <script type="text/babel" src="js/404.jsx"></script>
+        <script type="text/babel" src="js/error.jsx"></script>
+        <script type="text/babel" src="js/unit-testing.jsx"></script>
+        <script type="text/babel" src="js/unit-testing-spread.jsx"></script>
+
+        <!--
+            This will be loaded by a Unit Test. Only scripts with [type="text/babel"]
+            are processed automatically when the page loads.
+        -->
+        <script type="text/jsx">
+            ReactDOM.render(
+                <div>Hello World</div>,
+                document.querySelector('.test-content.added-by-test')
+            );
+        </script>
+
+        <!--
+            Mocha Setup
+        -->
+        <script class="mocha-init">
+            mocha.setup({
+                ui: 'bdd',
+                globals: [
+                    // Prevent known errors from React and Vue Dev Tools.
+                    // Mocha will show errors from these due to `checkLeaks()`.
+                    '__VUE_DEVTOOLS_TOAST__',
+                    '__REACT_DEVTOOLS_COMPONENT_FILTERS__',
+                    '__REACT_DEVTOOLS_APPEND_COMPONENT_STACK__',
+                    // Global variables defined during testing by [page.jsx]
+                    'testJsonDataHtml',
+                    'testJsonDataErrorHtml',
+                ],
+            });
+            mocha.checkLeaks();
+        </script>
+        <script src="js/unit-testing-react.js"></script>
+        <script class="mocha-exec" src="js/unit-testing-react-setup.js"></script>
+    </body>
+</html>

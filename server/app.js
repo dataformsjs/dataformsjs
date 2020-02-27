@@ -1,74 +1,84 @@
 /**
- * App Object for DataFormsJS Unit Tests and Demos with Node.js
+ * Web Server Object for DataFormsJS Unit Tests and Demos with Node.js
  *
  * This script allows for a basic web server to define routes in a similar to
  * Express and other popular frameworks but only use Node.js built-in features
- * without any outside dependencies. This script is very minimal by design and
- * only for very basic request and response features needed for demos and
- * unit testing for developers.
+ * without any outside dependencies.
  *
- * This script uses only one object for routing, reading of the request, and
- * sending the response. Node.js built-in Request and Response objects are used
- * and passed in callbacks by the script.
+ * Important - This script is very minimal by design and only allows for
+ * very basic request and response features needed for local development,
+ * it works well but has few features so is not intended for production apps.
  *
- * In its current state this script should not be considered secure for
- * production use. This script uses no error handling so if an error occurs
- * then node crashes and has to be re-started.
- * 
+ * Since this file is small you can step through the code using a debugger
+ * which makes it is usefull for learning purposes.
+ *
+ * Example Usage:
+ *     examples/server.js    https://github.com/dataformsjs/dataformsjs/blob/master/examples/server.js
+ *     test/server.js        https://github.com/dataformsjs/dataformsjs/blob/master/test/server.js
+ *
  * @link     https://www.dataformsjs.com
  * @author   Conrad Sollitt (http://www.conradsollitt.com)
  * @license  MIT
  */
 
-/* Validates with [jshint] */
-/* jshint esversion:6 */
-/* global require, module, Buffer */
+/* Validates online with both [jshint] and [eslint] */
+/* Select [ECMA Version] = 2018 for [eslint] */
+/* jshint esversion:8, node:true */
+/* eslint-env node, es6 */
+
+'use strict';
 
 const http = require('http');
 const url = require('url');
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
 
-const mimeTypes = {
-    htm: 'text/html; charset=UTF-8',
-    html: 'text/html; charset=UTF-8',
-    css: 'text/css',
-    js: 'application/javascript',
-    jsx: 'application/jsx',
-    json: 'application/json',
-    graphql: 'application/graphql',
-    png: 'image/png',
-    jpg: 'image/jpeg',
-    svg: 'image/svg+xml',
-    ico: 'image/x-icon',
-};
-
-const binaryFiles = ['png', 'jpg', 'ico'];
-
-// Export an Object which contains defined routes, and starts the server.
-// Functions that start with [send*] such as [sendJson()] are used for
-// sending the response and functions that start with [read*] are for
-// reading request input.
-module.exports = {
-    // Array of defined routes
+const app = {
+    // Arrays for middleware and routes
+    middleware: [ setupResponse ],
     routes: [],
+
+    // Config Options
+    mimeTypes: {
+        htm: 'text/html; charset=UTF-8',
+        html: 'text/html; charset=UTF-8',
+        css: 'text/css',
+        txt: 'text/plain',
+        js: 'application/javascript',
+        jsx: 'application/jsx',
+        json: 'application/json',
+        graphql: 'application/graphql',
+        png: 'image/png',
+        jpg: 'image/jpeg',
+        svg: 'image/svg+xml',
+        ico: 'image/x-icon',
+    },
+
+    // Add Middleware
+    use: function (callback) {
+        this.middleware.push(callback);
+    },
 
     // Add a GET Route
     get: function (path, callback) {
-        this.routes.push({path: path, method: 'GET', callback: callback});
+        this.routes.push({ path: path, method: 'GET', callback: callback });
     },
 
     // Add a POST Route
     post: function (path, callback) {
-        this.routes.push({path: path, method: 'POST', callback: callback});
+        this.routes.push({ path: path, method: 'POST', callback: callback });
     },
 
-    // Used to check if a route matches
+    // Allow the route to handle ANY method
+    route: function (path, callback) {
+        this.routes.push({ path: path, method: null, callback: callback });
+    },
+
+    // Used to check if a route matches, returns an array of [bool:matches, array:args]
     routeMatches: (pattern, path) => {
         // Quick check for exact match
         if (pattern === path && pattern.indexOf(':') === -1) {
-            return [ true, null ];
+            return [ true, [] ];
         }
 
         // Check for ':variables' and add to an array
@@ -81,7 +91,7 @@ module.exports = {
                     if (patternParts[n].length > 0 && patternParts[n].indexOf(':') === 0) {
                         args.push(decodeURIComponent(pathParts[n]));
                     } else {
-                        return [ false, null ];
+                        return [ false, [] ];
                     }
                 }
             }
@@ -93,143 +103,152 @@ module.exports = {
     },
 
     // Call this to start the server
-    run: function (hostname, port, sitedir) {
-        const server = http.createServer((req, res) => {
-            // Match to request to a defined route
-            const reqPath = url.parse(req.url).pathname;
-            for (let n = 0, m = this.routes.length; n < m; n++) {
-                // First check method
-                if (this.routes[n].method !== req.method) {
-                    continue;
-                }
-                // Match on path
-                const pattern = this.routes[n].path;
-                const [matches, args] = this.routeMatches(pattern, reqPath);
-                if (matches) {
-                    if (args) {
-                        this.routes[n].callback.apply(null, [req, res].concat(args));
+    run: function(port, siteRootDir) {
+        const server = http.createServer(async (req, res) => {
+            try {
+                // Call middleware functions
+                for (let n = 0, m = this.middleware.length; n < m; n++) {
+                    const fn = this.middleware[n];
+                    if (fn.constructor.name === 'AsyncFunction') {
+                        await fn(req, res);
                     } else {
-                        this.routes[n].callback(req, res);
+                        fn(req, res);
                     }
+                    // If headers are sent assume that middleware handled the response
+                    if (res.headersSent) {
+                        return;
+                    }
+                }
+
+                // Match the requested path to a defined route
+                const reqMethod = req.method;
+                const reqPath = url.parse(req.url).pathname;
+                for (let n = 0, m = this.routes.length; n < m; n++) {
+                    // First check method [GET|POST|HEAD]
+                    const method = this.routes[n].method;
+                    if (!(method === reqMethod || (method === 'GET' && reqMethod === 'HEAD') || method === null)) {
+                        continue;
+                    }
+                    // Match on path
+                    const pattern = this.routes[n].path;
+                    const [matches, args] = this.routeMatches(pattern, reqPath);
+                    if (matches) {
+                        const fn = this.routes[n].callback;
+                        if (fn.constructor.name === 'AsyncFunction') {
+                            await fn.apply(null, [req, res].concat(args));
+                        } else {
+                            fn.apply(null, [req, res].concat(args));
+                        }
+                        return;
+                    }
+                }
+
+                // Does the request path match a file under the site's root directory? If so and
+                // `siteRootDir` is defined then the file will be sent, otherwise send a 404.
+                // A security check against Path Traversal Attacks in first performed in case
+                // this script is used on production servers.
+                if (siteRootDir === undefined || (reqPath.includes('../') || reqPath.includes('..\\'))) {
+                    res.pageNotFound();
                     return;
                 }
-            }
-            // Does the request path match a file in the in or under the current directory?
-            // If so the file will be sent, otherwise a 404 'Not Found' Response.
-            const filePath = path.join(sitedir, reqPath);
-            this.sendFile(res, filePath);
-        });
-
-        server.listen(port, hostname, () => {
-            console.log(`Server running at http://${hostname}:${port}/`);
-        });
-    },
-
-    // Send an HTML Response
-    sendHtml: (res, html, headers = {}) => {
-        headers['Content-Type'] = 'text/html; charset=UTF-8';
-        res.writeHead(200, headers);
-        res.end(html);
-    },
-
-    // Send a JSON Response
-    sendJson: (res, data, headers = {}) => {
-        headers['Content-Type'] = 'application/json';
-        res.writeHead(200, headers);
-        res.end(JSON.stringify(data));
-    },
-
-    // Send a Text Response
-    sendText: (res, text, headers = {}) => {
-        headers['Content-Type'] = 'text/plain';
-        res.writeHead(200, headers);
-        res.end(text);
-    },
-
-    // Open a file and then call a callback function.
-    // If file doesn't exist return a 404.
-    openFile: (res, filePath, callback) => {
-        fs.readFile(filePath, (err, content) => {
-            if (err && err.code === 'ENOENT') {
-                res.statusCode = 404;
-                res.end('<h1>Page not found</h1>');
-            } else if (err) {
-                res.statusCode = 500;
-                res.end('<h1>Server Error</h1><p>' + err.toString() + '</p>');
-            } else {
-                const data = filePath.split('.');
-                const fileType = data[data.length-1];
-                if (binaryFiles.includes(fileType)) {
-                    callback(content.toString('binary'));
-                } else {
-                    callback(content.toString());
-                }
+                const filePath = path.join(siteRootDir, reqPath);
+                res.file(filePath);
+            } catch (err) {
+                res.error(err);
             }
         });
-    },
 
-    // Send a Response from a File
-    sendFile: function(res, filePath, headers = {}) {
-        this.openFile(res, filePath, (content) => {
-            // Only send supported file types otherwise return a 404 error
-            const data = filePath.split('.');
-            const fileType = data[data.length-1];
-            if (mimeTypes[fileType] === undefined) {
-                res.statusCode = 404;
-                res.end('<h1>Page not found</h1>');
-            } else {
-                const isBinary = binaryFiles.includes(fileType);
-                headers['Content-Type'] = mimeTypes[fileType];
-                res.writeHead(200, headers);
-                res.end(content, (isBinary ? 'binary' : 'utf8'));
-            }
+        server.listen(port, null, () => {
+            console.log(`Server running at http://127.0.0.1:${port}/`);
         });
     },
 
-    // Send an ETag Response. Note, this is a very basic check
-    // and not a full featured 304 response function.
-    sendETag: (req, res, text, headers = {}) => {
-        // Use MD5 and a Weak ETag for the Response.
-        const md5 = crypto.createHash('md5').update(text).digest('hex');
-        const etag = 'W/"' + md5 + '"';
-        headers.ETag = etag;
-
-        // Compare to Request 'If-None-Match' header. If content is
-        // an exact match then send a 304 'Not Modified' Response.
-        const ifNoneMatch = (req.headers['if-none-match'] === undefined ? null : req.headers['if-none-match']);
-        if (ifNoneMatch === etag) {
-            res.writeHead(304, headers);
-            res.end();
-        } else {
-            res.writeHead(200, headers);
-            res.end(text);
+    // Helper function
+    escapeHtml: (text) => {
+        if (text === undefined || text === null || typeof text === 'number') {
+            return text;
         }
-    },
-
-    // Read Posted Content from the Request
-    readContent: (req, callback) => {
-        let content = [];
-        req.on('data', (chunk) => {
-            content.push(chunk);
-        }).on('end', () => {
-            content = Buffer.concat(content).toString();
-            callback(content);
-        });
-    },
-
-    // Read and Parse a Basic Form POST. This function expects a valid
-    // Form Post and doesn't handle multipart forms with files.
-    readForm: function (req, callback) {
-        this.readContent(req, (content) => {
-            let list = content.split('&');
-            const form = {};
-            list.forEach((item) => {
-                const parts = item.split('=');
-                const field = decodeURIComponent(parts[0]);
-                const value = decodeURIComponent(parts[1]);
-                form[field] = value;
-            });
-            callback(form);
-        });
+        return String(text)
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
     },
 };
+
+function setupResponse(req, res) {
+    // Allow middleware to add callback functions that get called on `res.send`
+    res.onSend = [];
+
+    // Send an HTML Response
+    res.html = (html) => {
+        res.setHeader('Content-Type', 'text/html; charset=UTF-8');
+        res.send(html);
+    };
+
+    // Send a JSON Response
+    res.json = (data) => {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(data));
+    };
+
+    // Send a Text Response
+    res.text = (text) => {
+        res.setHeader('Content-Type', 'text/plain');
+        res.send(text);
+    };
+
+    // Send a 404 Page as an HTML Response
+    res.pageNotFound = () => {
+        res.statusCode = 404;
+        res.html('<h1>Page not found</h1>');
+    };
+
+    // Log error to console and send error in a 500 page as an HTML Response
+    res.error = (err) => {
+        console.error(err);
+        res.statusCode = 500;
+        const html = `<h1>An error has occurred</h1><p><pre>${app.escapeHtml(err.stack ? err.stack.toString() : err.toString())}</pre></p>`;
+        res.html(html);
+    };
+
+    // Send a Response from a File. If the file doesn't exist or the file type is
+    // not defined in mimeTypes then a 404 HTML Response will be sent to the client.
+    res.file = (filePath) => {
+        const data = filePath.split('.');
+        const fileType = data[data.length-1];
+        if (app.mimeTypes[fileType] === undefined) {
+            res.pageNotFound(); // File type not supported
+            return;
+        }
+        fs.readFile(filePath, (err, content) => {
+            if (err && err.code === 'ENOENT') {
+                res.pageNotFound(); // File not found
+            } else if (err) {
+                res.error(err);
+            } else {
+                res.setHeader('Content-Type', app.mimeTypes[fileType]);
+                res.send(content);
+            }
+        });
+    };
+
+    // Used internally once headers and status code are defined
+    res.send = (content) => {
+        // Middleware callback functions
+        for (let n = 0, m = res.onSend.length; n < m; n++) {
+            res.onSend[n](content);
+        }
+
+        // Send content
+        if (req.method === 'HEAD' || res.statusCode === 204 || res.statusCode === 304) {
+            res.end();
+        } else {
+            res.end(content);
+        }
+    };
+}
+
+// Export the app object
+module.exports = app;

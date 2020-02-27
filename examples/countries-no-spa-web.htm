@@ -18,7 +18,7 @@
     <body>
         <div id="view">
             <h1>Countries</h1>
-            
+
             <json-data url="https://www.dataformsjs.com/data/geonames/countries">
                 <is-loading>
                     <span class="loading">Loading...</span>
@@ -36,11 +36,6 @@
                         placeholder="Enter filter, example 'North America'">
 
                     <p>Click on a column to sort rows based on column values.</p>
-                    <p>
-                        <a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/countries-no-spa-web.htm" target="_blank">
-                            <img src="https://www.dataformsjs.com/img/logos/GitHub-Mark-32px.png" alt="GitHub">
-                        </a>
-                    </p>
 
                     <data-table
                         data-bind="countries"
@@ -55,21 +50,21 @@
     </div>
 
     <!-- DataFormsJS Web Components -->
-    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/web-components/url-hash-router.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/web-components/json-data.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/web-components/data-table.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/web-components/input-filter.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/web-components/sortable-table.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/web-components/url-hash-router.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/web-components/json-data.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/web-components/data-table.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/web-components/input-filter.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/web-components/sortable-table.min.js"></script>
 
     <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
-    <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/web-components/safari-nomodule.min.js"></script>
-    <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/web-components/old-browser-warning.min.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/web-components/safari-nomodule.min.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/web-components/old-browser-warning.min.js"></script>
 
     <!--
         Add images to the <table is="data-table"> element using standard JavaScript DOM methods
     -->
     <script type="module">
-        import { componentsAreSetup } from 'https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/web-components/utils.min.js';
+        import { componentsAreSetup } from 'https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/web-components/utils.min.js';
 
         const jsonData = document.querySelector('json-data');
         if (jsonData !== null) {
@@ -103,7 +98,7 @@
                 flag.className = iso + ' flag';
                 row.cells[1].insertAdjacentElement('afterbegin', flag);
             }
-        }   
+        }
     </script>
 </body>
 </html>

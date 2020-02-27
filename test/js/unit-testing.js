@@ -1,10 +1,14 @@
 /**
  * DataFormsJS Unit Testing
- * 
+ *
  * This is the main file for testing the Framework.
  *
  * Unit Testing runs in the Browser using QUnit.
  * See instructions in [../server.js].
+ * 
+ * NOTE - Vue was added several years after this file was creatd
+ * and because the behavior of Vue is different from Templating (Handlebars, etc)
+ * many tests and checks have to be skipped for Vue.
  */
 
 /* Validates with both [jshint] and [eslint] */
@@ -15,11 +19,13 @@
 /* eslint strict: ["error", "function"] */
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint no-console: ["error", { allow: ["log", "warn", "error"] }] */
+/* eslint no-prototype-builtins: "off" */
 
 (function () {
     'use strict';
 
     var isIE = (navigator.userAgent.indexOf('Trident/') !== -1);
+    var isFirefox = (navigator.userAgent.indexOf('Firefox/') !== -1);
 
     document.addEventListener('DOMContentLoaded', function () {
         // Default expected DataFormJS Settings based on the current page
@@ -45,15 +51,16 @@
             assert.deepEqual(app.settings.requestHeadersByHostName, {}, 'Default Settings for app.settings.requestHeadersByHostName: ' + JSON.stringify(app.settings.requestHeadersByHostName));
             assert.equal(app.settings.errors.pageLoading, 'Error loading the current page because the previous page is still loading and is taking a long time. Please refresh the page and try again.', 'Default settings for app.settings.errors.pageLoading: ' + app.settings.errors.pageLoading);
             assert.equal(Object.keys(app.settings).length, 9, 'Number of properties in app.settings');
-            
+
             switch (app.viewEngine()) {
                 case 'Handlebars':
                 case 'Nunjucks':
                 case 'Underscore':
-                    assert.ok(true, 'app.getGobalViewEngine() - ' + app.viewEngine());
+                case 'Vue':
+                    assert.ok(true, 'app.viewEngine() - ' + app.viewEngine());
                     break;
                 default:
-                    assert.ok(false, 'app.getGobalViewEngine() - ' + app.viewEngine());
+                    assert.ok(false, 'app.viewEngine() - ' + app.viewEngine());
             }
 
             switch (app.viewEngine()) {
@@ -112,6 +119,13 @@
             assert.ok(div.childNodes[1].textContent, expectedMessage);
             div.querySelector('span').click();
             script.type = startingScriptType;
+        });
+
+        QUnit.test('Check Polyfills from [js/scripts/polyfills.js]', function (assert) {
+            assert.equal('\t\n test '.trimLeft(), 'test ', 'String.prototype.trimLeft()');
+            assert.equal('\t\n test '.trimStart(), 'test ', 'String.prototype.trimStart()');
+            assert.equal(' test \t\n'.trimRight(), ' test', 'String.prototype.trimRight()');
+            assert.equal(' test \t\n'.trimEnd(), ' test', 'String.prototype.trimEnd()');
         });
 
         QUnit.test('Redirect with [app.settings.defaultRoute] with [/404] Route', function (assert) {
@@ -182,7 +196,8 @@
             var expectedHtml = 'Template View';
             var shouldCompileTemplate = true;
             tester.pageTester(hash, shouldCompileTemplate, expectedHtml, assert, done, function () {
-                var type = app.getTemplateType(document.querySelector('template[data-route="/template-view"'));
+                // script[data-engine="text"] is for IE
+                var type = app.getTemplateType(document.querySelector('template[data-route="/template-view"],script[data-engine="text"][data-route="/template-view"]'));
                 assert.equal(type, 'Text', 'app.getTemplateType(<template>): ' + type);
             });
         });
@@ -975,8 +990,8 @@
                         'box-shadow': [
                             '0px 1px 5px 0px rgba(0,0,0,0.5)',
                             '0 1px 5px 0 rgba(0,0,0,.5)',
-                              'rgba(0, 0, 0, 0.5) 0px 1px 5px 0px',
-                              'rgba(0, 0, 0, 0.498039) 0px 1px 5px 0px',
+                            'rgba(0, 0, 0, 0.5) 0px 1px 5px 0px',
+                            'rgba(0, 0, 0, 0.498039) 0px 1px 5px 0px',
                         ],
                         'z-index': '1000000',
                         'padding': '20px',
@@ -1002,33 +1017,46 @@
                         'margin-left': '10px',
                         'box-shadow': [
                             '0 0 2px 1px rgba(0,0,0,0.3)',
-                              'rgba(0, 0, 0, 0.3) 0px 0px 2px 1px',
-                              'rgba(0, 0, 0, 0.298039) 0px 0px 2px 1px',
+                            '0px 0px 2px 1px rgba(0,0,0,0.3)',
+                            'rgba(0, 0, 0, 0.3) 0px 0px 2px 1px',
+                            'rgba(0, 0, 0, 0.298039) 0px 0px 2px 1px',
                         ],
                         'background-image': 'linear-gradient(rgb(204, 0, 0), rgb(170, 0, 0))',
                         'border-radius': '5px',
                     }
                 }
             ];
-            if (!isIE) {
-                elements.forEach(function(element) {
-                    var tagName = element.el.tagName;
-                    var cssProps = element.cssProps;
-                    for (var prop in cssProps) {
-                        if (cssProps.hasOwnProperty(prop)) {
-                            var expected = cssProps[prop];
-                            var value = window.getComputedStyle(element.el, null).getPropertyValue(prop);
-                            var description = tagName + ' CSS Computed Value [' + prop + ']: ' + value;
-                            if (Array.isArray(expected)) {
-                                var found = (expected.indexOf(value) !== -1);
-                                assert.ok(found, description);
-                            } else {
-                                assert.equal(value, expected, description);
-                            }
+            // Both IE and Firefox return empty strings '' when using shorthand properties
+            // [margin/padding/etc]. To get them to work they would require long or full properties:
+            // ['margin-right', 'border-top-left-radius', 'border-bottom-color']. Rather than checking
+            // a large list the shorthand properties are simply removed for browsers that do not
+            // support them. If any changes are made they need to be visualy confirmed with all
+            // supported browsers.
+            if (isIE || isFirefox) {
+                delete elements[0].cssProps.margin;
+                delete elements[0].cssProps.padding;
+                delete elements[1].cssProps.margin;
+                delete elements[1].cssProps.padding;
+                delete elements[1].cssProps.border;
+                delete elements[1].cssProps['border-radius'];
+            }
+            elements.forEach(function(element) {
+                var tagName = element.el.tagName;
+                var cssProps = element.cssProps;
+                for (var prop in cssProps) {
+                    if (cssProps.hasOwnProperty(prop)) {
+                        var expected = cssProps[prop];
+                        var value = window.getComputedStyle(element.el, null).getPropertyValue(prop);
+                        var description = tagName + ' CSS Computed Value [' + prop + ']: ' + value;
+                        if (Array.isArray(expected)) {
+                            var found = (expected.indexOf(value) !== -1);
+                            assert.ok(found, description);
+                        } else {
+                            assert.equal(value, expected, description);
                         }
                     }
-                });
-            }
+                }
+            });
 
             // Close the fatal error alert by clicking the [X] button
             assert.ok(div.parentNode === document.querySelector('body'), 'Checking Parent Node of [.dataformsjs-fatal-error] before [X] button click');
@@ -1081,7 +1109,7 @@
         // Test the [app.showError()] function, this is similar to
         // the above Test related to [app.showErrorAlert()]
         QUnit.test('app.showError()', function (assert) {
-            var expected, value, description;
+            var expected, value, description, outerHTML;
 
             // Make sure the error style element does not exist
             var errorStyle = document.getElementById('dataformsjs-style-errors');
@@ -1091,7 +1119,9 @@
             var view = document.querySelector(app.settings.viewSelector);
             view.innerHTML = '<strong>Content</strong>';
             expected = '<div id="view" style="display:none;"><strong>Content</strong></div>';
-            assert.equal(view.outerHTML, expected, 'Checking View Outer HTML: ' + view.outerHTML);
+            outerHTML = view.outerHTML;
+            outerHTML = outerHTML.replace('display: none;', 'display:none;'); // This is known to happen with IE 11
+            assert.equal(outerHTML, expected, 'Checking View Outer HTML: ' + view.outerHTML);
 
             // Call function
             var errorText = 'Test with app.showError()';
@@ -1106,7 +1136,9 @@
             assert.equal(view.childNodes.length, 1, 'Checking View Child Nodes: ' + view.childNodes.length);
             assert.equal(view.textContent, errorText, 'Checking View Text: ' + view.textContent);
             expected = '<div id="view" style="display:none;"><span class="dataformsjs-error">Test with app.showError()</span></div>';
-            assert.equal(view.outerHTML, expected, 'Checking View Outer HTML: ' + view.outerHTML);
+            outerHTML = view.outerHTML;
+            outerHTML = outerHTML.replace('display: none;', 'display:none;'); // This is known to happen with IE 11
+            assert.equal(outerHTML, expected, 'Checking View Outer HTML: ' + view.outerHTML);
 
             // Check the expected style
             var span = view.querySelector('.dataformsjs-error');
@@ -1120,27 +1152,31 @@
                 'box-shadow': [
                     '0px 1px 5px 0px rgba(0,0,0,0.5)',
                     '0 1px 5px 0 rgba(0,0,0,.5)',
-                      'rgba(0, 0, 0, 0.5) 0px 1px 5px 0px',
-                      'rgba(0, 0, 0, 0.498039) 0px 1px 5px 0px',
+                    'rgba(0, 0, 0, 0.5) 0px 1px 5px 0px',
+                    'rgba(0, 0, 0, 0.498039) 0px 1px 5px 0px',
                 ],
-                'padding': '10px',
+                'padding-left': '10px',
+                'padding-right': '10px',
+                'padding-top': '10px',
+                'padding-bottom': '10px',
                 'font-size': '16px',
-                'margin': '5px',
+                'margin-left': '5px',
+                'margin-right': '5px',
+                'margin-top': '5px',
+                'margin-bottom': '5px',
                 'display': 'inline-block',
             };
 
-            if (!isIE) {
-                for (var prop in cssProps) {
-                    if (cssProps.hasOwnProperty(prop)) {
-                        expected = cssProps[prop];
-                        value = window.getComputedStyle(span, null).getPropertyValue(prop);
-                        description = 'Error CSS Computed Value [' + prop + ']: ' + value;
-                        if (Array.isArray(expected)) {
-                            var found = (expected.indexOf(value) !== -1);
-                            assert.ok(found, description);
-                        } else {
-                            assert.equal(value, expected, description);
-                        }
+            for (var prop in cssProps) {
+                if (cssProps.hasOwnProperty(prop)) {
+                    expected = cssProps[prop];
+                    value = window.getComputedStyle(span, null).getPropertyValue(prop);
+                    description = 'Error CSS Computed Value [' + prop + ']: ' + value;
+                    if (Array.isArray(expected)) {
+                        var found = (expected.indexOf(value) !== -1);
+                        assert.ok(found, description);
+                    } else {
+                        assert.equal(value, expected, description);
                     }
                 }
             }
@@ -1233,6 +1269,11 @@
         QUnit.test('Route Change and Event Order', function (assert) {
             // Asynchronous test
             var done = assert.async();
+            if (app.viewEngine() === 'Vue') {
+                assert.ok(true, 'Test Skipped for Vue');
+                done();
+                return;
+            }
 
             // Define Test URL Hash
             var hash = '#/event-order';
@@ -1330,9 +1371,14 @@
             window.location.hash = path;
         });
 
-        QUnit.test('Check for a Dynamic [app.activeModel] Object when the Controller doesn\'t have a model', function (assert) {
+        QUnit.test("Check for a Dynamic [app.activeModel] Object when the Controller doesn't have a model", function (assert) {
             // Asynchronous test
             var done = assert.async();
+            if (app.viewEngine() === 'Vue') {
+                assert.ok(true, 'Test Skipped for Vue');
+                done();
+                return;
+            }
 
             // Define controller without a view. The URL hash change
             // will trigger [onRendered()].
@@ -1428,6 +1474,11 @@
         QUnit.test('View Controls', function (assert) {
             // Asynchronous test
             var done = assert.async();
+            if (app.viewEngine() === 'Vue') {
+                assert.ok(true, 'Test Skipped for Vue');
+                done();
+                return;
+            }
 
             // Define Test URL Hash
             var hash = '#/control-test';
@@ -1601,10 +1652,11 @@
                     case 'Underscore':
                         errorType = 'SyntaxError';
                         // [Underscore] will return different error messages for different browsers
-                        // so currently on the first word of the error messages is checked. Examples:
+                        // so don't check the actual error text
                         //	 Chrome on Mac: 'Unexpected token )'
                         //	 Safari on Mac: 'Unexpected end of script'
-                        errorStart = 'Unexpected ';
+                        //   Firefox Windows: 'missing } after function body'
+                        errorStart = '';
                         break;
                 }
 
@@ -1836,6 +1888,11 @@
         QUnit.test('app - Miscellaneous Functions', function (assert) {
             // Asynchronous test
             var done = assert.async();
+            if (window.Vue !== undefined) {
+                assert.ok(true, 'Test Skipped for Vue');
+                done();
+                return;
+            }
 
             // Define a private function that gets called later in this test
             // to run a variety of tests on the DataFormsJS Framework.
@@ -2004,6 +2061,11 @@
         QUnit.test('app - Error - Invalid Controller - Missing [viewId] and [viewUrl] after defining [viewId]', function (assert) {
             // Asynchronous test
             var done = assert.async();
+            if (window.Vue !== undefined) {
+                assert.ok(true, 'Test Skipped for Vue');
+                done();
+                return;
+            }
 
             // Define a valid controller then modify it to set
             // [viewId] to null after it has been added.
@@ -2028,6 +2090,11 @@
         QUnit.test('app - Error - Invalid Controller - Missing [viewId] and [viewUrl] after defining [viewUrl]', function (assert) {
             // Asynchronous test
             var done = assert.async();
+            if (window.Vue !== undefined) {
+                assert.ok(true, 'Test Skipped for Vue');
+                done();
+                return;
+            }
 
             // Define a valid controller then modify it to set
             // [viewId] to null after it has been added.
@@ -2174,7 +2241,6 @@
                     tester.pageTester(hash, true, expectedHtml, assert, done, function () {
                         app.nunjucksEnvironment = null;
                     });
-                    tester.modelsCount++;
                 });
 
                 // Similar to the above test but not using [app.nunjucksEnvironment]
@@ -2210,7 +2276,6 @@
                     // Change the view
                     window.location.hash = hash;
                     tester.compiledTemplates++;
-                    tester.modelsCount++;
                 });
                 break;
             default:
@@ -2228,8 +2293,8 @@
             var expectedData = { serverMessage: 'Response from Server' };
             tester.pageTester2('#/page-json-data', true, '[page-json-data]Page is Loading', '[page-json-data]Response from Server', expectedData, false, assert, done, function () {
                 // Check jsonData model properties after the view is finished loading
-                var model = app.activeModel;
-                var url = 'unit-testing/page-json-data';
+                var model = (app.activeVueModel === null ? app.activeModel : app.activeVueModel);
+                var url = '/unit-testing/page-json-data';
                 assert.equal(model.url, url, 'Checking model.url: ' + model.url);
                 assert.equal(model.submittedFetchUrl, url, 'Checking model.submittedFetchUrl: ' + model.submittedFetchUrl);
                 assert.equal(model.isLoading, false, 'Checking model.isLoading: ' + model.isLoading);
@@ -2243,11 +2308,23 @@
                 assert.equal(model.errorCount, 0, 'Checking model.errorCount: ' + model.errorCount);
                 assert.ok(typeof model.fetchTimeInMilliseconds() === 'number', 'Checking model.fetchTimeInMilliseconds(): ' + model.fetchTimeInMilliseconds());
 
+                // When IE is used a technique known as Cache Busting is used so the last URL
+                // should look like: '/unit-testing/page-json-data?_=1433806192243'
+                var expectedUrl = /^\/unit-testing\/page-json-data\?_=\d+$/;
+                var lastUrl = tester.submittedUrls[tester.submittedUrls.length - 1];
+                lastUrl = lastUrl.url;
+                if (isIE) {
+                    assert.ok(expectedUrl.test(lastUrl), 'URL for last request is in the expected format for IE: ' + lastUrl);
+                } else {
+                    expectedUrl = '/unit-testing/page-json-data';
+                    assert.equal(lastUrl, expectedUrl, 'URL for last request is in the expected format: ' + lastUrl);
+                }
+
                 // This controller/page as created from HTML script so verify attributes
                 var script = document.querySelector('script[data-route="/page-json-data"]');
                 assert.equal(script.tagName, 'SCRIPT', 'script.tagName: ' + script.tagName);
                 assert.equal(script.getAttribute('data-page'), 'jsonData', 'Script [data-page]: ' + script.getAttribute('data-page'));
-                assert.equal(script.getAttribute('data-url'), 'unit-testing/page-json-data', 'Script [data-url]: ' + script.getAttribute('data-url'));
+                assert.equal(script.getAttribute('data-url'), '/unit-testing/page-json-data', 'Script [data-url]: ' + script.getAttribute('data-url'));
             });
         });
 
@@ -2260,8 +2337,8 @@
             var expectedData = { serverMessage: 'Response from Server' };
             tester.pageTester2('#/page-json-data-with-prop', true, '[page-json-data-with-prop]Page is Loading', '[page-json-data-with-prop]Response from Server', expectedData, false, assert, done, function () {
                 // Check jsonData model properties after the view is finished loading
-                var model = app.activeModel;
-                var url = 'unit-testing/page-json-data';
+                var model = (app.activeVueModel === null ? app.activeModel : app.activeVueModel);
+                var url = '/unit-testing/page-json-data';
                 assert.equal(model.url, url, 'Checking model.url: ' + model.url);
                 assert.equal(model.data.serverMessage, expectedData.serverMessage, 'Checking model.data.serverMessage: ' + model.data.serverMessage);
                 assert.equal(model.loadCount, 1, 'Checking model.loadCount: ' + model.loadCount);
@@ -2282,7 +2359,7 @@
             var expected = '[missing-page-json-data]An error has occurred loading the data. Please refresh the page to try again and if the problem continues contact support.';
             tester.pageTester2('#/missing-page-json-data', true, '[missing-page-json-data]Page is Loading', expected, null, true, assert, done, function () {
                 // Check jsonData model properties
-                var model = app.activeModel;
+                var model = (app.activeVueModel === null ? app.activeModel : app.activeVueModel);
                 assert.equal(model.isLoaded, false, 'Checking model.isLoaded: ' + model.isLoaded);
                 assert.equal(model.hasError, true, 'Checking model.hasError: ' + model.hasError);
                 assert.ok(model.fetchTimeStart instanceof Date, 'Checking model.fetchTimeStart: ' + model.fetchTimeStart);
@@ -2325,6 +2402,11 @@
         QUnit.test('Page jsonData Error Test - Missing Setting', function (assert) {
             // Asynchronous test
             var done = assert.async();
+            if (window.Vue !== undefined) {
+                assert.ok(true, 'Test Skipped for Vue');
+                done();
+                return;
+            }
 
             // Define the Test
             var expectedErrorText = 'Error, unable to fetch data. No URL [data-route | model.url | graphql] was specified for this current route.';
@@ -2332,7 +2414,7 @@
             tester.pageTester('#/page-json-data-missing-route', true, expectedHtml, assert, done, function () {
                 // Check jsonData model properties
                 // model.errorCount is only 1 if the web service was actually called but here it is not
-                var model = app.activeModel;
+                var model = (app.activeVueModel === null ? app.activeModel : app.activeVueModel);
                 assert.equal(model.url, '', 'Checking model.url: ' + model.url);
                 assert.equal(model.submittedFetchUrl, '', 'Checking model.submittedFetchUrl: ' + model.submittedFetchUrl);
                 assert.equal(model.isLoading, false, 'Checking model.isLoading: ' + model.isLoading);
@@ -2371,7 +2453,7 @@
                 assert.equal(model.hasError, true, 'Checking model.hasError: ' + model.hasError);
                 assert.equal(model.loadCount, 1, 'Checking model.loadCount: ' + model.loadCount);
                 assert.equal(model.errorCount, 0, 'Checking model.errorCount: ' + model.errorCount);
-                assert.equal(model.submittedFetchUrl, 'unit-testing/page-json-data-error', 'Checking model.submittedFetchUrl: ' + model.submittedFetchUrl);
+                assert.equal(model.submittedFetchUrl, '/unit-testing/page-json-data-error', 'Checking model.submittedFetchUrl: ' + model.submittedFetchUrl);
 
                 // Check the Response Code of the Submitted Request
                 var lastUrl = tester.submittedUrls[tester.submittedUrls.length - 1];
@@ -2386,6 +2468,11 @@
         QUnit.test('Page jsonData Error Test - Wrong Data Type Returned', function (assert) {
             // Asynchronous test
             var done = assert.async();
+            if (window.Vue !== undefined) {
+                assert.ok(true, 'Test Skipped for Vue');
+                done();
+                return;
+            }
 
             // Define the Test
             var expectedErrorText = 'An error has occurred loading the data. Please refresh the page to try again and if the problem continues contact support.';
@@ -2398,7 +2485,7 @@
                 assert.equal(model.hasError, true, 'Checking model.hasError: ' + model.hasError);
                 assert.equal(model.loadCount, 0, 'Checking model.loadCount: ' + model.loadCount);
                 assert.equal(model.errorCount, 1, 'Checking model.errorCount: ' + model.errorCount);
-                assert.equal(model.submittedFetchUrl, 'unit-testing/plain-text', 'Checking model.submittedFetchUrl: ' + model.submittedFetchUrl);
+                assert.equal(model.submittedFetchUrl, '/unit-testing/plain-text', 'Checking model.submittedFetchUrl: ' + model.submittedFetchUrl);
                 assert.equal(model.errorTextFetchError, expectedErrorText, 'Checking model.errorTextFetchError: ' + model.errorTextFetchError);
 
                 // Check the Response Code of the Submitted Request
@@ -2415,9 +2502,18 @@
         // 1) Load '#/page-reload-json-data'
         // 2) Load '#/'
         // 3) Load '#/page-reload-json-data'
+        //
+        // NOTE - this route often fails in IE 11.
+        // Typically this route and the below route will work 50% of the time and fail 50% of the time.
+        // In all other browsers is should work 100% of the time.
         QUnit.test('Page jsonData with default [loadOnlyOnce=false]', function (assert) {
             // Asynchronous test
             var done = assert.async();
+            if (window.Vue !== undefined) {
+                assert.ok(true, 'Test Skipped for Vue');
+                done();
+                return;
+            }
 
             // 1) Define the First Test Page - '#/page-reload-json-data'
             var hash = '#/page-reload-json-data';
@@ -2452,6 +2548,10 @@
         // 1) Load '#/page-json-data-load-only-once'
         // 2) Load '#/'
         // 3) Load '#/page-json-data-load-only-once'
+        //
+        // NOTE - this route often fails in IE 11.
+        // Typically this route and the above route will work 50% of the time and fail 50% of the time.
+        // In all other browsers is should work 100% of the time.
         QUnit.test('Page jsonData with [loadOnlyOnce=true]', function (assert) {
             // Asynchronous test
             var done = assert.async();
@@ -2492,9 +2592,14 @@
         QUnit.test('Page jsonData with for URL\'s with Named Parameters', function (assert) {
             // Asynchronous test
             var done = assert.async();
+            if (window.Vue !== undefined) {
+                assert.ok(true, 'Test Skipped for Vue');
+                done();
+                return;
+            }
 
             // 1) Define the First Test Page - '#/page-json-data-record/1'
-            var url = 'unit-testing/page-json-data-record/:id';
+            var url = '/unit-testing/page-json-data-record/:id';
             var hash = '#/page-json-data-record/1';
             var hash2 = '#/page-json-data-record/2';
             var loadingMsg = '[page-json-data-record]Page is Loading for 1';
@@ -2504,7 +2609,7 @@
                 var model = app.activeModel;
                 assert.equal(model.loadCount, 1, 'Checking model.loadCount - ' + model.loadCount);
                 assert.equal(model.url, url, 'Checking model.submittedFetchUrl - ' + model.url);
-                assert.equal(model.submittedFetchUrl, 'unit-testing/page-json-data-record/1', 'Checking model.submittedFetchUrl - ' + model.submittedFetchUrl);
+                assert.equal(model.submittedFetchUrl, '/unit-testing/page-json-data-record/1', 'Checking model.submittedFetchUrl - ' + model.submittedFetchUrl);
                 assert.equal(app.buildUrl('/:id/:id'), '/1/1', 'Checking function app.buildUrl("/:id/:id"): "/1/1"');
 
                 // 2) Redirect back to default URL - '#/'
@@ -2519,7 +2624,7 @@
                         var model = app.activeModel;
                         assert.equal(model.loadCount, 2, 'Checking model.loadCount - ' + model.loadCount);
                         assert.equal(model.url, url, 'Checking model.submittedFetchUrl - ' + model.url);
-                        assert.equal(model.submittedFetchUrl, 'unit-testing/page-json-data-record/2', 'Checking model.submittedFetchUrl - ' + model.submittedFetchUrl);
+                        assert.equal(model.submittedFetchUrl, '/unit-testing/page-json-data-record/2', 'Checking model.submittedFetchUrl - ' + model.submittedFetchUrl);
                         assert.equal(app.buildUrl('/:id/:id'), '/2/2', 'Checking function app.buildUrl("/:id/:id"): "/2/2"');
 
                         // 4) Redirect back to default URL - '#/'
@@ -2546,6 +2651,11 @@
         QUnit.test('Page jsonData - Error from model.fetchData() after an intial valid result', function (assert) {
             // Asynchronous test
             var done = assert.async();
+            if (window.Vue !== undefined) {
+                assert.ok(true, 'Test Skipped for Vue');
+                done();
+                return;
+            }
 
             // Get the model of the previous controller and set the URL to ''
             var modelName = app.controller('/page-json-data-load-only-once').modelName;
@@ -2560,6 +2670,11 @@
         // Test JavaScript Controls View
         QUnit.test('Download JavaScript Controls with [app.loadScript()] then Render to a Template', function (assert) {
             var done = assert.async();
+            if (window.Vue !== undefined) {
+                assert.ok(true, 'Test Skipped for Vue');
+                done();
+                return;
+            }
 
             function checkForError() {
                 // This error will be triggered when all controls are un-loaded
@@ -2722,6 +2837,17 @@
             // Call app.setup() again to make sure that it is safe to call twice
             // and that templates and other objects are not redefined.
             app.setup();
+
+            // After Vue runs several global errors will likely appear
+            if (window.Vue !== undefined) {
+                var errors = document.querySelectorAll('.dataformsjs-fatal-error');
+                assert.equal(errors.length, 3, 'Vue Unhandled Global Errors for selector [.dataformsjs-fatal-error]');
+                if (errors.length === 3) {
+                    Array.prototype.forEach.call(errors, function(el) {
+                        el.parentNode.removeChild(el);
+                    });
+                }
+            }
 
             // At the end of this function the hash should be '#/' so that if that page is
             // refresh it will start with the correct route.

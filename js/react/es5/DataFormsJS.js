@@ -3,14 +3,13 @@
 // @license MIT
 "use strict";
 
+if (window.exports === undefined) { window.exports = window; }
+if (window.React === undefined && window.preact !== undefined) { var React = window.preact; }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DataFormsJS = exports.SortableTable = exports.PolyfillService = exports.LeafletMap = exports.JsonData = exports.InputFilter = exports.I18n = exports.Format = exports.ErrorBoundary = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+exports.DataFormsJS = exports.SortableTable = exports.PolyfillService = exports.LeafletMap = exports.LazyLoad = exports.JsonData = exports.InputFilter = exports.I18n = exports.Format = exports.ErrorBoundary = void 0;
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -60,14 +59,14 @@ var ErrorBoundary = function (_React$Component) {
     key: "render",
     value: function render() {
       if (this.state.errorInfo) {
-        return _react.default.createElement('div', null, _react.default.createElement('h2', {
+        return React.createElement('div', null, React.createElement('h2', {
           style: {
             textAlign: 'left',
             color: 'white',
             backgroundColor: '#bc0000',
             padding: '1em'
           }
-        }, 'An error has occurred'), _react.default.createElement('details', {
+        }, 'An error has occurred'), React.createElement('details', {
           style: {
             whiteSpace: 'pre-wrap',
             textAlign: 'left',
@@ -75,7 +74,7 @@ var ErrorBoundary = function (_React$Component) {
             backgroundColor: 'red',
             padding: '1em'
           }
-        }, this.state.error && this.state.error.toString(), _react.default.createElement('br', null), this.state.errorInfo.componentStack));
+        }, this.state.error && this.state.error.toString(), React.createElement('br', null), this.state.errorInfo.componentStack));
       }
 
       return this.props.children;
@@ -83,7 +82,7 @@ var ErrorBoundary = function (_React$Component) {
   }]);
 
   return ErrorBoundary;
-}(_react.default.Component);
+}(React.Component);
 
 exports.ErrorBoundary = ErrorBoundary;
 
@@ -351,6 +350,7 @@ var I18n = function () {
             }
           });
         } else {
+          console.warn('Using class `I18n` without [jsxLoader.js] or a [fetch] polyfill is being depreciated and will be removed in a future release of DataFormsJS. This is due to the planned removal of <PolyfillService>.');
           var xhr = new XMLHttpRequest();
           xhr.open('GET', url);
 
@@ -438,7 +438,7 @@ var InputFilter = function (_React$Component2) {
 
     _this2 = _possibleConstructorReturn(this, _getPrototypeOf(InputFilter).call(this, props));
     _this2.onChange = _this2.onChange.bind(_assertThisInitialized(_this2));
-    _this2.input = _react.default.createRef();
+    _this2.input = React.createRef();
     return _this2;
   }
 
@@ -542,7 +542,14 @@ var InputFilter = function (_React$Component2) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement('input', Object.assign({}, this.props, {
+      if (window !== undefined && window.React === window.preact) {
+        return React.createElement('input', Object.assign({}, this.props, {
+          onInput: this.onChange,
+          ref: this.input
+        }));
+      }
+
+      return React.createElement('input', Object.assign({}, this.props, {
         onChange: this.onChange,
         ref: this.input
       }));
@@ -550,34 +557,36 @@ var InputFilter = function (_React$Component2) {
   }]);
 
   return InputFilter;
-}(_react.default.Component);
+}(React.Component);
 
 exports.InputFilter = InputFilter;
-var dataCache = [];
+var jsonDataCache = [];
+var graphQL_Cache = {};
 
-function saveDataToCache(url, params, data) {
-  for (var n = 0, m = dataCache.length; n < m; n++) {
-    var cache = dataCache[n];
+function saveDataToCache(url, query, params, data) {
+  for (var n = 0, m = jsonDataCache.length; n < m; n++) {
+    var cache = jsonDataCache[n];
 
-    if (cache.url === url) {
+    if (cache.url === url && cache.query === query) {
       cache.params = JSON.stringify(params);
       cache.data = data;
       return;
     }
   }
 
-  dataCache.push({
+  jsonDataCache.push({
     url: url,
+    query: query,
     params: JSON.stringify(params),
     data: data
   });
 }
 
-function getDataFromCache(url, params) {
-  for (var n = 0, m = dataCache.length; n < m; n++) {
-    var cache = dataCache[n];
+function getDataFromCache(url, query, params) {
+  for (var n = 0, m = jsonDataCache.length; n < m; n++) {
+    var cache = jsonDataCache[n];
 
-    if (cache.url === url) {
+    if (cache.url === url && cache.query === query) {
       if (JSON.stringify(params) === cache.params) {
         return cache.data;
       }
@@ -612,7 +621,7 @@ function HasError(props) {
     error = 'Error - ' + error;
   }
 
-  return _react.default.cloneElement(props.children, {
+  return React.cloneElement(props.children, {
     error: error
   });
 }
@@ -620,11 +629,11 @@ function HasError(props) {
 function IsLoaded(props) {
   var show = props.fetchState === 1;
 
-  if (!show) {
+  if (!show || !props.children) {
     return null;
   }
 
-  return _react.default.cloneElement(props.children, {
+  return React.cloneElement(props.children, {
     data: props.data,
     params: props.params,
     handleChange: props.handleChange
@@ -658,6 +667,10 @@ var JsonData = function (_React$Component3) {
     value: function getUrlParams() {
       var params = {};
 
+      if (this.props && this.props.graphQL === true) {
+        return this.props.variables === undefined ? {} : this.props.variables;
+      }
+
       for (var prop in this.props) {
         if (prop !== 'url' && typeof this.props[prop] === 'string') {
           params[prop] = this.props[prop];
@@ -671,8 +684,14 @@ var JsonData = function (_React$Component3) {
     value: function componentDidMount() {
       this._isMounted = true;
 
+      if (this.props.graphQL === true && this.props.query === undefined && this.props.querySrc !== undefined) {
+        if (graphQL_Cache[this.props.querySrc] !== undefined) {
+          this.props.query = graphQL_Cache[this.props.querySrc];
+        }
+      }
+
       if (this.props.loadOnlyOnce) {
-        var data = getDataFromCache(this.props.url, this.getUrlParams());
+        var data = getDataFromCache(this.props.url, this.props.query, this.getUrlParams());
 
         if (data !== null) {
           this.setState({
@@ -683,15 +702,46 @@ var JsonData = function (_React$Component3) {
         }
       }
 
+      if (this.props.graphQL === true && this.props.query === undefined && this.props.querySrc !== undefined) {
+        var querySrc = this.props.querySrc;
+        var jsonData = this;
+        fetch(querySrc, null).then(function (response) {
+          var status = response.status;
+
+          if (status >= 200 && status < 300 || status === 304) {
+            return Promise.resolve(response);
+          } else {
+            var error = 'Error loading data. Server Response Code: ' + status + ', Response Text: ' + response.statusText;
+            return Promise.reject(error);
+          }
+        }).then(function (response) {
+          return response.text();
+        }).then(function (text) {
+          graphQL_Cache[querySrc] = text;
+          jsonData.props.query = graphQL_Cache[querySrc];
+          jsonData.fetchData();
+        }).catch(function (error) {
+          throw new Error('Error Downloading GraphQL Script: [' + querySrc + '], Error: ' + error.toString());
+        });
+        return;
+      }
+
       this.fetchData();
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps, prevState) {
-      var prevUrl = this.buildUrl(prevState.params);
-      var newUrl = this.buildUrl(this.props);
+      var needsRefresh;
 
-      if (prevUrl !== newUrl) {
+      if (this.props.graphQL === true) {
+        needsRefresh = JSON.stringify(prevProps.variables) !== JSON.stringify(this.props.variables);
+      } else {
+        var prevUrl = this.buildUrl(prevState.params);
+        var newUrl = this.buildUrl(this.props);
+        needsRefresh = prevUrl !== newUrl;
+      }
+
+      if (needsRefresh) {
         this.setState({
           params: this.getUrlParams()
         }, this.fetchData);
@@ -707,7 +757,7 @@ var JsonData = function (_React$Component3) {
     value: function buildUrl(params) {
       var url = this.props.url;
 
-      if (Object.keys(params).length > 0) {
+      if (this.props.graphQL !== true && Object.keys(params).length > 0) {
         for (var param in params) {
           if (url.indexOf(':' + param) > -1) {
             url = url.replace(new RegExp(':' + param, 'g'), encodeURIComponent(params[param]));
@@ -743,9 +793,36 @@ var JsonData = function (_React$Component3) {
         options.headers = this.props.fetchHeaders;
       }
 
+      if (this.props.graphQL === true) {
+        var variables = this.props.variables === undefined ? {} : this.props.variables;
+
+        if (window.location.origin === 'file://' || window.location.origin === 'null') {
+          url += url.indexOf('?') === -1 ? '?' : '&';
+          url += 'query=' + encodeURIComponent(this.props.query.trim());
+          url += '&variables=' + encodeURIComponent(JSON.stringify(variables));
+        } else {
+          options.method = 'POST';
+
+          if (options.headers === undefined) {
+            options.headers = {
+              'Content-Type': 'application/json'
+            };
+          } else {
+            options.headers['Content-Type'] = 'application/json';
+          }
+
+          options.body = JSON.stringify({
+            query: this.props.query,
+            variables: variables
+          });
+        }
+      }
+
       this.setState({
         fetchState: 0
       }, function () {
+        _this4.updateView();
+
         fetch(url, options).then(function (response) {
           var status = response.status;
 
@@ -758,15 +835,33 @@ var JsonData = function (_React$Component3) {
         }).then(function (response) {
           return response.json();
         }).then(function (data) {
+          var graphQL = _this4.props.graphQL === true;
+
+          if (graphQL) {
+            if (data.errors && data.errors.length) {
+              var errorMessage;
+
+              if (data.errors.length === 1 && data.errors[0].message) {
+                errorMessage = '[GraphQL Error]: ' + data.errors[0].message;
+              } else {
+                var errorTextGraphQLErrors = typeof _this4.props.errorTextGraphQLErrors === 'string' ? _this4.props.errorTextGraphQLErrors : '{count} GraphQL Errors occured. See console for full details.';
+                errorMessage = errorTextGraphQLErrors.replace('{count}', data.errors.length);
+              }
+
+              console.error(data.errors);
+              throw errorMessage;
+            }
+          }
+
           if (_this4._isMounted) {
             _this4.setState({
               fetchState: 1,
-              data: data
+              data: graphQL ? data.data : data
             });
           }
 
           if (_this4.props.loadOnlyOnce) {
-            saveDataToCache(_this4.props.url, _this4.getUrlParams(), data);
+            saveDataToCache(_this4.props.url, _this4.props.query, _this4.getUrlParams(), graphQL ? data.data : data);
           }
         }).catch(function (error) {
           if (_this4._isMounted) {
@@ -797,18 +892,22 @@ var JsonData = function (_React$Component3) {
     key: "updateView",
     value: function updateView() {
       if (typeof this.props.onViewUpdated === 'function') {
-        this.props.onViewUpdated();
+        try {
+          this.props.onViewUpdated();
+        } catch (e) {
+          console.error(e);
+        }
       }
     }
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(IsLoading, {
+      return React.createElement(React.Fragment, null, React.createElement(IsLoading, {
         fetchState: this.state.fetchState
-      }, this.props.isLoading), _react.default.createElement(HasError, {
+      }, this.props.isLoading), React.createElement(HasError, {
         fetchState: this.state.fetchState,
         error: this.state.error
-      }, this.props.hasError), _react.default.createElement(IsLoaded, {
+      }, this.props.hasError), React.createElement(IsLoaded, {
         fetchState: this.state.fetchState,
         data: this.state.data,
         params: this.state.params,
@@ -818,21 +917,258 @@ var JsonData = function (_React$Component3) {
   }]);
 
   return JsonData;
-}(_react.default.Component);
+}(React.Component);
 
 exports.JsonData = JsonData;
 
-var LeafletMap = function (_React$Component4) {
-  _inherits(LeafletMap, _React$Component4);
+var LazyLoad = function (_React$Component4) {
+  _inherits(LazyLoad, _React$Component4);
+
+  function LazyLoad(props) {
+    var _this5;
+
+    _classCallCheck(this, LazyLoad);
+
+    _this5 = _possibleConstructorReturn(this, _getPrototypeOf(LazyLoad).call(this, props));
+    _this5.state = {
+      isReady: false
+    };
+    return _this5;
+  }
+
+  _createClass(LazyLoad, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this6 = this;
+
+      this.loadScripts(this.props.scripts, this.props.loadScriptsInOrder).then(function () {
+        _this6.setState({
+          isReady: true
+        });
+      });
+    }
+  }, {
+    key: "loadScripts",
+    value: function loadScripts(urls, loadScriptsInOrder) {
+      function loadCss(url) {
+        return new Promise(function (resolve) {
+          var links = document.querySelectorAll('link');
+
+          for (var n = 0, m = links.length; n < m; n++) {
+            if (links[n].rel === 'stylesheet' && links[n].getAttribute('href') === url) {
+              resolve();
+              return;
+            }
+          }
+
+          var link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.onload = resolve;
+
+          link.onerror = function () {
+            console.error('Error loading CSS File: ' + url);
+            resolve();
+          };
+
+          link.href = url;
+          document.head.appendChild(link);
+        });
+      }
+
+      function loadJs(url) {
+        return new Promise(function (resolve) {
+          var scripts = document.querySelectorAll('script');
+
+          for (var n = 0, m = scripts.length; n < m; n++) {
+            if (scripts[n].getAttribute('src') === url) {
+              resolve();
+              return;
+            }
+          }
+
+          var script = document.createElement('script');
+          script.onload = resolve;
+
+          script.onerror = function () {
+            console.error('Error loading JS File: ' + url);
+            resolve();
+          };
+
+          script.src = url;
+          document.head.appendChild(script);
+        });
+      }
+
+      function loadJsx(url) {
+        return new Promise(function (resolve) {
+          var scripts = document.querySelectorAll('script[data-src][data-compiler]');
+
+          for (var n = 0, m = scripts.length; n < m; n++) {
+            if (scripts[n].getAttribute('data-src') === url) {
+              resolve();
+              return;
+            }
+          }
+
+          var script = document.createElement('script');
+          script.type = 'text/babel';
+          script.setAttribute('src', url);
+          document.head.appendChild(script);
+          jsxLoader.loadScript(script).then(function () {
+            resolve();
+          });
+        });
+      }
+
+      if (typeof urls === 'string') {
+        urls = [urls];
+      } else if (!Array.isArray(urls)) {
+        console.error('Invalid prop for <LazyLoad>, expected [scripts] to be a string or an array of strings. Check console.');
+        console.log(urls);
+        return new Promise(function (resolve) {
+          resolve();
+        });
+      }
+
+      if (loadScriptsInOrder === true) {
+        return new Promise(function (resolve) {
+          var current = 0;
+          var count = urls.length;
+
+          function nextPromise() {
+            if (current === count) {
+              resolve();
+              return;
+            }
+
+            var url = urls[current];
+            current++;
+
+            if (url.endsWith('.js')) {
+              loadJs(url).then(nextPromise);
+            } else if (url.endsWith('.css')) {
+              loadCss(url).then(nextPromise);
+            } else if (url.endsWith('.jsx')) {
+              loadJsx(url).then(nextPromise);
+            } else {
+              console.error('Invalid Script for <LazyLoad>. Only scripts ending with [js, css, or jsx] can be used. Error URL: ' + url);
+              nextPromise();
+            }
+          }
+
+          nextPromise();
+        });
+      }
+
+      return new Promise(function (resolve) {
+        var promises = [];
+
+        for (var n = 0, m = urls.length; n < m; n++) {
+          var url = urls[n];
+
+          if (url.endsWith('.js')) {
+            promises.push(loadJs(url));
+          } else if (url.endsWith('.css')) {
+            promises.push(loadCss(url));
+          } else if (url.endsWith('.jsx')) {
+            promises.push(loadJsx(url));
+          } else {
+            console.error('Invalid Script for <LazyLoad>. Only scripts ending with [js, css, or jsx] can be used. Error URL: ' + url);
+          }
+        }
+
+        Promise.all(promises).then(function () {
+          resolve();
+        });
+      });
+    }
+  }, {
+    key: "loadPolyfill",
+    value: function loadPolyfill(condition, url) {
+      function dowloadScript(success, error) {
+        var script = document.createElement('script');
+
+        script.onload = function () {
+          success();
+        };
+
+        script.onerror = function () {
+          console.error('Error loading Script: ' + url);
+          error();
+        };
+
+        script.src = url;
+        document.head.appendChild(script);
+      }
+
+      if (condition === false || condition === undefined) {
+        return new Promise(function (resolve, reject) {
+          dowloadScript(resolve, reject);
+        });
+      } else {
+        return new Promise(function (resolve) {
+          resolve();
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      if (!this.state.isReady) {
+        if (this.props.isLoading) {
+          return this.props.isLoading;
+        }
+
+        return null;
+      }
+
+      if (this.props.children) {
+        return this.props.children;
+      }
+
+      if (this.props.isLoaded) {
+        if (typeof this.props.isLoaded === 'string') {
+          var component = this.props.isLoaded;
+          var elProps = {};
+
+          for (var prop in this.props) {
+            if (this.props.hasOwnProperty(prop) && prop !== 'scripts' && prop !== 'isLoaded' && prop !== 'isLoading') {
+              elProps[prop] = this.props[prop];
+            }
+          }
+
+          if (window !== undefined && window[component] !== undefined) {
+            return React.createElement(window[component], elProps);
+          } else if (globalThis !== undefined && globalThis[component] !== undefined) {
+            return React.createElement(globalThis[component], elProps);
+          } else {
+            throw new TypeError('Component <LazyLoad isLoaded=' + JSON.stringify(component) + '> was not found. Check if your script is missing or has a compile error.');
+          }
+        }
+
+        return this.props.isLoaded;
+      }
+
+      throw new TypeError('Missing child nodes or the [isLoaded] property for a <LazyLoad> element.');
+    }
+  }]);
+
+  return LazyLoad;
+}(React.Component);
+
+exports.LazyLoad = LazyLoad;
+
+var LeafletMap = function (_React$Component5) {
+  _inherits(LeafletMap, _React$Component5);
 
   function LeafletMap(props) {
-    var _this5;
+    var _this7;
 
     _classCallCheck(this, LeafletMap);
 
-    _this5 = _possibleConstructorReturn(this, _getPrototypeOf(LeafletMap).call(this, props));
-    _this5.div = _react.default.createRef();
-    return _this5;
+    _this7 = _possibleConstructorReturn(this, _getPrototypeOf(LeafletMap).call(this, props));
+    _this7.div = React.createRef();
+    return _this7;
   }
 
   _createClass(LeafletMap, [{
@@ -880,7 +1216,7 @@ var LeafletMap = function (_React$Component4) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement('div', {
+      return React.createElement('div', {
         className: 'leaflet-map',
         ref: this.div
       });
@@ -888,34 +1224,35 @@ var LeafletMap = function (_React$Component4) {
   }]);
 
   return LeafletMap;
-}(_react.default.Component);
+}(React.Component);
 
 exports.LeafletMap = LeafletMap;
 
-var PolyfillService = function (_React$Component5) {
-  _inherits(PolyfillService, _React$Component5);
+var PolyfillService = function (_React$Component6) {
+  _inherits(PolyfillService, _React$Component6);
 
   function PolyfillService(props) {
-    var _this6;
+    var _this8;
 
     _classCallCheck(this, PolyfillService);
 
-    _this6 = _possibleConstructorReturn(this, _getPrototypeOf(PolyfillService).call(this, props));
-    _this6.state = {
+    _this8 = _possibleConstructorReturn(this, _getPrototypeOf(PolyfillService).call(this, props));
+    console.warn('The <PolyfillService> Component/Class is being depreciated and will be removed in a future release of DataFormsJS. Features of this class are now replaced by [jsxLoader.js] and <LazyLoad>.');
+    _this8.state = {
       isReady: false
     };
-    return _this6;
+    return _this8;
   }
 
   _createClass(PolyfillService, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this7 = this;
+      var _this9 = this;
 
       var condition = Array.from && window.Promise && window.fetch ? true : false;
       var url = 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Object.assign,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat';
       this.loadScript(condition, url, function () {
-        _this7.setState({
+        _this9.setState({
           isReady: true
         });
       });
@@ -969,22 +1306,22 @@ var PolyfillService = function (_React$Component5) {
   }]);
 
   return PolyfillService;
-}(_react.default.Component);
+}(React.Component);
 
 exports.PolyfillService = PolyfillService;
 
-var SortableTable = function (_React$Component6) {
-  _inherits(SortableTable, _React$Component6);
+var SortableTable = function (_React$Component7) {
+  _inherits(SortableTable, _React$Component7);
 
   function SortableTable(props) {
-    var _this8;
+    var _this10;
 
     _classCallCheck(this, SortableTable);
 
-    _this8 = _possibleConstructorReturn(this, _getPrototypeOf(SortableTable).call(this, props));
-    _this8.sortColumn = _this8.sortColumn.bind(_assertThisInitialized(_this8));
-    _this8.table = _react.default.createRef();
-    return _this8;
+    _this10 = _possibleConstructorReturn(this, _getPrototypeOf(SortableTable).call(this, props));
+    _this10.sortColumn = _this10.sortColumn.bind(_assertThisInitialized(_this10));
+    _this10.table = React.createRef();
+    return _this10;
   }
 
   _createClass(SortableTable, [{
@@ -1175,14 +1512,14 @@ var SortableTable = function (_React$Component6) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement('table', Object.assign({}, this.props, {
+      return React.createElement('table', Object.assign({}, this.props, {
         ref: this.table
       }), this.props.children);
     }
   }]);
 
   return SortableTable;
-}(_react.default.Component);
+}(React.Component);
 
 exports.SortableTable = SortableTable;
 
@@ -1215,6 +1552,11 @@ var DataFormsJS = function () {
     key: "JsonData",
     get: function get() {
       return JsonData;
+    }
+  }, {
+    key: "LazyLoad",
+    get: function get() {
+      return LazyLoad;
     }
   }, {
     key: "LeafletMap",

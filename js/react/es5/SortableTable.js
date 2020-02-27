@@ -1,13 +1,12 @@
 "use strict";
 
+if (window.exports === undefined) { window.exports = window; }
+if (window.React === undefined && window.preact !== undefined) { var React = window.preact; }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return !!right[Symbol.hasInstance](left); } else { return left instanceof right; } }
 
@@ -39,7 +38,7 @@ var SortableTable = function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(SortableTable).call(this, props));
     _this.sortColumn = _this.sortColumn.bind(_assertThisInitialized(_this));
-    _this.table = _react.default.createRef();
+    _this.table = React.createRef();
     return _this;
   }
 
@@ -231,13 +230,13 @@ var SortableTable = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement('table', Object.assign({}, this.props, {
+      return React.createElement('table', Object.assign({}, this.props, {
         ref: this.table
       }), this.props.children);
     }
   }]);
 
   return SortableTable;
-}(_react.default.Component);
+}(React.Component);
 
 exports.default = SortableTable;

@@ -15,32 +15,19 @@ TODO List
 |   There is no priority to this list.
 |   All contributions are welcome.
 |
+|   Generally every item in this list is of low priority and more of a
+|   wish list item rather than an actual need. The higest priority items
+|   are at the top and start with `**)`.
+|
 --------------------------------------------------------------------------
 
-*) React JSX Loader
-    - This is in active development (mid-Janurary 2020) and will likely be published within a month or so.
-    - Basically a JavaScript file will be loaded <script src="jsxLoader.js"> which would check if a modern
-        browser is being used and if so then simply convert JSX code to modern JS and if a legacy browser
-        (IE, old safari, etc) then it would load and use babel standalone.
-    - The reason for this would be to allow JSX development for production sites without
-      a build process using [create-react-app], Webpack, etc.
-    - babel standalone works but is very large, however it would be ok for desktop IE users, etc
-    - It's likley that an alternative router component <UrlHashRouter> will be created with this
-      that can be used instead of React Router. The reason is that a much smaller component
-      can be created and the main reason would be to add support for lazy-loading of scripts
-      similar to the main framework for [app.lazyLoad] and [data-lazy-load]. This feature would
-      probably be shared with the new [jsxLoader.js] file.
+**) Create a standalone Vue Component <json-data>
+    - It will go in a new directory `js/vue`
+    - Behavior and API will be similar to the existing Framework and React code:
+        <json-data> Framework Control and Web Component
+        React JsonData Component
 
-*) IE Cache Busting Needed
-    - When last checked the github fetch polyfill (used by DataFormsJS) does not
-      include cache busting which means that IE can show old content on JSON Services
-        https://github.com/github/fetch
-    - Either the polyfill needs to be updated or it should be handled by DataFormsJS
-    - The reason for this is that IE 11 uses very aggresive caching.
-    - In jQuery this cache busting is handled by using [cache:false]:
-        jQuery.ajax({cache:false})
-
-*) Improve UX of the Quick Ref Page
+**) Improve UX of the Quick Ref Page
     https://www.dataformsjs.com/en/quick-reference
     - Filtering on all code doesn't work well due to generic terms "JavaScript" "Template", "Vue", etc
         Too many items are returned
@@ -50,6 +37,102 @@ TODO List
     - May use new hash url:
         "#/:lang/quick-reference/:topic"
         However all code should be downloaded only once and displayed in memory
+
+**) Playground Site
+    - Add liniting for React/JSX, Babel recently started doing this online in the REPL:
+        https://babeljs.io/repl
+    - Currently JS is linted using jshint on the Playground, to lint JSX babel standalone will
+        likley be used with a custom Code Mirror Plugin
+    - When adding update the JS page code to load jshint and a linter for JSX only if the
+        user is actually going to create a site. It can be downloaded in the background
+        while the site is being created.
+
+**) Combine Main Server and AI/ML Server into one.
+    - Servers:
+        https://www.dataformsjs.com/
+        https://ai-ml.dataformsjs.com/
+    - This site doesn't get enough traffic to need seperate servers
+    - Planned to use nginx for PHP, Node/GraphQL, Python/Flask on the same server
+    - Related setup docs for current setup:
+        https://github.com/dataformsjs/website/blob/master/docs/Main%20Site%20Server%20Setup.txt
+        https://github.com/dataformsjs/website/blob/master/docs/Python%20Webserver%20Setup%20for%20AI_ML%20Functions.txt
+    - This will likely be documented in a new markdown doc
+
+**) Main Web Site and Playground Sites
+    - Use HTTP/2 instead of http/1.1
+        This can be done if migrating servers to nginx instead of Apache
+    - Recommendation based on Chrome DevTools Lighthouse Audit for Best Practices
+
+*) Possibly link to Unit Tests from the footer on the main site
+    - Current URL (hidden - not linked from anywhere):
+        https://www.dataformsjs.com/unit-testing/
+    - Possible new URL:
+        https://www.dataformsjs.com/en/unit-tests
+    - The current URL would then redirect
+    - New page would need to look nice and provide a brief overview
+    - Currently many Vue unit tests fail if using IE so this might have to be fixed first
+        (either that or simply add notes to the page regarding IE and Vue)
+
+*) Template Files
+    - File [dataformsjs\examples\_template.htm] should be seperated for different options and include a hello world or display of JSON data:
+        _template_{hbs, vue, react}.htm
+
+*) Additional Unit Testing for Vue
+    - Currently Vue has to skip many tests due to how Virtual DOM works differently than templating
+    - Possbily a new page, not yet decided on, low priority as everything works and it passes many tests
+    - Currently many tests fail in IE with the Vue, however all demos work correctly
+
+*) Add an optional property to the main DataFormsJS/app File to display a progress element
+   while scripts are being loaded in-between routes when using `app.lazyLoad`
+    - Example:
+        app.settings.progressSelector = '.page-loading'
+    - If the element exists it will be displayed [element.display = ''] and then set back to [element.display = 'none] after
+    - When using lazy loading for JS and CSS files there is typically no noticeable delay
+        on desktops and fast mobile devices. However if large scripts are loaded
+    - Example, uses the places demo SPA from a phone with a slow connection on an old phone.
+      There will be a slight delay loading a city page due to the [leafletjs] being loaded
+      on the first view of the city page.
+        https://www.dataformsjs.com/examples/places-demo-vue.htm
+    - Docs can also be created showing and recommending how to use a CSS delay in showing the element.
+      See example of CSS from the getting start page CSS:
+        https://www.dataformsjs.com/en/getting-started
+        https://d2xbd92kui7v97.cloudfront.net/site/css/getting-started.css
+
+*) The Hacker News API Demo (link below) will likely be combined into a larger Public API's Demo
+    - https://www.dataformsjs.com/examples/hacker-news-react.htm
+    - Other API's to start:
+        https://api.github.com/emojis
+    - Once completed the page can be added to the examples section on the main site
+
+*) jsxLoader.js
+    - More unit testing (every line of code needs to be verified), unit tests run from:
+        http://127.0.0.1:5000/unit-testing-react
+        http://127.0.0.1:5000/unit-testing-preact
+    - It's possible that every line it tested but it's not yet known for sure
+    - Possible new functions to support JavaScript version by year for new Sytax, example:
+        jsxLoader.requireES2018 = function() {
+            this.evalCode = '"use strict"; const { id, ...other } = { id:123, test:456 };';
+        };
+        For example if the app uses spread sytax and calls `jsxLoader.requireES2018()` then
+        browsers that don't support it (UC Browser, Edge) would use Babel. Currently this
+        feature requires the developer of the app to to update `evalCode`.
+        This issue is documented in the main JSX doc:
+            https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
+    - Development Tips for working with the Parser:
+        - Make sure to set the following on the calling page:
+            jsxLoader.logCompileTime = true;
+            jsxLoader.logCompileDetails = true;
+        - Once possible location of error has been found add code similar to the below item,
+            search for 'debug here' in DevTools and then add a breakpoint:
+                if (state.value === " render") {
+                    console.log('debug here');
+                    console.log(node);
+                    console.log(tokens);
+                }
+    - This demo does not fully work so it's in code but not linked from the main site.
+      Seems like it may be an issue due to Rax and not the jsxLoader. See comments in the HTML file.
+        http://127.0.0.1:8080/countries-no-spa-rax.htm
+
 
 *) Web Components <json-data>
     - Support for custom Request Headers is needed.
@@ -65,6 +148,7 @@ TODO List
     - API needs a quick search/filter feature to look up any attribute/class/function/etc
         and find where it is defined and how to use it.
     - UI/UX still needs to be decided on for API docs
+    - Or Docs can simply be added to GitHub as Markdown Docs
 
 *)  Create an [I18N] API for Web Components and initially use with:
     http://127.0.0.1:8080/places-demo-web
@@ -81,17 +165,12 @@ TODO List
 
 *) Create Search Screen for the following page:
         http://127.0.0.1:8080/places-demo-web
+        This requires creating a new web component (either generic or part of the app)
    See standard framework demos with Handlebars, Vue, and React:
         http://127.0.0.1:8080/places-demo-hbs#/en/
         http://127.0.0.1:8080/places-demo-graphql#/en/
         http://127.0.0.1:8080/places-demo-vue#/en/
         http://127.0.0.1:8080/places-demo-react#/en/
-
-*) Most Core Framework Code in [DataForms.js] and [pages/jsonData.js] are Unit Tested for
-        Handlebars, Nunjucks, and Underscore, however similar testing has not yet been
-        started on for Vue. Additional Unit Tests need to be developed for sperate
-        React Components and Web Components.
-    - Overall every line of code needs to be tested for core files
 
 *) Create Server-side Starter Sites in all widely used Languages and Frameworks
     - Include ability for content to be defined server-side and saved to a SQLite Db
@@ -195,6 +274,11 @@ TODO List
         const fileName = 'countries';
         const fileDir = 'http://localhost:3000/i18n';
         const i18n = new I18n(defaultLocale, supportedLocales, fileName, fileDir);
+    - Build process for JS on the main site:
+        npm install uglify-js -g
+        uglifyjs page-home-page.js -o page-home-page{YYYYMMDD}.min.js -c -m
+        uglifyjs page-home-page.js -o page-home-page.20200205.min.js -c -m
+        uglifyjs prism.modified.js -o prism.modified.min.js -c -m
     - Document different build options that can be used
         Uglify-js https://www.npmjs.com/package/uglify-js
         Google Closure Compiler https://developers.google.com/closure/compiler/
@@ -265,7 +349,7 @@ TODO List
         data.a.push(4)
         data2.a.indexOf(4)
 
-*) Home Page - Fix Main Computer Animation for IE 11, Edge, and Old iOS/Safari?
+*) Home Page - Fix Main Computer Animation for IE 11 and Edge?
     - Currently the animation only partially shows on IE and Edge.
         IE and Edge support CSS animations with SVG elements well but it appears
         that using JS events on certain types of SVG elements does not work.
@@ -273,8 +357,6 @@ TODO List
         use window.setTimeout() instead of transitionend - Might not be worth
         it though because of low number of developers who use IE.
             domEl.addEventListener('transitionend', transitionEnd);
-    - Computer SVG itself is not showing on an iPad 2 (iOS 9)
-        Just like IE it has a small user base as of 2019
 
 *) [Website\public\sitemap.xml]
     In the future this file will be generated as more languages are added.
@@ -301,10 +383,6 @@ TODO List
           a load balancer will be added.
     - Possibly combine to a single demo and add more AI/ML examples such as Object Detection
 
-*) Add scripts to launch unit tests or examples using the users default browser.
-    - The scripts can be then added to [package.json]
-    - For Unit Testing likely use a puppeteer script
-
 *) Playground Page
     - Optimization - stop/start the timers based on if the tab is active or not?
         https://webkit.org/blog/8970/how-web-content-can-affect-power-usage/
@@ -314,9 +392,6 @@ TODO List
             https://codemirror.net/mode/index.html
         Instead Facebook uses their own custom mode and it requires a custom build process and not CDN, see:
             https://github.com/graphql/graphiql/tree/master/packages/codemirror-graphql
-
-*) DataFormsJS\js\React\PolyfillService.jsx
-    - Allow the polyfill URL to be optionally passed via a prop
 
 *) DataFormsJS\js\React\jsPlugins.js
     How to handle [Plugin.onRouteUnload()]? Not yet needed with common framework plugins but needed
@@ -450,10 +525,6 @@ TODO List
         - An alternative to making the web components more complex would be to use the planned
             <handlebars-template> and <vue-template>
 
-*) Create seperate JSX files based on React Components in a new folder for Preact?
-   Or can the current React Components be used?
-    https://preactjs.com/
-
 *) GraphQL
     - Add GraphQL support on [pages/entryForm.js]
     - Add support for other GraphQL types such as Float.
@@ -495,13 +566,6 @@ TODO List
 *) Number and Date/Time formatting for all demos [places-demo-*]
     - Needed on JS and Web Components demos
 
-*) Create Unit Tests for Vue
-    This will be similar to the main unit test files for each template,
-    however there will be many differences so it will take some time to create this.
-
-    To track when controller/plugins are called modify and use this:
-    app.onUpdateViewComplete = function(source) { console.log(source); };
-
 *) Possible Updates for Vue
     SPA is currently required for Vue
     Example Non-SPA demo [DataFormsJS\examples\countries-no-spa-hbs.htm]
@@ -510,12 +574,32 @@ TODO List
 *) Create Unit Tests for the following functions:
     Controller.onRouteUnload
 
-*) Fix unit tests for IE 11
-    Originally all unit tests worked but not some are not working
-    Some logic such as was added:
-        if (!isIE) {
-    Additionally some tests related to JS Controls are broken however JS controls are confirmed with work with IE
-    when using: http://127.0.0.1:8080/js-control-demos-hbs#/
+*) Improve Unit tests for IE 11
+    - Typically they work about 50% of the time, however several routes have an
+      issue related to calls for [tester.pageTester2]
+    - It appears that [app.onUpdateViewComplete] is being called twice the first time
+      that it should be called. The reason for this is not yet known.
+    - It's not yet determine if this is a bug or related to IE behavior. Regardless
+      DataFormsJS has been used extensively with IE Users for many years before it was
+      released so it's known to work well with IE.
+    - To test the issue find and update the following code in [dataformsjs\test\js\unit-testing-core.js]:
+                // After checking the 'Page is Loading' message define a new
+                // [onUpdateViewComplete] function to check the final response.
+                app.onUpdateViewComplete = function () {
+                    // Now check the 2nd state (usually after a web service response)
+                    assert.equal(window.location.hash, hash, 'Hash Check - ' + hash);
+                    if (expectHtml2 !== null) {
+                        //// **** This block is the section to add for manual testing.
+                        if (hash === '#/page-json-data-load-only-once' || hash === '#/page-reload-json-data' || hash === '#/missing-page-json-data') {
+                            var html = document.getElementById('view').textContent.trim();
+                            if (html !== expectHtml2) {
+                                console.log(hash);
+                                console.log(expectHtml2);
+                                console.log(html);
+                            }
+                        }
+                        tester.checkElement('view', expectHtml2, assert);
+                    }
 
 *) Additional Unit Testing for the following functions, props, etc:
     data-engine:

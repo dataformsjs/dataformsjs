@@ -1,16 +1,4 @@
-export function PageCity({match}) {
-    return (
-        <JsonData
-            url="https://www.dataformsjs.com/data/geonames/place/:id"
-            lang={match.params.lang}
-            id={match.params.id}
-            isLoading={<ShowLoading />}
-            hasError={<ShowError />}
-            isLoaded={<ShowCity />}
-            loadOnlyOnce={true}>
-        </JsonData>
-    );
-}
+'use strict';
 
 function ShowCity(props) {
     return (
@@ -75,7 +63,7 @@ function ShowCity(props) {
                         longitude={props.data.place.longitude}
                         zoom={11}
                         marker={props.data.place.name} />
-                        
+
                     <div class="map-links">
                         <small><a href={'https://www.openstreetmap.org#map=12/' + props.data.place.latitude + '/' + props.data.place.longitude} target="_blank">{i18n.text('View on OpenStreetMap')}</a></small>
                         <small><a href={'https://www.google.com/maps/@' + props.data.place.latitude + ',' + props.data.place.longitude + ',12z'} target="_blank">{i18n.text('View on Google Maps')}</a></small>

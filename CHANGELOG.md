@@ -4,6 +4,60 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 3.6.2 (February 25, 2020)
+
+* `jsxLoader.js`
+  * Added support for Shorthand React.Fragment Syntax `<>` 
+  * Switched Babel Standalone from Version 6 to Version 7.8.4
+  * Switched eval code syntax to use `new Function('"use strict";' + jsxLoader.evalCode)();` instead of `eval(jsxLoader.evalCode);`
+  * Load additional Polyfills from `polyfill.io` service and added `jsxLoader.addAdditionalPolyfills()` function.
+  * Added additional Unit Tests
+
+## 3.6.1 (February 20, 2020)
+
+* Bug fix `<LazyLoad>` so that it works with Safari on iOS 9 when using Dynamic Components in the `isLoaded` prop.
+
+## 3.6.0 (February 20, 2020)
+
+* Added Web Based Compiler for React/JSX `jsxLoader.js`.
+  * For use as an alternative to Babel, webpack, etc
+  * Also works for React alternatives including Preact and Alibaba Rax
+  * All React Demos on the main web site and repository now use `jsxLoader.js`
+  * Added additional demos to the main site for React and initial demos for Preact and Rax
+* Added new `LazyLoad` React Component for code splitting of JSX code on large apps and lazy loading of JavaScript and CSS files.
+* Added Initial Unit Testing for React Components and the JSX Loader
+* `JsonData` Component
+  * Added GraphQL Support with new properties:
+    * `graphQL={true}`
+    * `query="{query}"`
+    * `querySrc="{url}"`
+    * `variables={}` 
+* Added `js/scripts/polyfills.js` using feature detection to polyfill `trimStart()`, `trimEnd()`, `trimLeft()`, and `trimRight()`
+* With the new features this `PolyfillService` Component/Class is being depreciated and will be removed in a future release. A console warning is provided if using the class. A console warning is also included in the `I18n` class which currently uses either `fetch` or `XMLHttpRequest`.
+
+## 3.5.4 (February 20, 2020)
+
+* `DataFormsJS` - Added pollyfill check and support if `Promise.prototype.finally` is missing. This was found to affect the UC Browser.
+* `JsonData` Component
+  * Added support for missing `isLoaded` elements so that `JsonData` can be used to ping the server without displaying data. For example `<JsonData url="https://www.dataformsjs.com/data/geonames/countries" />`
+  * Update for `onViewUpdated` event so that is called on the initial loading state before data is fetched. Previously it was only called after data has downloaded or if there was an error downloading data.
+  * Added Error Handling for custom `onViewUpdated` events. The prevents issues from display data when an error occurs in third-party or app code.
+* Improved Support for [Preact](https://preactjs.com) when using React Components
+  * React Components ES5 Build Version will detect if `preact` is being used instead of `React` and work automatically
+  * `InputFilter` will detect if `preact` is being used as an alias in a web page for `React` and then use `onInput` instead of `onChange`
+
+## 3.5.3 (February 2, 2020)
+
+* Improvements for IE 11
+  * Bug fix for when `template` elements were used that included embedded HTML. IE doesn't support the `template` element so DataFormsJS converts them to `script type="text/x-template"` elements when the page is loaded. Previously it simply hide the `template` elements but an edge case error was found when Framework JavaScript controls were used in the embedded templates.
+  * Added Cache Busting for IE when `app.fetch()` is called with `cache = no-cache|no-store`. Earlier pre-release versions of DataFormsJS used this but it was removed once the GitHub fetch Polyfill was used.
+* Updated Unit Tests so that they work with Firefox and IE 11. Originally Unit Testing occurred in all Browsers but changed to Webkit only prior to the initial release due to time constrains.
+* Updates for React Components - Removed the requirement for custom `import and exports` definitions when using `babel-standalone` from a browser.
+
+## 3.5.2 (January 28, 2020)
+
+* `js/DataFormsJS.js` - Bug fix for HTML5 History API nav menus with Safari on iOS 9 (iPad 2, iPhone 6, and older devices)
+
 ## 3.5.1 (January 17, 2020)
 
 * Improvments for using `Vue`

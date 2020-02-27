@@ -1,5 +1,8 @@
 "use strict";
 
+if (window.exports === undefined) { window.exports = window; }
+if (window.React === undefined && window.preact !== undefined) { var React = window.preact; }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });

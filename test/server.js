@@ -1,8 +1,14 @@
 /**
  * Node.js Web Server for Unit Testing
- * 
- * This has no dependencies outside of built-in Node.js objects and the 
- * [app.js] file; see additional comments in [app.js].
+ *
+ * This has no dependencies outside of built-in Node.js objects and the
+ * local web server files, see additional comments in [app.js].
+ *
+ * Note - several tests defined in this file are currently not used
+ * and were part of earlier unit tests that were removed before publishing.
+ * The tests will likely be added back in the future. Routes currently not
+ * tested include `etag-response`, `page-entry-form-record`, and all routes
+ * `below post-form-data-1`.
  *
  * To run:
  *   1) Install node.js
@@ -18,22 +24,44 @@
  *      likely start this script directly from your editor.
  */
 
-/* Validates with [jshint] */
-/* jshint esversion:6 */
-/* global require, __dirname */
+/* Validates online with both [jshint] and [eslint] */
+/* Select [ECMA Version] = 2018 for [eslint] */
+/* jshint esversion:8, node:true */
+/* eslint-env node, es6 */
 
-const app = require('./../server/app.js');
+'use strict';
+
 const path = require('path');
 
-const hostname = '127.0.0.1';
+const app = require('./../server/app.js');
+const bodyParser = require('./../server/middleware/body-parser.js');
+const etag = require('./../server/middleware/etag.js');
+// const cors = require('./../server/middleware/cors.js');
+
 const port = 5000;
 
 const views = [
     'unit-testing-handlebars',
     'unit-testing-nunjucks',
     'unit-testing-underscore',
-    'unit-testing-mixed-templates'
+    'unit-testing-mixed-templates',
+    'unit-testing-vue',
+    'unit-testing-react',
+    'unit-testing-preact',
 ];
+
+app.use(bodyParser());
+app.use(etag());
+
+// Example CORS usage:
+//
+// app.use(cors()); // This would send { 'Access-Control-Allow-Origin': '*' }
+//
+// app.use(cors({
+//     'Access-Control-Allow-Origin': '{request.origin}',
+//     'Access-Control-Allow-Headers': 'Authorization, Content-Type, If-None-Match',
+//     'Access-Control-Allow-Credentials': 'true',
+// }));
 
 app.get('/', (req, res) => {
     let html = '<h1>DataFormsJS Unit Testing</h1><ul>';
@@ -41,55 +69,49 @@ app.get('/', (req, res) => {
         html += '<li><a href="' + view + '">' + view + '</a></li>';
     });
     html += '</ul>';
-    res.end(html);
+    res.html(html);
 });
 
 views.forEach((view) => {
     app.get('/' + view, (req, res) => {
         const filePath = path.join(__dirname, 'views/' + view + '.htm');
-        app.sendFile(res, filePath);
+        res.file(filePath);
     });
-});
-
-app.get('/favicon.ico', (req, res) => {
-    const filePath = path.join(__dirname, '../server/favicon.ico');
-    app.sendFile(res, filePath);
 });
 
 app.get('/src/:file', (req, res, file) => {
     const filePath = path.join(__dirname, '..', 'js', decodeURIComponent(file));
-    app.sendFile(res, filePath);
+    res.file(filePath);
 });
 
 app.get('/src/:dir/:file', (req, res, dir, file) => {
     const filePath = path.join(__dirname, '..', 'js', decodeURIComponent(dir), decodeURIComponent(file));
-    app.sendFile(res, filePath);
+    res.file(filePath);
 });
 
-app.get('/vendor/:file', (req, res, file) => {
-    const filePath = path.join(__dirname, '..', 'vendor', decodeURIComponent(file));
-    app.sendFile(res, filePath);
+app.get('/src/:dir1:/:dir2/:file', (req, res, dir1, dir2, file) => {
+    const filePath = path.join(__dirname, '..', 'js', decodeURIComponent(dir1), decodeURIComponent(dir2), decodeURIComponent(file));
+    res.file(filePath);
 });
 
 app.get('/unit-testing/page-json-data', (req, res) => {
     const data = { serverMessage: 'Response from Server' };
-    const headers = { 'X-Unit-Test': 'DataFormsJS JSON' };
-    app.sendJson(res, data, headers);
+    res.setHeader('X-Unit-Test', 'DataFormsJS JSON');
+    res.json(data);
 });
 
 app.get('/unit-testing/plain-text', (req, res) => {
     const text = 'Text Response from Server';
-    const headers = { 'X-Unit-Test': 'DataFormsJS Text' };
-    app.sendText(res, text, headers);
+    res.setHeader('X-Unit-Test', 'DataFormsJS Text');
+    res.text(text);
 });
 
 app.get('/unit-testing/etag-response', (req, res) => {
-    const text = 'etag-response';
-    app.sendETag(req, res, text);
+    res.etag().text('etag-response');
 });
 
 app.get('/unit-testing/page-json-data-error', (req, res) => {
-    app.sendJson(res, {
+    res.json({
         isLoaded: false,
         hasError: true,
         errorMessage: 'Error Message set from Server',
@@ -98,81 +120,62 @@ app.get('/unit-testing/page-json-data-error', (req, res) => {
 
 app.get('/unit-testing/page-json-data-record/:id', (req, res, id) => {
     const data = { recordId: id };
-    app.sendJson(res, data);
+    res.json(data);
 });
 
 app.get('/unit-testing/page-entry-form-record/:id', (req, res, id) => {
-    app.sendJson(res, {
+    res.json({
         recordId: id,
         name: 'Conrad',
         intValue: 123,
     });
 });
 
-app.post('/unit-testing/post-form-data-1', (req, res) => {
-    app.sendForm(req, (form) => {
-        let result;
-        if (Object.keys(form).length === 0) {
-            result = 'Form Post Not Submitted';
-        } else if (form.site !== 'DataFormsJS') {
+app.post('/unit-testing/post-form-data-1', async (req, res) => {
+    const form = await req.form();
+    let result;
+    if (Object.keys(form).length === 0) {
+        result = 'Form Post Not Submitted';
+    } else if (form.site !== 'DataFormsJS') {
+        result = 'Unexpected post value for [site]';
+    } else if (form.value !== 'Post Form Data 1') {
+        result = 'Unexpected post value for [value]';
+    } else {
+        result = 'POST Form Field were in the expected format';
+    }
+    res.text(result);
+});
+
+app.post('/unit-testing/post-json-data-1', async (req, res) => {
+    let result;
+    if (req.headers['content-type'] !== 'application/json') {
+        result = 'JSON Post Not Submitted';
+    } else {
+        const data = await req.json();
+        if (data.site !== 'DataFormsJS') {
             result = 'Unexpected post value for [site]';
-        } else if (form.value !== 'Post Form Data 1') {
+        } else if (data.value !== 'JSON Property') {
             result = 'Unexpected post value for [value]';
+        } else if (data.intValue !== 12345) {
+            result = 'Unexpected post value for [intValue]';
         } else {
-            result = 'POST Form Field were in the expected format';
+            result = 'JSON Data was in the expected format';
         }
-        app.sendText(res, result);
-    });
+    }
+    res.text(result);
 });
 
-app.post('/unit-testing/post-form-data-1', (req, res) => {
-    app.readForm(req, (form) => {
-        let result;
-        if (Object.keys(form).length === 0) {
-            result = 'Form Post Not Submitted';
-        } else if (form.site !== 'DataFormsJS') {
-            result = 'Unexpected post value for [site]';
-        } else if (form.value !== 'Post Form Data 1') {
-            result = 'Unexpected post value for [value]';
-        } else {
-            result = 'POST Form Field were in the expected format';
-        }
-        app.sendText(res, result);
-    });
-});
-
-app.post('/unit-testing/post-json-data-1', (req, res) => {
-    app.readContent(req, (content) => {
-        let result;
-        if (req.headers['content-type'] !== 'application/json') {
-            result = 'Form Post Not Submitted';
-        } else {
-            const data = JSON.parse(content);
-            if (data.site !== 'DataFormsJS') {
-                result = 'Unexpected post value for [site]';
-            } else if (data.value !== 'JSON Property') {
-                result = 'Unexpected post value for [value]';
-            } else if (data.intValue !== 12345) {
-                result = 'Unexpected post value for [intValue]';
-            } else {
-                result = 'JSON Data was in the expected format';
-            }
-        }
-        app.sendText(res, result);
-    });
-});
-
-app.get('/unit-testing/simple-json-array', (req, res, id) => {
-    app.sendJson(res, {
+app.get('/unit-testing/simple-json-array', (req, res) => {
+    res.json({
         array: ['Item 1', 'Item 3', 'Item 3']
     });
 });
 
-app.get('/unit-testing/simple-model', (req, res, id) => {
-    app.sendJson(res, {
+app.get('/unit-testing/simple-model', (req, res) => {
+    res.json({
         title: 'Test',
         value: ['Item 1', 'Item 3', 'Item 3']
     });
 });
 
-app.run(hostname, port, __dirname);
+app.run(port, __dirname);

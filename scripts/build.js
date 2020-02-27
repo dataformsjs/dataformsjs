@@ -12,6 +12,12 @@
  *
  * To install dependencies download this repository and then run:
  *     npm install
+ * 
+ * To run from project root:
+ *     node run build
+ * 
+ * Or run the file directly:
+ *     node build.js
  *
  * Originally DataFormsJS React Components were built in a browser using
  * Babel Standalone rather than the full version of Babel. Babel Standalone
@@ -93,7 +99,7 @@ const isWindows = (process.platform === 'win32');
             // Add copyright
             let addCopyright;
             if (!es6) {
-                addCopyright = (file.endsWith('DataFormsJS.js') || file.endsWith('DataFormsJS.React.js'));
+                addCopyright = (file.endsWith('DataFormsJS.js') || file.endsWith('DataFormsJS.React.js') || file.endsWith('jsxLoader.js'));
             } else {
                 addCopyright = (file.endsWith('json-data.js') || file.endsWith('url-hash-router.js'));
             }
@@ -155,7 +161,8 @@ async function buildReactFiles(copyright) {
     // Read and process files one at a time
     let filesChecked = 0;
     let filesUpdated = 0;
-    const allComponents = ["import React from 'react';"];
+    const defineExports = 'if (window.exports === undefined) { window.exports = window; }\nif (window.React === undefined && window.preact !== undefined) { var React = window.preact; }';
+    const allComponents = [];
     for (const component of components) {
         // Read both ES6 Class File and existing ES5 file
         const inFile = path.join(rootDir, 'es6', component + '.js');
@@ -167,10 +174,16 @@ async function buildReactFiles(copyright) {
         }
 
         // Convert ES6 code to ES5 using Babel
+        // Removing `import React` prevents Babel Standalone from requiring a
+        // custom `require` function and allows it to use the global `React` class
+        // which is already required by any custom `require` function.
+        codeES6 = codeES6.replace("import React from 'react';", '');
+        codeES6 = codeES6.replace('@license', ''); // Required for all comments to be deleted
         let codeES5_New = Babel.transform(codeES6, options).code;
         if (isWindows) {
             codeES5_New = codeES5_New.replace(/\n/g, '\r\n');
         }
+        codeES5_New = codeES5_New.replace('Object.defineProperty(exports', defineExports + '\n\nObject.defineProperty(exports');
 
         // Compare - only update file if different
         if (codeES5_Old !== codeES5_New) {
@@ -179,11 +192,8 @@ async function buildReactFiles(copyright) {
             filesUpdated++;
         }
 
-        // Add code to array for the main [DataFormsJS.js] file, items such as "import React ..." must
-        // only be includes once so the text is modified as needed.
-        codeES6 = codeES6.replace("import React from 'react';", '');
+        // Add code to array for the main [DataFormsJS.js] file
         codeES6 = codeES6.replace('export default class', 'export class');
-        codeES6 = codeES6.replace('@license', ''); // Required for all comments to be deleted
         allComponents.push(codeES6);
         filesChecked++;
     }
@@ -199,6 +209,7 @@ async function buildReactFiles(copyright) {
     `);
     let js = Babel.transform(allComponents.join('\n'), options).code;
     js = copyright + js;
+    js = js.replace('Object.defineProperty(exports', defineExports + '\n\nObject.defineProperty(exports');
 
     // Compare with existing [DataFormsJS.js] File.
     // When comparing convert CRLF -> LF to avoid issues.
@@ -226,7 +237,7 @@ async function buildReactFiles(copyright) {
  */
 async function getAllFiles() {
     const rootDir = __dirname + '/../js/';
-    const jsDir = ['controls', 'extensions', 'pages', 'plugins', 'react'];
+    const jsDir = ['controls', 'extensions', 'pages', 'plugins', 'react', 'scripts'];
     const webDir = ['web-components'];
     const webJsFiles = ['jsPlugins.js', 'old-browser-warning.js', 'safari-nomodule.js'];
     const reactES5 = ['react/es5'];

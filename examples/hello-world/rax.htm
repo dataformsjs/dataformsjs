@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>DataFormsJS - {{title}}</title>
+        <link rel="stylesheet" href="hello-world.css">
+        <link rel="canonical" href="https://www.dataformsjs.com/examples/hello-world/{{lang}}/web.htm">
+    </head>
+    <body>
+        <div id="root" dir="auto"></div>
+
+        <script type="text/babel">
+            /* @jsx Rax.createElement */
+            function App() {
+                return (
+                    <Rax.Fragment>
+                        <h1>{{hello_world}}</h1>
+
+                        <p style={{ textAlign:'center' }}>
+                            <a href="https://rax.js.org/" target="_blank">Rax</a><br />
+                            {jsxLoader.isSupportedBrowser ? '{{jsx_loader}}'
+                            : '{{babel_loader}}'}
+                        </p>
+
+                        <div className="home-page-animation">
+                            <img src="sun.svg" className="sun" />
+                            <div className="orbit">
+                                <img src="planet.svg" className="planet" />
+                                <img src="moon.svg" className="moon" />
+                            </div>
+                        </div>
+                    </Rax.Fragment>
+                )
+            }
+
+            Rax.render(
+                <App />,
+                document.getElementById('root'),
+                { driver: DriverDOM }
+            );
+        </script>
+
+        <script src="https://unpkg.com/rax@1.1.1/dist/rax.js"></script>
+        <script src="https://unpkg.com/driver-dom@2.0.6/dist/driver-dom.js"></script>
+        
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/react/jsxLoader.min.js"></script>
+        <script>
+            // NOTE - At the time of writing this demo does not work in IE for Rax,
+            // however similar demos for React and Preact work. If Babel is being used
+            // and nothing is displayed then show an error message.
+            document.addEventListener('DOMContentLoaded', function() {
+                if (!jsxLoader.isSupportedBrowser) {
+                    var callCount = 0;
+                    var error = 'This demo does not work in your Browser. Try the React or Preact Demos.';
+                    var interval = window.setInterval(function() {
+                        // Prevent fatal development errors from calling timeout over and over.
+                        callCount++;
+                        if (callCount > 20) {
+                            window.clearInterval(interval);
+                            var root = document.getElementById('root');
+                            root.textContent = error;
+                            root.style.color = 'red';
+                            return;
+                        }
+
+                        // Wait until [jsxLoader.js] has finished loading all files
+                        if (jsxLoader.hasPendingScripts()) {
+                            return;
+                        }
+
+                        // Show compiler used and run tests
+                        window.clearInterval(interval);
+                        window.setTimeout(function() {
+                            var root = document.getElementById('root');
+                            if (root.innerHTML === '') {
+                                root.textContent = error;
+                                root.style.color = 'red';
+                            }
+                        }, 500);
+                    }, 500);
+                }
+            });
+        </script>
+    </body>
+</html>

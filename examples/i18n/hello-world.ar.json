@@ -9,5 +9,7 @@
     "hello_name": "مرحبًا {{اسم}}!",
     "back_home": "العودة إلى المنزل",
     "param_name": "اسم",
-    "param_your_name": "اسمك"
+    "param_your_name": "اسمك",
+    "jsx_loader": "يتم استخدام DataFormsJS [jsxLoader.js] لتجميع JSX بسرعة إلى JS.",
+    "babel_loader": "أنت تستخدم متصفحًا أقدم ، لذا يتم استخدام Babel لتجميع JSX إلى JS."
 }

@@ -1,13 +1,12 @@
 "use strict";
 
+if (window.exports === undefined) { window.exports = window; }
+if (window.React === undefined && window.preact !== undefined) { var React = window.preact; }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return !!right[Symbol.hasInstance](left); } else { return left instanceof right; } }
 
@@ -29,31 +28,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var dataCache = [];
+var jsonDataCache = [];
+var graphQL_Cache = {};
 
-function saveDataToCache(url, params, data) {
-  for (var n = 0, m = dataCache.length; n < m; n++) {
-    var cache = dataCache[n];
+function saveDataToCache(url, query, params, data) {
+  for (var n = 0, m = jsonDataCache.length; n < m; n++) {
+    var cache = jsonDataCache[n];
 
-    if (cache.url === url) {
+    if (cache.url === url && cache.query === query) {
       cache.params = JSON.stringify(params);
       cache.data = data;
       return;
     }
   }
 
-  dataCache.push({
+  jsonDataCache.push({
     url: url,
+    query: query,
     params: JSON.stringify(params),
     data: data
   });
 }
 
-function getDataFromCache(url, params) {
-  for (var n = 0, m = dataCache.length; n < m; n++) {
-    var cache = dataCache[n];
+function getDataFromCache(url, query, params) {
+  for (var n = 0, m = jsonDataCache.length; n < m; n++) {
+    var cache = jsonDataCache[n];
 
-    if (cache.url === url) {
+    if (cache.url === url && cache.query === query) {
       if (JSON.stringify(params) === cache.params) {
         return cache.data;
       }
@@ -88,7 +89,7 @@ function HasError(props) {
     error = 'Error - ' + error;
   }
 
-  return _react.default.cloneElement(props.children, {
+  return React.cloneElement(props.children, {
     error: error
   });
 }
@@ -96,11 +97,11 @@ function HasError(props) {
 function IsLoaded(props) {
   var show = props.fetchState === 1;
 
-  if (!show) {
+  if (!show || !props.children) {
     return null;
   }
 
-  return _react.default.cloneElement(props.children, {
+  return React.cloneElement(props.children, {
     data: props.data,
     params: props.params,
     handleChange: props.handleChange
@@ -134,6 +135,10 @@ var JsonData = function (_React$Component) {
     value: function getUrlParams() {
       var params = {};
 
+      if (this.props && this.props.graphQL === true) {
+        return this.props.variables === undefined ? {} : this.props.variables;
+      }
+
       for (var prop in this.props) {
         if (prop !== 'url' && typeof this.props[prop] === 'string') {
           params[prop] = this.props[prop];
@@ -147,8 +152,14 @@ var JsonData = function (_React$Component) {
     value: function componentDidMount() {
       this._isMounted = true;
 
+      if (this.props.graphQL === true && this.props.query === undefined && this.props.querySrc !== undefined) {
+        if (graphQL_Cache[this.props.querySrc] !== undefined) {
+          this.props.query = graphQL_Cache[this.props.querySrc];
+        }
+      }
+
       if (this.props.loadOnlyOnce) {
-        var data = getDataFromCache(this.props.url, this.getUrlParams());
+        var data = getDataFromCache(this.props.url, this.props.query, this.getUrlParams());
 
         if (data !== null) {
           this.setState({
@@ -159,15 +170,46 @@ var JsonData = function (_React$Component) {
         }
       }
 
+      if (this.props.graphQL === true && this.props.query === undefined && this.props.querySrc !== undefined) {
+        var querySrc = this.props.querySrc;
+        var jsonData = this;
+        fetch(querySrc, null).then(function (response) {
+          var status = response.status;
+
+          if (status >= 200 && status < 300 || status === 304) {
+            return Promise.resolve(response);
+          } else {
+            var error = 'Error loading data. Server Response Code: ' + status + ', Response Text: ' + response.statusText;
+            return Promise.reject(error);
+          }
+        }).then(function (response) {
+          return response.text();
+        }).then(function (text) {
+          graphQL_Cache[querySrc] = text;
+          jsonData.props.query = graphQL_Cache[querySrc];
+          jsonData.fetchData();
+        }).catch(function (error) {
+          throw new Error('Error Downloading GraphQL Script: [' + querySrc + '], Error: ' + error.toString());
+        });
+        return;
+      }
+
       this.fetchData();
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps, prevState) {
-      var prevUrl = this.buildUrl(prevState.params);
-      var newUrl = this.buildUrl(this.props);
+      var needsRefresh;
 
-      if (prevUrl !== newUrl) {
+      if (this.props.graphQL === true) {
+        needsRefresh = JSON.stringify(prevProps.variables) !== JSON.stringify(this.props.variables);
+      } else {
+        var prevUrl = this.buildUrl(prevState.params);
+        var newUrl = this.buildUrl(this.props);
+        needsRefresh = prevUrl !== newUrl;
+      }
+
+      if (needsRefresh) {
         this.setState({
           params: this.getUrlParams()
         }, this.fetchData);
@@ -183,7 +225,7 @@ var JsonData = function (_React$Component) {
     value: function buildUrl(params) {
       var url = this.props.url;
 
-      if (Object.keys(params).length > 0) {
+      if (this.props.graphQL !== true && Object.keys(params).length > 0) {
         for (var param in params) {
           if (url.indexOf(':' + param) > -1) {
             url = url.replace(new RegExp(':' + param, 'g'), encodeURIComponent(params[param]));
@@ -219,9 +261,36 @@ var JsonData = function (_React$Component) {
         options.headers = this.props.fetchHeaders;
       }
 
+      if (this.props.graphQL === true) {
+        var variables = this.props.variables === undefined ? {} : this.props.variables;
+
+        if (window.location.origin === 'file://' || window.location.origin === 'null') {
+          url += url.indexOf('?') === -1 ? '?' : '&';
+          url += 'query=' + encodeURIComponent(this.props.query.trim());
+          url += '&variables=' + encodeURIComponent(JSON.stringify(variables));
+        } else {
+          options.method = 'POST';
+
+          if (options.headers === undefined) {
+            options.headers = {
+              'Content-Type': 'application/json'
+            };
+          } else {
+            options.headers['Content-Type'] = 'application/json';
+          }
+
+          options.body = JSON.stringify({
+            query: this.props.query,
+            variables: variables
+          });
+        }
+      }
+
       this.setState({
         fetchState: 0
       }, function () {
+        _this2.updateView();
+
         fetch(url, options).then(function (response) {
           var status = response.status;
 
@@ -234,15 +303,33 @@ var JsonData = function (_React$Component) {
         }).then(function (response) {
           return response.json();
         }).then(function (data) {
+          var graphQL = _this2.props.graphQL === true;
+
+          if (graphQL) {
+            if (data.errors && data.errors.length) {
+              var errorMessage;
+
+              if (data.errors.length === 1 && data.errors[0].message) {
+                errorMessage = '[GraphQL Error]: ' + data.errors[0].message;
+              } else {
+                var errorTextGraphQLErrors = typeof _this2.props.errorTextGraphQLErrors === 'string' ? _this2.props.errorTextGraphQLErrors : '{count} GraphQL Errors occured. See console for full details.';
+                errorMessage = errorTextGraphQLErrors.replace('{count}', data.errors.length);
+              }
+
+              console.error(data.errors);
+              throw errorMessage;
+            }
+          }
+
           if (_this2._isMounted) {
             _this2.setState({
               fetchState: 1,
-              data: data
+              data: graphQL ? data.data : data
             });
           }
 
           if (_this2.props.loadOnlyOnce) {
-            saveDataToCache(_this2.props.url, _this2.getUrlParams(), data);
+            saveDataToCache(_this2.props.url, _this2.props.query, _this2.getUrlParams(), graphQL ? data.data : data);
           }
         }).catch(function (error) {
           if (_this2._isMounted) {
@@ -273,18 +360,22 @@ var JsonData = function (_React$Component) {
     key: "updateView",
     value: function updateView() {
       if (typeof this.props.onViewUpdated === 'function') {
-        this.props.onViewUpdated();
+        try {
+          this.props.onViewUpdated();
+        } catch (e) {
+          console.error(e);
+        }
       }
     }
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(IsLoading, {
+      return React.createElement(React.Fragment, null, React.createElement(IsLoading, {
         fetchState: this.state.fetchState
-      }, this.props.isLoading), _react.default.createElement(HasError, {
+      }, this.props.isLoading), React.createElement(HasError, {
         fetchState: this.state.fetchState,
         error: this.state.error
-      }, this.props.hasError), _react.default.createElement(IsLoaded, {
+      }, this.props.hasError), React.createElement(IsLoaded, {
         fetchState: this.state.fetchState,
         data: this.state.data,
         params: this.state.params,
@@ -294,6 +385,6 @@ var JsonData = function (_React$Component) {
   }]);
 
   return JsonData;
-}(_react.default.Component);
+}(React.Component);
 
 exports.default = JsonData;

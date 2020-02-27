@@ -9,5 +9,7 @@
     "hello_name": "{{name}}こんにちは！",
     "back_home": "家に帰る",
     "param_name": "name",
-    "param_your_name": "あなたの名前"
+    "param_your_name": "あなたの名前",
+    "jsx_loader": "DataFormsJS [jsxLoader.js]は、JSXをJSにすばやくコンパイルするために使用されています。",
+    "babel_loader": "古いブラウザを使用しているため、JSXをJSにコンパイルするためにBabelが使用されています。"
 }

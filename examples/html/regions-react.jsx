@@ -1,15 +1,54 @@
+'use strict';
 
 export function PageRegions({match}) {
+    // NOTE - this can be updated to change which web service runs.
+    // Both options are included as examples.
+    const useGraphQL = true;
+
+    // JSON Web Service
+    if (useGraphQL === false) {
+        return (
+            <JsonData
+                url="https://www.dataformsjs.com/data/geonames/regions/:country"
+                lang={match.params.lang}
+                country={match.params.country}
+                isLoading={<ShowLoading />}
+                hasError={<ShowError />}
+                isLoaded={<ShowRegions />}
+                loadOnlyOnce={true} />
+        );
+    }
+
+    // GraphQL Service
+    // The variable [lang] is not used by the GraphQL service but included
+    // so that it gets passed to <ShowRegions> as {props.params.lang}
     return (
         <JsonData
-            url="https://www.dataformsjs.com/data/geonames/regions/:country"
-            lang={match.params.lang}
-            country={match.params.country}
+            url="https://www.dataformsjs.com/graphql"
+            graphQL={true}
+            query={`
+                query ($country: String!) {
+                    regions(country: $country) {
+                        geonames_id
+                        country_code
+                        admin1_code
+                        name
+                        ascii_name
+                        population
+                        elevation
+                        timezone
+                        modification_date
+                    }
+                }
+            `}
+            variables={{
+                lang: match.params.lang,
+                country: match.params.country,
+            }}
             isLoading={<ShowLoading />}
             hasError={<ShowError />}
             isLoaded={<ShowRegions />}
-            loadOnlyOnce={true}>
-        </JsonData>
+            loadOnlyOnce={true} />
     );
 }
 

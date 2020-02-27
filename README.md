@@ -1,12 +1,10 @@
 <p align="center">
-	<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/logo/favicon-144.png">
+	<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/logo/DataFormsJS-144px.png">
 </p>
 
 # :star2: Welcome to DataFormsJS!
 
-**Thanks for visiting!**
-
-_If you are seeing this message then you are one of the earliest visitors!_ 🌠👍
+**Thanks for visiting!** 🌠👍
 
 <table>
 	<tbody>
@@ -50,7 +48,7 @@ This repository contains DataFormsJS’s Framework, Example Pages, and Unit Test
 |---|---|---|
 |**Stability** Designed for long term use; a site developed with DataFormsJS today will work great and be easy to maintain decades from now.|**Flexibility** Works well with other code and the API is designed for flexibility and custom features. If you can think it, you can build it with DataFormsJS.|**Better Sites** DataFormsJS is designed to be a great experience for both developers and end users allowing you to create better sites.|
 
-|Works with|<img src="https://www.dataformsjs.com/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://www.dataformsjs.com/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://www.dataformsjs.com/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://www.dataformsjs.com/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|and more!|
+|Works with|<img src="https://www.dataformsjs.com/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://www.dataformsjs.com/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://www.dataformsjs.com/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://www.dataformsjs.com/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|and more!|
 |---|---|---|---|---|---|
 
 |Learn something new!|<div><img src="https://www.dataformsjs.com/img/icons/web-components.svg" alt="Web Components" width="64"></div><div>Web Components</div>|
@@ -163,6 +161,72 @@ This example uses Vue for templating. If you save it with a text editor you can 
 </html>
 ```
 
+This example uses React with the `jsxLoader.min.js` script for converting JSX to JS directly it the browser and it includes DataFormsJS React Components from `DataFormsJS.min.js`. If you copy the contents of this code it will also work in a browser.
+
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>DataFormsJS Example using React</title>
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <script type="text/babel">
+            function ShowLoading() {
+                return <div className="loading">Loading...</div>;
+            }
+
+            function ShowError(props) {
+                return <div className="error">{props.error}</div>;
+            }
+
+            function ShowCountries(props) {
+                return (
+                    <React.Fragment>
+                        <h1>Countries</h1>
+                        <ul>
+                            {props.data && props.data.countries && props.data.countries.map(country => {
+                                return (
+                                    <li key={country.iso}>{country.country}</li>
+                                )
+                            })}
+                        </ul>
+                    </React.Fragment>
+                )
+            }
+
+            class App extends React.Component {
+                render() {
+                    return (
+                        <ErrorBoundary>
+                            <JsonData
+                                url="https://www.dataformsjs.com/data/geonames/countries"
+                                isLoading={<ShowLoading />}
+                                hasError={<ShowError />}
+                                isLoaded={<ShowCountries />}
+                                loadOnlyOnce={true} />
+                        </ErrorBoundary>
+                    )
+                }
+            }
+
+            ReactDOM.render(
+                <App />,
+                document.getElementById('root')
+            );
+        </script>
+
+        <script src="https://unpkg.com/react@16.12.0/umd/react.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/react/es5/DataFormsJS.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/react/jsxLoader.min.js"></script>
+    </body>
+</html>
+```
+
 ## :handshake: Contributing
 
 **All contributions are welcome.** For major changes including breaking changes to existing code or updating existing graphics and files, please open an issue first to discuss what you would like to change. Some examples of items to contribute:
@@ -194,21 +258,28 @@ The author of DataFormsJS had a number of busy jobs at the time and was also wor
 
 _All sizes are based on minified scripts and gzip compression from the web server._
 
-* **DataFormsJS Framework – 10 kb** (120 kb uncompressed and full version)
+* **DataFormsJS Framework – 10.1 kb** (120 kb full version uncompressed)
 * Additional files (controllers, plugins, etc) are typically only 1-3 kb each.
 * In general when using the Framework expect about 15 kb for the initial page load, and then several kb for additional pages that load extra plugins, pages, controllers, etc.
-* React (All Components in JavaScript) – 6.1 kb
+
+* **React JSX Loader – 5.2 kB** (77 kB full version uncompressed)
+* **React (All Components in JavaScript) – 7 kB**
 * Individual React Components are between 3 and 12 KB when uncompressed and including comments.
 * Web Components are typically around 1 to 3 KB each, typically you will use a number of components so in the example apps this adds up to about 15 kb for each app.
 
 While the DataFormsJS Framework is small it will generally be used with a larger Templating or View Engine:
 
+* React: ~ 40 kb
 * Handlebars: ~ 22 kb
 * Vue: ~ 33 kb
 * Underscore: ~ 6 kb
 * Nunjucks - ~ 25 kb
 
-Additionally in a complex or large site third-party code is expected to account for the largest amount of JavaScript. For example CodeMirror Text Editor used on the Playground site is around 250 kb, however DataFormsJS has the ability to download only third-party code when it will be needed.
+Additionally in a complex or large site third-party code is expected to account for the largest amount of JavaScript. For example CodeMirror Text Editor used on the Playground site is around 250 kb, however DataFormsJS has the ability to download third-party code only when it will be needed based on the URL.
+
+**How do I use the JSX Loader for React?**
+
+See the main document: https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
 
 **What are the future plans for DataFormsJS?**
 

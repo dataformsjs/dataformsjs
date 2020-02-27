@@ -10,28 +10,13 @@
 <body>
     <div id="root" dir="auto"></div>
 
-    <script>
-        // Allow [babel-standalone] to use [import and exports] with JSX files
-        window.exports = window;
-        function require(module) {
-            switch (module) {
-                case 'react':
-                    return window.React;
-                case 'react-dom':
-                    return window.ReactDOM;
-                default:
-                    return window[module];
-            }
-        }
-    </script>
-
     <!-- React -->
     <!--
     <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin="anonymous"></script>
 
-    <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react@16.12.0/umd/react.production.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 
     <script src="../vendor/react.production.min.js" crossorigin="anonymous"></script>
     <script src="../vendor/react-dom.production.min.js" crossorigin="anonymous"></script>
@@ -39,21 +24,8 @@
     <script src="../vendor/react.development.js" crossorigin="anonymous"></script>
     <script src="../vendor/react-dom.development.js" crossorigin="anonymous"></script>
     -->
-    <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-
-    <!--
-        Babel for JSX
-        Use [babel-standalone@6] for IE Support.
-        Babel 7 [@babel] can be used for modern browsers.
-    -->
-    <!--
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="../vendor/babel.min.js"></script>
-    -->
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://unpkg.com/react@16.12.0/umd/react.production.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@16.12.0/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 
     <!--
         React Router
@@ -67,19 +39,27 @@
     <script src="https://unpkg.com/react-router/umd/react-router.min.js"></script>
     <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
 
+    <!-- DataFormsJS JSX Loader -->
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/react/jsxLoader.min.js"></script>
+    <script>
+        // Set to `true` to see compiler details
+        jsxLoader.logCompileTime = false;
+        jsxLoader.logCompileDetails = false;
+    </script>
+
     <!-- DataFormsJS React Components -->
     <!--
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/ErrorBoundary.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/PolyfillService.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/JsonData.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/InputFilter.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/SortableTable.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/I18n.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/Format.js"></script>
-    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es6/LeafletMap.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/react/es6/ErrorBoundary.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/react/es6/LazyLoad.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/react/es6/JsonData.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/react/es6/InputFilter.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/react/es6/SortableTable.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/react/es6/I18n.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/react/es6/Format.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/react/es6/LeafletMap.js"></script>
     -->
-    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.5.1/js/react/es5/DataFormsJS.min.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/react/es5/DataFormsJS.min.js"></script>
+
     <!-- JSX Templates for this App -->
     <script type="text/babel" src="html/image-home-react.jsx"></script>
     <script type="text/babel" src="html/image-categories-react.jsx"></script>
@@ -107,9 +87,12 @@
         }
 
         class App extends React.Component {
-            state = {
-                langLoaded: true,
-            };
+            constructor(props) {
+                super(props);
+                this.state = {
+                    langLoaded: null,
+                };
+            }
 
             componentDidMount() {
                 i18n.onLangStart(() => { this.setState({ langLoaded:false }); });
@@ -122,24 +105,22 @@
                 }
                 return (
                     <ErrorBoundary>
-                        <PolyfillService>
-                            <Router>
-                                <nav>
-                                    <NavLink exact to={'/' + i18n.currentLocale} activeClassName="active">{i18n.text('Images')}</NavLink>
-                                    <NavLink exact to={'/' + i18n.currentLocale + '/categories'} activeClassName="active">{i18n.text('Categories')}</NavLink>
-                                    <NavLink exact to={'/' + i18n.currentLocale + '/info'} activeClassName="active">{i18n.text('Info')}</NavLink>
-                                </nav>
+                        <Router>
+                            <nav>
+                                <NavLink exact to={'/' + i18n.currentLocale + '/'} activeClassName="active">{i18n.text('Images')}</NavLink>
+                                <NavLink exact to={'/' + i18n.currentLocale + '/categories'} activeClassName="active">{i18n.text('Categories')}</NavLink>
+                                <NavLink exact to={'/' + i18n.currentLocale + '/info'} activeClassName="active">{i18n.text('Info')}</NavLink>
+                            </nav>
 
-                                <React.Fragment>
-                                    <Route exact path="/" render={() => (
-                                        <Redirect to={'/' + defaultLang + '/'} />
-                                    )}/>
-                                    <Route exact path="/:lang/" component={PageImages} />
-                                    <Route exact path="/:lang/categories" component={PageCategories} />
-                                    <Route exact path="/:lang/info" component={PageInfo} />
-                                </React.Fragment>
-                            </Router>
-                        </PolyfillService>
+                            <React.Fragment>
+                                <Route exact path="/" render={() => (
+                                    <Redirect to={'/' + defaultLang + '/'} />
+                                )}/>
+                                <Route exact path="/:lang/" component={PageImages} />
+                                <Route exact path="/:lang/categories" component={PageCategories} />
+                                <Route exact path="/:lang/info" component={PageInfo} />
+                            </React.Fragment>
+                        </Router>
                     </ErrorBoundary>
                 )
             }

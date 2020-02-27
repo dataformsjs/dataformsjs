@@ -52,9 +52,9 @@ In the main file above search for `i18n-menu` and add the new language so it sho
 
 For React Files search for `const supportedLocales =` and then add the language to the array. As of 12/2019 there are 2 files that need to be updated.
 
-The order of languages for the Nav Menu will be initially based on global internet usage for each language; however this may change in the future:
+The order of languages for the Nav Menu is based on alphabetical sort order, this can be determined by copying the text to Excel and sorting.
 
-https://en.wikipedia.org/wiki/Languages_used_on_the_Internet
+For a good link on lanuages used on the internet see: https://en.wikipedia.org/wiki/Languages_used_on_the_Internet
 
 # Code Playground Template
 

@@ -1,13 +1,12 @@
 "use strict";
 
+if (window.exports === undefined) { window.exports = window; }
+if (window.React === undefined && window.preact !== undefined) { var React = window.preact; }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return !!right[Symbol.hasInstance](left); } else { return left instanceof right; } }
 
@@ -38,6 +37,7 @@ var PolyfillService = function (_React$Component) {
     _classCallCheck(this, PolyfillService);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(PolyfillService).call(this, props));
+    console.warn('The <PolyfillService> Component/Class is being depreciated and will be removed in a future release of DataFormsJS. Features of this class are now replaced by [jsxLoader.js] and <LazyLoad>.');
     _this.state = {
       isReady: false
     };
@@ -106,6 +106,6 @@ var PolyfillService = function (_React$Component) {
   }]);
 
   return PolyfillService;
-}(_react.default.Component);
+}(React.Component);
 
 exports.default = PolyfillService;
