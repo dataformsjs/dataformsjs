@@ -290,7 +290,7 @@ export default class JsonData extends React.Component {
             const querySrc = this.props.querySrc;
             const jsonData = this;
 
-            fetch(querySrc, null, 'text/plain')
+            fetch(querySrc, null)
             .then(response => {
                 const status = response.status;
                 if ((status >= 200 && status < 300) || status === 304) {

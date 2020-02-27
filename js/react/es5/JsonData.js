@@ -173,7 +173,7 @@ var JsonData = function (_React$Component) {
       if (this.props.graphQL === true && this.props.query === undefined && this.props.querySrc !== undefined) {
         var querySrc = this.props.querySrc;
         var jsonData = this;
-        fetch(querySrc, null, 'text/plain').then(function (response) {
+        fetch(querySrc, null).then(function (response) {
           var status = response.status;
 
           if (status >= 200 && status < 300 || status === 304) {
