@@ -125,7 +125,7 @@ This example uses Vue for templating. If you save it with a text editor you can 
         <template data-route="/">
             <h1>Hello World!</h1>
         </template>
-        
+
         <script
             type="text/x-template"
             data-engine="vue"
@@ -161,7 +161,7 @@ This example uses Vue for templating. If you save it with a text editor you can 
 </html>
 ```
 
-This example uses React with the `jsxLoader.min.js` script for converting JSX to JS directly it the browser and it includes DataFormsJS React Components from `DataFormsJS.min.js`. If you copy the contents of this code it will also work in a browser.
+This example uses React with the `jsxLoader.min.js` script for converting JSX to JS directly in the browser and it includes DataFormsJS React Components from `DataFormsJS.min.js`. If you copy the contents of this code it will also work in a browser.
 
 ```html
 <!doctype html>
@@ -246,7 +246,7 @@ The [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master
 
 Initial development and use of DataFormsJS occurred privately in 2013 to allow for rapid development of high quality and bug free Single Page Applications (SPA). DataFormsJS was designed to have a small size, great performance, and to be much faster for development compared to other Frameworks. A few of the reasons for fast development include displaying JSON services using only Markup and Templating (Handlebars, Underscore, etc.) and defining App and Site features using HTML attributes and small JavaScript Plugins.
 
-Early versions of DataFormsJS were used a number of companies in many different types of apps. 
+Early versions of DataFormsJS were used a number of companies in many different types of apps.
 
 Now that both React and Vue have become very popular separate React Components have been developed to help with React Development and the Framework has been expanded to support Vue. Additionally separate Web Components have been developed to allow for similar functionality in modern browsers without using a JavaScript framework.
 
@@ -258,24 +258,24 @@ The author of DataFormsJS had a number of busy jobs at the time and was also wor
 
 _All sizes are based on minified scripts and gzip compression from the web server._
 
-* **DataFormsJS Framework – 10.1 kb** (120 kb full version uncompressed)
-* Additional files (controllers, plugins, etc) are typically only 1-3 kb each.
-* In general when using the Framework expect about 15 kb for the initial page load, and then several kb for additional pages that load extra plugins, pages, controllers, etc.
+* **DataFormsJS Framework – 10.1 kB** (120 kB full version uncompressed)
+* Additional files (controllers, plugins, etc) are typically only 1-3 kB each.
+* In general when using the Framework expect about 15 kB for the initial page load, and then several kB for additional pages that load extra plugins, pages, controllers, etc.
 
 * **React JSX Loader – 5.2 kB** (77 kB full version uncompressed)
 * **React (All Components in JavaScript) – 7 kB**
 * Individual React Components are between 3 and 12 KB when uncompressed and including comments.
-* Web Components are typically around 1 to 3 KB each, typically you will use a number of components so in the example apps this adds up to about 15 kb for each app.
+* Web Components are typically around 1 to 3 KB each, typically you will use a number of components so in the example apps this adds up to about 15 kB for each app.
 
 While the DataFormsJS Framework is small it will generally be used with a larger Templating or View Engine:
 
-* React: ~ 40 kb
-* Handlebars: ~ 22 kb
-* Vue: ~ 33 kb
-* Underscore: ~ 6 kb
-* Nunjucks - ~ 25 kb
+* React: ~ 40 kB
+* Handlebars: ~ 22 kB
+* Vue: ~ 33 kB
+* Underscore: ~ 6 kB
+* Nunjucks - ~ 25 kB
 
-Additionally in a complex or large site third-party code is expected to account for the largest amount of JavaScript. For example CodeMirror Text Editor used on the Playground site is around 250 kb, however DataFormsJS has the ability to download third-party code only when it will be needed based on the URL.
+Additionally in a complex or large site third-party code is expected to account for the largest amount of JavaScript. For example CodeMirror Text Editor used on the Playground site is around 250 kB, however DataFormsJS has the ability to download third-party code only when it will be needed based on the URL.
 
 **How do I use the JSX Loader for React?**
 
