@@ -45,6 +45,7 @@ const views = [
     'unit-testing-nunjucks',
     'unit-testing-underscore',
     'unit-testing-mixed-templates',
+    'unit-testing-vue',
     'unit-testing-react',
     'unit-testing-preact',
 ];

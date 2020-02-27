@@ -3,9 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>DataFormsJS Unit Testing with Underscore Templating</title>
-        <!-- <link rel="stylesheet" href="vendor/qunit/qunit-2.9.2.css"> -->
-        <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.9.2.css">
+        <title>DataFormsJS Unit Testing with Vue</title>
+        <link rel="stylesheet" href="vendor/qunit/qunit-2.9.2.css">
+        <!-- <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.9.2.css"> -->
         <style>
             .nav { text-align: center; margin-bottom: 40px; }
             .nav p { font-weight: bold; }
@@ -16,16 +16,19 @@
         </style>
     </head>
     <body>
+        <!--
+            TODO - finish - in early development, needs lots of work
+        -->
         <div class="nav">
-            <h1>Unit Testing with Underscore Templating</h1>
+            <h1>Unit Testing with Vue</h1>
             <a href="./">Back to Home Page</a>
             <p>Unit Tests:</p>
             <ul>
                 <li><a href="unit-testing-handlebars">Unit Testing with Handlebars Templating</a></li>
                 <li><a href="unit-testing-nunjucks">Unit Testing with Nunjucks Templating</a></li>
-                <li><a class="active" href="unit-testing-underscore">Unit Testing with Underscore Templating</a></li>
+                <li><a href="unit-testing-underscore">Unit Testing with Underscore Templating</a></li>
                 <li><a href="unit-testing-mixed-templates">Unit Testing with Multiple Template Engines</a></li>
-                <li><a href="unit-testing-vue">Unit Testing with Vue</a></li>
+                <li><a class="active" href="unit-testing-vue">Unit Testing with Vue</a></li>
             </ul>
             <script>
                 // Update URL's if running from main web site
@@ -42,129 +45,129 @@
                 })();
             </script>
         </div>
-        
+
         <div id="qunit"></div>
         <div id="view" style="display:none;"></div>
 
-        <script type="text/x-template" data-engine="underscore" data-route="/" data-content="Initial view has loaded">
-            <%- content %>
+        <script type="text/x-template" data-engine="vue" data-route="/" data-content="Initial view has loaded">
+            {{ content }}
         </script>
 
         <template data-route="/template-view">
             <div>Template View</div>
-        </template>         
+        </template>
 
-        <script type="text/x-template" data-engine="underscore" id="template-test">Test Route</script>
+        <script type="text/x-template" data-engine="vue" id="template-test">Test Route</script>
 
-        <script type="text/x-template" data-engine="underscore" data-route="/event-order" data-page="unitTestEventOrder">
+        <script type="text/x-template" data-engine="vue" data-route="/event-order" data-page="unitTestEventOrder">
 	        [event-order]
-            <% for (var n = 0, m = events.length; n < m; n++) { %><%- events[n] + (n === (m-1) ? "" : ",") %><% }; %>
+            <span v-for="event in events">{{ event }},</span>
         </script>
-        
-        <script 
-	        type="text/x-template" data-engine="underscore" 
-		    src="html/unit-test-control-underscore.htm" 
-			data-route="/download-script-src" 
-			data-model="unitTestScriptSrc"></script>
-        
-        <script 
-	        type="text/x-template" data-engine="underscore" 
-        	data-src="html/unit-test-control-underscore.htm" 
-	        data-route="/download-script-data-src" 
-		    data-model="unitTestScriptDataSrc"></script>        
 
-        <script 
-	        type="text/x-template" data-engine="underscore" 
-        	data-src="html/unit-test-control-underscore.htm" 
-	        data-route="/download-script-data-src2" 
+        <script
+	        type="text/x-template" data-engine="vue"
+		    src="html/unit-test-control-vue.htm"
+			data-route="/download-script-src"
+			data-model="unitTestScriptSrc"></script>
+
+        <script
+	        type="text/x-template" data-engine="vue"
+        	data-src="html/unit-test-control-vue.htm"
+	        data-route="/download-script-data-src"
+		    data-model="unitTestScriptDataSrc"></script>
+
+        <script
+	        type="text/x-template" data-engine="vue"
+        	data-src="html/unit-test-control-vue.htm"
+	        data-route="/download-script-data-src2"
 		    data-model="unitTestControls"></script>
-		    
-        <script 
-	        type="text/x-template" data-engine="underscore" 
-        	data-src="html/unit-test-array-list-page.htm" 
+
+        <script
+	        type="text/x-template" data-engine="vue"
+        	data-src="html/unit-test-array-list-page.htm"
 	        data-route="/download-control-data-src"
 		    data-model="unitTestControls"></script>
 
-        <script 
-	        type="text/x-template" data-engine="underscore" 
+        <script
+	        type="text/x-template" data-engine="vue"
 		    id="template-array-list-control"
-        	data-src="html/unit-test-array-list-control-underscore.htm"></script>		    
+        	data-src="html/unit-test-array-list-control-vue.htm"></script>
 
-        <script type="text/x-template" data-engine="underscore" data-route="/page-json-data" data-page="jsonData" data-url="/unit-testing/page-json-data">
-            <% if (isLoading) { %>[page-json-data]Page is Loading<% } %>
-            <% if (isLoaded) { %>[page-json-data]<%- serverMessage %><% } %>
-            <% if (hasError) { %>[page-json-data]<%- errorMessage %><% } %>
+        <script type="text/x-template" data-engine="vue" data-route="/page-json-data" data-page="jsonData" data-url="/unit-testing/page-json-data">
+            <div v-if="isLoading">[page-json-data]Page is Loading</div>
+            <div v-if="isLoaded">[page-json-data]{{ serverMessage }}</div>
+            <div v-if="hasError">[page-json-data]{{ errorMessage }}</div>
         </script>
 
-        <script type="text/x-template" data-engine="underscore" data-route="/page-json-data-with-prop" data-page="jsonData" data-url="/unit-testing/page-json-data" data-prop="data">
-            <% if (isLoading) { %>[page-json-data-with-prop]Page is Loading<% } %>
-            <% if (isLoaded) { %>[page-json-data-with-prop]<%- data.serverMessage %><% } %>
-            <% if (hasError) { %>[page-json-data-with-prop]<%- data.errorMessage %><% } %>
-        </script>        
-        
-        <script type="text/x-template" data-engine="underscore" 
-            data-route="/missing-page-json-data" 
-            data-page="jsonData" 
+        <script type="text/x-template" data-engine="vue" data-route="/page-json-data-with-prop" data-page="jsonData" data-url="/unit-testing/page-json-data" data-prop="data">
+            <div v-if="isLoading">[page-json-data-with-prop]Page is Loading</div>
+            <div v-if="isLoaded">[page-json-data-with-prop]{{ data.serverMessage }}</div>
+            <div v-if="hasError">[page-json-data-with-prop]{{ data.errorMessage }}</div>
+        </script>
+
+        <script type="text/x-template" data-engine="vue"
+            data-route="/missing-page-json-data"
+            data-page="jsonData"
             data-url="404"
             data-load-only-once="true">
-            <% if (isLoading) { %>[missing-page-json-data]Page is Loading<% } %>
-            <% if (isLoaded) { %>[missing-page-json-data]Page is Loaded<% } %>
-            <% if (hasError) { %>[missing-page-json-data]<%- errorMessage %><% } %>
+            <div v-if="isLoading">[missing-page-json-data]Page is Loading</div>
+            <div v-if="isLoaded">[missing-page-json-data]Page is Loaded</div>
+            <div v-if="hasError">[missing-page-json-data]{{ errorMessage }}</div>
         </script>
 
-        <script type="text/x-template" data-engine="underscore" data-route="/page-json-data-missing-route" data-page="jsonData">
-            <% if (isLoading) { %>[page-json-data-missing-route]Page is Loading<% } %>
-            <% if (isLoaded) { %>[page-json-data-missing-route]Page is Loaded<% } %>
-            <% if (hasError) { %>[page-json-data-missing-route]<%- errorMessage %><% } %>
+        <script type="text/x-template" data-engine="vue" data-route="/page-json-data-missing-route" data-page="jsonData">
+            <div v-if="isLoading">[page-json-data-missing-route]Page is Loading</div>
+            <div v-if="isLoaded">[page-json-data-missing-route]Page is Loaded</div>
+            <div v-if="hasError">[page-json-data-missing-route]{{ errorMessage }}</div>
         </script>
 
-        <script type="text/x-template" data-engine="underscore" data-route="/page-json-data-error" data-page="jsonData" data-url="/unit-testing/page-json-data-error">
-            <% if (isLoading) { %>[page-json-data-error]Page is Loading<% } %>
-            <% if (isLoaded) { %>[page-json-data-error]Page is Loaded<% } %>
-            <% if (hasError) { %>[page-json-data-error]<%- errorMessage %><% } %>
+        <script type="text/x-template" data-engine="vue" data-route="/page-json-data-error" data-page="jsonData" data-url="/unit-testing/page-json-data-error">
+            <div v-if="isLoading">[page-json-data-error]Page is Loading</div>
+            <div v-if="isLoaded">[page-json-data-error]Page is Loaded</div>
+            <div v-if="hasError">[page-json-data-error]{{ errorMessage }}</div>
         </script>
 
-        <script type="text/x-template" data-engine="underscore" data-route="/page-reload-json-data" data-page="jsonData" data-url="/unit-testing/page-json-data">
-            <% if (isLoading) { %>[page-reload-json-data]Page is Loading<% } %>
-            <% if (isLoaded) { %>[page-reload-json-data]<%- serverMessage %><% } %>
-            <% if (hasError) { %>[page-reload-json-data]<%- errorMessage %><% } %>
+        <script type="text/x-template" data-engine="vue" data-route="/page-reload-json-data" data-page="jsonData" data-url="/unit-testing/page-json-data">
+            <div v-if="isLoading">[page-reload-json-data]Page is Loading</div>
+            <div v-if="isLoaded">[page-reload-json-data]{{ serverMessage }}</div>
+            <div v-if="hasError">[page-reload-json-data]{{ errorMessage }}</div>
         </script>
 
-        <script type="text/x-template" data-engine="underscore" data-route="/page-json-data-load-only-once" data-page="jsonData" data-url="/unit-testing/page-json-data" data-load-only-once="true">
-            <% if (isLoading) { %>[page-json-data-load-only-once]Page is Loading<% } %>
-            <% if (isLoaded) { %>[page-json-data-load-only-once]<%- serverMessage %><% } %>
-            <% if (hasError) { %>[page-json-data-load-only-once]<%- errorMessage %><% } %>
+        <script type="text/x-template" data-engine="vue" data-route="/page-json-data-load-only-once" data-page="jsonData" data-url="/unit-testing/page-json-data" data-load-only-once="true">
+            <div v-if="isLoading">[page-json-data-load-only-once]Page is Loading</div>
+            <div v-if="isLoaded">[page-json-data-load-only-once]{{ serverMessage }}</div>
+            <div v-if="hasError">[page-json-data-load-only-once]{{ errorMessage }}</div>
         </script>
 
-        <script type="text/x-template" data-engine="underscore" data-route="/page-json-data-record/:id" data-page="jsonData" data-url="/unit-testing/page-json-data-record/:id" data-load-only-once="true">
-            <% if (isLoading) { %>[page-json-data-record]Page is Loading for <%- id %><% } %>
-            <% if (isLoaded) { %>[page-json-data-record]Id: <%- recordId %><% } %>
-            <% if (hasError) { %>[page-json-data-record]<%- errorMessage %><% } %>
+        <script type="text/x-template" data-engine="vue" data-route="/page-json-data-record/:id" data-page="jsonData" data-url="/unit-testing/page-json-data-record/:id" data-load-only-once="true">
+            <div v-if="isLoading">[page-json-data-record]Page is Loading for {{ id %></div>
+            <div v-if="isLoaded">[page-json-data-record]Id: {{ recordId }}</div>
+            <div v-if="hasError">[page-json-data-record]{{ errorMessage }}</div>
         </script>
 
-        <script type="text/x-template" data-engine="underscore" data-route="/page-json-data-wrong-type" data-page="jsonData" data-url="/unit-testing/plain-text">
-            <% if (isLoading) { %>[page-json-data-wrong-type]Page is Loading<% } %>
-            <% if (isLoaded) { %>[page-json-data-wrong-type]Page is Loaded<% } %>
-            <% if (hasError) { %>[page-json-data-wrong-type]<%- errorMessage %><% } %>
+        <script type="text/x-template" data-engine="vue" data-route="/page-json-data-wrong-type" data-page="jsonData" data-url="/unit-testing/plain-text">
+            <div v-if="isLoading">[page-json-data-wrong-type]Page is Loading</div>
+            <div v-if="isLoaded">[page-json-data-wrong-type]Page is Loaded</div>
+            <div v-if="hasError">[page-json-data-wrong-type]{{ errorMessage }}</div>
         </script>
-        
-        <script type="text/x-template" data-engine="underscore" data-route="/control-test" data-model="unitTestControls">
+
+        <script type="text/x-template" data-engine="vue" data-route="/control-test" data-model="unitTestControls">
             <div id="controls" data-template-id="controls-template"></div>
             <div id="error-controls" data-template-id="error-controls-template"></div>
             <div id="error-test"></div>
         </script>
 
-        <script type="text/x-template" data-engine="underscore" id="controls-template">
+        <script type="text/x-template" data-engine="vue" id="controls-template">
             <div id="control-1" data-template-id="control-template-1"></div>
             <div class="control-2" data-template-id="control-template-1"></div>
             <div data-template-id="control-embed-template"></div>
-	        <div id="downloaded-control" data-template-url="html/unit-test-control-underscore.htm"></div>
+	        <div id="downloaded-control" data-template-url="html/unit-test-control-vue.htm"></div>
             <div data-download1 data-template-url="html/unit-test-download1-underscore.htm"></div>
             <div data-call-embed data-template-url="html/unit-test-control-call-embed.htm"></div>
             <div id="escape-string" data-template-id="control-escape-string"></div>
         </script>
 
-        <script type="text/x-template" data-engine="underscore" id="error-controls-template">
+        <script type="text/x-template" data-engine="vue" id="error-controls-template">
             <div id="control-error-1a" data-template-id="id-and-url" data-template-url="id-and-url"></div>
             <div id="control-error-1b" data-template-id="id-and-url" data-template-url="id-and-url"></div>
             <span class="control-error-1c" data-template-id="id-and-url" data-template-url="id-and-url"></span>
@@ -176,58 +179,56 @@
             <div id="control-error-3a" data-template-url="missing-url.htm"></div>
             <div id="control-error-3b" data-template-url="missing-url.htm"></div>
             <span class="control-error-3c" data-template-url="missing-url.htm"></span>
-            
+
             <div id="control-error-4a" data-template-id="control-unknown-template"></div>
             <div id="control-error-4b" data-template-id="control-unknown-template"></div>
             <span class="control-error-4c" data-template-id="control-unknown-template"></span>
-            
+
             <div id="control-error-5a" data-template-id="control-invalid-template"></div>
             <div id="control-error-5b" data-template-id="control-invalid-template"></div>
             <span class="control-error-5c" data-template-id="control-invalid-template"></span>
-            
+
             <div id="control-error-6a" data-template-url="html/unit-test-parse-error-underscore.htm"></div>
             <div id="control-error-6b" data-template-url="html/unit-test-parse-error-underscore.htm"></div>
             <span class="control-error-6c" data-template-url="html/unit-test-parse-error-underscore.htm"></span>
-            
+
             <div id="control-title" data-template-id="control-template-title"></div>
         </script>
 
-        <script type="text/x-template" data-engine="underscore" id="control-template-1">
+        <script type="text/x-template" data-engine="vue" id="control-template-1">
             <ul>
-            <% _.each(values, function(value) { %>
-                <li><%- value %></li>
-            <% }); %>
+                <li v-for="value in values">{{ value }}</li>
             </ul>
         </script>
 
-        <script type="text/x-template" data-engine="underscore" id="control-embed-template">
+        <script type="text/x-template" data-engine="vue" id="control-embed-template">
             <div id="control-embed" data-template-id="control-template-2"></div>
         </script>
 
-        <script type="text/x-template" data-engine="underscore" id="control-template-2">
-            Embed:[<%- title %>][<% _.each(values, function(value) { %><%- value %>,<% }); %>]
+        <script type="text/x-template" data-engine="vue" id="control-template-2">
+            Embed:[{{ title }}][<span v-for="value in values">{{ value }},</span>]
         </script>
 
-        <script type="text/x-template" data-engine="underscore" id="control-template-call-from-download">
-            Download_Then_Embed:[<%- title %>][<% _.each(values, function(value) { %><%- value %>,<% }); %>]
+        <script type="text/x-template" data-engine="vue" id="control-template-call-from-download">
+            Download_Then_Embed:[{{ title }}][[<span v-for="value in values">{{ value }},</span>]
         </script>
 
-        <script type="text/x-template" data-engine="underscore" id="control-escape-string">
-            <%- escapeString %>
+        <script type="text/x-template" data-engine="vue" id="control-escape-string">
+            {{ escapeString }}
         </script>
 
         <script type="text/x-unknown-template" id="control-unknown-template">
             [control-unknown-template]
         </script>
 
-        <script type="text/x-template" data-engine="underscore" id="control-template-title">
-            <span><%- title %></span>
+        <script type="text/x-template" data-engine="vue" id="control-template-title">
+            <span>{{ title }}</span>
         </script>
 
-        <script type="text/x-template" data-engine="underscore" id="control-invalid-template">
-            <% if (error) { %>
+        <script type="text/x-template" data-engine="vue" id="control-invalid-template">
+            {{ test
         </script>
-        
+
         <script type="text/x-error-template" id="template-invalid-path" data-route>
 	        Invalid [data-route]
         </script>
@@ -243,7 +244,7 @@
             <div id="error-test"></div>
             <error-function-test data-error-at="onLoad"></error-function-test>
             <error-function-test data-error-at="html"></error-function-test>
-            <error-function-test data-error-at="onUnload"></error-function-test>            
+            <error-function-test data-error-at="onUnload"></error-function-test>
         </template>
 
         <!-- DataFormsJS Core Files -->
@@ -252,7 +253,7 @@
         <script src="/src/extensions/events.js"></script>
         <script src="/src/pages/jsonData.js"></script>
         -->
-        <script src="/src/DataFormsJS.min.js"></script>
+        <script src="/src/DataFormsJS.js"></script>
         <script src="/src/extensions/events.min.js"></script>
         <script src="/src/pages/jsonData.min.js"></script>
         <script src="/src/scripts/polyfills.min.js"></script>
@@ -261,7 +262,7 @@
         <script src="js/DataFormsJS-Models-Unit-Testing.js"></script>
         <script src="js/DataFormsJS-Pages-Unit-Test-Event-Order.js"></script>
         <script src="js/DataFormsJS-Plugins-Unit-Test-Event-Order.js"></script>
-        
+
         <!-- Include Template Engines - specified after core DataFormsJS files to make sure that script load order doesn't mater -->
         <!--
             <script src="vendor/handlebars@4.5.1.min.js"></script>
@@ -275,13 +276,24 @@
         <script src="https://cdn.jsdelivr.net/npm/handlebars@4.5.1/dist/handlebars.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/nunjucks@3.2.0/browser/nunjucks.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/underscore@1.9.1/underscore.min.js"></script>
-        
+
+        <!--
+            Vue
+            https://vuejs.org
+
+            Prod Latest:
+                <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+            Local:
+                <script src="vendor/vue@2.6.11.js"></script>
+        -->
+        <script src="vendor/vue@2.6.11.js"></script>
+
         <!-- QUnit -->
         <!--
             <script src="vendor/qunit/qunit-2.9.2.js"></script>
             <script src="https://code.jquery.com/qunit/qunit-2.9.2.js" integrity="sha256-EQ5rv6kPFPKQUYY+P4H6fm/le+yFRLVAb//2PfBswfE=" crossorigin="anonymous"></script>
         -->
-        <script src="https://code.jquery.com/qunit/qunit-2.9.2.js" integrity="sha256-EQ5rv6kPFPKQUYY+P4H6fm/le+yFRLVAb//2PfBswfE=" crossorigin="anonymous"></script>
+        <script src="vendor/qunit/qunit-2.9.2.js"></script>
 
 		<!-- Unit Testing Script -->
 		<script src="js/unit-testing-core.js"></script>

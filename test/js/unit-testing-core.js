@@ -112,7 +112,9 @@
             app.onUpdateViewComplete = function () {
                 // Check the URL Hash and View Contents
                 assert.equal(window.location.hash, hash, 'URL Hash Check - ' + hash);
-                tester.checkElement('view', expectedHtml, assert);
+                if (window.Vue === undefined) {
+                    tester.checkElement('view', expectedHtml, assert);
+                }
 
                 // If a callback function is defined then call it
                 if (callback !== undefined) {
@@ -206,7 +208,10 @@
 
                 // Check the URL Hash and View Contents
                 assert.equal(window.location.hash, hash, 'URL Hash Check - ' + hash);
-                tester.checkElement('view', expectHtml1, assert);
+                if (window.Vue === undefined) {
+                    // Skip check on Vue because Virtual DOM will not always be in sync
+                    tester.checkElement('view', expectHtml1, assert);
+                }
 
                 // Check the active jsonData model properties while the view is loading
                 var model = app.activeModel;
@@ -238,7 +243,10 @@
                     // Now check the 2nd state (usually after a web service response)
                     assert.equal(window.location.hash, hash, 'Hash Check - ' + hash);
                     if (expectHtml2 !== null) {
-                        tester.checkElement('view', expectHtml2, assert);
+                        if (window.Vue === undefined) {
+                            // Skip check on Vue because Virtual DOM will not always be in sync
+                            tester.checkElement('view', expectHtml2, assert);
+                        }
                     }
 
                     // If defined for the test then check events from functions [onFetch()] and [onError()]
