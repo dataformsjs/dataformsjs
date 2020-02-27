@@ -8,7 +8,9 @@
  * 
  * NOTE - Vue was added several years after this file was creatd
  * and because the behavior of Vue is different from Templating (Handlebars, etc)
- * many tests and checks have to be skipped for Vue.
+ * many tests and checks have to be skipped for Vue. Because many tests
+ * are skipped it's important that demos be manually tested when
+ * updates are made and when new versions of Vue are released.
  */
 
 /* Validates with both [jshint] and [eslint] */
@@ -2840,8 +2842,11 @@
 
             // After Vue runs several global errors will likely appear
             if (window.Vue !== undefined) {
+                // Most browers will create 3 error elements while some versions
+                // of old Safari on iOS will result in 2 being created.
                 var errors = document.querySelectorAll('.dataformsjs-fatal-error');
-                assert.equal(errors.length, 3, 'Vue Unhandled Global Errors for selector [.dataformsjs-fatal-error]');
+                var elementCountIsValid = (errors.length === 3 || errors.length === 2);
+                assert.ok(elementCountIsValid, 'Vue Unhandled Global Errors for selector [.dataformsjs-fatal-error]');
                 if (errors.length === 3) {
                     Array.prototype.forEach.call(errors, function(el) {
                         el.parentNode.removeChild(el);
