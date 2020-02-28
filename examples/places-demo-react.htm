@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="css/countries.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
         <link rel="canonical" href="https://www.dataformsjs.com/examples/places-demo-hbs.htm">
-	</head>
+    </head>
     <body>
         <div id="root" dir="auto"></div>
 
@@ -77,7 +77,7 @@
             const defaultLang = i18n.getUserDefaultLang;
             const format = new Format();
 
-			function ShowLoading() {
+            function ShowLoading() {
                 return <h3>{i18n.text('Loading...')}</h3>;
             }
 
@@ -85,7 +85,7 @@
                 return <p>{props.error}</p>;
             }
 
-			function ShowCountries(props) {
+            function ShowCountries(props) {
                 return (
                     <React.Fragment>
                         <h1>{i18n.text('Countries')}</h1>
@@ -156,7 +156,7 @@
 
                 // GraphQL Service
                 // In this example the prop [variables] is used so language
-                // can be passed as a param to <ShowCountries> however it is 
+                // can be passed as a param to <ShowCountries> however it is
                 // not needed or used for the GraphQL service.
                 return (
                     <JsonData
@@ -174,7 +174,7 @@
                             }
                         `}
                         variables={{
-                            lang: match.params.lang, 
+                            lang: match.params.lang,
                         }}
                         isLoading={<ShowLoading />}
                         hasError={<ShowError />}
@@ -258,5 +258,5 @@
                 document.getElementById('root')
             );
         </script>
-	</body>
+    </body>
 </html>

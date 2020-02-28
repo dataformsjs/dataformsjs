@@ -4,20 +4,20 @@ html {
 }
 
 #view,
-#root { 
+#root {
     display: flex;
     flex-direction: column;
     padding: 20px;
 }
 
 h1, p {
-    background-color: white; 
-    box-shadow: 0 1px 2px rgba(0,0,0,.5); 
+    background-color: white;
+    box-shadow: 0 1px 2px rgba(0,0,0,.5);
     padding: 20px 40px;
     display: inline-block;
     flex: 1 0 auto;
     align-self: center;
-    border-radius: 2em;    
+    border-radius: 2em;
 }
 
 h1 {
@@ -40,7 +40,7 @@ template { display:none; }
 .home-page-animation {
     margin: 200px auto 150px auto;
     display: flex;
-	justify-content: center;
+    justify-content: center;
     align-items: center;
 }
 
@@ -52,7 +52,7 @@ template { display:none; }
 .home-page-animation .orbit {
     display: flex;
     position: absolute;
-	height: 152px;
+    height: 152px;
     width: 152px;
     will-change: transform;
 }
@@ -70,13 +70,13 @@ template { display:none; }
 
 .home-page-animation .planet {
     position: absolute;
-	top: calc((152px - 82px) / 2);
+    top: calc((152px - 82px) / 2);
     left: calc((152px - 82px) / 2);
 }
 
 .home-page-animation .moon {
     position: absolute;
-	top: calc((152px - 62px) / 2);
+    top: calc((152px - 62px) / 2);
     left: calc((152px - 62px) / 2);
     will-change: transform;
     animation: rotate-and-spin-counter-clockwise 3s linear infinite;
@@ -88,11 +88,11 @@ template { display:none; }
 }
 
 @keyframes rotate-and-spin-clockwise {
-	from { transform: rotate(0deg) translate(-160px); }
-	to { transform: rotate(360deg) translate(-160px); }
+    from { transform: rotate(0deg) translate(-160px); }
+    to { transform: rotate(360deg) translate(-160px); }
 }
 
 @keyframes rotate-and-spin-counter-clockwise {
-	from { transform: rotate(360deg) translate(80px); }
+    from { transform: rotate(360deg) translate(80px); }
     to { transform: rotate(0deg) translate(80px); }
 }
