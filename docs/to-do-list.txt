@@ -92,7 +92,8 @@ TODO List
         This will likely require JS updates for Vue and new Compontents for React
     - https://www.dataformsjs.com/examples/binary-classification-vue.htm#/en/
         Need a React Version
-        Will likely build a new generic React Component for this
+    - Will likely use https://react-hook-form.com/ for React Form Demos
+    - The [edit all] list page from the HBS demo is not required at first it it takes too long
 
 *) Possibly link to Unit Tests from the footer on the main site
     - Current URL (hidden - not linked from anywhere):

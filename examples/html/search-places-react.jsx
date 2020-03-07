@@ -141,11 +141,11 @@ class ShowSearchPage extends React.Component {
                         </Chosen>
 
                         : <Select
-                        onChange={this.handleCountryChange}
-                        className="react-select"
-                        placeholder={i18n.text('-- Select a Country (Optional) --')}
-                        isClearable={true}
-                        options={
+                            onChange={this.handleCountryChange}
+                            className="react-select"
+                            placeholder={i18n.text('-- Select a Country (Optional) --')}
+                            isClearable={true}
+                            options={
                             this.props.data.countries.map(country => {
                                 return {value: country.iso, label:country.country };
                             })} />
