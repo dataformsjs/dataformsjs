@@ -65,7 +65,7 @@ class ShowSearchPage extends React.Component {
         this.handleCityChange = this.handleCityChange.bind(this);
         this.handleCountryChange = this.handleCountryChange.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.state = StateCache.get('search', {
+        this.state = Cache.get('search', {
             country: '',
             city: '',
             submittedSeach: false,
@@ -83,7 +83,7 @@ class ShowSearchPage extends React.Component {
     }
 
     componentDidUpdate() {
-        StateCache.set('search', this.state);
+        Cache.set('search', this.state);
     }
 
     /**

@@ -609,7 +609,7 @@ describe('DataFormsJS React Components', function() {
         //    var obj = new JsonData();
         //    expect(obj).to.be.instanceof(JsonData);
         //
-        var classes = 'PolyfillService, ErrorBoundary, JsonData, InputFilter, Format, SortableTable, LeafletMap, LazyLoad, StateCache';
+        var classes = 'ErrorBoundary, JsonData, InputFilter, Format, SortableTable, LeafletMap, LazyLoad, Cache';
         classes = classes.split(', ');
         classes.forEach(function(className) {
             it('should have <' + className + '>', function() {

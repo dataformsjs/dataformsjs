@@ -16,30 +16,30 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var cachedState = {};
+var cachedValues = {};
 
-var StateCache = function () {
-  function StateCache() {
-    _classCallCheck(this, StateCache);
+var Cache = function () {
+  function Cache() {
+    _classCallCheck(this, Cache);
   }
 
-  _createClass(StateCache, null, [{
+  _createClass(Cache, null, [{
     key: "get",
     value: function get(name, defaultValues) {
-      if (cachedState[name] === undefined) {
-        cachedState[name] = defaultValues;
+      if (cachedValues[name] === undefined) {
+        return defaultValues;
       }
 
-      return cachedState[name];
+      return cachedValues[name];
     }
   }, {
     key: "set",
     value: function set(name, data) {
-      cachedState[name] = data;
+      cachedValues[name] = data;
     }
   }]);
 
-  return StateCache;
+  return Cache;
 }();
 
-exports.default = StateCache;
+exports.default = Cache;

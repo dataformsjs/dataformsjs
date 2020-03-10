@@ -6,7 +6,12 @@ Overall the core Framework files and API are expected to remain stable however t
 
 ## Next Release (Changes on Master Branch)
 
-* Added new JavaScript class `StateCache` for simple state caching and re-use with React and Preact Apps.
+_Next release will be `4.0.0` due to minor breaking changes_
+
+* Breaking Changes - Relatively minor but they are breaking so a new major release number is being used:
+  * Removed previously depreciated `PolyfillService` Component/Class.
+  * Removed support for `I18n` without the use of a `fetch` polyfill for legacy browsers.
+  * Both of these items are no longer needed due to creation of `jsxLoader.js` and for build tools `create-react-app`, etc Polyfills can be bundled.
 * `jsxLoader.js` - General improvements for additional JSX Syntax
   * Fixed issue where links `https://` were being partially parsed as single-line comments inside of an element
   * Improved loop syntax elements needed to be enclosed in a `()` in certain situtations
@@ -26,6 +31,7 @@ Overall the core Framework files and API are expected to remain stable however t
     <InputFilter filter-selector="section.category ul > li" />
   ```
   * Added `Array.prototype.find` to Polyfill Bundle for Legacy Browsers
+* Added new JavaScript class `Cache` for simple state caching and re-use with React and Preact Apps.
 * React `InputFilter` Component
   * Added a new `afterFilter` property to allow applications to define a custom events once data is filtered
   * Previously if using a label to show filter results from [filter-results-selector] both [filter-results-text-all] and [filter-results-text-filtered] were required; now only one property is required.

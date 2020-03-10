@@ -9,17 +9,11 @@ if (window.React === undefined && window.preact !== undefined) { var React = win
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DataFormsJS = exports.StateCache = exports.SortableTable = exports.PolyfillService = exports.LeafletMap = exports.LazyLoad = exports.JsonData = exports.InputFilter = exports.I18n = exports.Format = exports.ErrorBoundary = void 0;
+exports.DataFormsJS = exports.SortableTable = exports.LeafletMap = exports.LazyLoad = exports.JsonData = exports.InputFilter = exports.I18n = exports.Format = exports.ErrorBoundary = exports.Cache = void 0;
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return !!right[Symbol.hasInstance](left); } else { return left instanceof right; } }
-
-function _classCallCheck(instance, Constructor) { if (!_instanceof(instance, Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -30,6 +24,40 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _classCallCheck(instance, Constructor) { if (!_instanceof(instance, Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var cachedValues = {};
+
+var Cache = function () {
+  function Cache() {
+    _classCallCheck(this, Cache);
+  }
+
+  _createClass(Cache, null, [{
+    key: "get",
+    value: function get(name, defaultValues) {
+      if (cachedValues[name] === undefined) {
+        return defaultValues;
+      }
+
+      return cachedValues[name];
+    }
+  }, {
+    key: "set",
+    value: function set(name, data) {
+      cachedValues[name] = data;
+    }
+  }]);
+
+  return Cache;
+}();
+
+exports.Cache = Cache;
 
 var ErrorBoundary = function (_React$Component) {
   _inherits(ErrorBoundary, _React$Component);
@@ -319,72 +347,35 @@ var I18n = function () {
           state.loadedCallback();
         }
       } else {
-        if (window.fetch !== undefined) {
-          fetch(url, {
-            mode: 'cors',
-            cache: 'no-store',
-            credentials: 'same-origin'
-          }).then(function (response) {
-            var status = response.status;
+        fetch(url, {
+          mode: 'cors',
+          cache: 'no-store',
+          credentials: 'same-origin'
+        }).then(function (response) {
+          var status = response.status;
 
-            if (status >= 200 && status < 300 || status === 304) {
-              return Promise.resolve(response);
-            } else {
-              var error = 'Error loading data. Server Response Code: ' + status + ', Response Text: ' + response.statusText;
-              return Promise.reject(error);
-            }
-          }).then(function (response) {
-            return response.json();
-          }).then(function (json) {
-            state.langCache[url] = json;
-          }).catch(function (error) {
-            var errorMessage = 'Error Downloading I18N file: [' + url + '], Response Code Status: ' + error.message;
-            console.error(errorMessage);
-            state.langCache[url] = {};
-          }).finally(function () {
-            state.langText = state.langCache[url];
-            i18n.updatePageTitle();
+          if (status >= 200 && status < 300 || status === 304) {
+            return Promise.resolve(response);
+          } else {
+            var error = 'Error loading data. Server Response Code: ' + status + ', Response Text: ' + response.statusText;
+            return Promise.reject(error);
+          }
+        }).then(function (response) {
+          return response.json();
+        }).then(function (json) {
+          state.langCache[url] = json;
+        }).catch(function (error) {
+          var errorMessage = 'Error Downloading I18N file: [' + url + '], Response Code Status: ' + error.message;
+          console.error(errorMessage);
+          state.langCache[url] = {};
+        }).finally(function () {
+          state.langText = state.langCache[url];
+          i18n.updatePageTitle();
 
-            if (state.loadedCallback) {
-              state.loadedCallback();
-            }
-          });
-        } else {
-          console.warn('Using class `I18n` without [jsxLoader.js] or a [fetch] polyfill is being depreciated and will be removed in a future release of DataFormsJS. This is due to the planned removal of <PolyfillService>.');
-          var xhr = new XMLHttpRequest();
-          xhr.open('GET', url);
-
-          xhr.onload = function () {
-            var error = null;
-
-            try {
-              var status = this.status;
-
-              if (status >= 200 && status < 300 || status === 304) {
-                state.langCache[url] = JSON.parse(this.responseText);
-              } else {
-                error = 'Response Status Code: ' + status;
-              }
-            } catch (e) {
-              error = e.toString();
-            }
-
-            if (error !== null) {
-              var errorMessage = 'Error Downloading I18N file: [' + url + '], Error: ' + error;
-              console.error(errorMessage);
-              state.langCache[url] = {};
-            }
-
-            state.langText = state.langCache[url];
-            i18n.updatePageTitle();
-
-            if (state.loadedCallback) {
-              state.loadedCallback();
-            }
-          };
-
-          xhr.send();
-        }
+          if (state.loadedCallback) {
+            state.loadedCallback();
+          }
+        });
       }
     }
   }, {
@@ -1233,100 +1224,18 @@ var LeafletMap = function (_React$Component5) {
 
 exports.LeafletMap = LeafletMap;
 
-var PolyfillService = function (_React$Component6) {
-  _inherits(PolyfillService, _React$Component6);
-
-  function PolyfillService(props) {
-    var _this8;
-
-    _classCallCheck(this, PolyfillService);
-
-    _this8 = _possibleConstructorReturn(this, _getPrototypeOf(PolyfillService).call(this, props));
-    console.warn('The <PolyfillService> Component/Class is being depreciated and will be removed in a future release of DataFormsJS. Features of this class are now replaced by [jsxLoader.js] and <LazyLoad>.');
-    _this8.state = {
-      isReady: false
-    };
-    return _this8;
-  }
-
-  _createClass(PolyfillService, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this9 = this;
-
-      var condition = Array.from && window.Promise && window.fetch ? true : false;
-      var url = 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Object.assign,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat';
-      this.loadScript(condition, url, function () {
-        _this9.setState({
-          isReady: true
-        });
-      });
-    }
-  }, {
-    key: "loadScript",
-    value: function loadScript(condition, url, callback) {
-      function dowloadScript(success, error) {
-        var script = document.createElement('script');
-
-        script.onload = function () {
-          success();
-        };
-
-        script.onerror = function () {
-          console.error('Error loading Script: ' + url);
-          error();
-        };
-
-        script.src = url;
-        document.head.appendChild(script);
-      }
-
-      if (condition === false || condition === undefined) {
-        if (callback === undefined) {
-          return new Promise(function (resolve, reject) {
-            dowloadScript(resolve, reject);
-          });
-        }
-
-        dowloadScript(callback, callback);
-      } else {
-        if (callback === undefined) {
-          return new Promise(function (resolve) {
-            resolve();
-          });
-        }
-
-        callback();
-      }
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      if (!this.state.isReady) {
-        return null;
-      }
-
-      return this.props.children;
-    }
-  }]);
-
-  return PolyfillService;
-}(React.Component);
-
-exports.PolyfillService = PolyfillService;
-
-var SortableTable = function (_React$Component7) {
-  _inherits(SortableTable, _React$Component7);
+var SortableTable = function (_React$Component6) {
+  _inherits(SortableTable, _React$Component6);
 
   function SortableTable(props) {
-    var _this10;
+    var _this8;
 
     _classCallCheck(this, SortableTable);
 
-    _this10 = _possibleConstructorReturn(this, _getPrototypeOf(SortableTable).call(this, props));
-    _this10.sortColumn = _this10.sortColumn.bind(_assertThisInitialized(_this10));
-    _this10.table = React.createRef();
-    return _this10;
+    _this8 = _possibleConstructorReturn(this, _getPrototypeOf(SortableTable).call(this, props));
+    _this8.sortColumn = _this8.sortColumn.bind(_assertThisInitialized(_this8));
+    _this8.table = React.createRef();
+    return _this8;
   }
 
   _createClass(SortableTable, [{
@@ -1527,33 +1436,6 @@ var SortableTable = function (_React$Component7) {
 }(React.Component);
 
 exports.SortableTable = SortableTable;
-var cachedState = {};
-
-var StateCache = function () {
-  function StateCache() {
-    _classCallCheck(this, StateCache);
-  }
-
-  _createClass(StateCache, null, [{
-    key: "get",
-    value: function get(name, defaultValues) {
-      if (cachedState[name] === undefined) {
-        cachedState[name] = defaultValues;
-      }
-
-      return cachedState[name];
-    }
-  }, {
-    key: "set",
-    value: function set(name, data) {
-      cachedState[name] = data;
-    }
-  }]);
-
-  return StateCache;
-}();
-
-exports.StateCache = StateCache;
 
 var DataFormsJS = function () {
   function DataFormsJS() {
@@ -1561,6 +1443,11 @@ var DataFormsJS = function () {
   }
 
   _createClass(DataFormsJS, null, [{
+    key: "Cache",
+    get: function get() {
+      return Cache;
+    }
+  }, {
     key: "ErrorBoundary",
     get: function get() {
       return ErrorBoundary;
@@ -1596,19 +1483,9 @@ var DataFormsJS = function () {
       return LeafletMap;
     }
   }, {
-    key: "PolyfillService",
-    get: function get() {
-      return PolyfillService;
-    }
-  }, {
     key: "SortableTable",
     get: function get() {
       return SortableTable;
-    }
-  }, {
-    key: "StateCache",
-    get: function get() {
-      return StateCache;
     }
   }]);
 

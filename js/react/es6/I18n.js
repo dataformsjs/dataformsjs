@@ -123,73 +123,36 @@ export default class I18n {
                 state.loadedCallback();
             }
         } else {
-            // The JSX Component <PolyfillService> will define a [fetch] polyfill, however if using IE
-            // then this file will likely run before the Polyfill so use either [fetch] or [xhr].
-            // The file to download is a simple JSON file, once download it is saved to the
-            // memory cache and used when [i18.text()] is called.
-            if (window.fetch !== undefined) {
-                fetch(url, {
-                    mode: 'cors',
-                    cache: 'no-store',
-                    credentials: 'same-origin',
-                })
-                .then(function(response) {
-                    const status = response.status;
-                    if ((status >= 200 && status < 300) || status === 304) {
-                        return Promise.resolve(response);
-                    } else {
-                        const error = 'Error loading data. Server Response Code: ' + status + ', Response Text: ' + response.statusText;
-                        return Promise.reject(error);
-                    }
-                })
-                .then(function(response) { return response.json(); })
-                .then(function(json) {
-                    state.langCache[url] = json;
-                })
-                .catch(function(error) {
-                    const errorMessage = 'Error Downloading I18N file: [' + url + '], Response Code Status: ' + error.message;
-                    console.error(errorMessage);
-                    state.langCache[url] = {};
-                })
-                .finally(function() {
-                    state.langText = state.langCache[url];
-                    i18n.updatePageTitle();
-                    if (state.loadedCallback) {
-                        state.loadedCallback();
-                    }
-                });
-            } else {
-                console.warn('Using class `I18n` without [jsxLoader.js] or a [fetch] polyfill is being depreciated and will be removed in a future release of DataFormsJS. This is due to the planned removal of <PolyfillService>.');
-                const xhr = new XMLHttpRequest();
-                xhr.open('GET', url);
-                xhr.onload = function () {
-                    let error = null;
-
-                    try {
-                        const status = this.status;
-                        if ((status >= 200 && status < 300) || status === 304) {
-                            state.langCache[url] = JSON.parse(this.responseText);
-                        } else {
-                            error = 'Response Status Code: ' + status;
-                        }
-                    } catch (e) {
-                        error = e.toString();
-                    }
-
-                    if (error !== null) {
-                        const errorMessage = 'Error Downloading I18N file: [' + url + '], Error: ' + error;
-                        console.error(errorMessage);
-                        state.langCache[url] = {};
-                    }
-
-                    state.langText = state.langCache[url];
-                    i18n.updatePageTitle();
-                    if (state.loadedCallback) {
-                        state.loadedCallback();
-                    }
-                };
-                xhr.send();
-            }
+            fetch(url, {
+                mode: 'cors',
+                cache: 'no-store',
+                credentials: 'same-origin',
+            })
+            .then(function(response) {
+                const status = response.status;
+                if ((status >= 200 && status < 300) || status === 304) {
+                    return Promise.resolve(response);
+                } else {
+                    const error = 'Error loading data. Server Response Code: ' + status + ', Response Text: ' + response.statusText;
+                    return Promise.reject(error);
+                }
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(json) {
+                state.langCache[url] = json;
+            })
+            .catch(function(error) {
+                const errorMessage = 'Error Downloading I18N file: [' + url + '], Response Code Status: ' + error.message;
+                console.error(errorMessage);
+                state.langCache[url] = {};
+            })
+            .finally(function() {
+                state.langText = state.langCache[url];
+                i18n.updatePageTitle();
+                if (state.loadedCallback) {
+                    state.loadedCallback();
+                }
+            });
         }
     }
 

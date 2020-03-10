@@ -25,7 +25,6 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
-import PolyfillService from './PolyfillService.js';
 import ErrorBoundary from './ErrorBoundary.js';
 import JsonData from './JsonData.js';
 import InputFilter from './InputFilter.js';
@@ -34,13 +33,12 @@ import Format from './Format.js';
 import I18n from './I18n.js';
 import LeafletMap from './LeafletMap.js';
 import LazyLoad from './LazyLoad.js';
-import StateCache from './StateCache.js';
+import Cache from './Cache.js';
 
 /**
  * Create and export all Components under the default DataFormsJS namespace
  */
 const DataFormsJS = {
-    PolyfillService: PolyfillService,
     ErrorBoundary: ErrorBoundary,
     JsonData: JsonData,
     InputFilter: InputFilter,
@@ -49,7 +47,7 @@ const DataFormsJS = {
     I18n: I18n,
     LeafletMap: LeafletMap,
     LazyLoad: LazyLoad,
-    StateCache: StateCache,
+    Cache: Cache,
 };
 export default DataFormsJS;
 
@@ -57,7 +55,6 @@ export default DataFormsJS;
  * Export all individual Components
  */
 export {
-    PolyfillService,
     ErrorBoundary,
     JsonData,
     InputFilter,
@@ -66,5 +63,5 @@ export {
     I18n,
     LeafletMap,
     LazyLoad,
-    StateCache,
+    Cache,
 };
