@@ -25,9 +25,11 @@ Overall the core Framework files and API are expected to remain stable however t
   ```jsx
     <InputFilter filter-selector="section.category ul > li" />
   ```
+  * Added `Array.prototype.find` to Polyfill Bundle for Legacy Browsers
 * React `InputFilter` Component
   * Added a new `afterFilter` property to allow applications to define a custom events once data is filtered
   * Previously if using a label to show filter results from [filter-results-selector] both [filter-results-text-all] and [filter-results-text-filtered] were required; now only one property is required.
+* DataFormsJS Framework Object `DataFormsJS.js` - Added `Array.prototype.find` to Polyfill Bundle for Legacy Browsers
 
 ## 3.6.2 (February 25, 2020)
 
