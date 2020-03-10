@@ -1,17 +1,17 @@
 /**
  * DataFormsJS React Component <InputFilter>
- * 
+ *
  * This component renders a <input> that allows users to filter elements
  * on the page based on the [filter-selector] property.
- * 
+ *
  * This component has "side effects" for other elements on the page as it
  * will change the [style.display] of elements that match [filter-selector]
  * and it will optionally update the [textContent] of an element defined
  * in [filter-results-selector]. The side effects should not cause any issues
- * with most apps and pages; however carefully testing your site or app is 
+ * with most apps and pages; however carefully testing your site or app is
  * recommended if you are using this on a page with data that changes
  * after it is initially loaded.
- * 
+ *
  * The class is based on the standard framework plugin [DataFormsJS\js\Plugins\filter.js].
  * The standard framework plugin contains additional features and can work with
  * multiple filter controls on the same page and the standard plugin can be used when
@@ -41,13 +41,16 @@ export default class InputFilter extends React.Component {
 
     onChange() {
         this.filter();
+        if (typeof this.props.afterFilter === 'function') {
+            this.props.afterFilter();
+        }
     }
 
     filter() {
         // Get filter element and text
         const el = this.input.current;
         const filterWords = el.value.toLowerCase().split(' ');
-        const filterWordCount = filterWords.length; 
+        const filterWordCount = filterWords.length;
         const hasFilter = (filterWordCount !== 0);
         let displayCount = 0;
         let cssOdd = null;
@@ -64,10 +67,10 @@ export default class InputFilter extends React.Component {
             // from [SortableTable] or [plugins/sort.js].
             const table = elements[0];
             cssOdd = table.getAttribute('data-sort-class-odd');
-            cssEven = table.getAttribute('data-sort-class-even');            
-            elements = elements[0].tBodies[0].rows;            
+            cssEven = table.getAttribute('data-sort-class-even');
+            elements = elements[0].tBodies[0].rows;
         }
-        const totalCount = elements.length; 
+        const totalCount = elements.length;
 
         // Show/hide elements based on the filter
         const hasCss = (cssEven && cssOdd);
@@ -93,7 +96,7 @@ export default class InputFilter extends React.Component {
                         element.classList.remove(cssOdd);
                     } else {
                         element.classList.add(cssOdd);
-                        element.classList.remove(cssEven);                                
+                        element.classList.remove(cssEven);
                     }
                 }
             }
@@ -114,23 +117,24 @@ export default class InputFilter extends React.Component {
             // Get text to display
             const resultTextAll = el.getAttribute('filter-results-text-all');
             const resultTextFiltered = el.getAttribute('filter-results-text-filtered');
-            if (!resultTextAll) {
-                console.warn('Defined [filter-results-selector] without [filter-results-text-all]');
-                return;
-            } else if (!resultTextFiltered) {
-                console.warn('Defined [filter-results-selector] without [filter-results-text-filtered]');
+            if (resultTextAll === null && resultTextFiltered === null) {
+                console.warn('Defined [filter-results-selector] without [filter-results-text-all] or [filter-results-text-filtered]');
                 return;
             }
 
             // Set text
-            let resultText;
+            let resultText = null;
             if (displayCount === totalCount) {
                 resultText = resultTextAll;
-            } else {
+            } else if (resultTextFiltered !== null) {
                 resultText = resultTextFiltered.replace(/{displayCount}/g, displayCount);
             }
-            resultText = resultText.replace(/{totalCount}/g, totalCount);
-            resultLabel.textContent = resultText;
+            if (resultText === null) {
+                resultLabel.textContent = '';
+            } else {
+                resultText = resultText.replace(/{totalCount}/g, totalCount);
+                resultLabel.textContent = resultText;
+            }
         }
     }
 
@@ -146,7 +150,7 @@ export default class InputFilter extends React.Component {
                 ref: this.input
             }));
         }
-        
+
         // React
         return React.createElement('input', Object.assign({}, this.props, {
             onChange: this.onChange,

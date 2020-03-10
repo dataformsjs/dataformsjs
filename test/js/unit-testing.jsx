@@ -137,6 +137,25 @@ function ShorthandFragment() {
     );
 }
 
+// Included a 2nd time for a handled edge case error discovered when updating tests.
+// Specifically a `state.elementCount > 0` check in `removeComments()`
+function ShorthandFragment2() {
+    return (
+        <>
+            <div className="shorthand-fragment2">Shorthand Fragment Check 2</div>
+        </>
+    );
+}
+
+function ShowLinks() {
+    return <ul className="links2">
+                <li>Test</li>                
+                {links.map(link => {
+                    return <li key={link}>{link}</li>
+                })}
+            </ul>;
+}
+
 class UnitTestPage extends React.Component {
     render() {
         const users = [
@@ -161,6 +180,7 @@ class UnitTestPage extends React.Component {
                 <div id="div-6"> Hello World </div>
                 <div id="div-7">&nbsp;&nbsp;Hello World&nbsp;&nbsp;</div>
                 <div id="div-8">  Hello World  </div>
+                <div id="div-9" data-selector="ul.link > li">https://www.dataformsjs.com/</div>
 
                 <ul className="links">
                     {links.map(link => {
@@ -171,6 +191,8 @@ class UnitTestPage extends React.Component {
                         )
                     })}
                 </ul>
+
+                <ShowLinks />
 
                 {/*
                     Including [accept="image/*"] verifies that the [/*] inside of the string in [accept]
@@ -251,7 +273,8 @@ class UnitTestPage extends React.Component {
                 <NumberDescriber id="even-number" number={2}></NumberDescriber>
                 <DisplayUsers users={users} />
                 <DisplayUsers2 users={users} />
-                <ShorthandFragment />        
+                <ShorthandFragment />
+                <ShorthandFragment2 />
             </React.Fragment>
         );
     }

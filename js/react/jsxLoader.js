@@ -519,9 +519,11 @@
                         inStringSingleQuote: false,
                         inStringDoubleQuote: false,
                         inStringMultiLine: false,
+                        elementCount: 0,
                     },
                     current = 0,
-                    char;
+                    char,
+                    charNext;
 
                 function peekNext() {
                     return (current < length-1 ? input[current+1] : null);
@@ -581,15 +583,17 @@
                                 }
                                 break;
                             case '/':
-                                var next = peekNext();
-                                state.inCommentSingleLine = (next === '/');
-                                if (!state.inCommentSingleLine) {
-                                    state.inCommentMultiLine = (next === '*');
-                                }
-                                if (state.inCommentSingleLine || state.inCommentMultiLine) {
-                                    newInput[current] = ' ';
-                                    current++;
-                                    char = ' ';
+                                if (state.elementCount === 0) {
+                                    var next = peekNext();
+                                    state.inCommentSingleLine = (next === '/');
+                                    if (!state.inCommentSingleLine) {
+                                        state.inCommentMultiLine = (next === '*');
+                                    }
+                                    if (state.inCommentSingleLine || state.inCommentMultiLine) {
+                                        newInput[current] = ' ';
+                                        current++;
+                                        char = ' ';
+                                    }
                                 }
                                 break;
                             case '"':
@@ -600,6 +604,19 @@
                                 break;
                             case '`':
                                 state.inStringMultiLine = true;
+                                break;
+                            case '<':
+                                charNext = peekNext();
+                                if (/[a-zA-Z]/.test(charNext) || charNext === '>') {
+                                    state.elementCount++;
+                                } else if (charNext === '/') {
+                                    state.elementCount--;
+                                }
+                                break;
+                            case '>':
+                                if (input[current-1] === '/' && state.elementCount > 0) {
+                                    state.elementCount--;
+                                }
                                 break;
                         }
                     }
@@ -755,9 +772,13 @@
                                     loopCheck();
                                     char = input[current];
                                     current++;
+                                    if (state.inPropString && char !== state.propStringChar) {
+                                        state.value += char;
+                                        continue;
+                                    }
                                     switch (char) {
                                         case '=':
-                                            if (state.currentElementState.inPropJs || state.inPropString) {
+                                            if (state.currentElementState.inPropJs) {
                                                 break;
                                             }
                                             if (state.value.trim() !== '') {
@@ -830,7 +851,7 @@
                                         case '\t':
                                         case '\r':
                                         case '\n':
-                                            if (!(state.inPropString || state.currentElementState.inPropJs)) {
+                                            if (!state.currentElementState.inPropJs) {
                                                 if (state.value.trim() !== '') {
                                                     tokens.push({
                                                         type: (state.hasProp ? tokenTypes.e_value : tokenTypes.e_prop),
@@ -1427,7 +1448,7 @@
                                         }
                                         if (skipElIndent) {
                                             var lastValue = node.children[lastIndex].value.trim();
-                                            if (lastValue.endsWith('&&') || lastValue.endsWith('?') || lastValue.endsWith('(') || lastValue.endsWith(':')) {
+                                            if (lastValue.endsWith('&&') || lastValue.endsWith('?') || lastValue.endsWith('(') || lastValue.endsWith(':') || lastValue.endsWith(' return')) {
                                                 childJs[childJs.length-1] += generateCode(node.children[m].value, skipElIndent);
                                                 addedAsJs = true;
                                                 childElCount--;

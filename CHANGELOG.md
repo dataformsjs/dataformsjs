@@ -4,6 +4,30 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## Next Release (Changes on Master Branch)
+
+* `jsxLoader.js` - General improvements for additional JSX Syntax
+  * Fixed issue where links `https://` were being partially parsed as single-line comments inside of an element
+  * Improved loop syntax elements needed to be enclosed in a `()` in certain situtations
+  ```jsx  
+    // Before
+    {props.data && props.data.categories && props.data.categories.map(category => {
+        return (<Category item={category} />)
+    })}
+
+    // After
+    {props.data && props.data.categories && props.data.categories.map(category => {
+        return <Category item={category} />
+    })}
+  ```
+  * Fixed issue where some characters such as '>' were being parsed within prop strings:
+  ```jsx
+    <InputFilter filter-selector="section.category ul > li" />
+  ```
+* React `InputFilter` Component
+  * Added a new `afterFilter` property to allow applications to define a custom events once data is filtered
+  * Previously if using a label to show filter results from [filter-results-selector] both [filter-results-text-all] and [filter-results-text-filtered] were required; now only one property is required.
+
 ## 3.6.2 (February 25, 2020)
 
 * `jsxLoader.js`

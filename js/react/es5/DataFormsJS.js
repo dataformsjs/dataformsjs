@@ -451,6 +451,10 @@ var InputFilter = function (_React$Component2) {
     key: "onChange",
     value: function onChange() {
       this.filter();
+
+      if (typeof this.props.afterFilter === 'function') {
+        this.props.afterFilter();
+      }
     }
   }, {
     key: "filter",
@@ -519,24 +523,25 @@ var InputFilter = function (_React$Component2) {
         var resultTextAll = el.getAttribute('filter-results-text-all');
         var resultTextFiltered = el.getAttribute('filter-results-text-filtered');
 
-        if (!resultTextAll) {
-          console.warn('Defined [filter-results-selector] without [filter-results-text-all]');
-          return;
-        } else if (!resultTextFiltered) {
-          console.warn('Defined [filter-results-selector] without [filter-results-text-filtered]');
+        if (resultTextAll === null && resultTextFiltered === null) {
+          console.warn('Defined [filter-results-selector] without [filter-results-text-all] or [filter-results-text-filtered]');
           return;
         }
 
-        var resultText;
+        var resultText = null;
 
         if (displayCount === totalCount) {
           resultText = resultTextAll;
-        } else {
+        } else if (resultTextFiltered !== null) {
           resultText = resultTextFiltered.replace(/{displayCount}/g, displayCount);
         }
 
-        resultText = resultText.replace(/{totalCount}/g, totalCount);
-        resultLabel.textContent = resultText;
+        if (resultText === null) {
+          resultLabel.textContent = '';
+        } else {
+          resultText = resultText.replace(/{totalCount}/g, totalCount);
+          resultLabel.textContent = resultText;
+        }
       }
     }
   }, {

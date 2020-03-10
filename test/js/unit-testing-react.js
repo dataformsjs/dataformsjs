@@ -233,9 +233,19 @@ describe('jsxLoader.js', function() {
             expect(el.textContent).to.equal('  Hello World  ');
         });
 
-        it('should have div-7 with from &nbsp; characters (ASCII == 160)', function() {
+        it('should have div-8 with from &nbsp; characters (ASCII == 160)', function() {
             var el = document.querySelector('#div-8');
             expect(el.textContent).to.equal('  Hello World  ');
+        });
+
+        it('should have div-9 with link text', function() {
+            var el = document.querySelector('#div-9');
+            expect(el.textContent).to.equal('https://www.dataformsjs.com/');
+        });
+
+        it('should have div-9 attribute', function() {
+            var el = document.querySelector('#div-9');
+            expect(el.getAttribute('data-selector')).to.equal('ul.link > li');
         });
 
         it('should have <ul class="links"> with 3 links', function() {
@@ -256,6 +266,11 @@ describe('jsxLoader.js', function() {
         it('should have correct content in <ul class="links"> for link 3', function() {
             var link = document.querySelector('ul.links li:last-child > a');
             expect(link.textContent).to.equal('https://www.dataformsjs.com/zh-CN/');
+        });
+
+        it('should have <ul class="links2"> with 4 elements', function() {
+            var links = document.querySelectorAll('ul.links2 li');
+            expect(links).to.be.lengthOf(4);
         });
 
         it('should have <input id="file-1" type="file" accept="image/*" multiple />', function() {
@@ -466,6 +481,11 @@ describe('jsxLoader.js', function() {
         it('should support shorthand fragments <>', function() {
             var el = document.querySelector('.shorthand-fragment');
             expect(el.textContent).to.equal('Shorthand Fragment Check');
+        });
+
+        it('should have 2nd shorthand fragment element', function() {
+            var el = document.querySelector('.shorthand-fragment2');
+            expect(el.textContent).to.equal('Shorthand Fragment Check 2');
         });
     });
 
