@@ -21,6 +21,11 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+**) After next npm release:
+    - File: dataformsjs\examples\places-demo-react.htm
+        Remove the temporary [StateCache.min.js] link and add the new one to babel comments
+    - Update Quick ref and getting started templates for the new `StateCache` class, for now just include links to it
+
 **) Create a standalone Vue Component <json-data>
     - It will go in a new directory `js/vue`
     - Behavior and API will be similar to the existing Framework and React code:

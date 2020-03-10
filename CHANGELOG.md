@@ -6,6 +6,7 @@ Overall the core Framework files and API are expected to remain stable however t
 
 ## Next Release (Changes on Master Branch)
 
+* Added new JavaScript class `StateCache` for simple state caching and re-use with React and Preact Apps.
 * `jsxLoader.js` - General improvements for additional JSX Syntax
   * Fixed issue where links `https://` were being partially parsed as single-line comments inside of an element
   * Improved loop syntax elements needed to be enclosed in a `()` in certain situtations

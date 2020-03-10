@@ -1,12 +1,12 @@
 'use strict';
 
-// This demo can use either [jQuery] and [chosen] or React Select] depending on the value of `useChosen`.
-const useChosen = true;
+// This demo can use either [jQuery] and [chosen] or [React Select] depending on the value of `useChosen`.
+const useChosen = false;
 
-// By default [jQuery] and [chosen] are used to match the UI and UX of the other demos (Handlebars, Vue, etc).
+// jQuery / chosen:
 //    https://harvesthq.github.io/chosen/
 //
-// The alternative version if `useChosen = false` uses React Select which is a popular React Component
+// React Select:
 //     https://react-select.com/home
 
 export function PageSearch({match}) {
@@ -65,12 +65,25 @@ class ShowSearchPage extends React.Component {
         this.handleCityChange = this.handleCityChange.bind(this);
         this.handleCountryChange = this.handleCountryChange.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.state = {
+        this.state = StateCache.get('search', {
             country: '',
             city: '',
             submittedSeach: false,
             waitToSearch: false,
-        };
+        });
+
+        // Define selected country object in format needed for [react-select]
+        this.selectedCountry = null;
+        if (this.state.country !== '') {
+            const country = this.props.data.countries.find(c => c.iso === this.state.country);
+            if (country) {
+                this.selectedCountry = {value: country.iso, label:country.country };
+            }
+        }
+    }
+
+    componentDidUpdate() {
+        StateCache.set('search', this.state);
     }
 
     /**
@@ -128,19 +141,20 @@ class ShowSearchPage extends React.Component {
                     {/* The <Chosen> Component is defined at the bottom of this file */}
                     {useChosen
                         ? <Chosen
-                            value={this.state.country}
+                            defaultValue={this.state.country}
                             onChange={this.handleCountryChange}
                             options={{ allow_single_deselect: true }}
                             placeholder={i18n.text('-- Select a Country (Optional) --')}>
                             <option value=""></option>
                             {this.props.data.countries.map(country => {
                                 return (
-                                    <option key={country.iso} value={country.iso}>{country.country}</option>
+                                    <option key={country.iso} value={country.iso} selected={country.iso === this.state.country}>{country.country}</option>
                                 )
                             })}
                         </Chosen>
 
                         : <Select
+                            defaultValue={this.selectedCountry}
                             onChange={this.handleCountryChange}
                             className="react-select"
                             placeholder={i18n.text('-- Select a Country (Optional) --')}
@@ -167,7 +181,7 @@ class ShowSearchPage extends React.Component {
                     */}
 
                     <input
-                        value={this.state.city}
+                        defaultValue={this.state.city}
                         onChange={this.handleCityChange}
                         onKeyDown={this.handleKeyDown}
                         placeholder={i18n.text("Search for a City, example 'Paris' or 'London'")} />
@@ -204,7 +218,8 @@ function SearchResults(props) {
             lang={props.lang}
             isLoading={<ShowLoading />}
             hasError={<ShowError />}
-            isLoaded={<ShowSearchResults />} />
+            isLoaded={<ShowSearchResults />}
+            loadOnlyOnce={true} />
     )
 }
 

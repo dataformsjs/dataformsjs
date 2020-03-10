@@ -9,7 +9,7 @@ if (window.React === undefined && window.preact !== undefined) { var React = win
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DataFormsJS = exports.SortableTable = exports.PolyfillService = exports.LeafletMap = exports.LazyLoad = exports.JsonData = exports.InputFilter = exports.I18n = exports.Format = exports.ErrorBoundary = void 0;
+exports.DataFormsJS = exports.StateCache = exports.SortableTable = exports.PolyfillService = exports.LeafletMap = exports.LazyLoad = exports.JsonData = exports.InputFilter = exports.I18n = exports.Format = exports.ErrorBoundary = void 0;
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -1527,6 +1527,33 @@ var SortableTable = function (_React$Component7) {
 }(React.Component);
 
 exports.SortableTable = SortableTable;
+var cachedState = {};
+
+var StateCache = function () {
+  function StateCache() {
+    _classCallCheck(this, StateCache);
+  }
+
+  _createClass(StateCache, null, [{
+    key: "get",
+    value: function get(name, defaultValues) {
+      if (cachedState[name] === undefined) {
+        cachedState[name] = defaultValues;
+      }
+
+      return cachedState[name];
+    }
+  }, {
+    key: "set",
+    value: function set(name, data) {
+      cachedState[name] = data;
+    }
+  }]);
+
+  return StateCache;
+}();
+
+exports.StateCache = StateCache;
 
 var DataFormsJS = function () {
   function DataFormsJS() {
@@ -1577,6 +1604,11 @@ var DataFormsJS = function () {
     key: "SortableTable",
     get: function get() {
       return SortableTable;
+    }
+  }, {
+    key: "StateCache",
+    get: function get() {
+      return StateCache;
     }
   }]);
 
