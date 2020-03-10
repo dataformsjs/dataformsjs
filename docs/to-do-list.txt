@@ -23,8 +23,8 @@ TODO List
 
 **) After next npm release:
     - File: dataformsjs\examples\places-demo-react.htm
-        Remove the temporary [StateCache.min.js] link and add the new one to babel comments
-    - Update Quick ref and getting started templates for the new `StateCache` class, for now just include links to it
+        Remove the temporary [Cache.min.js] link and add the new one to babel comments
+    - Update Quick ref and getting started templates for the new `Cache` class, for now just include links to it
 
 **) Create a standalone Vue Component <json-data>
     - It will go in a new directory `js/vue`
@@ -62,6 +62,16 @@ TODO List
         https://github.com/dataformsjs/website/blob/master/docs/Main%20Site%20Server%20Setup.txt
         https://github.com/dataformsjs/website/blob/master/docs/Python%20Webserver%20Setup%20for%20AI_ML%20Functions.txt
     - This will likely be documented in a new markdown doc
+    - Possibly include the playground server:
+        https://playground.dataformsjs.com/
+    - Playground code would likely be moved to the main website repository from:
+        https://github.com/dataformsjs/playground
+    - To handle that the [index.php] would check host 'playground.dataformsjs.com'
+        or a new Request Header 'X-Playground' to determine which file to include [app.php]
+        or migrated [playground.php]
+    - A main issue to handle is how to setup HTTPS with https://letsencrypt.org/
+        when the host is already being used by another static IP.
+        More time to research and test this is needed.
 
 **) Main Web Site and Playground Sites
     - Use HTTP/2 instead of http/1.1
