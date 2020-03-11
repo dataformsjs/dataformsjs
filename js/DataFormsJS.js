@@ -728,6 +728,22 @@
             return;
         }
 
+        // Show loading screen while the scripts are being loaded. Scripts should load
+        // quick but on mobile devices a delay of 1 second makes the page looks like it
+        // is not being loaded. This code handles  issue to reset the view, however only
+        // simple templates embedded on the page can be used.
+        if (app.settings.lazyLoadingViewSelector !== null) {
+            var view = document.querySelector(app.settings.viewSelector);
+            var tmpl = document.querySelector(app.settings.lazyTemplateSelector);
+            if (view && tmpl) {
+                if (tmpl.tagName === 'TEMPLATE' || (tmpl.tagName === 'SCRIPT' && tmpl.getAttribute('data-engine') === 'text')) {
+                    view.innerHTML = tmpl.innerHTML;
+                } else {
+                    console.warn('Unable to show loading screen from [app.settings.lazyTemplateSelector]. Only <template> tags are allowed.');
+                }
+            }
+        }
+
         // Items to load are comma delimited, for each item add a promise
         // to load the related scripts defined from [app.lazyLoad].
         var lazyLoad = controller.settings.lazyLoad;
@@ -929,6 +945,7 @@
             errors: {
                 pageLoading: 'Error loading the current page because the previous page is still loading and is taking a long time. Please refresh the page and try again.',
             },
+            lazyTemplateSelector: null,
         },
 
         // References to the active objects and settings of the current view.
@@ -2429,7 +2446,8 @@
          * This function is used internally when using [app.lazyLoad] and [data-lazy-load]
          * to download needed scripts before a router/controller is loaded. Scripts are
          * loaded in sequential order so when using this it's important for the files
-         * to download quickly.
+         * to download quickly. The settings [app.settings.lazyTemplateSelector] can
+         * be used to show a loading screen while scripts are being loaded.
          *
          * @param {string|array} urls Single URL's can use a string
          * @return {Promise}

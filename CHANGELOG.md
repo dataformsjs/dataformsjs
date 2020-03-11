@@ -6,7 +6,7 @@ Overall the core Framework files and API are expected to remain stable however t
 
 ## Next Release (Changes on Master Branch)
 
-_Next release will be `4.0.0` due to minor breaking changes_
+_Next release will be `4.0.0` due to minor breaking changes, planned for release in March 2020_
 
 * Breaking Changes - Relatively minor but they are breaking so a new major release number is being used:
   * Removed previously depreciated `PolyfillService` Component/Class.
@@ -35,7 +35,9 @@ _Next release will be `4.0.0` due to minor breaking changes_
 * React `InputFilter` Component
   * Added a new `afterFilter` property to allow applications to define a custom events once data is filtered
   * Previously if using a label to show filter results from [filter-results-selector] both [filter-results-text-all] and [filter-results-text-filtered] were required; now only one property is required.
-* DataFormsJS Framework Object `DataFormsJS.js` - Added `Array.prototype.find` to Polyfill Bundle for Legacy Browsers
+* DataFormsJS Framework Object `DataFormsJS.js`
+  * Added `app.settings.lazyLoadingViewSelector` to allow for loading screens between page views when using `app.lazyLoad`. In most cases loading logic is used on actual page content however this helps to indicate page change on slow mobile devices and scripts are being loaded.
+  * Added `Array.prototype.find` to Polyfill Bundle for Legacy Browsers
 
 ## 3.6.2 (February 25, 2020)
 
