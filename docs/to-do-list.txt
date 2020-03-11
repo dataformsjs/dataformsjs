@@ -25,6 +25,9 @@ TODO List
     - File: dataformsjs\examples\places-demo-react.htm
         Remove the temporary [Cache.min.js] link and add the new one to babel comments
     - Update Quick ref and getting started templates for the new `Cache` class, for now just include links to it
+    - Add `app.settings.lazyTemplateSelector` to quick ref and getting started templates
+    - File: website\app\Views\index.htm
+        Remove [DataFormsJS.20200311.min.js] and uncomment the regular CDN version
 
 **) Create a standalone Vue Component <json-data>
     - It will go in a new directory `js/vue`
