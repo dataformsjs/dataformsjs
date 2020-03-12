@@ -21,19 +21,14 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) After next npm release:
-    - File: dataformsjs\examples\places-demo-react.htm
-        Remove the temporary [Cache.min.js] link and add the new one to babel comments
-    - Update Quick ref and getting started templates for the new `Cache` class, for now just include links to it
-    - Add `app.settings.lazyTemplateSelector` to quick ref and getting started templates
-    - File: website\app\Views\index.htm
-        Remove [DataFormsJS.20200311.min.js] and uncomment the regular CDN version
-
-**) Create a standalone Vue Component <json-data>
-    - It will go in a new directory `js/vue`
-    - Behavior and API will be similar to the existing Framework and React code:
-        <json-data> Framework Control and Web Component
-        React JsonData Component
+**) jsxLoader updates from release 4.0.0 broke this example page:
+    - Need to fix:
+        dataformsjs\examples\hacker-news-react.htm
+    - Currently using this on the page:
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/react/jsxLoader.min.js"></script>
+        Until 4.0.1 can be released
+    - The issue is caused by incorrect comment parsing at line:
+        // Use a nested <JsonData> to download the details of each Hacker News Post
 
 **) Improve UX of the Quick Ref Page
     https://www.dataformsjs.com/en/quick-reference
