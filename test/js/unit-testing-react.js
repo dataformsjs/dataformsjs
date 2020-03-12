@@ -10,6 +10,9 @@
     them using URL's below. Additionally each page would have to be changed to use the
     local version instead of the server version.
 
+    For most updates simply doing regression testing after publishing a new release
+    and updating the CDN version if HTML files is ok.
+
     http://127.0.0.1:8080/places-demo-react
     http://127.0.0.1:8080/image-classification-react
     http://127.0.0.1:8080/log-table-react
