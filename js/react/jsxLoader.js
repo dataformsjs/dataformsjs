@@ -506,6 +506,10 @@
              * the correct line/column position of the error. Additionally it simplifies
              * lexical analysis because there is no need to tokenize the comments.
              *
+             * Note - this function should handle most but may not handle all comments.
+             * If new issues parsing are discovered this function needs to be updated to
+             * better handle them.
+             *
              * @param {string} input
              * @return {string}
              */
@@ -520,6 +524,7 @@
                         inStringDoubleQuote: false,
                         inStringMultiLine: false,
                         elementCount: 0,
+                        jsCount: 0,
                     },
                     current = 0,
                     char,
@@ -580,10 +585,17 @@
                                     current += 2;
                                     char = ' ';
                                     state.inCommentReact = true;
+                                } else if (state.elementCount > 0) {
+                                    state.jsCount++;
+                                }
+                                break;
+                            case '}':
+                                if (state.elementCount > 0 && state.jsCount > 0) {
+                                    state.jsCount--;
                                 }
                                 break;
                             case '/':
-                                if (state.elementCount === 0) {
+                                if (state.elementCount === 0 || state.jsCount > 0) {
                                     var next = peekNext();
                                     state.inCommentSingleLine = (next === '/');
                                     if (!state.inCommentSingleLine) {

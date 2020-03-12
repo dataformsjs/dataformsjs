@@ -184,6 +184,9 @@ class UnitTestPage extends React.Component {
 
                 <ul className="links">
                     {links.map(link => {
+                        // This specific comment is related to a fix for release 4.0.1 where
+                        // support for JavaScript comments nested with-in elements was removed.
+                        // This specific line would cause an error release 4.0.0. <li>
                         return (
                             <li key={link}>
                                 <a href={link} target="_blank">{link}</a>

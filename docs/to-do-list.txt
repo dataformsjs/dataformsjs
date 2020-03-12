@@ -21,15 +21,6 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) jsxLoader updates from release 4.0.0 broke this example page:
-    - Need to fix:
-        dataformsjs\examples\hacker-news-react.htm
-    - Currently using this on the page:
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@3.6.2/js/react/jsxLoader.min.js"></script>
-        Until 4.0.1 can be released
-    - The issue is caused by incorrect comment parsing at line:
-        // Use a nested <JsonData> to download the details of each Hacker News Post
-
 **) Improve UX of the Quick Ref Page
     https://www.dataformsjs.com/en/quick-reference
     - Filtering on all code doesn't work well due to generic terms "JavaScript" "Template", "Vue", etc

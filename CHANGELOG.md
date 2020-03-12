@@ -4,6 +4,10 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 4.0.1 (March 12, 2020)
+
+* `jsxLoader.js` - Fix for incorrect parsing of JavaScript comments nested with-in elements
+
 ## 4.0.0 (March 12, 2020)
 
 * Breaking Changes - Relatively minor but they are breaking so a new major release number is being used:
