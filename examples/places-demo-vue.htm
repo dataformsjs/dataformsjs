@@ -135,6 +135,12 @@
             data-src="html/places-info-vue.htm">
         </script>
 
+        <template id="loading-spinner-screen">
+            <div class="loading">
+                <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
+        </template>
+
         <!-- Vue
 		Dev Latest:
 			<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -184,6 +190,7 @@
                 leafletJs: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.js',
                 leafletPlugin: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/plugins/leaflet.min.js',
             };
+            app.settings.lazyTemplateSelector = '#loading-spinner-screen';
         </script>
     </body>
 </html>

@@ -24,6 +24,12 @@
             <div><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></div>            
         </template>
 
+        <template id="loading-spinner-screen">
+            <div class="loading">
+                <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
+        </template>
+
         <template
             data-default-route
             data-route="/:lang/"
@@ -111,6 +117,7 @@
                 leafletPlugin: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/plugins/leaflet.min.js',
                 data_list: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/controls/data-list.min.js',
             };
+            app.settings.lazyTemplateSelector = '#loading-spinner-screen';
         </script>
 
         <script>

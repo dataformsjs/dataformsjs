@@ -25,7 +25,13 @@
             <h3 class="error">{{i18n 'Error'}} - {{errorMessage}}</h3>
         </script>
 
-        <!-- 
+        <template id="loading-spinner-screen">
+            <div class="loading">
+                <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
+        </template>
+
+        <!--
             GraphQL Queries can be both included on the page or downloaded.
             In this example scripts that use [data-graphql-id] point to the embedded
             queries while scripts that use [data-graphql-src] download the queries.
@@ -151,6 +157,7 @@
                 leafletJs: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.js',
                 leafletPlugin: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/plugins/leaflet.min.js',
             };
+            app.settings.lazyTemplateSelector = '#loading-spinner-screen';
         </script>
     </body>
 </html>

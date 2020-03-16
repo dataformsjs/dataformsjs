@@ -1,6 +1,6 @@
 <!doctype html>
-<html 
-    lang="en" 
+<html
+    lang="en"
     data-show-errors
     data-i18n-default="en"
     data-i18n-locales="en,ja,es,pt-BR,ar,fr"
@@ -16,7 +16,7 @@
     <body>
         <div id="view" dir="auto"></div>
 
-        <!-- 
+        <!--
             Templates/Views can be both included on the page or downloaded.
             In this example the main page and several "HTML Controls" are
             embedded in the page while other Templates are downloaded only
@@ -30,6 +30,20 @@
         <script type="text/x-template" data-engine="handlebars" id="error-screen">
             <h3 class="error">{{i18n 'Error'}} - {{errorMessage}}</h3>
         </script>
+
+        <!--
+            Data screens use the 'Loading...' with translations while the lazy load script
+            downloads will use a spinner. Typicaly an app would have only one shared loading
+            screen but this is a demo page and designed to show different options.
+
+            This screen is linked from [app.settings.lazyTemplateSelector] later in this file.
+            Loading screens that use [lazyTemplateSelector] can only be simple <template> tags.
+        -->
+        <template id="loading-spinner-screen">
+            <div class="loading">
+                <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
+        </template>
 
         <script
             type="text/x-template"
@@ -49,7 +63,7 @@
                     <a href="#/{{i18n_Locale}}/search">{{i18n 'Search'}}</a>
                     <a href="#/{{i18n_Locale}}/info">{{i18n 'Info'}}</a>
                 </nav>
-                
+
                 <input
                     data-filter-selector="table"
                     data-filter-results-text-selector="h1"
@@ -136,7 +150,7 @@
 
         <!-- Handlebars -->
         <script src="https://cdn.jsdelivr.net/npm/handlebars@4.5.1/dist/handlebars.min.js"></script>
-        
+
         <!-- DataFormsJS -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/DataFormsJS.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/pages/jsonData.min.js"></script>
@@ -174,6 +188,7 @@
                 leafletJs: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.js',
                 leafletPlugin: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/plugins/leaflet.min.js',
             };
+            app.settings.lazyTemplateSelector = '#loading-spinner-screen';
         </script>
     </body>
 </html>
