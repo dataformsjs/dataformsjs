@@ -1,0 +1,20 @@
+{{#if images}}
+    <ul class="results" data-loading="{{i18n 'Uploading...'}}" data-error="{{i18n 'Error'}}">
+        {{#each images}}
+        <li>
+            <img src="{{src}}" />
+            {{#if isUploading}}
+                <div class="loading">{{i18n 'Uploading...'}}</div>
+            {{/if}}
+            {{#each predictions}}
+                <div class="{{js (concat 'model.resultClass(' this.probability ')')}}">
+                    {{this.label}} = {{formatPercent this.probability 5}}
+                </div>
+            {{/each}}
+            {{#if hasError}}
+                <div class="error">{{i18n 'Error'}}</div>
+            {{/if}}
+        </li>
+        {{/each}}
+    </ul>
+{{/if}}

@@ -1,0 +1,15 @@
+{
+    "title": "Hello Worldデモ",
+    "webc": "Web Components",
+    "hello_world": "こんにちは世界！",
+    "modify_this": "この",
+    "URL": "URL",
+    "with_your_name": "を自分の名前で変更します。",
+    "hello": "こんにちは",
+    "hello_name": "{{name}}こんにちは！",
+    "back_home": "家に帰る",
+    "param_name": "name",
+    "param_your_name": "あなたの名前",
+    "jsx_loader": "DataFormsJS [jsxLoader.js]は、JSXをJSにすばやくコンパイルするために使用されています。",
+    "babel_loader": "古いブラウザを使用しているため、JSXをJSにコンパイルするためにBabelが使用されています。"
+}

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Countries Demo | No SPA | React</title>
+        <link rel="stylesheet" href="css/countries.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
+        <link rel="canonical" href="https://www.dataformsjs.com/examples/countries-no-spa-hbs.htm">
+    </head>
+    <body>
+        <div id="view">
+            <h1>Countries</h1>
+
+            <div id="root"></div>
+        </div>
+    </div>
+
+    <!-- React -->
+    <script src="https://unpkg.com/react@16.13.0/umd/react.production.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@16.13.0/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+    <!-- DataFormsJS React Components -->
+    <!--
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/ErrorBoundary.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/JsonData.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/InputFilter.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/SortableTable.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/Format.js"></script>
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es5/DataFormsJS.min.js"></script>
+
+    <!-- DataFormsJS JSX Loader -->
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/jsxLoader.min.js"></script>
+    <script>
+        // Set to `true` to view compiler details
+        jsxLoader.logCompileTime = false;
+        jsxLoader.logCompileDetails = false;
+    </script>
+
+    <script type="text/babel">
+        const format = new Format();
+
+        function ShowLoading() {
+            return <h3 className="loading">Loading...</h3>;
+        }
+
+        function ShowError(props) {
+            return <p className="error">{props.error}</p>;
+        }
+
+        function ShowCountries(props) {
+            return (
+                <React.Fragment>
+                    <InputFilter
+                        filter-selector="table"
+                        filter-results-selector="h1"
+                        filter-results-text-all="{totalCount} Countries"
+                        filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
+                        placeholder="Enter filter, example 'North America'" />
+
+                    <p>Click on a column to sort rows based on column values.</p>
+
+                    <SortableTable
+                        data-sort-class-odd="row-odd"
+                        data-sort-class-even="row-even">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Name</th>
+                                <th>Size (KM)</th>
+                                <th>Population</th>
+                                <th>Continent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {props.data && props.data.countries && props.data.countries.map(country => {
+                                return (
+                                    <tr key={country.iso}>
+                                        <td>{country.iso}</td>
+                                        <td>
+                                            <i class={country.iso.toLowerCase() + ' flag'}></i>
+                                            <span>{country.country}</span>
+                                        </td>
+                                        <td className="align-right" data-value={country.area_km}>{format.number(country.area_km)}</td>
+                                        <td className="align-right" data-value={country.population}>{format.number(country.population)}</td>
+                                        <td>{country.continent}</td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </SortableTable>
+                </React.Fragment>
+            )
+        }
+
+        class App extends React.Component {
+            render() {
+                return (
+                    <ErrorBoundary>
+                        <JsonData
+                            url="https://www.dataformsjs.com/data/geonames/countries"
+                            isLoading={<ShowLoading />}
+                            hasError={<ShowError />}
+                            isLoaded={<ShowCountries />} />
+                    </ErrorBoundary>
+                )
+            }
+        }
+
+        ReactDOM.render(
+            <App />,
+            document.getElementById('root')
+        );
+    </script>
+</body>

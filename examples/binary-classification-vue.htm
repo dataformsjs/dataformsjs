@@ -1,0 +1,111 @@
+<!doctype html>
+<html 
+    lang="en" 
+    data-show-errors
+    data-i18n-default="en"
+    data-i18n-locales="en,ja,es,pt-BR,ar,fr"
+    data-i18n-file="binary-classification">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title data-i18n="AI/ML Binary Classification | Vue"></title>
+    <link rel="stylesheet" href="css/binary-classification.css">
+    <link rel="canonical" href="https://www.dataformsjs.com/examples/binary-classification-vue.htm">
+</head>
+<body dir="auto">
+    <nav>
+        <a href="#/en/" data-i18n="Prediction" data-i18n-href></a>
+        <a href="#/en/info" data-i18n="Info" data-i18n-href></a>
+        <a href="#/en/training-data" data-i18n="Training Data" data-i18n-href></a>
+    </nav>
+
+    <div id="view"></div>
+
+    <!--
+        [data-prediction] and [data-probability] are required for
+        predictions to display when updated.
+
+        Fields [data-pregnancies ... data-age] are optional. The app will work and display
+        initial values without it however they will not be saved as Vue properties unless
+        defined here. If not defined then the data does not reload when clicking to the info
+        tab and clicking back.
+    -->
+    <script
+        type="text/x-template"
+        data-engine="vue"
+        data-default-route
+        data-route="/:lang/"
+        data-page="binaryPredictionPage"
+        data-url="https://www.dataformsjs.com/data/ai-ml/sample-data/pima-indians-diabetes"
+        data-save-url="https://www.dataformsjs.com/data/ai-ml/predict/pima-indians-diabetes"
+        data-load-only-once="true"
+        data-use-save-api="false"
+        data-lazy-load="binaryPredictionPage"
+        data-src="html/binary-home-vue.htm"
+        
+        data-prediction
+        data-probability
+
+        data-pregnancies
+        data-glucose
+        data-blood-pressure
+        data-skin-thickness
+        data-insulin
+        data-bmi
+        data-diabetes-pedigree-function
+        data-age>
+    </script>
+
+    <script
+        type="text/x-template"
+        data-engine="vue"
+        data-route="/:lang/info"
+        data-src="html/binary-info-vue.htm">
+    </script>
+
+    <script
+        type="text/x-template"
+        data-engine="vue"
+        data-route="/:lang/training-data"
+        data-page="jsonData"
+        data-url="https://www.dataformsjs.com/data/ai-ml/sample-training-data/pima-indians-diabetes"
+        data-load-only-once="true"
+        data-lazy-load="jsonData"
+        src="html/binary-training-vue.htm"
+        data-columns
+        data-records>
+    </script>
+
+    <!-- 
+    Vue
+    https://vuejs.org
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <!--
+        DataFormsJS
+        https://www.dataformsjs.com
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/DataFormsJS.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/plugins/i18n.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/plugins/navLinks.min.js"></script>
+    <script>
+        // Files 'entryForm.js' and 'binary-classification.js' uses [Object.assign] which isn't available from IE
+        // by default. It gets loaded as a polyfill from [DataFormsJS.js] once the page is ready.
+        // In addition to only loading what is needed using [app.lazyLoad] allows for the polyfill
+        // to run first.
+        app.lazyLoad = {
+            binaryPredictionPage: [
+                'https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/pages/jsonData.min.js',
+                'https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/pages/entryForm.min.js',
+                './binary-classification.js',
+            ],
+            jsonData: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/pages/jsonData.min.js',
+            // Currently this is not used, if adding back then also update:
+            //     [data-lazy-load="binaryPredictionPage, vueDirectives"]
+            //
+            // vueDirectives: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/extensions/vue-directives.min.js',
+        }
+    </script>
+</body>
+</html>

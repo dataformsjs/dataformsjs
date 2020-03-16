@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title data-i18n="AI/ML Image Classification | React"></title>
+    <link rel="stylesheet" href="css/image-classification.css">
+    <link rel="canonical" href="https://www.dataformsjs.com/examples/image-classification-react.htm">
+</head>
+<body>
+    <div id="root" dir="auto"></div>
+
+    <!-- React -->
+    <!--
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin="anonymous"></script>
+
+    <script src="https://unpkg.com/react@16.13.0/umd/react.production.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@16.13.0/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+    <script src="../vendor/react.production.min.js" crossorigin="anonymous"></script>
+    <script src="../vendor/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+    <script src="../vendor/react.development.js" crossorigin="anonymous"></script>
+    <script src="../vendor/react-dom.development.js" crossorigin="anonymous"></script>
+    -->
+    <script src="https://unpkg.com/react@16.13.0/umd/react.production.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@16.13.0/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+    <!--
+        React Router
+        https://reacttraining.com/react-router/
+        https://github.com/ReactTraining/react-router
+    -->
+    <!--
+    <script src="../vendor/react-router.min.js"></script>
+    <script src="../vendor/react-router-dom.min.js"></script>
+    -->
+    <script src="https://unpkg.com/react-router/umd/react-router.min.js"></script>
+    <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
+
+    <!-- DataFormsJS JSX Loader -->
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/jsxLoader.min.js"></script>
+    <script>
+        // Set to `true` to see compiler details
+        jsxLoader.logCompileTime = false;
+        jsxLoader.logCompileDetails = false;
+    </script>
+
+    <!-- DataFormsJS React Components -->
+    <!--
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/ErrorBoundary.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/LazyLoad.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/JsonData.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/InputFilter.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/SortableTable.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/I18n.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/Format.js"></script>
+    <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/LeafletMap.js"></script>
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es5/DataFormsJS.min.js"></script>
+
+    <!-- JSX Templates for this App -->
+    <script type="text/babel" src="html/image-home-react.jsx"></script>
+    <script type="text/babel" src="html/image-categories-react.jsx"></script>
+    <script type="text/babel" src="html/image-info-react.jsx"></script>
+
+    <script type="text/babel">
+        const Router = window.ReactRouterDOM.HashRouter;
+        const Route = window.ReactRouterDOM.Route;
+        const Redirect = window.ReactRouterDOM.Redirect;
+        const NavLink = window.ReactRouterDOM.NavLink;
+
+        const defaultLocale = 'en';
+        const supportedLocales = ['en', 'ja', 'es', 'pt-BR', 'ar', 'fr'];
+        const fileName = 'image-classification';
+        const i18n = new I18n(defaultLocale, supportedLocales, fileName);
+        const defaultLang = i18n.getUserDefaultLang;
+        const format = new Format();
+
+        function ShowLoading() {
+            return <h2>{i18n.text('Loading...')}</h2>;
+        }
+
+        function ShowError(props) {
+            return <h2>{props.error}</h2>;
+        }
+
+        class App extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    langLoaded: null,
+                };
+            }
+
+            componentDidMount() {
+                i18n.onLangStart(() => { this.setState({ langLoaded:false }); });
+                i18n.onLangLoaded(() => { this.setState({ langLoaded:true }); });
+            }
+
+            render() {
+                if (!this.state.langLoaded) {
+                    return <ShowLoading />;
+                }
+                return (
+                    <ErrorBoundary>
+                        <Router>
+                            <nav>
+                                <NavLink exact to={'/' + i18n.currentLocale + '/'} activeClassName="active">{i18n.text('Images')}</NavLink>
+                                <NavLink exact to={'/' + i18n.currentLocale + '/categories'} activeClassName="active">{i18n.text('Categories')}</NavLink>
+                                <NavLink exact to={'/' + i18n.currentLocale + '/info'} activeClassName="active">{i18n.text('Info')}</NavLink>
+                            </nav>
+
+                            <React.Fragment>
+                                <Route exact path="/" render={() => (
+                                    <Redirect to={'/' + defaultLang + '/'} />
+                                )}/>
+                                <Route exact path="/:lang/" component={PageImages} />
+                                <Route exact path="/:lang/categories" component={PageCategories} />
+                                <Route exact path="/:lang/info" component={PageInfo} />
+                            </React.Fragment>
+                        </Router>
+                    </ErrorBoundary>
+                )
+            }
+        }
+
+        ReactDOM.render(
+            <App />,
+            document.getElementById('root')
+        );
+    </script>
+</body>
+</html>

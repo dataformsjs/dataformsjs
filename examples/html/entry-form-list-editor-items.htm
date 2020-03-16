@@ -1,0 +1,43 @@
+{{#each records}}
+<tr data-list-item>
+    <td>
+        <a href="#/record/{{id}}">{{id}}</a>
+        <input type="hidden" name="id" value="{{id}}">
+    </td>
+    <td><input class="form-control" name="item-field-label" data-label="Label" required value="{{label}}"></td>
+    <td><input class="form-control" name="item-field-num_value" data-label="Number" data-type="float" value="{{num_value}}"></td>
+    <td>
+        <!-- 
+            Note [../categories] tells handlebars to look up one level to get the list
+        -->
+        {{select 'class="form-control" name="item-field-category"' ../categories category 'allow-null'}}
+    </td>
+    <td>
+        <input class="form-control" name="item-field-active" type="checkbox" {{#if active}}checked{{/if}}></input>
+    </td>
+    <td><textarea class="form-control" rows="3" data-label="Comment" name="item-field-comment">{{comment}}</textarea></td>
+    <td>
+        <span title="Delete" class="btn btn-info" data-delete-button>X</span>
+    </td>
+</tr>
+{{/each}}
+<tr data-add-item>
+    <td>(New)</td>
+    <td><input class="form-control" name="item-field-label" required value=""></td>
+    <td><input class="form-control" name="item-field-num_value" data-type="float" value=""></td>
+    <td>
+        <select class="form-control" name="item-field-category">
+            <option></option>
+            {{#each categories}}
+                <option>{{this}}</option>
+            {{/each}}
+        </select>
+    </td>
+    <td>
+        <input class="form-control" name="line-field-active" type="checkbox"></input>
+    </td>    
+    <td><textarea class="form-control" rows="3" name="item-field-comment"></textarea></td>
+    <td>
+        <span title="Add" class="btn btn-info" data-add-button>+</span>
+    </td>
+</tr>

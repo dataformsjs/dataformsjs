@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title></title>
+        <style>
+	        nav { margin-bottom:20px; }
+	        nav a { margin-right:20px; }
+            #view { border: none; }
+	    </style>   
+    </head>
+    <body>
+        <nav>
+            <a href="#/">Home Page</a>
+            <a href="#/js-controls">JS Controls</a>
+            <a href="#/json-data-control">JSON Data Control</a>
+        </nav>
+
+        <div id="view"></div>
+
+        <template data-route="/">
+            <h1>Home Page</h1>
+            <p>This is an example page of using custom JavaScript Controls with the Standard Framework.</p>
+            <p>Custom Controls are a similar concept to Web Components, however they are intended for use with all Browsers that the Framework supports. Web Components only work with modern browsers.</p>
+            <p>If using DataFormsJS Web Components you would typically not use the Standard Framework.</p>
+        </template>
+
+        <script type="text/x-template" data-engine="handlebars" data-route="/js-controls">
+            <hello-world data-name="Test"></hello-world>
+            <div data-control="hello-world"></div>
+            <hello-world data-control="hello-world"></hello-world>
+            <show-time></show-time>
+            <div data-control="custom-list"></div>
+            <custom-list data-list-count="3"></custom-list>
+            <event-order id="test-control-event-order"></event-order>
+            <div data-control="error-test"></div>
+            <div id="error-test"></div>
+            <error-function-test data-error-at="onLoad"></error-function-test>
+            <error-function-test data-error-at="html"></error-function-test>
+            <error-function-test data-error-at="onUnload"></error-function-test>
+        </script>
+
+        <script type="text/x-template" data-engine="handlebars" data-route="/json-data-control">
+            <json-data data-url="https://www.dataformsjs.com/data/hello-world" data-template-id="template-message1"></json-data>
+            <json-data data-url="https://www.dataformsjs.com/data/hello-world-error"></json-data>
+            <json-data data-url="https://www.dataformsjs.com/data/hello-world" data-template-id="template-message2" data-model-prop="data"></json-data>
+            <json-data data-url="https://www.dataformsjs.com/data/time" data-template-id="template-time" data-refresh-time-interval="5000"></json-data>
+        </script>
+
+        <script type="text/x-template" data-engine="handlebars" id="template-message1">
+            <div style="background-color:red; color:white; padding:1em;">
+                {{#if isLoading}}Loading...{{/if}}
+                {{#if hasError}}Error: {{errorMessage}}{{/if}}
+                {{#if isLoaded}}{{message}}</div>{{/if}}
+            </div>
+        </script>
+
+        <script type="text/x-template" data-engine="handlebars" id="template-message2">
+            <div style="background-color:blue; color:white; padding:1em;">
+                {{#if data.isLoading}}Loading...{{/if}}
+                {{#if data.hasError}}Error: {{data.errorMessage}}{{/if}}
+                {{#if data.isLoaded}}{{data.message}}</div>{{/if}}
+            </div>
+        </script>
+
+        <script type="text/x-template" data-engine="handlebars" id="template-time">
+            <div style="background-color:green; color:white; padding:1em;">{{time}}</div>
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/DataFormsJS.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/controls/json-data.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/handlebars@4.5.1/dist/handlebars.min.js"></script>
+
+        <script>
+            app.addControl("hello-world", {
+                css: '.hello-world { color:blue; }', 
+                data: {
+                    name: "World",
+                },
+                html: function () {
+                    return '<h1 class="hello-world">Hello ' + this.name + '!</h1>'; 
+                },
+            });
+            app.addControl("show-time", {
+                data: {
+                    interval: null,
+                    showTime: function(element) {
+                        const d = new Date();
+                        element.textContent = d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
+                    },
+                },
+                onLoad: function(element) {
+                    var control = this;
+                    this.interval = window.setInterval(function() {
+                        control.showTime(element);
+                    }, 1000);
+                    control.showTime(element);
+                },
+                onUnload: function(element) {
+                    if (this.interval !== null) {
+                        window.clearInterval(this.interval);
+                        this.interval = null;
+                    }
+                },
+            });
+
+            app.addControl("custom-list", {
+                type: 'section',
+                data: {
+                    listCount: 2,
+                },
+                html: function () {
+                    if (this.listCount === 2) {
+                        return '<div data-control="list-item"></div><list-item></list-item>'; 
+                    }                    
+                    var html = [];
+                    for (var n = 0; n < this.listCount; n++) {
+                        html.push('<list-item></list-item>');
+                    }
+                    return html.join('');
+                },
+            });
+            app.addControl("list-item", {
+                onLoad: function (element) {
+                    var elements = document.querySelectorAll("[data-control='list-item']");
+                    var count = Array.from(elements).filter(function(el) { return el.textContent !== "" }).length;
+                    element.textContent = "Item " + (count+1);
+                },
+            });
+
+            app.addControl("event-order", {
+                data: {
+                    events: [],
+                },
+                onLoad: function (element) {
+                    this.events.push('onLoad(' + element.id + ')');
+                },
+                html: function () {
+                    this.events.push('html(' + arguments.length + ')');
+                    return '[' + this.events.join(',') + ']';
+                },
+                onUnload: function (element) {
+                    this.events.push('onUnload(' + element.id + ')');
+                    app.locals['Control-Event-Order'] = '[' + this.events.join(',') + ']';
+                }
+            });
+
+            app.addControl('error-function-test', {
+                onLoad: function (element) {
+                    if (this.errorAt === 'onLoad') {
+                        throw new Error('Error Test');
+                    }
+                },
+                html: function () {
+                    if (this.errorAt === 'html') {
+                        throw new Error('Error Test');
+                    }
+                    return '';
+                },
+                onUnload: function (element) {
+                    if (this.errorAt === 'onUnload') {
+                        throw new Error('Error Test');
+                    }
+                }
+            });
+
+            app.controls["json-data"].onFetch = function(element) {
+                console.log("jsonData.data.onFetch");
+                console.log(this);
+                console.log(element);
+            };
+            app.controls["json-data"].onError = function(element) {
+                console.log("jsonData.data.onError");
+                console.log(this);
+                console.log(element);
+            };
+        </script>
+    </body>
+</html>

@@ -1,0 +1,15 @@
+{
+    "title": "Démo de Bonjour le Monde",
+    "webc": "Composants Web",
+    "hello_world": "Bonjour le Monde!",
+    "modify_this": "Modifiez ceci",
+    "URL": "URL",
+    "with_your_name": "avec votre nom.",
+    "hello": "Bonjour",
+    "hello_name": "Bonjour le {{nom}}!",
+    "back_home": "De retour à la Accueil",
+    "param_name": "nom",
+    "param_your_name": "Votre-Nom",
+    "jsx_loader": "DataFormsJS [jsxLoader.js] est utilisé pour compiler rapidement JSX en JS.",
+    "babel_loader": "Vous utilisez un ancien navigateur, Babel est donc utilisé pour compiler JSX en JS."
+}

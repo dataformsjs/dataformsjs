@@ -1,0 +1,15 @@
+{
+    "title": "Olá Mundo Demo",
+    "webc": "Web Components",
+    "hello_world": "Olá Mundo!",
+    "modify_this": "Modifique este",
+    "URL": "URL",
+    "with_your_name": "com seu nome.",
+    "hello": "Olá",
+    "hello_name": "Olá {{name}}!",
+    "back_home": "Voltar ao ínicio",
+    "param_name": "nome",
+    "param_your_name": "Seu-nome",
+    "jsx_loader": "O DataFormsJS [jsxLoader.js] está sendo usado para compilar rapidamente JSX para JS.",
+    "babel_loader": "Você está usando um navegador mais antigo, então o Babel está sendo usado para compilar JSX em JS."
+}

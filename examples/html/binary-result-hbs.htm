@@ -1,0 +1,14 @@
+<div class="prediction">
+    <strong>{{i18n 'Prediction'}}:</strong>
+    <span>
+        {{#ifCond prediction '===' 1}}
+            {{i18n 'Has Diabetes (1 = True)'}}
+        {{else}}
+            {{i18n 'Does not have Diabetes (0 = False)'}}
+        {{/ifCond}}
+    </span>
+</div>
+<div class="probability">
+    <strong>{{i18n 'Probability'}} <i>{{i18n '(of Diabetes)'}}</i>:</strong>
+    <span>{{js (concat 'Number(' probability ' * 100).toFixed(2)')}} %</span>
+</div>

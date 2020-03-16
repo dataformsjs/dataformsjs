@@ -1,0 +1,36 @@
+<h1>
+    <span>Largest Cities in</span> <span url-param="country"></span>, <span url-param="region"></span>
+</h1>
+    
+<nav>
+    <a href="#/">Countries</a>
+    <a href="#/regions/[country]" url-attr-param="href">Regions</a>
+</nav>
+
+<json-data
+    url="https://www.dataformsjs.com/data/geonames/cities/:country/:region"
+    url-params
+    load-only-once="true">
+    <is-loading>
+        <span class="loading">Loading...</span>
+    </is-loading>
+    <has-error>
+        <span class="error" data-bind="errorMessage"></span>
+    </has-error>
+    <is-loaded>
+        <input
+            is="input-filter"
+            filter-selector="table"
+            placeholder="Enter filter">
+
+        <data-table
+            data-bind="cities"
+            col-link-template="#/city/:geonames_id"
+            columns="geonames_id, name, population, elevation, timezone, modification_date"
+            labels="Id, Name, Population, Elevation, Timezone, Date Last Modified"
+            table-attr="is=sortable-table,
+                data-sort-class-odd=row-odd,
+                data-sort-class-even=row-even">
+        </data-table>
+    </is-loaded>
+</json-data>

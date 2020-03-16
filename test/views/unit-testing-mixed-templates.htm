@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>DataFormsJS Unit Testing with Mixed Templating</title>
+        <!-- <link rel="stylesheet" href="vendor/qunit/qunit-2.9.2.css"> -->
+        <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.9.2.css">
+        <style>
+			.nav { text-align: center; margin-bottom: 40px; }
+			.nav p { font-weight: bold; }
+			.nav ul { list-style-type: none; }
+			.nav li { margin:8px; }
+			.nav li a { padding:4px 8px; }
+			.nav .active { background-color:green; color:white; }
+		</style>
+    </head>
+    <body>
+		<div class="nav">
+            <h1>Unit Testing with Multiple Template Engines</h1>
+            <a href="./">Back to Home Page</a>
+            <p>Unit Tests:</p>
+            <ul>
+				<li><a href="unit-testing-handlebars">Unit Testing with Handlebars Templating</a></li>
+				<li><a href="unit-testing-nunjucks">Unit Testing using Nunjucks Templating Engine</a></li>
+                <li><a href="unit-testing-underscore">Unit Testing using Underscore Templating Engine</a></li>
+                <li><a class="active" href="unit-testing-mixed-templates">Unit Testing with Multiple Template Engines</a></li>
+                <li><a href="unit-testing-vue">Unit Testing with Vue</a></li>
+            </ul>
+            <script>
+                // Update URL's if running from main web site
+                (function() {
+                    'use strict';
+                    if (window.location.href.indexOf('/unit-testing/') !== -1) {
+                        var links = document.querySelectorAll('.nav [href^="unit-testing-"]');
+                        Array.prototype.forEach.call(links, function(link) {
+                            var href = link.getAttribute('href');
+                            href = href.replace('unit-testing-', '');
+                            link.setAttribute('href', href);
+                        });
+                    }
+                })();
+            </script>
+        </div>
+
+        <div id="qunit"></div>
+        <div id="view" style="display:none;"></div>        
+        
+        <script type="text/x-unknown-template" data-route="/">
+            Error Template, Invalid Type
+        </script>
+        
+        <script type="text/x-template" data-engine="nunjucks" data-route="/nunjucks-loop" data-model="SimpleArray">
+            <div>[Nunjucks]</div>
+            <div>[Current: {{ appViewEngine() }}]</div>
+            <ul>
+	        {% for item in array %}
+	        	<li>{{ item }},</li>
+            {% endfor %}
+            </ul>
+        </script>
+        
+        <script type="text/x-template" data-engine="handlebars" data-route="/handlebars-loop" data-model="SimpleArray">
+            <div>[Handlebars]</div>
+            <div>[Current: {{js 'app.viewEngine()'}}]</div>
+            <ul>
+            {{#each array}}
+                <li>{{this}},</li>
+            {{/each}}
+            </ul>
+        </script>
+        
+        <script type="text/x-template" data-engine="underscore" data-route="/underscore-loop" data-model="SimpleArray">
+            <div>[Underscore]</div>
+            <div>[Current: <%- app.viewEngine() %>]</div>
+            <ul>
+            <% _.each(array, function(item) { %>
+                <li><%- item %>,</li>
+            <% }); %>
+            </ul>
+        </script>
+
+		<!-- DataFormsJS -->
+		<!--
+        <script src="/src/DataFormsJS.js"></script>
+        <script src="/src/extensions/events.js"></script>
+        <script src="/src/extensions/handlebars-helpers.js"></script>
+		-->
+        <script src="/src/DataFormsJS.min.js"></script>
+        <script src="/src/extensions/events.min.js"></script>
+        <script src="/src/extensions/handlebars-helpers.min.js"></script>
+		
+        <!-- Include Template Engines - specified after core DataFormsJS files to make sure that script load order doesn't mater -->
+        <!--
+            <script src="vendor/handlebars@4.5.1.min.js"></script>
+            <script src="vendor/nunjucks@3.2.0.min.js"></script>
+            <script src="vendor/underscore@1.9.1.min.js"></script>
+
+            <script src="https://cdn.jsdelivr.net/npm/handlebars@4.5.1/dist/handlebars.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/nunjucks@3.2.0/browser/nunjucks.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/underscore@1.9.1/underscore.min.js"></script>
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/handlebars@4.5.1/dist/handlebars.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/nunjucks@3.2.0/browser/nunjucks.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/underscore@1.9.1/underscore.min.js"></script>
+        
+        <!-- QUnit -->
+        <!--
+            <script src="vendor/qunit/qunit-2.9.2.js"></script>
+            <script src="https://code.jquery.com/qunit/qunit-2.9.2.js" integrity="sha256-EQ5rv6kPFPKQUYY+P4H6fm/le+yFRLVAb//2PfBswfE=" crossorigin="anonymous"></script>
+		-->
+		<script src="https://code.jquery.com/qunit/qunit-2.9.2.js" integrity="sha256-EQ5rv6kPFPKQUYY+P4H6fm/le+yFRLVAb//2PfBswfE=" crossorigin="anonymous"></script>
+		
+		<script src="js/unit-testing-core.js"></script>
+		<script src="js/unit-testing-mixed.js"></script>
+    </body>
+</html>

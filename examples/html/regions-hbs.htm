@@ -1,0 +1,39 @@
+{{#if isLoading}}<div data-template-id="loading-screen"></div>{{/if}}
+{{#if hasError}}<div data-template-id="error-screen"></div>{{/if}}
+{{#if isLoaded}}
+    <h1></h1>
+
+    <nav>
+        <a href="#/{{i18n_Locale}}/">{{i18n 'Countries'}}</a>
+    </nav>
+
+    <input
+        data-filter-selector="table"
+        data-filter-results-text-selector="h1"
+        data-filter-results-text-all="{totalCount} {{i18n 'Regions for Country Code'}} {{country}}"
+        data-filter-results-text-filtered="{{i18n 'Showing {displayCount} of {totalCount} Regions for Country Code'}} {{country}}"
+        placeholder="{{i18n 'Enter filter'}}">
+
+    <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
+        <thead>
+            <tr>
+                <th>{{i18n 'Code'}}</th>
+                <th>{{i18n 'Name'}}</th>
+                <th>{{i18n 'Population'}}</th>
+                <th>{{i18n 'Timezone'}}</th>
+                <th>{{i18n 'Date Last Modified'}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each regions}}
+            <tr>
+                <td><a href="#/{{../i18n_Locale}}/cities/{{../country}}/{{admin1_code}}">{{admin1_code}}</a></td>
+                <td><i class="{{lowerCase ../country}} flag"></i>{{name}}</td>
+                <td class="align-right" data-value="{{population}}">{{formatNumber population}}</td>
+                <td>{{timezone}}</td>
+                <td class="align-right">{{formatDate modification_date}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+{{/if}}

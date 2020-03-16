@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Countries Demo | No SPA | Handlebars</title>
+        <link rel="stylesheet" href="css/countries.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
+        <link rel="canonical" href="https://www.dataformsjs.com/examples/countries-no-spa-hbs.htm">
+    </head>
+    <body>
+        <div id="view">
+            <h1>Countries</h1>
+
+            <json-data
+                data-url="https://www.dataformsjs.com/data/geonames/countries"
+                data-template-id="countries-list">
+            </json-data>
+        </div>
+    </div>
+
+    <script type="text/x-template" data-engine="handlebars" id="countries-list">
+        {{#if isLoading}}<div>Loading...</div>{{/if}}
+        {{#if hasError}}<div class="error">{{errorMessage}}</div>{{/if}}
+        {{#if isLoaded}}
+            <div>
+                <input
+                    data-filter-selector="table"
+                    data-filter-results-text-selector="h1"
+                    data-filter-results-text-all="{totalCount} Countries"
+                    data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
+                    placeholder="Enter filter, example 'North America'">
+            </div>
+
+            <p>Click on a column to sort rows based on column values.</p>
+
+            <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Size (KM)</th>
+                        <th>Population</th>
+                        <th>Continent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each countries}}
+                    <tr>
+                        <td>{{iso}}</td>
+                        <td><i class="{{lowerCase iso}} flag"></i>{{country}}</td>
+                        <td class="align-right" data-value="{{area_km}}">{{formatNumber area_km}}</td>
+                        <td class="align-right" data-value="{{population}}">{{formatNumber population}}</td>
+                        <td>{{continent}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        {{/if}}
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/DataFormsJS.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/controls/json-data.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/extensions/handlebars-helpers.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/plugins/filter.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/plugins/sort.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@4.5.1/dist/handlebars.min.js"></script>
+</body>

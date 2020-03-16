@@ -1,0 +1,43 @@
+{{#if isLoading}}<div data-template-id="loading-screen"></div>{{/if}}
+{{#if hasError}}<div data-template-id="error-screen"></div>{{/if}}
+{{#if isLoaded}}
+    <h1>{{i18n 'Countries'}}</h1>
+
+    <nav>
+        <a href="#/{{i18n_Locale}}/search">{{i18n 'Search'}}</a>
+        <a href="#/{{i18n_Locale}}/info">{{i18n 'Info'}}</a>        
+    </nav>
+    
+    <input
+        data-filter-selector="table"
+        data-filter-results-text-selector="h1"
+        data-filter-results-text-all="{{i18n '{totalCount} Countries'}}"
+        data-filter-results-text-filtered="{{i18n 'Showing {displayCount} of {totalCount} Countries'}}"
+        placeholder="{{i18n 'Enter filter, example \'North America\''}}">
+
+    <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
+        <thead>
+            <tr>
+                <th>{{i18n 'Code'}}</th>
+                <th>{{i18n 'Name'}}</th>
+                <th>{{i18n 'Size (KM)'}}</th>
+                <th>{{i18n 'Population'}}</th>
+                <th>{{i18n 'Continent'}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each countries}}
+            <tr>
+                <td><a href="#/{{../i18n_Locale}}/regions/{{iso}}">{{iso}}</a></td>
+                <td>
+                    <i class="{{lowerCase iso}} flag"></i>
+                    {{country}}
+                </td>
+                <td class="align-right" data-value="{{area_km}}">{{formatNumber area_km}}</td>
+                <td class="align-right" data-value="{{population}}">{{formatNumber population}}</td>
+                <td>{{continent}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+{{/if}}

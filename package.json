@@ -1,0 +1,37 @@
+{
+  "name": "dataformsjs",
+  "version": "4.0.1",
+  "homepage": "https://www.dataformsjs.com/",
+  "description": "A minimal JavaScript Framework and standalone components for rapid development of high quality websites and single page applications.",
+  "browser": "js/DataFormsJS.min.js",
+  "files": [
+    "js"
+  ],
+  "scripts": {
+    "test": "echo \"Tests require a Web Browser, run [node ./examples/server.js]\" && exit 1",
+    "start": "node ./examples/server.js",
+    "build": "node ./scripts/build.js"
+  },
+  "keywords": [
+    "dataformsjs",
+    "framework",
+    "handlebars",
+    "vue",
+    "react",
+    "web components",
+    "spa",
+    "handlebars",
+    "single page app"
+  ],
+  "author": "Conrad Sollitt (http://www.conradsollitt.com)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dataformsjs/dataformsjs.git"
+  },
+  "devDependencies": {
+    "@babel/standalone": "^7.7.7",
+    "uglify-es": "^3.3.9",
+    "uglify-js": "^3.7.3"
+  }
+}

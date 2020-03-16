@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>DataFormsJS - {{title}}</title>
+        <link rel="stylesheet" href="hello-world.css">
+        <link rel="canonical" href="https://www.dataformsjs.com/examples/hello-world/{{lang}}/web.htm">
+    </head>
+    <body>
+        <div id="root" dir="auto"></div>
+
+        <script type="text/babel">
+            // @jsx preact.createElement
+            function App() {
+                return (
+                    <preact.Fragment>
+                        <h1>{{hello_world}}</h1>
+
+                        <p style="text-align:center;">
+                            <a href="https://preactjs.com/" target="_blank">Preact</a><br />
+                            {jsxLoader.isSupportedBrowser ? '{{jsx_loader}}'
+                            : '{{babel_loader}}'}
+                        </p>
+
+                        <div className="home-page-animation">
+                            <img src="sun.svg" className="sun" />
+                            <div className="orbit">
+                                <img src="planet.svg" className="planet" />
+                                <img src="moon.svg" className="moon" />
+                            </div>
+                        </div>
+                    </preact.Fragment>
+                )
+            }
+
+            preact.render(
+                <App />,
+                document.getElementById('root')
+            );
+        </script>
+
+        <script src="https://unpkg.com/preact"></script>        
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/jsxLoader.min.js"></script>
+    </body>
+</html>

@@ -1,0 +1,38 @@
+{{#if isLoading}}<div data-template-id="loading-screen"></div>{{/if}}
+{{#if hasError}}<div data-template-id="error-screen"></div>{{/if}}
+{{#if isLoaded}}
+    <h1>{{i18n 'Search'}}</h1>
+
+    <nav>
+        <a href="#/{{i18n_Locale}}/">{{i18n 'Countries'}}</a>
+    </nav>
+
+    <form>
+        <!--
+            If jQuery Chosen was not used then the following would be used for a standard <select>
+                <option value="">{{i18n '-- Select a Country (Optional) --'}}</option>
+            Instead [data-placeholder] is used for Chosen
+        -->
+        <select data-bind="country" class="chosen-select" data-chosen-options="{&quot;allow_single_deselect&quot;:true}" data-placeholder="{{i18n '-- Select a Country (Optional) --'}}">
+            <option value=""></option>
+            {{#each countries}}
+                <option value="{{iso}}">{{country}}</option>
+            {{/each}}
+        </select>
+        
+        <input
+            data-bind="city"
+            data-enter-key-click-selector=".btn-search"
+            placeholder="{{i18n 'Search for a City, example \'Paris\' or \'London\''}}">
+
+        <button class="btn-search" type="button">{{i18n 'Search'}}</button>
+    </form>
+
+    <json-data
+        data-url="https://www.dataformsjs.com/data/geonames/search?country=:country&city=:city"
+        data-click-selector=".btn-search"
+        data-template-url="html/search-places-results-hbs.htm"
+        data-model-prop="search"
+        class="section">
+    </json-data>
+{{/if}}

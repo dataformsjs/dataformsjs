@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Countries Demo | No SPA | JavaScript</title>
+        <link rel="stylesheet" href="css/countries.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
+        <link rel="canonical" href="https://www.dataformsjs.com/examples/countries-no-spa-hbs.htm">
+    </head>
+    <body>
+        <div id="view">
+            <h1>Countries</h1>
+
+            <json-data
+                data-url="https://www.dataformsjs.com/data/geonames/countries"
+                data-template-id="countries-list">
+            </json-data>
+        </div>
+    </div>
+
+    <template id="countries-list">
+        <div class="is-loading"><div>Loading...</div></div>
+        <div class="has-error"><div class="error">Error</div></div>
+        <div class="is-loaded flex-col">
+            <div>
+                <input
+                    data-filter-selector="table"
+                    data-filter-results-text-selector="h1"
+                    data-filter-results-text-all="{totalCount} Countries"
+                    data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
+                    placeholder="Enter filter, example 'North America'">
+            </div>
+
+            <p>Click on a column to sort rows based on column values.</p>
+
+            <data-table
+                data-source="countries"
+                data-labels="Code, Name, Size (KM), Population, Continent"
+                data-sort
+                data-sort-class-odd="row-odd"
+                data-sort-class-even="row-even">
+            </data-table>
+        </div>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/DataFormsJS.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/controls/data-table.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/controls/json-data.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/plugins/filter.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/plugins/sort.min.js"></script>
+
+    <!--
+        Add images to the <table> element using a Custom Plugin with standard JavaScript DOM methods
+    -->
+    <script>
+        (function() {
+            'use strict';
+
+            app.addPlugin('tableIcons', function(element) {
+                // Get table and exit if no data
+                var table = document.querySelector('table');
+                if (table === null || table.tBodies === null || table.tBodies.length !== 1) {
+                    return;
+                }
+
+                // Add flags to all rows
+                var tableRows = table.tBodies[0].rows;
+                var rowCount = tableRows.length;
+                for (var x = 0; x < rowCount; x++) {
+                    var row = tableRows[x];
+                    var iso = row.cells[0].textContent.trim().toLowerCase();
+                    var flag = document.createElement('i');
+                    flag.className = iso + ' flag';
+                    row.cells[1].insertAdjacentElement('afterbegin', flag);
+                }
+            });
+        })();
+    </script>
+</body>

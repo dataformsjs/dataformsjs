@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Countries Demo | No SPA | Preact</title>
+        <link rel="stylesheet" href="css/countries.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
+        <link rel="canonical" href="https://www.dataformsjs.com/examples/countries-no-spa-hbs.htm">
+        <style>
+            ul {
+                text-align: left;
+                margin: 0 auto;
+                max-width: 650px;
+                line-height: 1.5em;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="view">
+            <h1>Countries</h1>
+            
+            <div id="root"></div>
+        </div>
+
+    <!--
+        Preact
+        https://preactjs.com/
+    -->
+    <script src="https://unpkg.com/preact"></script>
+
+    <!-- DataFormsJS React Components -->
+    <!--
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/ErrorBoundary.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/JsonData.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/InputFilter.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/SortableTable.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/Format.js"></script>
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es5/DataFormsJS.min.js"></script>
+
+    <!-- DataFormsJS JSX Loader -->
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/jsxLoader.min.js"></script>
+    <script>
+        // Set to `true` to view compiler details
+        jsxLoader.logCompileTime = false;
+        jsxLoader.logCompileDetails = false;
+        
+        // Replace commonly used React API's with Preact once code is compiled
+        jsxLoader.usePreact();
+    </script>
+
+    <script type="text/babel">
+        const format = new Format();
+
+        function ShowLoading() {
+            return <h3 className="loading">Loading...</h3>;
+        }
+
+        function ShowError(props) {
+            return <p className="error">{props.error}</p>;
+        }
+
+        function ShowCountries(props) {
+            return (
+                <React.Fragment>
+                    <InputFilter
+                        filter-selector="table"
+                        filter-results-selector="h1"
+                        filter-results-text-all="{totalCount} Countries"
+                        filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
+                        placeholder="Enter filter, example 'North America'" />
+
+                    <p>
+                        <ul>
+                            <li>This demo uses <a href="https://preactjs.com/" target="_blank">Preact</a> instead of React and is based on the React Demo.</li>
+                            <li>Almost all code is the same as the react version except that [jsxLoader.usePreact()] is called on the page to support Preact.</li>
+                            <li>[jsxLoader.usePreact()] allows for React Components and to be replaced with [preact.Component] which makes it easy to use Preact with existing React Code.</li>
+                            <li>Use a diff viewer with the React version to see all differences.</li>
+                        </ul>
+                    </p>
+
+                    <SortableTable
+                        data-sort-class-odd="row-odd"
+                        data-sort-class-even="row-even">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Name</th>
+                                <th>Size (KM)</th>
+                                <th>Population</th>
+                                <th>Continent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {props.data && props.data.countries && props.data.countries.map(country => {
+                                return (
+                                    <tr key={country.iso}>
+                                        <td>{country.iso}</td>
+                                        <td>
+                                            <i class={country.iso.toLowerCase() + ' flag'}></i>
+                                            <span>{country.country}</span>
+                                        </td>
+                                        <td className="align-right" data-value={country.area_km}>{format.number(country.area_km)}</td>
+                                        <td className="align-right" data-value={country.population}>{format.number(country.population)}</td>
+                                        <td>{country.continent}</td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </SortableTable>
+                </React.Fragment>
+            )
+        }
+
+        class App extends React.Component {
+            render() {
+                return (
+                    <ErrorBoundary>
+                        <JsonData
+                            url="https://www.dataformsjs.com/data/geonames/countries"
+                            isLoading={<ShowLoading />}
+                            hasError={<ShowError />}
+                            isLoaded={<ShowCountries />} />
+                    </ErrorBoundary>
+                )
+            }
+        }
+
+        ReactDOM.render(
+            <App />,
+            document.getElementById('root')
+        );
+    </script>
+</body>

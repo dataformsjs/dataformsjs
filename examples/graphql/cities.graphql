@@ -1,0 +1,10 @@
+query ($country: String!, $region: String!) {
+    cities(country: $country, region: $region) {
+        geonames_id
+        name
+        population
+        elevation
+        timezone
+        modification_date
+    }
+}

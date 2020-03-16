@@ -1,0 +1,21 @@
+<h2 v-if="isLoading" v-cloak v-i18n="'Loading...'"></h2>
+<h2 v-if="hasError" v-cloak><span v-i18n="'Error'"></span> - {{ errorMessage }}</h2>
+<section v-if="isLoaded" v-cloak>
+    <div>
+        <input
+            type="text"
+            data-filter-selector=".image-categories li"
+            data-filter-results-text-selector="h1"
+            data-filter-results-text-all="{totalCount} Image Categories"
+            data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Image Categories"
+            placeholder="Enter filter, example [dog] or [cat]"
+            data-i18n-attr="data-filter-results-text-all, data-filter-results-text-filtered, placeholder">
+    </div>
+
+    <div class="content">
+        <h1></h1>
+        <ul class="image-categories">
+            <li v-for="category in categories">{{ category }}</li>
+        </ul>
+    </div>
+</section>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html 
+    lang="en" 
+    data-show-errors
+    data-i18n-default="en"
+    data-i18n-locales="en,ja,es,pt-BR,ar,fr"
+    data-i18n-file="binary-classification">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title data-i18n="AI/ML Binary Classification | Handlebars"></title>
+    <link rel="stylesheet" href="css/binary-classification.css">
+    <link rel="canonical" href="https://www.dataformsjs.com/examples/binary-classification-vue.htm">
+</head>
+<body dir="auto">
+    <nav>
+        <a href="#/en/" data-i18n="Prediction" data-i18n-href></a>
+        <a href="#/en/info" data-i18n="Info" data-i18n-href></a>
+        <a href="#/en/training-data" data-i18n="Training Data" data-i18n-href></a>
+    </nav>
+
+    <div id="view"></div>
+
+    <!--
+        For most apps the [data-save-url] would be used as the end-point on where
+        to save data. [data-save-url] ends up being the model property [saveUrl]
+        from [entryForm.js]. For this page [saveUrl] is passed from the web server
+        when the initial data is loaded.
+    -->
+    <script
+        type="text/x-template"
+        data-engine="handlebars" 
+        data-default-route
+        data-route="/:lang/"
+        data-page="binaryPredictionPage"
+        data-url="https://www.dataformsjs.com/data/ai-ml/sample-data/pima-indians-diabetes"
+        data-use-save-api="false"
+        data-lazy-load="binaryPredictionPage"
+        data-load-only-once="true"
+        data-src="html/binary-home-hbs.htm">
+    </script>
+
+    <script
+        type="text/x-template"
+        data-engine="handlebars"
+        data-route="/:lang/info"
+        data-src="html/binary-info-hbs.htm">
+    </script>
+
+    <script
+        type="text/x-template"
+        data-engine="handlebars"
+        data-route="/:lang/training-data"
+        data-page="jsonData"
+        data-url="https://www.dataformsjs.com/data/ai-ml/sample-training-data/pima-indians-diabetes"
+        data-load-only-once="true"
+        data-lazy-load="jsonData"
+        src="html/binary-training-hbs.htm">
+    </script>
+
+    <!--
+        Handlebars
+        https://handlebarsjs.com
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@4.5.1/dist/handlebars.min.js"></script>
+
+    <!-- DataFormsJS Handlebars Helpers -->
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/extensions/handlebars-helpers.min.js"></script>
+
+    <!--
+        DataFormsJS
+        https://www.dataformsjs.com
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/DataFormsJS.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/plugins/i18n.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/plugins/navLinks.min.js"></script>
+    <script>
+        // Files 'entryForm.js' and 'binary-classification.js' uses [Object.assign] which isn't available from IE
+        // by default. It gets loaded as a polyfill from [DataFormsJS.js] once the page is ready.
+        // In addition to only loading what is needed using [app.lazyLoad] allows for the polyfill
+        // to run first.
+        app.lazyLoad = {
+            binaryPredictionPage: [
+                'https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/pages/jsonData.min.js',
+                'https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/pages/entryForm.min.js',
+                './binary-classification.js',
+            ],
+            jsonData: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/pages/jsonData.min.js',
+        }
+    </script>
+</body>
+</html>

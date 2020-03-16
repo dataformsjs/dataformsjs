@@ -1,0 +1,98 @@
+
+html {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+#view,
+#root {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+h1, p {
+    background-color: white;
+    box-shadow: 0 1px 2px rgba(0,0,0,.5);
+    padding: 20px 40px;
+    display: inline-block;
+    flex: 1 0 auto;
+    align-self: center;
+    border-radius: 2em;
+}
+
+h1 {
+    background-image: linear-gradient(180deg, hsla(0, 0%, 100%, .6) 1%, hsla(0, 0%, 100%, .5) 30%,#fff),
+                      linear-gradient(25deg, #E91E63, #2196F3 32%,#FFEB3B);
+    color: #65110b;
+}
+
+/* Prevent templates from showing in IE while page is loading */
+template { display:none; }
+
+/********** Home Page Animation **********/
+
+/* Comment/Uncomment as needed to show borders for debugging during changes */
+/*
+.home-page-animation { border:1px solid blue; }
+.home-page-animation .orbit { border:1px solid red; }
+*/
+
+.home-page-animation {
+    margin: 200px auto 150px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-page-animation .sun {
+    animation: scale 4s linear infinite;
+    will-change: transform;
+}
+
+.home-page-animation .orbit {
+    display: flex;
+    position: absolute;
+    height: 152px;
+    width: 152px;
+    will-change: transform;
+}
+/* Adjust top/left of orbit for IE */
+@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
+    .home-page-animation .orbit {
+        top: calc((100% - 152px) / 2);
+        left: calc((100% - 152px) / 2);
+    }
+}
+
+.home-page-animation .orbit {
+    animation: rotate-and-spin-clockwise 6s linear infinite;
+}
+
+.home-page-animation .planet {
+    position: absolute;
+    top: calc((152px - 82px) / 2);
+    left: calc((152px - 82px) / 2);
+}
+
+.home-page-animation .moon {
+    position: absolute;
+    top: calc((152px - 62px) / 2);
+    left: calc((152px - 62px) / 2);
+    will-change: transform;
+    animation: rotate-and-spin-counter-clockwise 3s linear infinite;
+}
+
+@keyframes scale {
+    0%, 100% { transform: scale3d(0.8, 0.8, 0.8); }
+    50% { transform: scale3d(1, 1, 1); }
+}
+
+@keyframes rotate-and-spin-clockwise {
+    from { transform: rotate(0deg) translate(-160px); }
+    to { transform: rotate(360deg) translate(-160px); }
+}
+
+@keyframes rotate-and-spin-counter-clockwise {
+    from { transform: rotate(360deg) translate(80px); }
+    to { transform: rotate(0deg) translate(80px); }
+}

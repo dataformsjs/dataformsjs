@@ -1,0 +1,108 @@
+/* Reset */
+* { padding:0; margin:0; }
+
+/* CSS Variables */
+:root {
+    --shadow: 0 1px 2px 1px rgba(0,0,0,0.5);
+    --padding: 20px;
+}
+
+/* IE Fallback for basic layout with key elements */
+.content {
+    padding: 20px;
+    margin: 20px;
+    box-shadow: 0 1px 2px 1px rgba(0,0,0,0.5);
+}
+h2 { padding:20px; }
+ul { margin-left:20px; }
+
+/* Page Style */
+body {
+    background-color: #f7f7f7;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    margin-top: calc(var(--padding) * 2);
+}
+@media (min-width:600px) {
+    body { 
+        margin: calc(var(--padding) * 2);
+    }
+}
+
+nav { display:inline-flex; }
+nav a { padding:10px 20px; color:black; text-decoration: none; }
+nav a.active {
+    background-color:white;
+    box-shadow: var(--shadow);
+    font-weight:bold;
+}
+
+h1 { margin-bottom:var(--padding); font-size: 2em; }
+h2 { margin:var(--padding); }
+
+section { text-align: center; }
+
+.error { background-color:red; color:white; padding:var(--padding); }
+
+.content {
+    display: inline-flex;
+    background-color: #fff;
+    box-shadow: var(--shadow);
+    padding: var(--padding) calc(var(--padding) * 2);
+    margin: calc(var(--padding) / 2);
+    margin-top: calc(var(--padding) * 2);
+    text-align: center;
+    flex-direction: column;
+    max-width: calc(100% - calc(var(--padding) * 4));
+}
+@media screen and (min-width:800px) {
+    .content {
+        min-width:500px;
+        margin: calc(var(--padding) * 2);
+        margin-top: calc(var(--padding) * 2);
+    }
+}
+.field {
+    text-align:left;
+    padding:10px;
+    display:flex;
+    justify-content: space-between;
+}
+.field.last-prediction {
+    flex-direction: column;
+    text-align:left;
+}
+.prediction { margin-bottom: calc(var(--padding) / 2); }
+.disclaimer {
+    display: inline-block;
+    max-width: 300px;
+    margin: var(--padding) auto;
+    font-style: italic;
+}
+
+label { margin-right:var(--padding) }
+input, button { padding:4px 8px; }
+
+h2.source-code {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+h2.source-code img { margin-left:16px; }
+
+ul {
+    margin-left: var(--padding);
+    text-align: left;
+    max-width: 800px;
+}
+html[lang='ar'] ul { text-align:right; }
+
+li { line-height: 1.4em; margin-bottom: calc(var(--padding) / 2); }
+
+table { border-collapse:collapse; margin:var(--padding); }
+td, th { padding:10px 20px; border:1px solid #ababab; }
+thead tr,
+tbody tr:nth-child(odd) { background-color:#fff; }
+tbody tr:nth-child(even) { background-color:#f7f7f7; }
+
+.training-info { max-width:600px; margin:var(--padding) auto; }

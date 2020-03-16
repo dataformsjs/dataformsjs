@@ -1,0 +1,208 @@
+<!doctype html>
+<!--
+    This demo uses the Hacker News API And serveral DataFormsJS React Components,
+    including use of nested <JsonData> Components.
+
+    With the <JsonData> Component JSON Web Services can easily be displayed in one of
+    3 states [isLoading, isLoaded, and hasError] without the need for the app to include
+    custom logic. On this demo all custom logic is related to displaying data.
+
+    Hacker News API:
+        https://github.com/HackerNews/API
+
+    <JsonData> Components
+        https://github.com/dataformsjs/dataformsjs/blob/master/js/react/es6/JsonData.js
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Hacker News API Demo with JsonData Component</title>
+        <link rel="stylesheet" href="css/hacker-news.css">
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <!--
+            React
+            https://reactjs.org
+        -->
+        <script src="https://unpkg.com/react@16.13.0/umd/react.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/react-dom@16.13.0/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+        <!--
+            DataFormsJS JSX Loader
+            https://www.dataformsjs.com
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/jsxLoader.min.js"></script>
+        <script>
+            // Set to `true` to see compiler details
+            jsxLoader.logCompileTime = true;
+            jsxLoader.logCompileDetails = false;
+        </script>
+        
+        <!--
+            Babel for JSX
+            To test using Babel instead of the `jsxLoader.js` comment out code related to jsxLoader
+            and uncomment the Babel Standalone code below. Both Babel 6 and 7 Work.
+
+            Babel 6: babel-standalone@6
+            Babel 7: @babel
+
+            To test with IE (and other old browsers) both Polyfill URL's are needed
+
+            <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+            <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        -->
+        <!--
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/scripts/polyfills.min.js"></script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Object.assign,Object.keys,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat,WeakSet,Symbol,Number.isInteger,String.prototype.codePointAt,String.fromCodePoint"></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <script>
+            // Allow [babel-standalone] to use [import and exports] with JSX files
+            window.exports = window;
+            function require(module) {
+                switch (module) {
+                    case 'react':
+                        return window.React;
+                    case 'react-dom':
+                        return window.ReactDOM;
+                    default:
+                        return window[module];
+                }
+            }
+        </script>
+        -->
+
+        <!--
+            DataFormsJS React Components
+        -->
+        <!--
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/ErrorBoundary.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/JsonData.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/InputFilter.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es6/Format.js"></script>
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/react/es5/DataFormsJS.min.js"></script>
+
+        <script type="text/babel">
+
+            function ShowLoading() {
+                return <div className="loading">Loading...</div>;
+            }
+
+            function ShowError(props) {
+                return <div className="error">{props.error}</div>;
+            }
+
+            function ShowTopStories(props) {
+                // By default the Hacker News API returns hunderds of items so get only the first 50
+                let idList = (props.data && props.data.length > 50 ? props.data.slice(0, 50) : []);
+                return (
+                    <React.Fragment>
+
+                        <header>
+                            <h1>
+                                <a href="https://news.ycombinator.com/" target="_blank">Hacker News Demo</a>
+                                <span></span>
+                            </h1>
+                            <InputFilter
+                                filter-selector="ul li"
+                                filter-results-selector="h1 span"
+                                filter-results-text-all="{totalCount} News Items"
+                                filter-results-text-filtered="Showing {displayCount} of {totalCount} News Items"
+                                placeholder="Enter filter, example 'show' or 'google'" />
+                        </header>
+
+                        <ul>
+                            {idList.map(id => {
+                                // Use a nested <JsonData> to download the details of each Hacker News Post
+                                return (
+                                    <li key={id}>
+                                        <JsonData
+                                            url={'https://hacker-news.firebaseio.com/v0/item/' + id + '.json'}
+                                            hasError={<ShowError />}
+                                            isLoaded={<ShowNewsItem />} />
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </React.Fragment>
+                )
+            }
+
+            function ShowNewsItem(props) {
+                const comments = (props.data.kids && props.data.kids.length ? props.data.kids.length : 0);
+                const hasUrl = (props.data.url !== undefined);
+                return (
+                    <div>
+                        <a href={props.data.url} className="post-title" target="_blank"><strong>{props.data.title}</strong></a>
+                        {hasUrl && <div className="post-link">
+                            <span><a href={props.data.url} target="_blank">{props.data.url}</a></span>
+                        </div>}
+                        <div>
+                            <span>{props.data.score} points</span>
+                            <span>by {props.data.by}</span>
+                            <span>created {getTimeDiff(props.data.time)}</span>
+                            <span><a href={'https://news.ycombinator.com/item?id=' + props.data.id} target="_blank">{comments} comments</a></span>
+                        </div>
+                    </div>
+                )
+            }
+
+            // Return in format similar to Hacker News based on a Unix Timestamp:
+            //    1 minute ago
+            //    10 minutes ago
+            //    1 hour ago
+            function getTimeDiff(timestamp) {
+                const now = new Date();
+                const commentTime = new Date(timestamp * 1000);
+                const diff = now.getTime() - commentTime.getTime();
+                const minutes = Math.floor(diff / 60000);
+                let timeDiff;
+                if (minutes < 1) {
+                    timeDiff = '1 minute ago';
+                } else if (minutes < 60) {
+                    timeDiff = minutes + ' minutes ago';
+                } else if (minutes < (24 * 60)) {
+                    timeDiff = Math.floor(minutes / 60) + ' hours ago';
+                } else if (minutes < (24 * 60 * 2)) {
+                    timeDiff =  + '1 day ago';
+                } else {
+                    // On Hacker News many items show in the 'Show HN' section as '1 day ago'
+                    // that are actually 3 days old or more. They may be using last comment time
+                    // so these items will vary. Unix Timestamp check was confirmed that this
+                    // is correct for create time.
+                    timeDiff =  + Math.floor(minutes / 60 / 24) + ' days ago';
+                }
+                return timeDiff;
+            }
+
+            class App extends React.Component {
+                render() {
+                    return (
+                        <ErrorBoundary>
+                            {/*
+                                Download a list of ID's for Hacker News Items using <JsonData>
+
+                                Change the URL to [ `showstories.json`, `askstories.json`, etc. ] to
+                                view other news lists. This demo is designed to be simple so
+                                only one list is showing.
+                            */}
+                            <JsonData
+                                url="https://hacker-news.firebaseio.com/v0/topstories.json"
+                                isLoading={<ShowLoading />}
+                                hasError={<ShowError />}
+                                isLoaded={<ShowTopStories />} />
+                        </ErrorBoundary>
+                    )
+                }
+            }
+
+            ReactDOM.render(
+                <App />,
+                document.getElementById('root')
+            );
+        </script>
+    </body>
+</html>

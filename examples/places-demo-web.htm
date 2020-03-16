@@ -1,0 +1,239 @@
+<!doctype html>
+<!--
+    View this Demo Online at:
+    https://www.dataformsjs.com/examples/places-demo-web.htm
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title data-i18n="Countries Demo | Web Components"></title>
+        <link rel="stylesheet" href="css/countries.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+        <link rel="canonical" href="https://www.dataformsjs.com/examples/places-demo-hbs.htm">
+        <style>
+            /* Prevent custom web components from appearing during rendering include the following CSS */
+            json-data:not(:defined),
+            is-loading:not(:defined),
+            has-error:not(:defined),
+            is-loaded:not(:defined) { display:none; }
+        </style>
+    </head>
+    <body>
+        <div id="view" dir="auto"></div>
+
+        <url-hash-router view-selector="#view">
+            <!--
+                Routes can be embedded directly on the page as a <template> under <url-hash-route>.
+                [default-route] is optional and can be used if the default path is something other than "/".
+            -->
+            <url-hash-route path="/" default-route>
+                <template>
+                    <h1>Countries</h1>
+
+                    <nav>
+                        <a href="#/info">Info</a>
+                    </nav>
+
+                    <json-data url="https://www.dataformsjs.com/data/geonames/countries" load-only-once="true">
+                        <is-loading>
+                            <span class="loading">Loading...</span>
+                        </is-loading>
+                        <has-error>
+                            <span class="error" data-bind="errorMessage"></span>
+                        </has-error>
+                        <is-loaded>
+                            <input
+                                is="input-filter"
+                                filter-selector="table"
+                                filter-results-selector="h1"
+                                filter-results-text-all="{totalCount} Countries"
+                                filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
+                                placeholder="Enter filter, example 'North America'">
+
+                            <!--
+                                Flags are added to the <data-table> from JavaScript at the bottom of this file.
+                            -->
+                            <data-table
+                                data-bind="countries"
+                                col-link-template="#/regions/:iso"
+                                labels="Code, Name, Size (KM), Population, Continent"
+                                table-attr="is=sortable-table,
+                                            data-sort-class-odd=row-odd,
+                                            data-sort-class-even=row-even">
+                            </data-table>
+                        </is-loaded>
+                    </json-data>
+                </template>
+            </url-hash-route>
+
+            <!--
+                The <template> source can also be downloaded dynamically when using [src]
+            -->
+            <url-hash-route path="/regions/:country" src="html/regions-web.htm"></url-hash-route>
+            <url-hash-route path="/cities/:country/:region" src="html/cities-web.htm"></url-hash-route>
+            <url-hash-route path="/city/:id" src="html/place-web.htm"></url-hash-route>
+            <url-hash-route path="/info" src="html/places-info-web.htm"></url-hash-route>
+        </url-hash-router>
+
+        <!-- DataFormsJS Web Components -->
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/web-components/url-hash-router.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/web-components/json-data.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/web-components/data-table.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/web-components/input-filter.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/web-components/sortable-table.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/web-components/data-list.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/web-components/leaflet-map.min.js"></script>
+
+        <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/web-components/safari-nomodule.min.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/web-components/old-browser-warning.min.js"></script>
+
+        <!-- https://leafletjs.com -->
+        <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+
+        <!--
+            Elements <url-hash-router> and <json-data> define custom events that
+            can be used to call JavaScript code once the content is loaded and ready.
+        -->
+        <script>
+            // If needed handle the first route change [contentLoaded] with <script>
+            // instead of <script type="module">. This is because <url-hash-router>
+            // runs as soon as the element is added to the DOM and scripts using
+            // [type="module"] run after the content is loaded/ready.
+            //
+            // Alternatively, call any needed function directly the first time when using
+            // <script type="module">. See the examples below with [showJsonDataEvents()]
+            // and [setupTableImages()].
+            const router = document.querySelector('url-hash-router');
+            function contentLoaded() {
+                console.log('%crouter.contentLoaded', 'color:green; font-weight:bold;');
+                router.removeEventListener('contentLoaded', contentLoaded);
+            }
+            router.addEventListener('contentLoaded', contentLoaded);
+        </script>
+
+        <script type="module">
+            /* jshint esversion:8 */
+
+            import { componentsAreSetup } from 'https://cdn.jsdelivr.net/npm/dataformsjs@4.0.1/js/web-components/utils.min.js';
+
+            const router = document.querySelector('url-hash-router');
+
+            router.addEventListener('error', () => {
+                console.log('%crouter.error', 'color:red; font-weight:bold;');
+            });
+
+            // Event [contentLoaded] is called every time the hash changes and once
+            // the template is downloaded and set to the view element. Because this page
+            // downloads data quickly this event may not trigger when the page is first
+            // opened and will likely only run once the route/hash has changed.
+            router.addEventListener('contentLoaded', () => {
+                console.log('%crouter.contentLoaded', 'color:blue; font-weight:bold;');
+                console.log('router.currentRoute.path = ' + router.currentRoute.path);
+                console.log('router.currentRoute.src = ' + router.currentRoute.src);
+                showJsonDataEvents();
+                setupTableImages();
+            });
+
+            // Because <script type="module"> runs after content is ready manually
+            // call the function the first time automatically instead of on router changes.
+            showJsonDataEvents();
+            setupTableImages();
+
+            // For <json-data> elements the main event to use is [contentReady]
+            // It always runs - both for valid requests and errors, and it only
+            // runs once the content is ready.
+            function showJsonDataEvents() {
+                // Pages in this demo only have one <json-data> element, however this example shows
+                // how you could loop through multiple elements if they exist on a route.
+                const elements = document.querySelectorAll('json-data');
+                const events = ['isLoading', 'hasError', 'isLoaded', 'contentReady'];
+                for (const jsonData of elements) {
+                    if (jsonData.contentReady) {
+                        // This should happen on the initial page load, if the web service runs very fast,
+                        // or when the cached data is used. Search this file for "jsonData.contentReady" to
+                        // see how it is handled for table images.
+                        console.log('jsonData.contentReady = true (events will not run)');
+                    } else {
+                        for (const event of events) {
+                            jsonData.addEventListener(event, (e) => {
+                                console.log(`jsonData.${event} | url = ${e.target.url} | params = ${e.target.urlParams}`);
+                            });
+                        }
+                    }
+
+                    // The 'contentReady' event runs once DOM content is ready, however if
+                    // the code has "side effects" such as a JavaScript control, web component, etc
+                    // then an additional delay may be needed. For the default page the <input is="input-filter">
+                    // updates the <h1> tag after the <data-table> is setup. The function [componentsAreSetup()]
+                    // using async/await allows for full setup.
+                    if (router.currentRoute.isDefault) {
+                        jsonData.addEventListener('contentReady', async (e) => {
+                            const h1 = document.querySelector('h1');
+                            console.log('<h1> before componentsAreSetup(): ' + h1.textContent);
+                            await componentsAreSetup();
+                            console.log('<h1> after componentsAreSetup(): ' + h1.textContent);
+                        });
+                    }
+                }
+            }
+
+            // Called when the page is first opened on each hash/route change
+            async function setupTableImages() {
+                const jsonData = document.querySelector('json-data');
+                if (jsonData !== null) {
+                    // [contentReady === true] can happen on the first page load if the
+                    // data loads very fast - (before <script type="module"> finished loading).
+                    if (jsonData.contentReady) {
+                        // Wait untill all web components are setup
+                        await componentsAreSetup();
+                        showTableImages({ target:jsonData });
+                    } else {
+                        jsonData.addEventListener('contentReady', showTableImages);
+                    }
+                }
+            }
+
+            // Add Flag Images to the <table> once it has been rendered.
+            async function showTableImages(e) {
+                // console.log(e);
+
+                // Wait untill all web components are setup
+                await componentsAreSetup();
+
+                // Update icon for the place page
+                if (document.querySelector('url-hash-router').currentRoute.path === '/city/:id') {
+                    const flagEl = document.querySelector('i.flag');
+                    flagEl.className = flagEl.className.toLowerCase();
+                    return;
+                }
+
+                // Exit if page has no table
+                const table = document.querySelector('table');
+                if (table === null || table.tBodies === null || table.tBodies.length !== 1) {
+                    return;
+                }
+
+                // Does Country Code (ISO) come from URL Parameters?
+                let pageIso = null;
+                if (e && e.target && e.target.urlParams) {
+                    pageIso = JSON.parse(e.target.urlParams);
+                    pageIso = (pageIso.country ? pageIso.country.toLowerCase() : null);
+                }
+
+                // Add flags to all rows
+                const tableRows = table.tBodies[0].rows;
+                const rowCount = tableRows.length;
+                for (let x = 0; x < rowCount; x++) {
+                    const row = tableRows[x];
+                    const iso = (pageIso ? pageIso : row.cells[0].textContent.trim().toLowerCase());
+                    const flag = document.createElement('i');
+                    flag.className = iso + ' flag';
+                    row.cells[1].insertAdjacentElement('afterbegin', flag);
+                }
+            }
+        </script>
+    </body>
+</html>

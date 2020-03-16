@@ -1,0 +1,57 @@
+<section>
+    <div class="content">
+        <h1 v-i18n="'Binary Classification Demo'"></h1>
+        <div>
+            <span class="disclaimer" v-i18n="'disclaimer'"></span>
+        </div>
+        <div class="field">
+            <label for="field-pregnancies" v-i18n="'Pregnancies'"></label>
+            <input type="number" id="field-pregnancies" min="0" max="17" value="">
+        </div>
+        <div class="field">
+            <label for="field-glucose" v-i18n="'Glucose'"></label>
+            <input type="number" id="field-glucose" min="44" max="199" value="">
+        </div>
+        <div class="field">
+            <label for="field-bloodPressure" v-i18n="'Blood Pressure'"></label>
+            <input type="number" id="field-bloodPressure" min="24" max="122" value="">
+        </div>
+        <div class="field">
+            <label for="field-skinThickness" v-i18n="'Skin Thickness'"></label>
+            <input type="number" id="field-skinThickness" min="17" max="48" value="">
+        </div>
+        <div class="field">
+            <label for="field-insulin" v-i18n="'Insulin'"></label>
+            <input type="number" id="field-insulin" min="14" max="846" value="">
+        </div>
+        <div class="field">
+            <label for="field-bmi" v-i18n="'BMI'"></label>
+            <input type="number" id="field-bmi" min="18.2" max="67.1" step="0.1" value="">
+        </div>
+        <div class="field">
+            <label for="field-diabetesPedigreeFunction" v-i18n="'Diabetes Pedigree Function'"></label>
+            <input type="number" id="field-diabetesPedigreeFunction" min="0.078" max="2.42" step="0.001" value="">
+        </div>
+        <div class="field">
+            <label for="field-age" v-i18n="'Age'"></label>
+            <input type="number" id="field-age" min="21" max="81" value="33">
+        </div>
+        <div class="field">
+            <button type="button" class="btn-save" v-i18n="'Submit'"></button>
+            <button type="button" class="btn-new-values" v-i18n="'New Random Values'"></button>
+        </div>
+        <div class="field last-prediction" v-cloak>
+            <div class="prediction">
+                <strong v-i18n="'Prediction'"></strong>:
+                <span v-if="prediction === 1" v-i18n="'Has Diabetes (1 = True)'"></span>
+                <span v-else>
+                    <span v-i18n="'Does not have Diabetes (0 = False)'"></span>
+                </span>
+            </div>
+            <div class="probability">
+                <strong><span v-i18n="'Probability'"></span> <i v-i18n="'(of Diabetes)'"></i></strong>:
+                <span>{{ Number(probability * 100).toFixed(2) }} %</span>
+            </div>                 
+        </div>
+    </div>
+</section>
