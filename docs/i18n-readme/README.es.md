@@ -98,6 +98,10 @@ Este ejemplo usa Vue para crear plantillas. Si lo guarda con un editor de texto,
         <template data-route="/">
             <h1>Hola Mundo!</h1>
         </template>
+
+        <template id="loading-screen">
+            <h3>Cargando...</h3>
+        </template>
         
         <script
             type="text/x-template"
@@ -129,6 +133,7 @@ Este ejemplo usa Vue para crear plantillas. Si lo guarda con un editor de texto,
                 jsonData: 'https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/pages/jsonData.min.js',
                 flags: 'https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css',
             };
+            app.settings.lazyTemplateSelector = '#loading-screen';
         </script>
     </body>
 </html>

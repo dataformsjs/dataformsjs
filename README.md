@@ -126,6 +126,10 @@ This example uses Vue for templating. If you save it with a text editor you can 
             <h1>Hello World!</h1>
         </template>
 
+        <template id="loading-screen">
+            <h3>Loading...</h3>
+        </template>
+
         <script
             type="text/x-template"
             data-engine="vue"
@@ -156,6 +160,7 @@ This example uses Vue for templating. If you save it with a text editor you can 
                 jsonData: 'https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/pages/jsonData.min.js',
                 flags: 'https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css',
             };
+            app.settings.lazyTemplateSelector = '#loading-screen';
         </script>
     </body>
 </html>
