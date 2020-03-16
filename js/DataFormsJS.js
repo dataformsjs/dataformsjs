@@ -730,7 +730,7 @@
 
         // Show loading screen while the scripts are being loaded. Scripts should load
         // quick but on mobile devices a delay of 1 second makes the page looks like it
-        // is not being loaded. This code handles  issue to reset the view, however only
+        // is not being loaded. This code displayed the loading view, however only
         // simple templates embedded on the page can be used.
         if (app.settings.lazyLoadingViewSelector !== null) {
             var view = document.querySelector(app.settings.viewSelector);
