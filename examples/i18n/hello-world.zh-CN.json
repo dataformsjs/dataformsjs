@@ -1,15 +1,15 @@
 {
     "title": "Hello World Demo",
-    "webc": "Web Components",
+    "webc": "Web组件",
     "hello_world": "Hello World!",
-    "modify_this": "Modify this",
+    "modify_this": "修改此处",
     "URL": "URL",
-    "with_your_name": "with your name.",
+    "with_your_name": "您的名字.",
     "hello": "Hello",
     "hello_name": "Hello {{name}}!",
-    "back_home": "Back to Home",
+    "back_home": "返回主页",
     "param_name": "name",
-    "param_your_name": "Your-Name",
-    "jsx_loader": "DataFormsJS [jsxLoader.js] is being used to quickly compile JSX to JS.",
-    "babel_loader": "You are using an older Browser so Babel is being used to compile JSX to JS."
+    "param_your_name": "您的名字",
+    "jsx_loader": "DataFormsJS [jsxLoader.js]用于快速将JSX编译为JS.",
+    "babel_loader": "您使用的是较旧的浏览器,因此使用Babel将JSX编译为JS."
 }
