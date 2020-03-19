@@ -1,15 +1,15 @@
 {
     "title": "Hello World Demo",
-    "webc": "Web×é¼ş",
+    "webc": "Webç»„ä»¶",
     "hello_world": "Hello World!",
-    "modify_this": "ĞŞ¸Ä´Ë´¦",
+    "modify_this": "ä¿®æ”¹æ­¤å¤„",
     "URL": "URL",
-    "with_your_name": "ÄúµÄÃû×Ö.",
+    "with_your_name": "æ‚¨çš„åå­—.",
     "hello": "Hello",
     "hello_name": "Hello {{name}}!",
-    "back_home": "·µ»ØÖ÷Ò³",
+    "back_home": "è¿”å›ä¸»é¡µ",
     "param_name": "name",
-    "param_your_name": "ÄúµÄÃû×Ö",
-    "jsx_loader": "DataFormsJS [jsxLoader.js]ÓÃÓÚ¿ìËÙ½«JSX±àÒëÎªJS.",
-    "babel_loader": "ÄúÊ¹ÓÃµÄÊÇ½Ï¾ÉµÄä¯ÀÀÆ÷,Òò´ËÊ¹ÓÃBabel½«JSX±àÒëÎªJS."
+    "param_your_name": "æ‚¨çš„åå­—",
+    "jsx_loader": "DataFormsJS [jsxLoader.js]ç”¨äºå¿«é€Ÿå°†JSXç¼–è¯‘ä¸ºJS.",
+    "babel_loader": "æ‚¨ä½¿ç”¨çš„æ˜¯è¾ƒæ—§çš„æµè§ˆå™¨,å› æ­¤ä½¿ç”¨Babelå°†JSXç¼–è¯‘ä¸ºJS."
 }
