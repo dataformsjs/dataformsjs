@@ -256,7 +256,7 @@ _所有大小都基于来自Web服务器的缩小脚本和gzip压缩._
 
 **How do I use the JSX Loader for React?**
 
-See the main document: https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
+See the main document: https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.zh-CN.md
 
 **DataFormsJS的未来计划是什么?**
 
