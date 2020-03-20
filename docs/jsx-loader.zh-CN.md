@@ -2,7 +2,7 @@
     <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/docs/jsx-loader.png" title="DataFormsJS JSX Loader">
 </h1>
 
-<p align="center">An ultra-fast and tiny (5.2 kB) browser based compiler for JSX / React.</p>
+<p align="center">基于浏览器的超高速微型JSX/React编译器.</p>
 <hr>
 
 <table>
@@ -11,42 +11,42 @@
 <g-emoji class="g-emoji" alias="globe_with_meridians" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f310.png"><img class="emoji" alt="globe_with_meridians" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f310.png"></g-emoji> <g-emoji class="g-emoji" alias="earth_americas" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f30e.png"><img class="emoji" alt="earth_americas" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f30e.png"></g-emoji> <g-emoji class="g-emoji" alias="earth_asia" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f30f.png"><img class="emoji" alt="earth_asia" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f30f.png"></g-emoji> <g-emoji class="g-emoji" alias="earth_africa" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f30d.png"><img class="emoji" alt="earth_africa" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f30d.png"></g-emoji>
 		</td></tr>
     	<tr>
-			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.pt-BR.md">Português (do Brasil)</a>
+			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.pt-BR.md">葡萄牙语(巴西)</a>
 		</tr>
 	</tbody>
 </table>
 
-## What is it? :tada:
+## 这是什么? :tada:
 
-A single JavaScript file `jsxLoader.js` that compiles / [transpiles](https://en.wikipedia.org/wiki/Source-to-source_compiler) JSX to JS for modern browsers and for old browsers it will download and use Polyfills and Babel Standalone.
+这是一个单独的JavaScript文件`jsxLoader.js`,用来为新浏览器和旧浏览器编译/ [transpiles](https://en.wikipedia.org/wiki/Source-to-source_compiler)(传输)JSX到JS,它将下载和使用Polyfills and Babel Standalone.
 
-**Source:** https://github.com/dataformsjs/dataformsjs/blob/master/js/react/jsxLoader.js
+**源代码:** https://github.com/dataformsjs/dataformsjs/blob/master/js/react/jsxLoader.js
 
-**Demo:** https://www.dataformsjs.com/examples/hello-world/en/react.htm
+**演示:** https://www.dataformsjs.com/examples/hello-world/en/react.htm
 
-## Why :question:
+## 为什么 :question:
 
-The `jsxLoader.js` script was created to provide a fast method for including React with JSX on web pages and web apps with no build process, CLI tools, or large dependencies needed; simply use React with JSX in a webpage or site and include the needed CDN or JavaScript files.
+`jsxLoader.js`脚本的创建是为了提供一种快速在web页面和web应用程序中加入React和JSX的方法,而无需构建过程，CLI工具或大型依赖,只需在网页或站点中使用React和JSX,并加入所需的CDN或JavaScript文件.
 
-CLI Development tools such as `webpack`, `babel`, and `create-react-app` are great but they do not make sense for all sites, web pages, and development workflows; and `Babel Standalone` is huge to include on each page - 320 kB when gzipped and 1.5 MB of JavaScipt for the Browser to process. With a browser based options for JSX you can **easily include React Components on any page** without having to build the entire site using React or JSX.
+CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，但是他们并不适用于所有的站点,网页以及开发工作流程.`Babel Standalone`非常庞大,每个页面上都包含-gzip压缩后为320 kB和1.5 MB JavaScipt文件供浏览器处理.使用基于浏览器的JSX选项,您可以**轻松地在任何页面中使用React组件**而无需使用React或JSX构建整个网站.
 
-Old Browsers typically account for less than 5 % of users for most sites - mostly IE and old iOS/Safari. Generally if someone is browsing from IE they are used to slow pages and if someone is browsing from an old iPhone or iPad they end up with many broken sites so simply having a site working is good even if it's slow. This script provides a good trade-off - fast for most users with modern browsers and it still works on old browsers.
+对于大多数网站来说,旧的浏览器通常只占不到5%的用户,主要是IE和旧的IOS以及Safari.一般来说,如果有人在IE上浏览网页,他们习惯了缓慢的网页,如果有人在旧的iPhone或iPad上浏览,他们会遇到很多损坏的网站.所以，简单的有个运行的网站是不错的,即使它的速度很慢.这个脚本提供了一个很好的折中方案，对于使用新浏览器的用户来说，速度很快，并仍然能在旧的浏览器上工作.
 
-Prior to the `jsxLoader.js` being created all React demos on DataFormsJS used Babel Standalone. Babel Standalone is great for prototyping and works with React DevTools however due to its size it takes a lot of memory and causes an initial delay in loading the page so it’s generally avoided on production sites. On mobile devices the delay can be many seconds. Here is an example of before and after performance differences when using `Babel` vs `jsxLoader`.
+在创建`jsxLoader.js`之前,DataFormsJS上的所有React演示都使用了Babel Standalone.Babel Standalone非常适合用于原型制作，并且能和React DevTools一起使用,但是由于其体积大,需要占用大量内存,并且会导致页面加载的初始延迟,因此通常在创建站点上是避免这种情况的.在移动设备上,延迟可能长达数秒. 下面是一个使用`Babel`和`jsxLoader`之间的性能差异的例子.
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Rreact-speed-and-memory-with-babel.png" alt="React with Babel">
 
-Performance is great because jsxLoader compiles code to modern JS for modern browser and because it’s a minimal compiler it’s very fast to process.
+性能之所以出色,是因为jsxLoader将代码编译为用于新版浏览器的新JS,并且因为它是极小的编译器,所以处理起来非常快.
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/React-speed-and-memory-with-jsxLoader.png" alt="React with jsxLoader">
 
-## Can it be used for production apps and sites? :rocket:
+## 它可以用于生产应用和网站吗? :rocket:
 
-**Yes**, it was created for this reason.
+**是的**,它就是为此而创建的.
 
-The script is tested with a variety of devices and browsers including the following:
+该脚本已通过多种设备和浏览器进行了测试,包括以下内容:
 
-* Modern Browsers:
+* 新版浏览器:
   * Chrome
   * Safari - Desktop and iOS (iPhone/iPad)
   * Firefox
@@ -54,15 +54,15 @@ The script is tested with a variety of devices and browsers including the follow
   * Samsung Internet
   * UC Browser
   * Opera
-* Legacy Browsers:
+* 旧版浏览器:
   * IE 11
   * Safari iOS
 
-In addition to React, it also works and is tested with the React alternative library, Preact.
+此外,对React来说,它也可以工作,并已通过React的代替库Preact进行了测试.
 
-The `jsxLoader.js` script is very small to download (5.2 kB - min and gzip) and compiles code very fast (often in milliseconds for each JSX script).
+`jsxLoader.js`脚本的下载量很小(5.2 kB - min and gzip),并且编译速度非常快(每个JSX脚本通常以毫秒为单位).
 
-## How to use? :star2:
+## 如何使用? :star2:
 
 ```html
 <!-- Include React on the Page -->
@@ -98,7 +98,7 @@ The `jsxLoader.js` script is very small to download (5.2 kB - min and gzip) and 
 </script>
 ```
 
-## Demos :globe_with_meridians:
+## 演示 :globe_with_meridians:
 
 ### React <img src="https://www.dataformsjs.com/img/logos/react.svg" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/en/react.htm
@@ -116,37 +116,37 @@ The `jsxLoader.js` script is very small to download (5.2 kB - min and gzip) and 
 ### Rax <img src="https://www.dataformsjs.com/img/logos/rax.png" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/en/rax.htm
 
-## Try it online in the Code Playground :rocket:
+## 在线代码编辑器上尝试 :rocket:
 
 <a href="https://www.dataformsjs.com/en/playground">https://www.dataformsjs.com/en/playground</a>
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground-React.png" alt="React Code Playground">
 
-## Will it work for all sites and apps? :dizzy:
+## 它是否适用于所有的网站和应用? :dizzy:
 
-The script is intended to handle most but not all JSX Syntax. An overall goal is that most JSX should work with only a slight update if needed on edge cases.
+改脚本旨在处理大多数(但不是全部)JSX语法.总体目标是，如果需要在极端情况下使用,大多数JSx只需要进行少量更新.
 
-Once this script was created all React demos for DataFormsJS were able to use it instead of Babel without having to make any JSX code changes and this is expected for most sites.
+创建此脚本后,所有DataFormsJS的React演示程序都可以使用它代替Babel,而无需进行任何JSX代码更改,并且这也是大多数网站所期待的.
 
-### Handling node require and import statements
+### 处理节点请求和导入语句
 
-Because JSX is converted directly to JS for the browser, code that uses `require` and `import` statements for node will not work in the browser. However the `jsxLoader.js` script provides a flexible API that can be used to customize the generated code so that `import` and `require` statements or other code can be handled by the browser.
+由于浏览器将JSX直接转换为JS, 因此对节点使用`require`和`import`语句的代码将不能在浏览器中使用.然而`jsxLoader.js`提供了灵活的API,可用于自定义生成的代码,以便浏览器可以处理`import`和`require`语句以及其他代码.
 
-For example, if you use the following in your JSX Code:
+例如,如果您在JSX代码中使用以下代码:
 
 ```js
 import { useState } from 'react';
 ```
 
-Then you have two options:
+然后您有两个选择:
 
-1) Remove it and use `React.useState` instead of `useState` in your code. This works because `React` is a global variable for the browser.
+1) 删除它并在代码中使用`React.useState`而不是`useState`.之所以可以运行是因为`React`浏览器的全局变量.
 
 ```javaScript
 const [count, setCount] = React.useState(0);
 ```
 
-2) Add a custom find and replace update.
+2) 添加自定义查找和替换更新.
 
 ```html
 <script>
@@ -157,17 +157,17 @@ const [count, setCount] = React.useState(0);
 </script>
 ```
 
-Often components, functions, etc that need to be imported for node will exist as global variables in the browser so for browser based JSX development you can often exclude `import` and `require` statements.
+通常,需要为节点导入的组件,功能等将作为全局变量存在于浏览器中,因此对于基于浏览器的JSX开发,您通常可以排除“ import”和“ require”语句.
 
-By default the following import is automatically handled:
+默认情况下，以下导入是自动处理的:
 
 ```javascript
 import React from 'react';
 ```
 
-### Using JavaScript that only has partial browser support
+### 使用只支持部分浏览器的JavaScript
 
-Another issue is using JavaScript that only works in some modern browsers. For example using Class fields / properties will work in some Browsers (Chrome, Firefox) but not work with other Browsers (As of 2020 this includes Safari, Edge (EdgeHTML), and Samsung Internet).
+另一个问题是使用只适用于一些现代浏览器的JavaScript.例如使用Class fields / properties在某些浏览器(Chrome, Firefox)中可以工作,但在其他浏览器中无法工作(截至2020,包括Safari,Edge (EdgeHTML),和Samsung Internet).
 
 ```jsx
 class App extends React.Component {
@@ -206,19 +206,19 @@ class App extends React.Component {
 }
 ```
 
-This also includes the JavaScript spread syntax which only has partial support for modern browsers. For example `...numbers` will work with Chrome, Firefox, etc but it will not work with all versions of Edge or the UC Browser which is widely used in Asian Countries. If you use the spread syntax in your app see additional notes in the [Advanced Usage] section of this document.
+这还包括JavaScript扩展语法,它只对新版浏览器提供部分支持.例如`...numbers`在Chrome, Firefox等浏览器中工作,但不适用于所有版本的Edge或在亚洲国家/地区广泛使用的UC浏览器.如果您在应用中使用扩展语法,请参阅本文档的[Advanced Usage]中的附加说明.
 
-## Code Splitting :scissors:
+## 代码分割 :scissors:
 
-A separated DataFormsJS React Component `<LazyLoad>` exists and allows for browser based apps to dynamically load `*.js`, `*.css`, and `*.jsx` scripts the first time they are used by a component.
+一个单独的DataFormsJS React组件`<LazyLoad>`它允许基于浏览器的应用程序在组件首次使用它们时动态加载 `*.js`, `*.css`, 和 `*.jsx`脚本.
 
-Examples from the Places Demo App:
+Places演示应用程序中的示例:
 * https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-react.htm
 * https://github.com/dataformsjs/dataformsjs/blob/master/examples/html/search-places-react.jsx
 
-In the below example all 3 files will be downloaded when the Component `LoadMapAndPage` is mounted. While the scripts are being loaded a Component `<ShowLoading>` will be displayed and once all scripts are finished downloading then the Component `<ShowCity>` will be dynamically created. In this example a string value is used for `ShowCity` because the Component will not exist until the file `place-react.jsx` is downloaded.
+在下面的例子中,所有三个文件都将在安装`LoadMapAndPage`后下载.在加载脚本时,将显示组件`<ShowLoading>` ,并且所有脚本下载完成后,将动态创建组件`<ShowCity>`.在此示例中,将字符串值用于`ShowCity` ,因为在下载文件`place-react.jsx`之前,该组件将不存在.
 
-Additionally the added properties `data` and `params` will be passed as props to `ShowCity`; any custom properties used will be passed to the child element. If `ShowCity` already exists before calling `<LazyLoad>` then `isLoaded={<isLoaded />}` could be used.
+另外,添加的属性`data`和`params`将作为道具传递给`ShowCity`; 使用的所有自定义属性都将传递给子元素.如果在调用`<LazyLoad>`前`ShowCity`已经存在,那么可以使用`isLoaded={<isLoaded />}`.
 
 ```jsx
 function LoadMapAndPage(props) {
@@ -237,9 +237,9 @@ function LoadMapAndPage(props) {
 }
 ```
 
-By default all `scripts` are downloaded asynchronously without waiting for ealier scripts to complete. This option is the fastest however it will not work for all code. In the below example `chosen.jquery.min.js` must be loaded after `jquery-3.4.1.min.js` so the property `loadScriptsInOrder` is used to tell `LazyLoad` to load scripts in sequential order.
+默认情况下,所有`scripts`都是异步下载,而无需等待较早的脚本完成.此选项是最快的,但不适用于所有代码.在下面的例子中，必须在`jquery-3.4.1.min.js`之后加载`chosen.jquery.min.js`,以便使用属性`loadScriptsInOrder`告诉`LazyLoad`按顺序加载脚本.
 
-Additionally the below snippet shows that `{children}` can be used instead of the `isLoaded` property.
+此外，以下代码段显示可以使用`{children}`来代替`isLoaded`属性.
 
 ```jsx
 <LazyLoad
@@ -255,11 +255,11 @@ Additionally the below snippet shows that `{children}` can be used instead of th
 </LazyLoad>
 ```
 
-## Advanced Usage and Internals :microscope:
+## 高级用法和内部机制 :microscope:
 
-You can [view the code here](https://github.com/dataformsjs/dataformsjs/blob/master/js/react/jsxLoader.js)! All code is in a single file and includes many helpfull comments to allow for understanding of how it works.
+你可以[在这里查看代码](https://github.com/dataformsjs/dataformsjs/blob/master/js/react/jsxLoader.js)! 所有代码都在一个文件中，并包含许多有用的注释，以便理解它是如何工作的.
 
-The jsxLoader script provides a number of properties and functions that can be used to customize how it runs. Below are the most common uses.
+jsxLoader脚本提供了许多可用于自定义其运行方式的属性和功能.以下是最常见的用途.
 
 ```js
 // View compiler speed for each script in DevTools console
@@ -285,13 +285,13 @@ jsxLoader.jsUpdates.push({
 
 ### jsxLoader.logCompileTime
 
-When using `jsxLoader.logCompileTime` the time it takes to compile each script will be logged to the DevTools console.
+当使用`jsxLoader.logCompileTime`时,编译每个脚本所花费的时间将记录在DevTools控制台中.
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-loader-log-compile-time.png" alt="Log Compile time to DevTools Console">
 
 ### jsxLoader.logCompileDetails
 
-When using `jsxLoader.logCompileDetails` full details of the main compiler steps will be logged to the DevTools console. This includes:
+当使用`jsxLoader.logCompileDetails`时,主要编译器步骤的全部详细信息将记录到DevTools控制台中.这包括:
 
 * Tokens generated from Lexical Analysis
 * Abstract Syntax Tree (AST) generated from the Tokens
@@ -299,34 +299,34 @@ When using `jsxLoader.logCompileDetails` full details of the main compiler steps
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-loader-log-compile-details.png" alt="Log Compile Details to DevTools Console">
 
-### Use Babel for Apps that include the Spread Syntax
+### 将Babel用于包含扩展语法的应用程序
 
-If you have a site that uses code like this `<Greeting {...props} />` the JSX Loader will convert it to `React.createElement(Greeting, ...props)` for modern browsers however not all modern browsers support this syntax. This is particularly important if your site is viewed by users in Asian Countries that use the UC Browser (as of 2020) or viewed by users who use Edge (Default Browser in Windows 10).
+如果您的网站使用的是类似`<Greeting {...props} />`的代码,则JSX Loader会将其转换为适用于新版浏览器的`React.createElement(Greeting, ...props)`，但并不是所有新版浏览器都支持此语法.如果使用UC浏览器的亚洲国家的用户(截至2020)或使用Edge的用户(Windows 10默认浏览器)查看您的网站,这一点尤为重要.
 
-There are several options:
+有几种选择:
 
-1) Avoid using the spread syntax
-2) Use code shown in the snippet below so that Babel will be used for Browsers which do no support the spread syntax
+1) 避免使用扩展语法
+2) 使用代码如下面的代码片段所示,因此Babel将用于不支持扩展语法的浏览器
 
 ```js
 jsxLoader.evalCode = 'const { id, ...other } = { id:123, test:456 };';
 ```
 
-### How JS Code is added to the Page
+### 如何将JS代码添加到页面
 
-The `jsxLoader.js` script runs on the Document `DOMContentLoaded` event and first checks the environment to determine if polyfills are needed and if Babel should be used. It then downloads JSX Code (or reads inline JSX code), compiles it to regular JavaScript, and adds it back to the page as JavaScript in the `<head>` element.
+`jsxLoader.js`脚本在`DOMContentLoaded`时间上运行,首先检查环境以确定是否需要使用polyfills,以及是否使用Bable.然后,它下载JSX Code (or reads inline JSX code),将其编译为常规JavaScript,然后将其作为JavaScript添加到页面的`<head>`元素中.
 
-Scripts added on the page will have a `data-compiler` attribute with the value of either `jsxLoader` or `Babel` to indicate which compiler was used. If the script was downloaded then it will include the `data-src` attribute with the URL of the original JSX script.
+页面上添加的脚本将具有一个`data-compiler`属性,其值为`jsxLoader`或`Babel`,以指示使用了哪个编译器.如果脚本已下载,那么它将在原始JSX脚本的URL中包含`data-src`属性.
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-added-to-page-as-js.png" alt="JSX Code compiled to JavaScript">
 
-### Local Development
+### 本地开发
 
-Typically the minimized version `jsxLoader.min.js` will be used for production while the `jsxLoader.js` is the full version of the script that is used for development. It has no dependencies and is browser based so once it is included on a page you can step through the code using Browser DevTools.
+通常,最小化版本的`jsxLoader.min.js`将用于生产,而`jsxLoader.js`用于开发的脚本的完整版本.因此一旦将其包含在页面中，就可以使用Browser DevTools逐步调试代码.
 
-### Building [jsxLoader.min.js] from [jsxLoader.js]
+### 从[jsxLoader.js]构建[jsxLoader.min.js]
 
-All `*.min.js` files in DataFormsJS are built from the full file version of the same name using a build script that depends on `uglify-js`, `uglify-es`, and `Babel`. The `jsxLoader.min.js` can be built using only `uglify-js`.
+DataFormsJS中的所有`*.min.js`文件都是使用依赖于`uglify-js`, `uglify-es`和`Babel`的构建脚本从同名的完整文件版本构建的.`jsxLoader.min.js`只能使用`uglify-js`来构建.
 
 ```bash
 # From project root
@@ -334,13 +334,13 @@ node install
 node run build
 ```
 
-Or run the [.\scripts\build.js](https://github.com/dataformsjs/dataformsjs/blob/master/scripts/build.js) script directly: `node build.js`.
+或者运行[.\scripts\build.js](https://github.com/dataformsjs/dataformsjs/blob/master/scripts/build.js) script directly: `node build.js`.
 
-### Unit Testing
+### 单元测试
 
-Unit Tests for `jsxLoader.js` run from a browser using Mocha. Often React Components are tested from a mock browser environment using Jest, however it’s important that the `jsxLoader.js` be tested from an actual browser so that it can be verified in as many environments as possible and because it downloads Polyfills and Babel for some browsers.
+使用Mocha从浏览器运行`jsxLoader.js`.通常,是使用Jest在模拟浏览器环境中进行测试的,但是，重要的是必须从实际的浏览器中对`jsxLoader.js`进行测试,以便可以在尽可能多的环境中对其进行验证,因为它会为某些浏览器下载Polyfills和Babel.
 
-This method also helps verify that the behavior of the compiled JS code from `jsxLoader.js` matches the same result from Babel. For example modern browsers need to be confirmed as well as IE 11 (which uses Babel).
+该方法还有助于验证来自`jsxLoader.js`的已编译JS代码的行为是否与来自Babel的相同结果相匹配.例如,新版浏览器和IE 11(使用Babel)都需要确认.
 
 ```bash
 # Install Node
@@ -362,26 +362,26 @@ node server.js
 # http://127.0.0.1:5000/
 ```
 
-The image below shows what the Unit Test page looks like. When testing with a modern browser `jsxLoader` will appear in the upper-left-hand corner of the screen.
+下图显示了“单元测试”页面的外观.当使用现代浏览器进行测试时`jsxLoader`将出现在屏幕的左上角.
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-testing-modern-browser.png" alt="Unit Testing with Modern Browser">
 
-When testing with a legacy browser such as IE 11 `Babel` will be shown along with `(Polyfill Downloaded)`.
+当使用IE 11这样的传统浏览器进行测试时,`Babel`将与`(Polyfill Downloaded)`一起显示.
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-testing-ie-11.png" alt="Unit Testing with IE 11">
 
-If a modern browser is being tested that doesn't support that spread syntax then a helpful warning will be displayed because it will cause some tests to fail. Additionally `(Polyfill Downloaded)` will appear for modern browsers that need to download Polyfills (typically if `Promise.prototype.finally` is missing).
+如果正在测试不支持该扩展语法的现代浏览器,则会显示一条有用的警告,因为它会导致某些测试失败.另外,对于需要下载Polyfills(通常是缺少`Promise.prototype.finally`)的新版浏览器,会出现`(Polyfill Downloaded)`.
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-testing-uc-browser.png" alt="Unit Testing with UC Browser">
 
-## Known Issues :warning:
+## 已知问题 :warning:
 
-* In general if a known issue requires a lot of code it will likely not be supported because this script is intended as a small and fast JSX parser/compiler and not a full featured JavaScript parser/compiler.
-* Error messages may not be very friendly for some unexpected syntax errors so using linting in a Code Editor is recommened during development to avoid errors from `jsxLoader.js`. If you develop with Visual Studio Code or other popular editors this should happen automatically. If you have syntax errors with the generated code and it’s not clear why then using Chrome DevTools is recommended (or Edge built with Chromium). Because generated JavaScript is added back in dynamic elements most Browsers will display the wrong location of the error but latest versions of Chrome and Edge will often show it in the correct location.
+* 一般来说,如果一个已知的问题需要大量的代码,它很可能不被支持,因为此脚本旨在用作小型而快速的JSX解析器/编译器,而不是功能齐全的JavaScript解析器/编译器.
+* 对于某些意外的语法错误,错误消息可能不太友好,因此在开发期间建议在代码编辑器中使用linting,以避免来自`jsxLoader.js`的错误.如果使用Visual Studio代码或其他流行的编辑器进行开发,则应自动执行此操作.如果生成的代码有语法错误,并且不清楚为什么建议使用Chrome DevTools(或Chromium构建的Edge).由于生成的JavaScript重新添加到动态元素中,因此大多数浏览器将显示错误的位置,但最新版本的Chrome和Edge经常将其显示在正确的位置.
     <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-debug-error-in-chrome.png" alt="Debug Errors with Chrome Dev Tools">
-* Minimized `for` loops may cause issues: `for(n=0;n<m;n++)` as the `<m;n++)` will likely be parsed as an element. However if a full file is minimized it will be processed as JavaScript which means minimized Components will generally work by default.
-* Sometimes extra child whitespace is generated in child nodes of `React.createElement('element', props, ...children)` compared to what would be created when using Babel. Generally this doesn’t happen often but it has been found in the [log demo page](https://www.dataformsjs.com/examples/log-table-react.htm). This issue has no visual effect on the page, no performance decrease, and doesn't happen often so it's considered acceptable.
-*  Text that looks like elements inside of complex nested template literals (template strings) may cause parsing errors or unexpected results:
+* 最小化的`for`循环可能会引起问题: `for(n=0;n<m;n++)` as the `<m;n++)`可能被解析为元素.但是,如果一个完整的文件被最小化,它将被作为JavaScript处理,这意味着最小化的组件通常在默认情况下工作.
+* 与使用Babel时会创建的子节点相比,有时在('element', props, ...children)`的子节点中会生成额外的子空白.通常,这种情况很少发生,但可以在[log demo page](https://www.dataformsjs.com/examples/log-table-react.htm)中找到.这个问题对页面没有视觉影响,性能也不会下降,并且不会经常发生,因此被认为是可以接受的.
+* 看起来像复杂嵌套模板文本(模板字符串)中的元素的文本,可能导致分析错误或意外结果:
 
     Example parsed correctly:
     ```JavaScript
