@@ -22,7 +22,7 @@
 
 **源代码:** https://github.com/dataformsjs/dataformsjs/blob/master/js/react/jsxLoader.js
 
-**演示:** https://www.dataformsjs.com/examples/hello-world/en/react.htm
+**演示:** https://www.dataformsjs.com/examples/hello-world/zh-CN/react.htm
 
 ## 为什么 :question:
 
@@ -101,7 +101,7 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
 ## 演示 :globe_with_meridians:
 
 ### React <img src="https://www.dataformsjs.com/img/logos/react.svg" width="32" height="32">
-* https://www.dataformsjs.com/examples/hello-world/en/react.htm
+* https://www.dataformsjs.com/examples/hello-world/zh-CN/react.htm
 * https://www.dataformsjs.com/examples/places-demo-react.htm
 * https://www.dataformsjs.com/examples/image-classification-react.htm
 * https://www.dataformsjs.com/examples/log-table-react.htm
@@ -110,15 +110,15 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
 * https://www.dataformsjs.com/examples/hacker-news-react.htm
 
 ### Preact <img src="https://www.dataformsjs.com/img/logos/preact.svg" width="32" height="32">
-* https://www.dataformsjs.com/examples/hello-world/en/preact.htm
+* https://www.dataformsjs.com/examples/hello-world/zh-CN/preact.htm
 * https://www.dataformsjs.com/examples/countries-no-spa-preact.htm
 
 ### Rax <img src="https://www.dataformsjs.com/img/logos/rax.png" width="32" height="32">
-* https://www.dataformsjs.com/examples/hello-world/en/rax.htm
+* https://www.dataformsjs.com/examples/hello-world/zh-CN/rax.htm
 
 ## 在线代码编辑器上尝试 :rocket:
 
-<a href="https://www.dataformsjs.com/en/playground">https://www.dataformsjs.com/en/playground</a>
+<a href="https://www.dataformsjs.com/zh-CN/playground">https://www.dataformsjs.com/zh-CN/playground</a>
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground-React.png" alt="React Code Playground">
 
