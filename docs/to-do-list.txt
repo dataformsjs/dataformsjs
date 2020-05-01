@@ -33,6 +33,7 @@ TODO List
         However all code should be downloaded only once and displayed in memory
 
 **) Playground Site
+    - Need to add support for JSON file/resource type
     - Add liniting for React/JSX, Babel recently started doing this online in the REPL:
         https://babeljs.io/repl
     - Currently JS is linted using jshint on the Playground, to lint JSX babel standalone will
