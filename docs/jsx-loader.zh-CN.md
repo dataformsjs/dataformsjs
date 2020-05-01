@@ -66,8 +66,8 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
 
 ```html
 <!-- Include React on the Page -->
-<script src="https://unpkg.com/react@16.13.0/umd/react.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@16.13.0/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react@16.13.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 
 <!--
     Include the DataFormsJS JSX Loader.
