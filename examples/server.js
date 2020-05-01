@@ -87,6 +87,7 @@ app.get('/:file', (req, res, file) => {
 // http://127.0.0.1:8080/examples/hello-world/en/react.htm
 // http://127.0.0.1:8080/examples/hello-world/en/preact.htm
 // http://127.0.0.1:8080/examples/hello-world/en/rax.htm
+// http://127.0.0.1:8080/examples/hello-world/en/hyperapp.htm
 app.get('/examples/hello-world/:lang/:file', async (req, res, lang, file) => {
     // CSS or SVG file
     if (!file.endsWith('.htm')) {
