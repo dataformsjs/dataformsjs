@@ -8,7 +8,8 @@ Overall the core Framework files and API are expected to remain stable however t
 
 * Web Component `<data-list>` new features for rendering templates from `<template>` elements using [Template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
   * The update includes 3 new attributes for `<data-list>`: `[template-selector], [root-element], [root-class]`
-  * Example usage: https://github.com/dataformsjs/dataformsjs/blob/master/examples/web-components-data-list.htm
+  * Example Source: https://github.com/dataformsjs/dataformsjs/blob/master/examples/web-components-data-list.htm
+  * Example Demo: https://dataformsjs.com/examples/web-components-data-list.htm
 * **Thanks Li Jun Hui and eGirlAsm** for helping with Chinese translations!
   * https://github.com/lijunhuippl
   * https://github.com/eGirlAsm
