@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Web Component Data List Template Demo</title>
+        <style>
+            main { display: flex; }
+            ul, div { padding: 20px; }
+        </style>
+    </head>
+    <body>
+        <json-data url="https://www.dataformsjs.com/data/geonames/countries">
+            <is-loading>
+                <span class="loading">Loading...</span>
+            </is-loading>
+            <has-error>
+                <span class="error" data-bind="errorMessage"></span>
+            </has-error>
+            <is-loaded>
+                <main>
+                    <!--
+                        By default a basic <ul> list will be created. [root-class]
+                        is optional and if defined will be added to the <ul> element.
+
+                        Because `countries` is an array of objects using a basic:
+                            <li>{this}<li>
+                        Does not result in content showing correctly and instead shows:
+                            [object Object] which would be the value of `item.toString()`
+                    -->
+                    <data-list
+                        data-bind="countries"
+                        root-class="items">
+                    </data-list>
+
+                    <!--
+                        [template-selector] allows for custom templates using
+                        JavaScript Template literals (Template strings)
+                    -->
+                    <data-list
+                        data-bind="countries"
+                        template-selector="#item-template">
+                    </data-list>
+
+                    <!--
+                        This example uses [root-element] which is optional
+                        and used only when using [template-selector].
+                    -->
+                    <data-list
+                        data-bind="countries"
+                        template-selector="#list-template"
+                        root-element="ul"
+                        root-class="items">
+                    </data-list>
+                </main>
+            </is-loaded>
+        </json-data>
+
+        <template id="item-template">
+            <div>
+                <strong>Code</strong> ${iso}
+                <br><strong>Country</strong> ${country}
+                <br><strong>Size (KM)</strong> ${area_km}
+                <br><strong>Population</strong> ${population}
+                <br><strong>Continent</strong> ${continent}
+            </div>
+        </template>
+
+        <template id="list-template">
+            <li>
+                ${iso} - ${country}
+            </li>
+        </template>
+
+        <script type="module" src="../js/web-components/json-data.min.js"></script>
+        <script type="module" src="../js/web-components/data-list.min.js"></script>
+    </body>
+</html>

@@ -8,7 +8,7 @@
 
 /* Validates with both [jshint] and [eslint] */
 /* For online eslint - Source Type = 'module' must be manually selected. */
-/* jshint esversion:8 */
+/* jshint esversion:8, evil:true */
 /* eslint-env browser, es6 */
 /* eslint quotes: ["error", "single", { "avoidEscape": true }] */
 /* eslint spaced-comment: ["error", "always"] */
@@ -64,13 +64,59 @@ class DataList extends HTMLElement {
             this.removeAttribute('not-setup');
             return;
         }
-
+        
         // List Items
-        const html = ['<ul>'];
-        for (const item of list) {
-            html.push(render`<li>${item}</li>`);
+        const html = [];
+        const templateSelector = this.getAttribute('template-selector');
+        const rootClass = this.getAttribute('root-class');
+        if (templateSelector !== null) {
+            // Get and validate the template
+            const template = document.querySelector(templateSelector);
+            if (template === null) {
+                console.error('Missing template from selector: ' + templateSelector);
+                console.log(this);
+                this.removeAttribute('not-setup');
+                return;
+            }
+            if (template.nodeName !== 'TEMPLATE') {
+                console.error('Element at selector [' + templateSelector + '] is not a <template>');
+                console.log(this);
+                this.removeAttribute('not-setup');
+                return;
+            }
+            
+            // Root Element is optional and only used if a template is used
+            const rootElement = this.getAttribute('root-element');
+            if (rootElement !== null) {
+                if (rootClass === null) {
+                    html.push(render`<${rootElement}>`);
+                } else {
+                    html.push(render`<${rootElement} class="${rootClass}">`);
+                }
+            }
+            
+            // Render each item in the template
+            const tmpl = new Function('item', 'render', 'with(item){return render`' + template.innerHTML + '`}');
+            for (const item of list) {
+                html.push(tmpl(item, render));
+            }
+            
+            // Close root element if defined
+            if (rootElement !== null) {
+                html.push(render`</${rootElement}>`);
+            }
+        } else {
+            // Basic <ul> list
+            if (rootClass === null) {
+                html.push('<ul>');
+            } else {
+                html.push(render`<ul class="${rootClass}">`);
+            }
+            for (const item of list) {
+                html.push(render`<li>${item}</li>`);
+            }
+            html.push('</ul>');
         }
-        html.push('</ul>')
         this.innerHTML = html.join('');
 
         // Remove this attribute after the first time a list has been rendered
