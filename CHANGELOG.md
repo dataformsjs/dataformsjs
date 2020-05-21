@@ -4,6 +4,15 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 4.1.0 (May 21, 2020)
+
+* Web Component `<data-list>` new features for rendering templates from `<template>` elements using [Template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
+  * The update includes 3 new attributes for `<data-list>`: `[template-selector], [root-element], [root-class]`
+  * Example usage: https://github.com/dataformsjs/dataformsjs/blob/master/examples/web-components-data-list.htm
+* **Thanks Li Jun Hui and eGirlAsm** for helping with Chinese translations!
+  * https://github.com/lijunhuippl
+  * https://github.com/eGirlAsm
+
 ## 4.0.1 (March 12, 2020)
 
 * `jsxLoader.js` - Fix for incorrect parsing of JavaScript comments nested with-in elements
