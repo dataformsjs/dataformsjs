@@ -1,9 +1,15 @@
 /**
- * DataFormsJS <ul is="data-list"> Web Component
+ * DataFormsJS <data-list> Web Component
  *
- * This component renders a standard <table> after [value] is set from JavaScript
- * with an array of objects. This component works with the <json-data> to display
- * data once it is downloaded.
+ * This component renders either a basic <ul> or custom <template> after [value]
+ * is set from JavaScript with an array of objects. This component works well with
+ * the <json-data> component to display data once it is downloaded and because of
+ * it's small size it can easily be copied and customized for any app or site.
+ *
+ * When using a <template> element the attribute [template-selector] is used to
+ * specify a CSS selector for the template and JavaScript Template literals
+ * (Template strings) are used for the template format. All variables in the
+ * template will be escaped for HTML encoding.
  */
 
 /* Validates with both [jshint] and [eslint] */
@@ -30,6 +36,9 @@ class DataList extends HTMLElement {
         super();
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
+        // The [not-setup] is defined when the component is created and removed when data
+        // is set. It allows for applications to handle logic based on whether or not the
+        // data list has been rendered. For usage see `componentsAreSetup()` from [utils.js].
         this.setAttribute('not-setup', '');
         this.state = { list: null };
     }
@@ -64,7 +73,7 @@ class DataList extends HTMLElement {
             this.removeAttribute('not-setup');
             return;
         }
-        
+
         // List Items
         const html = [];
         const templateSelector = this.getAttribute('template-selector');
@@ -84,7 +93,7 @@ class DataList extends HTMLElement {
                 this.removeAttribute('not-setup');
                 return;
             }
-            
+
             // Root Element is optional and only used if a template is used
             const rootElement = this.getAttribute('root-element');
             if (rootElement !== null) {
@@ -94,13 +103,16 @@ class DataList extends HTMLElement {
                     html.push(render`<${rootElement} class="${rootClass}">`);
                 }
             }
-            
-            // Render each item in the template
+
+            // Render each item in the template. A new function is dynamically created that simply
+            // renders the contents of the template as a JavaScript template literal (template string).
+            // The Tagged Template Literal function `render()` from [utils.js] is used to safely escape
+            // the variables for HTML encoding.
             const tmpl = new Function('item', 'render', 'with(item){return render`' + template.innerHTML + '`}');
             for (const item of list) {
                 html.push(tmpl(item, render));
             }
-            
+
             // Close root element if defined
             if (rootElement !== null) {
                 html.push(render`</${rootElement}>`);
