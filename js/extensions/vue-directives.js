@@ -149,13 +149,13 @@
             }
         }
 
-        Vue.directive('format-number', {
+        var vFormatNumber = {
             bind: function (el, binding) {
                 el.textContent = formatNumber(binding.value, {});
             }
-        });
-
-        Vue.directive('format-currency', {
+        };
+        
+        var vFormatCurrency = {
             bind: function (el, binding) {
                 var currencyCode = binding.arg;
                 if (!currencyCode) {
@@ -166,9 +166,9 @@
                 var intlOptions = { style: 'currency', currency: currencyCode, maximumFractionDigits: 2 };
                 el.textContent = formatNumber(binding.value, intlOptions);
             }
-        });
+        };
 
-        Vue.directive('format-percent', {
+        var vFormatPercent = {
             bind: function (el, binding) {
                 var decimalPlaces = (binding.arg ? Number(binding.arg) : 0);
                 var intlOptions = {
@@ -178,27 +178,49 @@
                 };
                 el.textContent = formatNumber(binding.value, intlOptions);
             }
-        });
+        };
 
-        Vue.directive('format-date', {
+        var vFormatDate = {
             bind: function (el, binding) {
                 el.textContent = formatDateTime(binding.value, {});
             }
-        });
-
-        Vue.directive('format-date-time', {
+        };
+        
+        var vFormatDateTime = {
             bind: function (el, binding) {
                 var intlOptions = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
                 el.textContent = formatDateTime(binding.value, intlOptions);
             }
-        });
-
-        Vue.directive('format-time', {
+        };
+        
+        var vFormatTime = {
             bind: function (el, binding) {
                 var intlOptions = { hour: 'numeric', minute: 'numeric', second: 'numeric' };
                 el.textContent = formatDateTime(binding.value, intlOptions);
             }
-        });
+        };
+
+        // Vue 2 and 3 have different API's.
+        // For Vue 2 directives can be defined globally on the Vue object
+        // while Vue 3 requires them to be set on the app from `Vue.createApp()`.
+        // In order to do this DataFormsJS provides a `app.vueDirectives` for Vue.
+        var isVue3 = (Vue.directive === undefined && typeof Vue.createApp === 'function');
+        if (isVue3) {
+            app.vueDirectives = app.vueDirectives || {};
+            app.vueDirectives['format-number'] = vFormatNumber;
+            app.vueDirectives['format-currency'] = vFormatCurrency;
+            app.vueDirectives['format-percent'] = vFormatPercent;
+            app.vueDirectives['format-date'] = vFormatDate;
+            app.vueDirectives['format-date-time'] = vFormatDateTime;
+            app.vueDirectives['format-time'] = vFormatTime;
+        } else {
+            Vue.directive('format-number', vFormatNumber);
+            Vue.directive('format-currency', vFormatCurrency);
+            Vue.directive('format-percent', vFormatPercent);
+            Vue.directive('format-date', vFormatDate);
+            Vue.directive('format-date-time', vFormatDateTime);
+            Vue.directive('format-time', vFormatTime);
+        }
     }
 
     // Load directives once document is ready
