@@ -1,15 +1,21 @@
+<!--
+    ** This will not run locally and is currently online for testing at:
+
+    https://dataformsjs.s3-us-west-1.amazonaws.com/vue-3-testing/places-demo-vue-custom-build.htm
+-->
 <!doctype html>
 <html 
     lang="en" 
     data-show-errors
     data-i18n-default="en"
     data-i18n-locales="en,ja,es,pt-BR,ar,fr,zh-CN"
+    data-i18n-dir="https://www.dataformsjs.com/examples/cors/i18n"
     data-i18n-file="countries">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title data-i18n="Countries Demo | Vue"></title>
-        <link rel="stylesheet" href="css/countries.css">
+        <link rel="stylesheet" href="https://www.dataformsjs.com/examples/cors/css/countries.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
         <link rel="canonical" href="https://www.dataformsjs.com/examples/places-demo-hbs.htm">
     </head>
@@ -93,7 +99,7 @@
             data-url="https://www.dataformsjs.com/data/geonames/regions/:country"
             data-load-only-once="true"
             data-regions
-            src="html/regions-vue.htm">
+            src="regions-vue.htm">
         </script>
 
         <script
@@ -104,7 +110,7 @@
             data-url="https://www.dataformsjs.com/data/geonames/cities/:country/:region"
             data-load-only-once="true"
             data-cities
-            src="html/cities-vue.htm">
+            src="https://www.dataformsjs.com/examples/cors/html/cities-vue.htm">
         </script>     
         
         <script
@@ -117,7 +123,7 @@
             data-lazy-load="leafletCss, leafletJs, leafletPlugin"
             data-place
             data-fields            
-            src="html/place-vue.htm">
+            src="https://www.dataformsjs.com/examples/cors/html/place-vue.htm">
         </script>
 
         <script
@@ -130,14 +136,14 @@
             data-lazy-load="json_data, keydownAction, chosen, chosenPlugin"
             data-countries
             data-cities
-            src="html/search-places-vue.htm">
+            src="https://www.dataformsjs.com/examples/cors/html/search-places-vue.htm">
         </script>
 
         <script
             type="text/x-template"
             data-engine="vue"
             data-route="/:lang/info"
-            data-src="html/places-info-vue.htm">
+            data-src="https://www.dataformsjs.com/examples/cors/html/places-info-vue.htm">
         </script>
 
         <template id="loading-spinner-screen">
@@ -162,15 +168,15 @@
             <script src="https://unpkg.com/vue@next"></script>
          -->
          <!-- <script src="../vendor/vue@3.0.0-beta.15.global.js"></script> -->
-         <script src="../vendor/vue@3.0.0-beta.15.global.js"></script>
+         <script src="vue@3.0.0-beta.15.global.js"></script>
 
         <!-- DataFormsJS -->
-        <script src="../js/DataFormsJS.js"></script>
-        <script src="../js/extensions/vue-directives.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.1.0/js/pages/jsonData.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.1.0/js/plugins/filter.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.1.0/js/plugins/sort.min.js"></script>
-        <script src="../js/plugins/i18n.js"></script>
+        <script src="DataFormsJS.js"></script>
+        <script src="vue-directives.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.1.0/js/pages/jsonData.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.1.0/js/plugins/filter.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.1.0/js/plugins/sort.js"></script>
+        <script src="i18n.js"></script>
         <script>
             // Lazy Load the following scripts only if needed based on attribute [data-lazy-load].
             // When scripts need to be downloaded in a specific order then use an array otherwise
@@ -184,7 +190,7 @@
                     'https://code.jquery.com/jquery-3.4.1.min.js',
                     'https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.css',
                     'https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.jquery.min.js',
-                    'css/countries-chosen.css',
+                    'https://www.dataformsjs.com/examples/cors/css/countries-chosen.css',
                 ],
                 chosenPlugin: [
                     // For this demo the [dataBind] plugin is loaded before [chosen]
@@ -192,14 +198,14 @@
                     // control is created. Otherwise the following jQuery code would have
                     // to be called to trigger the update.
                     //     $('.chosen-select').trigger('chosen:updated');
-                    'https://cdn.jsdelivr.net/npm/dataformsjs@4.1.0/js/plugins/dataBind.min.js',
-                    'https://cdn.jsdelivr.net/npm/dataformsjs@4.1.0/js/plugins/chosen.min.js',
+                    'https://cdn.jsdelivr.net/npm/dataformsjs@4.1.0/js/plugins/dataBind.js',
+                    'https://cdn.jsdelivr.net/npm/dataformsjs@4.1.0/js/plugins/chosen.js',
                 ],
-                keydownAction: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.1.0/js/plugins/keydownAction.min.js',
-                json_data: '../js/controls/json-data.js',
+                keydownAction: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.1.0/js/plugins/keydownAction.js',
+                json_data: 'json-data.js',
                 leafletCss: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.css',
                 leafletJs: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.js',
-                leafletPlugin: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.1.0/js/plugins/leaflet.min.js',
+                leafletPlugin: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.1.0/js/plugins/leaflet.js',
             };
             app.settings.lazyTemplateSelector = '#loading-spinner-screen';
         </script>

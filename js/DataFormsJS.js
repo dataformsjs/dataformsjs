@@ -1694,6 +1694,7 @@ Step through Vue source with debugger
                                 if (usingVue3) {
                                     app.activeVueApp = Vue.createApp({
                                         data: function() { return app.activeModel },
+                                        directives: app.vueDirectives,
                                         methods: app.activeController.methods,
                                         computed: app.activeController.computed,
                                         mounted: function() {
@@ -1748,13 +1749,13 @@ Step through Vue source with debugger
                                     });
                                     app.activeVueApp.errorHandler = vueError;
                                     app.activeVueApp.warnHandler = vueWarn;
-                                    if (app.vueDirectives !== null) {
-                                        for (var directive in app.vueDirectives) {
-                                            if (app.vueDirectives.hasOwnProperty(directive)) {
-                                                app.activeVueApp.directive(directive, app.vueDirectives[directive]);
-                                            }
-                                        }
-                                    }
+                                    // if (app.vueDirectives !== null) {
+                                    //     for (var directive in app.vueDirectives) {
+                                    //         if (app.vueDirectives.hasOwnProperty(directive)) {
+                                    //             app.activeVueApp.directive(directive, app.vueDirectives[directive]);
+                                    //         }
+                                    //     }
+                                    // }
                                     app.activeVueApp.mount(app.settings.viewSelector);
                                 } else {
                                     Vue.config.errorHandler = vueError;

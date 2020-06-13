@@ -207,12 +207,12 @@
         var isVue3 = (Vue.directive === undefined && typeof Vue.createApp === 'function');
         if (isVue3) {
             app.vueDirectives = app.vueDirectives || {};
-            app.vueDirectives['format-number'] = vFormatNumber;
-            app.vueDirectives['format-currency'] = vFormatCurrency;
-            app.vueDirectives['format-percent'] = vFormatPercent;
-            app.vueDirectives['format-date'] = vFormatDate;
-            app.vueDirectives['format-date-time'] = vFormatDateTime;
-            app.vueDirectives['format-time'] = vFormatTime;
+            app.vueDirectives['format-number'] = vFormatNumber.bind;
+            app.vueDirectives['format-currency'] = vFormatCurrency.bind;
+            app.vueDirectives['format-percent'] = vFormatPercent.bind;
+            app.vueDirectives['format-date'] = vFormatDate.bind;
+            app.vueDirectives['format-date-time'] = vFormatDateTime.bind;
+            app.vueDirectives['format-time'] = vFormatTime.bind;
         } else {
             Vue.directive('format-number', vFormatNumber);
             Vue.directive('format-currency', vFormatCurrency);

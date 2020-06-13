@@ -52,6 +52,10 @@
  *      </json-data>
  */
 
+// TODO - more testing for Vue 3
+// ** This does not yet work, test with:
+//      http://127.0.0.1:8080/places-demo-vue#/en/search
+
 /* Validates with both [jshint] and [eslint] */
 /* global app, Vue */
 /* jshint strict: true */
@@ -146,7 +150,7 @@
             // This avoids issues of [control.url] from overwriting the same
             // property on the controller (for example whne using the jsonData page).
             function assignControlToVue() {
-                Object.assign(app.activeVueModel, {
+                Object.assign((app.activeVueModel || app.activeModel), {
                     isLoading: control.isLoading,
                     isLoaded: control.isLoaded,
                     hasError: control.hasError,
@@ -212,7 +216,7 @@
                 if (!control.graphqlQuery) {
                     if (usingVue) {
                         assignControlToVue();
-                        Object.assign(app.activeVueModel, data);
+                        Object.assign((app.activeVueModel || app.activeModel), data);
                     } else if (activeModelProp === null) {
                         Object.assign(control, data);
                     } else {
@@ -223,7 +227,7 @@
                     // If using GraphQL then copy from the [data] property.
                     if (usingVue) {
                         assignControlToVue();
-                        Object.assign(app.activeVueModel, data);
+                        Object.assign((app.activeVueModel || app.activeModel), data);
                     } else if (activeModelProp === null) {
                         Object.assign(control, data.data);
                     } else {
@@ -311,10 +315,19 @@
             // the control is being used on a page without SPA routing and create a new Vue
             // instance for the control.
             if (app.activeModel === null && window.Vue !== undefined && control.vueInstance === null) {
-                control.vueInstance = new Vue({
-                    el: element,
-                    data: control,
-                });
+                if (typeof Vue.createApp === 'function') {
+                    // Vue 3
+                    control.vueInstance = Vue.createApp({
+                        data: function() { return control }
+                    });
+                    control.vueInstance.mount(element);
+                } else {
+                    // Vue 2
+                    control.vueInstance = new Vue({
+                        el: element,
+                        data: control,
+                    });    
+                }
                 return;
             }
 
