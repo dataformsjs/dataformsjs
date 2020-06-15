@@ -467,7 +467,7 @@
                 var isVue3 = (Vue.directive === undefined && typeof Vue.createApp === 'function');
                 if (isVue3) {
                     app.vueDirectives = app.vueDirectives || {};
-                    app.vueDirectives['i18n'] = vI18n.bind;
+                    app.vueDirectives.i18n = vI18n.bind;
                     app.vueDirectives['i18n-attr'] = vI18nAttr.bind;
                 } else {
                     Vue.directive('i18n', vI18n);

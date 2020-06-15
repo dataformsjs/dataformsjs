@@ -21,6 +21,26 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+**) Once Vue 3 is out of beta confirm all Vue Examples and Pages work with Vue 3.
+    - Currently all demos are confirmed to work with Vue 3 Beta 15 as of 2020-06-15
+    - Vue 3 Links:
+        https://github.com/vuejs/vue-next
+        https://www.vuemastery.com/blog/vue-3-start-using-it-today/
+        https://vuejsdevelopers.com/2020/03/16/vue-js-tutorial/
+    - Because Vue 3 is still in Beta additional changes may be needed before the release
+    - Once Vue 3 is released then likely switch all demo pages to Vue 3 but keep Vue 2
+        script in the comments. If IE will not be supported then show an error message.
+        This will likely be determined once Vue 3 is released.
+    - Differences to watch for in the future and possibly handle:
+        - Vue 2 automatically creates `methods` on the activeController and
+            supports `computed` methods while Vue 3 does not yet support this.
+        - Currently `computed` is not used on any of the demos so it should be added
+            to a demo at some point.
+        - When using Vue 2 the undocumented API `_watcher` is used to track the watchers.
+            It doesn't exist in current Vue 3 beta. This could cause issues with custom
+            app code that manually calls `app.updateView()` to update plugins.
+            Look into this more later once Vue 3 is published as a release.
+
 **) Improve UX of the Quick Ref Page
     https://www.dataformsjs.com/en/quick-reference
     - Filtering on all code doesn't work well due to generic terms "JavaScript" "Template", "Vue", etc

@@ -52,11 +52,6 @@
  *      </json-data>
  */
 
-// TODO - Still updating for Vue 3
-// ** This does not yet work, test with:
-//      http://127.0.0.1:8080/places-demo-vue#/en/search
-//      http://127.0.0.1:8080/countries-no-spa-vue
-
 /* Validates with both [jshint] and [eslint] */
 /* global app, Vue */
 /* jshint strict: true */
@@ -124,7 +119,7 @@
             graphqlQuery: null,
             errorTextGraphQLErrors: '{count} GraphQL Errors occured. See console for full details.',
             vueInstance: null,
-            vue3App: null, // TODO - still testing, may or may not beused
+            vueApp: null,
         },
 
         /**
@@ -152,7 +147,7 @@
             // This avoids issues of [control.url] from overwriting the same
             // property on the controller (for example whne using the jsonData page).
             function assignControlToVue() {
-                Object.assign((app.activeVueModel || app.activeModel), {
+                Object.assign(app.activeVueModel, {
                     isLoading: control.isLoading,
                     isLoaded: control.isLoaded,
                     hasError: control.hasError,
@@ -209,18 +204,19 @@
                 }
 
                 // Set control as loaded
-                control.isLoading = false;
-                control.isLoaded = true;
-                control.hasError = false;
-                control.errorMessage = null;
+                var vm = (control.vueInstance === null ? control : control.vueInstance);
+                vm.isLoading = false;
+                vm.isLoaded = true;
+                vm.hasError = false;
+                vm.errorMessage = null;
 
                 // Assign downloaded JSON to either the control or the model
-                if (!control.graphqlQuery) {
+                if (!vm.graphqlQuery) {
                     if (usingVue) {
                         assignControlToVue();
-                        Object.assign((app.activeVueModel || app.activeModel), data);
+                        Object.assign(app.activeVueModel, data);
                     } else if (activeModelProp === null) {
-                        Object.assign(control, data);
+                        Object.assign(vm, data);
                     } else {
                         Object.assign(activeModelProp, control);
                         Object.assign(activeModelProp, data);
@@ -229,9 +225,9 @@
                     // If using GraphQL then copy from the [data] property.
                     if (usingVue) {
                         assignControlToVue();
-                        Object.assign((app.activeVueModel || app.activeModel), data);
+                        Object.assign(app.activeVueModel, data);
                     } else if (activeModelProp === null) {
-                        Object.assign(control, data.data);
+                        Object.assign(vm, data.data);
                     } else {
                         Object.assign(activeModelProp, control);
                         Object.assign(activeModelProp, data.data);
@@ -243,18 +239,18 @@
                         if (data.errors.length === 1 && data.errors[0].message) {
                             errorMessage = '[GraphQL Error]: ' + data.errors[0].message;
                         } else {
-                            errorMessage = control.errorTextGraphQLErrors.replace('{count}', data.errors.length);
+                            errorMessage = vm.errorTextGraphQLErrors.replace('{count}', data.errors.length);
                         }
                         throw errorMessage;
                     }
                 }
 
                 // Render the HTML or refresh all Plugins for Vue
-                jsonData.renderControl(element, control);
+                jsonData.renderControl(element, vm);
 
                 // Custom callback events
                 if (jsonData.onFetch !== null) {
-                    jsonData.onFetch.call(control, element);
+                    jsonData.onFetch.call(vm, element);
                 }
                 if (callback !== undefined) {
                     callback();
@@ -262,22 +258,23 @@
             })
             .catch(function(error) {
                 // Update control data and show error for the element
-                control.isLoading = false;
-                control.isLoaded = false;
-                control.hasError = true;
-                control.errorMessage = error;
+                var vm = (control.vueInstance === null ? control : control.vueInstance);
+                vm.isLoading = false;
+                vm.isLoaded = false;
+                vm.hasError = true;
+                vm.errorMessage = error;
                 if (usingVue) {
                     assignControlToVue();
                 } else if (activeModelProp !== null) {
-                    Object.assign(activeModelProp, control);
+                    Object.assign(activeModelProp, vm);
                 }
 
                 // Render the HTML or refresh all Plugins for Vue
-                jsonData.renderControl(element, control, error);
+                jsonData.renderControl(element, vm, error);
 
                 // Custom callback events
                 if (jsonData.onError !== null) {
-                    jsonData.onError.call(control, element);
+                    jsonData.onError.call(vm, element);
                 }
                 if (callback !== undefined) {
                     callback();
@@ -303,14 +300,7 @@
             if ((app.activeController && app.activeController.viewEngine === 'Vue') || control.vueInstance !== null) {
                 if (error === undefined) {
                     if (control.vueInstance !== null) {
-                        if (typeof control.vueInstance.$nextTick === 'function') {
-                            // Vue 2
-                            control.vueInstance.$nextTick(app.refreshPlugins);
-                        } else {
-                            // Vue 3
-                            // Vue.nextTick(app.refreshPlugins);
-                            control.vue3App.$nextTick(app.refreshPlugins);
-                        }
+                        control.vueInstance.$nextTick(app.refreshPlugins);
                     } else {
                         app.refreshPlugins();
                     }
@@ -323,33 +313,23 @@
             // If no [activeModel] has been created and Vue is being used then assume that
             // the control is being used on a page without SPA routing and create a new Vue
             // instance for the control.
-            if (app.activeModel === null && window.Vue !== undefined && control.vueInstance === null) {
+            if (app.activeModel === null && window.Vue !== undefined && control.vueInstance === null && control.vueApp === null) {
                 if (typeof Vue.createApp === 'function') {
                     // Vue 3
-                    control.vueInstance = Vue.createApp({
+                    control.vueApp = Vue.createApp({
                         data: function() { return control; },
                         directives: app.vueDirectives,
                         mounted: function() {
-                            console.log('Vue 3 - Control - mounted()');
-                            console.log(this);
-                            control.vue3App = this;
-                        },
-                        updated: function () {
-                            console.log('Vue 3 - Control - updated()');
-                            console.log(this);
-                        },
-                        beforeDestroy: function () {
-                            console.log('Vue 3 - Control - beforeDestroy()');
-                            console.log(this);
+                            control.vueInstance = this;
                         },
                     });
-                    control.vueInstance.mount(element);
+                    control.vueApp.mount(element);
                 } else {
                     // Vue 2
                     control.vueInstance = new Vue({
                         el: element,
                         data: control,
-                    });    
+                    });
                 }
                 return;
             }
