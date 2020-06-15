@@ -52,9 +52,10 @@
  *      </json-data>
  */
 
-// TODO - more testing for Vue 3
+// TODO - Still updating for Vue 3
 // ** This does not yet work, test with:
 //      http://127.0.0.1:8080/places-demo-vue#/en/search
+//      http://127.0.0.1:8080/countries-no-spa-vue
 
 /* Validates with both [jshint] and [eslint] */
 /* global app, Vue */
@@ -123,6 +124,7 @@
             graphqlQuery: null,
             errorTextGraphQLErrors: '{count} GraphQL Errors occured. See console for full details.',
             vueInstance: null,
+            vue3App: null, // TODO - still testing, may or may not beused
         },
 
         /**
@@ -206,7 +208,7 @@
                     throw new TypeError('Invalid Response type. Received data in format of [' + (typeof data) + ']');
                 }
 
-                // Make control as loaded
+                // Set control as loaded
                 control.isLoading = false;
                 control.isLoaded = true;
                 control.hasError = false;
@@ -306,7 +308,8 @@
                             control.vueInstance.$nextTick(app.refreshPlugins);
                         } else {
                             // Vue 3
-                            Vue.nextTick(app.refreshPlugins);
+                            // Vue.nextTick(app.refreshPlugins);
+                            control.vue3App.$nextTick(app.refreshPlugins);
                         }
                     } else {
                         app.refreshPlugins();
@@ -324,7 +327,21 @@
                 if (typeof Vue.createApp === 'function') {
                     // Vue 3
                     control.vueInstance = Vue.createApp({
-                        data: function() { return control }
+                        data: function() { return control; },
+                        directives: app.vueDirectives,
+                        mounted: function() {
+                            console.log('Vue 3 - Control - mounted()');
+                            console.log(this);
+                            control.vue3App = this;
+                        },
+                        updated: function () {
+                            console.log('Vue 3 - Control - updated()');
+                            console.log(this);
+                        },
+                        beforeDestroy: function () {
+                            console.log('Vue 3 - Control - beforeDestroy()');
+                            console.log(this);
+                        },
                     });
                     control.vueInstance.mount(element);
                 } else {
