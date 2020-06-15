@@ -10,6 +10,8 @@
     "Showing {displayCount} of {totalCount} Countries": "Mostrando {displayCount} de {totalCount} Países",
     "Regions for Country Code": "Regiões para Código de Páis",
     "Showing {displayCount} of {totalCount} Regions for Country Code": "Mostrando {displayCount} de {totalCount} Regiões para um Código de País",
+    "{totalCount} Regions for Country Code {country}": "{totalCount} Regiões para Código de Páis {country}",
+    "Showing {displayCount} of {totalCount} Regions for Country Code {country}": "Mostrando {displayCount} de {totalCount} Regiões para um Código de País {country}",
     "Largest Cities in": "Maiores Cidades em",
     "Enter filter, example 'North America'": "Entre com o filtro, exemplo 'América do Norte'",
     "Enter filter": "Entre com o filtro",

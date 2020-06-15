@@ -10,6 +10,8 @@
     "Showing {displayCount} of {totalCount} Countries": "عرض {displayCount} من البلدان {totalCount}",
     "Regions for Country Code": "المناطق لرمز البلد",
     "Showing {displayCount} of {totalCount} Regions for Country Code": "عرض {displayCount} من مناطق {totalCount} لرمز البلد",
+    "{totalCount} Regions for Country Code {country}": "{totalCount} مناطق لرمز البلد {country}",
+    "Showing {displayCount} of {totalCount} Regions for Country Code {country}": "عرض {displayCount} من {totalCount} مناطق لرمز البلد {country}",
     "Largest Cities in": "أكبر المدن في",
     "Enter filter, example 'North America'": "أدخل الفلتر ، مثال \"Asia\"",
     "Enter filter": "أدخل مرشح",

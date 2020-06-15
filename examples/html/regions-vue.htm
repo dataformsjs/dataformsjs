@@ -11,35 +11,12 @@
         <a v-bind:href="'#/' + i18n_Locale + '/'" v-i18n="'Countries'"></a>
     </nav>
 
-    <!--
-        TODO - Vue 3 - not yet working with latest beta
-            Vue 3 (Beta 15), Line 11914 errors when using global `window` or other globals
-                With Vue 2 the global `app` can be used
-            Code line with error:
-                const render = ( new Function(code)()
-            A modified version of Vue 3 can be used when using `window.app` instead of `app`:
-                Download the build verison (assumes Beta 15)
-                Add Line 1938: 
-                    push(`const window = _window\n`);
-                Add Line 2000:
-                    push(`const _window = window\n`);
-
-            In the actual Vue source this would require changes in:
-                https://github.com/vuejs/vue-next/blob/master/packages/compiler-core/src/codegen.ts
-                Add Line 231:
-                    push(`const window = _window\n`)
-                Add Line 315:
-                    push(`const _window = window\n`)
-
-            Of course for the main Vue project tests would likely have to be updated and this
-            could have unexpected side affects.
-    -->
     <input data-filter-selector="table"
         data-filter-results-text-selector="h1"
-        v-bind:data-filter-results-text-all="'{totalCount} ' + window.app.plugins.i18n.getText('Regions for Country Code') + ' ' + country"
-        v-bind:data-filter-results-text-filtered="window.app.plugins.i18n.getText('Showing {displayCount} of {totalCount} Regions for Country Code') + ' ' + country"
+        data-filter-results-text-all="{totalCount} Regions for Country Code {country}"
+        data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Regions for Country Code {country}"
         placeholder="Enter filter"
-        v-i18n-attr="'placeholder'">
+        v-i18n-attr="'placeholder, data-filter-results-text-all, data-filter-results-text-filtered'">
 
     <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
         <thead>

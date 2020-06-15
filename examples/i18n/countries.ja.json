@@ -10,6 +10,8 @@
     "Showing {displayCount} of {totalCount} Countries": "{totalCount}カ国中{displayCount}カ国を表示",
     "Regions for Country Code": "国コードの地域",
     "Showing {displayCount} of {totalCount} Regions for Country Code": "国コードの{totalCount}地域のうち{displayCount}地域を表示",
+    "{totalCount} Regions for Country Code {country}": "国コード{country}の{totalCount}地域",
+    "Showing {displayCount} of {totalCount} Regions for Country Code {country}": "国コード{country}の{totalCount}リージョンのうち{displayCount}を表示しています",
     "Largest Cities in": "の最大の都市",
     "Enter filter, example 'North America'": "フィルタを入力します。例：North America",
     "Enter filter": "フィルタを入力",

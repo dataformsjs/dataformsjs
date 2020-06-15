@@ -64,8 +64,8 @@ export function ShowRegions(props) {
             <InputFilter
                 filter-selector="table"
                 filter-results-selector="h1"
-                filter-results-text-all={'{totalCount} ' + i18n.text('Regions for Country Code') + ' ' + props.params.country}
-                filter-results-text-filtered={i18n.text('Showing {displayCount} of {totalCount} Regions for Country Code') + ' ' + props.params.country}
+                filter-results-text-all={i18n.text('{totalCount} Regions for Country Code {country}').replace('{country}', props.params.country)}
+                filter-results-text-filtered={i18n.text('Showing {displayCount} of {totalCount} Regions for Country Code {country}').replace('{country}', props.params.country)}
                 placeholder={i18n.text('Enter filter')} />
 
             <SortableTable
