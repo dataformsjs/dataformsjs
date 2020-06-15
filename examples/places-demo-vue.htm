@@ -36,11 +36,6 @@
             data-load-only-once="true"
             data-countries>
 
-            <!--
-                TODO - had to remove [v-cloak] to prevent warning for Vue 3
-                Based on code search [v-cloak] should be assigned to the container element only for Vue 3
-                Need to double check Vue 2 source
-            -->
             <h3 v-if="isLoading" v-i18n="'Loading...'"></h3>
             <p v-if="hasError"><span v-i18n="'Error'"></span> - {{ errorMessage }}</p>
             <div v-if="isLoaded" class="flex-col">
@@ -161,8 +156,8 @@
         <!--
             <script src="https://unpkg.com/vue@next"></script>
          -->
-         <!-- <script src="../vendor/vue@3.0.0-beta.15.global.js"></script> -->
-         <script src="../vendor/vue@3.0.0-beta.15.global.js"></script>
+        <!-- <script src="../vendor/vue@3.0.0-beta.15.global.js"></script> -->
+        <script src="../vendor/vue@3.0.0-beta.15.global.js"></script>
 
         <!-- DataFormsJS -->
         <script src="../js/DataFormsJS.js"></script>

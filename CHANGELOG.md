@@ -12,6 +12,7 @@ Overall the core Framework files and API are expected to remain stable however t
   * `js/extensions/vue-directives.js`
   * `js/plugins/i18n.js`
 * Vue 3 is still in Beta so additional updates may be required before the final release of Vue 3.
+* Vue 2 - Improved support for the `v-cloak` directive to hide the view while it is rendering. Previously this was set on individual elements in the template however for compatibility with both Vue 2 and Vue 3 this is now handled automatically by DataFormsJS on the main view element. By default DataFormsJS adds required CSS for v-clock from the properties `app.vueCss` and `vueStyleId`. 
 * Added support to include model properties the `filter.js` attributes `data-filter-results-text-all` and `data-filter-results-text-filtered`, example usage: `examples/html/regions-vue.htm` and `examples/html/regions-hbs.htm`
 
 ## 4.1.0 (May 21, 2020)

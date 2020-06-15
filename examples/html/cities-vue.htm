@@ -1,6 +1,6 @@
-<h3 v-if="isLoading" v-cloak v-i18n="'Loading...'"></h3>
-<p v-if="hasError" v-cloak><span v-i18n="'Error'"></span> - {{ errorMessage }}</p>
-<div v-if="isLoaded" v-cloak class="flex-col">
+<h3 v-if="isLoading" v-i18n="'Loading...'"></h3>
+<p v-if="hasError"><span v-i18n="'Error'"></span> - {{ errorMessage }}</p>
+<div v-if="isLoaded" class="flex-col">
     <h1><span v-i18n="'Largest Cities in'"></span> {{ country }}, {{ region }}</h1>
     
     <nav>

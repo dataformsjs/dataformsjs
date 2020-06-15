@@ -7,8 +7,8 @@
             <li v-i18n="'training_info'"></li>
         </ul>
 
-        <div v-if="hasError" class="error" v-cloak>{{ errorMessage }}</div>
-        <table v-if="isLoaded" v-cloak>
+        <div v-if="hasError" class="error">{{ errorMessage }}</div>
+        <table v-if="isLoaded">
             <thead>
                 <tr>
                     <th v-for="column in columns" v-i18n="column"></th>

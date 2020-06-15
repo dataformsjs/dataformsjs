@@ -33,11 +33,6 @@ TODO - Vue 3 (Beta Version) is in active development but only partially working,
 Helpfull pages for Vue 3 current development
     https://github.com/vuejs/vue-next
     https://www.vuemastery.com/blog/vue-3-start-using-it-today/
-
-
-Might have to set [v-cloak] to the root container in-between page views, more testing needed
-Step through Vue source with debugger
-
 */
 
 /* Validates with both [jshint] and [eslint] */
@@ -1669,6 +1664,9 @@ Step through Vue source with debugger
                             var errorText = 'Error - The main HTML element for rendering views from selector [' + app.settings.viewSelector + '] does not exist on this page. Check HTML on the page to makes sure that the element exist; and if it does then check to make sure that JavaScript Code did not remove it from the page';
                             app.showErrorAlert(errorText);
                         } else {
+                            if (app.activeController && app.activeController.viewEngine === ViewEngines.Vue) {
+                                view.setAttribute('v-cloak', '');
+                            }
                             renderTemplate(view, app.activeController, app.activeTemplate, app.activeModel);
                         }
                     }

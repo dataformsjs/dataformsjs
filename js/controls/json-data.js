@@ -301,7 +301,13 @@
             if ((app.activeController && app.activeController.viewEngine === 'Vue') || control.vueInstance !== null) {
                 if (error === undefined) {
                     if (control.vueInstance !== null) {
-                        control.vueInstance.$nextTick(app.refreshPlugins);
+                        if (typeof control.vueInstance.$nextTick === 'function') {
+                            // Vue 2
+                            control.vueInstance.$nextTick(app.refreshPlugins);
+                        } else {
+                            // Vue 3
+                            Vue.nextTick(app.refreshPlugins);
+                        }
                     } else {
                         app.refreshPlugins();
                     }

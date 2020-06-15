@@ -1,6 +1,6 @@
-<h2 v-if="isLoading" v-cloak v-i18n="'Loading...'"></h2>
-<h2 v-if="hasError" v-cloak><span v-i18n="'Error'"></span> - {{ errorMessage }}</h2>
-<section v-if="isLoaded" v-cloak>
+<h2 v-if="isLoading" v-i18n="'Loading...'"></h2>
+<h2 v-if="hasError"><span v-i18n="'Error'"></span> - {{ errorMessage }}</h2>
+<section v-if="isLoaded">
     <div>
         <input
             type="text"
