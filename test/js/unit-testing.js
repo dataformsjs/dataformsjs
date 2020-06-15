@@ -2840,8 +2840,10 @@
             // and that templates and other objects are not redefined.
             app.setup();
 
-            // After Vue runs several global errors will likely appear
-            if (window.Vue !== undefined) {
+            // After Vue runs several global errors will likely appear.
+            // Applies to Vue 2 and not Vue 3.
+            // Vue 3 is determined by `Vue.createApp()`
+            if (window.Vue !== undefined && Vue.createApp === undefined) {
                 // Most browers will create 3 error elements while some versions
                 // of old Safari on iOS will result in 2 being created.
                 var errors = document.querySelectorAll('.dataformsjs-fatal-error');

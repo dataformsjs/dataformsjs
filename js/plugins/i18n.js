@@ -444,14 +444,14 @@
 
             // Create Vue Directives
             if (window.Vue) {
-                Vue.directive('i18n', {
+                var vI18n = {
                     bind: function (el, binding) {
                         var key = binding.value;
                         el.textContent = (i18n.langText && i18n.langText[key] ? i18n.langText[key] : key);
                     }
-                });
+                };
 
-                Vue.directive('i18n-attr', {
+                var vI18nAttr = {
                     bind: function (el, binding) {
                         var attr = binding.value.split(',').map(function(s) { return s.trim(); });
                         for (var x = 0, y = attr.length; x < y; x++) {
@@ -461,7 +461,18 @@
                             }
                         }
                     }
-                });
+                };
+                
+                // For differences between Vue 2 and Vue 3 see comments in [js\extensions\vue-directives.js]
+                var isVue3 = (Vue.directive === undefined && typeof Vue.createApp === 'function');
+                if (isVue3) {
+                    app.vueDirectives = app.vueDirectives || {};
+                    app.vueDirectives.i18n = vI18n.bind;
+                    app.vueDirectives['i18n-attr'] = vI18nAttr.bind;
+                } else {
+                    Vue.directive('i18n', vI18n);
+                    Vue.directive('i18n-attr', vI18nAttr);
+                }
             }
         },
     };

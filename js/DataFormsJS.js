@@ -13,6 +13,7 @@
  * View Engine Options:
  *     https://handlebarsjs.com
  *     https://vuejs.org
+ *         # Both Vue 2 and Vue 3 are supported
  *     https://mozilla.github.io/nunjucks/
  *     https://underscorejs.org
  *
@@ -546,11 +547,18 @@
 
         // Destroy the Vue View Model
         if (app.activeVueModel !== null) {
-            app.activeVueModel.$destroy();
-            // Convert data from the Vue Instance to a plain JavaScript Object
-            // and save it back to the models object.
-            if (app.activeController && app.activeController.modelName && app.models[app.activeController.modelName] && app.activeVueModel.$data) {
-                app.models[app.activeController.modelName] = JSON.parse(JSON.stringify(app.activeVueModel.$data));
+            if (app.activeVueApp === null) {
+                // Vue 2
+                app.activeVueModel.$destroy();
+                // Convert data from the Vue Instance to a plain JavaScript Object
+                // and save it back to the models object.
+                if (app.activeController && app.activeController.modelName && app.models[app.activeController.modelName] && app.activeVueModel.$data) {
+                    app.models[app.activeController.modelName] = JSON.parse(JSON.stringify(app.activeVueModel.$data));
+                }
+            } else {
+                // Vue 3 uses a JavaScript Proxy object so the model is automatically
+                // updated by the proxy and does not have to be reset when the route changes.
+                app.activeVueApp.unmount();
             }
         }
 
@@ -559,6 +567,7 @@
         app.activeTemplate = null;
         app.activeModel = null;
         app.activeVueModel = null;
+        app.activeVueApp = null;
         app.activeParameters = [];
         app.activeParameterList = {};
         vueWatcherDepPrevLen = 0;
@@ -815,10 +824,12 @@
         if (controller.pageType) {
             page = app.pages[controller.pageType];
             if (page !== undefined) {
-                // Create the model and assign the new model name to the controller
-                // For Vue, properties are assigned to the model and functions are
-                // assigned to a controller [methods] object.
-                if (controller.viewEngine === ViewEngines.Vue) {
+                // Create the model and assign the new model name to the controller For Vue 2,
+                // properties are assigned to the model and functions are assigned to a
+                // controller [methods] object. Vue 2 is determined based on `Vue.createApp === undefined`.
+                // For Vue 3 the model object includes both props and functions just like when
+                // using Handlebars or other view engines.
+                if (controller.viewEngine === ViewEngines.Vue && Vue.createApp === undefined) {
                     model = {};
                     controller.methods = (controller.methods === undefined ? {} : controller.methods);
                     for (var prop in page.model) {
@@ -954,7 +965,9 @@
         activeController: null,
         activeTemplate: null,
         activeModel: null,
-        activeVueModel: null,
+        activeVueModel: null, // Vue 2 and Vue 3
+        activeVueApp: null, // Vue 3
+        vueDirectives: null, // Vue 3
         activeParameters: [],
         activeParameterList: {},
         activeJsControls: [],
@@ -1582,7 +1595,7 @@
 
                 // For Vue only create the Vue Object once and only call
                 // controller/plugin methods when major changes happen.
-                if (app.activeVueModel !== null) {
+                if (app.activeVueModel !== null && app.activeVueApp === null) {
                     var len = 0;
                     var w = app.activeVueModel._watcher;
                     if (w && w.deps && w.deps.length) {
@@ -1594,6 +1607,16 @@
                     vueUpdateView = true;
                     isUpdatingView = false;
                     vueWatcherDepPrevLen = len;
+                    return;
+                }
+                if (app.activeVueApp !== null) {
+                    // For Vue 2 watchers are not tracked as is done with Vue 3.
+                    // The Vue 2 code used undocumented API which is no longer available
+                    // with Vue 3. Regardless the code is working correctly, however manual
+                    // calls to `app.updateView()` by custom code on the calling app might
+                    // not trigger plugin updates for Vue 3 since watchers are not tracked.
+                    vueUpdateView = true;
+                    isUpdatingView = false;
                     return;
                 }
 
@@ -1636,6 +1659,9 @@
                             var errorText = 'Error - The main HTML element for rendering views from selector [' + app.settings.viewSelector + '] does not exist on this page. Check HTML on the page to makes sure that the element exist; and if it does then check to make sure that JavaScript Code did not remove it from the page';
                             app.showErrorAlert(errorText);
                         } else {
+                            if (app.activeController && app.activeController.viewEngine === ViewEngines.Vue) {
+                                view.setAttribute('v-cloak', '');
+                            }
                             renderTemplate(view, app.activeController, app.activeTemplate, app.activeModel);
                         }
                     }
@@ -1648,8 +1674,9 @@
                             // the screen so handle Vue Errors and Warnings globally and add back the
                             // View element if it is removed.
                             var viewEl = document.querySelector(app.settings.viewSelector);
-                            Vue.config.errorHandler = function (err) { console.error('Vue Error'); showVueError(err, viewEl); };
-                            Vue.config.warnHandler = function (err) { console.error('Vue Warning'); showVueError(err, viewEl); };
+                            var vueError = function (err) { console.error('Vue Error'); showVueError(err, viewEl); };
+                            var vueWarn = function (err) { console.error('Vue Warning'); showVueError(err, viewEl); };
+                            var usingVue3 = (typeof Vue.createApp === 'function');
 
                             // Was there a previous render error? If so show it instead of creating a new Vue instance
                             if (app.activeTemplate && app.activeTemplate.error) {
@@ -1657,52 +1684,100 @@
                                 afterRender('updateView');
                             } else {
                                 // Create a Vue Instance for the current page
-                                app.activeVueModel = new Vue({
-                                    el: app.settings.viewSelector,
-                                    data: app.activeModel,
-                                    methods: app.activeController.methods,
-                                    computed: app.activeController.computed,
-                                    mounted: function () {
-                                        var vm = this;
-                                        vm.$nextTick(function () {
-                                            if (app.activeController.onRouteLoad !== undefined) {
-                                                try {
-                                                    app.activeController.onRouteLoad.apply(vm, app.activeParameters);
-                                                } catch (e) {
-                                                    app.showErrorAlert('Error from Controller [path=' + app.activeController.path + '] on [onRouteLoad()]: ' + e.toString());
-                                                    console.error(e);
+                                if (usingVue3) {
+                                    app.activeVueApp = Vue.createApp({
+                                        data: function() { return app.activeModel; },
+                                        directives: app.vueDirectives,
+                                        mounted: function() {
+                                            app.activeVueModel = this;
+                                            app.activeVueModel.$nextTick(function () {
+                                                if (app.activeController.onRouteLoad !== undefined) {
+                                                    try {
+                                                        app.activeController.onRouteLoad.apply(app.activeVueModel, app.activeParameters);
+                                                    } catch (e) {
+                                                        app.showErrorAlert('Error from Controller [path=' + app.activeController.path + '] on [onRouteLoad()]: ' + e.toString());
+                                                        console.error(e);
+                                                    }
                                                 }
-                                            }
-                                            app.loadAllJsControls();
-                                            afterRender('vue_mounted', vm);
-                                        });
-                                    },
-                                    updated: function () {
-                                        // Only run the update when a DOM change happens
-                                        // after [app.updateView()] is called.
-                                        this.$nextTick(function () {
-                                            if (vueUpdateView) {
                                                 app.loadAllJsControls();
-                                                afterRender('vue_updated');
-                                                var w = this._watcher;
-                                                if (w && w.deps && w.deps.length) {
-                                                    vueWatcherDepPrevLen = this._watcher.deps.length;
+                                                afterRender('vue_mounted', app.activeVueModel);
+                                            });
+                                        },
+                                        updated: function () {
+                                            // Only run the update when a DOM change happens
+                                            // after [app.updateView()] is called.
+                                            this.$nextTick(function () {
+                                                if (vueUpdateView) {
+                                                    app.loadAllJsControls();
+                                                    afterRender('vue_updated');
+                                                    vueUpdateView = false;
                                                 }
-                                                vueUpdateView = false;
+                                            });
+                                        },
+                                        beforeUnmount: function () {
+                                            try {
+                                                if (app.activeController.onRouteUnload !== undefined) {
+                                                    app.activeController.onRouteUnload.apply(app.activeVueModel, app.activeParameters);
+                                                }
+                                            } catch (e) {
+                                                app.showErrorAlert('Error from Controller [path=' + app.activeController.path + '] on [onRouteUnload()]: ' + e.toString());
+                                                console.error(e);
                                             }
-                                        });
-                                    },
-                                    beforeDestroy: function () {
-                                        try {
-                                            if (app.activeController.onRouteUnload !== undefined) {
-                                                app.activeController.onRouteUnload.apply(this, app.activeParameters);
+                                        },
+                                    });
+                                    app.activeVueApp.errorHandler = vueError;
+                                    app.activeVueApp.warnHandler = vueWarn;
+                                    app.activeVueApp.mount(app.settings.viewSelector);
+                                } else {
+                                    Vue.config.errorHandler = vueError;
+                                    Vue.config.warnHandler = vueWarn;
+                                    app.activeVueModel = new Vue({
+                                        el: app.settings.viewSelector,
+                                        data: app.activeModel,
+                                        methods: app.activeController.methods,
+                                        computed: app.activeController.computed,
+                                        mounted: function () {
+                                            var vm = this;
+                                            vm.$nextTick(function () {
+                                                if (app.activeController.onRouteLoad !== undefined) {
+                                                    try {
+                                                        app.activeController.onRouteLoad.apply(vm, app.activeParameters);
+                                                    } catch (e) {
+                                                        app.showErrorAlert('Error from Controller [path=' + app.activeController.path + '] on [onRouteLoad()]: ' + e.toString());
+                                                        console.error(e);
+                                                    }
+                                                }
+                                                app.loadAllJsControls();
+                                                afterRender('vue_mounted', vm);
+                                            });
+                                        },
+                                        updated: function () {
+                                            // Only run the update when a DOM change happens
+                                            // after [app.updateView()] is called.
+                                            this.$nextTick(function () {
+                                                if (vueUpdateView) {
+                                                    app.loadAllJsControls();
+                                                    afterRender('vue_updated');
+                                                    var w = this._watcher;
+                                                    if (w && w.deps && w.deps.length) {
+                                                        vueWatcherDepPrevLen = this._watcher.deps.length;
+                                                    }
+                                                    vueUpdateView = false;
+                                                }
+                                            });
+                                        },
+                                        beforeDestroy: function () {
+                                            try {
+                                                if (app.activeController.onRouteUnload !== undefined) {
+                                                    app.activeController.onRouteUnload.apply(this, app.activeParameters);
+                                                }
+                                            } catch (e) {
+                                                app.showErrorAlert('Error from Controller [path=' + app.activeController.path + '] on [onRouteUnload()]: ' + e.toString());
+                                                console.error(e);
                                             }
-                                        } catch (e) {
-                                            app.showErrorAlert('Error from Controller [path=' + app.activeController.path + '] on [onRouteUnload()]: ' + e.toString());
-                                            console.error(e);
-                                        }
-                                    },
-                                });
+                                        },
+                                    });
+                                }
                             }
                         } else {
                             // Load JS Controls
@@ -1756,7 +1831,7 @@
                     if (isVue) {
                         model = (model || app.activeVueModel);
                     } else {
-                        model = app.activeModel;
+                        model = (model || app.activeModel);
                     }
                     try {
                         onRendered.apply(model, app.activeParameters);
@@ -1966,7 +2041,11 @@
                     }
                 }
             }
-            if (app.activeController && app.activeController.viewEngine === ViewEngines.Vue) {
+            if (app.activeController &&
+                app.activeController.viewEngine === ViewEngines.Vue &&
+                app.activeVueModel &&
+                typeof app.activeVueModel.$nextTick === 'function'
+            ) {
                 app.activeVueModel.$nextTick(refreshAll);
             } else {
                 refreshAll();

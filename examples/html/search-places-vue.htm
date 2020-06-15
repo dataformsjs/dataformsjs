@@ -3,9 +3,9 @@
     checks if data for the search screeen is available. The standard [isLoading, hasError, isLoaded]
     logic is used to display search results from the <json-data> control.
 -->
-<h3 v-if="!countries" v-cloak v-i18n="'Loading...'"></h3>
-<p v-if="hasError && !countries" v-cloak><span v-i18n="'Error'"></span> - {{ errorMessage }}</p>
-<div v-if="countries" v-cloak class="flex-col">
+<h3 v-if="!countries" v-i18n="'Loading...'"></h3>
+<p v-if="hasError && !countries"><span v-i18n="'Error'"></span> - {{ errorMessage }}</p>
+<div v-if="countries" class="flex-col">
     <h1 v-i18n="'Search'"></h1>
 
     <nav>

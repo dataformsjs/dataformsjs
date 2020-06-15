@@ -420,8 +420,19 @@
                         resultText = settings.textFiltered.replace(/{displayCount}/g, displayCount);
                     }
 
-                    // Update total count in text and overwrite text of the element
+                    // Update total count in text
                     resultText = resultText.replace(/{totalCount}/g, settings.items.length);
+
+                    // Update '{props}' from the model
+                    resultText = resultText.replace(/{(.+)}/g, function(match, prop) {
+                        var value = (app.activeModel && app.activeModel[prop]);
+                        if (value !== undefined) {
+                            return String(value);
+                        }
+                        return match;
+                    });
+
+                    // Overwrite text of the element
                     settings.resultsTextElement.textContent = resultText;
 
                     // Show/Hide if needed

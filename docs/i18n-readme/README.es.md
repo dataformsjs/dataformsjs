@@ -113,9 +113,9 @@ Este ejemplo usa Vue para crear plantillas. Si lo guarda con un editor de texto,
             data-lazy-load="jsonData, flags"
             data-countries>
 
-            <h3 v-if="isLoading" v-cloak class="loading">Cargando...</h3>
-            <h3 v-if="hasError" v-cloak class="error">{{ errorMessage }}</h3>
-            <div v-if="isLoaded" v-cloak>
+            <h3 v-if="isLoading" class="loading">Cargando...</h3>
+            <h3 v-if="hasError" class="error">{{ errorMessage }}</h3>
+            <div v-if="isLoaded">
                 <h1>Países</h1>
                 <ul>
                     <li v-for="country in countries">

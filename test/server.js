@@ -46,6 +46,7 @@ const views = [
     'unit-testing-underscore',
     'unit-testing-mixed-templates',
     'unit-testing-vue',
+    'unit-testing-vue-3',
     'unit-testing-react',
     'unit-testing-preact',
 ];

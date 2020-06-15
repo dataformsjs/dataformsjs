@@ -1,6 +1,6 @@
-<h3 v-if="isLoading" v-cloak v-i18n="'Loading...'"></h3>
-<p v-if="hasError" v-cloak><span v-i18n="'Error'"></span> - {{ errorMessage }}</p>
-<div v-if="isLoaded" v-cloak class="flex-col">
+<h3 v-if="isLoading" v-i18n="'Loading...'"></h3>
+<p v-if="hasError"><span v-i18n="'Error'"></span> - {{ errorMessage }}</p>
+<div v-if="isLoaded" class="flex-col">
     <h1><span v-i18n="'Regions for Country Code'"></span> {{ country }}</h1>
     
     <nav>
@@ -9,10 +9,10 @@
 
     <input data-filter-selector="table"
         data-filter-results-text-selector="h1"
-        v-bind:data-filter-results-text-all="'{totalCount} ' + app.plugins.i18n.getText('Regions for Country Code') + ' ' + country"
-        v-bind:data-filter-results-text-filtered="app.plugins.i18n.getText('Showing {displayCount} of {totalCount} Regions for Country Code') + ' ' + country"
+        data-filter-results-text-all="{totalCount} Regions for Country Code {country}"
+        data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Regions for Country Code {country}"
         placeholder="Enter filter"
-        v-i18n-attr="'placeholder'">
+        v-i18n-attr="'placeholder, data-filter-results-text-all, data-filter-results-text-filtered'">
 
     <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
         <thead>

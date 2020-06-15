@@ -75,9 +75,9 @@
             data-regions
             data-url="https://www.dataformsjs.com/data/geonames/regions/:country">
 
-            <h3 v-if="isLoading" v-cloak>Loading...</h3>
-            <h3 v-if="hasError" v-cloak class="error">{{ errorMessage }}</h3>
-            <div v-if="isLoaded" v-cloak>
+            <h3 v-if="isLoading">Loading...</h3>
+            <h3 v-if="hasError" class="error">{{ errorMessage }}</h3>
+            <div v-if="isLoaded">
                 <table>
                     <thead>
                         <tr>

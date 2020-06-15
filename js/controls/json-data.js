@@ -119,6 +119,7 @@
             graphqlQuery: null,
             errorTextGraphQLErrors: '{count} GraphQL Errors occured. See console for full details.',
             vueInstance: null,
+            vueApp: null,
         },
 
         /**
@@ -202,19 +203,20 @@
                     throw new TypeError('Invalid Response type. Received data in format of [' + (typeof data) + ']');
                 }
 
-                // Make control as loaded
-                control.isLoading = false;
-                control.isLoaded = true;
-                control.hasError = false;
-                control.errorMessage = null;
+                // Set control as loaded
+                var vm = (control.vueInstance === null ? control : control.vueInstance);
+                vm.isLoading = false;
+                vm.isLoaded = true;
+                vm.hasError = false;
+                vm.errorMessage = null;
 
                 // Assign downloaded JSON to either the control or the model
-                if (!control.graphqlQuery) {
+                if (!vm.graphqlQuery) {
                     if (usingVue) {
                         assignControlToVue();
                         Object.assign(app.activeVueModel, data);
                     } else if (activeModelProp === null) {
-                        Object.assign(control, data);
+                        Object.assign(vm, data);
                     } else {
                         Object.assign(activeModelProp, control);
                         Object.assign(activeModelProp, data);
@@ -225,7 +227,7 @@
                         assignControlToVue();
                         Object.assign(app.activeVueModel, data);
                     } else if (activeModelProp === null) {
-                        Object.assign(control, data.data);
+                        Object.assign(vm, data.data);
                     } else {
                         Object.assign(activeModelProp, control);
                         Object.assign(activeModelProp, data.data);
@@ -237,18 +239,18 @@
                         if (data.errors.length === 1 && data.errors[0].message) {
                             errorMessage = '[GraphQL Error]: ' + data.errors[0].message;
                         } else {
-                            errorMessage = control.errorTextGraphQLErrors.replace('{count}', data.errors.length);
+                            errorMessage = vm.errorTextGraphQLErrors.replace('{count}', data.errors.length);
                         }
                         throw errorMessage;
                     }
                 }
 
                 // Render the HTML or refresh all Plugins for Vue
-                jsonData.renderControl(element, control);
+                jsonData.renderControl(element, vm);
 
                 // Custom callback events
                 if (jsonData.onFetch !== null) {
-                    jsonData.onFetch.call(control, element);
+                    jsonData.onFetch.call(vm, element);
                 }
                 if (callback !== undefined) {
                     callback();
@@ -256,22 +258,23 @@
             })
             .catch(function(error) {
                 // Update control data and show error for the element
-                control.isLoading = false;
-                control.isLoaded = false;
-                control.hasError = true;
-                control.errorMessage = error;
+                var vm = (control.vueInstance === null ? control : control.vueInstance);
+                vm.isLoading = false;
+                vm.isLoaded = false;
+                vm.hasError = true;
+                vm.errorMessage = error;
                 if (usingVue) {
                     assignControlToVue();
                 } else if (activeModelProp !== null) {
-                    Object.assign(activeModelProp, control);
+                    Object.assign(activeModelProp, vm);
                 }
 
                 // Render the HTML or refresh all Plugins for Vue
-                jsonData.renderControl(element, control, error);
+                jsonData.renderControl(element, vm, error);
 
                 // Custom callback events
                 if (jsonData.onError !== null) {
-                    jsonData.onError.call(control, element);
+                    jsonData.onError.call(vm, element);
                 }
                 if (callback !== undefined) {
                     callback();
@@ -310,11 +313,24 @@
             // If no [activeModel] has been created and Vue is being used then assume that
             // the control is being used on a page without SPA routing and create a new Vue
             // instance for the control.
-            if (app.activeModel === null && window.Vue !== undefined && control.vueInstance === null) {
-                control.vueInstance = new Vue({
-                    el: element,
-                    data: control,
-                });
+            if (app.activeModel === null && window.Vue !== undefined && control.vueInstance === null && control.vueApp === null) {
+                if (typeof Vue.createApp === 'function') {
+                    // Vue 3
+                    control.vueApp = Vue.createApp({
+                        data: function() { return control; },
+                        directives: app.vueDirectives,
+                        mounted: function() {
+                            control.vueInstance = this;
+                        },
+                    });
+                    control.vueApp.mount(element);
+                } else {
+                    // Vue 2
+                    control.vueInstance = new Vue({
+                        el: element,
+                        data: control,
+                    });
+                }
                 return;
             }
 

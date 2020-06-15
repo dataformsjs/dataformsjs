@@ -30,9 +30,9 @@
             data-columns
             data-records>
 
-            <h3 v-if="isLoading" v-cloak class="loading">Loading...</h3>
-            <h3 v-if="hasError" v-cloak class="error">{{ errorMessage }}</h3>
-            <div v-if="isLoaded" v-cloak class="p0">
+            <h3 v-if="isLoading" class="loading">Loading...</h3>
+            <h3 v-if="hasError" class="error">{{ errorMessage }}</h3>
+            <div v-if="isLoaded" class="p0">
                 <div class="flex pt10">
                     <h2></h2>
                     <button data-filter-clear-all>Clear Filter</button>
