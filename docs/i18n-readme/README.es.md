@@ -75,7 +75,7 @@ dataformsjs
 
 ## :page_facing_up: Example Code
 
-Este ejemplo usa Vue para crear plantillas. Si lo guarda con un editor de texto, puede verlo localmente en su navegador. Además, el sitio principal contiene muchas plantillas y ejemplos.
+Este ejemplo usa Vue para crear plantillas. Si lo guarda con un editor de texto, puede verlo localmente en su navegador. Además, el sitio principal contiene muchas plantillas y ejemplos. DataFormsJS funciona con Vue 2 y Vue 3.
 
 ```html
 <!doctype html>
@@ -126,7 +126,13 @@ Este ejemplo usa Vue para crear plantillas. Si lo guarda con un editor de texto,
             </div>
         </script>
 
+        <!-- Vue 2 -->
         <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+        <!-- Vue 3 (Currently in Beta) -->
+        <!-- <script src="https://unpkg.com/vue@next"></script> -->
+
+        <!-- DataFormsJS -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/DataFormsJS.min.js"></script>
         <script>
             app.lazyLoad = {

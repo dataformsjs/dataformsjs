@@ -74,7 +74,7 @@ dataformsjs
 
 ## :page_facing_up: 示例代码
 
-本例使用Vue作为模板。如果使用文本编辑器保存，则可以在浏览器中本地查看。此外，主站点还包含许多模板和示例。
+本例使用Vue作为模板。如果使用文本编辑器保存，则可以在浏览器中本地查看。此外，主站点还包含许多模板和示例。DataFormsJS可与Vue 2和Vue 3一起使用。
 
 ```html
 <!doctype html>
@@ -125,7 +125,13 @@ dataformsjs
             </div>
         </script>
 
+        <!-- Vue 2 -->
         <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+        <!-- Vue 3 (Currently in Beta) -->
+        <!-- <script src="https://unpkg.com/vue@next"></script> -->
+
+        <!-- DataFormsJS -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/DataFormsJS.min.js"></script>
         <script>
             app.lazyLoad = {

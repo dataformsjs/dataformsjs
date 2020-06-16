@@ -74,7 +74,7 @@ dataformsjs
 
 ## :page_facing_up: Código Exemplo
 
-Este exemplo usa Vue para modelos. Se você salvar isso com um editor de texto poderá visualizá-lo localmente em seu navegador. Além disso o site principal contém muitos modelos e exemplos.
+Este exemplo usa Vue para modelos. Se você salvar isso com um editor de texto poderá visualizá-lo localmente em seu navegador. Além disso o site principal contém muitos modelos e exemplos. O DataFormsJS funciona com o Vue 2 e o Vue 3.
 
 ```html
 <!doctype html>
@@ -125,7 +125,13 @@ Este exemplo usa Vue para modelos. Se você salvar isso com um editor de texto p
             </div>
         </script>
 
+        <!-- Vue 2 -->
         <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+        <!-- Vue 3 (Currently in Beta) -->
+        <!-- <script src="https://unpkg.com/vue@next"></script> -->
+
+        <!-- DataFormsJS -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/DataFormsJS.min.js"></script>
         <script>
             app.lazyLoad = {

@@ -102,7 +102,7 @@ dataformsjs
 
 ## :page_facing_up: Example Code
 
-This example uses Vue for templating. If you save it with a text editor you can view it locally in your browser. Additionally the main site contains many templates and examples.
+This example uses Vue for templating. If you save it with a text editor you can view it locally in your browser. Additionally the main site contains many templates and examples. DataFormsJS works with both Vue 2 and Vue 3.
 
 ```html
 <!doctype html>
@@ -153,7 +153,13 @@ This example uses Vue for templating. If you save it with a text editor you can 
             </div>
         </script>
 
+        <!-- Vue 2 -->
         <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+        <!-- Vue 3 (Currently in Beta) -->
+        <!-- <script src="https://unpkg.com/vue@next"></script> -->
+
+        <!-- DataFormsJS -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/DataFormsJS.min.js"></script>
         <script>
             app.lazyLoad = {
