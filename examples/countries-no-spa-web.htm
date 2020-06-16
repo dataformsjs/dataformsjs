@@ -1,52 +1,51 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Countries Demo | No SPA | Web Components</title>
-        <link rel="stylesheet" href="css/countries.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
-        <link rel="canonical" href="https://www.dataformsjs.com/examples/countries-no-spa-hbs.htm">
-        <style>
-            /* Prevent custom web components from appearing during rendering include the following CSS */
-            json-data:not(:defined),
-            is-loading:not(:defined),
-            has-error:not(:defined),
-            is-loaded:not(:defined) { display:none; }
-        </style>
-    </head>
-    <body>
-        <div id="view">
-            <h1>Countries</h1>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Countries Demo | No SPA | Web Components</title>
+    <link rel="stylesheet" href="css/countries.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
+    <link rel="canonical" href="https://www.dataformsjs.com/examples/countries-no-spa-hbs.htm">
+    <style>
+        /* Prevent custom web components from appearing during rendering include the following CSS */
+        json-data:not(:defined),
+        is-loading:not(:defined),
+        has-error:not(:defined),
+        is-loaded:not(:defined) { display:none; }
+    </style>
+</head>
+<body>
+    <div id="view">
+        <h1>Countries</h1>
 
-            <json-data url="https://www.dataformsjs.com/data/geonames/countries">
-                <is-loading>
-                    <span class="loading">Loading...</span>
-                </is-loading>
-                <has-error>
-                    <span class="error" data-bind="errorMessage"></span>
-                </has-error>
-                <is-loaded>
-                    <input
-                        is="input-filter"
-                        filter-selector="table"
-                        filter-results-selector="h1"
-                        filter-results-text-all="{totalCount} Countries"
-                        filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
-                        placeholder="Enter filter, example 'North America'">
+        <json-data url="https://www.dataformsjs.com/data/geonames/countries">
+            <is-loading>
+                <span class="loading">Loading...</span>
+            </is-loading>
+            <has-error>
+                <span class="error" data-bind="errorMessage"></span>
+            </has-error>
+            <is-loaded>
+                <input
+                    is="input-filter"
+                    filter-selector="table"
+                    filter-results-selector="h1"
+                    filter-results-text-all="{totalCount} Countries"
+                    filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
+                    placeholder="Enter filter, example 'North America'">
 
-                    <p>Click on a column to sort rows based on column values.</p>
+                <p>Click on a column to sort rows based on column values.</p>
 
-                    <data-table
-                        data-bind="countries"
-                        labels="Code, Name, Size (KM), Population, Continent"
-                        table-attr="is=sortable-table,
-                                    data-sort-class-odd=row-odd,
-                                    data-sort-class-even=row-even">
-                    </data-table>
-                </is-loaded>
-            </json-data>
-        </div>
+                <data-table
+                    data-bind="countries"
+                    labels="Code, Name, Size (KM), Population, Continent"
+                    table-attr="is=sortable-table,
+                                data-sort-class-odd=row-odd,
+                                data-sort-class-even=row-even">
+                </data-table>
+            </is-loaded>
+        </json-data>
     </div>
 
     <!-- DataFormsJS Web Components -->
