@@ -40,6 +40,8 @@ TODO List for Vue 3 (Beta 15)
     - Below example only partially works with Vue 3:
         http://127.0.0.1:8080/image-classification-vue#/en/
         * Might be a bug with Vue 3, need to test on a minimal page and open issue if it seems to be a bug
+        * Currently Testing with Vue only at:
+            https://codepen.io/conrad-sollitt/pen/yLeaoGB
     - For both of these examples a new issue may need to be opened in GitHub
         However this requires minimal CodePen examples to replicate the issues
 */

@@ -117,6 +117,8 @@
                         img.predictions = response.predictions;
                     } else {
                         // TODO - not yet working with Vue 3 (Beta 15), might be a bug with the latest Beta
+                        // Currently working with a minimal replication to see if it's a bug or not:
+                        //   https://codepen.io/conrad-sollitt/pen/yLeaoGB
                         response.predictions.forEach(function(prediction) {
                             img.predictions.push(prediction);
                         });
