@@ -241,7 +241,7 @@ The author of DataFormsJS had a number of busy jobs at the time and was also wor
 
 _All sizes are based on minified scripts and gzip compression from the web server._
 
-* **DataFormsJS Framework – 10 kB** (120 kB full version uncompressed)
+* **DataFormsJS Framework – 10.6 kB** (146 kB full version uncompressed)
 * Additional files (controllers, plugins, etc) are typically only 1-3 kB each.
 * In general when using the Framework expect about 15 kB for the intial page load, and then several kB for additional pages that load extra plugins, pages, controllers, etc.
 

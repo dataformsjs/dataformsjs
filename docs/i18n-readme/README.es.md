@@ -242,14 +242,14 @@ El autor de DataFormsJS tenía varios trabajos ocupados en ese momento y tambié
 
 _Todos los tamaños se basan en scripts minificados y compresión gzip del servidor web._
 
-* **DataFormsJS Framework – 10 kB** (120 kB versión completa sin comprimir)
+* **DataFormsJS Framework – 10.6 kB** (146 kB versión completa sin comprimir)
 * Los archivos adicionales (controladores, complementos, etc.) suelen tener solo 1-3 kB cada uno.
 * En general, cuando use el Framework, espere aproximadamente 15 kB para la carga inicial de la página, y luego varios kB para páginas adicionales que carguen complementos, páginas, controladores, etc.
 
 * **React JSX Loader – 5.2 kB** (77 kB versión completa sin comprimir)
 * **React (todos los componentes en JavaScript) – 6.9 kB**
-* Los componentes de reacción individuales tienen entre 3 y 12 KB cuando no están comprimidos e incluyen comentarios.
-* Los componentes web generalmente tienen entre 1 y 3 KB cada uno, por lo general, utilizará una serie de componentes, por lo que en las aplicaciones de ejemplo, esto suma aproximadamente 15 kB para cada aplicación.
+* Los componentes de reacción individuales tienen entre 3 y 12 kB cuando no están comprimidos e incluyen comentarios.
+* Los componentes web generalmente tienen entre 1 y 3 kB cada uno, por lo general, utilizará una serie de componentes, por lo que en las aplicaciones de ejemplo, esto suma aproximadamente 15 kB para cada aplicación.
 
 Si bien el marco DataFormsJS es pequeño, generalmente se utilizará con un motor de visualización o plantilla más grande:
 

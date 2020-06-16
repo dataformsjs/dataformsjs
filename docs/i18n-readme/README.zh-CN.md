@@ -241,14 +241,14 @@ DataFormsJS的作者当时有许多繁忙的工作，同时还在从事另一个
 
 _所有大小都基于来自Web服务器的缩小脚本和gzip压缩._
 
-* **DataFormsJS 框架压缩后 – 10 kB** (120 kB 未压缩时)
+* **DataFormsJS 框架压缩后 – 10.6 kB** (146 kB 未压缩时)
 * 其他文件 诸如 (controllers, plugins, etc) 一般只有 1-3 kB 每个文件.
 * 通常，在使用框架时，初始页面加载大小约为15KB，然后加载额外插件、页面、控制器等的附加页面大小约为几KB.
 
 * **React JSX Loader – 5.2 kB** (77 kB 未压缩时)
 * **React (包含所有组件) – 6.9 kB**
-* 单独的Reaction组件在解压缩并包含注释时在3到12 KB之间.
-* 每个Web组件通常约为1至3 KB，通常您将使用多个组件，因此在示例应用程序中，每个应用程序的总大小约为15 KB.
+* 单独的Reaction组件在解压缩并包含注释时在3到12 kB之间.
+* 每个Web组件通常约为1至3 kB，通常您将使用多个组件，因此在示例应用程序中，每个应用程序的总大小约为15 kB.
 
 虽然DataFormsJS框架很小，但它通常会与较大的模板或视图引擎一起使用:
 
@@ -258,7 +258,7 @@ _所有大小都基于来自Web服务器的缩小脚本和gzip压缩._
 * Underscore: ~ 6 kB
 * Nunjucks - ~ 25 kB
 
-此外，在复杂或大型站点中，预计第三方代码将占据最大数量的JavaScript。例如，在线运行代码站点上使用的CodeMirror文本编辑器大约为250 KB，但是DataFormsJS能够在需要时仅下载第三方代码.
+此外，在复杂或大型站点中，预计第三方代码将占据最大数量的JavaScript。例如，在线运行代码站点上使用的CodeMirror文本编辑器大约为250 kB，但是DataFormsJS能够在需要时仅下载第三方代码.
 
 **How do I use the JSX Loader for React?**
 
