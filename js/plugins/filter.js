@@ -648,7 +648,29 @@
         onRendered: function (element) {
             this.setupDataLists(element);
             this.setupFilters(element);
-        }
+        },
+
+        /**
+         * Event called only once per hash change or page refresh
+         * and occurs before the current page is unloaded.
+         */
+        onRouteUnload: function() {
+            // If using Vue 3 remove the 'setup' attributes otherwise controls will end up without
+            // the events if the user starts on a page, goes to another, and comes back.
+            // The reason is that Vue 3 (as of Beta 15) caches DOM for all compiled templates,
+            // so on page changes the [setup] attributes would be kept in memory while the actual
+            // DOM events [click, input] will not be kept. To see where this happens in Vue 3
+            // search the source code for `const cached = compileCache[key];`.
+            // This issue seems to apply only to [filter.js] and not similar code in [sort.js].
+            // The reason is not yet known however Vue 3 is still in Beta at the time this code was added.
+            if (app.activeVueModel !== null && Vue.createApp !== undefined) {
+                var elements = document.querySelectorAll('[data-filter-setup="setup"],[data-set-filter-setup="setup"]');
+                Array.prototype.forEach.call(elements, function (el) {
+                    el.removeAttribute('data-filter-setup');
+                    el.removeAttribute('data-set-filter-setup');
+                });
+            }
+        },
     };
 
     /**

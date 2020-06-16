@@ -4,16 +4,19 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
-## 4.2.0 (Not Yet Published - Next Release)
+## 4.2.0 (June 16, 2020)
 
 * Added Support for Vue 3 (Beta 15) to the main DataFormsJS Framework, updated files:
   * `js/DataFormsJS.js`
   * `js/controls/json-data.js`
   * `js/extensions/vue-directives.js`
+  * `js/plugins/filter.js`
   * `js/plugins/i18n.js`
-* Vue 3 is still in Beta so additional updates may be required before the final release of Vue 3.
+* For all example pages and the Code Playground Templates Vue 2 can simply be swapped out with Vue 3 and the pages/apps will work as expected.
+* Vue 3 is still in Beta so additional updates may be required before or after the final release of Vue 3.
 * Vue 2 - Improved support for the `v-cloak` directive to hide the view while it is rendering. Previously this was set on individual elements in the template however for compatibility with both Vue 2 and Vue 3 this is now handled automatically by DataFormsJS on the main view element. By default DataFormsJS adds required CSS for v-clock from the properties `app.vueCss` and `vueStyleId`. 
-* Added support to include model properties the `filter.js` attributes `data-filter-results-text-all` and `data-filter-results-text-filtered`, example usage: `examples/html/regions-vue.htm` and `examples/html/regions-hbs.htm`
+* Vue 2 - Added support for `computed` properties to be defined directly on the page object. Previously `computed` properties had to be defined on the controller object which made it harder to define `computed` properties since controllers are typically setup in HTML rather than JavaScript. Also works with Vue 3. Example usage: `examples/template-files-vue.htm`
+* Added support to allow model properties the `filter.js` attributes `data-filter-results-text-all` and `data-filter-results-text-filtered`, example usage: `examples/html/regions-vue.htm` and `examples/html/regions-hbs.htm`
 
 ## 4.1.0 (May 21, 2020)
 

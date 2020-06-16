@@ -12,7 +12,7 @@
  */
 
 /* Validates with both [jshint] and [eslint] */
-/* global app, Promise */
+/* global app, Promise, Vue */
 /* jshint strict: true */
 /* eslint-env browser */
 /* eslint quotes: ["error", "single", { "avoidEscape": true }] */
@@ -33,8 +33,8 @@
         predictUrl: null,
         fileInputSelector: 'input[type="file"]',
 
-        // This page uses extra DOM related code for optimization. In most apps
-        // simply calling [app.refreshAllHtmlControls()] or [app.refreshHtmlControl(...)]
+        // This page uses extra DOM related code for optimization when using Handlebars (not needed with Vue).
+        // In most apps simply calling [app.refreshAllHtmlControls()] or [app.refreshHtmlControl(...)]
         // would be used to refresh parts of the page after model updates however this page
         // ends up re-drawing the full image lists many times which can make the elements flicker.
         // To use the standard framework [app.refreshAllHtmlControls()] function instead
@@ -113,29 +113,32 @@
                 })
                 .then(function(response) { return response.json(); })
                 .then(function(response) {
-                    if (app.activeController.viewEngine !== 'Vue') {
-                        img.predictions = response.predictions;
-                    } else {
-                        // TODO - not yet working with Vue 3 (Beta 15), might be a bug with the latest Beta
-                        // Currently working with a minimal replication to see if it's a bug or not:
-                        //   https://codepen.io/conrad-sollitt/pen/yLeaoGB
-                        response.predictions.forEach(function(prediction) {
-                            img.predictions.push(prediction);
-                        });
-                    }
+                    img.predictions = response.predictions;
                 })
                 .catch(function(error) {
                     img.hasError = true;
                     console.error(error);
                 })
                 .finally(function() {
+                    // Update the Image
                     img.isUploading = false;
+
+                    // Additional actions for Handlebars and Vue 3 (no actions needed for Vue 2)
                     if (app.activeController.viewEngine !== 'Vue') {
+                        // Handlebars Demo
                         if (model.manualDomUpdate) {
                             model.updateItem(img, count);
                         } else {
                             app.refreshAllHtmlControls();
                         }
+                    } else if (Vue.createApp !== undefined) {
+                        // When using Vue 3 the main property needs to be reset because changes
+                        // on the child object do not cause DOM updates to render. This applies
+                        // to both the new Vue 3 Composition API and the standard Vue Options API.
+                        //
+                        // For a detailed example of differences between Vue 2 and Vue 3 see:
+                        //   https://codepen.io/conrad-sollitt/pen/yLeaoGB
+                        model.images = model.images.slice();
                     }
                 });
             });

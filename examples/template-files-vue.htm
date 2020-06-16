@@ -18,6 +18,8 @@
             th, td { padding:0.5em 1em; border:1px solid darkgreen; }
             tr:nth-child(even) { background-color: lightgreen; }
             .error { padding:1em; color:white; background-color:red; }
+            .computed-demo div,
+            .computed-demo button { padding: 10px; }
         </style>
     </head>
     <body>
@@ -25,6 +27,7 @@
             <a href="#/">Home</a>
             <a href="#/page1">Page 1</a>
             <a href="#/page2">Page 2</a>
+            <a href="#/page3">Page 3</a>
             <a href="#/json-data/US">Json Data</a>
         </nav>
 
@@ -51,6 +54,19 @@
         </script>
         <script type="text/x-template" data-engine="vue" data-route="/page2" data-page="pageName" data-page-name="Page2">
             <div data-template-id="counter-page"></div>
+        </script>
+
+        <!--
+            Custom Page object defined on this page
+        -->
+        <script type="text/x-template" data-engine="vue" data-route="/page3" data-page="demoPage">
+            <div class="computed-demo">
+                <p>This page shows how to defined custom [computed] properties and [methods] on a page object</p>
+                <button v-on:click="setRandomValue">Set Random Value</button>
+                <div><b>Value:</b> {{ value }}</div>
+                <div><b>Value * 2:</b> {{ timesTwo }}</div>
+                <div><b>Value * 3:</b> {{ timesThree }}</div>
+            </div>
         </script>
 
         <!-- templates/page-from-jsonData.js -->
@@ -116,7 +132,7 @@
         Local:
             <script src="../vendor/vue.js"></script>
         -->
-        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        <script src="https://unpkg.com/vue@next"></script>
 
         <!-- DataFormsJS Standard Files -->
         <script src="../js/DataFormsJS.min.js"></script>        
@@ -131,6 +147,91 @@
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.1.0/js/templates/page-from-jsonData.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.1.0/js/templates/plugin-function.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.1.0/js/templates/plugin-object.min.js"></script>
-        <!-- For an example of [page-from-entryForm.js] search the source code -->
+
+        <script>
+            (function () {
+                'use strict';
+
+                // Custom Demo page with computed functions.
+                // Find more templates at:
+                //    https://www.dataformsjs.com/en/quick-reference
+                //    https://github.com/dataformsjs/dataformsjs/tree/master/js/templates
+
+                // Create a new page object.
+                // Tip: This file is intended as a starting point,
+                // delete all functions and code that you do not use.
+                var demoPage = {
+                    // ----------------------------------------------------------
+                    // Define a model for the page object. Each route
+                    // that is used will create a new model for it's page.
+                    // ----------------------------------------------------------
+                    model: {
+                        // Define Custom Properties
+                        // This will be assigned watchers in Vue
+                        value: 123,
+
+                        // Define Functions/Methods
+                        // These will be assigned to `app.activeController.methods` and `app.activeVueModel`
+
+                        setupView: function() {
+                            console.log('demoPage.setupView()');
+                            console.log(this);
+                        },
+
+                        setRandomValue: function() {
+                            this.value = Math.floor(Math.random() * 10000);
+                        },
+                    },
+
+                    // ----------------------------------------------------------
+                    // For custom [computed] properties add them to a property
+                    // on the page object. When the page is viewed they will be
+                    // assigned to `app.activeController.computed` and also 
+                    // available from `app.pages[app.activeController.pageType].computed`
+                    // ----------------------------------------------------------
+                    computed: {
+                        timesTwo: function() {
+                            return (this.value * 2);
+                        },
+                        timesThree: function() {
+                            return (this.value * 3);
+                        },
+                    },
+
+                    // ----------------------------------------------------------
+                    // Controller Functions. At least 1 function must be defined
+                    // for the page and all controller functions can use [this]
+                    // to access the page's model.
+                    // ----------------------------------------------------------
+
+                    // Controller function that is called once before the route
+                    // will be loaded. This is useful for calling web services
+                    // before any rendering happens. For example, see usage on the
+                    // core [pages/jsonData.js] file.
+                    onRouteLoad: function() {
+                        console.log('demoPage.onRouteLoad()');
+                        console.log(this);
+                    },
+
+                    // Define the Controller [onRendered()] function.
+                    // This gets called each time the view is redrawn.
+                    onRendered: function() {
+                        this.setupView();
+                    },
+
+                    // Define the Controller [onRouteUnload()] function.
+                    // This event gets called only once per hash change when
+                    // the current route is unloaded. Use to clean up any page
+                    // specific resources such as [window.clearInterval()].
+                    onRouteUnload: function() {
+                        console.log('demoPage.onRouteUnload()');
+                        console.log(this);
+                    },
+                };
+
+                // Add page to app
+                app.addPage('demoPage', demoPage);
+            })();
+        </script>
     </body>
 </html>

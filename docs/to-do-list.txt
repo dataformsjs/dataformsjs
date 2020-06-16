@@ -27,22 +27,25 @@ TODO List
         https://github.com/vuejs/vue-next
         https://www.vuemastery.com/blog/vue-3-start-using-it-today/
         https://vuejsdevelopers.com/2020/03/16/vue-js-tutorial/
-    - Because Vue 3 is still in Beta additional changes may be needed before the release
-    - Once Vue 3 is released then likely switch all demo pages to Vue 3 but keep Vue 2
+    - Because Vue 3 is still in Beta additional changes may be needed before or after the release
+    - Once Vue 3 is released then possibly switch all demo pages to Vue 3 but keep Vue 2
         script in the comments. If IE will not be supported then show an error message.
-        This will likely be determined once Vue 3 is released.
+        This will likely be determined once Vue 3 is released. Regadless of whether demos
+        will use Vue 2 or Vue 3 (or mixed) all Demos will be tested with both and have
+        both CDN links in the HTML.
     - Differences to watch for in the future and possibly handle:
         - When using Vue 2 the undocumented API `_watcher` is used to track the watchers.
             It doesn't exist in current Vue 3 beta. This could cause issues with custom
             app code that manually calls `app.updateView()` to update plugins.
             Look into this more later once Vue 3 is published as a release.
-    - Vue 3 is giving some unexpected warnings as of Beta 15
-        http://127.0.0.1:8080/binary-classification-vue#/en/
-        - Click aaround then from Dev Tools see:
-            [Vue warn]: Template compilation error: Error parsing JavaScript expression: Unexpected token ')'
-        - At template location:
-            <span v-else="">
-        - However the <span v-else> is valid for Vue 2
+        - https://www.dataformsjs.com/examples/image-classification-vue.htm
+            dataformsjs\examples\image-classification.js
+            - Search code for `model.images = model.images.slice();`
+              Will this still be needed on the final Vue 3 Release?
+        - https://www.dataformsjs.com/examples/log-table-vue.htm#/10
+            dataformsjs\js\plugins\filter.js
+            - Search code for `onRouteUnload`
+              Will this still be needed on the final Vue 3 Release?
 
 **) Improve UX of the Quick Ref Page
     https://www.dataformsjs.com/en/quick-reference

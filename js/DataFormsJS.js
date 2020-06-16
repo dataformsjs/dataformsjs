@@ -28,24 +28,6 @@
  * @license  MIT
  */
 
- /*
-TODO List for Vue 3 (Beta 15)
-    - Issue found with [Click or Tap to Filter] button when changing screens
-      Doesn't affect Vue 2, first screen is ok.
-        http://127.0.0.1:8080/log-table-vue#/100
-        * The Template is cached by Vue, set break-point for Vue at:
-            `const cached = compileCache[key];`
-        * If Vue can be updated with a new function such as `Vue.clearCompilerCache()` then use it
-            otherwise come up with a work-around (likely with-in the [filter.js] file)
-    - Below example only partially works with Vue 3:
-        http://127.0.0.1:8080/image-classification-vue#/en/
-        * Might be a bug with Vue 3, need to test on a minimal page and open issue if it seems to be a bug
-        * Currently Testing with Vue only at:
-            https://codepen.io/conrad-sollitt/pen/yLeaoGB
-    - For both of these examples a new issue may need to be opened in GitHub
-        However this requires minimal CodePen examples to replicate the issues
-*/
-
 /* Validates with both [jshint] and [eslint] */
 /* global Handlebars, nunjucks, _, Vue, Promise */
 /* jshint strict: true */
@@ -816,6 +798,13 @@ TODO List for Vue 3 (Beta 15)
                 if (page.hasOwnProperty(prop) && typeof page[prop] === 'function') {
                     controller[prop] = page[prop];
                 }
+            }
+
+            // If using Vue and the page objects defines [computed] functions then
+            // assign them to the controller. [methods] are assigned for Vue from the
+            // model when `loadModel(controller)` is called. See example usage in [examples\template-files-vue.htm]
+            if (controller.viewEngine === ViewEngines.Vue && typeof page.computed === 'object' && controller.computed === undefined) {
+                controller.computed = page.computed;
             }
 
             // Define variable so this runs only once per controller
@@ -1701,6 +1690,21 @@ TODO List for Vue 3 (Beta 15)
                             } else {
                                 // Create a Vue Instance for the current page
                                 if (usingVue3) {
+                                    // Vue 3 has two major API's:
+                                    //   *) New Composition API
+                                    //   *) Options API - Based on Vue 2
+                                    //
+                                    // DataFormsJS uses the Options API because it works well when using
+                                    // Vue templates that contain dynamic properties which are not known
+                                    // until a web service, etc runs, and it allows switching between
+                                    // Vue 2 and Vue 3 when using custom code very easy when using
+                                    // DataFormsJS. If the Composition API was used it would require
+                                    // additional code and rather than setting properties in plain
+                                    // JavaScript objects (`model.prop`) they would likely have to be
+                                    // set through the `Vue.ref` API with `model.prop.value`.
+                                    //
+                                    // CodePen created to show different API's options:
+                                    //   https://codepen.io/conrad-sollitt/pen/yLeaoGB
                                     app.activeVueApp = Vue.createApp({
                                         data: function() { return app.activeModel; },
                                         directives: app.vueDirectives,
