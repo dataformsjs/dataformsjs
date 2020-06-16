@@ -28,6 +28,22 @@
  * @license  MIT
  */
 
+ /*
+TODO List for Vue 3 (Beta 15)
+    - Issue found with [Click or Tap to Filter] button when changing screens
+      Doesn't affect Vue 2, first screen is ok.
+        http://127.0.0.1:8080/log-table-vue#/100
+        * The Template is cached by Vue, set break-point for Vue at:
+            `const cached = compileCache[key];`
+        * If Vue can be updated with a new function such as `Vue.clearCompilerCache()` then use it
+            otherwise come up with a work-around (likely with-in the [filter.js] file)
+    - Below example only partially works with Vue 3:
+        http://127.0.0.1:8080/image-classification-vue#/en/
+        * Might be a bug with Vue 3, need to test on a minimal page and open issue if it seems to be a bug
+    - For both of these examples a new issue may need to be opened in GitHub
+        However this requires minimal CodePen examples to replicate the issues
+*/
+
 /* Validates with both [jshint] and [eslint] */
 /* global Handlebars, nunjucks, _, Vue, Promise */
 /* jshint strict: true */
@@ -824,12 +840,10 @@
         if (controller.pageType) {
             page = app.pages[controller.pageType];
             if (page !== undefined) {
-                // Create the model and assign the new model name to the controller For Vue 2,
-                // properties are assigned to the model and functions are assigned to a
-                // controller [methods] object. Vue 2 is determined based on `Vue.createApp === undefined`.
-                // For Vue 3 the model object includes both props and functions just like when
-                // using Handlebars or other view engines.
-                if (controller.viewEngine === ViewEngines.Vue && Vue.createApp === undefined) {
+                // Create the model and assign the new model name to the controller.
+                // For Vue, properties are assigned to the model and functions are
+                // assigned to a controller [methods] object.
+                if (controller.viewEngine === ViewEngines.Vue) {
                     model = {};
                     controller.methods = (controller.methods === undefined ? {} : controller.methods);
                     for (var prop in page.model) {
@@ -1688,6 +1702,8 @@
                                     app.activeVueApp = Vue.createApp({
                                         data: function() { return app.activeModel; },
                                         directives: app.vueDirectives,
+                                        methods: app.activeController.methods,
+                                        computed: app.activeController.computed,
                                         mounted: function() {
                                             app.activeVueModel = this;
                                             app.activeVueModel.$nextTick(function () {

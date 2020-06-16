@@ -88,7 +88,7 @@
                 var img = {
                     name: file.name,
                     src: imgUrl,
-                    prediction: null,
+                    predictions: [],
                     hasError: false,
                     isUploading: true,
                 };
@@ -113,7 +113,14 @@
                 })
                 .then(function(response) { return response.json(); })
                 .then(function(response) {
-                    img.predictions = response.predictions;
+                    if (app.activeController.viewEngine !== 'Vue') {
+                        img.predictions = response.predictions;
+                    } else {
+                        // TODO - not yet working with Vue 3 (Beta 15), might be a bug with the latest Beta
+                        response.predictions.forEach(function(prediction) {
+                            img.predictions.push(prediction);
+                        });
+                    }
                 })
                 .catch(function(error) {
                     img.hasError = true;

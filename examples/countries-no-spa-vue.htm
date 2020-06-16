@@ -1,37 +1,36 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Countries Demo | No SPA | Vue</title>
-        <link rel="stylesheet" href="css/countries.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
-        <link rel="canonical" href="https://www.dataformsjs.com/examples/countries-no-spa-hbs.htm">
-    </head>
-    <body>
-        <div id="view">
-            <h1>Countries</h1>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Countries Demo | No SPA | Vue</title>
+    <link rel="stylesheet" href="css/countries.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
+    <link rel="canonical" href="https://www.dataformsjs.com/examples/countries-no-spa-hbs.htm">
+</head>
+<body>
+    <div id="view">
+        <h1>Countries</h1>
 
-            <!--
-                [countries] is a property that comes from the web service.
-                By including [data-countries] the <json-data> control will
-                create at as instance property with a Vue watcher.
+        <!--
+            [countries] is a property that comes from the web service.
+            By including [data-countries] the <json-data> control will
+            create at as instance property with a Vue watcher.
 
-                The other properties used in the related template:
-                [isLoading, hasError, isLoaded, errorMessage] are defined
-                by the <json-data> control.
+            The other properties used in the related template:
+            [isLoading, hasError, isLoaded, errorMessage] are defined
+            by the <json-data> control.
 
-                This example will also work if the Vue template is embedded
-                directly within the <json-data> element. To keep the code organized
-                and easier to read it is in a seperate <script> element.
-            -->
-            <json-data
-                data-url="https://www.dataformsjs.com/data/geonames/countries"
-                data-template-id="countries-list"
-                data-countries
-                v-clock>
-            </json-data>
-        </div>
+            This example will also work if the Vue template is embedded
+            directly within the <json-data> element. To keep the code organized
+            and easier to read it is in a seperate <script> element.
+        -->
+        <json-data
+            data-url="https://www.dataformsjs.com/data/geonames/countries"
+            data-template-id="countries-list"
+            data-countries
+            v-clock>
+        </json-data>
     </div>
 
     <script type="text/x-template" data-engine="vue" id="countries-list">
@@ -73,9 +72,11 @@
         </div>
     </script>
 
-    <!-- Vue -->
+    <!-- Vue 2 -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
-    <script src="../vendor/vue@3.0.0-beta.15.global.js"></script>
+
+    <!-- Vue 3 -->
+    <script src="https://unpkg.com/vue@next"></script>
 
     <!-- DataFormsJS App object and the <json-data> control (required for this demo) -->
     <script src="../js/DataFormsJS.js"></script>
@@ -86,3 +87,4 @@
     <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.1.0/js/plugins/filter.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.1.0/js/plugins/sort.min.js"></script>
 </body>
+</html>

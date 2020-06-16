@@ -444,21 +444,17 @@
 
             // Create Vue Directives
             if (window.Vue) {
-                var vI18n = {
-                    bind: function (el, binding) {
-                        var key = binding.value;
-                        el.textContent = (i18n.langText && i18n.langText[key] ? i18n.langText[key] : key);
-                    }
+                var vI18n = function (el, binding) {
+                    var key = binding.value;
+                    el.textContent = (i18n.langText && i18n.langText[key] ? i18n.langText[key] : key);
                 };
 
-                var vI18nAttr = {
-                    bind: function (el, binding) {
-                        var attr = binding.value.split(',').map(function(s) { return s.trim(); });
-                        for (var x = 0, y = attr.length; x < y; x++) {
-                            var key = el.getAttribute(attr[x]);
-                            if (key !== null) {
-                                el.setAttribute(attr[x], (i18n.langText[key] ? i18n.langText[key] : key));
-                            }
+                var vI18nAttr = function (el, binding) {
+                    var attr = binding.value.split(',').map(function(s) { return s.trim(); });
+                    for (var x = 0, y = attr.length; x < y; x++) {
+                        var key = el.getAttribute(attr[x]);
+                        if (key !== null) {
+                            el.setAttribute(attr[x], (i18n.langText[key] ? i18n.langText[key] : key));
                         }
                     }
                 };
@@ -467,11 +463,11 @@
                 var isVue3 = (Vue.directive === undefined && typeof Vue.createApp === 'function');
                 if (isVue3) {
                     app.vueDirectives = app.vueDirectives || {};
-                    app.vueDirectives.i18n = vI18n.bind;
-                    app.vueDirectives['i18n-attr'] = vI18nAttr.bind;
+                    app.vueDirectives.i18n = { beforeMount: vI18n };
+                    app.vueDirectives['i18n-attr'] = { beforeMount: vI18nAttr };
                 } else {
-                    Vue.directive('i18n', vI18n);
-                    Vue.directive('i18n-attr', vI18nAttr);
+                    Vue.directive('i18n', { bind: vI18n });
+                    Vue.directive('i18n-attr', { bind: vI18nAttr });
                 }
             }
         },

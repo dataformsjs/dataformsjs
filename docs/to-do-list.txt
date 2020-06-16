@@ -32,14 +32,17 @@ TODO List
         script in the comments. If IE will not be supported then show an error message.
         This will likely be determined once Vue 3 is released.
     - Differences to watch for in the future and possibly handle:
-        - Vue 2 automatically creates `methods` on the activeController and
-            supports `computed` methods while Vue 3 does not yet support this.
-        - Currently `computed` is not used on any of the demos so it should be added
-            to a demo at some point.
         - When using Vue 2 the undocumented API `_watcher` is used to track the watchers.
             It doesn't exist in current Vue 3 beta. This could cause issues with custom
             app code that manually calls `app.updateView()` to update plugins.
             Look into this more later once Vue 3 is published as a release.
+    - Vue 3 is giving some unexpected warnings as of Beta 15
+        http://127.0.0.1:8080/binary-classification-vue#/en/
+        - Click aaround then from Dev Tools see:
+            [Vue warn]: Template compilation error: Error parsing JavaScript expression: Unexpected token ')'
+        - At template location:
+            <span v-else="">
+        - However the <span v-else> is valid for Vue 2
 
 **) Improve UX of the Quick Ref Page
     https://www.dataformsjs.com/en/quick-reference
