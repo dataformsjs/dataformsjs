@@ -1,13 +1,19 @@
 <div class="is-loading" data-template-id="loading-screen"></div>
 <div class="has-error" data-template-id="error-screen"></div>
 <div class="is-loaded flex-col">
-    <h1><span data-i18n="Regions for Country Code"></span> <span data-bind="country"></span></h1>
+    <h1></h1>
 
     <nav>
         <a href="#/en/" data-i18n="Countries" data-i18n-href></a>
     </nav>
 
-    <input data-filter-selector="table" placeholder="Enter filter" data-i18n-attr="placeholder">
+    <input
+        data-filter-selector="table"
+        data-filter-results-text-selector="h1"
+        data-filter-results-text-all="{totalCount} Regions for Country Code {country}"
+        data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Regions for Country Code {country}"
+        placeholder="Enter filter"
+        data-i18n-attr="placeholder, data-filter-results-text-all, data-filter-results-text-filtered">
 
     <data-table
         class="regions"

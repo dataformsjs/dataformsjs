@@ -8,8 +8,6 @@
     "Error": "Error",
     "{totalCount} Countries": "{totalCount} Countries",
     "Showing {displayCount} of {totalCount} Countries": "Showing {displayCount} of {totalCount} Countries",
-    "Regions for Country Code": "Regions for Country Code",
-    "Showing {displayCount} of {totalCount} Regions for Country Code": "Showing {displayCount} of {totalCount} Regions for Country Code",
     "{totalCount} Regions for Country Code {country}": "{totalCount} Regions for Country Code {country}",
     "Showing {displayCount} of {totalCount} Regions for Country Code {country}": "Showing {displayCount} of {totalCount} Regions for Country Code {country}",
     "Largest Cities in": "Largest Cities in",

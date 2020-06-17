@@ -55,7 +55,7 @@ export function PageRegions({match}) {
 export function ShowRegions(props) {
     return (
         <React.Fragment>
-            <h1>{i18n.text('Regions for Country Code')} {props.params.country}</h1>
+            <h1>{i18n.text('{totalCount} Regions for Country Code {country}').replace('{country}', props.params.country)}</h1>
 
             <nav>
                 <Link to={'/' + props.params.lang + '/'}>{i18n.text('Countries')}</Link>

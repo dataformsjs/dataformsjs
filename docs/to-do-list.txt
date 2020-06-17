@@ -21,15 +21,9 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Update Templates for Vue 3
-    https://www.dataformsjs.com/en/getting-started
-    And Home Page Comment:
-        "DataFormsJS works with both Vue 2 and Vue 3."
-    https://www.dataformsjs.com/en/quick-reference
-        Handlebars Helpers and Vue Directives are available and can be used without the Framework (Vue 2).
-
-**) Next update, include the build number from [package.json] in the comments of the build script.
+**) Next update, likely include the build number from [package.json] in the comments of the build script.
     Need to provide a warning that build must run once [package.json] is updated and before npm release.
+    This will be helpful when someone downloads a generic 'dataformsjs.min.js' file to know the version.
     https://github.com/dataformsjs/dataformsjs/blob/master/scripts/build.js
 
 **) Once Vue 3 is out of beta confirm all Vue Examples and Pages work with Vue 3.
@@ -44,6 +38,8 @@ TODO List
         This will likely be determined once Vue 3 is released. Regadless of whether demos
         will use Vue 2 or Vue 3 (or mixed) all Demos will be tested with both and have
         both CDN links in the HTML.
+    - Once Vue 3 is released then search for all references to "Vue 3 (Currently in Beta)"
+        and similar terms and replace/remove them.
     - Differences to watch for in the future and possibly handle:
         - When using Vue 2 the undocumented API `_watcher` is used to track the watchers.
             It doesn't exist in current Vue 3 beta. This could cause issues with custom
