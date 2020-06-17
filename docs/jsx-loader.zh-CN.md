@@ -362,6 +362,10 @@ node server.js
 # http://127.0.0.1:5000/
 ```
 
+或直接在主Web服务器上尝试单元测试：
+
+https://www.dataformsjs.com/unit-testing/
+
 下图显示了“单元测试”页面的外观.当使用现代浏览器进行测试时`jsxLoader`将出现在屏幕的左上角.
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-testing-modern-browser.png" alt="Unit Testing with Modern Browser">

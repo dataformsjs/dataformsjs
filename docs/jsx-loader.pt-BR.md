@@ -353,6 +353,10 @@ node server.js
 # http://127.0.0.1:5000/
 ```
 
+Ou tente Testes de unidade diretamente no servidor web principal:
+
+https://www.dataformsjs.com/unit-testing/
+
 A imagem abaixo mostra como a página de Teste de Unidade é. Ao testar com um navegador moderno `jsxLoader` aparecerá no canto superior esquerdo da tela.
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-testing-modern-browser.png" alt="Teste de Unit com Navegadores Modernos">
