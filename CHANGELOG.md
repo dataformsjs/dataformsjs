@@ -23,6 +23,12 @@ Overall the core Framework files and API are expected to remain stable however t
 * `js/plugins/filter.js`
   * Updated anonymous functions on event handlers to used named function expressions which makes it easier to find the source code from Browser DevTools.
   * Updated code comments in `onRouteUnload()` with more details on how it works with Vue 3 compared to other plugins.
+* Started including version number in code comments of several minimized files. This makes it clear which version is being used if referencing the latest version (rather than a specific version) from a CDN. For example: https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/DataFormsJS.min.js
+  * `js/DataFormsJS.min.js`
+  * `js/react/jsxLoader.min.js`
+  * `js/react/es5/DataFormsJS.min.js`
+  * `js/web-components/json-data.min.js`
+  * `js/web-components/url-hash-router.min.js`
 
 ## 4.2.0 (June 16, 2020)
 

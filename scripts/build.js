@@ -28,6 +28,10 @@
  *
  * When running this script will update only files (*.min.js) if the main
  * file has been modified.
+ * 
+ * Additionally this script should be ran after the [package.json] version
+ * update but prior to new NPM release because it includes the version
+ * number in several of the minimized files.
  */
 
 const fs = require('fs');
@@ -47,10 +51,15 @@ const isWindows = (process.platform === 'win32');
  * Main function
  */
 (async () => {
+    // Get Version Number from [package.json]
+    const packageJson = __dirname + '/../package.json';
+    const package = await readFile(packageJson, 'utf8');
+    const version = JSON.parse(package).version;
+
     // Small copyright header to core files. Only a few files are updated.
     // Bascially one file for the Framework, one file for React,
     // and two files for Web Components.
-    let copyright = '// @link https://www.dataformsjs.com\n// @author Conrad Sollitt (http://www.conradsollitt.com)\n// @license MIT\n';
+    let copyright = `// @link https://www.dataformsjs.com\n// @version ${version}\n// @author Conrad Sollitt (http://www.conradsollitt.com)\n// @license MIT\n`;
     if (isWindows) {
         copyright = copyright.replace(/\n/g, '\r\n');
     }
@@ -133,6 +142,10 @@ const isWindows = (process.platform === 'win32');
         console.log('Review details from stderr');
         process.exitCode = 1;
     }
+    console.log('-'.repeat(40));
+    console.log(`** Using version number ${version} in minimized source code.`);
+    console.log('This MUST match the release published to NPM.');
+    console.log('If it code is accidently published with wrong release number then publish a new patch release with correct version.');
 })();
 
 /**
