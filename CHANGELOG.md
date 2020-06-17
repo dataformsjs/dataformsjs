@@ -4,6 +4,12 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 4.2.1 (Next Release, not yet published to NPM)
+
+* `filter.js`
+  * Updated anonymous functions on event handlers to used named function expressions which makes it easier to find the source code from Browser DevTools.
+  * Updated code comments in `onRouteUnload()` with more details on how it works with Vue 3 compared to other plugins.
+
 ## 4.2.0 (June 16, 2020)
 
 * Added Support for Vue 3 (Beta 15) to the main DataFormsJS Framework, updated files:

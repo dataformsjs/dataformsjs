@@ -34,7 +34,7 @@
  */
 
 /* Validates with both [jshint] and [eslint] */
-/* global app */
+/* global app, Vue */
 /* jshint strict: true */
 /* eslint-env browser */
 /* eslint quotes: ["error", "single", { "avoidEscape": true }] */
@@ -577,7 +577,7 @@
                     el.addEventListener('input', filter.filter);
                 } else {
                     // Once clicked mark clear previous clicks and mark the current element
-                    el.addEventListener('click', function () {
+                    el.addEventListener('click', function setupClickFilter() {
                         filter.clearClickedFilters(this.getAttribute('data-filter-selector'));
                         this.setAttribute('data-filter-clicked', '');
                         filter.filter();
@@ -592,7 +592,7 @@
             // Setup Elements with Attribute [data-filter-clear]
             elements = document.querySelectorAll('[data-filter-clear]:not([data-filter-setup])');
             Array.prototype.forEach.call(elements, function (el) {
-                el.addEventListener('click', function () {
+                el.addEventListener('click', function setupClearFilter() {
                     _runFilter = false;
                     filter.clearFilter(this.getAttribute('data-filter-clear'));
                     _runFilter = true;
@@ -604,7 +604,7 @@
             // Setup Elements with Attribute [data-filter-clear-all]
             elements = document.querySelectorAll('[data-filter-clear-all]:not([data-filter-setup])');
             Array.prototype.forEach.call(elements, function (el) {
-                el.addEventListener('click', function () {
+                el.addEventListener('click', function setupClearAllFilter() {
                     _runFilter = false;
                     filter.clearAllFilters();
                     _runFilter = true;
@@ -617,8 +617,8 @@
             // If so then once they are clicked on link them to a filter and run it.
             elements = document.querySelectorAll('[data-set-filter-selector]:not([data-set-filter-setup])');
             Array.prototype.forEach.call(elements, function (el) {
-                el.addEventListener('click', function () {
-                    var selector = el.getAttribute('data-set-filter-selector');
+                el.addEventListener('click', function setupSetFilter() {
+                    var selector = this.getAttribute('data-set-filter-selector');
                     var filterInput = document.querySelector(selector);
                     if (filterInput === null) {
                         console.warn('Query Selector from Attribute [data-set-filter-selector = ' + selector + '] did not return an element.');
@@ -628,7 +628,7 @@
                         console.warn('Query Selector from Attribute [data-set-filter-selector = ' + selector + '] did a valid filter element that has [data-filter-selector] defined.');
                         return;
                     }
-                    filterInput.value = el.textContent;
+                    filterInput.value = this.textContent;
                     filter.filter();
                 });
                 el.setAttribute('data-set-filter-setup', 'setup');
@@ -660,15 +660,12 @@
             // The reason is that Vue 3 (as of Beta 15) caches DOM for all compiled templates,
             // so on page changes the [setup] attributes would be kept in memory while the actual
             // DOM events [click, input] will not be kept. To see where this happens in Vue 3
-            // search the source code for `const cached = compileCache[key];`.
-            // This issue seems to apply only to [filter.js] and not similar code in [sort.js].
-            // The reason is not yet known however Vue 3 is still in Beta at the time this code was added.
-            //
-            // ** Additional Update after latest testing - It appears the issue may have to due with
-            //    Anonymous functions on the event handler `el.addEventListener('click', function () {...})`
-            //    Other plugins such as [sort.js] use actual functions `addEventListener('click', sort.sortColumn);`
-            //    NOTE - this has not been confirmed yet and will be tested more in the future.
-            //    In the meantime this code works well with both Vue 2 and Vue 3.
+            // search the source code for `const cached = compileCache[key];` then inspect the `Scopes`
+            // variables under the `cached` object as it will have Virutal DOM elements setup.
+            // This issue applys only to [filter.js] and not similar code in [sort.js].
+            // The reason is because most filter elements are not based on data that changes from
+            // page state so the elements are kept in virtual DOM as they are last updated while
+            // sort and similar plugins update elements that change based on changes to the records.
             if (app.activeVueModel !== null && Vue.createApp !== undefined) {
                 var elements = document.querySelectorAll('[data-filter-setup="setup"],[data-set-filter-setup="setup"]');
                 Array.prototype.forEach.call(elements, function (el) {
