@@ -4,7 +4,7 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
-## 4.2.1 (Next Release, not yet published to NPM)
+## 4.2.1 (June 17, 2020)
 
 * `js/DataFormsJS.js`
   * Improvments for Vue 2 so that long running tasks can still run in the background after a user goes to a new page in an SPA.

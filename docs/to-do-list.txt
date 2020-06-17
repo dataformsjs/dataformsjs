@@ -21,15 +21,11 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Next update, likely include the build number from [package.json] in the comments of the build script.
-    Need to provide a warning that build must run once [package.json] is updated and before npm release.
-    This will be helpful when someone downloads a generic 'dataformsjs.min.js' file to know the version.
-    https://github.com/dataformsjs/dataformsjs/blob/master/scripts/build.js
-
 **) Once Vue 3 is out of beta confirm all Vue Examples and Pages work with Vue 3.
     - Currently all demos are confirmed to work with Vue 3 Beta 15 as of 2020-06-15
-    - Vue 3 Links:
+    - Vue 3 Helpfull Links:
         https://github.com/vuejs/vue-next
+        https://composition-api.vuejs.org/api.html
         https://www.vuemastery.com/blog/vue-3-start-using-it-today/
         https://vuejsdevelopers.com/2020/03/16/vue-js-tutorial/
     - Because Vue 3 is still in Beta additional changes may be needed before or after the release
