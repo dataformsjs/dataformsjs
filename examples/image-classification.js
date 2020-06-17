@@ -96,7 +96,7 @@
                 var count = model.images.length-1;
 
                 // Show image and loading message.
-                // Manual DOM updates/refresh aer not needed when using Vue.
+                // Manual DOM updates/refresh are not needed when using Vue.
                 if (app.activeController.viewEngine !== 'Vue') {
                     if (model.manualDomUpdate) {
                         model.addImage(img);
