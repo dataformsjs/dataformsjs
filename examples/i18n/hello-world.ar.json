@@ -7,6 +7,7 @@
     "with_your_name": "هذا مع اسمك.",
     "hello": "مرحبا",
     "hello_name": "مرحبًا {{اسم}}!",
+    "hello_name_vue": "مرحبًا {{اسم}}!",
     "back_home": "العودة إلى المنزل",
     "param_name": "اسم",
     "param_your_name": "اسمك",

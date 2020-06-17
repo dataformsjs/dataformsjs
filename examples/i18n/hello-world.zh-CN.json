@@ -7,6 +7,7 @@
     "with_your_name": "您的名字.",
     "hello": "Hello",
     "hello_name": "Hello {{name}}!",
+    "hello_name_vue": "Hello {{ name }}!",
     "back_home": "返回主页",
     "param_name": "name",
     "param_your_name": "您的名字",

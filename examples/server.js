@@ -81,6 +81,7 @@ app.get('/:file', (req, res, file) => {
 // using find/replace with i18n key values before sending to the client.
 //
 // http://127.0.0.1:8080/examples/hello-world/en/hbs.htm
+// http://127.0.0.1:8080/examples/hello-world/en/vue.htm
 // http://127.0.0.1:8080/examples/hello-world/en/js.htm
 // http://127.0.0.1:8080/examples/hello-world/en/web.htm
 // http://127.0.0.1:8080/examples/hello-world/en/web-url-router.htm

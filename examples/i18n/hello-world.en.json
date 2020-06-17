@@ -7,6 +7,7 @@
     "with_your_name": "with your name.",
     "hello": "Hello",
     "hello_name": "Hello {{name}}!",
+    "hello_name_vue": "Hello {{ name }}!",
     "back_home": "Back to Home",
     "param_name": "name",
     "param_your_name": "Your-Name",

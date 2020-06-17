@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>DataFormsJS - {{title}}</title>
+        <link rel="stylesheet" href="hello-world.css">
+        <link rel="canonical" href="https://www.dataformsjs.com/examples/hello-world/{{lang}}/web.htm">
+    </head>
+    <body>
+        <div id="view" dir="auto"></div>
+
+        <template data-route="/">
+            <h1>{{hello_world}}</h1>
+            <p>{{modify_this}} <a href="#/{{param_your_name}}">{{URL}}</a> {{with_your_name}}</p>
+			<div class="home-page-animation">
+                <img src="sun.svg" class="sun">
+                <div class="orbit">
+                    <img src="planet.svg" class="planet">
+                    <img src="moon.svg" class="moon">
+                </div>
+            </div>
+        </template>
+        
+        <script type="text/x-template" data-engine="vue" data-route="/:{{param_name}}">
+            <h1>{{hello_name_vue}}</h1>
+            <p><a href="#">{{back_home}}</a></p>
+        </script>
+
+        <!-- Vue 2 -->
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
+
+        <!-- Vue 3 -->
+        <!-- <script src="https://unpkg.com/vue@next"></script> -->
+
+        <!-- DataFormsJS -->
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.2.0/js/DataFormsJS.min.js"></script>
+    </body>
+</html>

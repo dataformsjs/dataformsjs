@@ -7,6 +7,7 @@
     "with_your_name": "avec votre nom.",
     "hello": "Bonjour",
     "hello_name": "Bonjour le {{nom}}!",
+    "hello_name_vue": "Bonjour le {{ nom }}!",
     "back_home": "De retour à la Accueil",
     "param_name": "nom",
     "param_your_name": "Votre-Nom",
