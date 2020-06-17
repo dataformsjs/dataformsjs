@@ -26,6 +26,12 @@ TODO List
     This will be helpful when someone downloads a generic 'dataformsjs.min.js' file to know the version.
     https://github.com/dataformsjs/dataformsjs/blob/master/scripts/build.js
 
+**) Vue 2 - Search the main [DataFormsJS.js] file for code:
+        `app.models[app.activeController.modelName] = JSON.parse(JSON.stringify(app.activeVueModel.$data));`
+    Then see related comments. This logic can likely be moved to the `loadModel(controller)` function
+    so that long running tasks can still run in the background when a user is on another page in an SPA.
+    Testing is needed with the demo [image-classification-vue.htm].
+
 **) Once Vue 3 is out of beta confirm all Vue Examples and Pages work with Vue 3.
     - Currently all demos are confirmed to work with Vue 3 Beta 15 as of 2020-06-15
     - Vue 3 Links:

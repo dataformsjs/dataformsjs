@@ -552,6 +552,17 @@
                 app.activeVueModel.$destroy();
                 // Convert data from the Vue Instance to a plain JavaScript Object
                 // and save it back to the models object.
+                //
+                // This can cause an issue for long running functions that keep running after
+                // the user moves to a new page. What happens is the original model is updated
+                // only partially and updates to the referenced `app.activeVueModel` after this
+                // code runs
+                // Example:
+                //     https://www.dataformsjs.com/examples/image-classification-vue.htm
+                // When using vue 2 upload several images then move to another tab. If you come
+                // back then the images will still show `Loading ...`. This does not affect Vue 3
+                // or other view engines such as Handlebars because the original model reference
+                // is still kept in memory at `app.models`.
                 if (app.activeController && app.activeController.modelName && app.models[app.activeController.modelName] && app.activeVueModel.$data) {
                     app.models[app.activeController.modelName] = JSON.parse(JSON.stringify(app.activeVueModel.$data));
                 }
