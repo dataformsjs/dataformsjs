@@ -53,6 +53,8 @@ TODO List
             dataformsjs\js\plugins\filter.js
             - Search code for `onRouteUnload`
               Will this still be needed on the final Vue 3 Release?
+              ** See latest code comments, a work-around in the file can likely be made.
+                 Need to test and confirm though.
         - Prevent console warning when using DataFormsJS [json-data] control?
             [Vue warn]: Failed to resolve component: json-data 
             - See search screen on places demo if using Vue 3:

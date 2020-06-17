@@ -663,6 +663,12 @@
             // search the source code for `const cached = compileCache[key];`.
             // This issue seems to apply only to [filter.js] and not similar code in [sort.js].
             // The reason is not yet known however Vue 3 is still in Beta at the time this code was added.
+            //
+            // ** Additional Update after latest testing - It appears the issue may have to due with
+            //    Anonymous functions on the event handler `el.addEventListener('click', function () {...})`
+            //    Other plugins such as [sort.js] use actual functions `addEventListener('click', sort.sortColumn);`
+            //    NOTE - this has not been confirmed yet and will be tested more in the future.
+            //    In the meantime this code works well with both Vue 2 and Vue 3.
             if (app.activeVueModel !== null && Vue.createApp !== undefined) {
                 var elements = document.querySelectorAll('[data-filter-setup="setup"],[data-set-filter-setup="setup"]');
                 Array.prototype.forEach.call(elements, function (el) {
