@@ -45,6 +45,8 @@ TODO List
             dataformsjs\examples\image-classification.js
             - Search code for `model.images = model.images.slice();`
               Will this still be needed on the final Vue 3 Release?
+            - An issue has been opened on Vue for this:
+                https://github.com/vuejs/vue-next/issues/1387
         - https://www.dataformsjs.com/examples/log-table-vue.htm#/10
             dataformsjs\js\plugins\filter.js
             - Search code for `onRouteUnload`
