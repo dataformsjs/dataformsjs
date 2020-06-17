@@ -550,20 +550,15 @@
             if (app.activeVueApp === null) {
                 // Vue 2
                 app.activeVueModel.$destroy();
-                // Convert data from the Vue Instance to a plain JavaScript Object
-                // and save it back to the models object.
-                //
-                // This can cause an issue for long running functions that keep running after
-                // the user moves to a new page. What happens is the original model is updated
-                // only partially and updates to the referenced `app.activeVueModel` after this
-                // code runs
-                // Example:
-                //     https://www.dataformsjs.com/examples/image-classification-vue.htm
-                // When using vue 2 upload several images then move to another tab. If you come
-                // back then the images will still show `Loading ...`. This does not affect Vue 3
-                // or other view engines such as Handlebars because the original model reference
-                // is still kept in memory at `app.models`.
-                if (app.activeController && app.activeController.modelName && app.models[app.activeController.modelName] && app.activeVueModel.$data) {
+                // Optionally (default: false) convert data from the Vue Instance to a
+                // plain JavaScript Object and save it back to the models object.
+                // For info on usage and example see [CHANGELOG.md] release `4.2.1`.
+                if (app.settings.clearVue2WatchersOnRouteUnload &&
+                    app.activeController &&
+                    app.activeController.modelName &&
+                    app.models[app.activeController.modelName] &&
+                    app.activeVueModel.$data
+                ) {
                     app.models[app.activeController.modelName] = JSON.parse(JSON.stringify(app.activeVueModel.$data));
                 }
             } else {
@@ -973,6 +968,7 @@
                 pageLoading: 'Error loading the current page because the previous page is still loading and is taking a long time. Please refresh the page and try again.',
             },
             lazyTemplateSelector: null,
+            clearVue2WatchersOnRouteUnload: false, // See code comments for usage
         },
 
         // References to the active objects and settings of the current view.

@@ -26,12 +26,6 @@ TODO List
     This will be helpful when someone downloads a generic 'dataformsjs.min.js' file to know the version.
     https://github.com/dataformsjs/dataformsjs/blob/master/scripts/build.js
 
-**) Vue 2 - Search the main [DataFormsJS.js] file for code:
-        `app.models[app.activeController.modelName] = JSON.parse(JSON.stringify(app.activeVueModel.$data));`
-    Then see related comments. This logic can likely be moved to the `loadModel(controller)` function
-    so that long running tasks can still run in the background when a user is on another page in an SPA.
-    Testing is needed with the demo [image-classification-vue.htm].
-
 **) Once Vue 3 is out of beta confirm all Vue Examples and Pages work with Vue 3.
     - Currently all demos are confirmed to work with Vue 3 Beta 15 as of 2020-06-15
     - Vue 3 Links:
@@ -59,8 +53,7 @@ TODO List
             dataformsjs\js\plugins\filter.js
             - Search code for `onRouteUnload`
               Will this still be needed on the final Vue 3 Release?
-              ** See latest code comments, a work-around in the file can likely be made.
-                 Need to test and confirm though.
+              Likely yes, but double-check once Vue 3 is released out of beta.
         - Prevent console warning when using DataFormsJS [json-data] control?
             [Vue warn]: Failed to resolve component: json-data 
             - See search screen on places demo if using Vue 3:
@@ -415,23 +408,6 @@ TODO List
     - For each demo the selected version should be also be used for canonical links, example:
         <link rel="canonical" href="https://www.dataformsjs.com/examples/places-demo-hbs.htm">
     - For new demos that will be excluded from the sitemap they should still have a canonical link added
-
-*) AI/ML Demos
-    - Add links back to Python server code and JS Client code once published on Github
-    - Text Content and layout of info tabs can be improved:
-        http://localhost:3000/examples/image-classification-vue.htm#/en/info
-        http://localhost:3000/examples/binary-classification-hbs.htm#/en/info
-        - SVG Graphics, more organized, etc
-    - Add an option to paste image from clipboard in addition to the file selection
-    - Image classification - If needed (for example, too many people use the demo at the same time)
-          added a [maxFiles = 30] property to limit the number of uploads at one time
-        - either show user a [confirm()] or simply show a custom element.
-        - JS Comments can mention that it can be changed manually for (Hbs/Vue) be
-          using DevTools with [app.activeModel.maxFiles = 100]
-        - This will be decided later based on site usage.
-        - Likely if many people use to to play with more low cost servers behind
-          a load balancer will be added.
-    - Possibly combine to a single demo and add more AI/ML examples such as Object Detection
 
 *) Playground Page
     - Optimization - stop/start the timers based on if the tab is active or not?

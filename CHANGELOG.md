@@ -6,7 +6,21 @@ Overall the core Framework files and API are expected to remain stable however t
 
 ## 4.2.1 (Next Release, not yet published to NPM)
 
-* `filter.js`
+* `js/DataFormsJS.js`
+  * Improvments for Vue 2 so that long running tasks can still run in the background after a user goes to a new page in an SPA.
+  * New setting added `app.settings.clearVue2WatchersOnRouteUnload` which defaults to `false`.
+  * Originally Vue 2 Instances View Models were converted back to plain JavaScript objects on route changes to reduce the number of watchers that exist in memory when a models was not for the active page.
+  * By default this will result in more Vue watchers being created on SPA's that have many pages, however for pages that have long running functions in the background that update the model the results are more predictable for the user because when they go back to the original page it will show the updates.
+  * In general this has a minimal performance impact for most apps but if needed watchers can still be cleared using the new setting.
+  * To see how this works try this example: https://www.dataformsjs.com/examples/image-classification-vue.htm
+    * When using Vue 2 upload several images then quickly move to another tab while the images are still uploading.
+    * After you have clicked off the main page type `app.models` into DevTools and you can see that the model for the main page is a Vue Model.
+    * Once you come back to the original page then the prediction should be displayed for each image.
+    * Then from DevTools execute `app.settings.clearVue2WatchersOnRouteUnload = true` and try the same steps.
+    * If you type `app.models` into DevTools from another page you will now see that the original model is a plain JavaScript object.
+    * Once you come back to the original page the images will still show `Loading ...` however there will be fewer Vue watchers for the app.
+    * This does not affect Vue 3 or other view engines such as Handlebars because the original model reference is still kept in memory at `app.models`.
+* `js/plugins/filter.js`
   * Updated anonymous functions on event handlers to used named function expressions which makes it easier to find the source code from Browser DevTools.
   * Updated code comments in `onRouteUnload()` with more details on how it works with Vue 3 compared to other plugins.
 
