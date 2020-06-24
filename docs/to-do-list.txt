@@ -197,13 +197,6 @@ TODO List
     - Possibly several development versions will be created and tested
       with the best one selected
 
-*) Need ESLint and JSHint config files - will have to be directory by directory since one directory
-    may contain Modules while another ECMA Version 5. Currently code hints and comments are used.
-    Additionally some directories [react/web-components] need overrides on specific files
-    - A recent ESLint changed added a check that breaks validation when using copy/paste from
-      a broswer. Disable in needed files by adding. Currently done in the main [DataFormsJS.js] file.
-        /* eslint no-prototype-builtins: "off" */
-
 *) Create Search Screen for the following page:
         http://127.0.0.1:8080/places-demo-web
         This requires creating a new web component (either generic or part of the app)

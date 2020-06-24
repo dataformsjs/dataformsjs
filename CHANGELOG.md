@@ -4,6 +4,11 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## Next Release (Changes on Main Branch in Github)
+
+* Added config file for ESLint `.eslintrc.js` and added `eslint` as a dev dependency in `package.json`
+  * All code is valid based on defined rules so no changes to framework code were needed.
+
 ## 4.2.1 (June 17, 2020)
 
 * `js/DataFormsJS.js`
