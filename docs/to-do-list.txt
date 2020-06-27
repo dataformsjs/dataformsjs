@@ -21,6 +21,9 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+**) Version for deno of [dataformsjs/server/app.js]
+    Allow server to start with either deno or node
+
 **) Next Release - include `Object.values` in calls to `polyfill.io` from [DataFormsJS.js] and [jsxLoader.js]
     Once added remove the manual polyfill from this page:
         https://github.com/dataformsjs/awesome-web-react/blob/master/examples/component-and-hook-libraries/react-query.htm
