@@ -131,9 +131,9 @@ The script is intended to handle most but not all JSX Syntax. An overall goal is
 
 Once this script was created all React demos for DataFormsJS were able to use it instead of Babel without having to make any JSX code changes and this is expected for most sites.
 
-### Handling node require and import statements
+### Handling node import/export statements and browser exports/require
 
-Because JSX is converted directly to JS for the browser, code that uses `require` and `import` statements for node will not work in the browser. However the `jsxLoader.js` script provides a flexible API that can be used to customize the generated code so that `import` and `require` statements or other code can be handled by the browser.
+Because JSX is converted directly to JS for the browser, code that uses `import` and `export` statements for node will not work in the browser. However the `jsxLoader.js` script provides a flexible API that can be used to customize the generated code so that `import` and `export` statements or other code can be handled by the browser.
 
 For example, if you use the following in your JSX Code:
 
@@ -141,7 +141,7 @@ For example, if you use the following in your JSX Code:
 import { useState } from 'react';
 ```
 
-Then you have two options:
+Then you have several options:
 
 1) Remove it and use `React.useState` instead of `useState` in your code. This works because `React` is a global variable for the browser.
 
@@ -149,7 +149,13 @@ Then you have two options:
 const [count, setCount] = React.useState(0);
 ```
 
-2) Add a custom find and replace update.
+2) Manually define the function to link to the global object in the JSX code.
+
+```javascript
+const useState = React.useState;
+```
+
+3) Add a custom find and replace update.
 
 ```html
 <script>
@@ -160,13 +166,28 @@ const [count, setCount] = React.useState(0);
 </script>
 ```
 
-Often components, functions, etc that need to be imported for node will exist as global variables in the browser so for browser based JSX development you can often exclude `import` and `require` statements.
+Often components, functions, etc that need to be imported for node will exist as global variables in the browser so for browser based JSX development you can often exclude `import` and `export` statements.
 
-By default the following import is automatically handled:
+By default the following import and export statements are automatically handled:
 
 ```javascript
 import React from 'react';
+export function ...
+export default class ...
 ```
+
+Related to node `import` and `export` are the browser `exports` object and `require(module)` function which are required by many React Libraries when linking to the library directly. In many cases this can be handled by simply calling `jsxLoader.addBabelPolyfills();` before loading the library from a `<script>` tag on the page.
+
+In some cases a library will load a module from `require(name)` where the name doesn't match `window.name`. For example the popular node library `classname` links to `window.className`. To handle this add a property to `jsxLoader.globalNamespaces` for mapping prior to calling `jsxLoader.addBabelPolyfills();`.
+
+```javascript
+jsxLoader.globalNamespaces.classnames = 'classNames';
+jsxLoader.addBabelPolyfills();
+```
+
+**Example usage of `jsxLoader.addBabelPolyfills()`:**
+* https://awesome-web-react.js.org/examples/ui/react-toastify.htm
+* https://awesome-web-react.js.org/examples/state-management/react-recoil.htm
 
 ### Using JavaScript that only has partial browser support
 
@@ -213,7 +234,7 @@ This also includes the JavaScript spread syntax which only has partial support f
 
 ## Code Splitting :scissors:
 
-A separated DataFormsJS React Component `<LazyLoad>` exists and allows for browser based apps to dynamically load `*.js`, `*.css`, and `*.jsx` scripts the first time they are used by a component.
+A separate DataFormsJS React Component `<LazyLoad>` exists and allows for browser based apps to dynamically load `*.js`, `*.css`, and `*.jsx` scripts the first time they are used by a component.
 
 Examples from the Places Demo App:
 * https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-react.htm

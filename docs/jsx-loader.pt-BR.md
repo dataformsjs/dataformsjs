@@ -141,7 +141,7 @@ Por exemplo, se você utilizar o seguinte em seu código JSX:
 import { useState } from 'react';
 ```
 
-Então você tem duas opções:
+Então você tem várias opções:
 
 1) Remova-o e utilize `React.useState` ao invés de `useState` em seu código. Isso funciona porque `React` é uma variável flobal para o navegador.
 
@@ -149,7 +149,13 @@ Então você tem duas opções:
 const [count, setCount] = React.useState(0);
 ```
 
-2) Adicione um find e replace personalizado.
+2) Manually define the function to link to the global object in the JSX code.
+
+```javascript
+const useState = React.useState;
+```
+
+3) Adicione um find e replace personalizado.
 
 ```html
 <script>
@@ -166,7 +172,22 @@ Por padrão, o seguinte import é automaticamente tratado:
 
 ```javascript
 import React from 'react';
+export function ...
+export default class ...
 ```
+
+Related to node `import` and `export` are the browser `exports` object and `require(module)` function which are required by many React Libraries when linking to the library directly. In many cases this can be handled by simply calling `jsxLoader.addBabelPolyfills();` before loading the library from a `<script>` tag on the page.
+
+In some cases a library will load a module from `require(name)` where the name doesn't match `window.name`. For example the popular node library `classname` links to `window.className`. To handle this add a property to `jsxLoader.globalNamespaces` for mapping prior to calling `jsxLoader.addBabelPolyfills();`.
+
+```javascript
+jsxLoader.globalNamespaces.classnames = 'classNames';
+jsxLoader.addBabelPolyfills();
+```
+
+**Example usage of `jsxLoader.addBabelPolyfills()`:**
+* https://awesome-web-react.js.org/examples/ui/react-toastify.htm
+* https://awesome-web-react.js.org/examples/state-management/react-recoil.htm
 
 ### Utilizando JavaScript que somente tem suporte de navegador parcial
 

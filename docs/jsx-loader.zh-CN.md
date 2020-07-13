@@ -141,7 +141,7 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
 import { useState } from 'react';
 ```
 
-然后您有两个选择:
+然后，您有几种选择：
 
 1) 删除它并在代码中使用`React.useState`而不是`useState`.之所以可以运行是因为`React`浏览器的全局变量.
 
@@ -149,7 +149,13 @@ import { useState } from 'react';
 const [count, setCount] = React.useState(0);
 ```
 
-2) 添加自定义查找和替换更新.
+2) Manually define the function to link to the global object in the JSX code.
+
+```javascript
+const useState = React.useState;
+```
+
+3) 添加自定义查找和替换更新.
 
 ```html
 <script>
@@ -166,7 +172,22 @@ const [count, setCount] = React.useState(0);
 
 ```javascript
 import React from 'react';
+export function ...
+export default class ...
 ```
+
+Related to node `import` and `export` are the browser `exports` object and `require(module)` function which are required by many React Libraries when linking to the library directly. In many cases this can be handled by simply calling `jsxLoader.addBabelPolyfills();` before loading the library from a `<script>` tag on the page.
+
+In some cases a library will load a module from `require(name)` where the name doesn't match `window.name`. For example the popular node library `classname` links to `window.className`. To handle this add a property to `jsxLoader.globalNamespaces` for mapping prior to calling `jsxLoader.addBabelPolyfills();`.
+
+```javascript
+jsxLoader.globalNamespaces.classnames = 'classNames';
+jsxLoader.addBabelPolyfills();
+```
+
+**Example usage of `jsxLoader.addBabelPolyfills()`:**
+* https://awesome-web-react.js.org/examples/ui/react-toastify.htm
+* https://awesome-web-react.js.org/examples/state-management/react-recoil.htm
 
 ### 使用只支持部分浏览器的JavaScript
 
