@@ -4,11 +4,12 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
-## Next Release (Changes on Main Branch in Github)
+## 4.2.2 (July 13, 2020)
 
 * `js/react/jsxLoader.js`
   * Added `jsxLoader.globalNamespaces` and improved `jsxLoader.addBabelPolyfills()` so that global namespaces can be defined more with less code and so that more modules are handled automatically. This is being added for a new demo with `React-Toastify` at https://awesome-web-react.js.org/ which will be published after the new release.
-  * Added `Object.values` to `jsxLoader.polyfillUrl`. This prevents the need for manually linking to the polyfill on libraries that require it. Example in `React Query`: https://awesome-web-react.js.org/examples/component-and-hook-libraries/react-query.htm
+  * Added `Object.values` and `Array.prototype.findIndex` to `jsxLoader.polyfillUrl`.
+  * Updated 'jsxLoader.babelUrl' from version `7.8.4` to version `7.10.4`. New URL: `https://unpkg.com/@babel/standalone@7.10.4/babel.js`
 * Added config file for ESLint `.eslintrc.js` and added `eslint` as a dev dependency in `package.json`
   * All code is valid based on defined rules so no changes to framework code were needed.
 

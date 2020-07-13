@@ -1,5 +1,5 @@
 // @link https://www.dataformsjs.com
-// @version 4.2.1
+// @version 4.2.2
 // @author Conrad Sollitt (http://www.conradsollitt.com)
 // @license MIT
 "use strict";
@@ -12,19 +12,23 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.DataFormsJS = exports.SortableTable = exports.LeafletMap = exports.LazyLoad = exports.JsonData = exports.InputFilter = exports.I18n = exports.Format = exports.ErrorBoundary = exports.Cache = void 0;
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return !!right[Symbol.hasInstance](left); } else { return left instanceof right; } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _classCallCheck(instance, Constructor) { if (!_instanceof(instance, Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -63,12 +67,14 @@ exports.Cache = Cache;
 var ErrorBoundary = function (_React$Component) {
   _inherits(ErrorBoundary, _React$Component);
 
+  var _super = _createSuper(ErrorBoundary);
+
   function ErrorBoundary(props) {
     var _this;
 
     _classCallCheck(this, ErrorBoundary);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(ErrorBoundary).call(this, props));
+    _this = _super.call(this, props);
     _this.state = {
       error: null,
       errorInfo: null
@@ -423,12 +429,14 @@ exports.I18n = I18n;
 var InputFilter = function (_React$Component2) {
   _inherits(InputFilter, _React$Component2);
 
+  var _super2 = _createSuper(InputFilter);
+
   function InputFilter(props) {
     var _this2;
 
     _classCallCheck(this, InputFilter);
 
-    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(InputFilter).call(this, props));
+    _this2 = _super2.call(this, props);
     _this2.onChange = _this2.onChange.bind(_assertThisInitialized(_this2));
     _this2.input = React.createRef();
     return _this2;
@@ -640,12 +648,14 @@ function IsLoaded(props) {
 var JsonData = function (_React$Component3) {
   _inherits(JsonData, _React$Component3);
 
+  var _super3 = _createSuper(JsonData);
+
   function JsonData(props) {
     var _this3;
 
     _classCallCheck(this, JsonData);
 
-    _this3 = _possibleConstructorReturn(this, _getPrototypeOf(JsonData).call(this, props));
+    _this3 = _super3.call(this, props);
     _this3._isFetching = false;
     _this3._isMounted = false;
     _this3.fetchData = _this3.fetchData.bind(_assertThisInitialized(_this3));
@@ -921,12 +931,14 @@ exports.JsonData = JsonData;
 var LazyLoad = function (_React$Component4) {
   _inherits(LazyLoad, _React$Component4);
 
+  var _super4 = _createSuper(LazyLoad);
+
   function LazyLoad(props) {
     var _this5;
 
     _classCallCheck(this, LazyLoad);
 
-    _this5 = _possibleConstructorReturn(this, _getPrototypeOf(LazyLoad).call(this, props));
+    _this5 = _super4.call(this, props);
     _this5.state = {
       isReady: false
     };
@@ -1158,12 +1170,14 @@ exports.LazyLoad = LazyLoad;
 var LeafletMap = function (_React$Component5) {
   _inherits(LeafletMap, _React$Component5);
 
+  var _super5 = _createSuper(LeafletMap);
+
   function LeafletMap(props) {
     var _this7;
 
     _classCallCheck(this, LeafletMap);
 
-    _this7 = _possibleConstructorReturn(this, _getPrototypeOf(LeafletMap).call(this, props));
+    _this7 = _super5.call(this, props);
     _this7.div = React.createRef();
     return _this7;
   }
@@ -1228,12 +1242,14 @@ exports.LeafletMap = LeafletMap;
 var SortableTable = function (_React$Component6) {
   _inherits(SortableTable, _React$Component6);
 
+  var _super6 = _createSuper(SortableTable);
+
   function SortableTable(props) {
     var _this8;
 
     _classCallCheck(this, SortableTable);
 
-    _this8 = _possibleConstructorReturn(this, _getPrototypeOf(SortableTable).call(this, props));
+    _this8 = _super6.call(this, props);
     _this8.sortColumn = _this8.sortColumn.bind(_assertThisInitialized(_this8));
     _this8.table = React.createRef();
     return _this8;
