@@ -44,11 +44,11 @@ describe('jsxLoader.js', function() {
         });
 
         it('should have jsxLoader.polyfillUrl', function() {
-            expect(jsxLoader).to.have.property('polyfillUrl', 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Array.prototype.find,Object.assign,Object.keys,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat,WeakSet,Symbol,Number.isInteger,String.prototype.codePointAt,String.fromCodePoint');
+            expect(jsxLoader).to.have.property('polyfillUrl', 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Array.prototype.find,Array.prototype.findIndex,Object.assign,Object.keys,Object.values,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat,WeakSet,Symbol,Number.isInteger,String.prototype.codePointAt,String.fromCodePoint');
         });
 
         it('should have jsxLoader.babelUrl', function() {
-            expect(jsxLoader).to.have.property('babelUrl', 'https://unpkg.com/@babel/standalone@7.8.4/babel.min.js');
+            expect(jsxLoader).to.have.property('babelUrl', 'https://unpkg.com/@babel/standalone@7.10.4/babel.js');
         });
 
         it('should have jsxLoader.babelOptions', function() {
@@ -86,6 +86,20 @@ describe('jsxLoader.js', function() {
                 list.push({ find: /import preact from"preact";/g, replace: '' });
             }
             expect(jsxLoader.jsUpdates).to.deep.equal(list);
+        });
+
+        it('should have jsxLoader.globalNamespaces', function() {
+            var namesspaces = {
+                'react': 'React',
+                'react-dom': 'ReactDom',
+            };
+            if (window.preact !== undefined) {
+                namesspaces = {
+                    'react': 'preact',
+                    'react-dom': 'preact',
+                };
+            }
+            expect(jsxLoader.globalNamespaces).to.deep.equal(namesspaces);
         });
 
         it('should have jsxLoader.isSupportedBrowser start with null', function() {

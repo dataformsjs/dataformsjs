@@ -97,12 +97,12 @@
         /**
          * Polyfill URL that is used for older browsers
          */
-        polyfillUrl: 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Array.prototype.find,Object.assign,Object.keys,Object.values,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat,WeakSet,Symbol,Number.isInteger,String.prototype.codePointAt,String.fromCodePoint',
+        polyfillUrl: 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Array.prototype.find,Array.prototype.findIndex,Object.assign,Object.keys,Object.values,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat,WeakSet,Symbol,Number.isInteger,String.prototype.codePointAt,String.fromCodePoint',
 
         /**
          * Babel URL and options used for older browsers.
          */
-        babelUrl: 'https://unpkg.com/@babel/standalone@7.8.4/babel.min.js',
+        babelUrl: 'https://unpkg.com/@babel/standalone@7.10.4/babel.js',
         babelOptions: { presets: ['es2015', 'react'] },
 
         /**
