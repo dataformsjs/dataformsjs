@@ -178,7 +178,7 @@ export default class ...
 
 Related to node `import` and `export` are the browser `exports` object and `require(module)` function which are required by many React Libraries when linking to the library directly. In many cases this can be handled by simply calling `jsxLoader.addBabelPolyfills();` before loading the library from a `<script>` tag on the page.
 
-In some cases a library will load a module from `require(name)` where the name doesn't match `window.name`. For example the popular node library `classname` links to `window.className`. To handle this add a property to `jsxLoader.globalNamespaces` for mapping prior to calling `jsxLoader.addBabelPolyfills();`.
+In some cases a library will load a module from `require(name)` where the name doesn't match `window.name`. For example the popular node library `classnames` links to `window.classNames`. To handle this add a property to `jsxLoader.globalNamespaces` for mapping prior to calling `jsxLoader.addBabelPolyfills();`.
 
 ```javascript
 jsxLoader.globalNamespaces.classnames = 'classNames';
