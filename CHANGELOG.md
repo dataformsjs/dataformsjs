@@ -6,13 +6,16 @@ Overall the core Framework files and API are expected to remain stable however t
 
 ## Next Release (Changes on Main Branch in Github)
 
+* `js/react/jsxLoader.js`
+  * Added `jsxLoader.globalNamespaces` and improved `jsxLoader.addBabelPolyfills()` so that global namespaces can be defined more with less code and so that more modules are handled automatically. This is being added for a new demo with `React-Toastify` at https://awesome-web-react.js.org/ which will be published after the new release.
+  * Added `Object.values` to `jsxLoader.polyfillUrl`. This prevents the need for manually linking to the polyfill on libraries that require it. Example in `React Query`: https://awesome-web-react.js.org/examples/component-and-hook-libraries/react-query.htm
 * Added config file for ESLint `.eslintrc.js` and added `eslint` as a dev dependency in `package.json`
   * All code is valid based on defined rules so no changes to framework code were needed.
 
 ## 4.2.1 (June 17, 2020)
 
 * `js/DataFormsJS.js`
-  * Improvments for Vue 2 so that long running tasks can still run in the background after a user goes to a new page in an SPA.
+  * Improvements for Vue 2 so that long running tasks can still run in the background after a user goes to a new page in an SPA.
   * New setting added `app.settings.clearVue2WatchersOnRouteUnload` which defaults to `false`.
   * Originally Vue 2 Instances View Models were converted back to plain JavaScript objects on route changes to reduce the number of watchers that exist in memory when a models was not for the active page.
   * By default this will result in more Vue watchers being created on SPA's that have many pages, however for pages that have long running functions in the background that update the model the results are more predictable for the user because when they go back to the original page it will show the updates.

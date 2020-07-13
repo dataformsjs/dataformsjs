@@ -97,7 +97,7 @@
         /**
          * Polyfill URL that is used for older browsers
          */
-        polyfillUrl: 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Array.prototype.find,Object.assign,Object.keys,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat,WeakSet,Symbol,Number.isInteger,String.prototype.codePointAt,String.fromCodePoint',
+        polyfillUrl: 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Array.prototype.find,Object.assign,Object.keys,Object.values,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat,WeakSet,Symbol,Number.isInteger,String.prototype.codePointAt,String.fromCodePoint',
 
         /**
          * Babel URL and options used for older browsers.
@@ -163,6 +163,19 @@
         ],
 
         /**
+         * Used with `jsxLoader.addBabelPolyfills()`. If called this maps
+         * module names from `require(name)` to a global browser module:
+         *
+         * Example:
+         *     require('react')     => window.React
+         *     require('react-dom') => window.ReactDOM
+         */
+        globalNamespaces: {
+            'react': 'React',
+            'react-dom': 'ReactDom',
+        },
+
+        /**
          * This property gets set to either `true` or `false` depending on `evalCode`.
          * When `false` it means that Babel was downloaded and used to compile JSX.
          */
@@ -195,19 +208,11 @@
             this.jsUpdates.push({ find: /import preact from 'preact';/g, replace: '' });
             this.jsUpdates.push({ find: /import preact from"preact";/g, replace: '' });
 
-            // Overwrite the Pollyfill function for React when Babel is used (IE 11, old iOS/Safari, etc)
-            this.addBabelPolyfills = function() {
-                window.exports = window;
-                window.require = function(module) {
-                    switch (module) {
-                        case 'react':
-                        case 'react-dom':
-                            return window.preact;
-                        default:
-                            return window[module];
-                    }
-                };
-            };
+            // Update global namespaces to use Preact instead of React for when
+            // Babel is used (IE 11, old iOS/Safari, etc).
+            // This also applies to if the app calls `jsxLoader.addBabelPolyfills()`.
+            this.globalNamespaces.react = 'preact';
+            this.globalNamespaces['react-dom'] = 'preact';
         },
 
         /**
@@ -373,18 +378,47 @@
          * This function is called automatically if needed when the page loads
          * if Babel is being used and it can be overwritten if needed by the
          * calling page before the `DOMContentLoaded` even runs.
+         *
+         * For the browser this defines `exports` as the global window object
+         * and a global `require(module)` function.
          */
         addBabelPolyfills: function() {
             window.exports = window;
             window.require = function(module) {
-                switch (module) {
-                    case 'react':
-                        return window.React;
-                    case 'react-dom':
-                        return window.ReactDOM;
-                    default:
-                        return window[module];
+                var obj,
+                    name;
+
+                // Map module string name to a specified global namespace object.
+                // By default two namespaces are handled:
+                //   'react'     => window.React
+                //   'react-dom' => window.ReactDOM
+                if (jsxLoader.globalNamespaces[module] !== undefined) {
+                    obj = window[jsxLoader.globalNamespaces[module]];
+                    if (obj !== undefined) {
+                        return obj;
+                    }
                 }
+
+                // Map module to global window object. If not found attempt
+                // to map it based on common module naming rules.
+                obj = window[module];
+                if (obj === undefined) {
+                    // Handle module names that contain a '-' character
+                    if (module.indexOf('-') !== -1) {
+                        // Example: 'prop-types' => 'PropTypes'
+                        name = module.split('-').map(function(s) {
+                            return s.substr(0, 1).toUpperCase() + s.substr(1);
+                        }).join('');
+
+                        // Example: 'react-transition-group' => 'reactTransitionGroup'
+                        obj = window[name];
+                        if (obj === undefined) {
+                            name = name.substr(0, 1).toLowerCase() + name.substr(1);
+                            obj = window[name];
+                        }
+                    }
+                }
+                return obj;
             };
         },
 
