@@ -26,6 +26,9 @@ TODO List
 
 **) Once Vue 3 is out of beta confirm all Vue Examples and Pages work with Vue 3.
     - Currently all demos are confirmed to work with Vue 3 Beta 15 as of 2020-06-15
+    - Update 2020-07-27
+        With latest build - v3.0.0 (RC 4) two minor unit tests broke related to very specific HTML but everything works
+        https://www.dataformsjs.com/unit-testing/vue-3#/
     - Vue 3 Helpfull Links:
         https://github.com/vuejs/vue-next
         https://composition-api.vuejs.org/api.html
