@@ -31,6 +31,19 @@ TODO List
         - React and Web Component versions may be created now or added to list for creating in the future
         - Add a Unit Test for the new `onAllowRouteChange(path)` API function
 
+**) https://github.com/dataformsjs/awesome-web-react
+    - Create and Mobile Favicons, example: 
+        <link rel="apple-touch-icon" href="/img/favicons/apple-touch-icon-120.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicons/apple-touch-icon-152.png">
+        <link rel="apple-touch-icon" sizes="167x167" href="/img/favicons/apple-touch-icon-167.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicons/apple-touch-icon-180.png">
+        <link rel="icon" sizes="32x32" href="/img/favicons/DataFormsJS-32x32.png">
+        <link rel="icon" sizes="144x144" href="/img/favicons/DataFormsJS-144x144.png">
+        <link rel="icon" sizes="192x192" href="/img/favicons/DataFormsJS-192x192.png">
+        <link rel="icon" sizes="196x196" href="/img/favicons/DataFormsJS-196x196.png">
+    - Images will likely be created from Sketch App
+    - Finish adding images for each item
+
 **) Once Vue 3 is out of beta confirm all Vue Examples and Pages work with Vue 3.
     - Currently all demos are confirmed to work with Vue 3 Beta 15 as of 2020-06-15
     - Update 2020-07-27
