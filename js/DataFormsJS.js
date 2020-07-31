@@ -517,6 +517,24 @@
             path = '/';
         }
 
+        // Allow plugins to cancel the route change. This is not a common
+        // event and was created so that DataFormsJS can be used with one page sites
+        // rather than Single Page Apps (SPA).
+        for (plugin in app.plugins) {
+            if (app.plugins.hasOwnProperty(plugin) && app.plugins[plugin].onAllowRouteChange !== undefined) {
+                try {
+                    var changeRoute = app.plugins[plugin].onAllowRouteChange(path);
+                    if (changeRoute === false) {
+                        isLoadingRoute = false;
+                        return;
+                    }
+                } catch (e) {
+                    app.showErrorAlert('Error from Plugin [' + plugin + '] on [onAllowRouteChange()]: ' + e.toString());
+                    console.error(e);
+                }
+            }
+        }
+
         // Make sure all loaded JS Controls are unloaded
         app.unloadAllJsControls();
 

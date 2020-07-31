@@ -4,6 +4,18 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## Next Release (Changes on main branch but not published to npm)
+
+* New Framework Plugin `js/plugins/onePageSite.js`
+  * This plugin allows for one page style web sites where a nav link will scroll to a target element on the page.
+  * By default DataFormsJS is used for single page apps however when using this script other framework plugins and controls can be easily used with one page sites.
+  * Demo Pages:
+    * `examples/one-page-site-hbs.htm`
+    * `examples/one-page-and-spa-hbs.htm`
+* `js/DataFormsJS.js`
+  * Added new API function for plugins `onAllowRouteChange(path)` that allows for pluings to cancel the route from changing on Single Page Apps (SPA)
+  * This API function was created for the new `onePageSite.js` plugin
+
 ## 4.2.2 (July 13, 2020)
 
 * `js/react/jsxLoader.js`

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>One Page and SPA Demo</title>
+        <style>
+            body { padding:20px 40px; }
+            nav { padding:1em; }
+            nav a { padding:10px; }
+            nav a.active { color:white; background-color:darkblue; }
+            .align-right { text-align:right; }
+            p { padding: 1em; }
+            table { border-collapse:collapse; margin-top:40px; }
+            thead { background-color:darkgreen; color:white; }
+            th, td { padding:0.5em 1em; border:1px solid darkgreen; }
+            tr:nth-child(even) { background-color: lightgreen; }
+            .error { padding:1em; color:white; background-color:red; }
+
+            section { width:100%; height: 600px; }
+            #test1 { background-color: red; }
+            #test2 { background-color: blue; }
+            #test3 { background-color: green; }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <a href="#/">Home</a>
+            <a href="#/page1">Page 1</a>
+            <a href="#/page2">Page 2</a>
+            <a href="#/json-data/US">Json Data</a>
+        </nav>
+
+        <div id="view"></div>
+
+        <script type="text/x-template" data-engine="handlebars" id="counter-page">
+            <p data-change-border><strong>Page Loaded Counter:</strong> {{counter}}</p>
+            <p class="change-border"><strong>Page Last Refreshed:</strong> {{formatTime (now)}}</p>
+            <p class="change-border"><strong>Page Name:</strong> {{ pageName }}</p>
+        </script>
+
+        <template data-route="/">
+            <ul>
+                <a href="#test1" data-one-page>Test 1</a>
+                <a href="#test2" data-one-page>Test 2</a>
+                <a href="#test3" data-one-page>Test 3</a>
+            </ul>
+
+            <section id="test1"></section>
+            <section id="test2"></section>
+            <section id="test3"></section>
+        </template>
+
+        <!-- templates/page-object.js -->
+        <!--
+            Model properties can be optionally defined from HTML as shown
+            with the custom attribute [data-page-name] which becomes [pageName].
+        -->
+        <script type="text/x-template" data-engine="handlebars" data-route="/page1" data-page="pageName" data-page-name="Page1">
+            <div data-template-id="counter-page"></div>
+        </script>
+        <script type="text/x-template" data-engine="handlebars" data-route="/page2" data-page="pageName" data-page-name="Page2">
+            <div data-template-id="counter-page"></div>
+        </script>
+
+        <!-- templates/page-from-jsonData.js -->
+        <!--
+            Adding the attribute [data-load-only-once="true"]
+            will cause the data to only load the first time the view is loaded
+            (or when the parameters change).
+        -->
+        <script
+            type="text/x-template"
+            data-engine="handlebars"
+            data-route="/json-data/:country"
+            data-page="customPage"
+            data-url="https://www.dataformsjs.com/data/geonames/regions/:country">
+
+            {{#if isLoading}}<h3>Loading...</h3>{{/if}}
+            {{#if hasError}}<h3 class="error">{{errorMessage}}</h3>{{/if}}
+            {{#if isLoaded}}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Population</th>
+                            <th>Timezone</th>
+                            <th>Date Last Modified</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each regions}}
+                        <tr>
+                            <td>{{admin1_code}}</td>
+                            <td>{{name}}</td>
+                            <td class="align-right">{{formatNumber population}}</td>
+                            <td>{{timezone}}</td>
+                            <td class="align-right">{{formatDate modification_date}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            {{/if}}
+        </script>
+
+        <!-- Handlebars and Helper -->
+        <script src="https://cdn.jsdelivr.net/npm/handlebars@4.5.1/dist/handlebars.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.2.2/js/extensions/handlebars-helpers.min.js"></script>
+
+        <!-- DataFormsJS Standard Files -->
+        <script src="../js/DataFormsJS.js"></script>
+        <script src="../js/plugins/onePageSite.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.2.2/js/plugins/navLinks.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.2.2/js/pages/jsonData.min.js"></script>
+
+        <!-- DataFormsJS Template Files -->
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.2.2/js/templates/page-object.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.2.2/js/templates/page-from-jsonData.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.2.2/js/templates/plugin-function.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.2.2/js/templates/plugin-object.min.js"></script>
+        <!-- For an example of [page-from-entryForm.js] search the source code -->
+    </body>
+</html>

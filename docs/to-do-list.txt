@@ -21,8 +21,15 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Version for deno of [dataformsjs/server/app.js]
-    Allow server to start with either deno or node
+**) Finish updates for next release which will likely be published in early August 2020
+    - [js/plugins/onePageSite.js] and the new Plugin API: onAllowRouteChange
+        - Demo files: [examples/one-page-site-hbs.htm]  and [examples/one-page-and-spa-hbs.htm]
+            - Vue version also needed
+            - File is very ugly and in early state, it needs to look good and should have side nav menu
+        - Depending on how long it takes the hash URL of the current page should update to the 
+            target section as the user scrolls the page.
+        - React and Web Component versions may be created now or added to list for creating in the future
+        - Add a Unit Test for the new `onAllowRouteChange(path)` API function
 
 **) Once Vue 3 is out of beta confirm all Vue Examples and Pages work with Vue 3.
     - Currently all demos are confirmed to work with Vue 3 Beta 15 as of 2020-06-15
@@ -125,6 +132,9 @@ TODO List
         Need a React Version
     - Will likely use https://react-hook-form.com/ for React Form Demos
     - The [edit all] list page from the HBS demo is not required at first it it takes too long
+
+*) Version for deno of [dataformsjs/server/app.js]
+    Allow server to start with either deno or node
 
 *) Possibly link to Unit Tests from the footer on the main site
     - Current URL (hidden - not linked from anywhere):
