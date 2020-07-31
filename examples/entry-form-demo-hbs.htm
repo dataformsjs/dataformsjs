@@ -25,7 +25,7 @@
             [data-add-button] {
                 font-weight: bold;
             }
-            
+
             input[type='checkbox'] { width: 32px; }
 
             .table { background-color:white; }
@@ -67,7 +67,7 @@
         </script>
 
         <!--
-            When using [data-page="entryForm"] 
+            When using [data-page="entryForm"]
             with [data-new-record="true"] the attribute [data-url]
             is optional. It it used here to populate the drop-down list
         -->
@@ -116,12 +116,22 @@
             With:
                 data-page="customEntryForm"
         -->
-        
+
         <script>
             (function() {
                 // Create a Plugin that Generates and Saves an API Key on first use.
                 // The key will be saved to the user's local storage and submitted
                 // with JSON Requests in the header ['Authorization' => 'Bearer {key}'].
+                //
+                // IMPORTANT - Storing Security Tokens in `localStorage` can be a security
+                // risk for Cross Site Scripting (XSS) attacks so careful consideration
+                // should be made in regards to storing tokens in a large public facing app.
+                //
+                // In general the safe alternative would be to store tokens in HttpOnly cookies,
+                // however CSRF security concerns need to be taken into account when using cookies.
+                //
+                // This app uses only temporary demo data with known JavaScript files so security
+                // is not a concern for this demo.
                 var apiKeyPlugin = {
                     onRouteLoad: function(next) {
                         // Check if loaded in memory
