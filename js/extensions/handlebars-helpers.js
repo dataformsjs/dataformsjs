@@ -549,6 +549,14 @@
         Handlebars.registerHelper('upperCase', function (value) {
             return String(value).toUpperCase();
         });
+
+        /**
+         * Encode an object as a JSON value, this is useful when adding related
+         * object data for an element in a [data-*] attribute of the element.
+         */
+        Handlebars.registerHelper('jsonEncode', function (obj) {
+            return JSON.stringify(obj);
+        });
     }
 
     // Load helpers once document is ready

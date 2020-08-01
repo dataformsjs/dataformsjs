@@ -6,6 +6,9 @@ Overall the core Framework files and API are expected to remain stable however t
 
 ## Next Release (Changes on main branch but not published to npm)
 
+* New Feature - Image Gallery
+  * Framework Plugin: `js/plugins/imageGallery.js`
+  * Web Component: `js/web-components/image-gallery.js`
 * New Framework Plugin `js/plugins/onePageSite.js`
   * This plugin allows for one page style web sites where a nav link will scroll to a target element on the page.
   * By default DataFormsJS is used for single page apps however when using this script other framework plugins and controls can be easily used with one page sites.
@@ -13,8 +16,10 @@ Overall the core Framework files and API are expected to remain stable however t
     * `examples/one-page-site-hbs.htm`
     * `examples/one-page-and-spa-hbs.htm`
 * `js/DataFormsJS.js`
-  * Added new API function for plugins `onAllowRouteChange(path)` that allows for pluings to cancel the route from changing on Single Page Apps (SPA)
+  * Added new API function for plugins `onAllowRouteChange(path)` that allows for plugins to cancel the route from changing on Single Page Apps (SPA)
   * This API function was created for the new `onePageSite.js` plugin
+* `js/extensions/handlebars-helpers.js`
+  * New Helper function `jsonEncode` - Encode an object as a JSON value, this is useful when adding related object data for an element in a [data-*] attribute of the element.
 
 ## 4.2.2 (July 13, 2020)
 

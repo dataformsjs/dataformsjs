@@ -30,6 +30,13 @@ TODO List
             target section as the user scrolls the page.
         - React and Web Component versions may be created now or added to list for creating in the future
         - Add a Unit Test for the new `onAllowRouteChange(path)` API function
+    - New Image Gallery Feature
+        - Finish React Version <ImageGallery> - Code is currently not checked into source
+        - Create Demo Pages, in the meantime the author's personal site shows how to use the web component:
+            http://conradsollitt.com/
+        - Possibly include a built-in loading indicator for images that load slowly (example on mobile)
+            This can wait until the future and is not required.
+    - Add Unit Test for new Handlebars Helper: jsonEncode
 
 **) https://github.com/dataformsjs/awesome-web-react
     - Create and Mobile Favicons, example: 
