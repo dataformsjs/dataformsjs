@@ -135,13 +135,13 @@
             this.overlay = document.createElement('div');
             this.overlay.className = 'image-gallery-overlay';
             this.overlayImg = document.createElement('img');
+            this.overlayImg.addEventListener('load', this.preloadNextImages.bind(this));
             this.overlayImg.src = this.getImageSource(imageIndex);
             this.imageIndex = imageIndex;
             this.overlay.appendChild(this.overlayImg);
             this.addOverlayEvents();
             document.documentElement.appendChild(this.overlay);
             document.querySelector('body').classList.add('blur');
-            this.preloadNextImages();
         },
 
         addOverlayEvents: function() {
@@ -182,8 +182,8 @@
             } else {
                 this.imageIndex = (this.imageIndex === 0 ? this.imageCount - 1 : this.imageIndex - 1);
             }
+            this.overlayImg.src = '';
             this.overlayImg.src = this.getImageSource(this.imageIndex);
-            this.preloadNextImages();
         },
 
         // Preload Images when viewing a larger image from a thumbnail.

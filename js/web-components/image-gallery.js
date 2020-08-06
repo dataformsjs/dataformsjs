@@ -95,12 +95,12 @@ function showOverlay() {
     overlay = document.createElement('div');
     overlay.className = 'image-gallery-overlay';
     overlayImg = document.createElement('img');
+    overlayImg.addEventListener('load', preloadNextImages);
     overlayImg.src = images[imageIndex].getAttribute('image');
     overlay.appendChild(overlayImg);
     addOverlayEvents();
     document.documentElement.appendChild(overlay);
     document.querySelector('body').classList.add('blur');
-    preloadNextImages();
 }
 
 function loadCss() {
@@ -190,8 +190,8 @@ function changeImage(direction) {
     } else {
         imageIndex = (imageIndex === 0 ? imageCount - 1 : imageIndex - 1);
     }
+    overlayImg.src = '';
     overlayImg.src = images[imageIndex].getAttribute('image');
-    preloadNextImages();
 }
 
 /**
