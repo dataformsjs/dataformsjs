@@ -36,6 +36,8 @@ TODO List
             http://conradsollitt.com/
         - Possibly include a built-in loading indicator for images that load slowly (example on mobile)
             This can wait until the future and is not required.
+        - Early New Demo Page:
+            examples/image-gallery-demo-web.htm
     - Add Unit Test for new Handlebars Helper: jsonEncode
 
 **) https://github.com/dataformsjs/awesome-web-react

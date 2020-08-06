@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Image Gallery Demo</title>
+        <style>           
+            /* Reset */
+            * { margin:0; padding:0; }
+
+            /* Prevent custom web components from appearing during initial page rendering */
+            json-data:not(:defined),
+            is-loading:not(:defined),
+            has-error:not(:defined),
+            is-loaded:not(:defined) { display:none; }
+
+            /* Using 'Native font stack' - See Bootstrap 4 Docs for info on 'Native font stack' */
+            html {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            }
+
+            /* Main element layout */
+            html, body, #root { height:100%; margin:0; }
+
+            /* CSS Variables */
+            :root {
+                --shadow-1: 0 1px 5px 0 rgba(0,0,0,.5);
+                --bg-color: hsl(210, 90%, 97%);
+                --font-color: hsla(210, 90%, 25%, 1);
+            }
+
+            /* Page Elements */
+
+            body {
+                display: flex;
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+                background-color: var(--bg-color);
+                color: var(--font-color);
+            }
+
+            .error { background-color: red; border: 2px solid darkred; color: white; padding: 1em; margin: 1em; display: block; }
+
+            .images {
+                list-style-type: none;
+                margin-bottom: 60px;
+            }
+
+            .images li {
+                display: block;
+                margin: 40px;
+                box-shadow: var(--shadow-1);
+                background-color: white;
+                border-radius: 10px;
+            }
+
+            .images image-gallery {
+                width: 100%;
+                height: 400px;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+                box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.7);
+            }
+
+            @media (min-width: 600px) {
+                .images {
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: start;
+                    justify-content: center;    
+                }
+
+                .images image-gallery {
+                    width: 550px;
+                    height: 350px;
+                }
+            }
+
+            /* Show the loading screen only if it appears for longer than a second */
+            .loading {
+                /* Layout and Style */
+                background-color: blue;
+                border: 2px solid darkblue;
+                color: white;
+                padding: 1em;
+                margin: 1em;
+                display: block;
+                /* Animation */
+                opacity: 0;
+                animation-name: show-after-delay;
+                animation-delay: 1s;
+                animation-duration: 0s;
+                animation-timing-function: linear;
+                animation-fill-mode: forwards;
+            }
+            @keyframes show-after-delay {
+                0% { opacity: 0; }
+                100% { opacity: 1; }
+            }
+        </style>
+    </head>
+    <body>
+        <json-data url="https://dataformsjs.s3-us-west-1.amazonaws.com/img/example-images/index.json">
+            <is-loading>
+                <span class="loading">Loading Photos...</span>
+            </is-loading>
+            <has-error>
+                <h2 class="error">Error loading photos</h2>
+                <span class="error" data-bind="errorMessage"></span>
+            </has-error>
+            <is-loaded>
+                <data-list
+                    data-bind="images"
+                    template-selector="#image"
+                    root-element="ul"
+                    root-class="images">
+                </data-list>
+            </is-loaded>
+        </json-data>
+
+        <template id="image">
+            <li>
+                <image-gallery
+                    image="https://dataformsjs.s3-us-west-1.amazonaws.com/img/example-images/${image}"
+                    style="background-image: url('https://dataformsjs.s3-us-west-1.amazonaws.com/img/example-images/${thumbnail}');">
+                </image-gallery>
+            </li>
+        </template>
+        
+        <!--
+            DataFormsJS Web Components
+            https://www.dataformsjs.com/
+        -->
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.2.2/js/web-components/json-data.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.2.2/js/web-components/data-list.min.js"></script>
+        <script type="module" src="../js/web-components/image-gallery.js"></script>
+    </body>
+</html>
