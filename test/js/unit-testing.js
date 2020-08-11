@@ -14,7 +14,7 @@
  */
 
 /* Validates with both [jshint] and [eslint] */
-/* global QUnit, app, DataFormsJS, tester, nunjucks */
+/* global QUnit, app, DataFormsJS, tester, nunjucks, Vue */
 /* jshint strict: true */
 /* eslint-env browser */
 /* eslint quotes: ["error", "single", { "avoidEscape": true }] */
@@ -1123,6 +1123,7 @@
             expected = '<div id="view" style="display:none;"><strong>Content</strong></div>';
             outerHTML = view.outerHTML;
             outerHTML = outerHTML.replace('display: none;', 'display:none;'); // This is known to happen with IE 11
+            outerHTML = outerHTML.replace(' data-v-app=""', ''); // Vue 3
             assert.equal(outerHTML, expected, 'Checking View Outer HTML: ' + view.outerHTML);
 
             // Call function
@@ -1140,6 +1141,7 @@
             expected = '<div id="view" style="display:none;"><span class="dataformsjs-error">Test with app.showError()</span></div>';
             outerHTML = view.outerHTML;
             outerHTML = outerHTML.replace('display: none;', 'display:none;'); // This is known to happen with IE 11
+            outerHTML = outerHTML.replace(' data-v-app=""', ''); // Vue 3
             assert.equal(outerHTML, expected, 'Checking View Outer HTML: ' + view.outerHTML);
 
             // Check the expected style
@@ -1317,7 +1319,7 @@
                         onRendered: function() {
                             // Check events
                             var events = model.events.join(',');
-                            var expected = 'page:onRouteLoad,page:onBeforeRender,plugin:onBeforeRender,plugin:onRendered,page:onRendered,page:onBeforeRender,plugin:onBeforeRender,plugin:onRendered,page:onRendered,plugin:onRouteUnload,page:onRouteUnload';
+                            var expected = 'page:onRouteLoad,page:onBeforeRender,plugin:onBeforeRender,plugin:onRendered,page:onRendered,page:onBeforeRender,plugin:onBeforeRender,plugin:onRendered,page:onRendered,plugin:onAllowRouteChange(/after-event-order),plugin:onRouteUnload,page:onRouteUnload';
                             assert.equal(events, expected, 'Checking Event Order after route was unloaded: ' + events);
 
                             // Mark the test as complete
@@ -2172,7 +2174,8 @@
                             { id: 'javascript-04', value: 'true' },
                             { id: 'ifCond-01', value: 'true' },
                             { id: 'string-01', value: 'test' },
-                            { id: 'string-02', value: 'TEST' }
+                            { id: 'string-02', value: 'TEST' },
+                            { id: 'json-encode', value: '{"hello":"world","value":12345,"test":true}' },
                         ];
 
                         // Compare Values with the Expected Result

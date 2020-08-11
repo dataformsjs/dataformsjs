@@ -19,6 +19,10 @@
         // Each of the standard plugin functions simply
         // adds the event name to an array using the
         // addEvent() function of this plugin.
+        onAllowRouteChange: function (path) {
+            this.addEvent('plugin:onAllowRouteChange(' + path + ')');
+            return true;
+        },
         onBeforeRender: function () {
             this.addEvent('plugin:onBeforeRender');
         },

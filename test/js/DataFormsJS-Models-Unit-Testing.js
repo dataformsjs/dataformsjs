@@ -17,7 +17,12 @@
     // Model objects
     var unitTestHbsHelpers = {
         name: 'World',
-        dateTime: new Date(2015, 0, 31, 13, 23, 45) // Jan 31st 2015, 1:23:45 PM
+        dateTime: new Date(2015, 0, 31, 13, 23, 45), // Jan 31st 2015, 1:23:45 PM
+        data: {
+            hello: 'world',
+            value: 12345,
+            test: true,
+        }
     };
     var unitTestControls = {
         title: 'control-test',

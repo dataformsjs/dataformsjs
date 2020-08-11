@@ -22,12 +22,11 @@ TODO List
 --------------------------------------------------------------------------
 
 **) Finish updates for next release which will likely be published in mid-August 2020
-    - [js/plugins/onePageSite.js] and the new Plugin API: onAllowRouteChange
+    - [js/plugins/onePageSite.js]
         - Demo files: [examples/one-page-site-hbs.htm]  and [examples/one-page-and-spa-hbs.htm]
             - Vue version also needed
             - File is very ugly and in early state, it needs to look good and should have side nav menu
         - React and Web Component versions may be created now or added to list for creating in the future
-        - Add a Unit Test for the new `onAllowRouteChange(path)` API function
     - New Image Gallery Feature
         - Finish React Version <ImageGallery> - Code is currently not checked into source
         - Early New Demo Page:
@@ -35,7 +34,6 @@ TODO List
             Also author's personal site: http://conradsollitt.com/
         - Need other demos for Vue and Handlebars
         - Once Demos are cleaned up and look nice they will likely be added to the main site
-    - Add Unit Test for new Handlebars Helper: jsonEncode
 
 **) https://github.com/dataformsjs/awesome-web-react
     - Create and Mobile Favicons, example: 
@@ -52,8 +50,7 @@ TODO List
 
 **) Once Vue 3 is out of beta confirm all Vue Examples and Pages work with Vue 3.
     - Currently all demos are confirmed to work with Vue 3 Beta 15 as of 2020-06-15
-    - Update 2020-07-27
-        With latest build - v3.0.0 (RC 4) two minor unit tests broke related to very specific HTML but everything works
+    - Update 2020-08-11 - Unit Tests confirmed with latest build - v3.0.0 (RC 5)
         https://www.dataformsjs.com/unit-testing/vue-3#/
     - Vue 3 Helpfull Links:
         https://github.com/vuejs/vue-next
