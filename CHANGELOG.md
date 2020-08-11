@@ -4,7 +4,7 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
-## Next Release (Changes on main branch but not published to npm)
+## 4.3.0 (August 11, 2020)
 
 * New Feature - Image Gallery
   * Framework Plugin: `js/plugins/imageGallery.js`
