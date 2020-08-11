@@ -21,20 +21,6 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Finish updates for next release which will likely be published in mid-August 2020
-    - [js/plugins/onePageSite.js]
-        - Demo files: [examples/one-page-site-hbs.htm]  and [examples/one-page-and-spa-hbs.htm]
-            - Vue version also needed
-            - File is very ugly and in early state, it needs to look good and should have side nav menu
-        - React and Web Component versions may be created now or added to list for creating in the future
-    - New Image Gallery Feature
-        - Finish React Version <ImageGallery> - Code is currently not checked into source
-        - Early New Demo Page:
-            examples/image-gallery-demo-web.htm
-            Also author's personal site: http://conradsollitt.com/
-        - Need other demos for Vue and Handlebars
-        - Once Demos are cleaned up and look nice they will likely be added to the main site
-
 **) https://github.com/dataformsjs/awesome-web-react
     - Create and Mobile Favicons, example: 
         <link rel="apple-touch-icon" href="/img/favicons/apple-touch-icon-120.png">
@@ -148,6 +134,15 @@ TODO List
         Need a React Version
     - Will likely use https://react-hook-form.com/ for React Form Demos
     - The [edit all] list page from the HBS demo is not required at first it it takes too long
+    - Possibly add Image Gallery Demos [examples\image-gallery-*.htm] to the main site examples
+        page. If doing this likely include a small <code> section showing how it works for each
+        page and create a nice SVG image for the main site.
+    - One Page Site Demos are functional but very ugly:
+        [examples/one-page-site-hbs.htm]
+        [examples/one-page-and-spa-hbs.htm]
+        - These should be updated with some basic info such as how they work and made to look nice
+        - [one-page-and-spa-hbs.htm] was started based on the [template-files-hbs.htm] page
+            so some content on the SPA pages is not needed
 
 *) Version for deno of [dataformsjs/server/app.js]
     Allow server to start with either deno or node

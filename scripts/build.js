@@ -145,7 +145,7 @@ const isWindows = (process.platform === 'win32');
     console.log('-'.repeat(40));
     console.log(`** Using version number ${version} in minimized source code.`);
     console.log('This MUST match the release published to NPM.');
-    console.log('If it code is accidently published with wrong release number then publish a new patch release with correct version.');
+    console.log('If code is accidently published with wrong release number then publish a new patch release with correct version.');
 })();
 
 /**
@@ -163,6 +163,13 @@ async function buildReactFiles(copyright) {
         .then(files => { return files.filter(f => f.endsWith('.js') && !f.endsWith('.min.js') && f !== 'DataFormsJS.js'); })
         .then(files => { return files.map(f => f.replace('.js', '')); })
         .catch(err => { throw err; });
+
+    // Include only specific components for the main build file [DataFormsJS.js].
+    // This excludes components such as <ImageGallery> that would not
+    // be used with most apps. In a future major release other classes
+    // that would not be used by most apps such as [I18n] and [LeafletMap]
+    // can be dropped from the main file to keep file size small.
+    const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'I18n', 'InputFilter', 'JsonData', 'LazyLoad', 'LeafletMap', 'SortableTable'];
 
     // Status
     console.log('-'.repeat(40));
@@ -205,9 +212,11 @@ async function buildReactFiles(copyright) {
             filesUpdated++;
         }
 
-        // Add code to array for the main [DataFormsJS.js] file
-        codeES6 = codeES6.replace('export default class', 'export class');
-        allComponents.push(codeES6);
+        // Add code to array for the main [DataFormsJS.js] file.
+        if (buildClasses.includes(component)) {
+            codeES6 = codeES6.replace('export default class', 'export class');
+            allComponents.push(codeES6);
+        }
         filesChecked++;
     }
 
@@ -215,7 +224,7 @@ async function buildReactFiles(copyright) {
     // The resulting file allows either <JsonData> or <DataFormsJS.JsonData> to be used.
     allComponents.push(`
         export class DataFormsJS {
-            ${components.map(name => {
+            ${components.filter(name => buildClasses.includes(name)).map(name => {
                 return 'static get ' + name + '() { return ' + name + '; }';
             }).join('\n')}
         };

@@ -81,6 +81,23 @@ const overlayStyleCss = `
 `;
 
 /**
+ * Use passive events for 'touchstart' based on Chrome DevTools Recommendation
+ * https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
+ */
+let supportsPassive = false;
+try {
+    const opts = Object.defineProperty({}, 'passive', {
+        get: function() {
+            supportsPassive = true;
+            return true;
+        }
+    });
+    window.addEventListener('testPassive', null, opts);
+    window.removeEventListener('testPassive', null, opts);
+// eslint-disable-next-line no-empty
+} catch (e) {}
+
+/**
  * Define module-level variables and functions used when viewing images
  */
 let images = null;
@@ -123,7 +140,7 @@ function addOverlayEvents() {
     // Handle Touch Events for Swipe Left/Right
     overlay.addEventListener('touchstart', function(e) {
         touchStartX = e.changedTouches[0].screenX;
-    });
+    }, supportsPassive ? { passive: true } : false);
     overlay.addEventListener('touchend', (e) => {
         var curX = e.changedTouches[0].screenX;
         if (curX > touchStartX) {

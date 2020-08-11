@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Image Gallery Demo | Web Components</title>
+        <link rel="stylesheet" href="css/image-gallery.css">
+        <link rel="canonical" href="https://www.dataformsjs.com/examples/image-gallery-web.htm">
+    </head>
+    <body>
+        <json-data url="https://dataformsjs.s3-us-west-1.amazonaws.com/img/example-images/index.json">
+            <is-loading>
+                <span class="loading">Loading Photos...</span>
+            </is-loading>
+            <has-error>
+                <h2 class="error">Error loading photos</h2>
+                <span class="error" data-bind="errorMessage"></span>
+            </has-error>
+            <is-loaded>
+                <!-- Example (1) -->
+                <data-list
+                    data-bind="images"
+                    template-selector="#image"
+                    root-element="div"
+                    root-class="image-gallery">
+                </data-list>
+
+                <!-- Example (2) -->
+                <!--
+                <data-list
+                    data-bind="images"
+                    template-selector="#image-li"
+                    root-element="ul"
+                    root-class="images">
+                </data-list>
+                -->
+            </is-loaded>
+        </json-data>
+
+        <template id="image">
+            <image-gallery image="${image}">
+                <img src="${thumbnail}" />
+            </image-gallery>
+        </template>
+
+        <template id="image-li">
+            <li>
+                <image-gallery
+                    image="${image}"
+                    style="background-image: url('${thumbnail}');">
+                </image-gallery>
+            </li>
+        </template>
+        
+        <!--
+            DataFormsJS Web Components
+            https://www.dataformsjs.com/
+        -->
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.2.2/js/web-components/json-data.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.2.2/js/web-components/data-list.min.js"></script>
+        <script type="module" src="../js/web-components/image-gallery.js"></script>
+    </body>
+</html>

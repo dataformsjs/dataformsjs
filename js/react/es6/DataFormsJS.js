@@ -34,6 +34,7 @@ import I18n from './I18n.js';
 import LeafletMap from './LeafletMap.js';
 import LazyLoad from './LazyLoad.js';
 import Cache from './Cache.js';
+import ImageGallery from './ImageGallery.js';
 
 /**
  * Create and export all Components under the default DataFormsJS namespace
@@ -48,6 +49,7 @@ const DataFormsJS = {
     LeafletMap: LeafletMap,
     LazyLoad: LazyLoad,
     Cache: Cache,
+    ImageGallery: ImageGallery,
 };
 export default DataFormsJS;
 
@@ -64,4 +66,5 @@ export {
     LeafletMap,
     LazyLoad,
     Cache,
+    ImageGallery,
 };

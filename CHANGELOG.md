@@ -9,6 +9,11 @@ Overall the core Framework files and API are expected to remain stable however t
 * New Feature - Image Gallery
   * Framework Plugin: `js/plugins/imageGallery.js`
   * Web Component: `js/web-components/image-gallery.js`
+  * React Component: `js/react/es6/ImageGallery.js`
+  * Demo Pages
+    * `examples/image-gallery-hbs.htm`
+    * `examples/image-gallery-web.htm`
+    * `examples/image-gallery-react.htm`
 * New Framework Plugin `js/plugins/onePageSite.js`
   * This plugin allows for one page style web sites where a nav link will scroll to a target element on the page.
   * By default DataFormsJS is used for single page apps however when using this script other framework plugins and controls can be easily used with one page sites.

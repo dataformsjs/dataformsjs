@@ -71,6 +71,23 @@
     ].join('\n');
 
     /**
+     * Use passive events for 'touchstart' based on Chrome DevTools Recommendation
+     * https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
+     */
+    var supportsPassive = false;
+    try {
+        var opts = Object.defineProperty({}, 'passive', {
+            get: function() {
+                supportsPassive = true;
+                return true;
+            }
+        });
+        window.addEventListener('testPassive', null, opts);
+        window.removeEventListener('testPassive', null, opts);
+    // eslint-disable-next-line no-empty
+    } catch (e) {}
+
+    /**
      * Create Custom Image Viewer Plugin that shows the overlay modal
      */
     var imageGallery = {
@@ -84,8 +101,12 @@
 
         // Event that gets called after the HTML is rendered and before the
         // page's controller [onRendered()] function runs.
-        onRendered: function() {
-            this.images = document.querySelectorAll('[' + imageGallery.imageSrcAttr + ']');
+        onRendered: function(element) {
+            if (this.images.length > 0) {
+                return; // Already setup
+            }
+            element = (element === undefined ? document : element);
+            this.images = element.querySelectorAll('[' + imageGallery.imageSrcAttr + ']');
             this.imageCount = this.images.length;
             var index = 0;
             Array.prototype.forEach.call(this.images, function(image) {
@@ -151,7 +172,7 @@
             // Handle Touch Events for Swipe Left/Right
             this.overlay.addEventListener('touchstart', function(e) {
                 imageGallery.touchStartX = e.changedTouches[0].screenX;
-            });
+            }, supportsPassive ? { passive: true } : false);
             this.overlay.addEventListener('touchend', function(e) {
                 var curX = e.changedTouches[0].screenX;
                 if (curX > imageGallery.touchStartX) {
