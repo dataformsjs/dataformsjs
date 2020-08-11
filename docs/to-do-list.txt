@@ -21,13 +21,11 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Finish updates for next release which will likely be published in early August 2020
+**) Finish updates for next release which will likely be published in mid-August 2020
     - [js/plugins/onePageSite.js] and the new Plugin API: onAllowRouteChange
         - Demo files: [examples/one-page-site-hbs.htm]  and [examples/one-page-and-spa-hbs.htm]
             - Vue version also needed
             - File is very ugly and in early state, it needs to look good and should have side nav menu
-        - Depending on how long it takes the hash URL of the current page should update to the 
-            target section as the user scrolls the page.
         - React and Web Component versions may be created now or added to list for creating in the future
         - Add a Unit Test for the new `onAllowRouteChange(path)` API function
     - New Image Gallery Feature

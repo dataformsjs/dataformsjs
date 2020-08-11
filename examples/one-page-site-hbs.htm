@@ -17,6 +17,11 @@
             tr:nth-child(even) { background-color: lightgreen; }
             .error { padding:1em; color:white; background-color:red; }
 
+            .top-nav {
+                position: fixed;
+                background-color: white;
+            }
+
             section { width:100%; min-height: 600px; padding:20px; }
             #test1 { background-color: red; }
             #test2 { background-color: lightblue; }
@@ -24,7 +29,7 @@
         </style>
     </head>
     <body>
-        <nav>
+        <nav class="top-nav">
             <a href="#test1" data-one-page>Test 1</a>
             <a href="#test2" data-one-page>Test 2</a>
             <a href="#test3" data-one-page>Test 3</a>
@@ -88,7 +93,7 @@
         </script>
 
         <!-- Handlebars and Helper -->
-        <script src="https://cdn.jsdelivr.net/npm/handlebars@4.5.1/dist/handlebars.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.6/dist/handlebars.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.2.2/js/extensions/handlebars-helpers.min.js"></script>
 
         <!-- DataFormsJS Standard Files -->

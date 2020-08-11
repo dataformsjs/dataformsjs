@@ -66,28 +66,27 @@
         /**
          * Internal Props
          */
-        _allowRouteChange: true,
-        _animationId: null,
-        _routeLoaded: false, // Used to prevent timers from running after page is unloaded
+        _routeLoaded: false,
+        _isScrolling: false,
+        _targetElements: [],
 
         /**
-         * Cancel the default SPA routing if the user clicked
-         * on a nav link that is handled by this plugin.
+         * Cancel the default SPA routing if the user is currently on the
+         * page and entered a #hash-url that links to an element on the page.
+         *
+         * This prevents other plugins and setup code here from running twice
+         * when the hash URL changes.
          */
         onAllowRouteChange: function () {
-            if (!onePageSite._allowRouteChange) {
-                onePageSite._allowRouteChange = true;
-                return false;
+            if (!this._routeLoaded) {
+                return true;
             }
-            return true;
+            var elementMatched = this.scrollToHashElement();
+            return !elementMatched;
         },
 
         /**
-         * Event called after the HTML is rendered and before the page's controller
-         * [onRendered()] function runs. Defining and using [element] is optional and
-         * only passed when certain functions such as [app.refreshHtmlControl()] are called.
-         *
-         * @param {undefined|HTMLElement}
+         * Main event called after the HTML is rendered for the current page/route.
          */
         onRendered: function () {
             if (onePageSite.useBrowserScrollIntoView) {
@@ -99,6 +98,7 @@
                     onePageSite.setup();
                 });
             }
+            document.addEventListener('scroll', onePageSite.handleScroll);
         },
 
         /**
@@ -107,12 +107,167 @@
          * and a One Page Site on a Page in the app.
          */
         onRouteUnload: function () {
-            // Cancel Animation if it's still running
-            if (onePageSite._animationId !== null) {
-                window.cancelAnimationFrame(onePageSite._animationId);
-            }
-            // Prevent other animations from running
+            // Reset variables to prevent additional timers from running
             this._routeLoaded = false;
+            this._isScrolling = false;
+            // Remove DOM Document Event
+            this._targetElements = [];
+            document.removeEventListener('scroll', onePageSite.handleScroll);
+        },
+
+        /**
+         * Return [true] if element is visible on the screen
+         * @param {HTMLElement} el
+         */
+        elementIsVisible: function(el) {
+            // First check if the element is hidden
+            var style = window.getComputedStyle(el);
+            if (style.display === 'none' ||
+                style.visibility !== 'visible' ||
+                parseFloat(style.opacity) < 0.1) {
+                return false;
+            }
+            // Check if element is on the visible portion of the screen
+            var rect = el.getBoundingClientRect();
+            if (rect.width === 0 ||
+                rect.height === 0 ||
+                rect.left + rect.width < 0 ||
+                rect.top + rect.height < 0 ||
+                rect.top > window.innerHeight ||
+                rect.left > window.innerWidth) {
+                return false;
+            }
+            return true;
+        },
+
+        /**
+         * Get the visible height of an element
+         * Modified from: https://stackoverflow.com/a/39576399
+         *
+         * @param {HTMLElement} el
+         * @param {int} viewportHeight
+         */
+        getVisibleHeightPx: function(el, viewportHeight) {
+            var rect = el.getBoundingClientRect(),
+                height = rect.bottom - rect.top,
+                visible = {
+                    top: rect.top >= 0 && rect.top < viewportHeight,
+                    bottom: rect.bottom > 0 && rect.bottom < viewportHeight
+                },
+                visiblePx = 0;
+
+            if (visible.top && visible.bottom) {
+                visiblePx = height;
+            } else if (visible.top) {
+                visiblePx = viewportHeight - rect.top;
+            } else if (visible.bottom) {
+                visiblePx = rect.bottom;
+            } else if (height > viewportHeight && rect.top < 0) {
+                var absTop = Math.abs(rect.top);
+                if (absTop < height) {
+                    visiblePx = height - absTop;
+                }
+            }
+            return visiblePx;
+        },
+
+        /**
+         * Update the browser hash #URL to the visible element
+         * as the scrolls the page.
+         */
+        handleScroll: function () {
+            // User action to scroll to an element
+            if (onePageSite._isScrolling) {
+                return;
+            }
+
+            // Nothing to scroll to
+            if (onePageSite._targetElements.length === 0) {
+                return;
+            }
+
+            // Sort elements by top position
+            onePageSite._targetElements.sort(function(a, b) {
+                var aTop = a.getBoundingClientRect().top;
+                var bTop = b.getBoundingClientRect().top;
+                return aTop - bTop;
+            });
+
+            // Filter to get only elements that are visible on screen
+            var visibleElements = onePageSite._targetElements.filter(function(el) {
+                return onePageSite.elementIsVisible(el);
+            });
+
+            // Find the main element in view
+            var currentElement = null;
+            if (visibleElements.length === 0) {
+                // No visible elements, exit function
+                return;
+            } else if (visibleElements.length > 1) {
+                // Multiple elements are visible so sort elements by which
+                // one has the most pixels on screen and use that element.
+                var elements = [];
+                visibleElements.forEach(function(el) {
+                    elements.push({
+                        pixelsOnScreen: onePageSite.getVisibleHeightPx(el, window.innerHeight),
+                        el: el,
+                    });
+                });
+                elements.sort(function(a, b) {
+                    return a.pixelsOnScreen - b.pixelsOnScreen;
+                });
+                currentElement = elements[elements.length - 1].el;
+            } else {
+                // Only one element found
+                currentElement = visibleElements[0];
+            }
+
+            // Update the browser hash #URL based on the element in view.
+            // This is uses `replaceState` rather than `pushState` because if
+            // the user clicks the back button while scrolling it will take
+            // them to the previous page or link click which would be the
+            // expected behavior for most users. For most users if the simply
+            // moved to a different section on the screen based on scrolling
+            // then that would be unexpected.
+            var hash = '#' + currentElement.id;
+            if (window.location.hash !== hash) {
+                window.history.replaceState(null, null, hash);
+                onePageSite.setActiveLinks();
+            }
+        },
+
+        /**
+         * Scroll to the selected hash element. This gets called when the
+         * page first loads or when the user manually changes the hash URL.
+         *
+         * @return {bool} [true] if an element was matched
+         */
+        scrollToHashElement: function () {
+            var hash = window.location.hash;
+            if (hash && hash[0] === '#') {
+                var el = document.getElementById(hash.substr(1));
+                if (el) {
+                    window.setTimeout(function() {
+                        // Do nothing, route likely changed to
+                        // another SPA page during timer.
+                        if (!onePageSite._routeLoaded) {
+                            return;
+                        }
+
+                        // Scroll to the element
+                        onePageSite._isScrolling = true;
+                        el.scrollIntoView({ block: 'start',  behavior: 'smooth' });
+                        onePageSite.setActiveLinks();
+
+                        // Wait half a second then reset variable
+                        window.setTimeout(function() {
+                            onePageSite._isScrolling = false;
+                        }, 500);
+                    }, this.scrollToDelayOnPageLoad);
+                    return true;
+                }
+            }
+            return false;
         },
 
         /**
@@ -123,26 +278,23 @@
             // This typically would happen if a user copies and pastes a URL
             // with the hash of the section to view.
             this._routeLoaded = true;
-            var hash = window.location.hash;
-            if (hash && hash[0] === '#') {
-                var el = document.getElementById(hash.substr(1));
-                if (el) {
-                    window.setTimeout(function() {
-                        // Do nothing, route changed during timer
-                        if (!onePageSite._routeLoaded) {
-                            return;
-                        }
-                        // Scroll to the element
-                        el.scrollIntoView({ block: 'start',  behavior: 'smooth' });
-                    }, this.scrollToDelayOnPageLoad);
-                }
-            }
+            this.scrollToHashElement();
 
             // Update Nav Links
-            this.setActiveLinks();
             var onePageLinks = document.querySelectorAll(onePageSite.linkSelector);
             Array.prototype.forEach.call(onePageLinks, function(link) {
                 link.addEventListener('click', onePageSite.handleLinkClick);
+            });
+
+            // Get all elements that will be scrolled to
+            onePageSite._targetElements = [];
+            Array.prototype.forEach.call(onePageLinks, function(link) {
+                if (link.hash) {
+                    var el = document.getElementById(link.hash.substr(1));
+                    if (el && onePageSite._targetElements.indexOf(el) === -1) {
+                        onePageSite._targetElements.push(el);
+                    }
+                }
             });
         },
 
@@ -176,16 +328,14 @@
                 if (el) {
                     // Cancel standard DOM click then scroll to element
                     e.preventDefault();
+                    onePageSite._isScrolling = true;
                     el.scrollIntoView({ block: 'start',  behavior: 'smooth' });
+                    window.history.pushState(null, null, hash); // Update browser hash #URL
+                    onePageSite.setActiveLinks();
 
-                    // Wait half a second then update the URL hash
+                    // Wait half a second update scrolling variable
                     window.setTimeout(function () {
-                        if (!onePageSite._routeLoaded) {
-                            return;
-                        }
-                        onePageSite._allowRouteChange = false;
-                        window.location.hash = hash;
-                        onePageSite.setActiveLinks();
+                        onePageSite._isScrolling = false;
                     }, 500);
                 }
             }
