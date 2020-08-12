@@ -22,23 +22,13 @@ TODO List
 --------------------------------------------------------------------------
 
 **) https://github.com/dataformsjs/awesome-web-react
-    - Create and Mobile Favicons, example: 
-        <link rel="apple-touch-icon" href="/img/favicons/apple-touch-icon-120.png">
-        <link rel="apple-touch-icon" sizes="152x152" href="/img/favicons/apple-touch-icon-152.png">
-        <link rel="apple-touch-icon" sizes="167x167" href="/img/favicons/apple-touch-icon-167.png">
-        <link rel="apple-touch-icon" sizes="180x180" href="/img/favicons/apple-touch-icon-180.png">
-        <link rel="icon" sizes="32x32" href="/img/favicons/DataFormsJS-32x32.png">
-        <link rel="icon" sizes="144x144" href="/img/favicons/DataFormsJS-144x144.png">
-        <link rel="icon" sizes="192x192" href="/img/favicons/DataFormsJS-192x192.png">
-        <link rel="icon" sizes="196x196" href="/img/favicons/DataFormsJS-196x196.png">
-    - Images will likely be created from Sketch App
     - Finish adding images for each item
 
 **) Once Vue 3 is out of beta confirm all Vue Examples and Pages work with Vue 3.
     - Currently all demos are confirmed to work with Vue 3 Beta 15 as of 2020-06-15
     - Update 2020-08-11 - Unit Tests confirmed with latest build - v3.0.0 (RC 5)
         https://www.dataformsjs.com/unit-testing/vue-3#/
-    - Vue 3 Helpfull Links:
+    - Vue 3 Helpful Links:
         https://github.com/vuejs/vue-next
         https://composition-api.vuejs.org/api.html
         https://www.vuemastery.com/blog/vue-3-start-using-it-today/
@@ -46,7 +36,7 @@ TODO List
     - Because Vue 3 is still in Beta additional changes may be needed before or after the release
     - Once Vue 3 is released then possibly switch all demo pages to Vue 3 but keep Vue 2
         script in the comments. If IE will not be supported then show an error message.
-        This will likely be determined once Vue 3 is released. Regadless of whether demos
+        This will likely be determined once Vue 3 is released. Regardless of whether demos
         will use Vue 2 or Vue 3 (or mixed) all Demos will be tested with both and have
         both CDN links in the HTML.
     - Once Vue 3 is released then search for all references to "Vue 3 (Currently in Beta)"
@@ -88,7 +78,7 @@ TODO List
     - Add liniting for React/JSX, Babel recently started doing this online in the REPL:
         https://babeljs.io/repl
     - Currently JS is linted using jshint on the Playground, to lint JSX babel standalone will
-        likley be used with a custom Code Mirror Plugin
+        likely be used with a custom Code Mirror Plugin
     - When adding update the JS page code to load jshint and a linter for JSX only if the
         user is actually going to create a site. It can be downloaded in the background
         while the site is being created.
@@ -97,7 +87,7 @@ TODO List
     - Servers:
         https://www.dataformsjs.com/
         https://ai-ml.dataformsjs.com/
-    - This site doesn't get enough traffic to need seperate servers
+    - This site doesn't get enough traffic to need separate servers
     - Planned to use nginx for PHP, Node/GraphQL, Python/Flask on the same server
     - Related setup docs for current setup:
         https://github.com/dataformsjs/website/blob/master/docs/Main%20Site%20Server%20Setup.txt
@@ -129,7 +119,7 @@ TODO List
 **) Demos
     - https://www.dataformsjs.com/examples/entry-form-demo-hbs.htm
         Need Vue and React Versions
-        This will likely require JS updates for Vue and new Compontents for React
+        This will likely require JS updates for Vue and new Components for React
     - https://www.dataformsjs.com/examples/binary-classification-vue.htm#/en/
         Need a React Version
     - Will likely use https://react-hook-form.com/ for React Form Demos
@@ -158,12 +148,12 @@ TODO List
         (either that or simply add notes to the page regarding IE and Vue)
 
 *) Template Files
-    - File [dataformsjs\examples\_template.htm] should be seperated for different options and include a hello world or display of JSON data:
+    - File [dataformsjs\examples\_template.htm] should be separated for different options and include a hello world or display of JSON data:
         _template_{hbs, vue, react}.htm
 
 *) Additional Unit Testing for Vue
     - Currently Vue has to skip many tests due to how Virtual DOM works differently than templating
-    - Possbily a new page, not yet decided on, low priority as everything works and it passes many tests
+    - Possibly a new page, not yet decided on, low priority as everything works and it passes many tests
     - Currently many tests fail in IE with the Vue, however all demos work correctly
 
 *) The Hacker News API Demo (link below) will likely be combined into a larger Public API's Demo
@@ -247,10 +237,10 @@ TODO List
     - Currently the main framework has <json-data> and <data-table> JavaScript controls
         that are similar to the <json-data> and <data-table> Web Component. These could be changed
         and additional code developed to match the behavior of Web Components.
-    - Alternatively indivivual files such as [DataFormsJS\js\web-components\polyfill\json-data.js]
-        could be developed. Currenlty in favor of using the standard Framework as a it would handle
+    - Alternatively individual files such as [DataFormsJS\js\web-components\polyfill\json-data.js]
+        could be developed. Currently in favor of using the standard Framework as a it would handle
         a lot of the need for web components.
-    - If using the standard framework then [url-hash-router] would need to be polyfilld as well,
+    - If using the standard framework then [url-hash-router] would need to be polyfilled as well,
         either from the main file [DataFormsJS.js] or a new file [js/controls/url-hash-router.js].
         This would be determined during development based on what makes sense.
     - Using the main framework would be preferred to reduce additional duplicate code and because
@@ -299,7 +289,7 @@ TODO List
         DataFormsJS\examples\places-demo-web.htm
     - How to use Authorization and various options, see example in [DataFormsJS\examples\entry-form-demo-hbs.htm]
     - Document with an example of why most event listener functions should be defined
-      in seperate named functions outside of [addEventListener]. For example if
+      in separate named functions outside of [addEventListener]. For example if
       an anonymous function is added and the plugin is called multiple times on
       the same element then multiple functions would be called. Example [clickToHighlight]
       uses [toggleHighlight()], if not used and [app.plugins.clickToHighlight.onRendered()]
@@ -443,7 +433,7 @@ TODO List
 
 *) DataFormsJS\js\Plugins\highlighter.js
     - Allow users to define text results such as "{count} Records matched [{value}]"
-    - Need ability to handle multiple langauges
+    - Need ability to handle multiple languages
 
 *) todomvc Example
     - Possibly publish it as a seperate Repository with notes on how to copy?
