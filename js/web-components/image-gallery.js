@@ -7,6 +7,9 @@
  *    - Show Overlay with large Image on Thumbnail Click
  *    - Handle Left/Right/Escape Keys for the Overlay
  *    - Handle Swipe left and right on Mobile Devices
+ *    - Diplays [title] of the image with index by default.
+ *      [title] is not required and index can be hidden through
+ *      CSS if desired.
  *
  * This Web Component does not generate large images or thumbnails
  * and requires the images to be created by the site/app.
@@ -16,7 +19,7 @@
  * custom app.
  *
  * Example Usage:
- *     <image-gallery image="large-image1.jpg">
+ *     <image-gallery image="large-image1.jpg" title="image title">
  *         <img src="thumbnail1.jpg">
  *         <div>...</div>
  *     </image-gallery>
@@ -26,7 +29,8 @@
  *     </image-gallery>
  *
  * Similar functionality exists for the standard DataFormsJS Framework
- * with the `js/plugins/imageGallery.js` plugin.
+ * with the `js/plugins/imageGallery.js` plugin and also for React
+ * with the `js/react/es6/ImageGallery.js` Component.
  */
 
 /* Validates with both [jshint] and [eslint] */
@@ -56,6 +60,8 @@ shadowTmpl.innerHTML = `
  * Examples:
  *     .image-gallery-overlay { background-color: black !important; }
  *     .image-gallery-overlay { background-color: rgba(0,0,0,.7) !important; }
+ *     .image-gallery-overlay div { display:none !important; }
+ *     .image-gallery-overlay div span { background-color: rgba(255,255,255,.5); }
  */
 const overlayStyleId = 'image-gallery-css';
 const overlayStyleCss = `
@@ -72,11 +78,29 @@ const overlayStyleCss = `
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
     }
 
     .image-gallery-overlay img {
         max-width: 100%;
         max-height: 100%;
+        flex-shrink: 0;
+    }
+
+    .image-gallery-overlay div {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 2;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .image-gallery-overlay div span {
+        padding: 10px 20px;
     }
 `;
 
@@ -105,16 +129,41 @@ let imageIndex = null;
 let imageCount = 0;
 let overlay = null;
 let overlayImg = null;
+let overlayTitle = null;
+let overlayIndex = null;
 let touchStartX = null;
+const loadedImages = new Set();
 
 function showOverlay() {
+    const imageSrc = images[imageIndex].getAttribute('image');
+    const imageTitle = images[imageIndex].getAttribute('title');
     loadCss();
+
+    // Overlay <div> root element
     overlay = document.createElement('div');
     overlay.className = 'image-gallery-overlay';
+
+    // Overlay <img>
     overlayImg = document.createElement('img');
-    overlayImg.addEventListener('load', preloadNextImages);
-    overlayImg.src = images[imageIndex].getAttribute('image');
+    overlayImg.addEventListener('load', () => {
+        loadedImages.add(imageSrc);
+        preloadNextImages();
+    });
+    overlayImg.src = imageSrc;
     overlay.appendChild(overlayImg);
+
+    // Overlay <div> for title and index
+    const container = document.createElement('div');
+    overlayTitle = document.createElement('span');
+    overlayTitle.textContent = imageTitle;
+    overlayTitle.style.display = (imageTitle ? '' : 'none');
+    container.appendChild(overlayTitle);
+    overlayIndex = document.createElement('span');
+    overlayIndex.textContent = `${imageIndex + 1}/${imageCount}`;
+    container.appendChild(overlayIndex);
+    overlay.appendChild(container);
+
+    // Define events and add Overlay to DOM
     addOverlayEvents();
     document.documentElement.appendChild(overlay);
     document.querySelector('body').classList.add('blur');
@@ -131,8 +180,22 @@ function loadCss() {
 }
 
 function addOverlayEvents() {
-    // Hide overlay on click
-    overlay.onclick = hideOverlay;
+    // Hide overlay on click. For mobile devices if the user "clicks/touches"
+    // in the middle half of the screen then do not hide the overlay. This
+    // prevents the overlay from hiding while the user is swiping. Without
+    // this code the swipe logic still works on mobile, however the overlay
+    // closes occasionally which causes an unexpected experience for the user.
+    overlay.onclick = function(e) {
+        if ('ontouchstart' in window) {
+            const screenHeight = window.innerHeight;
+            const screen25pct = screenHeight / 4;
+            const screenBottom = screenHeight - screen25pct;
+            if (e.clientY >= screen25pct && e.clientY <= screenBottom) {
+                return;
+            }
+        }
+        hideOverlay();
+    };
 
     // Handle Right and Left Arrow Keys to change active image
     document.addEventListener('keydown', handleDocKeyDown);
@@ -168,6 +231,8 @@ function handleDocKeyDown(e) {
 // Called from overlay click and escape key
 function hideOverlay() {
     overlay.parentNode.removeChild(overlay);
+    overlayIndex = null;
+    overlayTitle = null;
     overlayImg = null;
     overlay = null;
     document.removeEventListener('keydown', handleDocKeyDown);
@@ -185,8 +250,15 @@ function preloadNextImages() {
     if (indexLeft !== imageIndex) {
         // This causes the browser to download the image in the
         // background where it will be cached by the browser.
-        const imgLeft = new Image();
-        imgLeft.src = images[indexLeft].getAttribute('image');
+        // This assumes that a CDN or cache headers are used by the
+        // server to allow the browser to cache images. For 99%+ of
+        // servers this will be the case.
+        const srcLeft = images[indexLeft].getAttribute('image');
+        if (srcLeft && !loadedImages.has(srcLeft)) {
+            const imgLeft = new Image();
+            imgLeft.onload = () => { loadedImages.add(srcLeft); };
+            imgLeft.src = srcLeft;
+        }
     }
 
     // Image to the Right of the Current Image
@@ -195,8 +267,12 @@ function preloadNextImages() {
         indexRight = 0;
     }
     if (indexRight !== imageIndex) {
-        const imgRight = new Image();
-        imgRight.src = images[indexRight].getAttribute('image');
+        const srcRight = images[indexRight].getAttribute('image');
+        if (srcRight && !loadedImages.has(srcRight)) {
+            const imgRight = new Image();
+            imgRight.onload = () => { loadedImages.add(srcRight); };
+            imgRight.src = srcRight;
+        }
     }
 }
 
@@ -207,8 +283,12 @@ function changeImage(direction) {
     } else {
         imageIndex = (imageIndex === 0 ? imageCount - 1 : imageIndex - 1);
     }
+    const imageTitle = images[imageIndex].getAttribute('title');
     overlayImg.src = '';
     overlayImg.src = images[imageIndex].getAttribute('image');
+    overlayTitle.textContent = imageTitle;
+    overlayTitle.style.display = (imageTitle ? '' : 'none');
+    overlayIndex.textContent = `${imageIndex + 1}/${imageCount}`;
 }
 
 /**

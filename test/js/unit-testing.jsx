@@ -162,6 +162,8 @@ class UnitTestPage extends React.Component {
             { id:1, name:"User1" },
             { id:2, name:"User2" },
         ];
+
+        const div10 = (123 <= 456 ? 'true' : 'false');
         
         return (
             <React.Fragment>
@@ -181,6 +183,8 @@ class UnitTestPage extends React.Component {
                 <div id="div-7">&nbsp;&nbsp;Hello World&nbsp;&nbsp;</div>
                 <div id="div-8">  Hello World  </div>
                 <div id="div-9" data-selector="ul.link > li">https://www.dataformsjs.com/</div>
+                <div id="div-10">{div10}</div>
+                <div id="div-11">{(123 <= 456 ? 'true' : 'false')}</div>
 
                 <ul className="links">
                     {links.map(link => {

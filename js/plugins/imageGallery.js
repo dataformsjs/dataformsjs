@@ -7,6 +7,9 @@
  *    - Show Overlay with large Image on Thumbnail Click
  *    - Handle Left/Right/Escape Keys for the Overlay
  *    - Handle Swipe left and right on Mobile Devices
+ *    - Diplays [title] of the image with index by default.
+ *      [title] is not required and index can be hidden through
+ *      CSS if desired.
  * 
  * This Plugin does not generate large images or thumbnails
  * and requires the images to be created by the site/app.
@@ -20,10 +23,11 @@
  * or by copying and modifying this class.
  * 
  * Example Usage:
- *     <img src="thumbnail1.jpg" data-image-gallery="large-image1.jpg">
- *     <img src="thumbnail2.jpg" data-image-gallery="large-image2.jpg">
+ *     <img src="thumbnail1.jpg" data-image-gallery="large-image1.jpg" title="image title">
+ *     <img src="thumbnail2.jpg" data-image-gallery="large-image2.jpg" title="image title">
  * 
- * Similar functionality exists in the DataFormsJS <image-gallery> Web Component.
+ * Similar functionality exists in the DataFormsJS <image-gallery> Web Component
+ * and also for React with the `js/react/es6/ImageGallery.js` Component.
  */
 
 /* Validates with both [jshint] and [eslint] */
@@ -63,10 +67,26 @@
         '    display: flex;',
         '    justify-content: center;',
         '    align-items: center;',
+        '    flex-direction: column;',
         '}',
         '.image-gallery-overlay img {',
         '    max-width: 100%;',
         '    max-height: 100%;',
+        '    flex-shrink: 0;',
+        '}',
+        '.image-gallery-overlay div {',
+        '    position: absolute;',
+        '    bottom: 0;',
+        '    left: 0;',
+        '    right: 0;',
+        '    z-index: 2;',
+        '    font-weight: bold;',
+        '    display: flex;',
+        '    justify-content: space-between;',
+        '    width: 100%;',
+        '}',
+        '.image-gallery-overlay div span {',
+        '    padding: 10px 20px;',
         '}',
     ].join('\n');
 
@@ -95,9 +115,12 @@
         imageSrcAttr: 'data-image-gallery',
         overlay: null,
         overlayImg: null,
+        overlayTitle: null,
+        overlayIndex: null,
         imageCount: 0,
         imageIndex: -1,
         touchStartX: 0,
+        loadedImages: [],
 
         // Event that gets called after the HTML is rendered and before the
         // page's controller [onRendered()] function runs.
@@ -139,12 +162,15 @@
             }
             switch (e.key) {
                 case 'ArrowLeft':
+                case 'Left':
                     imageGallery.changeImage('left');
                     break;
                 case 'ArrowRight':
+                case 'Right':
                     imageGallery.changeImage('right');
                     break;
                 case 'Escape':
+                case 'Esc':
                     imageGallery.hideOverlay();
                     break;
             }
@@ -153,21 +179,59 @@
         // This will create a new <div class="image-gallery-overlay"><img src="url"/></div>
         // and add it to the page. 
         showOverlay: function (imageIndex) {
+            var imageSrc = this.getImageSource(imageIndex);
+            var imageTitle = this.images[imageIndex].getAttribute('title');
+
+            // Overlay <div> root element
             this.overlay = document.createElement('div');
             this.overlay.className = 'image-gallery-overlay';
+
+            // Overlay <img>
             this.overlayImg = document.createElement('img');
-            this.overlayImg.addEventListener('load', this.preloadNextImages.bind(this));
-            this.overlayImg.src = this.getImageSource(imageIndex);
+            this.overlayImg.addEventListener('load', function () {
+                if (imageGallery.loadedImages.indexOf(imageSrc) === -1) {
+                    imageGallery.loadedImages.push(imageSrc);
+                }
+                imageGallery.preloadNextImages();
+            });
+            this.overlayImg.src = imageSrc;
             this.imageIndex = imageIndex;
             this.overlay.appendChild(this.overlayImg);
+
+            // Overlay <div> for title and index
+            var container = document.createElement('div');
+            this.overlayTitle = document.createElement('span');
+            this.overlayTitle.textContent = imageTitle;
+            this.overlayTitle.style.display = (imageTitle ? '' : 'none');
+            container.appendChild(this.overlayTitle);
+            this.overlayIndex = document.createElement('span');
+            this.overlayIndex.textContent = (imageIndex + 1) + '/' + this.imageCount;
+            container.appendChild(this.overlayIndex);
+            this.overlay.appendChild(container);
+
+            // Define events and add Overlay to DOM
             this.addOverlayEvents();
             document.documentElement.appendChild(this.overlay);
             document.querySelector('body').classList.add('blur');
         },
 
         addOverlayEvents: function() {
-            // Hide overlay on click
-            this.overlay.onclick = this.hideOverlay.bind(this);
+            // Hide overlay on click. For mobile devices if the user "clicks/touches"
+            // in the middle half of the screen then do not hide the overlay. This
+            // prevents the overlay from hiding while the user is swiping. Without
+            // this code the swipe logic still works on mobile, however the overlay
+            // closes occasionally which causes an unexpected experience for the user.
+            this.overlay.onclick = function(e) {
+                if ('ontouchstart' in window) {
+                    var screenHeight = window.innerHeight;
+                    var screen25pct = screenHeight / 4;
+                    var screenBottom = screenHeight - screen25pct;
+                    if (e.clientY >= screen25pct && e.clientY <= screenBottom) {
+                        return;
+                    }
+                }
+                imageGallery.hideOverlay();
+            };
 
             // Handle Touch Events for Swipe Left/Right
             this.overlay.addEventListener('touchstart', function(e) {
@@ -186,6 +250,8 @@
         // Called from overlay click and escape key
         hideOverlay: function() {
             this.overlay.parentNode.removeChild(this.overlay);
+            this.overlayIndex = null;
+            this.overlayTitle = null;
             this.overlayImg = null;
             this.overlay = null;
             document.querySelector('body').classList.remove('blur');
@@ -203,8 +269,12 @@
             } else {
                 this.imageIndex = (this.imageIndex === 0 ? this.imageCount - 1 : this.imageIndex - 1);
             }
+            var imageTitle = this.images[this.imageIndex].getAttribute('title');
             this.overlayImg.src = '';
             this.overlayImg.src = this.getImageSource(this.imageIndex);
+            this.overlayTitle.textContent = imageTitle;
+            this.overlayTitle.style.display = (imageTitle ? '' : 'none');
+            this.overlayIndex.textContent = (this.imageIndex + 1) + '/' + this.imageCount;
         },
 
         // Preload Images when viewing a larger image from a thumbnail.
@@ -217,11 +287,12 @@
                 indexLeft = this.imageCount - 1;
             }
             if (indexLeft !== this.imageIndex) {
-                var srcLeft = this.images[indexLeft].getAttribute(imageGallery.imageSrcAttr);
-                if (srcLeft !== null) {
+                var srcLeft = this.getImageSource(indexLeft);
+                if (srcLeft && this.loadedImages.indexOf(srcLeft) === -1) {
                     // This causes the browser to download the image in the
                     // background where it will be cached by the browser.
                     var imgLeft = new Image();
+                    imgLeft.onload = function () { imageGallery.loadedImages.push(srcLeft); };
                     imgLeft.src = srcLeft;
                 }
             }
@@ -232,9 +303,10 @@
                 indexRight = 0;
             }
             if (indexRight !== this.imageIndex) {
-                var srcRight = this.images[indexRight].getAttribute(imageGallery.imageSrcAttr);
-                if (srcRight !== null) {
+                var srcRight = this.getImageSource(indexRight);
+                if (srcRight && this.loadedImages.indexOf(srcRight) === -1) {
                     var imgRight = new Image();
+                    imgRight.onload = function () { imageGallery.loadedImages.push(srcRight); };
                     imgRight.src = srcRight;
                 }
             }

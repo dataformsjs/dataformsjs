@@ -70,11 +70,14 @@ var ImageGallery = function (_React$Component) {
     _this.hideOverlay = _this.hideOverlay.bind(_assertThisInitialized(_this));
     _this.changeImage = _this.changeImage.bind(_assertThisInitialized(_this));
     _this.overlayStyleId = 'image-gallery-css';
-    _this.overlayStyleCss = "\n            body.blur { filter: blur(3px); }\n\n            .image-gallery-overlay {\n                position: fixed;\n                top: 0;\n                left: 0;\n                right: 0;\n                bottom: 0;\n                background-color: rgba(255,255,255,.8);\n                cursor: pointer;\n                display: flex;\n                justify-content: center;\n                align-items: center;\n            }\n\n            .image-gallery-overlay img {\n                max-width: 100%;\n                max-height: 100%;\n            }\n        ";
+    _this.overlayStyleCss = "\n            body.blur { filter: blur(3px); }\n\n            .image-gallery-overlay {\n                position: fixed;\n                top: 0;\n                left: 0;\n                right: 0;\n                bottom: 0;\n                background-color: rgba(255,255,255,.8);\n                cursor: pointer;\n                display: flex;\n                justify-content: center;\n                align-items: center;\n                flex-direction: column;\n            }\n\n            .image-gallery-overlay img {\n                max-width: 100%;\n                max-height: 100%;\n                flex-shrink: 0;\n            }\n\n            .image-gallery-overlay div {\n                position: absolute;\n                bottom: 0;\n                left: 0;\n                right: 0;\n                z-index: 2;\n                font-weight: bold;\n                display: flex;\n                justify-content: space-between;\n                width: 100%;\n            }\n        \n            .image-gallery-overlay div span {\n                padding: 10px 20px;\n            }\n        ";
     _this.imageIndex = null;
     _this.overlay = null;
     _this.overlayImg = null;
+    _this.overlayTitle = null;
+    _this.overlayIndex = null;
     _this.touchStartX = null;
+    _this.loadedImages = new Set();
     _this.state = {
       images: props.images
     };
@@ -116,13 +119,30 @@ var ImageGallery = function (_React$Component) {
   }, {
     key: "showOverlay",
     value: function showOverlay() {
+      var _this2 = this;
+
+      var imageSrc = this.state.images[this.imageIndex].image;
+      var imageTitle = this.state.images[this.imageIndex].title;
       this.loadCss();
       this.overlay = document.createElement('div');
       this.overlay.className = 'image-gallery-overlay';
       this.overlayImg = document.createElement('img');
-      this.overlayImg.addEventListener('load', this.preloadNextImages);
-      this.overlayImg.src = this.state.images[this.imageIndex].image;
+      this.overlayImg.addEventListener('load', function () {
+        _this2.loadedImages.add(imageSrc);
+
+        _this2.preloadNextImages();
+      });
+      this.overlayImg.src = imageSrc;
       this.overlay.appendChild(this.overlayImg);
+      var container = document.createElement('div');
+      this.overlayTitle = document.createElement('span');
+      this.overlayTitle.textContent = imageTitle;
+      this.overlayTitle.style.display = imageTitle ? '' : 'none';
+      container.appendChild(this.overlayTitle);
+      this.overlayIndex = document.createElement('span');
+      this.overlayIndex.textContent = "".concat(this.imageIndex + 1, "/").concat(this.state.images.length);
+      container.appendChild(this.overlayIndex);
+      this.overlay.appendChild(container);
       this.addOverlayEvents();
       document.documentElement.appendChild(this.overlay);
       document.querySelector('body').classList.add('blur');
@@ -130,22 +150,35 @@ var ImageGallery = function (_React$Component) {
   }, {
     key: "addOverlayEvents",
     value: function addOverlayEvents() {
-      var _this2 = this;
+      var _this3 = this;
 
-      this.overlay.onclick = this.hideOverlay;
+      this.overlay.onclick = function (e) {
+        if ('ontouchstart' in window) {
+          var screenHeight = window.innerHeight;
+          var screen25pct = screenHeight / 4;
+          var screenBottom = screenHeight - screen25pct;
+
+          if (e.clientY >= screen25pct && e.clientY <= screenBottom) {
+            return;
+          }
+        }
+
+        _this3.hideOverlay();
+      };
+
       document.addEventListener('keydown', this.handleDocKeyDown);
       this.overlay.addEventListener('touchstart', function (e) {
-        _this2.touchStartX = e.changedTouches[0].screenX;
+        _this3.touchStartX = e.changedTouches[0].screenX;
       }, _supportsPassive ? {
         passive: true
       } : false);
       this.overlay.addEventListener('touchend', function (e) {
         var curX = e.changedTouches[0].screenX;
 
-        if (curX > _this2.touchStartX) {
-          _this2.changeImage('left');
-        } else if (curX < _this2.touchStartX) {
-          _this2.changeImage('right');
+        if (curX > _this3.touchStartX) {
+          _this3.changeImage('left');
+        } else if (curX < _this3.touchStartX) {
+          _this3.changeImage('right');
         }
       });
     }
@@ -154,14 +187,17 @@ var ImageGallery = function (_React$Component) {
     value: function handleDocKeyDown(e) {
       switch (e.key) {
         case 'ArrowLeft':
+        case 'Left':
           this.changeImage('left');
           break;
 
         case 'ArrowRight':
+        case 'Right':
           this.changeImage('right');
           break;
 
         case 'Escape':
+        case 'Esc':
           this.hideOverlay();
           break;
       }
@@ -170,6 +206,8 @@ var ImageGallery = function (_React$Component) {
     key: "hideOverlay",
     value: function hideOverlay() {
       this.overlay.parentNode.removeChild(this.overlay);
+      this.overlayIndex = null;
+      this.overlayTitle = null;
       this.overlayImg = null;
       this.overlay = null;
       document.removeEventListener('keydown', this.handleDocKeyDown);
@@ -178,6 +216,8 @@ var ImageGallery = function (_React$Component) {
   }, {
     key: "preloadNextImages",
     value: function preloadNextImages() {
+      var _this4 = this;
+
       if (window.Image.toString().indexOf('[native code]') === -1) {
         console.warn('Images for <ImageGallery> cannot be preloaded because the app defined a <Image> component that overwrote the browsers native [Image] class.');
         return;
@@ -191,8 +231,17 @@ var ImageGallery = function (_React$Component) {
       }
 
       if (indexLeft !== this.imageIndex) {
-        var imgLeft = new Image();
-        imgLeft.src = this.state.images[indexLeft].image;
+        var srcLeft = this.state.images[indexLeft].image;
+
+        if (srcLeft && !this.loadedImages.has(srcLeft)) {
+          var imgLeft = new Image();
+
+          imgLeft.onload = function () {
+            _this4.loadedImages.add(srcLeft);
+          };
+
+          imgLeft.src = srcLeft;
+        }
       }
 
       var indexRight = this.imageIndex + 1;
@@ -202,8 +251,17 @@ var ImageGallery = function (_React$Component) {
       }
 
       if (indexRight !== this.imageIndex) {
-        var imgRight = new Image();
-        imgRight.src = this.state.images[indexRight].image;
+        var srcRight = this.state.images[indexRight].image;
+
+        if (srcRight && !this.loadedImages.has(srcRight)) {
+          var imgRight = new Image();
+
+          imgRight.onload = function () {
+            _this4.loadedImages.add(srcRight);
+          };
+
+          imgRight.src = srcRight;
+        }
       }
     }
   }, {
@@ -217,13 +275,17 @@ var ImageGallery = function (_React$Component) {
         this.imageIndex = this.imageIndex === 0 ? imageCount - 1 : this.imageIndex - 1;
       }
 
+      var imageTitle = this.state.images[this.imageIndex].title;
       this.overlayImg.src = '';
       this.overlayImg.src = this.state.images[this.imageIndex].image;
+      this.overlayTitle.textContent = imageTitle;
+      this.overlayTitle.style.display = imageTitle ? '' : 'none';
+      this.overlayIndex.textContent = "".concat(this.imageIndex + 1, "/").concat(imageCount);
     }
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this5 = this;
 
       var template = this.props.template;
 
@@ -237,7 +299,7 @@ var ImageGallery = function (_React$Component) {
 
       return this.state.images.map(function (image) {
         return React.cloneElement(template, Object.assign({}, image, {
-          onClick: _this3.onClick
+          onClick: _this5.onClick
         }));
       });
     }

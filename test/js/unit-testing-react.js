@@ -265,6 +265,16 @@ describe('jsxLoader.js', function() {
             expect(el.getAttribute('data-selector')).to.equal('ul.link > li');
         });
 
+        it('should have div-10', function() {
+            var el = document.querySelector('#div-10');
+            expect(el.textContent).to.equal('true');
+        });
+
+        it('should have div-11', function() {
+            var el = document.querySelector('#div-11');
+            expect(el.textContent).to.equal('true');
+        });
+
         it('should have <ul class="links"> with 3 links', function() {
             var links = document.querySelectorAll('ul.links li > a[target="_blank"]');
             expect(links).to.be.lengthOf(3);

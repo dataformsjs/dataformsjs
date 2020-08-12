@@ -653,7 +653,7 @@
                                 break;
                             case '<':
                                 charNext = peekNext();
-                                if (/[a-zA-Z]/.test(charNext) || charNext === '>') {
+                                if (/[a-zA-Z>]/.test(charNext)) {
                                     state.elementCount++;
                                 } else if (charNext === '/') {
                                     state.elementCount--;
@@ -728,7 +728,7 @@
                                     state.inStringMultiLine = true;
                                     break;
                                 case '<':
-                                    if (input[c + 1] !== ' ') {
+                                    if (/[a-zA-Z>]/.test(input[c + 1])) {
                                         return c; // Start of Element found
                                     }
                                     break;
@@ -739,10 +739,13 @@
                     return null;
                 }
 
-                // Private function to return the next character without
+                // Private functions to return the current or next characters without
                 // incrementing the counter for the current position.
-                function peekNext() {
+                function peekCurrent() {
                     return (current < length ? input[current] : null);
+                }
+                function peekNext() {
+                    return (current < length ? input[current+1] : null);
                 }
 
                 // Safety check to prevent endless loops on unexpected errors.
@@ -837,7 +840,7 @@
                                                 state.inValue = true;
                                             }
                                             state.value = '';
-                                            nextChar = peekNext();
+                                            nextChar = peekCurrent();
                                             if (nextChar === '"' || nextChar === "'") {
                                                 state.inPropString = true;
                                                 state.propStringChar = nextChar;
@@ -910,14 +913,14 @@
                                             }
                                             break;
                                         case '/':
-                                            if (peekNext() === '>') {
+                                            if (peekCurrent() === '>') {
                                                 current--;
                                                 state.breakLoop = true;
                                                 state.hasElementName = false;
                                             }
                                             break;
                                         case '<':
-                                            if (state.currentElementState.inPropJs && peekNext() !== ' ') {
+                                            if (state.currentElementState.inPropJs && peekCurrent() !== ' ') {
                                                 if (state.value.trim() !== '') {
                                                     tokens.push({
                                                         type: tokenTypes.e_child_js_start,
@@ -955,7 +958,7 @@
                                                 pos: current,
                                             });
                                             if (state.elementStack <= 1) {
-                                                if (peekNext() !== '}') {
+                                                if (peekCurrent() !== '}') {
                                                     current--;
                                                 }
                                                 return;
@@ -985,7 +988,7 @@
                                 case '/':
                                     if (state.value === '' || state.value === '<') {
                                         state.closingElement = true;
-                                    } else if (peekNext() === '>') {
+                                    } else if (peekCurrent() === '>') {
                                         state.closeElement = true;
                                         state.inElement = false;
                                         state.addElementEnd = true;
@@ -1031,7 +1034,7 @@
                                     }
                                     break;
                                 case '<':
-                                    if (peekNext() !== ' ') {
+                                    if (/[a-zA-Z>/]/.test(peekNext())) {
                                         state.addChild = true;
                                         state.inElement = true;
                                     }

@@ -1,7 +1,29 @@
 /**
  * DataFormsJS React Component <ImageGallery>
  *
- * TODO - new
+ * This class provides a simple image gallery/viewer that
+ * can be used by an app to display a list of thumbnail images
+ * with the following features:
+ *    - Show Overlay with large Image on Thumbnail Click
+ *    - Handle Left/Right/Escape Keys for the Overlay
+ *    - Handle Swipe left and right on Mobile Devices
+ *    - Diplays [title] of the image with index by default.
+ *      [title] is not required and index can be hidden through
+ *      CSS if desired.
+ *
+ * This React Component does not generate large images or thumbnails
+ * and requires the images to be created by the site/app.
+ *
+ * This class is designed to be small and easy to modify so the
+ * code can easily be copied and extended or changed as part of a
+ * custom app.
+ *
+ * Example Usage:
+ *     https://www.dataformsjs.com/examples/image-gallery-react.htm
+ *
+ * Similar functionality exists for the standard DataFormsJS Framework
+ * with the `js/plugins/imageGallery.js` plugin and also for the
+ * DataFormsJS <image-gallery> Web Component.
  */
 
 /* Validates with both [jshint] and [eslint] */
@@ -66,6 +88,8 @@ export default class ImageGallery extends React.Component {
          * Examples:
          *     .image-gallery-overlay { background-color: black !important; }
          *     .image-gallery-overlay { background-color: rgba(0,0,0,.7) !important; }
+         *     .image-gallery-overlay div { display:none !important; }
+         *     .image-gallery-overlay div span { background-color: rgba(255,255,255,.5); }
          */
         this.overlayStyleId = 'image-gallery-css';
         this.overlayStyleCss = `
@@ -82,11 +106,29 @@ export default class ImageGallery extends React.Component {
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                flex-direction: column;
             }
 
             .image-gallery-overlay img {
                 max-width: 100%;
                 max-height: 100%;
+                flex-shrink: 0;
+            }
+
+            .image-gallery-overlay div {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                z-index: 2;
+                font-weight: bold;
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+            }
+        
+            .image-gallery-overlay div span {
+                padding: 10px 20px;
             }
         `;
 
@@ -94,7 +136,10 @@ export default class ImageGallery extends React.Component {
         this.imageIndex = null;
         this.overlay = null;
         this.overlayImg = null;
+        this.overlayTitle = null;
+        this.overlayIndex = null;
         this.touchStartX = null;
+        this.loadedImages = new Set();
 
         // Set State with Images
         this.state = {
@@ -128,21 +173,57 @@ export default class ImageGallery extends React.Component {
     }
 
     showOverlay() {
+        const imageSrc = this.state.images[this.imageIndex].image;
+        const imageTitle = this.state.images[this.imageIndex].title;
         this.loadCss();
+
+        // Overlay <div> root element
         this.overlay = document.createElement('div');
         this.overlay.className = 'image-gallery-overlay';
+
+        // Overlay <img>
         this.overlayImg = document.createElement('img');
-        this.overlayImg.addEventListener('load', this.preloadNextImages);
-        this.overlayImg.src = this.state.images[this.imageIndex].image;
+        this.overlayImg.addEventListener('load', () => {
+            this.loadedImages.add(imageSrc);
+            this.preloadNextImages();
+        });
+        this.overlayImg.src = imageSrc;
         this.overlay.appendChild(this.overlayImg);
+
+        // Overlay <div> for title and index
+        const container = document.createElement('div');
+        this.overlayTitle = document.createElement('span');
+        this.overlayTitle.textContent = imageTitle;
+        this.overlayTitle.style.display = (imageTitle ? '' : 'none');
+        container.appendChild(this.overlayTitle);
+        this.overlayIndex = document.createElement('span');
+        this.overlayIndex.textContent = `${this.imageIndex + 1}/${this.state.images.length}`;
+        container.appendChild(this.overlayIndex);
+        this.overlay.appendChild(container);
+
+        // Define events and add Overlay to DOM
         this.addOverlayEvents();
         document.documentElement.appendChild(this.overlay);
         document.querySelector('body').classList.add('blur');
     }
 
     addOverlayEvents() {
-        // Hide overlay on click
-        this.overlay.onclick = this.hideOverlay;
+        // Hide overlay on click. For mobile devices if the user "clicks/touches"
+        // in the middle half of the screen then do not hide the overlay. This
+        // prevents the overlay from hiding while the user is swiping. Without
+        // this code the swipe logic still works on mobile, however the overlay
+        // closes occasionally which causes an unexpected experience for the user.
+        this.overlay.onclick = (e) => {
+            if ('ontouchstart' in window) {
+                const screenHeight = window.innerHeight;
+                const screen25pct = screenHeight / 4;
+                const screenBottom = screenHeight - screen25pct;
+                if (e.clientY >= screen25pct && e.clientY <= screenBottom) {
+                    return;
+                }
+            }
+            this.hideOverlay();
+        };
     
         // Handle Right and Left Arrow Keys to change active image
         document.addEventListener('keydown', this.handleDocKeyDown);
@@ -164,12 +245,15 @@ export default class ImageGallery extends React.Component {
     handleDocKeyDown(e) {
         switch (e.key) {
             case 'ArrowLeft':
+            case 'Left':
                 this.changeImage('left');
                 break;
             case 'ArrowRight':
+            case 'Right':
                 this.changeImage('right');
                 break;
             case 'Escape':
+            case 'Esc':
                 this.hideOverlay();
                 break;
         }
@@ -178,6 +262,8 @@ export default class ImageGallery extends React.Component {
     // Called from overlay click and escape key
     hideOverlay() {
         this.overlay.parentNode.removeChild(this.overlay);
+        this.overlayIndex = null;
+        this.overlayTitle = null;
         this.overlayImg = null;
         this.overlay = null;
         document.removeEventListener('keydown', this.handleDocKeyDown);
@@ -203,8 +289,12 @@ export default class ImageGallery extends React.Component {
         if (indexLeft !== this.imageIndex) {
             // This causes the browser to download the image in the
             // background where it will be cached by the browser.
-            const imgLeft = new Image();
-            imgLeft.src = this.state.images[indexLeft].image;
+            const srcLeft = this.state.images[indexLeft].image;
+            if (srcLeft && !this.loadedImages.has(srcLeft)) {
+                const imgLeft = new Image();
+                imgLeft.onload = () => { this.loadedImages.add(srcLeft); };
+                imgLeft.src = srcLeft;
+            }
         }
 
         // Image to the Right of the Current Image
@@ -213,8 +303,12 @@ export default class ImageGallery extends React.Component {
             indexRight = 0;
         }
         if (indexRight !== this.imageIndex) {
-            const imgRight = new Image();
-            imgRight.src = this.state.images[indexRight].image;
+            const srcRight = this.state.images[indexRight].image;
+            if (srcRight && !this.loadedImages.has(srcRight)) {
+                const imgRight = new Image();
+                imgRight.onload = () => { this.loadedImages.add(srcRight); };
+                imgRight.src = srcRight;
+            }
         }
     }
 
@@ -226,12 +320,16 @@ export default class ImageGallery extends React.Component {
         } else {
             this.imageIndex = (this.imageIndex === 0 ? imageCount - 1 : this.imageIndex - 1);
         }
+        const imageTitle = this.state.images[this.imageIndex].title;
         this.overlayImg.src = '';
         this.overlayImg.src = this.state.images[this.imageIndex].image;
+        this.overlayTitle.textContent = imageTitle;
+        this.overlayTitle.style.display = (imageTitle ? '' : 'none');
+        this.overlayIndex.textContent = `${this.imageIndex + 1}/${imageCount}`;
     }
     
     render() {
-        let template = this.props.template
+        let template = this.props.template;
         if (template === undefined) {
             if (this.props.children !== undefined) {
                 template = this.props.children;

@@ -4,6 +4,28 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 4.4.0 (August 12, 2020)
+
+* Bug fix for `js/react/jsxLoader.js` so that the `less than or equal to` operator `<=` is not parsed as an Element
+* New Features and Enhancements for Image Gallery plus fixes for IE 11
+  * All Versions updated:
+    * Framework Plugin: `js/plugins/imageGallery.js`
+    * Web Component: `js/web-components/image-gallery.js`
+    * React Component: `js/react/es6/ImageGallery.js`
+  * Enhancements
+    * On mobile devices swiping in the middle of the screen no longer triggers the overlay to close accidently on the click event. Previously this would occur from time to time.
+    * Minor performance updates related to preloading images so that the loading code is called only once per image.
+  * New Features
+    * If `title` attribute is specified on the `img` tag, `image-gallery` web component, or included with data source for React then it will be displayed at the bottom of the screen.
+    * Image Index/Position is now displayed be default and can be easily hidden from CSS by the calling app if desired
+  * IE 11 Fixes
+    * Layout improvements for Image Overlay so image is not cut off on narrow windows (IE flexbox issue)
+    * Fixed issue with arrow and escape keys not working
+  * Demo Pages:
+    * https://www.dataformsjs.com/examples/image-gallery-web.htm
+    * https://www.dataformsjs.com/examples/image-gallery-react.htm
+    * https://www.dataformsjs.com/examples/image-gallery-hbs.htm
+
 ## 4.3.0 (August 11, 2020)
 
 * New Feature - Image Gallery
