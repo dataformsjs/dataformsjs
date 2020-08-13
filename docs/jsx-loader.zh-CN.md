@@ -76,13 +76,13 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
     Include the DataFormsJS JSX Loader.
     Either [jsxLoader.min.js] or [jsxLoader.js] can be used.
 -->
-<script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.0/js/react/jsxLoader.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.1/js/react/jsxLoader.min.js"></script>
 
 <!--
     Include JSX components and scripts using [type="text/babel"].
     This is the same method that would be used with Babel Standalone.
 -->
-<script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.0/js/react/es6/JsonData.js"></script>
+<script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.1/js/react/es6/JsonData.js"></script>
 <script type="text/babel">
 
     class HelloMessage extends React.Component {
