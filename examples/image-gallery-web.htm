@@ -4,10 +4,52 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Image Gallery Demo | Web Components</title>
+        <link href="https://www.dataformsjs.com/js/prism-1.17.1/prism.css" rel="stylesheet">
         <link rel="stylesheet" href="css/image-gallery.css">
         <link rel="canonical" href="https://www.dataformsjs.com/examples/image-gallery-web.htm">
     </head>
     <body>
+        <h1>DataFormsJS &#x3C;image-gallery&#x3E; Web Component</h1>
+
+        <div class="about">
+            <h2>Features</h2>
+            <ul>
+                <li>Shows Overlay with large Image on Thumbnail Click.</li>
+                <li>Handles Left/Right/Escape Keys for the Overlay.</li>
+                <li>Handles Swipe left/right and Tap to close on Mobile Devices.</li>
+                <li>Diplays [title] of the image with Index by default.</li>
+                <li>Overlay style and layout can easily changed with CSS.</li>
+                <li>The code is designed to be small and easy to modify so that it can be easily copied and extended or changed as part of a custom app.</li>
+                <li>Works with modern Browsers - won't work with IE or old Mobile Devices.</li>
+            </ul>
+
+            <h2>Example Usage and Code</h2>
+            <pre class="language-html">
+                <code>&#x3C;!--
+Include component on page
+--&#x3E;
+&#x3C;script type=&#x22;module&#x22; src=&#x22;dataformsjs/js/web-components/image-gallery.min.js&#x22;&#x3E;
+&#x3C;/script&#x3E;
+
+&#x3C;!--
+    Include an &#x3C;img&#x3E; within the &#x3C;image-gallery&#x3E; and
+    specify [image] and optional [title] attribute on the &#x3C;image-gallery&#x3E;
+--&#x3E;
+&#x3C;image-gallery image=&#x22;${image}&#x22; title=&#x22;${title}&#x22;&#x3E;
+    &#x3C;img src=&#x22;${thumbnail}&#x22; /&#x3E;
+&#x3C;/image-gallery&#x3E;
+
+&#x3C;!--
+    Or simply include a background image on the &#x3C;image-gallery&#x3E; element
+--&#x3E;
+&#x3C;image-gallery
+    image=&#x22;${image}&#x22;
+    style=&#x22;background-image: url(&#x27;${thumbnail}&#x27;);&#x22;
+    title=&#x22;${title}&#x22;&#x3E;
+&#x3C;/image-gallery&#x3E;</code>
+            </pre>
+        </div>
+
         <json-data url="https://dataformsjs.s3-us-west-1.amazonaws.com/img/example-images/index.json">
             <is-loading>
                 <span class="loading">Loading Photos...</span>
@@ -60,5 +102,14 @@
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.1/js/web-components/json-data.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.1/js/web-components/data-list.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.1/js/web-components/image-gallery.min.js"></script>
+
+        <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.1/js/web-components/safari-nomodule.min.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.1/js/web-components/old-browser-warning.min.js"></script>
+
+        <!--
+            https://prismjs.com/
+        -->
+        <script src="https://www.dataformsjs.com/js/prism-1.17.1/prism.modified.min.js"></script>
     </body>
 </html>

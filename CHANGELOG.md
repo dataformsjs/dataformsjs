@@ -4,6 +4,19 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 4.4.2 (August 13, 2020)
+
+* Minor CSS updates for Image Gallery Controls so that Title and Index `div` displays to a max-width of 1300px. Code comments also updated on different options for overriding the default CSS. All Versions updated:
+  * Framework Plugin: `js/plugins/imageGallery.js`
+  * Web Component: `js/web-components/image-gallery.js`
+  * React Component: `js/react/es6/ImageGallery.js`
+* Website Updates (not affecting NPM)
+  * Image Gallery Demos
+    * Added Example Code and Usage to all Image Gallery Demos
+    * Added Vue Demo `http://127.0.0.1:8080/image-gallery-vue`
+    * Layout Improvements for IE 11 (Handlebars and React)
+  * Added Vue 3 using JSX Experimental Demo: `http://127.0.0.1:8080/examples/hello-world/en/vue3-with-jsx.htm`
+
 ## 4.4.1 (August 12, 2020)
 
 * Minor CSS updates for Image Title and Index on Image Gallery Controls so that a light transparent background shows by default. All Versions updated:

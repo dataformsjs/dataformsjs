@@ -9,7 +9,7 @@
         <link rel="canonical" href="https://www.dataformsjs.com/examples/image-gallery-web.htm">
     </head>
     <body>
-        <h1>DataFormJS [imageGallery] Framework Plugin with Handlebars</h1>
+        <h1>DataFormJS [imageGallery] Framework Plugin with Vue</h1>
 
         <div class="about">
             <h2>Features</h2>
@@ -32,33 +32,46 @@
     to an &#x3C;img&#x3E; or other element for each image.
 --&#x3E;
 &#x3C;img
-    src=&#x22;{{thumbnail}}&#x22;
-    data-image-gallery=&#x22;{{image}}&#x22;
-    title=&#x22;{{title}}&#x22;&#x3E;
+    v-for=&#x22;image in images&#x22;
+    v-bind:src=&#x22;image.thumbnail&#x22;
+    v-bind:data-image-gallery=&#x22;image.image&#x22;
+    v-bind:title=&#x22;image.title&#x22;&#x3E;
 
 &#x3C;div
     class=&#x22;card-image&#x22;
-    style=&#x22;background-image: url({{thumbnail}});&#x22;
-    data-image-gallery=&#x22;{{image}}&#x22;
-    title=&#x22;{{title}}&#x22;&#x3E;&#x3C;/div&#x3E;</code>
+    v-for=&#x22;image in images&#x22;
+    v-bind:style=&#x22;&#x27;background-image: url(&#x27; + image.thumbnail + &#x27;)&#x27;&#x22;
+    v-bind:data-image-gallery=&#x22;image.image&#x22;
+    v-bind:title=&#x22;image.title&#x22;&#x3E;&#x3C;/div&#x3E;</code>
             </pre>
         </div>
 
         <json-data
             data-url="https://dataformsjs.s3-us-west-1.amazonaws.com/img/example-images/index.json"
-            data-template-id="images">
+            data-template-id="images"
+            data-images
+            v-clock>
         </json-data>
 
-        <script type="text/x-template" data-engine="handlebars" id="images">
+        <script type="text/x-template" data-engine="vue" id="images">
             <div class="image-gallery">
-                {{#each images}}
-                    <img src="{{thumbnail}}" data-image-gallery="{{image}}" title="{{title}}">
-                {{/each}}
+                <img v-for="image in images" v-bind:src="image.thumbnail" v-bind:data-image-gallery="image.image" v-bind:title="image.title">
             </div>
         </script>
-        
-        <!-- Handlebars -->
-        <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.6/dist/handlebars.min.js"></script>
+
+        <!--
+            Vue
+            https://vuejs.org
+
+            DataFormsJS works with both Vue 2 and Vue 3.
+
+            Vue 2
+                <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
+
+            Vue 3 (Currently in Beta)
+                <script src="https://unpkg.com/vue@next"></script>
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
 
         <!-- DataFormsJS Standard Files -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.1/js/DataFormsJS.min.js"></script>

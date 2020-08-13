@@ -27,6 +27,23 @@ html, body, #root { height:100%; margin:0; }
 body {
     background-color: var(--bg-color);
     color: var(--font-color);
+    text-align: center;
+}
+
+h1 { padding: 1em; }
+
+.about { max-width: 800px; margin:20px auto; }
+.about h2 { margin-top: 1em; }
+.about ul { display:inline-block; text-align:left; padding:1em; margin-left:1em; max-width:500px; }
+
+pre[class*="language-"] { background: none; margin: 0; padding: 0 .5em; }
+code[class*="language-"] { background-color: white; overflow-x: auto; }
+pre { text-align: center; }
+code {
+    display: block;
+    text-align: left;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.7);
+    padding: 20px;
 }
 
 .error { background-color: red; border: 2px solid darkred; color: white; padding: 1em; margin: 1em; display: block; }
@@ -70,7 +87,7 @@ React and Handlebars Demos, also used by Web Components Demo
 }
 
 .image-gallery img {
-    height: initial;
+    height: auto;
     max-height: 400px;
     width: calc(100% - 80px);
 }
@@ -94,7 +111,7 @@ React and Handlebars Demos, also used by Web Components Demo
     .image-gallery img {
         max-width: 550px;
         max-height: 350px;
-        width: initial;
+        width: auto;
     }
 }
 

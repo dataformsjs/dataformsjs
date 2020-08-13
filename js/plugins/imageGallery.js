@@ -1,31 +1,31 @@
 /**
  * DataFormJS [imageGallery] Plugin
- * 
+ *
  * This plugin provides a simple image gallery/viewer that
  * can be used by an app to display a list of thumbnail images
  * with the following features:
- *    - Show Overlay with large Image on Thumbnail Click
- *    - Handle Left/Right/Escape Keys for the Overlay
- *    - Handle Swipe left and right on Mobile Devices
+ *    - Shows Overlay with large Image on Thumbnail Click
+ *    - Handles Left/Right/Escape Keys for the Overlay
+ *    - Handles Swipe left/right and Tap to close on Mobile Devices
  *    - Diplays [title] of the image with index by default.
  *      [title] is not required and index can be hidden through
  *      CSS if desired.
- * 
+ *
  * This Plugin does not generate large images or thumbnails
  * and requires the images to be created by the site/app.
- * 
+ *
  * This plugin is designed to be small and easy to modify so the
  * code can easily be copied and extended or changed as part of a
  * custom app.
- * 
+ *
  * By default this plugin uses the attribute [data-image-gallery]
  * which can be changed by calling `app.plugins.imageGallery.imageSrcAttr = 'attr'`
  * or by copying and modifying this class.
- * 
+ *
  * Example Usage:
  *     <img src="thumbnail1.jpg" data-image-gallery="large-image1.jpg" title="image title">
  *     <img src="thumbnail2.jpg" data-image-gallery="large-image2.jpg" title="image title">
- * 
+ *
  * Similar functionality exists in the DataFormsJS <image-gallery> Web Component
  * and also for React with the `js/react/es6/ImageGallery.js` Component.
  */
@@ -44,19 +44,21 @@
 
     /**
      * CSS for the Overlay Image Viewer
-     * 
-     * The easiest way to override the default values
-     * is to use `!important` and specify the style
-     * attributes to override.
-     * 
+     *
+     * To override default values use `!important` and specify the style
+     * attributes to override in any style sheet on the page or define your
+     * own style sheet before this plugin runs using id `image-gallery-css`.
+     *
      * Examples:
      *     .image-gallery-overlay { background-color: black !important; }
      *     .image-gallery-overlay { background-color: rgba(0,0,0,.7) !important; }
      *     .image-gallery-overlay div { display:none !important; }
+     *     <style id="image-gallery-css">...</style>
+     *     <link rel="stylesheet" id="image-gallery-css" href="css/image-gallery.css">
      */
     var overlayStyleId = 'image-gallery-css';
     var overlayStyleCss = [
-        'body.blur { filter: blur(3px); }',        
+        'body.blur { filter: blur(3px); }',
         '.image-gallery-overlay {',
         '    position: fixed;',
         '    top: 0;',
@@ -89,6 +91,13 @@
         '.image-gallery-overlay div span {',
         '    padding: 10px 20px;',
         '    background-color: rgba(255,255,255,.4);',
+        '}',
+        '@media (min-width: 1300px) {',
+        '    .image-gallery-overlay div {',
+        '        left: calc((100% - 1300px) /2);',
+        '        right: auto;',
+        '        max-width: 1300px;',
+        '    }',
         '}',
     ].join('\n');
 
@@ -179,7 +188,7 @@
         },
 
         // This will create a new <div class="image-gallery-overlay"><img src="url"/></div>
-        // and add it to the page. 
+        // and add it to the page.
         showOverlay: function (imageIndex) {
             var imageSrc = this.getImageSource(imageIndex);
             var imageTitle = this.images[imageIndex].getAttribute('title');

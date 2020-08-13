@@ -57,10 +57,10 @@ function ShowImages(props) {
                 1) Using a basic image - no template specified
                     <ImageGallery images={props.data.images} />
 
-                2) Specify custom template using [template] attributee
+                2) Specify custom template using [template] attribute
                     <ImageGallery images={props.data.images} template={<AppImage />} />
 
-                3) Specifiy Template as a Child Element
+                3) Specify Template as a Child Element
                     <ImageGallery images={props.data.images}>
                         <AppImage2 />
                     </ImageGallery>

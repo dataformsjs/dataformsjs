@@ -4,10 +4,70 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Image Gallery Demo | React</title>
+        <link href="https://www.dataformsjs.com/js/prism-1.17.1/prism.css" rel="stylesheet">
         <link rel="stylesheet" href="css/image-gallery.css">
         <link rel="canonical" href="https://www.dataformsjs.com/examples/image-gallery-web.htm">
     </head>
     <body>
+        <h1>DataFormsJS React Component &#x3C;ImageGallery&#x3E;</h1>
+
+        <div class="about">
+            <h2>Features</h2>
+            <ul>
+                <li>Shows Overlay with large Image on Thumbnail Click.</li>
+                <li>Handles Left/Right/Escape Keys for the Overlay.</li>
+                <li>Handles Swipe left/right and Tap to close on Mobile Devices.</li>
+                <li>Diplays [title] of the image with Index by default.</li>
+                <li>Overlay style and layout can easily changed with CSS.</li>
+                <li>The code is designed to be small and easy to modify so that it can be easily copied and extended or changed as part of a custom app.</li>
+                <li>Works with all Browsers.</li>
+            </ul>
+
+            <h2>Example Usage and Code</h2>
+            <pre class="language-html">
+                <code>&#x3C;!--
+// Import Components from root DataFormsJS file
+import { ImageGallery } from 'dataformsjs/js/react/es6/DataFormsJS.js';
+
+// Or include JavaScript file directly:
+--&#x3E;
+&#x3C;script src=&#x22;dataformsjs/js/react/es5/ImageGallery.min.js&#x22;&#x3E;&#x3C;/script&#x3E;
+
+&#x3C;!--
+// Define Array of Images
+const images = [
+    {
+        thumbnail: "{url}",
+        image: "{url}",
+        title: "{optional text}"
+    },
+    {
+        thumbnail: "{url}",
+        image: "{url}",
+        title: "{optional text}"
+    },
+];
+
+// Example Image Template
+function AppImage(props) {
+    return &#x3C;img src={props.thumbnail} alt={props.title} onClick={props.onClick} /&#x3E;
+}
+--&#x3E;
+                    
+&#x3C;!-- 1) Using a basic image - no template specified --&#x3E;
+&#x3C;ImageGallery images={props.data.images} /&#x3E;
+
+&#x3C;!-- 2) Specify custom template using [template] attribute --&#x3E;
+&#x3C;ImageGallery images={props.data.images} template={&#x3C;AppImage /&#x3E;} /&#x3E;
+
+&#x3C;!-- 3) Specify Template as a Child Element --&#x3E;
+&#x3C;ImageGallery images={props.data.images}&#x3E;
+    &#x3C;AppImage /&#x3E;
+&#x3C;/ImageGallery&#x3E;
+</code>
+            </pre>
+        </div>
+
         <div id="root"></div>
 
         <!-- React -->
@@ -34,5 +94,10 @@
 
         <!-- App Code -->
         <script type="text/babel" src="image-gallery-react.jsx"></script>
+
+        <!--
+            https://prismjs.com/
+        -->
+        <script src="https://www.dataformsjs.com/js/prism-1.17.1/prism.modified.min.js"></script>
     </body>
 </html>

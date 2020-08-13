@@ -4,9 +4,9 @@
  * This class provides a simple image gallery/viewer that
  * can be used by an app to display a list of thumbnail images
  * with the following features:
- *    - Show Overlay with large Image on Thumbnail Click
- *    - Handle Left/Right/Escape Keys for the Overlay
- *    - Handle Swipe left and right on Mobile Devices
+ *    - Shows Overlay with large Image on Thumbnail Click
+ *    - Handles Left/Right/Escape Keys for the Overlay
+ *    - Handles Swipe left/right and Tap to close on Mobile Devices
  *    - Diplays [title] of the image with index by default.
  *      [title] is not required and index can be hidden through
  *      CSS if desired.
@@ -55,7 +55,7 @@ try {
 
 /**
  * Component <BasicImage> - used when no template is specified for <ImageGallery>
- * @param {object} props 
+ * @param {object} props
  */
 function BasicImage(props) {
     return React.createElement('img', {
@@ -81,14 +81,16 @@ export default class ImageGallery extends React.Component {
         /**
          * CSS for the Overlay Image Viewer
          *
-         * The easiest way to override the default values
-         * is to use `!important` and specify the style
-         * attributes to override.
+         * To override default values use `!important` and specify the style
+         * attributes to override in any style sheet on the page or define your
+         * own style sheet before this component runs using id `image-gallery-css`.
          *
          * Examples:
          *     .image-gallery-overlay { background-color: black !important; }
          *     .image-gallery-overlay { background-color: rgba(0,0,0,.7) !important; }
          *     .image-gallery-overlay div { display:none !important; }
+         *     <style id="image-gallery-css">...</style>
+         *     <link rel="stylesheet" id="image-gallery-css" href="css/image-gallery.css">
          */
         this.overlayStyleId = 'image-gallery-css';
         this.overlayStyleCss = `
@@ -125,10 +127,18 @@ export default class ImageGallery extends React.Component {
                 justify-content: space-between;
                 width: 100%;
             }
-        
+
             .image-gallery-overlay div span {
                 padding: 10px 20px;
                 background-color: rgba(255,255,255,.4);
+            }
+
+            @media (min-width: 1300px) {
+                .image-gallery-overlay div {
+                    left: calc((100% - 1300px) /2);
+                    right: auto;
+                    max-width: 1300px;
+                }
             }
         `;
 
@@ -146,7 +156,7 @@ export default class ImageGallery extends React.Component {
             images: props.images,
         };
     }
-    
+
     onClick(e) {
         let url = e.target.src;
         if (!url) {
@@ -224,10 +234,10 @@ export default class ImageGallery extends React.Component {
             }
             this.hideOverlay();
         };
-    
+
         // Handle Right and Left Arrow Keys to change active image
         document.addEventListener('keydown', this.handleDocKeyDown);
-    
+
         // Handle Touch Events for Swipe Left/Right
         this.overlay.addEventListener('touchstart', (e) => {
             this.touchStartX = e.changedTouches[0].screenX;
@@ -258,7 +268,7 @@ export default class ImageGallery extends React.Component {
                 break;
         }
     }
-    
+
     // Called from overlay click and escape key
     hideOverlay() {
         this.overlay.parentNode.removeChild(this.overlay);
@@ -279,7 +289,7 @@ export default class ImageGallery extends React.Component {
             console.warn('Images for <ImageGallery> cannot be preloaded because the app defined a <Image> component that overwrote the browsers native [Image] class.');
             return;
         }
-        
+
         // Image to the Left of the Current Image
         const imageCount = this.state.images.length;
         let indexLeft = this.imageIndex - 1;
@@ -327,14 +337,14 @@ export default class ImageGallery extends React.Component {
         this.overlayTitle.style.display = (imageTitle ? '' : 'none');
         this.overlayIndex.textContent = `${this.imageIndex + 1}/${imageCount}`;
     }
-    
+
     render() {
         let template = this.props.template;
         if (template === undefined) {
             if (this.props.children !== undefined) {
                 template = this.props.children;
             } else {
-                template = React.createElement(BasicImage); 
+                template = React.createElement(BasicImage);
             }
         }
 

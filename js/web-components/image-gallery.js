@@ -4,9 +4,9 @@
  * This class provides a simple image gallery/viewer that
  * can be used by an app to display a list of thumbnail images
  * with the following features:
- *    - Show Overlay with large Image on Thumbnail Click
- *    - Handle Left/Right/Escape Keys for the Overlay
- *    - Handle Swipe left and right on Mobile Devices
+ *    - Shows Overlay with large Image on Thumbnail Click
+ *    - Handles Left/Right/Escape Keys for the Overlay
+ *    - Handles Swipe left/right and Tap to close on Mobile Devices
  *    - Diplays [title] of the image with index by default.
  *      [title] is not required and index can be hidden through
  *      CSS if desired.
@@ -53,14 +53,16 @@ shadowTmpl.innerHTML = `
 /**
  * CSS for the Overlay Image Viewer
  *
- * The easiest way to override the default values
- * is to use `!important` and specify the style
- * attributes to override.
+ * To override default values use `!important` and specify the style
+ * attributes to override in any style sheet on the page or define your
+ * own style sheet before this component runs using id `image-gallery-css`.
  *
  * Examples:
  *     .image-gallery-overlay { background-color: black !important; }
  *     .image-gallery-overlay { background-color: rgba(0,0,0,.7) !important; }
  *     .image-gallery-overlay div { display:none !important; }
+ *     <style id="image-gallery-css">...</style>
+ *     <link rel="stylesheet" id="image-gallery-css" href="css/image-gallery.css">
  */
 const overlayStyleId = 'image-gallery-css';
 const overlayStyleCss = `
@@ -101,6 +103,14 @@ const overlayStyleCss = `
     .image-gallery-overlay div span {
         padding: 10px 20px;
         background-color: rgba(255,255,255,.4);
+    }
+
+    @media (min-width: 1300px) {
+        .image-gallery-overlay div {
+            left: calc((100% - 1300px) /2);
+            right: auto;
+            max-width: 1300px;
+        }
     }
 `;
 
