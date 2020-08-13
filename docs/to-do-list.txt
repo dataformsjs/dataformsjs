@@ -21,9 +21,6 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) https://github.com/dataformsjs/awesome-web-react
-    - Finish adding images for each item
-
 **) Once Vue 3 is out of beta confirm all Vue Examples and Pages work with Vue 3.
     - Currently all demos are confirmed to work with Vue 3 Beta 15 as of 2020-06-15
     - Update 2020-08-11 - Unit Tests confirmed with latest build - v3.0.0 (RC 5)
