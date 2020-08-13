@@ -34,7 +34,14 @@ h1 { padding: 1em; }
 
 .about { max-width: 800px; margin:20px auto; }
 .about h2 { margin-top: 1em; }
-.about ul { display:inline-block; text-align:left; padding:1em; margin-left:1em; max-width:500px; }
+.about ul {
+    display: inline-block;
+    text-align: left;
+    padding: 1em;
+    margin-left: 1em;
+    max-width: 500px;
+    line-height: 1.4em;
+}
 
 pre[class*="language-"] { background: none; margin: 0; padding: 0 .5em; }
 code[class*="language-"] { background-color: white; overflow-x: auto; }

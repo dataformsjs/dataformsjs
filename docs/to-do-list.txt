@@ -125,9 +125,6 @@ TODO List
         Need a React Version
     - Will likely use https://react-hook-form.com/ for React Form Demos
     - The [edit all] list page from the HBS demo is not required at first it it takes too long
-    - Possibly add Image Gallery Demos [examples\image-gallery-*.htm] to the main site examples
-        page. If doing this likely include a small <code> section showing how it works for each
-        page and create a nice SVG image for the main site.
     - One Page Site Demos are functional but very ugly:
         [examples/one-page-site-hbs.htm]
         [examples/one-page-and-spa-hbs.htm]
