@@ -4,6 +4,13 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 4.4.1 (August 12, 2020)
+
+* Minor CSS updates for Image Title and Index on Image Gallery Controls so that a light transparent background shows by default. All Versions updated:
+  * Framework Plugin: `js/plugins/imageGallery.js`
+  * Web Component: `js/web-components/image-gallery.js`
+  * React Component: `js/react/es6/ImageGallery.js`
+
 ## 4.4.0 (August 12, 2020)
 
 * Bug fix for `js/react/jsxLoader.js` so that the `less than or equal to` operator `<=` is not parsed as an Element

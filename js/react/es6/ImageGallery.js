@@ -89,7 +89,6 @@ export default class ImageGallery extends React.Component {
          *     .image-gallery-overlay { background-color: black !important; }
          *     .image-gallery-overlay { background-color: rgba(0,0,0,.7) !important; }
          *     .image-gallery-overlay div { display:none !important; }
-         *     .image-gallery-overlay div span { background-color: rgba(255,255,255,.5); }
          */
         this.overlayStyleId = 'image-gallery-css';
         this.overlayStyleCss = `
@@ -129,6 +128,7 @@ export default class ImageGallery extends React.Component {
         
             .image-gallery-overlay div span {
                 padding: 10px 20px;
+                background-color: rgba(255,255,255,.4);
             }
         `;
 

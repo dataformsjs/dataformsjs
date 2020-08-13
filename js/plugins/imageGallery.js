@@ -52,6 +52,7 @@
      * Examples:
      *     .image-gallery-overlay { background-color: black !important; }
      *     .image-gallery-overlay { background-color: rgba(0,0,0,.7) !important; }
+     *     .image-gallery-overlay div { display:none !important; }
      */
     var overlayStyleId = 'image-gallery-css';
     var overlayStyleCss = [
@@ -87,6 +88,7 @@
         '}',
         '.image-gallery-overlay div span {',
         '    padding: 10px 20px;',
+        '    background-color: rgba(255,255,255,.4);',
         '}',
     ].join('\n');
 
