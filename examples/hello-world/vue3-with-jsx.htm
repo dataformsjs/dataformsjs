@@ -1,0 +1,106 @@
+<!doctype html>
+<!--
+    This is an experimental file that uses Vue 3 with JSX. 
+    
+    Vue 3 has built-in support for functions needed with JSX however with the
+    current pre-release version of Vue 3 (Release Candidate 5) the `Vue.h`
+    function requires a minor patch for compatibility with standard Babel
+    generated code. See comments at the bottom of this file.
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>DataFormsJS - {{title}}</title>
+        <link rel="stylesheet" href="hello-world.css">
+        <style>
+            p { text-align: center; }
+            a { 
+                padding-bottom: .5em;
+                display: inline-block;
+            }
+        </style>
+        <link rel="canonical" href="https://www.dataformsjs.com/examples/hello-world/{{lang}}/web.htm">
+    </head>
+    <body>
+        <div id="root" dir="auto"></div>
+
+        <script type="text/babel">
+            // @jsx Vue.h
+            function App() {
+                return (
+                    <Vue.Fragment>
+                        <h1>{{hello_world}}</h1>
+
+                        <p>
+                            <a href="https://github.com/vuejs/vue-next" target="_blank">Vue 3 with JSX</a><br />
+                            {jsxLoader.isSupportedBrowser ? '{{jsx_loader}}'
+                            : '{{babel_loader}}'}
+                        </p>
+
+                        <div className="home-page-animation">
+                            <img src="sun.svg" className="sun" />
+                            <div className="orbit">
+                                <img src="planet.svg" className="planet" />
+                                <img src="moon.svg" className="moon" />
+                            </div>
+                        </div>
+                    </Vue.Fragment>
+                )
+            }
+
+            Vue.render(
+                <App />,
+                document.getElementById('root')
+            );
+        </script>
+
+        <script src="https://unpkg.com/vue@next"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.1/js/react/jsxLoader.min.js"></script>
+
+        <script>
+            // When using the most version tested version of Vue 3 (Release Candidate 5)
+            // `Vue.h` does not support a long list of paramters that would normally be generated
+            // by Babel for React and Preact and instead requires an an array for the 3rd parameter.
+            //
+            // This code overwrite the built-in `Vue.h` and adds the following logic:
+            //
+            //    if (arguments.length > 3) {
+            //       return createVNode(type, propsOrChildren, Array.from(arguments).slice(2));
+            //    } else ...
+            //
+            (function () {
+                const createVNode = Vue.createVNode;
+                const isVNode = Vue.isVNode;
+                const isArray = Array.isArray;
+                const isObject = (val) => val !== null && typeof val === 'object';
+
+                Vue.h = function h(type, propsOrChildren, children) {
+                    if (arguments.length > 3) {
+                        return createVNode(type, propsOrChildren, Array.from(arguments).slice(2));
+                    }
+                    else if (arguments.length === 2) {
+                        if (isObject(propsOrChildren) && !isArray(propsOrChildren)) {
+                            // single vnode without props
+                            if (isVNode(propsOrChildren)) {
+                                return createVNode(type, null, [propsOrChildren]);
+                            }
+                            // props without children
+                            return createVNode(type, propsOrChildren);
+                        }
+                        else {
+                            // omit props
+                            return createVNode(type, null, propsOrChildren);
+                        }
+                    }
+                    else {
+                        if (isVNode(children)) {
+                            children = [children];
+                        }
+                        return createVNode(type, propsOrChildren, children);
+                    }
+                };
+            })();
+        </script>
+    </body>
+</html>

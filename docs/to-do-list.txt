@@ -38,6 +38,10 @@ TODO List
         both CDN links in the HTML.
     - Once Vue 3 is released then search for all references to "Vue 3 (Currently in Beta)"
         and similar terms and replace/remove them.
+    - See experimental file:
+        http://127.0.0.1:8080/examples/hello-world/en/vue3-with-jsx.htm
+        - If Vue 3 ends up being released without an updated `Vue.h` for multiple paramaters
+          then likely add new `js/extensions/vue3-h.js` script that provides this functionality.
     - Differences to watch for in the future and possibly handle:
         - When using Vue 2 the undocumented API `_watcher` is used to track the watchers.
             It doesn't exist in current Vue 3 beta. This could cause issues with custom
