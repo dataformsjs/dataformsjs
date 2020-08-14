@@ -58,6 +58,13 @@
         <script src="https://unpkg.com/vue@next"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.2/js/react/jsxLoader.min.js"></script>
 
+        <!--
+            Warning for IE 11 and Old Mobile Devices because the tested build of Vue 3 (RC 5)
+            does not support them, this may or may not change in the future
+        -->
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.2/js/web-components/safari-nomodule.min.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.2/js/web-components/old-browser-warning.min.js"></script>  
+
         <script>
             // When using the most version tested version of Vue 3 (Release Candidate 5)
             // `Vue.h` does not support a long list of paramters that would normally be generated
