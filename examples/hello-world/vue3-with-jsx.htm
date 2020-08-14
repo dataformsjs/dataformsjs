@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
-    This is an experimental file that uses Vue 3 with JSX. 
-    
+    This is an experimental file that uses Vue 3 with JSX.
+
     Vue 3 has built-in support for functions needed with JSX however with the
     current pre-release version of Vue 3 (Release Candidate 5) the `Vue.h`
     function requires a minor patch for compatibility with standard Babel
@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="hello-world.css">
         <style>
             p { text-align: center; }
-            a { 
+            a {
                 padding-bottom: .5em;
                 display: inline-block;
             }
@@ -34,7 +34,7 @@
 
                         <p>
                             <a href="https://github.com/vuejs/vue-next" target="_blank">Vue 3 with JSX</a><br />
-                            {jsxLoader.isSupportedBrowser ? '{{jsx_loader}}'
+                            {window.jsxLoader && jsxLoader.isSupportedBrowser ? '{{jsx_loader}}'
                             : '{{babel_loader}}'}
                         </p>
 
@@ -55,7 +55,18 @@
             );
         </script>
 
+        <!-- Vue 3 -->
         <script src="https://unpkg.com/vue@next"></script>
+
+        <!--
+            This demo work with either Babel Standalone (350 kB gzip and min / 1.6 MB min version)
+            or the DataFormsJS jsxLoader (5.4 kB gzip and min / 18.1 kB min version).
+            To try Babel uncomment it then comment out the [jsxLoader.min.js] script.
+
+            In the JSX Code `window.jsxLoader && ` was added for testing with Babel, this
+            demo is based on the React Version which always has `jsxLoader` defined.
+        -->
+        <!-- <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.2/js/react/jsxLoader.min.js"></script>
 
         <!--
@@ -63,7 +74,7 @@
             does not support them, this may or may not change in the future
         -->
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.2/js/web-components/safari-nomodule.min.js"></script>
-        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.2/js/web-components/old-browser-warning.min.js"></script>  
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.2/js/web-components/old-browser-warning.min.js"></script>
 
         <script>
             // When using the most version tested version of Vue 3 (Release Candidate 5)
