@@ -74,6 +74,31 @@ TODO List
         "#/:lang/quick-reference/:topic"
         However all code should be downloaded only once and displayed in memory
 
+**) https://awesome-web-react.js.org/
+    - Performance issue with the main SVG/CSS Animation was found on a Windows 7 computer with Firefox Version 79 (2020-08-20)
+    - Basically the page slows down and it's hard to scroll or type a filter
+    - Doesn't happen on Mac
+    - Windows 10 hasen't been tested
+    - Attempts to fix the issue with a seperate GPU Rendering Layer did not help:
+        h1 img { transform: translateZ(0); }
+        # or when including `transform: translateZ(0);` directly in the SVG
+    - Could be an issue specific to the computer as Firefox was much slower than any other browser on it (including IE)
+        Seems to happen with other CSS animations on the tested computer with Firefox
+    - More Windows Computers need to be tested with Firefox
+    - A hack can be made to target all Firefox browsers in the SVG using:
+        @-moz-document url-prefix() {
+            #react,
+            #glass-light-left,
+            #glass-light-right {
+                animation: none;
+            }
+        }
+    - However that hack is curently not used because this issue is not expected to affect most Computers
+    - An alternative would be to use:
+        @media (prefers-reduced-motion: reduce) { ... }
+    - However `prefers-reduced-motion` is currently not used because it has to many false positives.
+      For example on the tested computer it was never set but returns true.
+
 **) Playground Site
     - Need to add support for JSON file/resource type
     - Add liniting for React/JSX, Babel recently started doing this online in the REPL:
