@@ -2,10 +2,14 @@
 <!--
     This is an experimental file that uses Vue 3 with JSX.
 
-    Vue 3 has built-in support for functions needed with JSX however with the
-    current pre-release version of Vue 3 (Release Candidate 5) the `Vue.h`
-    function requires a minor patch for compatibility with standard Babel
-    generated code. See comments at the bottom of this file.
+    Prior to RC 8 custom code to overwrite the `Vue.h()` function was needed.
+    It now works with Vue 3 (RC 8) based on this comment:
+    https://github.com/vuejs/jsx/issues/141#issuecomment-678639552
+
+    Fix was made here:
+    https://github.com/vuejs/vue-next/commit/54d06ec495a1743415de9426962024ffb764e4fe
+
+    Once Vue 3 is finalized then all development related comments can be removed.
 -->
 <html lang="en">
     <head>
@@ -70,55 +74,10 @@
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.2/js/react/jsxLoader.min.js"></script>
 
         <!--
-            Warning for IE 11 and Old Mobile Devices because the tested build of Vue 3 (RC 5)
+            Warning for IE 11 and Old Mobile Devices because the tested build of Vue 3 (RC 8)
             does not support them, this may or may not change in the future
         -->
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.2/js/web-components/safari-nomodule.min.js"></script>
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.2/js/web-components/old-browser-warning.min.js"></script>
-
-        <script>
-            // When using the most version tested version of Vue 3 (Release Candidate 5)
-            // `Vue.h` does not support a long list of paramters that would normally be generated
-            // by Babel for React and Preact and instead requires an an array for the 3rd parameter.
-            //
-            // This code overwrite the built-in `Vue.h` and adds the following logic:
-            //
-            //    if (arguments.length > 3) {
-            //       return createVNode(type, propsOrChildren, Array.from(arguments).slice(2));
-            //    } else ...
-            //
-            (function () {
-                const createVNode = Vue.createVNode;
-                const isVNode = Vue.isVNode;
-                const isArray = Array.isArray;
-                const isObject = (val) => val !== null && typeof val === 'object';
-
-                Vue.h = function h(type, propsOrChildren, children) {
-                    if (arguments.length > 3) {
-                        return createVNode(type, propsOrChildren, Array.from(arguments).slice(2));
-                    }
-                    else if (arguments.length === 2) {
-                        if (isObject(propsOrChildren) && !isArray(propsOrChildren)) {
-                            // single vnode without props
-                            if (isVNode(propsOrChildren)) {
-                                return createVNode(type, null, [propsOrChildren]);
-                            }
-                            // props without children
-                            return createVNode(type, propsOrChildren);
-                        }
-                        else {
-                            // omit props
-                            return createVNode(type, null, propsOrChildren);
-                        }
-                    }
-                    else {
-                        if (isVNode(children)) {
-                            children = [children];
-                        }
-                        return createVNode(type, propsOrChildren, children);
-                    }
-                };
-            })();
-        </script>
     </body>
 </html>

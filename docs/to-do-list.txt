@@ -23,7 +23,7 @@ TODO List
 
 **) Once Vue 3 is out of beta confirm all Vue Examples and Pages work with Vue 3.
     - Currently all demos are confirmed to work with Vue 3 Beta 15 as of 2020-06-15
-    - Update 2020-08-11 - Unit Tests confirmed with latest build - v3.0.0 (RC 5)
+    - Update 2020-08-26 - Unit Tests confirmed with latest build - v3.0.0 (RC 8)
         https://www.dataformsjs.com/unit-testing/vue-3#/
     - Vue 3 Helpful Links:
         https://github.com/vuejs/vue-next
@@ -39,9 +39,8 @@ TODO List
     - Once Vue 3 is released then search for all references to "Vue 3 (Currently in Beta)"
         and similar terms and replace/remove them.
     - See experimental file:
+        https://www.dataformsjs.com/examples/hello-world/en/vue3-with-jsx.htm
         http://127.0.0.1:8080/examples/hello-world/en/vue3-with-jsx.htm
-        - If Vue 3 ends up being released without an updated `Vue.h` for multiple paramaters
-          then likely add new `js/extensions/vue3-h.js` script that provides this functionality.
     - Differences to watch for in the future and possibly handle:
         - When using Vue 2 the undocumented API `_watcher` is used to track the watchers.
             It doesn't exist in current Vue 3 beta. This could cause issues with custom
