@@ -28,7 +28,7 @@ Overall the core Framework files and API are expected to remain stable however t
     50% OFF SITEWIDE + FREE SHIPPING ON ALL U.S. ORDERS
   </div>
   ~~~
-  * Attribute `data-show-every` is optional and allows for simple text to interval conversion, works only with time ranges in a single duration [second, minutes, hours, days]. Examples:
+  * Attribute `data-show-every` is optional and allows for simple text to interval conversion, works only with time ranges in a single duration [second(s), minute(s), hour(s), day(s)]. Examples:
       * 30 seconds
       * 1 MINUTE
       * 12 Hours

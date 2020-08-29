@@ -109,7 +109,7 @@
 
         /**
          * Simple text to interval conversion, works only with
-         * time ranges in a single duration [second, minutes, hours, days]
+         * time ranges in a single duration [second(s), minute(s), hour(s), day(s)]
          * 
          * Examples:
          *    '30 seconds'
