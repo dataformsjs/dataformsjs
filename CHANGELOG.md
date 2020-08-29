@@ -4,6 +4,26 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 4.5.0
+
+* Add Framework Plugin: `js/plugins/modalAlert.js`
+  * Example Usage:
+  ~~~html
+  <style>
+  .modal-overlay .modal-content {
+      background-color: black;
+      padding: 40px 80px;
+      color: white;
+      font-size: 1.5em;
+  }
+  </style>
+  <div class="modal-content"
+      hidden
+      data-show-every="10 minutes">
+    50% OFF SITEWIDE + FREE SHIPPING ON ALL U.S. ORDERS
+  </div>
+  ~~~
+
 ## 4.4.2 (August 13, 2020)
 
 * Minor CSS updates for Image Gallery Controls so that Title and Index `div` displays to a max-width of 1300px. Code comments also updated on different options for overriding the default CSS. All Versions updated:
