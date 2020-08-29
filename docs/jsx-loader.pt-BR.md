@@ -76,13 +76,13 @@ O script `jsxLoader.js` é muito pequeno para baixar (5.4 kB - min e em gzip) e 
     Inclua o DataFormsJS JSX Loader.
     Pode utilizar [jsxLoader.min.js] ou [jsxLoader.js].
 -->
-<script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.2/js/react/jsxLoader.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.1/js/react/jsxLoader.min.js"></script>
 
 <!--
     Inclua componentes e scripts JSX utilizando [type="text/babel"].
     Este é o mesmo método que seria utilizado com Babel Standalone.
 -->
-<script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.4.2/js/react/es6/JsonData.js"></script>
+<script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.1/js/react/es6/JsonData.js"></script>
 <script type="text/babel">
 
     class HelloMessage extends React.Component {
