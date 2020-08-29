@@ -4,6 +4,11 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 4.5.1
+
+* Add Default `z-index: 99999` to the overlay in the new Framework Plugin: `js/plugins/modalAlert.js`
+  * https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/modalAlert.js
+
 ## 4.5.0
 
 * Add Framework Plugin: `js/plugins/modalAlert.js`
@@ -19,10 +24,17 @@ Overall the core Framework files and API are expected to remain stable however t
   </style>
   <div class="modal-content"
       hidden
-      data-show-every="10 minutes">
+      data-show-every="1 day">
     50% OFF SITEWIDE + FREE SHIPPING ON ALL U.S. ORDERS
   </div>
   ~~~
+  * Attribute `data-show-every` is optional and allows for simple text to interval conversion, works only with time ranges in a single duration [second, minutes, hours, days]. Examples:
+      * 30 seconds
+      * 1 MINUTE
+      * 12 Hours
+      * 1 day
+  * If the element has an optional [data-hide-on-page-load] attribute then the modal will not be displayed by default and the app can showing it by calling `app.plugins.modalAlert.showModal()`.
+  * Plugin is small and easy to copy and customize if an app needs similar behavior
 
 ## 4.4.2 (August 13, 2020)
 

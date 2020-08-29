@@ -63,6 +63,7 @@
             '    justify-content: center;',
             '    align-items: center;',
             '    flex-direction: column;',
+            '    z-index: 99999;',
             '}',
         ].join('\n'),
 
