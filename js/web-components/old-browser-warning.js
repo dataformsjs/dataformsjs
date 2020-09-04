@@ -24,7 +24,9 @@
         div.style.fontSize = '1.5em';
         div.style.margin = '20px';
         div.style.position = 'fixed';
-        div.style.top = '10px';
+        div.style.top = '0';
+        div.style.left = '0';
+        div.style.right = '0';
         if (div.textContent === undefined) {
             div.innerText = message;
         } else {

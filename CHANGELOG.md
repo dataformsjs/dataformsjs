@@ -4,12 +4,16 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
-## 4.5.1
+## 4.5.2 (September 4, 2020)
+
+* Minor CSS update for `js/web-components/old-browser-warning.js` so that the warning displays full screen width on IE 11 for all or most pages
+
+## 4.5.1  (August 28, 2020)
 
 * Add Default `z-index: 99999` to the overlay in the new Framework Plugin: `js/plugins/modalAlert.js`
   * https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/modalAlert.js
 
-## 4.5.0
+## 4.5.0  (August 28, 2020)
 
 * Add Framework Plugin: `js/plugins/modalAlert.js`
   * Example Usage:
