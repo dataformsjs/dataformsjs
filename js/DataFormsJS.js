@@ -24,7 +24,7 @@
  * and license, view the LICENSE file that is distributed with DataFormsJS.
  *
  * @link     https://www.dataformsjs.com
- * @author   Conrad Sollitt (http://www.conradsollitt.com)
+ * @author   Conrad Sollitt (https://conradsollitt.com)
  * @license  MIT
  */
 

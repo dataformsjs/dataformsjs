@@ -59,7 +59,7 @@ const isWindows = (process.platform === 'win32');
     // Small copyright header to core files. Only a few files are updated.
     // Bascially one file for the Framework, one file for React,
     // and two files for Web Components.
-    let copyright = `// @link https://www.dataformsjs.com\n// @version ${version}\n// @author Conrad Sollitt (http://www.conradsollitt.com)\n// @license MIT\n`;
+    let copyright = `// @link https://www.dataformsjs.com\n// @version ${version}\n// @author Conrad Sollitt (https://conradsollitt.com)\n// @license MIT\n`;
     if (isWindows) {
         copyright = copyright.replace(/\n/g, '\r\n');
     }

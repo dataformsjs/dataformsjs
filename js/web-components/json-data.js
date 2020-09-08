@@ -5,7 +5,7 @@
  * the data to elements on the rendered template.
  *
  * @link     https://www.dataformsjs.com
- * @author   Conrad Sollitt (http://www.conradsollitt.com)
+ * @author   Conrad Sollitt (https://conradsollitt.com)
  * @license  MIT
  */
 
