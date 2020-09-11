@@ -17,8 +17,8 @@
                 <li>Shows Overlay with large Image on Thumbnail Click.</li>
                 <li>Handles Left/Right/Escape Keys for the Overlay.</li>
                 <li>Handles Swipe left/right and Tap to close on Mobile Devices.</li>
-                <li>Diplays [title] of the image with Index by default.</li>
-                <li>Displays a loading indicator if an image takes longer than 1 second to load. The text and timeout can be changed through the API.</li>
+                <li>Displays [title] or [alt] of the image with index by default. [title] and [alt] are not required and index can be hidden through CSS if desired.</li>
+                <li>Displays a loading indicator if an image takes longer than 2 seconds to load. The text and timeout can be changed through the API.</li>
                 <li>Overlay style and layout can easily changed with CSS.</li>
                 <li>The code is designed to be small and easy to modify so that it can be easily copied and extended or changed as part of a custom app.</li>
                 <li>Works with all Browsers.</li>
@@ -29,13 +29,13 @@
                 <code>&#x3C;!--
     Include plugin [js/plugins/imageGallery.min.js]
 
-    Add attribute [data-image-gallery] and optional [title]
+    Add attribute [data-image-gallery] and optional [title] or [alt]
     to an &#x3C;img&#x3E; or other element for each image.
 --&#x3E;
 &#x3C;img
     src=&#x22;{{thumbnail}}&#x22;
     data-image-gallery=&#x22;{{image}}&#x22;
-    title=&#x22;{{title}}&#x22;&#x3E;
+    alt=&#x22;{{title}}&#x22;&#x3E;
 
 &#x3C;div
     class=&#x22;card-image&#x22;
@@ -53,7 +53,7 @@
         <script type="text/x-template" data-engine="handlebars" id="images">
             <div class="image-gallery">
                 {{#each images}}
-                    <img src="{{thumbnail}}" data-image-gallery="{{image}}" title="{{title}}">
+                    <img src="{{thumbnail}}" data-image-gallery="{{image}}" alt="{{title}}">
                 {{/each}}
             </div>
         </script>
@@ -67,11 +67,11 @@
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.3/js/controls/json-data.min.js"></script>
 
         <script>
-            // The default image gallery  'Loading...' text and timeout (1000)
+            // The default image gallery  'Loading...' text and timeout (2000)
             // can be changed by setting the following properties:
             //
             // app.plugins.imageGallery.loadingText = 'Carregando...';
-            // app.plugins.imageGallery.loadingTimeout = 500;
+            // app.plugins.imageGallery.loadingTimeout = 1000;
         </script>
 
         <!--

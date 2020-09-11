@@ -9,9 +9,11 @@
  *    - Handles Swipe left/right and Tap to close on Mobile Devices
  *    - Displays [title] of the image with index by default.
  *      [title] is not required and index can be hidden through
- *      CSS if desired.
+ *      CSS if desired. If [title] is not included and a child <img>
+ *      element with an [alt] attribute is used then the [alt] text
+ *      will be used as the overlay title.
  *    - Displays a loading indicator if an image takes longer than
- *      1 second to load. The text and timeout can be changed
+ *      2 seconds to load. The text and timeout can be changed
  *      by setting attributes [loading-text] and [loading-timeout].
  *
  * This Web Component does not generate large images or thumbnails
@@ -87,8 +89,8 @@ const overlayStyleCss = `
 
     .image-gallery-overlay .image-gallery-loading {
         font-weight: bold;
-        padding: 1em 2em;
-        background-color: rgba(255, 255, 255, .8);
+        padding: 10px 20px;
+        background-color: rgba(255,255,255,.4);
         position: absolute;
     }
 
@@ -155,12 +157,12 @@ let overlayLoading = null;
 let touchStartX = null;
 let loadingTimeoutId = null;
 const defaultLoadingText = 'Loading...'; // Message to show if image takes a while to load
-const defaultLoadingTimeout = 1000; // Delay for loading message in milliseconds (thousandths of a second)
+const defaultLoadingTimeout = 2000; // Delay for loading message in milliseconds (thousandths of a second)
 const loadedImages = new Set();
 
 function showOverlay() {
     const imageSrc = images[imageIndex].getAttribute('image');
-    const imageTitle = images[imageIndex].getAttribute('title');
+    const imageTitle = getImageTitle(images[imageIndex]);
     const loadingText = images[imageIndex].getAttribute('loading-text');
     loadCss();
 
@@ -203,6 +205,19 @@ function showOverlay() {
     document.documentElement.appendChild(overlay);
     document.querySelector('body').classList.add('blur');
     startLoadingTimer();
+}
+
+// Returns title to use on the overlay from either <image-gallery title="{title}">
+// or <image-gallery><img alt="{title">
+function getImageTitle(el) {
+    let imageTitle = el.getAttribute('title');
+    if (imageTitle === null) {
+        const img = el.querySelector('img[alt]');
+        if (img) {
+            imageTitle = img.getAttribute('alt');
+        }
+    }
+    return imageTitle;
 }
 
 // Show the loading indicator if the image takes a while to load
@@ -344,7 +359,7 @@ function changeImage(direction) {
     } else {
         imageIndex = (imageIndex === 0 ? imageCount - 1 : imageIndex - 1);
     }
-    const imageTitle = images[imageIndex].getAttribute('title');
+    const imageTitle = getImageTitle(images[imageIndex]);
     overlayImg.src = '';
     overlayImg.src = images[imageIndex].getAttribute('image');
     overlayTitle.textContent = imageTitle;

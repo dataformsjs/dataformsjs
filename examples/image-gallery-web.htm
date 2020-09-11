@@ -17,8 +17,8 @@
                 <li>Shows Overlay with large Image on Thumbnail Click.</li>
                 <li>Handles Left/Right/Escape Keys for the Overlay.</li>
                 <li>Handles Swipe left/right and Tap to close on Mobile Devices.</li>
-                <li>Diplays [title] of the image with Index by default.</li>
-                <li>Displays a loading indicator if an image takes longer than 1 second to load. The text and timeout can be changed by setting attributes [loading-text] and [loading-timeout].</li>
+                <li>Displays [title] of the image with Index by default. If [title] is not included and a child &#x3C;img&#x3E; element with an [alt] attribute is used then the [alt] text will be used as the overlay title.</li>
+                <li>Displays a loading indicator if an image takes longer than 2 seconds to load. The text and timeout can be changed by setting attributes [loading-text] and [loading-timeout].</li>
                 <li>Overlay style and layout can easily changed with CSS.</li>
                 <li>The code is designed to be small and easy to modify so that it can be easily copied and extended or changed as part of a custom app.</li>
                 <li>Works with modern Browsers - won't work with IE or old Mobile Devices.</li>
@@ -35,9 +35,10 @@ Include component on page
 &#x3C;!--
     Include an &#x3C;img&#x3E; within the &#x3C;image-gallery&#x3E; and
     specify [image] and optional [title] attribute on the &#x3C;image-gallery&#x3E;
+    If [title] is not included [alt] from the &#x3C;img&#x3E; can be used.
 --&#x3E;
 &#x3C;image-gallery image=&#x22;${image}&#x22; title=&#x22;${title}&#x22;&#x3E;
-    &#x3C;img src=&#x22;${thumbnail}&#x22; /&#x3E;
+    &#x3C;img src=&#x22;${thumbnail}&#x22; alt=&#x22;${title}&#x22; /&#x3E;
 &#x3C;/image-gallery&#x3E;
 
 &#x3C;!--
@@ -49,7 +50,7 @@ Include component on page
     style=&#x22;background-image: url(&#x27;${thumbnail}&#x27;);&#x22;
     title=&#x22;${title}&#x22;
     loading-text=&#x22;Carregando...&#x22;
-    loading-timeout=&#x22;500&#x22;&#x3E;
+    loading-timeout=&#x22;1000&#x22;&#x3E;
 &#x3C;/image-gallery&#x3E;</code>
             </pre>
         </div>
@@ -84,8 +85,8 @@ Include component on page
         </json-data>
 
         <template id="image">
-            <image-gallery image="${image}" title="${title}">
-                <img src="${thumbnail}" />
+            <image-gallery image="${image}">
+                <img src="${thumbnail}" alt="${title}" />
             </image-gallery>
         </template>
 
@@ -96,7 +97,7 @@ Include component on page
                     style="background-image: url('${thumbnail}');"
                     title="${title}"
                     loading-text="Carregando..."
-                    loading-timeout="500">
+                    loading-timeout="1000">
                 </image-gallery>
             </li>
         </template>

@@ -4,9 +4,20 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 4.5.4 (September 11, 2020)
+
+* Minor UX (User Experience) Improvements for Image Gallery Controls.
+  * Updated `Loading...` indicator so that CSS padding and background color match the index and title elements
+  * Changed `Loading...` indicator so that it shows if the image takes longer than 2 seconds to load rather than 1 second. On tested mobile devices with low or mid-range bandwidth this was a better interval. 
+  * On Framework Plugin and Web Component `<img alt="{title}">` can be used for the overlay title if the attribute `title` is missing.
+  * All Versions updated:
+    * Framework Plugin: `js/plugins/imageGallery.js`
+    * Web Component: `js/web-components/image-gallery.js`
+    * React Component: `js/react/es6/ImageGallery.js`
+
 ## 4.5.3 (September 10, 2020)
 
-* Improvements for Image Gallery Controls so a `Loading...` element is displayed for images that take longer than 1 second to load. Both element and timeout can be changed through the API. All Versions updated:
+* Improvements for UX (User Experience) of Image Gallery Controls so a `Loading...` element is displayed for images that take longer than 1 second to load. Both element and timeout can be changed through the API. All Versions updated:
   * Framework Plugin: `js/plugins/imageGallery.js`
   * Web Component: `js/web-components/image-gallery.js`
   * React Component: `js/react/es6/ImageGallery.js`

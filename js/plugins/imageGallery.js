@@ -7,11 +7,11 @@
  *    - Shows Overlay with large Image on Thumbnail Click
  *    - Handles Left/Right/Escape Keys for the Overlay
  *    - Handles Swipe left/right and Tap to close on Mobile Devices
- *    - Displays [title] of the image with index by default.
- *      [title] is not required and index can be hidden through
+ *    - Displays [title] or [alt] of the image with index by default.
+ *      [title] and [alt] are not required and index can be hidden through
  *      CSS if desired.
  *    - Displays a loading indicator if an image takes longer than
- *      1 second to load. The text and timeout can be changed through
+ *      2 seconds to load. The text and timeout can be changed through
  *      the API.
  *
  * This Plugin does not generate large images or thumbnails
@@ -26,7 +26,7 @@
  * or by copying and modifying this class.
  *
  * Example Usage:
- *     <img src="thumbnail1.jpg" data-image-gallery="large-image1.jpg" title="image title">
+ *     <img src="thumbnail1.jpg" data-image-gallery="large-image1.jpg" alt="image title">
  *     <img src="thumbnail2.jpg" data-image-gallery="large-image2.jpg" title="image title">
  *
  * Similar functionality exists in the DataFormsJS <image-gallery> Web Component
@@ -77,8 +77,8 @@
         '}',
         '.image-gallery-overlay .image-gallery-loading {',
         '    font-weight: bold;',
-        '    padding: 1em 2em;',
-        '    background-color: rgba(255, 255, 255, .8);',
+        '    padding: 10px 20px;',
+        '    background-color: rgba(255,255,255,.4);',
         '    position: absolute;',
         '}',
         '.image-gallery-overlay img {',
@@ -143,7 +143,7 @@
         touchStartX: 0,
         loadedImages: [],
         loadingText: 'Loading...', // Message to show if image takes a while to load
-        loadingTimeout: 1000, // Delay for loading message in milliseconds (thousandths of a second)
+        loadingTimeout: 2000, // Delay for loading message in milliseconds (thousandths of a second)
         loadingTimeoutId: null,
 
         // Event that gets called after the HTML is rendered and before the
@@ -205,6 +205,9 @@
         showOverlay: function (imageIndex) {
             var imageSrc = this.getImageSource(imageIndex);
             var imageTitle = this.images[imageIndex].getAttribute('title');
+            if (imageTitle === null) {
+                imageTitle = this.images[imageIndex].getAttribute('alt');
+            }
 
             // Overlay <div> root element
             this.overlay = document.createElement('div');
@@ -326,6 +329,9 @@
                 this.imageIndex = (this.imageIndex === 0 ? this.imageCount - 1 : this.imageIndex - 1);
             }
             var imageTitle = this.images[this.imageIndex].getAttribute('title');
+            if (imageTitle === null) {
+                imageTitle = this.images[this.imageIndex].getAttribute('alt');
+            }
             this.overlayImg.src = '';
             this.overlayImg.src = this.getImageSource(this.imageIndex);
             this.overlayTitle.textContent = imageTitle;

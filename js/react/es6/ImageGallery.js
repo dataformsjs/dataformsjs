@@ -11,7 +11,7 @@
  *      [title] is not required and index can be hidden through
  *      CSS if desired.
  *    - Displays a loading indicator if an image takes longer than
- *      1 second to load. The text and timeout can be changed
+ *      2 seconds to load. The text and timeout can be changed
  *      by setting props [loadingText] and [loadingTimeout].
  *
  * This React Component does not generate large images or thumbnails
@@ -115,8 +115,8 @@ export default class ImageGallery extends React.Component {
 
             .image-gallery-overlay .image-gallery-loading {
                 font-weight: bold;
-                padding: 1em 2em;
-                background-color: rgba(255, 255, 255, .8);
+                padding: 10px 20px;
+                background-color: rgba(255,255,255,.4);
                 position: absolute;
             }
 
@@ -162,7 +162,7 @@ export default class ImageGallery extends React.Component {
         this.touchStartX = null;
         this.loadingTimeoutId = null;
         this.loadingText = (props.loadingText ? props.loadingText : 'Loading...');
-        this.loadingTimeout = (props.loadingTimeout ? props.loadingTimeout : 1000);
+        this.loadingTimeout = (props.loadingTimeout ? props.loadingTimeout : 2000);
         this.loadedImages = new Set();
 
         // Set State with Images

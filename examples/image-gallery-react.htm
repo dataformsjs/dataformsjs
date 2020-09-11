@@ -17,8 +17,8 @@
                 <li>Shows Overlay with large Image on Thumbnail Click.</li>
                 <li>Handles Left/Right/Escape Keys for the Overlay.</li>
                 <li>Handles Swipe left/right and Tap to close on Mobile Devices.</li>
-                <li>Diplays [title] of the image with Index by default.</li>
-                <li>Displays a loading indicator if an image takes longer than 1 second to load. The text and timeout can be changed by setting props [loadingText] and [loadingTimeout].</li>
+                <li>Displays [title] of the image with Index by default.</li>
+                <li>Displays a loading indicator if an image takes longer than 2 seconds to load. The text and timeout can be changed by setting props [loadingText] and [loadingTimeout].</li>
                 <li>Overlay style and layout can easily changed with CSS.</li>
                 <li>The code is designed to be small and easy to modify so that it can be easily copied and extended or changed as part of a custom app.</li>
                 <li>Works with all Browsers.</li>
@@ -67,11 +67,11 @@ function AppImage(props) {
 &#x3C;/ImageGallery&#x3E;
 
 &#x3C;!-- 4) Specify a Different Loading Message and Timeout.
-Defaults to &quot;Loading...&quot; and 1000 millseconds. --&#x3E;
+Defaults to &quot;Loading...&quot; and 2000 milliseconds. --&#x3E;
 &lt;ImageGallery
     images={props.data.images}
     loadingText=&quot;Carregando...&quot;
-    loadingTimeout={500} /&gt;
+    loadingTimeout={1000} /&gt;
 </code>
             </pre>
         </div>
