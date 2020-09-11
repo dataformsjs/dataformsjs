@@ -18,6 +18,7 @@
                 <li>Handles Left/Right/Escape Keys for the Overlay.</li>
                 <li>Handles Swipe left/right and Tap to close on Mobile Devices.</li>
                 <li>Diplays [title] of the image with Index by default.</li>
+                <li>Displays a loading indicator if an image takes longer than 1 second to load. The text and timeout can be changed by setting attributes [loading-text] and [loading-timeout].</li>
                 <li>Overlay style and layout can easily changed with CSS.</li>
                 <li>The code is designed to be small and easy to modify so that it can be easily copied and extended or changed as part of a custom app.</li>
                 <li>Works with modern Browsers - won't work with IE or old Mobile Devices.</li>
@@ -40,12 +41,15 @@ Include component on page
 &#x3C;/image-gallery&#x3E;
 
 &#x3C;!--
-    Or simply include a background image on the &#x3C;image-gallery&#x3E; element
+    Or simply include a background image on the &#x3C;image-gallery&#x3E; element.
+    This example uses a custom loading message and timeout.
 --&#x3E;
 &#x3C;image-gallery
     image=&#x22;${image}&#x22;
     style=&#x22;background-image: url(&#x27;${thumbnail}&#x27;);&#x22;
-    title=&#x22;${title}&#x22;&#x3E;
+    title=&#x22;${title}&#x22;
+    loading-text=&#x22;Carregando...&#x22;
+    loading-timeout=&#x22;500&#x22;&#x3E;
 &#x3C;/image-gallery&#x3E;</code>
             </pre>
         </div>
@@ -90,7 +94,9 @@ Include component on page
                 <image-gallery
                     image="${image}"
                     style="background-image: url('${thumbnail}');"
-                    title="${title}">
+                    title="${title}"
+                    loading-text="Carregando..."
+                    loading-timeout="500">
                 </image-gallery>
             </li>
         </template>
@@ -101,7 +107,8 @@ Include component on page
         -->
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.2/js/web-components/json-data.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.2/js/web-components/data-list.min.js"></script>
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.2/js/web-components/image-gallery.min.js"></script>
+        <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.2/js/web-components/image-gallery.min.js"></script> -->
+        <script src="../js/web-components/image-gallery.min.js"></script>
 
         <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.2/js/web-components/safari-nomodule.min.js"></script>

@@ -7,9 +7,12 @@
  *    - Shows Overlay with large Image on Thumbnail Click
  *    - Handles Left/Right/Escape Keys for the Overlay
  *    - Handles Swipe left/right and Tap to close on Mobile Devices
- *    - Diplays [title] of the image with index by default.
+ *    - Displays [title] of the image with index by default.
  *      [title] is not required and index can be hidden through
  *      CSS if desired.
+ *    - Displays a loading indicator if an image takes longer than
+ *      1 second to load. The text and timeout can be changed through
+ *      the API.
  *
  * This Plugin does not generate large images or thumbnails
  * and requires the images to be created by the site/app.
@@ -72,6 +75,12 @@
         '    align-items: center;',
         '    flex-direction: column;',
         '}',
+        '.image-gallery-overlay .image-gallery-loading {',
+        '    font-weight: bold;',
+        '    padding: 1em 2em;',
+        '    background-color: rgba(255, 255, 255, .8);',
+        '    position: absolute;',
+        '}',
         '.image-gallery-overlay img {',
         '    max-width: 100%;',
         '    max-height: 100%;',
@@ -128,10 +137,14 @@
         overlayImg: null,
         overlayTitle: null,
         overlayIndex: null,
+        overlayLoading: null,
         imageCount: 0,
         imageIndex: -1,
         touchStartX: 0,
         loadedImages: [],
+        loadingText: 'Loading...', // Message to show if image takes a while to load
+        loadingTimeout: 1000, // Delay for loading message in milliseconds (thousandths of a second)
+        loadingTimeoutId: null,
 
         // Event that gets called after the HTML is rendered and before the
         // page's controller [onRendered()] function runs.
@@ -197,12 +210,22 @@
             this.overlay = document.createElement('div');
             this.overlay.className = 'image-gallery-overlay';
 
+            // Add <span> for loading indicator which is hidden
+            // by default unless image takes a while to load.
+            this.overlayLoading = document.createElement('span');
+            this.overlayLoading.className = 'image-gallery-loading';
+            this.overlayLoading.textContent = this.loadingText;
+            this.overlayLoading.setAttribute('hidden', '');
+            this.overlay.appendChild(this.overlayLoading);
+
             // Overlay <img>
             this.overlayImg = document.createElement('img');
             this.overlayImg.addEventListener('load', function () {
                 if (imageGallery.loadedImages.indexOf(imageSrc) === -1) {
                     imageGallery.loadedImages.push(imageSrc);
                 }
+                imageGallery.clearLoadingTimer();
+                imageGallery.overlayLoading.setAttribute('hidden', '');
                 imageGallery.preloadNextImages();
             });
             this.overlayImg.src = imageSrc;
@@ -224,6 +247,26 @@
             this.addOverlayEvents();
             document.documentElement.appendChild(this.overlay);
             document.querySelector('body').classList.add('blur');
+            this.startLoadingTimer();
+        },
+
+        // Show the loading indicator if the image takes a while to load
+        startLoadingTimer: function() {
+            this.clearLoadingTimer();
+            this.loadingTimeoutId = window.setTimeout(function () {
+                imageGallery.loadingTimeoutId = null;
+                if (imageGallery.overlayLoading === null) {
+                    return;
+                }
+                imageGallery.overlayLoading.removeAttribute('hidden');
+            }, this.loadingTimeout);
+        },
+
+        clearLoadingTimer: function() {
+            if (this.loadingTimeoutId !== null) {
+                window.clearTimeout(this.loadingTimeoutId);
+                this.loadingTimeoutId = null;
+            }
         },
 
         addOverlayEvents: function() {
@@ -260,7 +303,9 @@
 
         // Called from overlay click and escape key
         hideOverlay: function() {
+            this.clearLoadingTimer();
             this.overlay.parentNode.removeChild(this.overlay);
+            this.overlayLoading = null;
             this.overlayIndex = null;
             this.overlayTitle = null;
             this.overlayImg = null;
@@ -286,6 +331,7 @@
             this.overlayTitle.textContent = imageTitle;
             this.overlayTitle.style.display = (imageTitle ? '' : 'none');
             this.overlayIndex.textContent = (this.imageIndex + 1) + '/' + this.imageCount;
+            this.startLoadingTimer();
         },
 
         // Preload Images when viewing a larger image from a thumbnail.

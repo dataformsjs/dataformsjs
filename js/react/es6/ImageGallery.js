@@ -7,9 +7,12 @@
  *    - Shows Overlay with large Image on Thumbnail Click
  *    - Handles Left/Right/Escape Keys for the Overlay
  *    - Handles Swipe left/right and Tap to close on Mobile Devices
- *    - Diplays [title] of the image with index by default.
+ *    - Displays [title] of the image with index by default.
  *      [title] is not required and index can be hidden through
  *      CSS if desired.
+ *    - Displays a loading indicator if an image takes longer than
+ *      1 second to load. The text and timeout can be changed
+ *      by setting props [loadingText] and [loadingTimeout].
  *
  * This React Component does not generate large images or thumbnails
  * and requires the images to be created by the site/app.
@@ -110,6 +113,13 @@ export default class ImageGallery extends React.Component {
                 flex-direction: column;
             }
 
+            .image-gallery-overlay .image-gallery-loading {
+                font-weight: bold;
+                padding: 1em 2em;
+                background-color: rgba(255, 255, 255, .8);
+                position: absolute;
+            }
+
             .image-gallery-overlay img {
                 max-width: 100%;
                 max-height: 100%;
@@ -148,7 +158,11 @@ export default class ImageGallery extends React.Component {
         this.overlayImg = null;
         this.overlayTitle = null;
         this.overlayIndex = null;
+        this.overlayLoading = null;
         this.touchStartX = null;
+        this.loadingTimeoutId = null;
+        this.loadingText = (props.loadingText ? props.loadingText : 'Loading...');
+        this.loadingTimeout = (props.loadingTimeout ? props.loadingTimeout : 1000);
         this.loadedImages = new Set();
 
         // Set State with Images
@@ -191,10 +205,20 @@ export default class ImageGallery extends React.Component {
         this.overlay = document.createElement('div');
         this.overlay.className = 'image-gallery-overlay';
 
+        // Add <span> for loading indicator which is hidden
+        // by default unless image takes a while to load.
+        this.overlayLoading = document.createElement('span');
+        this.overlayLoading.className = 'image-gallery-loading';
+        this.overlayLoading.textContent = this.loadingText;
+        this.overlayLoading.setAttribute('hidden', '');
+        this.overlay.appendChild(this.overlayLoading);
+
         // Overlay <img>
         this.overlayImg = document.createElement('img');
         this.overlayImg.addEventListener('load', () => {
             this.loadedImages.add(imageSrc);
+            this.clearLoadingTimer();
+            this.overlayLoading.setAttribute('hidden', '');
             this.preloadNextImages();
         });
         this.overlayImg.src = imageSrc;
@@ -215,6 +239,26 @@ export default class ImageGallery extends React.Component {
         this.addOverlayEvents();
         document.documentElement.appendChild(this.overlay);
         document.querySelector('body').classList.add('blur');
+        this.startLoadingTimer();
+    }
+
+    // Show the loading indicator if the image takes a while to load
+    startLoadingTimer() {
+        this.clearLoadingTimer();
+        this.loadingTimeoutId = window.setTimeout(() => {
+            this.loadingTimeoutId = null;
+            if (this.overlayLoading === null) {
+                return;
+            }
+            this.overlayLoading.removeAttribute('hidden');
+        }, this.loadingTimeout);
+    }
+
+    clearLoadingTimer() {
+        if (this.loadingTimeoutId !== null) {
+            window.clearTimeout(this.loadingTimeoutId);
+            this.loadingTimeoutId = null;
+        }
     }
 
     addOverlayEvents() {
@@ -269,9 +313,15 @@ export default class ImageGallery extends React.Component {
         }
     }
 
-    // Called from overlay click and escape key
+    componentWillUnmount() {
+        this.hideOverlay();
+    }
+
+    // Called from overlay click, escape key, or if the component will be unmounted
     hideOverlay() {
+        this.clearLoadingTimer();
         this.overlay.parentNode.removeChild(this.overlay);
+        this.overlayLoading = null;
         this.overlayIndex = null;
         this.overlayTitle = null;
         this.overlayImg = null;
@@ -336,6 +386,7 @@ export default class ImageGallery extends React.Component {
         this.overlayTitle.textContent = imageTitle;
         this.overlayTitle.style.display = (imageTitle ? '' : 'none');
         this.overlayIndex.textContent = `${this.imageIndex + 1}/${imageCount}`;
+        this.startLoadingTimer();
     }
 
     render() {

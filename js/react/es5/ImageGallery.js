@@ -70,13 +70,17 @@ var ImageGallery = function (_React$Component) {
     _this.hideOverlay = _this.hideOverlay.bind(_assertThisInitialized(_this));
     _this.changeImage = _this.changeImage.bind(_assertThisInitialized(_this));
     _this.overlayStyleId = 'image-gallery-css';
-    _this.overlayStyleCss = "\n            body.blur { filter: blur(3px); }\n\n            .image-gallery-overlay {\n                position: fixed;\n                top: 0;\n                left: 0;\n                right: 0;\n                bottom: 0;\n                background-color: rgba(255,255,255,.8);\n                cursor: pointer;\n                display: flex;\n                justify-content: center;\n                align-items: center;\n                flex-direction: column;\n            }\n\n            .image-gallery-overlay img {\n                max-width: 100%;\n                max-height: 100%;\n                flex-shrink: 0;\n            }\n\n            .image-gallery-overlay div {\n                position: absolute;\n                bottom: 0;\n                left: 0;\n                right: 0;\n                z-index: 2;\n                font-weight: bold;\n                display: flex;\n                justify-content: space-between;\n                width: 100%;\n            }\n\n            .image-gallery-overlay div span {\n                padding: 10px 20px;\n                background-color: rgba(255,255,255,.4);\n            }\n\n            @media (min-width: 1300px) {\n                .image-gallery-overlay div {\n                    left: calc((100% - 1300px) /2);\n                    right: auto;\n                    max-width: 1300px;\n                }\n            }\n        ";
+    _this.overlayStyleCss = "\n            body.blur { filter: blur(3px); }\n\n            .image-gallery-overlay {\n                position: fixed;\n                top: 0;\n                left: 0;\n                right: 0;\n                bottom: 0;\n                background-color: rgba(255,255,255,.8);\n                cursor: pointer;\n                display: flex;\n                justify-content: center;\n                align-items: center;\n                flex-direction: column;\n            }\n\n            .image-gallery-overlay .image-gallery-loading {\n                font-weight: bold;\n                padding: 1em 2em;\n                background-color: rgba(255, 255, 255, .8);\n                position: absolute;\n            }\n\n            .image-gallery-overlay img {\n                max-width: 100%;\n                max-height: 100%;\n                flex-shrink: 0;\n            }\n\n            .image-gallery-overlay div {\n                position: absolute;\n                bottom: 0;\n                left: 0;\n                right: 0;\n                z-index: 2;\n                font-weight: bold;\n                display: flex;\n                justify-content: space-between;\n                width: 100%;\n            }\n\n            .image-gallery-overlay div span {\n                padding: 10px 20px;\n                background-color: rgba(255,255,255,.4);\n            }\n\n            @media (min-width: 1300px) {\n                .image-gallery-overlay div {\n                    left: calc((100% - 1300px) /2);\n                    right: auto;\n                    max-width: 1300px;\n                }\n            }\n        ";
     _this.imageIndex = null;
     _this.overlay = null;
     _this.overlayImg = null;
     _this.overlayTitle = null;
     _this.overlayIndex = null;
+    _this.overlayLoading = null;
     _this.touchStartX = null;
+    _this.loadingTimeoutId = null;
+    _this.loadingText = props.loadingText ? props.loadingText : 'Loading...';
+    _this.loadingTimeout = props.loadingTimeout ? props.loadingTimeout : 1000;
     _this.loadedImages = new Set();
     _this.state = {
       images: props.images
@@ -126,9 +130,18 @@ var ImageGallery = function (_React$Component) {
       this.loadCss();
       this.overlay = document.createElement('div');
       this.overlay.className = 'image-gallery-overlay';
+      this.overlayLoading = document.createElement('span');
+      this.overlayLoading.className = 'image-gallery-loading';
+      this.overlayLoading.textContent = this.loadingText;
+      this.overlayLoading.setAttribute('hidden', '');
+      this.overlay.appendChild(this.overlayLoading);
       this.overlayImg = document.createElement('img');
       this.overlayImg.addEventListener('load', function () {
         _this2.loadedImages.add(imageSrc);
+
+        _this2.clearLoadingTimer();
+
+        _this2.overlayLoading.setAttribute('hidden', '');
 
         _this2.preloadNextImages();
       });
@@ -146,11 +159,36 @@ var ImageGallery = function (_React$Component) {
       this.addOverlayEvents();
       document.documentElement.appendChild(this.overlay);
       document.querySelector('body').classList.add('blur');
+      this.startLoadingTimer();
+    }
+  }, {
+    key: "startLoadingTimer",
+    value: function startLoadingTimer() {
+      var _this3 = this;
+
+      this.clearLoadingTimer();
+      this.loadingTimeoutId = window.setTimeout(function () {
+        _this3.loadingTimeoutId = null;
+
+        if (_this3.overlayLoading === null) {
+          return;
+        }
+
+        _this3.overlayLoading.removeAttribute('hidden');
+      }, this.loadingTimeout);
+    }
+  }, {
+    key: "clearLoadingTimer",
+    value: function clearLoadingTimer() {
+      if (this.loadingTimeoutId !== null) {
+        window.clearTimeout(this.loadingTimeoutId);
+        this.loadingTimeoutId = null;
+      }
     }
   }, {
     key: "addOverlayEvents",
     value: function addOverlayEvents() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.overlay.onclick = function (e) {
         if ('ontouchstart' in window) {
@@ -163,22 +201,22 @@ var ImageGallery = function (_React$Component) {
           }
         }
 
-        _this3.hideOverlay();
+        _this4.hideOverlay();
       };
 
       document.addEventListener('keydown', this.handleDocKeyDown);
       this.overlay.addEventListener('touchstart', function (e) {
-        _this3.touchStartX = e.changedTouches[0].screenX;
+        _this4.touchStartX = e.changedTouches[0].screenX;
       }, _supportsPassive ? {
         passive: true
       } : false);
       this.overlay.addEventListener('touchend', function (e) {
         var curX = e.changedTouches[0].screenX;
 
-        if (curX > _this3.touchStartX) {
-          _this3.changeImage('left');
-        } else if (curX < _this3.touchStartX) {
-          _this3.changeImage('right');
+        if (curX > _this4.touchStartX) {
+          _this4.changeImage('left');
+        } else if (curX < _this4.touchStartX) {
+          _this4.changeImage('right');
         }
       });
     }
@@ -203,9 +241,16 @@ var ImageGallery = function (_React$Component) {
       }
     }
   }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.hideOverlay();
+    }
+  }, {
     key: "hideOverlay",
     value: function hideOverlay() {
+      this.clearLoadingTimer();
       this.overlay.parentNode.removeChild(this.overlay);
+      this.overlayLoading = null;
       this.overlayIndex = null;
       this.overlayTitle = null;
       this.overlayImg = null;
@@ -216,7 +261,7 @@ var ImageGallery = function (_React$Component) {
   }, {
     key: "preloadNextImages",
     value: function preloadNextImages() {
-      var _this4 = this;
+      var _this5 = this;
 
       if (window.Image.toString().indexOf('[native code]') === -1) {
         console.warn('Images for <ImageGallery> cannot be preloaded because the app defined a <Image> component that overwrote the browsers native [Image] class.');
@@ -237,7 +282,7 @@ var ImageGallery = function (_React$Component) {
           var imgLeft = new Image();
 
           imgLeft.onload = function () {
-            _this4.loadedImages.add(srcLeft);
+            _this5.loadedImages.add(srcLeft);
           };
 
           imgLeft.src = srcLeft;
@@ -257,7 +302,7 @@ var ImageGallery = function (_React$Component) {
           var imgRight = new Image();
 
           imgRight.onload = function () {
-            _this4.loadedImages.add(srcRight);
+            _this5.loadedImages.add(srcRight);
           };
 
           imgRight.src = srcRight;
@@ -281,11 +326,12 @@ var ImageGallery = function (_React$Component) {
       this.overlayTitle.textContent = imageTitle;
       this.overlayTitle.style.display = imageTitle ? '' : 'none';
       this.overlayIndex.textContent = "".concat(this.imageIndex + 1, "/").concat(imageCount);
+      this.startLoadingTimer();
     }
   }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this6 = this;
 
       var template = this.props.template;
 
@@ -299,7 +345,7 @@ var ImageGallery = function (_React$Component) {
 
       return this.state.images.map(function (image) {
         return React.cloneElement(template, Object.assign({}, image, {
-          onClick: _this5.onClick
+          onClick: _this6.onClick
         }));
       });
     }

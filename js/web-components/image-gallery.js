@@ -7,9 +7,12 @@
  *    - Shows Overlay with large Image on Thumbnail Click
  *    - Handles Left/Right/Escape Keys for the Overlay
  *    - Handles Swipe left/right and Tap to close on Mobile Devices
- *    - Diplays [title] of the image with index by default.
+ *    - Displays [title] of the image with index by default.
  *      [title] is not required and index can be hidden through
  *      CSS if desired.
+ *    - Displays a loading indicator if an image takes longer than
+ *      1 second to load. The text and timeout can be changed
+ *      by setting attributes [loading-text] and [loading-timeout].
  *
  * This Web Component does not generate large images or thumbnails
  * and requires the images to be created by the site/app.
@@ -82,6 +85,13 @@ const overlayStyleCss = `
         flex-direction: column;
     }
 
+    .image-gallery-overlay .image-gallery-loading {
+        font-weight: bold;
+        padding: 1em 2em;
+        background-color: rgba(255, 255, 255, .8);
+        position: absolute;
+    }
+
     .image-gallery-overlay img {
         max-width: 100%;
         max-height: 100%;
@@ -141,22 +151,37 @@ let overlay = null;
 let overlayImg = null;
 let overlayTitle = null;
 let overlayIndex = null;
+let overlayLoading = null;
 let touchStartX = null;
+let loadingTimeoutId = null;
+const defaultLoadingText = 'Loading...'; // Message to show if image takes a while to load
+const defaultLoadingTimeout = 1000; // Delay for loading message in milliseconds (thousandths of a second)
 const loadedImages = new Set();
 
 function showOverlay() {
     const imageSrc = images[imageIndex].getAttribute('image');
     const imageTitle = images[imageIndex].getAttribute('title');
+    const loadingText = images[imageIndex].getAttribute('loading-text');
     loadCss();
 
     // Overlay <div> root element
     overlay = document.createElement('div');
     overlay.className = 'image-gallery-overlay';
 
+    // Add <span> for loading indicator which is hidden
+    // by default unless image takes a while to load.
+    overlayLoading = document.createElement('span');
+    overlayLoading.className = 'image-gallery-loading';
+    overlayLoading.textContent = (loadingText ? loadingText : defaultLoadingText);
+    overlayLoading.setAttribute('hidden', '');
+    overlay.appendChild(overlayLoading);
+
     // Overlay <img>
     overlayImg = document.createElement('img');
     overlayImg.addEventListener('load', () => {
         loadedImages.add(imageSrc);
+        clearLoadingTimer();
+        overlayLoading.setAttribute('hidden', '');
         preloadNextImages();
     });
     overlayImg.src = imageSrc;
@@ -177,6 +202,30 @@ function showOverlay() {
     addOverlayEvents();
     document.documentElement.appendChild(overlay);
     document.querySelector('body').classList.add('blur');
+    startLoadingTimer();
+}
+
+// Show the loading indicator if the image takes a while to load
+function startLoadingTimer() {
+    clearLoadingTimer();
+
+    const loadingTimeout = images[imageIndex].getAttribute('loading-timeout');
+    const timeout = (loadingTimeout === null ? defaultLoadingTimeout : parseInt(loadingTimeout, 10));
+
+    loadingTimeoutId = window.setTimeout(function () {
+        loadingTimeoutId = null;
+        if (overlayLoading === null) {
+            return;
+        }
+        overlayLoading.removeAttribute('hidden');
+    }, timeout);
+}
+
+function clearLoadingTimer() {
+    if (loadingTimeoutId !== null) {
+        window.clearTimeout(loadingTimeoutId);
+        loadingTimeoutId = null;
+    }
 }
 
 function loadCss() {
@@ -240,7 +289,9 @@ function handleDocKeyDown(e) {
 
 // Called from overlay click and escape key
 function hideOverlay() {
+    clearLoadingTimer();
     overlay.parentNode.removeChild(overlay);
+    overlayLoading = null;
     overlayIndex = null;
     overlayTitle = null;
     overlayImg = null;
@@ -299,6 +350,7 @@ function changeImage(direction) {
     overlayTitle.textContent = imageTitle;
     overlayTitle.style.display = (imageTitle ? '' : 'none');
     overlayIndex.textContent = `${imageIndex + 1}/${imageCount}`;
+    startLoadingTimer();
 }
 
 /**

@@ -4,6 +4,18 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 4.5.3 (September 10, 2020)
+
+* Improvements for Image Gallery Controls so a `Loading...` element is displayed for images that take longer than 1 second to load. Both element and timeout can be changed through the API. All Versions updated:
+  * Framework Plugin: `js/plugins/imageGallery.js`
+  * Web Component: `js/web-components/image-gallery.js`
+  * React Component: `js/react/es6/ImageGallery.js`
+  * All example code pages updated for the new feature:
+    * https://www.dataformsjs.com/examples/image-gallery-vue.htm
+    * https://www.dataformsjs.com/examples/image-gallery-react.htm
+    * https://www.dataformsjs.com/examples/image-gallery-hbs.htm
+    * https://www.dataformsjs.com/examples/image-gallery-web.htm
+
 ## 4.5.2 (September 4, 2020)
 
 * Minor CSS update for `js/web-components/old-browser-warning.js` so that the warning displays full screen width on IE 11 for all or most pages
