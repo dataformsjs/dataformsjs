@@ -218,7 +218,9 @@ export default class ImageGallery extends React.Component {
         this.overlayImg.addEventListener('load', () => {
             this.loadedImages.add(imageSrc);
             this.clearLoadingTimer();
-            this.overlayLoading.setAttribute('hidden', '');
+            if (this.overlayLoading !== null) {
+                this.overlayLoading.setAttribute('hidden', '');
+            }
             this.preloadNextImages();
         });
         this.overlayImg.src = imageSrc;

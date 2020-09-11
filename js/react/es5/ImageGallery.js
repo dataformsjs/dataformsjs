@@ -141,7 +141,9 @@ var ImageGallery = function (_React$Component) {
 
         _this2.clearLoadingTimer();
 
-        _this2.overlayLoading.setAttribute('hidden', '');
+        if (_this2.overlayLoading !== null) {
+          _this2.overlayLoading.setAttribute('hidden', '');
+        }
 
         _this2.preloadNextImages();
       });

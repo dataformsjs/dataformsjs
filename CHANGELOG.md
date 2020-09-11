@@ -4,6 +4,17 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 4.5.5 (September 11, 2020)
+
+* Minor Bug Fix for Image Gallery Controls.
+  * A console error could occur on some cases if the user was on a slow device and the image had partialy loaded but they clicked off the overlay because the `Loading...` label was being set with a `hidden` attribute after it was unloaded. An actual error alert would show on the standard framework when using `<html data-show-errors>`.
+  * All Versions updated:
+    * Framework Plugin: `js/plugins/imageGallery.js`
+    * Web Component: `js/web-components/image-gallery.js`
+    * React Component: `js/react/es6/ImageGallery.js`
+* Confirmed Vue 3 (RC 10) works with the Framework, previously RC 8 was confirmed
+  * https://www.dataformsjs.com/unit-testing/vue-3
+
 ## 4.5.4 (September 11, 2020)
 
 * Minor UX (User Experience) Improvements for Image Gallery Controls.

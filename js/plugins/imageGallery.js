@@ -228,7 +228,9 @@
                     imageGallery.loadedImages.push(imageSrc);
                 }
                 imageGallery.clearLoadingTimer();
-                imageGallery.overlayLoading.setAttribute('hidden', '');
+                if (imageGallery.overlayLoading !== null) {
+                    imageGallery.overlayLoading.setAttribute('hidden', '');
+                }
                 imageGallery.preloadNextImages();
             });
             this.overlayImg.src = imageSrc;

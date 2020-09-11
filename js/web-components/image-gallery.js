@@ -183,7 +183,9 @@ function showOverlay() {
     overlayImg.addEventListener('load', () => {
         loadedImages.add(imageSrc);
         clearLoadingTimer();
-        overlayLoading.setAttribute('hidden', '');
+        if (overlayLoading !== null) {
+            overlayLoading.setAttribute('hidden', '');
+        }
         preloadNextImages();
     });
     overlayImg.src = imageSrc;
