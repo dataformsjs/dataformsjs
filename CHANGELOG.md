@@ -38,6 +38,10 @@ Overall the core Framework files and API are expected to remain stable however t
     * https://www.dataformsjs.com/examples/image-gallery-hbs.htm
     * https://www.dataformsjs.com/examples/image-gallery-web.htm
 
+## Next Release (Changes not yet published on npm)
+
+* `js/plugins/modalAlert.js` - Removed un-needed `console.log` statement that was left from development
+
 ## 4.5.2 (September 4, 2020)
 
 * Minor CSS update for `js/web-components/old-browser-warning.js` so that the warning displays full screen width on IE 11 for all or most pages

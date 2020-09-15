@@ -135,8 +135,6 @@
 
             m = text.match(/^(\d+) day(s?)$/i);
             if (m) {
-                console.log('matched days');
-                console.log(m);
                 return parseInt(m[1], 10) * 24 * 60 * 60 * 1000;
             }
 
