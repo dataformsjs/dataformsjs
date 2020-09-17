@@ -1,14 +1,14 @@
 /**
  * DataFormsJS Plugin [clickUrlAction]
- * 
+ *
  * This plugin allows for click elements (buttons, links, etc) to be defined
  * with the attributes [data-click-url] and [data-action] to make a request
  * to a web service and then preform an action once complete.
- * 
+ *
  * If a button is used it will be disabled during the request however this
  * plugin currently does not provide the option for a loading indicator so
  * it is intended for fast web services.
- * 
+ *
  * Examples:
  *     <span data-click-url="{url}" data-action="reload-page">
  *     <span data-click-url="{url}" data-action="update-view" data-request-method="POST">
@@ -29,14 +29,14 @@
 
     /**
      * Handle [data-click-url] elements
-     * @param {Event} e 
+     * @param {Event} e
      */
     function handleClickUrl(e) {
         // Prevent form posts.
         if (e && e.preventDefault) {
             e.preventDefault();
         }
-        
+
         // Read and validate attribute properties
         var el = e.target;
         var url = el.getAttribute('data-click-url');
@@ -73,7 +73,7 @@
             switch (action) {
                 case 'reload-page':
                     window.location.reload(true);
-                    break;                
+                    break;
                 case 'update-view':
                     app.updateView();
                     break;
