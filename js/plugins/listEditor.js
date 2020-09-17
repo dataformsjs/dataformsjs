@@ -98,7 +98,9 @@
                 x,
                 y,
                 nodeName,
-                eventName;
+                eventName,
+                type,
+                isIE = (navigator.userAgent.indexOf('Trident/') !== -1);
 
             // Process each list item element
             for (n = 0, m = listItems.length; n < m; n++) {
@@ -119,6 +121,12 @@
 
                         // Handle when the value is changed
                         eventName = (fields[x].oninput === undefined ? 'change' : 'input');
+                        if (isIE) {
+                            type = fields[x].type;
+                            if (type === 'checkbox' || type === 'radio') {
+                                eventName = 'change';
+                            }
+                        }
                         fields[x].addEventListener(eventName, listEditor.listItemValueChanged);
                     }
                 }

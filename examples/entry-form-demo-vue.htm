@@ -36,9 +36,9 @@
     <body>
         <div id="view" class="container"></div>
 
-        <script type="text/x-template" data-engine="vue" id="loading-template">
+        <template id="loading-template">
             <div class="alert alert-info">Loading...</div>
-        </script>
+        </template>
 
         <script type="text/x-template" data-engine="vue" id="error-template">
             <div class="alert alert-danger">Error: {{ errorMessage }}</div>
@@ -136,7 +136,7 @@
                 entryForm: 'https://d2xbd92kui7v97.cloudfront.net/js/pre-release/entryForm.min.js',
                 // listEditor: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/listEditor.min.js',
                 // listEditor: '../js/plugins/listEditor.js',
-                listEditor: 'https://d2xbd92kui7v97.cloudfront.net/js/pre-release/listEditor.min.js',
+                listEditor: 'https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/listEditor.min.js',
                 validation: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/extensions/validation.min.js',
                 // clickUrlAction: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/clickUrlAction.min.js',
                 // clickUrlAction: '../js/plugins/clickUrlAction.js',
