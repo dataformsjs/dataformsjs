@@ -84,10 +84,12 @@
             // Handle action to update the page
             switch (action) {
                 case 'reload-page':
-                    // NOTE - `reload()` is now deprecated so some editors such as VS Code
-                    // will show a line through it, however it is still included here because
-                    // it improves the behavior for older Browsers. For example when using
-                    // `reload(true)` IE 11 will send a [Cache-Control: no-cache] Request Header.
+                    // NOTE - `reload(forcedReload: boolean)` is now deprecated so some editors
+                    // such as VS Code will show a line through it and only `reload()` is needed
+                    // on modern browsers, however it is still included here because it improves
+                    // the behavior for older Browsers. For example when using `reload(true)`
+                    // IE 11 will send a [Cache-Control: no-cache] Request Header while calling
+                    // only `reload()` will not send the header.
                     window.location.reload(true);
                     break;
                 case 'update-view':
