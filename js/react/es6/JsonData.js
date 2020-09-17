@@ -235,7 +235,7 @@ function IsLoaded(props) {
  * @param {object} props
  */
 export default class JsonData extends React.Component {
-        constructor(props) {
+    constructor(props) {
         super(props);
         this._isFetching = false;
         this._isMounted = false;

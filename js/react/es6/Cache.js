@@ -1,6 +1,6 @@
 /**
  * This is a standard JavaScript class to provide an easy to use API for
- * caching and re-using.
+ * caching and re-using of state data.
  *
  * It's intended purpose is for use with state in React Components for
  * SPA's to cache the page state between page changes, however since it's
