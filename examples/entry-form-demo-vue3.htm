@@ -57,7 +57,8 @@
             data-route="/"
             data-page="jsonData"
             data-url="https://www.dataformsjs.com/data/example/entry-form/list"
-            data-records>
+            data-records
+            data-lazy-load="clickUrlAction, sort, filter">
         </script>
 
         <script
@@ -69,7 +70,8 @@
             data-url="https://www.dataformsjs.com/data/example/entry-form/list"
             data-save-url="https://www.dataformsjs.com/data/example/entry-form/save-all"
             data-result-success-display-interval="3000"
-            data-records>
+            data-records
+            data-lazy-load="entryForm, listEditor, validation, sort, filter">
         </script>
 
         <!--
@@ -86,7 +88,8 @@
             data-new-record="true"
             data-url="https://www.dataformsjs.com/data/example/entry-form/categories"
             data-save-url="https://www.dataformsjs.com/data/example/entry-form/save"
-            data-new-record-redirect-url="#/record/:id">
+            data-new-record-redirect-url="#/record/:id"
+            data-lazy-load="entryForm, validation">
         </script>
 
         <script
@@ -98,7 +101,8 @@
             data-url="https://www.dataformsjs.com/data/example/entry-form/record/:id"
             data-save-url="https://www.dataformsjs.com/data/example/entry-form/save"
             data-delete-url="https://www.dataformsjs.com/data/example/entry-form/delete/:id"
-            data-delete-record-redirect-url="#/">
+            data-delete-record-redirect-url="#/"
+            data-lazy-load="entryForm, validation">
         </script>
 
         <!--
@@ -117,23 +121,31 @@
         <!-- DataFormsJS -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/DataFormsJS.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/pages/jsonData.min.js"></script>
-        <!--
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/pages/entryForm.min.js"></script>
-        -->
-        <!-- <script src="../js/pages/entryForm.js"></script> -->
-        <script src="https://d2xbd92kui7v97.cloudfront.net/js/pre-release/entryForm.min.js"></script>
         <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/extensions/vue-directives.min.js"></script> -->
         <!-- <script src="../js/extensions/vue-directives.js"></script> -->
         <script src="https://d2xbd92kui7v97.cloudfront.net/js/pre-release/vue-directives.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/extensions/validation.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/filter.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/sort.min.js"></script>
-        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/listEditor.min.js"></script> -->
-        <!-- <script src="../js/plugins/listEditor.js"></script> -->
-        <script src="https://d2xbd92kui7v97.cloudfront.net/js/pre-release/listEditor.min.js"></script>
-        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/clickUrlAction.min.js"></script> -->
-        <!-- <script src="../js/plugins/clickUrlAction.js"></script> -->
-        <script src="https://d2xbd92kui7v97.cloudfront.net/js/pre-release/clickUrlAction.min.js"></script>
+        <script>
+            // Optimize - lazy load scripts are downloaded asynchronously at the same time.
+            // Additionally File 'entryForm.js' uses [Object.assign] which isn't available from IE by default.
+            // It gets loaded as a polyfill from [DataFormsJS.js] once the page is ready.
+            // In addition to only loading what is needed using [app.lazyLoad] allows for the polyfill
+            // to run first.
+            app.lazyLoad = {
+                // entryForm: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/pages/entryForm.min.js',
+                // entryForm: '../js/pages/entryForm.js',
+                entryForm: 'https://d2xbd92kui7v97.cloudfront.net/js/pre-release/entryForm.min.js',
+                // listEditor: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/listEditor.min.js',
+                // listEditor: '../js/plugins/listEditor.js',
+                listEditor: 'https://d2xbd92kui7v97.cloudfront.net/js/pre-release/listEditor.min.js',
+                validation: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/extensions/validation.min.js',
+                // clickUrlAction: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/clickUrlAction.min.js',
+                // clickUrlAction: '../js/plugins/clickUrlAction.js',
+                clickUrlAction: 'https://d2xbd92kui7v97.cloudfront.net/js/pre-release/clickUrlAction.min.js',
+                sort: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/filter.min.js',
+                filter: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/sort.min.js',
+            };
+            app.settings.lazyTemplateSelector = '#loading-template';
+        </script>
 
         <!--
             Custom Authenticaton Code for this App.

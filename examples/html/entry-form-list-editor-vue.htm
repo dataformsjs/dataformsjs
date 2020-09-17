@@ -47,7 +47,7 @@
                                 </select>
                             </td>
                             <td>
-                                <input class="form-control" name="item-field-active" type="checkbox" v-bind:checked="record.active"></input>
+                                <input class="form-control" name="item-field-active" type="checkbox" v-bind:checked="record.active === '1'"></input>
                             </td>
                             <td><textarea class="form-control" rows="3" data-label="Comment" name="item-field-comment">{{ record.comment }}</textarea></td>
                             <td>
