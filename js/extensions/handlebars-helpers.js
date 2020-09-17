@@ -403,7 +403,7 @@
 
         /**
          * Convert a case-insenstive value of [true, 1, yes] to 'Yes',
-         * otherwise return null.
+         * otherwise return 'No'.
          */
         Handlebars.registerHelper('yesNo', function (value) {
             value = String(value).toLowerCase();
