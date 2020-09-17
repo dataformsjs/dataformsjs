@@ -4,6 +4,22 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## Next Release (Changes not yet published on npm)
+
+* Added Vue support for the Framework `entryForm` page object and related plugins
+  * Both Vue 2 and Vue 3 are supported
+  * Scripts Updated:
+    * `js/pages/entryForm.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/pages/entryForm.js
+    * `js/plugins/listEditor.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/listEditor.js
+    * `js/plugins/clickUrlAction.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/clickUrlAction.js
+  * New Demo is available for Vue, previously these scripts only worked with template engines such as Handlebars.
+  * `http://127.0.0.1:8080/entry-form-demo-vue`
+* Add Vue Directive `format-yes-no` to `js/extensions/vue-directives.js`
+  * If the case-insensitive value to bind is one of the following `[true, 1, yes]` then `Yes` will be displayed otherwise `No` will be displayed.
+* Confirmed Vue 3 (RC 12) works with the Framework, previously RC 10 was confirmed
+  * https://www.dataformsjs.com/unit-testing/vue-3
+* `js/plugins/modalAlert.js` - Removed un-needed `console.log` statement that was left from development
+
 ## 4.5.5 (September 11, 2020)
 
 * Minor Bug Fix for Image Gallery Controls.
@@ -37,10 +53,6 @@ Overall the core Framework files and API are expected to remain stable however t
     * https://www.dataformsjs.com/examples/image-gallery-react.htm
     * https://www.dataformsjs.com/examples/image-gallery-hbs.htm
     * https://www.dataformsjs.com/examples/image-gallery-web.htm
-
-## Next Release (Changes not yet published on npm)
-
-* `js/plugins/modalAlert.js` - Removed un-needed `console.log` statement that was left from development
 
 ## 4.5.2 (September 4, 2020)
 

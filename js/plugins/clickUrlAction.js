@@ -13,6 +13,8 @@
  *     <span data-click-url="{url}" data-action="reload-page">
  *     <span data-click-url="{url}" data-action="update-view" data-request-method="POST">
  *     <span data-click-url="{url}" data-action="refresh-html-controls">
+ * 
+ * When using Vue [data-action] is not required and only "reload-page" is supported.
  */
 
 /* Validates with both [jshint] and [eslint] */
@@ -46,12 +48,15 @@
             return;
         }
 
+        var usingVue = (app.activeVueModel !== null);
         var action = el.getAttribute('data-action');
-        var validActions = ['reload-page', 'update-view', 'refresh-html-controls'];
+        var validActions = (usingVue ? ['reload-page'] : ['reload-page', 'update-view', 'refresh-html-controls']);
         if (!action) {
-            app.showErrorAlert('Element with [data-click-url] is missing attribute or value for [data-action].');
-            console.log(el);
-            return;
+            if (!usingVue) {
+                app.showErrorAlert('Element with [data-click-url] is missing attribute or value for [data-action].');
+                console.log(el);
+                return;    
+            }
         } else if (validActions.indexOf(action) === -1) {
             app.showErrorAlert('Invalid value of "' + action + '" found in [data-action]. Valid values are [' + validActions.join(', ') + '].');
             console.log(el);
@@ -66,19 +71,30 @@
         app
         .fetch(url, { method: requestMethod })
         .then(function(data) {
-            // Copy properties from the JSON Service back to the Active Model
-            Object.assign(app.activeModel, data);
+            // Check if Vue is being used
+            var usingVue = (app.activeVueModel !== null);
 
+            // Copy properties from the JSON Service back to the Active Model
+            if (usingVue) {
+                Object.assign(app.activeVueModel, data);
+            } else {
+                Object.assign(app.activeModel, data);
+            }
+            
             // Handle action to update the page
             switch (action) {
                 case 'reload-page':
                     window.location.reload(true);
                     break;
                 case 'update-view':
-                    app.updateView();
+                    if (!usingVue) {
+                        app.updateView();
+                    }
                     break;
                 case 'refresh-html-controls':
-                    app.refreshAllHtmlControls();
+                    if (!usingVue) {
+                        app.refreshAllHtmlControls();
+                    }
                     break;
             }
         })

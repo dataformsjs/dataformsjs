@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>DataFormsJS Entry Form Demo | Handlebars</title>
+        <title>DataFormsJS Entry Form Demo | Vue</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="canonical" href="https://www.dataformsjs.com/examples/entry-form-demo-hbs.htm">
         <style>
@@ -36,34 +36,40 @@
     <body>
         <div id="view" class="container"></div>
 
-        <script type="text/x-template" data-engine="handlebars" id="loading-template">
+        <script type="text/x-template" data-engine="vue" id="loading-template">
             <div class="alert alert-info">Loading...</div>
         </script>
 
-        <script type="text/x-template" data-engine="handlebars" id="error-template">
-            <div class="alert alert-danger">Error: {{errorMessage}}</div>
+        <script type="text/x-template" data-engine="vue" id="error-template">
+            <div class="alert alert-danger">Error: {{ errorMessage }}</div>
             <button type="button" class="btn btn-primary reset-data">Reset all Data</button>
         </script>
 
+        <!--
+            [data-records] is added as a property to the page object so that
+            the [records] property is tracked by Vue.
+        -->
         <script
             type="text/x-template"
-            data-engine="handlebars"
-            src="html/entry-form-record-list-hbs.htm"
+            data-engine="vue"
+            src="html/entry-form-record-list-vue.htm"
             data-default-route
             data-route="/"
             data-page="jsonData"
-            data-url="https://www.dataformsjs.com/data/example/entry-form/list">
+            data-url="https://www.dataformsjs.com/data/example/entry-form/list"
+            data-records>
         </script>
 
         <script
             type="text/x-template"
-            data-engine="handlebars"
-            src="html/entry-form-list-editor-hbs.htm"
+            data-engine="vue"
+            src="html/entry-form-list-editor-vue.htm"
             data-route="/list-editor"
             data-page="entryForm"
             data-url="https://www.dataformsjs.com/data/example/entry-form/list"
             data-save-url="https://www.dataformsjs.com/data/example/entry-form/save-all"
-            data-result-success-display-interval="3000">
+            data-result-success-display-interval="3000"
+            data-records>
         </script>
 
         <!--
@@ -73,8 +79,8 @@
         -->
         <script
             type="text/x-template"
-            data-engine="handlebars"
-            src="html/entry-form-hbs.htm"
+            data-engine="vue"
+            src="html/entry-form-vue.htm"
             data-route="/record/new"
             data-page="entryForm"
             data-new-record="true"
@@ -85,8 +91,8 @@
 
         <script
             type="text/x-template"
-            data-engine="handlebars"
-            src="html/entry-form-hbs.htm"
+            data-engine="vue"
+            src="html/entry-form-vue.htm"
             data-route="/record/:id"
             data-page="entryForm"
             data-url="https://www.dataformsjs.com/data/example/entry-form/record/:id"
@@ -95,15 +101,28 @@
             data-delete-record-redirect-url="#/">
         </script>
 
-        <!-- Handlebars -->
-        <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.6/dist/handlebars.min.js"></script>
+        <!--
+        Vue 2 - Dev Latest:
+            <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        Vue 2 - Prod Latest:
+            <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        Vue 2 - Prod Specific Version:
+            <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
+
+        Vue 3 (Currently in Beta)
+            <script src="https://unpkg.com/vue@next"></script>
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
         <!-- DataFormsJS -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/DataFormsJS.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/pages/jsonData.min.js"></script>
-        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/pages/entryForm.min.js"></script> -->
+        <!--
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/pages/entryForm.min.js"></script>
+        -->
         <script src="../js/pages/entryForm.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/extensions/handlebars-helpers.min.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/extensions/vue-directives.min.js"></script> -->
+        <script src="../js/extensions/vue-directives.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/extensions/validation.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/filter.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/sort.min.js"></script>
@@ -115,7 +134,7 @@
         <!--
             Custom Authenticaton Code for this App.
             This is the only custom JS code. All form features are handled by
-            standard framework scripts and HTML in the Handlebars Templates.
+            standard framework scripts and HTML in the Vue Templates.
         -->
         <script src="entry-form-auth.js"></script>
 
@@ -141,8 +160,8 @@
             .addController({
                 path: '/',
                 defaultRoute: true,
-                viewUrl: 'html/entry-form-record-list-hbs.htm',
-                viewEngine: 'Handlebars',
+                viewUrl: 'html/entry-form-record-list-vue.htm',
+                viewEngine: 'Vue',
                 pageType: 'jsonData',
                 settings: {
                     url: 'https://www.dataformsjs.com/data/example/entry-form/list'
@@ -150,19 +169,20 @@
             })
             .addController({
                 path: '/list-editor',
-                viewUrl: 'html/entry-form-list-editor-hbs.htm',
-                viewEngine: 'Handlebars',
+                viewUrl: 'html/entry-form-list-editor-vue.htm',
+                viewEngine: 'Vue',
                 pageType: 'entryForm',
                 settings: {
                     url: 'https://www.dataformsjs.com/data/example/entry-form/list',
                     saveUrl: 'https://www.dataformsjs.com/data/example/entry-form/save-all',
                     resultSuccessDisplayInterval: 3000,
+                    records: null,
                 },
             })
             .addController({
                 path: '/record/new',
-                viewUrl: 'html/entry-form-hbs.htm',
-                viewEngine: 'Handlebars',
+                viewUrl: 'html/entry-form-vue.htm',
+                viewEngine: 'Vue',
                 pageType: 'entryForm',
                 settings: {
                     url: 'https://www.dataformsjs.com/data/example/entry-form/categories',
@@ -173,8 +193,8 @@
             })
             .addController({
                 path: '/record/:id',
-                viewUrl: 'html/entry-form-hbs.htm',
-                viewEngine: 'Handlebars',
+                viewUrl: 'html/entry-form-vue.htm',
+                viewEngine: 'Vue',
                 pageType: 'entryForm',
                 settings: {
                     url: 'https://www.dataformsjs.com/data/example/entry-form/record/:id',

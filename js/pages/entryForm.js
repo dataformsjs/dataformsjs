@@ -370,9 +370,13 @@
                 var editListControls = document.querySelectorAll(selector);
                 Array.prototype.forEach.call(editListControls, function(control) {
                     var name = control.getAttribute('data-edit-list');
-                    if (name !== null && app.activeModel[name] !== undefined && Array.isArray(app.activeModel[name])) {
+                    if (name !== null) {
                         // Add array to record object
-                        record[name] = app.activeModel[name];
+                        if (app.activeVueModel && app.activeVueModel[name] !== undefined && Array.isArray(app.activeVueModel[name])) {
+                            record[name] = app.activeVueModel[name];
+                        } else if (app.activeModel[name] !== undefined && Array.isArray(app.activeModel[name])) {
+                            record[name] = app.activeModel[name];
+                        }
                     }
                 });
             }
@@ -461,10 +465,19 @@
                                 model[fieldName] = fields[fieldName];
                             }
                         }
-                        model.loadFormFields();
+                        if (app.activeVueModel !== null) {
+                            app.activeVueModel.$nextTick(function () {
+                                model.loadFormFields();
+                            });
+                        } else {
+                            model.loadFormFields();
+                        }
                         model.setButtonEvents(); // Allow [Delete] button to be visible after adding new records
-                        app.refreshAllHtmlControls();
-                        app.loadAllJsControls();
+                        if (app.activeVueModel !== null) {
+                            app.refreshAllHtmlControls(function() {
+                                app.loadAllJsControls();
+                            });
+                        }
                     }
 
                     // Show Saved Message
@@ -481,7 +494,8 @@
                             // Only Redirect is the user is still on the page.
                             // For example if they delete and quickly click a new link
                             // this code will run but the following will evaluate to false.
-                            if (app.activeModel !== model) {
+                            var activeModel = (app.activeVueModel === null ? app.activeModel : app.activeVueModel);
+                            if (activeModel !== model) {
                                 return;
                             }
                             // Redirect
@@ -599,7 +613,8 @@
                             // Only Redirect is the user is still on the page.
                             // For example if they delete and quickly click a new link
                             // this code will run but the following will evaluate to false.
-                            if (app.activeModel !== model) {
+                            var activeModel = (app.activeVueModel === null ? app.activeModel : app.activeVueModel);
+                            if (activeModel !== model) {
                                 return;
                             }
                             // Redirect

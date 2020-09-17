@@ -13,6 +13,7 @@
  *     v-format-date="dateValue or dateString"
  *     v-format-date-time="dateValue or dateString"
  *     v-format-date-time="dateValue or dateString"
+ *     format-yes-no="boolean string - if lowercase value === [true, 1, yes] then 'Yes' else 'No'"
  *
  * This file has no dependencies other than Vue when using Vue 2.
  * Directives are added to Vue 2 immediately when this script is loaded,
@@ -188,6 +189,12 @@
         el.textContent = formatDateTime(binding.value, intlOptions);
     };
 
+    var vYesNo = function (el, binding) {
+        var value = String(binding.value).toLowerCase();
+        var label = (value === 'true' || value === '1' || value === 'yes' ? 'Yes' : 'No');
+        el.textContent = label;
+    };
+
     // Vue 2 and 3 have different API's.
     // For Vue 2 directives can be defined globally on the Vue object
     // while Vue 3 requires them to be set on the app from `Vue.createApp()`.
@@ -201,6 +208,7 @@
         app.vueDirectives['format-date'] = { beforeMount: vFormatDate };
         app.vueDirectives['format-date-time'] = { beforeMount: vFormatDateTime };
         app.vueDirectives['format-time'] = { beforeMount: vFormatTime };
+        app.vueDirectives['format-yes-no'] = { beforeMount: vYesNo };
     } else {
         Vue.directive('format-number', { bind: vFormatNumber });
         Vue.directive('format-currency', { bind: vFormatCurrency });
@@ -208,5 +216,6 @@
         Vue.directive('format-date', { bind: vFormatDate });
         Vue.directive('format-date-time', { bind: vFormatDateTime });
         Vue.directive('format-time', { bind: vFormatTime });
+        Vue.directive('format-yes-no', { bind: vYesNo });
     }
 })();
