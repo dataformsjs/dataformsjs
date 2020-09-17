@@ -1588,6 +1588,43 @@
         },
 
         /**
+         * Helper function that returns `true/false` based on whether Vue is currently
+         * being used. If a site is being used with both Vue and other templating engines
+         * then this function will return `false` on routes that use another templating
+         * engine and `true` on routes that use Vue. If a site uses only Vue and standard
+         * <templates> then this function can return `false` one the initial <template>
+         * view and then will return `true` once Vue is used.
+         *
+         * This function would generally be used by page objects, plugins, etc that need
+         * to support both Vue and other templating engines such as Handlebars.
+         *
+         * @returns {boolean}
+         */
+        isUsingVue: function () {
+            return (
+                app.activeVueModel !== null ||
+                (app.activeController && app.activeController.viewEngine === 'Vue') ||
+                app.viewEngine() === 'Vue'
+            );
+        },
+
+        /**
+         * Helper function that returns `true/false` if Vue 2 is currently being used.
+         * @returns {boolean}
+         */
+        isUsingVue2: function () {
+            return (this.isUsingVue() && Vue.createApp === undefined);
+        },
+
+        /**
+         * Helper function that returns `true/false` if Vue 3 is currently being used.
+         * @returns {boolean}
+         */
+        isUsingVue3: function () {
+            return (this.isUsingVue() && typeof Vue.createApp === 'function');
+        },
+
+        /**
          * Return true/false based on whether [app.updateView()] is still
          * running. The [app.updateView()] function handles how to handle
          * update the view so this function is included for Unit Testing.

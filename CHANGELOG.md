@@ -6,6 +6,10 @@ Overall the core Framework files and API are expected to remain stable however t
 
 ## Next Release (Changes not yet published on npm)
 
+* Added features and additional examples pages for Vue
+  * All Handlebar Examples now have a corresponding Vue Example
+  * All Standard Framework files now support Vue
+  * Originally DataFormsJS was created to use Handlebars so until this release not all Framework scripts worked with Vue
 * Added Vue support for the Framework `entryForm` page object and related plugins
   * Both Vue 2 and Vue 3 are supported
   * Scripts Updated:
@@ -16,6 +20,12 @@ Overall the core Framework files and API are expected to remain stable however t
   * `http://127.0.0.1:8080/entry-form-demo-vue`
 * Add Vue Directive `format-yes-no` to `js/extensions/vue-directives.js`
   * If the case-insensitive value to bind is one of the following `[true, 1, yes]` then `Yes` will be displayed otherwise `No` will be displayed.
+* `js/DataFormsJS.js`
+  * Added new helper functions for working with Vue
+    * `app.isUsingVue()`
+    * `app.isUsingVue2()`
+    * `app.isUsingVue3()`
+  * This function would generally be used by page objects, plugins, etc that need to support both Vue and other templating engines such as Handlebars.
 * Confirmed Vue 3 (RC 12) works with the Framework, previously RC 10 was confirmed
   * https://www.dataformsjs.com/unit-testing/vue-3
 * `js/plugins/modalAlert.js` - Removed un-needed `console.log` statement that was left from development

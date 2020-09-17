@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>One Page Demo | Handlebars</title>
+        <title>One Page Demo | Vue</title>
         <style>
             body { padding:20px 40px; }
             nav { padding:1em; }
@@ -66,18 +66,16 @@
             <a href="#test3" data-one-page>Test 3</a>
         </nav>
 
-        <script type="text/x-template" data-engine="handlebars" id="countries-list">
-            {{#if isLoading}}<div>Loading...</div>{{/if}}
-            {{#if hasError}}<div class="error">{{errorMessage}}</div>{{/if}}
-            {{#if isLoaded}}
-                <div>
-                    <input
-                        data-filter-selector="table"
-                        data-filter-results-text-selector="h1"
-                        data-filter-results-text-all="{totalCount} Countries"
-                        data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
-                        placeholder="Enter filter, example 'North America'">
-                </div>
+        <script type="text/x-template" data-engine="vue" id="countries-list">
+            <div v-if="isLoading">Loading...</div>
+            <div v-if="hasError" class="error">{{ errorMessage }}</div>
+            <div v-if="isLoaded" class="flex-col">
+                <input
+                    data-filter-selector="table"
+                    data-filter-results-text-selector="h1"
+                    data-filter-results-text-all="{totalCount} Countries"
+                    data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
+                    placeholder="Enter filter, example 'North America'">
     
                 <p>Click on a column to sort rows based on column values.</p>
     
@@ -92,26 +90,37 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{#each countries}}
-                        <tr>
-                            <td>{{iso}}</td>
-                            <td><i class="{{lowerCase iso}} flag"></i>{{country}}</td>
-                            <td class="align-right" data-value="{{area_km}}">{{formatNumber area_km}}</td>
-                            <td class="align-right" data-value="{{population}}">{{formatNumber population}}</td>
-                            <td>{{continent}}</td>
+                        <tr v-for="country in countries">
+                            <td>{{ country.iso }}</td>
+                            <td>
+                                <i v-bind:class="country.iso.toLowerCase() + ' flag'"></i>
+                                <span>{{ country.country }}<span>
+                            </td>
+                            <td class="align-right" v-bind:data-value="country.area_km" v-format-number="country.area_km"></td>
+                            <td class="align-right" v-bind:data-value="country.population" v-format-number="country.population"></td>
+                            <td>{{ country.continent }}</td>
                         </tr>
-                        {{/each}}
                     </tbody>
                 </table>
-            {{/if}}
-        </script>
+            </div>
+        </script>    
 
-        <!-- Handlebars and Helper -->
-        <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.6/dist/handlebars.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/extensions/handlebars-helpers.min.js"></script>
+        <!--
+        Vue 2 - Dev Latest:
+            <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        Vue 2 - Prod Latest:
+            <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        Vue 2 - Prod Specific Version:
+            <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
+
+        Vue 3 (Currently in Beta)
+            <script src="https://unpkg.com/vue@next"></script>
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
         <!-- DataFormsJS Standard Files -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/DataFormsJS.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/extensions/vue-directives.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/onePageSite.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/modalAlert.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/controls/json-data.min.js"></script>

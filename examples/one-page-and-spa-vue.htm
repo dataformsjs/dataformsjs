@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>One Page and SPA Demo | Handlebars</title>
+        <title>One Page and SPA Demo | Vue</title>
         <style>
             body { padding:20px 40px; }
             nav { padding:1em; }
@@ -33,9 +33,9 @@
 
         <div id="view"></div>
 
-        <script type="text/x-template" data-engine="handlebars" id="counter-page">
-            <p data-change-border><strong>Page Loaded Counter:</strong> {{counter}}</p>
-            <p class="change-border"><strong>Page Last Refreshed:</strong> {{formatTime (now)}}</p>
+        <script type="text/x-template" data-engine="vue" id="counter-page">
+            <p data-change-border><strong>Page Loaded Counter:</strong> {{ counter }}</p>
+            <p class="change-border"><strong>Page Last Refreshed:</strong> <span v-format-time="new Date()"></span> </p>
             <p class="change-border"><strong>Page Name:</strong> {{ pageName }}</p>
         </script>
 
@@ -56,10 +56,10 @@
             Model properties can be optionally defined from HTML as shown
             with the custom attribute [data-page-name] which becomes [pageName].
         -->
-        <script type="text/x-template" data-engine="handlebars" data-route="/page1" data-page="pageName" data-page-name="Page1">
+        <script type="text/x-template" data-engine="vue" data-route="/page1" data-page="pageName" data-page-name="Page1">
             <div data-template-id="counter-page"></div>
         </script>
-        <script type="text/x-template" data-engine="handlebars" data-route="/page2" data-page="pageName" data-page-name="Page2">
+        <script type="text/x-template" data-engine="vue" data-route="/page2" data-page="pageName" data-page-name="Page2">
             <div data-template-id="counter-page"></div>
         </script>
 
@@ -71,48 +71,59 @@
         -->
         <script
             type="text/x-template"
-            data-engine="handlebars"
+            data-engine="vue"
             data-route="/json-data/:country"
             data-page="customPage"
             data-url="https://www.dataformsjs.com/data/geonames/regions/:country">
 
-            {{#if isLoading}}<h3>Loading...</h3>{{/if}}
-            {{#if hasError}}<h3 class="error">{{errorMessage}}</h3>{{/if}}
-            {{#if isLoaded}}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Code</th>
-                            <th>Name</th>
-                            <th>Population</th>
-                            <th>Timezone</th>
-                            <th>Date Last Modified</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{#each regions}}
-                        <tr>
-                            <td>{{admin1_code}}</td>
-                            <td>{{name}}</td>
-                            <td class="align-right">{{formatNumber population}}</td>
-                            <td>{{timezone}}</td>
-                            <td class="align-right">{{formatDate modification_date}}</td>
-                        </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
-            {{/if}}
+            <h3 v-if="isLoading">Loading...</h3>
+            <p v-if="hasError">Error - {{ errorMessage }}</p>
+            <table v-if="isLoaded">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Population</th>
+                        <th>Timezone</th>
+                        <th>Date Last Modified</th>                               
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="region in regions">
+                        <td>{{ region.admin1_code }}</td>
+                        <td>{{ region.name }}</td>
+                        <td class="align-right" v-format-number="region.population"></td>
+                        <td>{{ region.timezone }}</td>
+                        <td class="align-right" v-format-date="region.modification_date"></td>
+                    </tr>
+                </tbody>
+            </table>
         </script>
 
-        <!-- Handlebars and Helper -->
-        <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.6/dist/handlebars.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/extensions/handlebars-helpers.min.js"></script>
+        <!--        
+        Vue 2 - Dev Latest:
+			<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        Vue 2 - Prod Latest:
+            <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        Vue 2 - Prod Specific Version:
+            <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
+
+        Vue 3 (Currently in Beta)
+            <script src="https://unpkg.com/vue@next"></script>
+
+        Local:
+            <script src="../vendor/vue.js"></script>
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
 
         <!-- DataFormsJS Standard Files -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/DataFormsJS.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/onePageSite.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/navLinks.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/pages/jsonData.min.js"></script>
+
+        <!-- DataFormsJS Vue Directives -->
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/extensions/vue-directives.min.js"></script>
 
         <!-- DataFormsJS Template Files -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/templates/page-object.min.js"></script>

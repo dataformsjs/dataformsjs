@@ -31,7 +31,7 @@
                     <i v-bind:class="country.toLowerCase() + ' flag'"></i>
                     <span>{{ region.name }}</span>
                 </td>
-                <td class="align-right" v-bind:data-value="region.population" v-format-number="region.population"></td>
+                <td class="align-right" v-format-number="region.population"></td>
                 <td>{{ region.timezone }}</td>
                 <td class="align-right" v-format-date="region.modification_date"></td>
             </tr>
