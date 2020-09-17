@@ -21,9 +21,15 @@
     </td>
 </tr>
 {{/each}}
+<!--
+    Two examples showing an add record template with [data-add-item] are shown below.
+    The commented out HTML shows how visible controls can be used as a starting point.
+    The used version shows how hidden inputs can be used to set default values.
+-->
+<!--
 <tr data-add-item>
     <td>(New)</td>
-    <td><input class="form-control" name="item-field-label" required value=""></td>
+    <td><input class="form-control" name="item-field-label" required value="Default Value"></td>
     <td><input class="form-control" name="item-field-num_value" data-type="float" value=""></td>
     <td>
         <select class="form-control" name="item-field-category">
@@ -37,6 +43,18 @@
         <input class="form-control" name="item-field-active" type="checkbox" checked></input>
     </td>    
     <td><textarea class="form-control" rows="3" name="item-field-comment"></textarea></td>
+    <td>
+        <span title="Add" class="btn btn-info" data-add-button>+</span>
+    </td>
+</tr>
+-->
+<tr data-add-item>
+    <td>(New)</td>
+    <td><input type="hidden" name="item-field-label" value="Default Value"></td>
+    <td><input type="hidden" name="item-field-num_value" value=""></td>
+    <td><input type="hidden" name="item-field-category" value=""></td>
+    <td><input type="hidden" name="item-field-active" value="1"></td>    
+    <td><input type="hidden" name="item-field-comment" value=""></td>
     <td>
         <span title="Add" class="btn btn-info" data-add-button>+</span>
     </td>

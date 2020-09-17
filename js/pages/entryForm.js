@@ -473,7 +473,7 @@
                             model.loadFormFields();
                         }
                         model.setButtonEvents(); // Allow [Delete] button to be visible after adding new records
-                        if (app.activeVueModel !== null) {
+                        if (app.activeVueModel === null) {
                             app.refreshAllHtmlControls(function() {
                                 app.loadAllJsControls();
                             });
