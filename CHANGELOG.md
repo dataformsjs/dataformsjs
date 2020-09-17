@@ -17,7 +17,7 @@ Overall the core Framework files and API are expected to remain stable however t
     * `js/plugins/listEditor.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/listEditor.js
     * `js/plugins/clickUrlAction.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/clickUrlAction.js
   * New Demo is available for Vue, previously these scripts only worked with template engines such as Handlebars.
-  * `http://127.0.0.1:8080/entry-form-demo-vue`
+  * https://www.dataformsjs.com/examples/entry-form-demo-vue.htm
 * Add Vue Directive `format-yes-no` to `js/extensions/vue-directives.js`
   * If the case-insensitive value to bind is one of the following `[true, 1, yes]` then `Yes` will be displayed otherwise `No` will be displayed.
 * `js/DataFormsJS.js`
@@ -28,6 +28,10 @@ Overall the core Framework files and API are expected to remain stable however t
   * This function would generally be used by page objects, plugins, etc that need to support both Vue and other templating engines such as Handlebars.
 * Confirmed Vue 3 (RC 12) works with the Framework, previously RC 10 was confirmed
   * https://www.dataformsjs.com/unit-testing/vue-3
+* Entry Form and List Editor Updates for IE
+  * Example Page was previously broken on IE due to `js/pages/entryForm.js` being loaded without a polyfill for `Object.assign`. Using `app.LazyLoad` in the page HTML fixed the example. They entry form and related code worked with IE, simply the example was not working.
+    * https://www.dataformsjs.com/examples/entry-form-demo-hbs.htm
+  * `js/plugins/listEditor.js` - Fix so that checkbox and radio changes would be tracked. This affected IE 11 because IE 11 was not tracking `element.oninput` for checkboxes and radio inputs.
 * `js/plugins/modalAlert.js` - Removed un-needed `console.log` statement that was left from development
 
 ## 4.5.5 (September 11, 2020)
