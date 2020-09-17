@@ -13,7 +13,7 @@
  *     <span data-click-url="{url}" data-action="reload-page">
  *     <span data-click-url="{url}" data-action="update-view" data-request-method="POST">
  *     <span data-click-url="{url}" data-action="refresh-html-controls">
- * 
+ *
  * When using Vue [data-action] is not required and only "reload-page" is supported.
  */
 
@@ -55,7 +55,7 @@
             if (!usingVue) {
                 app.showErrorAlert('Element with [data-click-url] is missing attribute or value for [data-action].');
                 console.log(el);
-                return;    
+                return;
             }
         } else if (validActions.indexOf(action) === -1) {
             app.showErrorAlert('Invalid value of "' + action + '" found in [data-action]. Valid values are [' + validActions.join(', ') + '].');
@@ -80,10 +80,14 @@
             } else {
                 Object.assign(app.activeModel, data);
             }
-            
+
             // Handle action to update the page
             switch (action) {
                 case 'reload-page':
+                    // NOTE - `reload()` is now deprecated so some editors such as VS Code
+                    // will show a line through it, however it is still included here because
+                    // it improves the behavior for older Browsers. For example when using
+                    // `reload(true)` IE 11 will send a [Cache-Control: no-cache] Request Header.
                     window.location.reload(true);
                     break;
                 case 'update-view':

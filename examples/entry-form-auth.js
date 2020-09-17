@@ -75,6 +75,10 @@
             if (btn) {
                 btn.onclick = function () {
                     localStorage.removeItem('entry-form-demo-api-key');
+                        // NOTE - `reload()` is now deprecated so some editors such as VS Code
+                        // will show a line through it, however it is still included here because
+                        // it improves the behavior for older Browsers. For example when using
+                        // `reload(true)` IE 11 will send a [Cache-Control: no-cache] Request Header.
                     window.location.reload(true);
                 };
             }
