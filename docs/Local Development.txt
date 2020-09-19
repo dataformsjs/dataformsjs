@@ -47,3 +47,22 @@ and also when running a local build of the main site [Website\index.php]
         <link rel="stylesheet" href="../vendor/flag.min.css">
 
     The [.gitignore] file excludes the [vendor] directory from source control
+
+*) Entry Form Web Service (Requires full setup with PHP)
+
+    Instructions:
+        Find and replace the URL text as needed to switch between local development and the live server.
+        Local development can be used if no internet is available or to develop new server features.
+
+    Pages:
+        dataformsjs/examples/entry-form-demo-hbs.htm
+        dataformsjs/examples/entry-form-demo-vue.htm
+        dataformsjs/examples/html/entry-form-record-list-hbs.htm
+        dataformsjs/examples/html/entry-form-record-list-vue.htm
+        dataformsjs/examples/entry-form-auth.js
+
+    Local URL:
+        http://localhost:3000/data/example/entry-form/
+
+    Live Server URL:
+        https://www.dataformsjs.com/data/example/entry-form/

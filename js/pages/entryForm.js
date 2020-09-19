@@ -182,7 +182,11 @@
             // Elements to Show?
             elements = document.querySelectorAll('.show-after-form-load');
             Array.prototype.forEach.call(elements, function (element) {
-                element.style.display = '';
+                if (element.getAttribute('hidden') !== null) {
+                    element.removeAttribute('hidden');
+                } else {
+                    element.style.display = '';
+                }
             });
         },
 

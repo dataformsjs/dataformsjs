@@ -783,6 +783,9 @@
         var routeScripts = lazyLoad.split(',').map(function(s) { return s.trim(); });
         var promises = [];
         routeScripts.forEach(function(script) {
+            if (app.lazyLoad[script] === undefined) {
+                console.error('Missing [app.LazyLoad] scripts for: ' + script);
+            }
             promises.push(app.loadScripts(app.lazyLoad[script]));
         });
 
@@ -2670,8 +2673,8 @@
                 urls = [urls];
             } else if (!Array.isArray(urls)) {
                 app.showErrorAlert('Invalid Script for [app.loadScripts()] or [app.lazyLoad], expected string or an array of strings. Check console.');
-                console.log('app.loadScripts():');
-                console.log(urls);
+                console.warn('app.loadScripts():');
+                console.warn(urls);
                 return new Promise(function(resolve) {
                     resolve();
                 });

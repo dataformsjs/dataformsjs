@@ -1,0 +1,33 @@
+/* Custom page style and bootstrap overrides */
+body {
+    margin: 40px;
+    background-color:#f4f6f8;
+}
+#view { 
+    width: max-content;
+    min-width: 85vw;
+}
+.container {
+    padding: 40px;
+    background-color: white;
+    box-shadow: rgba(64,64,64,.05) 0 0 0 1px, rgba(64,64,64,.1) 0 1px 3px 0;
+}
+.mt-2em { margin-top:2em; }
+label { font-weight: bold; }
+
+[data-delete-button],
+[data-add-button] {
+    font-weight: bold;
+}
+
+input[type='checkbox'] { width: 32px; }
+
+.table { background-color:white; }
+.table-striped tbody tr.row-odd { background-color: rgba(0,0,0,.05); }
+.table-striped tbody tr.row-even { background-color: white; }
+
+/* Reset pickadate styles from Bootstrap override */
+.table-striped .picker__table tr:nth-of-type(odd) { background-color: white; }
+.picker__table td,
+.picker__table thead th { border-top:none; border-bottom:none; padding:0; padding-bottom:.5em; }
+.picker__select--month, .picker__select--year { padding:0 .5em !important; }

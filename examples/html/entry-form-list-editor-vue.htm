@@ -26,6 +26,7 @@
                             <th>Label</th>
                             <th>Number</th>
                             <th>Category</th>
+                            <th>Date</th>
                             <th>Active</th>
                             <th>Comment</th>
                             <th>&nbsp;</th>
@@ -46,9 +47,8 @@
                                     <option v-for="category in categories">{{ category }}</option>
                                 </select>
                             </td>
-                            <td>
-                                <input class="form-control" name="item-field-active" type="checkbox" v-bind:checked="record.active === true || record.active === '1'"></input>
-                            </td>
+                            <td><input class="form-control datepicker" name="item-field-date_value" v-bind:value="record.date_value"></td>
+                            <td><input class="form-control" name="item-field-active" type="checkbox" v-bind:checked="record.active === true || record.active === '1'"></td>
                             <td><textarea class="form-control" rows="3" data-label="Comment" name="item-field-comment">{{ record.comment }}</textarea></td>
                             <td>
                                 <span title="Delete" class="btn btn-info" data-delete-button>X</span>
@@ -70,9 +70,8 @@
                                     <option v-for="category in categories">{{ category }}</option>
                                 </select>
                             </td>
-                            <td>
-                                <input class="form-control" name="item-field-active" type="checkbox" checked data-default="true"></input>
-                            </td>    
+                            <td><input class="form-control datepicker" name="item-field-date_value" value=""></td>
+                            <td><input class="form-control" name="item-field-active" type="checkbox" checked data-default="true"></td>
                             <td><textarea class="form-control" rows="3" name="item-field-comment"></textarea></td>
                             <td>
                                 <span title="Add" class="btn btn-info" data-add-button>+</span>
@@ -84,6 +83,7 @@
                             <td><input type="hidden" name="item-field-label" value="Default Value" data-default="Default Value"></td>
                             <td><input type="hidden" name="item-field-num_value" value=""></td>
                             <td><input type="hidden" name="item-field-category" value=""></td>
+                            <td><input type="hidden" name="item-field-date_value" value=""></td>
                             <td><input type="hidden" name="item-field-active" value="1" data-default="1"></td>    
                             <td><input type="hidden" name="item-field-comment" value=""></td>
                             <td>

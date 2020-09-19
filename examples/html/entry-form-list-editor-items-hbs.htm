@@ -12,9 +12,8 @@
         -->
         {{select 'class="form-control" name="item-field-category"' ../categories category 'allow-null'}}
     </td>
-    <td>
-        <input class="form-control" name="item-field-active" type="checkbox" {{#if active}}checked{{/if}}></input>
-    </td>
+    <td><input class="form-control datepicker" name="item-field-date_value" value="{{date_value}}"></td>
+    <td><input class="form-control" name="item-field-active" type="checkbox" {{#if active}}checked{{/if}}></td>
     <td><textarea class="form-control" rows="3" data-label="Comment" name="item-field-comment">{{comment}}</textarea></td>
     <td>
         <span title="Delete" class="btn btn-info" data-delete-button>X</span>
@@ -39,9 +38,8 @@
             {{/each}}
         </select>
     </td>
-    <td>
-        <input class="form-control" name="item-field-active" type="checkbox" checked></input>
-    </td>    
+    <td><input class="form-control datepicker" name="item-field-date_value" value=""></td>
+    <td><input class="form-control" name="item-field-active" type="checkbox" checked></td>    
     <td><textarea class="form-control" rows="3" name="item-field-comment"></textarea></td>
     <td>
         <span title="Add" class="btn btn-info" data-add-button>+</span>
@@ -53,6 +51,7 @@
     <td><input type="hidden" name="item-field-label" value="Default Value"></td>
     <td><input type="hidden" name="item-field-num_value" value=""></td>
     <td><input type="hidden" name="item-field-category" value=""></td>
+    <td><input type="hidden" name="item-field-date_value" value=""></td>
     <td><input type="hidden" name="item-field-active" value="1"></td>    
     <td><input type="hidden" name="item-field-comment" value=""></td>
     <td>

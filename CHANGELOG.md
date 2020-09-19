@@ -18,20 +18,28 @@ Overall the core Framework files and API are expected to remain stable however t
     * `js/plugins/clickUrlAction.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/clickUrlAction.js
   * New Demo is available for Vue, previously these scripts only worked with template engines such as Handlebars.
   * https://www.dataformsjs.com/examples/entry-form-demo-vue.htm
+  * Added support for `hidden` attribute on the `entryForm` page object when using `class="show-after-form-load"` elements. Peviously `style="display:none;"` was required on the element.
 * Add Vue Directive `format-yes-no` to `js/extensions/vue-directives.js`
   * If the case-insensitive value to bind is one of the following `[true, 1, yes]` then `Yes` will be displayed otherwise `No` will be displayed.
+* Confirmed Vue 3.0.0 Release works with the Framework, previously earlier Beta and Release Candidate versions were confirmed.
+  * https://www.dataformsjs.com/unit-testing/vue-3
 * `js/DataFormsJS.js`
   * Added new helper functions for working with Vue
     * `app.isUsingVue()`
     * `app.isUsingVue2()`
     * `app.isUsingVue3()`
-  * This function would generally be used by page objects, plugins, etc that need to support both Vue and other templating engines such as Handlebars.
-* Confirmed Vue 3 (RC 12) works with the Framework, previously RC 10 was confirmed
-  * https://www.dataformsjs.com/unit-testing/vue-3
+    * These function would generally be used by page objects, plugins, etc that need to support both Vue and other templating engines such as Handlebars.
+  * Added a helpful `console.error()` message for developers if a `data-lazy-load="name"` script was not found
+  * Converted two `console.info` statements to `console.warn`
+* `js/extensions/events.js`
+  * Converted two `console.log` statements to `console.error()` statements and added an additional `console.error()`. These provide helpful messages to developers.
 * Entry Form and List Editor Updates for IE
   * Example Page was previously broken on IE due to `js/pages/entryForm.js` being loaded without a polyfill for `Object.assign`. Using `app.LazyLoad` in the page HTML fixed the example. They entry form and related code worked with IE, simply the example was not working.
     * https://www.dataformsjs.com/examples/entry-form-demo-hbs.htm
   * `js/plugins/listEditor.js` - Fix so that checkbox and radio changes would be tracked. This affected IE 11 because IE 11 was not tracking `element.oninput` for checkboxes and radio inputs.
+* Added Framework Plugin for pickadate.js - https://amsul.ca/pickadate.js/
+  * `js/plugins/pickadate.js`
+  * Example is included on the entry form demos
 * `js/plugins/modalAlert.js` - Removed un-needed `console.log` statement that was left from development
 
 ## 4.5.5 (September 11, 2020)

@@ -128,6 +128,19 @@
                             }
                         }
                         fields[x].addEventListener(eventName, listEditor.listItemValueChanged);
+
+                        // IMPORTANT - if a change is not being handled then likely a third-party
+                        // JavaScript file is already listending for the change or input event on
+                        // the control and canceling additional `addEventListener()` events from running.
+                        // Here are several different ways to handle the scenario:
+                        //   - Copy this script and use the code below
+                        //   - Send one of the following if you can handle the changes from the third-party lib:
+                        //       element.dispatchEvent(new Event('input'))
+                        //       element.dispatchEvent(new Event('change'))
+                        //     See an example of this in the file:
+                        //       js/plugins/pickadate.js
+                        //
+                        // fields[x].oninput = fields[x].onchange = listEditor.listItemValueChanged.bind(this);
                     }
                 }
 
@@ -231,6 +244,15 @@
             // As long as the HTML code is setup correctly this will always work.
             if (app.activeVueModel && app.activeVueModel[recordName]) {
                 app.activeVueModel[recordName][recordIndex][fieldName] = value;
+                if (app.isUsingVue3()) {
+                    // When using Vue 3 the main property needs to be reset because changes
+                    // on the child object do not cause DOM updates to render. This applies
+                    // to both the new Vue 3 Composition API and the standard Vue Options API.
+                    //
+                    // For a detailed example of differences between Vue 2 and Vue 3 see:
+                    //   https://codepen.io/conrad-sollitt/pen/yLeaoGB
+                    app.activeVueModel[recordName] = app.activeVueModel[recordName].slice();
+                }
             } else {
                 app.activeModel[recordName][recordIndex][fieldName] = value;
             }

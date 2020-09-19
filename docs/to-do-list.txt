@@ -21,8 +21,8 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Finish Updates related to Entry Form Support for Vue (2020-09-16)
-    - This will likely be published to npm before the end of this week or next week
+**) Finish Updates related to Entry Form Support for Vue (2020-09-18)
+    - This will likely be published to npm next week
     - Checked in changes are likely stable but still being tested and may go through futher changes    
     - Examples being updated:
         http://127.0.0.1:8080/entry-form-demo-hbs
@@ -33,19 +33,22 @@ TODO List
         dataformsjs\js\pages\entryForm.js
         dataformsjs\js\plugins\listEditor.js
         dataformsjs\js\plugins\clickUrlAction.js
+        * Many others, see recent commits or [CHANGELOG.md]
     - Other updates will be made related to this:
         - Improve layout
         - Add an info page on how it works including that [listEditor.js] can be used
             for line items on a main form
-        - Add a new date field and then create an use a plugin for [pickadate]
-            https://amsul.ca/pickadate.js/
-            This will require including jQuery on the page. Both jQuery and pickadate
-            should be hosted using a CDN. This may or may not be added.
+    - After more testing file [dataformsjs\examples\entry-form-demo-vue3.htm] will be deleted
 
-**) Once Vue 3 is out of beta confirm all Vue Examples and Pages work with Vue 3.
-    - Currently all demos are confirmed to work with Vue 3 Beta 15 as of 2020-06-15
-    - Update 2020-09-11 - Unit Tests confirmed with latest build - v3.0.0 (RC 10)
+**) Vue 3.0.0 was released today (2020-09-18)
+    - 3.0.0 release version is confirmed with Unit Tests on the main app object:
         https://www.dataformsjs.com/unit-testing/vue-3#/
+    - Currently all demos are confirmed to work with Vue 3 Beta 15 as of 2020-06-15.
+    ** Confirm all examples next week before npm release using both dev and prod builds:
+            Vue 3 - Dev Specific Version:
+                <script src="https://unpkg.com/vue@3.0.0/dist/vue.global.js"></script>
+            Vue 3 - Prod Specific Version:
+                <script src="https://unpkg.com/vue@3.0.0/dist/vue.global.prod.js"></script>
     - Vue 3 Helpful Links:
         https://github.com/vuejs/vue-next
         https://composition-api.vuejs.org/api.html

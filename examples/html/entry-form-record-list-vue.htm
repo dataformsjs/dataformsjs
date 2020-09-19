@@ -28,6 +28,7 @@
                         <th>Label</th>
                         <th>Number</th>
                         <th>Category</th>
+                        <th>Date</th>
                         <th>Active</th>
                         <th>Comment</th>
                     </tr>
@@ -38,6 +39,7 @@
                         <td>{{ record.label }}</td>
                         <td>{{ record.num_value }}</td>
                         <td>{{ record.category }}</td>
+                        <td>{{ record.date_value }}</td>
                         <td v-format-yes-no="record.active"></td>
                         <td style="white-space: pre;">{{ record.comment }}</td>
                     </tr>

@@ -5,33 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>DataFormsJS Entry Form Demo | Handlebars</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/entry-form.css">
         <link rel="canonical" href="https://www.dataformsjs.com/examples/entry-form-demo-hbs.htm">
-        <style>
-            /* Custom page style and bootstrap overrides */
-            body {
-                margin: 40px;
-                background-color:#f4f6f8;
-            }
-            #view { min-width:700px; }
-            .container {
-                padding: 40px;
-                background-color: white;
-                box-shadow: rgba(64,64,64,.05) 0 0 0 1px, rgba(64,64,64,.1) 0 1px 3px 0;
-            }
-            .mt-2em { margin-top:2em; }
-            label { font-weight: bold; }
-
-            [data-delete-button],
-            [data-add-button] {
-                font-weight: bold;
-            }
-
-            input[type='checkbox'] { width: 32px; }
-
-            .table { background-color:white; }
-            .table-striped tbody tr.row-odd { background-color: rgba(0,0,0,.05); }
-            .table-striped tbody tr.row-even { background-color: white; }
-        </style>
     </head>
     <body>
         <div id="view" class="container"></div>
@@ -65,7 +40,7 @@
             data-url="https://www.dataformsjs.com/data/example/entry-form/list"
             data-save-url="https://www.dataformsjs.com/data/example/entry-form/save-all"
             data-result-success-display-interval="3000"
-            data-lazy-load="entryForm, listEditor, validation, sort, filter">
+            data-lazy-load="entryForm, listEditor, validation, sort, filter, pickadate, pickadatePlugin">
         </script>
 
         <!--
@@ -83,7 +58,7 @@
             data-url="https://www.dataformsjs.com/data/example/entry-form/categories"
             data-save-url="https://www.dataformsjs.com/data/example/entry-form/save"
             data-new-record-redirect-url="#/record/:id"
-            data-lazy-load="entryForm, validation">
+            data-lazy-load="entryForm, validation, pickadate, pickadatePlugin">
         </script>
 
         <script
@@ -96,11 +71,22 @@
             data-save-url="https://www.dataformsjs.com/data/example/entry-form/save"
             data-delete-url="https://www.dataformsjs.com/data/example/entry-form/delete/:id"
             data-delete-record-redirect-url="#/"
-            data-lazy-load="entryForm, validation">
+            data-lazy-load="entryForm, validation, pickadate, pickadatePlugin">
         </script>
 
         <!-- Handlebars -->
         <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.6/dist/handlebars.min.js"></script>
+
+        <!--
+            *** IMPORTANT ***
+
+            This file was updated (2020-09-18) and currently contains features not published
+            on the latest npm release. This file is going through final testing and all changes
+            will likely be published to npm next week.
+
+            The current npm release works with Handlebars and Vue support will be included
+            on the next release.
+        -->
 
         <!-- DataFormsJS -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/DataFormsJS.min.js"></script>
@@ -125,6 +111,24 @@
                 clickUrlAction: 'https://d2xbd92kui7v97.cloudfront.net/js/pre-release/clickUrlAction.min.js',
                 sort: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/filter.min.js',
                 filter: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/sort.min.js',
+                pickadate: [
+                    // This demo uses the date calendar for pickadate.js. If your project
+                    // uses a time picker then uncomment the time scripts and update options
+                    // in the [js/plugins/pickadate.js] as needed.
+                    'https://code.jquery.com/jquery-3.5.1.min.js',
+                    'https://cdn.jsdelivr.net/npm/pickadate@3.5.6/lib/compressed/themes/default.css',
+                    'https://cdn.jsdelivr.net/npm/pickadate@3.5.6/lib/compressed/themes/default.date.css',
+                    // 'https://cdn.jsdelivr.net/npm/pickadate@3.5.6/lib/compressed/themes/default.time.css',                    
+                    'https://cdn.jsdelivr.net/npm/pickadate@3.5.6/lib/compressed/picker.js',
+                    'https://cdn.jsdelivr.net/npm/pickadate@3.5.6/lib/compressed/picker.date.js',
+                    // 'https://cdn.jsdelivr.net/npm/pickadate@3.5.6/lib/compressed/picker.time.js',
+                ],
+                pickadatePlugin: [
+                    // '../js/extensions/events.js',
+                    // '../js/plugins/pickadate.js',
+                    'https://d2xbd92kui7v97.cloudfront.net/js/pre-release/events.min.js',
+                    'https://d2xbd92kui7v97.cloudfront.net/js/pre-release/pickadate.min.js',
+                ],
             };
             app.settings.lazyTemplateSelector = '#loading-template';
         </script>
@@ -135,7 +139,7 @@
             standard framework scripts and HTML in the Handlebars Templates.
         -->
         <script src="entry-form-auth.js"></script>
-
+        
         <!--
             To see how to create custom entry form based on [pages/entryForm.js]
             include the following script:

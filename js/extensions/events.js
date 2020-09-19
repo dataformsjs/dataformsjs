@@ -74,8 +74,9 @@
                     } catch (e) {
                         var error = 'Error with custom event function for event [' + name + ']';
                         app.showErrorAlert(error);
-                        console.log(event);
-                        console.log(data);
+                        console.error(error);
+                        console.error(event);
+                        console.error(data);
                         return;
                     }
                 }
