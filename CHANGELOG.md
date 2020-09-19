@@ -23,7 +23,7 @@ Overall the core Framework files and API are expected to remain stable however t
   * If the case-insensitive value to bind is one of the following `[true, 1, yes]` then `Yes` will be displayed otherwise `No` will be displayed.
 * Confirmed Vue 3.0.0 Release works with the Framework, previously earlier Beta and Release Candidate versions were confirmed.
   * https://www.dataformsjs.com/unit-testing/vue-3
-* `js/DataFormsJS.js`
+* `js/DataFormsJS.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/DataFormsJS.js
   * Added new helper functions for working with Vue
     * `app.isUsingVue()`
     * `app.isUsingVue2()`
@@ -31,14 +31,14 @@ Overall the core Framework files and API are expected to remain stable however t
     * These function would generally be used by page objects, plugins, etc that need to support both Vue and other templating engines such as Handlebars.
   * Added a helpful `console.error()` message for developers if a `data-lazy-load="name"` script was not found
   * Converted two `console.info` statements to `console.warn`
-* `js/extensions/events.js`
+* `js/extensions/events.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/extensions/events.js
   * Converted two `console.log` statements to `console.error()` statements and added an additional `console.error()`. These provide helpful messages to developers.
 * Entry Form and List Editor Updates for IE
   * Example Page was previously broken on IE due to `js/pages/entryForm.js` being loaded without a polyfill for `Object.assign`. Using `app.LazyLoad` in the page HTML fixed the example. They entry form and related code worked with IE, simply the example was not working.
     * https://www.dataformsjs.com/examples/entry-form-demo-hbs.htm
   * `js/plugins/listEditor.js` - Fix so that checkbox and radio changes would be tracked. This affected IE 11 because IE 11 was not tracking `element.oninput` for checkboxes and radio inputs.
 * Added Framework Plugin for pickadate.js - https://amsul.ca/pickadate.js/
-  * `js/plugins/pickadate.js`
+  * `js/plugins/pickadate.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/pickadate.js
   * Example is included on the entry form demos
 * `js/plugins/modalAlert.js` - Removed un-needed `console.log` statement that was left from development
 
@@ -57,7 +57,7 @@ Overall the core Framework files and API are expected to remain stable however t
 
 * Minor UX (User Experience) Improvements for Image Gallery Controls.
   * Updated `Loading...` indicator so that CSS padding and background color match the index and title elements
-  * Changed `Loading...` indicator so that it shows if the image takes longer than 2 seconds to load rather than 1 second. On tested mobile devices with low or mid-range bandwidth this was a better interval. 
+  * Changed `Loading...` indicator so that it shows if the image takes longer than 2 seconds to load rather than 1 second. On tested mobile devices with low or mid-range bandwidth this was a better interval.
   * On Framework Plugin and Web Component `<img alt="{title}">` can be used for the overlay title if the attribute `title` is missing.
   * All Versions updated:
     * Framework Plugin: `js/plugins/imageGallery.js`
@@ -221,7 +221,7 @@ Overall the core Framework files and API are expected to remain stable however t
   * `js/plugins/i18n.js`
 * For all example pages and the Code Playground Templates Vue 2 can simply be swapped out with Vue 3 and the pages/apps will work as expected.
 * Vue 3 is still in Beta so additional updates may be required before or after the final release of Vue 3.
-* Vue 2 - Improved support for the `v-cloak` directive to hide the view while it is rendering. Previously this was set on individual elements in the template however for compatibility with both Vue 2 and Vue 3 this is now handled automatically by DataFormsJS on the main view element. By default DataFormsJS adds required CSS for v-clock from the properties `app.vueCss` and `vueStyleId`. 
+* Vue 2 - Improved support for the `v-cloak` directive to hide the view while it is rendering. Previously this was set on individual elements in the template however for compatibility with both Vue 2 and Vue 3 this is now handled automatically by DataFormsJS on the main view element. By default DataFormsJS adds required CSS for v-clock from the properties `app.vueCss` and `vueStyleId`.
 * Vue 2 - Added support for `computed` properties to be defined directly on the page object. Previously `computed` properties had to be defined on the controller object which made it harder to define `computed` properties since controllers are typically setup in HTML rather than JavaScript. Also works with Vue 3. Example usage: `examples/template-files-vue.htm`
 * Added support to allow model properties the `filter.js` attributes `data-filter-results-text-all` and `data-filter-results-text-filtered`, example usage: `examples/html/regions-vue.htm` and `examples/html/regions-hbs.htm`
 
@@ -248,7 +248,7 @@ Overall the core Framework files and API are expected to remain stable however t
 * `jsxLoader.js` - General improvements for additional JSX Syntax
   * Fixed issue where links `https://` were being partially parsed as single-line comments inside of an element
   * Improved loop syntax elements needed to be enclosed in a `()` in certain situtations
-  ```jsx  
+  ```jsx
     // Before
     {props.data && props.data.categories && props.data.categories.map(category => {
         return (<Category item={category} />)
@@ -275,7 +275,7 @@ Overall the core Framework files and API are expected to remain stable however t
 ## 3.6.2 (February 25, 2020)
 
 * `jsxLoader.js`
-  * Added support for Shorthand React.Fragment Syntax `<>` 
+  * Added support for Shorthand React.Fragment Syntax `<>`
   * Switched Babel Standalone from Version 6 to Version 7.8.4
   * Switched eval code syntax to use `new Function('"use strict";' + jsxLoader.evalCode)();` instead of `eval(jsxLoader.evalCode);`
   * Load additional Polyfills from `polyfill.io` service and added `jsxLoader.addAdditionalPolyfills()` function.
@@ -299,7 +299,7 @@ Overall the core Framework files and API are expected to remain stable however t
     * `graphQL={true}`
     * `query="{query}"`
     * `querySrc="{url}"`
-    * `variables={}` 
+    * `variables={}`
 * Added `js/scripts/polyfills.js` using feature detection to polyfill `trimStart()`, `trimEnd()`, `trimLeft()`, and `trimRight()`
 * With the new features this `PolyfillService` Component/Class is being depreciated and will be removed in a future release. A console warning is provided if using the class. A console warning is also included in the `I18n` class which currently uses either `fetch` or `XMLHttpRequest`.
 
@@ -329,7 +329,7 @@ Overall the core Framework files and API are expected to remain stable however t
 ## 3.5.1 (January 17, 2020)
 
 * Improvments for using `Vue`
-  * `js/DataFormsJS.js` - When the Vue Instance Model is destroyed using `$destroy()` it is now added back to the `app.models` cache as a plain JavaScript Object. Minor update so a site will use less memory and allow for easier debugging from Browser Dev Tools. 
+  * `js/DataFormsJS.js` - When the Vue Instance Model is destroyed using `$destroy()` it is now added back to the `app.models` cache as a plain JavaScript Object. Minor update so a site will use less memory and allow for easier debugging from Browser Dev Tools.
   * `js/DataFormsJS.js` - When the `mounted()` event is called it waits for `vm.$nextTick` and also calls `app.loadAllJsControls();`
   * `js/controls/json-data.js` - Only assigned key control properties `[isLoading, isLoaded, hasError, errorMessage]` are set to the active Vue Model, this prevents issues with the `js/pages/jsonData.js` and related controllers/pages such as overwritting common controller properties `[url, graphqlId, etc.]`.
   * These improvements for `Vue` improve how framework JS controls work with Vue. Example is on search screen in the places demo: https://www.dataformsjs.com/examples/places-demo-vue.htm#/en/search
@@ -351,7 +351,7 @@ Overall the core Framework files and API are expected to remain stable however t
 ## 3.4.2 (January 3, 2020)
 
 * HTML5 History API Update so that if [ctrl] is held down when a link is clicked then the click event is ignored so that the link can be opened in a new tab.
-  * Affects files `DataFormsJS.js` and `js/web-components/url-router.js` 
+  * Affects files `DataFormsJS.js` and `js/web-components/url-router.js`
 * React Class `I18n` - Now sets the root `html lang="lang"` attribute when language has been changed
 * Updated Build Process to use local npm `devDependencies` from `package.json` rather than Global CLI commands and a Browser-based page for Babel
 
