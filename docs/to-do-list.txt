@@ -41,6 +41,7 @@ TODO List
         - One more plugin and db field may be added before the next release, this will be decided next week
             https://github.com/RobinHerbots/Inputmask
     - After more testing file [dataformsjs\examples\entry-form-demo-vue3.htm] will be deleted
+    - Errors currently occur with IE 11, need to debug and confirm the examples work on older iOS
 
 **) Vue 3.0.0 was released today (2020-09-18)
     - 3.0.0 release version is confirmed with Unit Tests on the main app object:
