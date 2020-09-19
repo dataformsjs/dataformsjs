@@ -19,6 +19,7 @@ Overall the core Framework files and API are expected to remain stable however t
   * New Demo is available for Vue, previously these scripts only worked with template engines such as Handlebars.
   * https://www.dataformsjs.com/examples/entry-form-demo-vue.htm
   * Added support for `hidden` attribute on the `entryForm` page object when using `class="show-after-form-load"` elements. Peviously `style="display:none;"` was required on the element.
+  * `entryForm.js` includes improved IE 11 support so that `null` values to not get displayed as `"null"` strings in input elements when adding new records.
 * Add Vue Directive `format-yes-no` to `js/extensions/vue-directives.js`
   * If the case-insensitive value to bind is one of the following `[true, 1, yes]` then `Yes` will be displayed otherwise `No` will be displayed.
 * Confirmed Vue 3.0.0 Release works with the Framework, previously earlier Beta and Release Candidate versions were confirmed.

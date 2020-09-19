@@ -100,8 +100,20 @@
                     }
                     picker.on({
                         set: function() {
-                            element.dispatchEvent(new Event('input'));
-                            element.dispatchEvent(new Event('change'));
+                            var eventInput, eventChange;
+                            if (typeof(Event) === 'function') {
+                                // Modern Browsers
+                                eventInput = new Event('input');
+                                eventChange = new Event('change');
+                            } else {
+                                // IE 11
+                                eventInput = document.createEvent('Event');
+                                eventChange = document.createEvent('Event');
+                                eventInput.initEvent('input', true, true);
+                                eventChange.initEvent('change', true, true);
+                            }
+                            element.dispatchEvent(eventInput);
+                            element.dispatchEvent(eventChange);
                         }
                     });
                 });

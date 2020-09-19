@@ -112,7 +112,7 @@
                         value = String(value).toLowerCase();
                         formField.checked = (value === 'true' || value === '1' || value === 'yes' || value === 'y');
                     } else {
-                        formField.value = value;
+                        formField.value = (value === null ? '' : value);
                     }
                 }
             });
