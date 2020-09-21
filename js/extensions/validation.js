@@ -1,12 +1,12 @@
 /**
  * DataFormsJS [app.validation] Extension.
  *
- * If loaded then it this file is usedwith:
+ * If loaded then it this file is used with:
  *     DataFormsJS\js\pages\entryForm.js
  *     DataFormsJS\js\plugins\listEditor.js
  *
  * If you would like to use your own validation with one of the above files
- * then simply copy and modify this file.
+ * then simply copy and modify this file for your project.
  */
 
 /* Validates with both [jshint] and [eslint] */
