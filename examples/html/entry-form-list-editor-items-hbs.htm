@@ -8,7 +8,7 @@
     <td><input class="form-control" name="item-field-num_value" data-label="Number" data-type="float" value="{{num_value}}"></td>
     <td>
         <!-- 
-            Note [../categories] tells handlebars to look up one level to get the list
+            [../categories] tells handlebars to look up one level to get the list
         -->
         {{select 'class="form-control" name="item-field-category"' ../categories category 'allow-null'}}
     </td>

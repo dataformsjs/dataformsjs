@@ -1,7 +1,7 @@
 {{#if isLoading}}<div data-template-id="loading-template"></div>{{/if}}
 {{#if hasError}}<div data-template-id="error-template"></div>{{/if}}
 {{#if isLoaded}}
-    <div class="row">
+    <div class="row mb-4">
         <div class="col">
             <input
                 class="form-control"
@@ -11,34 +11,33 @@
                 data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Records"
                 placeholder="Enter filter">
         </div>
-        <div class="col-3">
-            <a class="btn btn-info" href="#/">View All</a>
-        </div>
     </div>
 
-    <div class="row mt-2em">
+    <div class="row">
         <div class="col">
             <form>
-                <table class="table table-striped" data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Label</th>
-                            <th>Number</th>
-                            <th>Category</th>
-                            <th>Date</th>
-                            <th>Active</th>
-                            <th>Comment</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                    </thead>
-                    <tbody data-edit-list="records" data-template-url="html/entry-form-list-editor-items-hbs.htm">
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-striped edit-all" data-sort>
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Label</th>
+                                <th>Number</th>
+                                <th>Category</th>
+                                <th>Date</th>
+                                <th>Active</th>
+                                <th>Comment</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody data-edit-list="records" data-template-url="html/entry-form-list-editor-items-hbs.htm">
+                        </tbody>
+                    </table>
+                </div>
                 <div class="form-group alert alert-info info-message"></div>
                 <div class="form-group alert alert-danger error-message"></div>
                 <ul class="form-group alert alert-danger error-list"></ul>
-                <div class="form-group">
+                <div class="form-group mt-4 text-center">
                     <button type="button" class="btn btn-primary btn-save">Save</button>
                 </div>
             </form>

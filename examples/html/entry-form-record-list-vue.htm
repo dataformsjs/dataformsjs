@@ -1,8 +1,8 @@
 <div v-if="isLoading" data-template-id="loading-template"></div>
 <div v-if="hasError" data-template-id="error-template"></div>
 <div v-if="isLoaded">
-    <div class="row">
-        <div class="col-7">
+    <div class="row mb-4">
+        <div class="col">
             <input
                 class="form-control"
                 data-filter-selector="table"
@@ -11,40 +11,36 @@
                 data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Records"
                 placeholder="Enter filter">
         </div>
-        <div class="col-2">
-            <a class="btn btn-info" href="#/list-editor">Edit All</a>
-        </div>
-        <div class="col-3">
-            <a class="btn btn-info" href="#/record/new" style="margin-left:20px;">New Record</a>
-        </div>
     </div>
 
-    <div class="row mt-2em">
+    <div class="row">
         <div class="col">
-            <table v-if="records.length" class="table table-striped" data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Label</th>
-                        <th>Number</th>
-                        <th>Category</th>
-                        <th>Date</th>
-                        <th>Active</th>
-                        <th>Comment</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="record in records">
-                        <td><a v-bind:href="'#/record/' + record.id">{{ record.id }}</a></td>
-                        <td>{{ record.label }}</td>
-                        <td>{{ record.num_value }}</td>
-                        <td>{{ record.category }}</td>
-                        <td>{{ record.date_value }}</td>
-                        <td v-format-yes-no="record.active"></td>
-                        <td style="white-space: pre;">{{ record.comment }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div v-if="records.length" class="table-responsive">
+                <table class="table table-striped" data-sort>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Label</th>
+                            <th>Number</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Active</th>
+                            <th>Comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="record in records">
+                            <td><a v-bind:href="'#/record/' + record.id">{{ record.id }}</a></td>
+                            <td class="text-nowrap">{{ record.label }}</td>
+                            <td>{{ record.num_value }}</td>
+                            <td>{{ record.category }}</td>
+                            <td class="text-nowrap">{{ record.date_value }}</td>
+                            <td v-format-yes-no="record.active"></td>
+                            <td style="white-space: pre;">{{ record.comment }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <button 
                 v-else
                 class="btn btn-primary"

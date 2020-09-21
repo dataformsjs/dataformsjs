@@ -4,12 +4,28 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>DataFormsJS Entry Form Demo | Vue</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         <link rel="stylesheet" href="css/entry-form.css">
         <link rel="canonical" href="https://www.dataformsjs.com/examples/entry-form-demo-hbs.htm">
     </head>
-    <body>
-        <div id="view" class="container"></div>
+    <body class="bg-light">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="#/">Entry Form Demo</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link mx-2" href="#/view-records">View Records</a>
+                        <a class="nav-link mx-2" href="#/list-editor">Edit All</a>
+                        <a class="nav-link mx-2" href="#/record/new">New Record</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div id="view" class="container p-4 my-5"></div>
 
         <template id="loading-template">
             <div class="alert alert-info">Loading...</div>
@@ -20,6 +36,12 @@
             <button type="button" class="btn btn-primary reset-data">Reset all Data</button>
         </script>
 
+        <template
+            data-src="html/entry-form-info.htm"
+            data-default-route
+            data-route="/">
+        </template>
+
         <!--
             [data-records] is added as a property to the page object so that
             the [records] property is tracked by Vue.
@@ -28,8 +50,7 @@
             type="text/x-template"
             data-engine="vue"
             src="html/entry-form-record-list-vue.htm"
-            data-default-route
-            data-route="/"
+            data-route="/view-records"
             data-page="jsonData"
             data-url="https://www.dataformsjs.com/data/example/entry-form/list"
             data-records
@@ -64,6 +85,7 @@
             data-url="https://www.dataformsjs.com/data/example/entry-form/categories"
             data-save-url="https://www.dataformsjs.com/data/example/entry-form/save"
             data-new-record-redirect-url="#/record/:id"
+            data-result-success-display-interval="1000"
             data-lazy-load="entryForm, validation, pickadate, pickadatePlugin">
         </script>
 
@@ -76,7 +98,7 @@
             data-url="https://www.dataformsjs.com/data/example/entry-form/record/:id"
             data-save-url="https://www.dataformsjs.com/data/example/entry-form/save"
             data-delete-url="https://www.dataformsjs.com/data/example/entry-form/delete/:id"
-            data-delete-record-redirect-url="#/"
+            data-delete-record-redirect-url="#/view-records"
             data-lazy-load="entryForm, validation, pickadate, pickadatePlugin">
         </script>
 
@@ -88,8 +110,10 @@
         Vue 2 - Prod Specific Version:
             <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
 
-        Vue 3 (Currently in Beta)
-            <script src="https://unpkg.com/vue@next"></script>
+        Vue 3 - Dev Specific Version:
+            <script src="https://unpkg.com/vue@3.0.0/dist/vue.global.js"></script>
+        Vue 3 - Prod Specific Version:
+            <script src="https://unpkg.com/vue@3.0.0/dist/vue.global.prod.js"></script>
         -->
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
@@ -104,6 +128,10 @@
             on the next release.
         -->
 
+        <!-- Bootstrap -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
         <!-- DataFormsJS -->
         <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/DataFormsJS.min.js"></script> -->
         <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/DataFormsJS.min.js"></script>
@@ -111,6 +139,7 @@
         <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/extensions/vue-directives.min.js"></script> -->
         <!-- <script src="../js/extensions/vue-directives.js"></script> -->
         <script src="https://d2xbd92kui7v97.cloudfront.net/js/pre-release/vue-directives.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/navLinks.min.js"></script>
         <script>
             // Optimize - lazy load scripts are downloaded asynchronously at the same time.
             // Additionally File 'entryForm.js' uses [Object.assign] which isn't available from IE by default.
@@ -133,8 +162,10 @@
                 pickadate: [
                     // This demo uses the date calendar for pickadate.js. If your project
                     // uses a time picker then uncomment the time scripts and update options
-                    // in the [js/plugins/pickadate.js] as needed.
-                    'https://code.jquery.com/jquery-3.5.1.min.js',
+                    // in the [js/plugins/pickadate.js] as needed. jQuery is required but
+                    // commented out as it's already loaded for bootstrap.
+                    //
+                    // 'https://code.jquery.com/jquery-3.5.1.slim.min.js',
                     'https://cdn.jsdelivr.net/npm/pickadate@3.5.6/lib/compressed/themes/default.css',
                     'https://cdn.jsdelivr.net/npm/pickadate@3.5.6/lib/compressed/themes/default.date.css',
                     // 'https://cdn.jsdelivr.net/npm/pickadate@3.5.6/lib/compressed/themes/default.time.css',                    

@@ -1,0 +1,53 @@
+<div class="jumbotron bg-dark text-light">
+    <div class="container">
+        <h1 class="display-4">Entry Form Demo</h1>
+        <p class="lead">This is an example entry form application using built-in DataFormsJS features that allow entry forms to be defined using only HTML.</p>
+        <p class="lead">The core [entryForm.js] page object provides a flexible API so it’s easy to customize for complex apps and if needed it can also be copied and used a starting point for a custom app.</p>
+        <p class="lead">This app uses <a href="https://getbootstrap.com/" target="_blank" rel="noopener">Bootstrap</a> for the layout and includes a number of plugins and controls in addition to the core entry form features.</p>
+        <p class="lead">All data created by this app is read and saved on a server in temporary <a href="https://www.sqlite.org/" target="_blank" rel="noopener">SQLite</a> database using JSON Services. Authentication is handled with a custom JavaScript plugin for this page.</p>
+    </div>
+</div>
+
+<div class="card-deck">
+    <div class="card">
+        <div class="card-header bg-dark text-light font-weight-bold">Core Code for this App</div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <a href="https://github.com/dataformsjs/dataformsjs/blob/master/js/pages/entryForm.js" target="_blank" rel="noopener">js/pages/entryForm.js</a>
+            </li>
+            <li class="list-group-item">
+                <a href="https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/listEditor.js" target="_blank" rel="noopener">js/plugins/listEditor.js</a>
+            </li>
+            <li class="list-group-item">
+                <a href="https://github.com/dataformsjs/dataformsjs/blob/master/js/extensions/validation.js" target="_blank" rel="noopener">js/extensions/validation.js</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-dark text-light font-weight-bold">HTML needed to map Data Fields</div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item overflow-auto">
+                <strong class="font-weight-bold">Header Fields</strong><br>
+                <code>&lt;input id="field-{{name}}"&gt;</code>
+            </li>
+            <li class="list-group-item overflow-auto">
+                <strong class="font-weight-bold">Line Item Fields</strong><br>
+                <code>&lt;input name="item-field-{{name}}"&gt;</code>
+            </li>
+            <li class="list-group-item overflow-auto">
+                <strong class="font-weight-bold">Defining Web Services</strong><br>
+                <code>&lt;script
+    type="text/x-template"
+    data-engine="{{engine: [vue, handlebars]}}"
+    src="html/{{page}}.htm"
+    data-route="/record/:id"
+    data-page="entryForm"
+    data-url="entry-form/record/:id"
+    data-save-url="entry-form/save"
+    data-delete-url="entry-form/delete/:id"&gt;
+&lt;/script&gt;</code>
+            </li>
+        </ul>
+    </div>
+</div>

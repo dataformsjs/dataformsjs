@@ -1,18 +1,18 @@
 /* Custom page style and bootstrap overrides */
-body {
-    margin: 40px;
-    background-color:#f4f6f8;
+
+:root {
+    --shadow: rgba(64,64,64,.05) 0 0 0 1px, rgba(64,64,64,.1) 0 1px 3px 0;
 }
-#view { 
-    width: max-content;
-    min-width: 85vw;
+.navbar { 
+    box-shadow: var(--shadow);
+    filter: brightness(2);
 }
-.container {
+#view {
     padding: 40px;
+    margin-top: 3em;
     background-color: white;
-    box-shadow: rgba(64,64,64,.05) 0 0 0 1px, rgba(64,64,64,.1) 0 1px 3px 0;
+    box-shadow: var(--shadow);
 }
-.mt-2em { margin-top:2em; }
 label { font-weight: bold; }
 
 [data-delete-button],
@@ -20,13 +20,20 @@ label { font-weight: bold; }
     font-weight: bold;
 }
 
-input[type='checkbox'] { width: 32px; }
+input[type='checkbox'] { width: 2rem; }
 
-.table { background-color:white; }
-.table-striped tbody tr.row-odd { background-color: rgba(0,0,0,.05); }
-.table-striped tbody tr.row-even { background-color: white; }
+.jumbotron { padding:2rem; }
 
-/* Reset pickadate styles from Bootstrap override */
+.jumbotron,
+.card-header { filter:brightness(2.5); }
+
+.table.edit-all { min-width: 1000px;}
+
+code { white-space: pre; }
+
+.card-deck .card { align-self: start; }
+
+/* Reset pickadate.js styles from Bootstrap override */
 .table-striped .picker__table tr:nth-of-type(odd) { background-color: white; }
 .picker__table td,
 .picker__table thead th { border-top:none; border-bottom:none; padding:0; padding-bottom:.5em; }

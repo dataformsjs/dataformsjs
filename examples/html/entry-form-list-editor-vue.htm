@@ -1,7 +1,7 @@
 <div v-if="isLoading" data-template-id="loading-template"></div>
 <div v-if="hasError" data-template-id="error-template"></div>
 <div v-if="isLoaded">
-    <div class="row">
+    <div class="row mb-4">
         <div class="col">
             <input
                 class="form-control"
@@ -11,91 +11,90 @@
                 data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Records"
                 placeholder="Enter filter">
         </div>
-        <div class="col-3">
-            <a class="btn btn-info" href="#/">View All</a>
-        </div>
     </div>
 
-    <div class="row mt-2em">
+    <div class="row">
         <div class="col">
             <form>
-                <table class="table table-striped" data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Label</th>
-                            <th>Number</th>
-                            <th>Category</th>
-                            <th>Date</th>
-                            <th>Active</th>
-                            <th>Comment</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                    </thead>
-                    <tbody data-edit-list="records">
-                        <tr data-list-item
-                            v-for="record in records">
-                            <td>
-                                <a v-bind:href="'#/record/' + record.id">{{ record.id }}</a>
-                                <input type="hidden" name="id" v-bind:value="record.id">
-                            </td>
-                            <td><input class="form-control" name="item-field-label" data-label="Label" required v-bind:value="record.label"></td>
-                            <td><input class="form-control" name="item-field-num_value" data-label="Number" data-type="float" v-bind:value="record.num_value"></td>
-                            <td>
-                                <select class="form-control" name="item-field-category" data-label="Category" v-bind:value="record.category">
-                                    <option></option>
-                                    <option v-for="category in categories">{{ category }}</option>
-                                </select>
-                            </td>
-                            <td><input class="form-control datepicker" name="item-field-date_value" v-bind:value="record.date_value"></td>
-                            <td><input class="form-control" name="item-field-active" type="checkbox" v-bind:checked="record.active === true || record.active === '1'"></td>
-                            <td><textarea class="form-control" rows="3" data-label="Comment" name="item-field-comment">{{ record.comment }}</textarea></td>
-                            <td>
-                                <span title="Delete" class="btn btn-info" data-delete-button>X</span>
-                            </td>
-                        </tr>
-                        <!--
-                            Two examples showing an add record template with [data-add-item] are shown below.
-                            The commented out HTML shows how visible controls can be used as a starting point.
-                            The used version shows how hidden inputs can be used to set default values.
-                        -->
-                        <!--
-                        <tr data-add-item>
-                            <td>(New)</td>
-                            <td><input class="form-control" name="item-field-label" required value="Default Value" data-default="Default Value"></td>
-                            <td><input class="form-control" name="item-field-num_value" data-type="float" value=""></td>
-                            <td>
-                                <select class="form-control" name="item-field-category">
-                                    <option></option>
-                                    <option v-for="category in categories">{{ category }}</option>
-                                </select>
-                            </td>
-                            <td><input class="form-control datepicker" name="item-field-date_value" value=""></td>
-                            <td><input class="form-control" name="item-field-active" type="checkbox" checked data-default="true"></td>
-                            <td><textarea class="form-control" rows="3" name="item-field-comment"></textarea></td>
-                            <td>
-                                <span title="Add" class="btn btn-info" data-add-button>+</span>
-                            </td>
-                        </tr>
-                        -->
-                        <tr data-add-item>
-                            <td>(New)</td>
-                            <td><input type="hidden" name="item-field-label" value="Default Value" data-default="Default Value"></td>
-                            <td><input type="hidden" name="item-field-num_value" value=""></td>
-                            <td><input type="hidden" name="item-field-category" value=""></td>
-                            <td><input type="hidden" name="item-field-date_value" value=""></td>
-                            <td><input type="hidden" name="item-field-active" value="1" data-default="1"></td>    
-                            <td><input type="hidden" name="item-field-comment" value=""></td>
-                            <td>
-                                <span title="Add" class="btn btn-info" data-add-button>+</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-striped edit-all" data-sort>
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Label</th>
+                                <th>Number</th>
+                                <th>Category</th>
+                                <th>Date</th>
+                                <th>Active</th>
+                                <th>Comment</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody data-edit-list="records">
+                            <tr data-list-item
+                                v-for="record in records">
+                                <td>
+                                    <a v-bind:href="'#/record/' + record.id">{{ record.id }}</a>
+                                    <input type="hidden" name="id" v-bind:value="record.id">
+                                </td>
+                                <td><input class="form-control" name="item-field-label" data-label="Label" required v-bind:value="record.label"></td>
+                                <td><input class="form-control" name="item-field-num_value" data-label="Number" data-type="float" v-bind:value="record.num_value"></td>
+                                <td>
+                                    <select class="form-control" name="item-field-category" data-label="Category" v-bind:value="record.category">
+                                        <option></option>
+                                        <option v-for="category in categories">{{ category }}</option>
+                                    </select>
+                                </td>
+                                <td><input class="form-control datepicker" name="item-field-date_value" v-bind:value="record.date_value"></td>
+                                <td><input class="form-control" name="item-field-active" type="checkbox" v-bind:checked="record.active === true || record.active === '1'"></td>
+                                <td><textarea class="form-control" rows="3" data-label="Comment" name="item-field-comment">{{ record.comment }}</textarea></td>
+                                <td>
+                                    <span title="Delete" class="btn btn-info" data-delete-button>X</span>
+                                </td>
+                            </tr>
+                            <!--
+                                Two examples showing an add record template with [data-add-item] are shown below.
+                                The commented out HTML shows how visible controls can be used as a starting point.
+                                The used version shows how hidden inputs can be used to set default values.
+                            -->
+                            <!--
+                            <tr data-add-item>
+                                <td>(New)</td>
+                                <td><input class="form-control" name="item-field-label" required value="Default Value" data-default="Default Value"></td>
+                                <td><input class="form-control" name="item-field-num_value" data-type="float" value=""></td>
+                                <td>
+                                    <select class="form-control" name="item-field-category">
+                                        <option></option>
+                                        <option v-for="category in categories">{{ category }}</option>
+                                    </select>
+                                </td>
+                                <td><input class="form-control datepicker" name="item-field-date_value" value=""></td>
+                                <td><input class="form-control" name="item-field-active" type="checkbox" checked data-default="true"></td>
+                                <td><textarea class="form-control" rows="3" name="item-field-comment"></textarea></td>
+                                <td>
+                                    <span title="Add" class="btn btn-info" data-add-button>+</span>
+                                </td>
+                            </tr>
+                            -->
+                            <tr data-add-item>
+                                <td>(New)</td>
+                                <td><input type="hidden" name="item-field-label" value="Default Value" data-default="Default Value"></td>
+                                <td><input type="hidden" name="item-field-num_value" value=""></td>
+                                <td><input type="hidden" name="item-field-category" value=""></td>
+                                <td><input type="hidden" name="item-field-date_value" value=""></td>
+                                <td><input type="hidden" name="item-field-active" value="1" data-default="1"></td>    
+                                <td><input type="hidden" name="item-field-comment" value=""></td>
+                                <td>
+                                    <span title="Add" class="btn btn-info" data-add-button>+</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div class="form-group alert alert-info info-message"></div>
                 <div class="form-group alert alert-danger error-message"></div>
                 <ul class="form-group alert alert-danger error-list"></ul>
-                <div class="form-group">
+                <div class="form-group mt-4 text-center">
                     <button type="button" class="btn btn-primary btn-save">Save</button>
                 </div>
             </form>
