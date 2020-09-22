@@ -61,7 +61,7 @@
             data-url="https://www.dataformsjs.com/data/example/entry-form/list"
             data-save-url="https://www.dataformsjs.com/data/example/entry-form/save-all"
             data-result-success-display-interval="3000"
-            data-saving-record-text="Saving Records.."
+            data-saving-record-text="Saving Records..."
             data-lazy-load="entryForm, listEditor, validation, sort, filter, pickadate, pickadatePlugin">
         </script>
 
@@ -133,7 +133,9 @@
                 // listEditor: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/listEditor.min.js',
                 // listEditor: '../js/plugins/listEditor.js',
                 listEditor: 'https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/listEditor.min.js',
-                validation: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/extensions/validation.min.js',
+                // validation: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/extensions/validation.min.js',
+                validation: 'https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/validation.min.js',
+                // validation: '../js/extensions/validation.js',
                 // clickUrlAction: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/clickUrlAction.min.js',
                 // clickUrlAction: '../js/plugins/clickUrlAction.js',
                 clickUrlAction: 'https://d2xbd92kui7v97.cloudfront.net/js/pre-release/clickUrlAction.min.js',
@@ -148,16 +150,16 @@
                     // 'https://code.jquery.com/jquery-3.5.1.slim.min.js',
                     'https://cdn.jsdelivr.net/npm/pickadate@3.5.6/lib/compressed/themes/default.css',
                     'https://cdn.jsdelivr.net/npm/pickadate@3.5.6/lib/compressed/themes/default.date.css',
-                    // 'https://cdn.jsdelivr.net/npm/pickadate@3.5.6/lib/compressed/themes/default.time.css',                    
+                    // 'https://cdn.jsdelivr.net/npm/pickadate@3.5.6/lib/compressed/themes/default.time.css',
                     'https://cdn.jsdelivr.net/npm/pickadate@3.5.6/lib/compressed/picker.js',
                     'https://cdn.jsdelivr.net/npm/pickadate@3.5.6/lib/compressed/picker.date.js',
                     // 'https://cdn.jsdelivr.net/npm/pickadate@3.5.6/lib/compressed/picker.time.js',
                 ],
                 pickadatePlugin: [
-                    // '../js/extensions/events.js',
-                    // '../js/plugins/pickadate.js',
                     'https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/events.min.js',
+                    // '../js/extensions/events.js',
                     'https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/pickadate.min.js',
+                    // '../js/plugins/pickadate.js',
                 ],
             };
             app.settings.lazyTemplateSelector = '#loading-template';
@@ -169,7 +171,7 @@
             standard framework scripts and HTML in the Handlebars Templates.
         -->
         <script src="entry-form-auth.js"></script>
-        
+
         <!--
             To see how to create custom entry form based on [pages/entryForm.js]
             include the following script:

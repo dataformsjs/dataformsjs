@@ -29,6 +29,8 @@ input[type='checkbox'] { width: 2rem; }
 
 .table.edit-all { min-width: 1000px;}
 
+.alert.error-list { padding-left:2.5rem; }
+
 code { white-space: pre; }
 
 .card-deck .card { align-self: start; }

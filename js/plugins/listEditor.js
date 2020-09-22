@@ -130,7 +130,7 @@
                         fields[x].addEventListener(eventName, listEditor.listItemValueChanged);
 
                         // IMPORTANT - if a change is not being handled then likely a third-party
-                        // JavaScript file is already listending for the change or input event on
+                        // JavaScript file is already listening for the change or input event on
                         // the control and canceling additional `addEventListener()` events from running.
                         // Here are several different ways to handle the scenario:
                         //   - Copy this script and use the code below

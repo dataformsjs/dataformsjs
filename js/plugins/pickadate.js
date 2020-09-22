@@ -92,6 +92,12 @@
                 // Version 3 (requires jQuery)
                 Array.prototype.forEach.call(elements, function(element) {
                     var $input = $(element).pickadate(plugin.options);
+                    $input.on('mousedown', function cancelEvent(evt) {
+                        // There is a bug with pickadate.js in Chrome where it flickers
+                        // on the screen  if this code is not included.
+                        // https://github.com/amsul/pickadate.js/issues/1138#issuecomment-696911230
+                        evt.preventDefault();
+                    });
                     var picker = $input.pickadate('picker');
                     if (element.value === '') {
                         picker.clear();

@@ -10,6 +10,17 @@
  * First load [jsonData.js] then this file:
  *     <script src="js/pages/jsonData.js"></script>
  *     <script src="js/pages/entryForm.js"></script>
+ *
+ * Form Field Naming. Fields must be named in the format of "field-{name}"
+ * Example:
+ *    <input name="field-name">
+ *    <input name="field-active">
+ *
+ * This page contains many options and HTML attributes. For usage see examples:
+ *     https://www.dataformsjs.com/examples/entry-form-demo-vue.htm
+ *     https://www.dataformsjs.com/examples/entry-form-demo-hbs.htm
+ *     https://www.dataformsjs.com/examples/binary-classification-vue.htm
+ *     https://www.dataformsjs.com/examples/binary-classification-hbs.htm
  */
 
 /* Validates with both [jshint] and [eslint] */
@@ -51,6 +62,7 @@
         // This applies to [saveUrl], by default a response of {success:true} and optionally {fields}
         // is expected. When [useSaveApi:false] any 200 response with JSON will be considered a valid
         // and the model will be updated with any returned data from the JSON response.
+        // To see from an attribute on the HTML route use [data-use-save-api="false"]
         useSaveApi: true,
         // Redirect URL Example - hash URL '#/record/:id'
         // [id] would need to be passed back from web serivce in fields property.
@@ -105,7 +117,9 @@
                     }
                     // Parse field name from the HTML Form Element and set the element value
                     var fieldName = (formField.id.indexOf('field-') === 0 ? formField.id : formField.name);
-                    fieldName = fieldName.replace('field-', '');
+                    if (fieldName.indexOf('field-') === 0) {
+                        fieldName = fieldName.substring(6); // Field name after 'field-'
+                    }
                     var value = (model[fieldName] !== undefined ? model[fieldName] : '');
                     if (formField.type === 'checkbox') {
                         value = String(value).toLowerCase();
@@ -305,7 +319,9 @@
             Array.prototype.forEach.call(formFields, function (formField) {
                 // Parse field name from the HTML Form Element
                 var fieldName = (formField.name.indexOf('field-') === 0 ? formField.name : formField.id);
-                fieldName = fieldName.replace('field-', '');
+                if (fieldName.indexOf('field-') === 0) {
+                    fieldName = fieldName.substring(6); // Field name after 'field-'
+                }
 
                 // Get the Form field value
                 // If a input/select has a [data-value] attribute defined

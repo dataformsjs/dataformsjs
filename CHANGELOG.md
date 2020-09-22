@@ -36,6 +36,9 @@ Overall the core Framework files and API are expected to remain stable however t
   * Converted two `console.info` statements to `console.warn`
 * `js/extensions/events.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/extensions/events.js
   * Converted two `console.log` statements to `console.error()` statements and added an additional `console.error()`. These provide helpful messages to developers.
+* `js/extensions/validation.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/extensions/validation.js
+  * Added seperate text message for integer validation: `app.validation.text.typeNumberInt = '[{field}] needs to be entered as a integer.'`. This can be overwritten by an app.
+  * Bug fix were `data-type="int|float"` would return `true` for invalid numbers when `parseInt()` and `parseFloat()` failed. This didn't affect the numbers sent to the server and only client-side validation messages.
 * Entry Form and List Editor Updates for IE
   * Example Page was previously broken on IE due to `js/pages/entryForm.js` being loaded without a polyfill for `Object.assign`. Using `app.LazyLoad` in the page HTML fixed the example. They entry form and related code worked with IE, simply the example was not working.
     * https://www.dataformsjs.com/examples/entry-form-demo-hbs.htm

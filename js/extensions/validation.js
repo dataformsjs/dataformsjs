@@ -1,7 +1,7 @@
 /**
  * DataFormsJS [app.validation] Extension.
  *
- * If loaded then it this file is used with:
+ * If loaded then this file is used with:
  *     DataFormsJS\js\pages\entryForm.js
  *     DataFormsJS\js\plugins\listEditor.js
  *
@@ -24,6 +24,7 @@
     var validation = {
         text: {
             requiredField: '[{field}] is a required field.',
+            typeNumberInt: '[{field}] needs to be entered as a integer.',
             typeNumber: '[{field}] needs to be entered as a number.',
             row: 'Row',
         },
@@ -56,16 +57,16 @@
             }
 
             // If [date-type] is specified then validate the type.
+            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isInteger
             if (value !== '') {
+                var numValue = Number(value);
                 var dataType = element.getAttribute('data-type');
                 if (dataType === 'int') {
-                    value = parseInt(value, 10);
-                    if (isNaN(value)) {
-                        errorText = validation.text.typeNumber;
+                    if (!(isFinite(numValue) && Math.floor(numValue) === numValue)) {
+                        errorText = validation.text.typeNumberInt;
                     }
                 } else if (dataType === 'float') {
-                    value = parseFloat(value);
-                    if (isNaN(value)) {
+                    if (!isFinite(numValue)) {
                         errorText = validation.text.typeNumber;
                     }
                 }

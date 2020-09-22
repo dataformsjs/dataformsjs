@@ -1,10 +1,11 @@
 <div class="jumbotron bg-dark text-light">
     <div class="container">
         <h1 class="display-4">Entry Form Demo</h1>
-        <p class="lead">This is an example entry form application using built-in DataFormsJS features that allow entry forms to be defined using only HTML.</p>
+        <p class="lead">This is an example entry form application using built-in DataFormsJS features that allows entry forms to be defined using only HTML.</p>
         <p class="lead">The core [entryForm.js] page object provides a flexible API so it’s easy to customize for complex apps and if needed it can also be copied and used a starting point for a custom app.</p>
+        <p class="lead">The related [listEditor.js] plugin allows for easy development of entry forms that support line item tables and editing of multiple records on the same screen. The list editor is designed to provide a good developer experience, good end user experience, and so that is it fast for entering records.</p>
         <p class="lead">This app uses <a href="https://getbootstrap.com/" target="_blank" rel="noopener">Bootstrap</a> for the layout and includes a number of plugins and controls in addition to the core entry form features.</p>
-        <p class="lead">All data created by this app is read and saved on a server in temporary <a href="https://www.sqlite.org/" target="_blank" rel="noopener">SQLite</a> database using JSON Services. Authentication is handled with a custom JavaScript plugin for this page.</p>
+        <p class="lead">All data created by this app is saved on a server in temporary <a href="https://www.sqlite.org/" target="_blank" rel="noopener">SQLite</a> database using JSON Web Services. Authentication is handled with a custom JavaScript plugin for this page.</p>
     </div>
 </div>
 
@@ -23,6 +24,12 @@
             </li>
             <li class="list-group-item">
                 <a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/entry-form-auth.js" target="_blank" rel="noopener">app/entry-form-auth.js &nbsp;<em>(Custom App Code)</em></a>
+            </li>
+            <li class="list-group-item">
+                <a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/entry-form-demo-vue.htm" target="_blank" rel="noopener">app/entry-form-demo-vue.htm &nbsp;<em>(HTML - Vue)</em></a>
+            </li>
+            <li class="list-group-item">
+                <a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/entry-form-demo-hbs.htm" target="_blank" rel="noopener">app/entry-form-demo-hbs.htm &nbsp;<em>(HTML - Handlebars)</em></a>
             </li>
             <li class="list-group-item">
                 <a href="https://github.com/dataformsjs/website/blob/master/app/Controllers/EntryForm.php" target="_blank" rel="noopener">app/Controllers/EntryForm.php &nbsp;<em>(Server Code)</em></span></a>
@@ -53,6 +60,23 @@
     data-save-url="entry-form/save"
     data-delete-url="entry-form/delete/:id"&gt;
 &lt;/script&gt;</code>
+            </li>
+            <li class="list-group-item overflow-auto">
+                <strong class="font-weight-bold">Common HTML Entry Form Attributes and Classes</strong><br>
+                <code>data-edit-list="{{name}}"
+data-list-item
+data-add-item
+data-delete-button
+data-add-button
+data-label="{{user field name}}"
+data-type="{{int|float}}"
+data-use-save-api="{{true|false}}"
+data-list-label="{{name}}"
+class="btn-save"
+class="btn-delete"
+class="info-message"
+class="error-message"
+class="error-list"</code>
             </li>
         </ul>
     </div>

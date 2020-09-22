@@ -37,11 +37,6 @@ TODO List
         dataformsjs\js\plugins\listEditor.js
         dataformsjs\js\plugins\clickUrlAction.js
         * Many others, see recent commits or [CHANGELOG.md]
-    - Other updates will be made related to this:
-        - Improve layout
-        - One more plugin and db field may be added before the next release, this will be decided next week
-            https://github.com/RobinHerbots/Inputmask
-    - More testing on all browsers including IE 11 and older iOS
     - Also reated - Improve mobile layout for places demo and other example pages
 
 **) Vue 3.0.0 was released today (2020-09-18)
