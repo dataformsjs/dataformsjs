@@ -71,8 +71,77 @@ app.get('/favicon.ico', (req, res) => {
 });
 
 app.get('/:file', (req, res, file) => {
+    // Get file Path
     const fileName = (file + (file.includes('.') ? '' : '.htm'));
     const filePath = path.join(__dirname, fileName);
+
+    // Example of using CSP (Content Security Policy) with DataFormsJS.
+    // All examples shoud work with the following settings on modern browsers.
+    // CSP is specified as a Response Header on the root HTML file.
+    //
+    // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
+    //
+    const srcScr = [
+        // 'unsafe-eval' is needed for scripts because Vue, Handlebars, and other templating
+        // engines dynamically create JavaScript functions based on the template code.
+        "'unsafe-eval'",
+        // If using the React [jsxLoader.js] JSX code is compiled and added as inline <script>
+        // elements on the page so using 'unsafe-inline' is the easiest method to allow this.
+        // When not including it sha256 hashes can be used as shown below. Hashes can be used
+        // with the standard framework on most examples that use the simple `app.LazyLoad`
+        // code snippet, however with React many browsers would have to be tested in order
+        // to get all the hashes so 'unsafe-inline' is recommened for React.
+        "'unsafe-inline'",
+        // URL's
+        'https://cdn.jsdelivr.net',
+        'https://stackpath.bootstrapcdn.com',
+        'https://code.jquery.com',
+        'https://dataformsjs.s3-us-west-1.amazonaws.com',
+        'https://d2xbd92kui7v97.cloudfront.net',
+        'https://*.dataformsjs.com',
+        'https://unpkg.com',
+        // Hashes - These can be determined from Chrome/Edge DevTools
+        // "'sha256-7xY3owh8hUdTNBs11onjKib0EBNTfow+rGLO39veZHU='",
+        // "'sha256-+dVYzlB/eDQj/kya4BJI/ql82f/IjfR8xcB7+TogTDY='",
+        // "'sha256-iXxEc1Pm8vLfjpVYOx2o1fcXhvjeDowwn9Fih34GVZ4='",
+        // "'sha256-bLQBlv/aRvakcGB+LhnjxeuV+lu39E+irE7eLmldnoQ='",
+        // "'sha256-O6TgiUsiQiSWa8MscEueffR7zWcXl+VUkkXlNVuTOCY='",
+        // "'sha256-wh85FoQaAlZMEYm7+dB+o3A7fGWR/xAjFjCF9ZYaUkU='",
+        // "'sha256-xR/1Z4tZPAL+xY/QYfJaC6j9B1IKTmKVJy18lLBF0nQ='",
+        // "'sha256-9jHiyRplSgxUACLlnPdz1b4y/GKWcqHcfRPfCbJKzSg='",
+        // "'sha256-RW/de6kIdWa5bf6iYKMWUI3yLEuuSRHgDeHVgF9gj7E='",
+    ];
+    // For styles a number of DataFormsJS plugins and controls will dynamically
+    // add <style> elements to the page <head>. For example all pages that use
+    // Vue and all Image Gallery Code. In order for this to work 'unsafe-inline'
+    // is needed on [style-src].
+    const styleSrc = [
+        'https:',
+        "'unsafe-inline'",
+    ];
+    const connectSrc = [
+        'https://*.dataformsjs.com',
+        'https://hacker-news.firebaseio.com',
+        'https://dataformsjs.s3-us-west-1.amazonaws.com',
+        'https://d2xbd92kui7v97.cloudfront.net',
+        'http://localhost:3000',
+    ];
+    const imageSrc = [
+        'https:',
+        'data:',
+        'blob:',
+        'http://*.openstreetmap.org',
+    ];
+    const csp = [
+        "default-src 'self'",
+        `script-src 'self'  ${srcScr.join(' ')}`,
+        `style-src 'self' ${styleSrc.join(' ')}`,
+        `img-src 'self' ${imageSrc.join(' ')}`,
+        `connect-src 'self' ${connectSrc.join(' ')}`,
+    ].join('; ');
+    res.setHeader('Content-Security-Policy', csp);
+
+    // Send the file
     res.file(filePath);
 });
 
