@@ -33,6 +33,56 @@ code { white-space: pre; }
 
 .card-deck .card { align-self: start; }
 
+/*
+By default Boostrap expands the cards in a card-deck for small tablets.
+For this content keep 100% card width until the large device breakpoint.
+*/
+@media (min-width: 576px) {
+    .card-deck {
+        display: block;
+        margin-right: 0;
+        margin-left: 0;
+    }
+    .card-deck .card {
+        -ms-flex: initial;
+        flex: initial;
+        margin-right: 0;
+        margin-bottom: 15px;
+        margin-left: 0;
+    }
+}
+@media (min-width: 992px) {
+    .card-deck {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-flow: row wrap;
+        flex-flow: row wrap;
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+    .card-deck .card {
+        -ms-flex: 1 0 0%;
+        flex: 1 0 0%;
+        margin-right: 15px;
+        margin-bottom: 0;
+        margin-left: 15px;
+    }
+}
+
+
+.card-deck .card a[href^="https://github.com/dataformsjs/"] {
+    display: flex;
+    align-items: center;
+}
+
+.card-deck .card a[href^="https://github.com/dataformsjs/"]::before {
+    content: '';
+    background-image: url('../img/GitHub-Mark-32px.png');
+    height: 32px;
+    width: 32px;
+    margin-right: 1rem;
+}
+
 /* Reset pickadate.js styles from Bootstrap override */
 .table-striped .picker__table tr:nth-of-type(odd) { background-color: white; }
 .picker__table td,

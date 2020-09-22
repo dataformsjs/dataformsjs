@@ -59,6 +59,15 @@
         deleteRecordRedirectUrl: null,
         resultSuccessDisplayInterval: 2000,
         deleteRecordRedirectInterval: 1000,
+        // Text that is displayed to the user. These strings can be overwritten
+        // to customize the app or use a different language. These can be
+        // overwritten from HTML, example:
+        //     [data-saving-record-text="Saving Sales Order.."]
+        savingRecordText: 'Saving Record...',
+        deletingRecordText: 'Deleting Record...',
+        recordSavedText: 'Record saved at {time}',
+        recordDeletedText: 'Record deleted at {time}',
+        confirmDeleteText: 'Are you sure that you want to delete this record?',
 
         // Callback functions that can be handled. If using this the recommend
         // method is to extend the [entryForm] page object to a new object
@@ -71,16 +80,6 @@
         onFormAfterDelete: null,
         onFormSaveError: null,
         onFormDeleteError: null,
-
-        // Text that is displayed to the user. These strings can be overwritten
-        // to customize the app or use a different language.
-        textMessages: {
-            savingRecord: 'Saving Record...',
-            deletingRecord: 'Deleting Record...',
-            recordSaved: 'Record saved at {time}',
-            recordDeleted: 'Record deleted at {time}',
-            confirmDelete: 'Are you sure that you want to delete this record?',
-        },
 
         /**
          * Populate On-Screen Form Controls from the Model Record Object
@@ -433,7 +432,7 @@
             // Disable Buttons and show Saving Status
             model.enableButtons(false);
             model.hideError();
-            model.showInfo(model.textMessages.savingRecord);
+            model.showInfo(model.savingRecordText);
 
             // Save the record
             var url = app.buildUrl(model.saveUrl);
@@ -486,8 +485,8 @@
 
                     // Show Saved Message
                     // Defaults to a generic "Record saved at {time}", however this can be overridden client-side
-                    // by setting [model.textMessages.recordSaved] or server-side by returning [result].
-                    var message = (typeof data.result === 'string' ? data.result : model.textMessages.recordSaved);
+                    // by setting [model.recordSavedText] or server-side by returning [result].
+                    var message = (typeof data.result === 'string' ? data.result : model.recordSavedText);
                     var time = new Date();
                     time = (time.toLocaleTimeString ? time.toLocaleTimeString() : time.toTimeString());
                     message = message.replace(/{time}/g, time);
@@ -575,8 +574,8 @@
             }
 
             // Confirm with user
-            if (model.textMessages.confirmDelete) {
-                if (!confirm(model.textMessages.confirmDelete)) {
+            if (model.confirmDeleteText) {
+                if (!confirm(model.confirmDeleteText)) {
                     return;
                 }
             }
@@ -584,7 +583,7 @@
             // Disable Buttons and show Deleting Status
             model.enableButtons(false);
             model.hideError();
-            model.showInfo(model.textMessages.deletingRecord);
+            model.showInfo(model.deletingRecordText);
 
             // Delete the Record
             app
@@ -600,7 +599,7 @@
                     model.setButtonEvents();
 
                     // Show Deleted Message
-                    var message = (typeof data.result === 'string' ? data.result : model.textMessages.recordDeleted);
+                    var message = (typeof data.result === 'string' ? data.result : model.recordDeletedText);
                     var time = new Date();
                     time = (time.toLocaleTimeString ? time.toLocaleTimeString() : time.toTimeString());
                     message = message.replace(/{time}/g, time);

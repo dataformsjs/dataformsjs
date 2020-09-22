@@ -21,13 +21,16 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Finish Updates related to Entry Form Support for Vue (2020-09-18)
-    - This will likely be published to npm next week
+**) Finish Updates related to Entry Form Support for Vue (2020-09-21)
+    - This will likely be published to npm later this week
     - Checked in changes are likely stable but still being tested and may go through futher changes
     - Examples being updated:
+        https://www.dataformsjs.com/examples/entry-form-demo-hbs.htm
+        https://www.dataformsjs.com/examples/entry-form-demo-vue.htm
         http://127.0.0.1:8080/entry-form-demo-hbs
         http://127.0.0.1:8080/entry-form-demo-vue
-        * Example currently have mixed local and CDN scripts, later will run from CDN
+        * Example currently have mixed npm version and pre-release scripts, later all will run the npm version from jsdelivr
+    - More code comments in the HTML
     - Code Updates:
         dataformsjs\js\extensions\vue-directives.js
         dataformsjs\js\pages\entryForm.js
@@ -36,12 +39,10 @@ TODO List
         * Many others, see recent commits or [CHANGELOG.md]
     - Other updates will be made related to this:
         - Improve layout
-        - Add an info page on how it works including that [listEditor.js] can be used
-            for line items on a main form
         - One more plugin and db field may be added before the next release, this will be decided next week
             https://github.com/RobinHerbots/Inputmask
-    - After more testing file [dataformsjs\examples\entry-form-demo-vue3.htm] will be deleted
     - More testing on all browsers including IE 11 and older iOS
+    - Also reated - Improve mobile layout for places demo and other example pages
 
 **) Vue 3.0.0 was released today (2020-09-18)
     - 3.0.0 release version is confirmed with Unit Tests on the main app object:

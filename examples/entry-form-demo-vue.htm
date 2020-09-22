@@ -16,7 +16,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
+                    <div class="navbar-nav" data-toggle="collapse" data-target="#navbarNavAltMarkup">
                         <a class="nav-link mx-2" href="#/view-records">View Records</a>
                         <a class="nav-link mx-2" href="#/list-editor">Edit All</a>
                         <a class="nav-link mx-2" href="#/record/new">New Record</a>
@@ -66,6 +66,7 @@
             data-url="https://www.dataformsjs.com/data/example/entry-form/list"
             data-save-url="https://www.dataformsjs.com/data/example/entry-form/save-all"
             data-result-success-display-interval="3000"
+            data-saving-record-text="Saving Records.."
             data-records
             data-lazy-load="entryForm, listEditor, validation, sort, filter, pickadate, pickadatePlugin">
         </script>

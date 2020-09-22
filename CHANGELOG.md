@@ -10,6 +10,8 @@ Overall the core Framework files and API are expected to remain stable however t
   * All Handlebar Examples now have a corresponding Vue Example
   * All Standard Framework files now support Vue
   * Originally DataFormsJS was created to use Handlebars so until this release not all Framework scripts worked with Vue
+* Confirmed Vue 3.0.0 Release works with the Framework, previously earlier Beta and Release Candidate versions were confirmed.
+  * https://www.dataformsjs.com/unit-testing/vue-3
 * Added Vue support for the Framework `entryForm` page object and related plugins
   * Both Vue 2 and Vue 3 are supported
   * Scripts Updated:
@@ -19,11 +21,11 @@ Overall the core Framework files and API are expected to remain stable however t
   * New Demo is available for Vue, previously these scripts only worked with template engines such as Handlebars.
   * https://www.dataformsjs.com/examples/entry-form-demo-vue.htm
   * Added support for `hidden` attribute on the `entryForm` page object when using `class="show-after-form-load"` elements. Peviously `style="display:none;"` was required on the element.
-  * `entryForm.js` includes improved IE 11 support so that `null` values to not get displayed as `"null"` strings in input elements when adding new records.
+* `entryForm.js` - Additional Updates:
+  * Improved IE 11 support so that `null` values to not get displayed as `"null"` strings in input elements when adding new records.
+  * Replaced Internal Model Prop `textMessages: { savingRecord: 'Saving Record...', deletingRecord, recordSaved, recordDeleted, confirmDelete, }` with `savingRecordText: 'Saving Record...'` and related properties so that apps can overwrite the default action text from an HTML template.
 * Add Vue Directive `format-yes-no` to `js/extensions/vue-directives.js`
   * If the case-insensitive value to bind is one of the following `[true, 1, yes]` then `Yes` will be displayed otherwise `No` will be displayed.
-* Confirmed Vue 3.0.0 Release works with the Framework, previously earlier Beta and Release Candidate versions were confirmed.
-  * https://www.dataformsjs.com/unit-testing/vue-3
 * `js/DataFormsJS.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/DataFormsJS.js
   * Added new helper functions for working with Vue
     * `app.isUsingVue()`
