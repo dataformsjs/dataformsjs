@@ -154,10 +154,10 @@ This example uses Vue for templating. If you save it with a text editor you can 
         </script>
 
         <!-- Vue 2 -->
-        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
 
-        <!-- Vue 3 (Currently in Beta) -->
-        <!-- <script src="https://unpkg.com/vue@next"></script> -->
+        <!-- Vue 3 -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/vue@3.0.0/dist/vue.global.prod.js"></script> -->
 
         <!-- DataFormsJS -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/DataFormsJS.min.js"></script>

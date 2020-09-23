@@ -21,7 +21,7 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Finish Updates related to Entry Form Support for Vue (2020-09-21)
+**) Finish Updates related to Entry Form Support for Vue (2020-09-22)
     - This will likely be published to npm later this week
     - Checked in changes are likely stable but still being tested and may go through futher changes
     - Examples being updated:
@@ -39,51 +39,12 @@ TODO List
         * Many others, see recent commits or [CHANGELOG.md]
     - Also reated - Improve mobile layout for places demo and other example pages
 
-**) Vue 3.0.0 was released today (2020-09-18)
+**) Vue 3.0.0 was released last week (2020-09-18)
     - 3.0.0 release version is confirmed with Unit Tests on the main app object:
         https://www.dataformsjs.com/unit-testing/vue-3#/
-    - Currently all demos are confirmed to work with Vue 3 Beta 15 as of 2020-06-15.
-    ** Confirm all examples next week before npm release using both dev and prod builds:
-            Vue 3 - Dev Specific Version:
-                <script src="https://unpkg.com/vue@3.0.0/dist/vue.global.js"></script>
-            Vue 3 - Prod Specific Version:
-                <script src="https://unpkg.com/vue@3.0.0/dist/vue.global.prod.js"></script>
-    - Vue 3 Helpful Links:
-        https://github.com/vuejs/vue-next
-        https://composition-api.vuejs.org/api.html
-        https://www.vuemastery.com/blog/vue-3-start-using-it-today/
-        https://vuejsdevelopers.com/2020/03/16/vue-js-tutorial/
-    - Because Vue 3 is still in Beta additional changes may be needed before or after the release
-    - Once Vue 3 is released then possibly switch all demo pages to Vue 3 but keep Vue 2
-        script in the comments. If IE will not be supported then show an error message.
-        This will likely be determined once Vue 3 is released. Regardless of whether demos
-        will use Vue 2 or Vue 3 (or mixed) all Demos will be tested with both and have
-        both CDN links in the HTML.
-    - Once Vue 3 is released then search for all references to "Vue 3 (Currently in Beta)"
-        and similar terms and replace/remove them.
-    - See experimental file:
-        https://www.dataformsjs.com/examples/hello-world/en/vue3-with-jsx.htm
-        http://127.0.0.1:8080/examples/hello-world/en/vue3-with-jsx.htm
-    - Differences to watch for in the future and possibly handle:
-        - When using Vue 2 the undocumented API `_watcher` is used to track the watchers.
-            It doesn't exist in current Vue 3 beta. This could cause issues with custom
-            app code that manually calls `app.updateView()` to update plugins.
-            Look into this more later once Vue 3 is published as a release.
-        - https://www.dataformsjs.com/examples/image-classification-vue.htm
-            dataformsjs\examples\image-classification.js
-            - Search code for `model.images = model.images.slice();`
-              Will this still be needed on the final Vue 3 Release?
-            - An issue has been opened on Vue for this:
-                https://github.com/vuejs/vue-next/issues/1387
-        - https://www.dataformsjs.com/examples/log-table-vue.htm#/10
-            dataformsjs\js\plugins\filter.js
-            - Search code for `onRouteUnload`
-              Will this still be needed on the final Vue 3 Release?
-              Likely yes, but double-check once Vue 3 is released out of beta.
-        - Prevent console warning when using DataFormsJS [json-data] control?
-            [Vue warn]: Failed to resolve component: json-data
-            - See search screen on places demo if using Vue 3:
-                http://127.0.0.1:8080/places-demo-vue#/en/search
+    - All Vue examples are currently pointing to Vue 3 for testing with different browsers 
+        and will later point back to Vue 2  after the next DataFormsJS npm release
+    - After changing back to Vue 2 remove the warning scripts for old browsers
 
 **) Improve UX of the Quick Ref Page
     https://www.dataformsjs.com/en/quick-reference

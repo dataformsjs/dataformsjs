@@ -657,7 +657,7 @@
         onRouteUnload: function() {
             // If using Vue 3 remove the 'setup' attributes otherwise controls will end up without
             // the events if the user starts on a page, goes to another, and comes back.
-            // The reason is that Vue 3 (as of Beta 15) caches DOM for all compiled templates,
+            // The reason is that Vue 3 caches DOM for all compiled templates,
             // so on page changes the [setup] attributes would be kept in memory while the actual
             // DOM events [click, input] will not be kept. To see where this happens in Vue 3
             // search the source code for `const cached = compileCache[key];` then inspect the `Scopes`
@@ -666,6 +666,8 @@
             // The reason is because most filter elements are not based on data that changes from
             // page state so the elements are kept in virtual DOM as they are last updated while
             // sort and similar plugins update elements that change based on changes to the records.
+            // This does not happen on all apps, however it's known to happen on the Log Table Demo:
+            //    https://www.dataformsjs.com/examples/log-table-vue.htm
             if (app.activeVueModel !== null && Vue.createApp !== undefined) {
                 var elements = document.querySelectorAll('[data-filter-setup="setup"],[data-set-filter-setup="setup"]');
                 Array.prototype.forEach.call(elements, function (el) {

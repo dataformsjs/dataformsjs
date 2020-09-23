@@ -1,16 +1,4 @@
 <!doctype html>
-<!--
-    This is an experimental file that uses Vue 3 with JSX.
-
-    Prior to RC 8 custom code to overwrite the `Vue.h()` function was needed.
-    It now works with Vue 3 (RC 8) based on this comment:
-    https://github.com/vuejs/jsx/issues/141#issuecomment-678639552
-
-    Fix was made here:
-    https://github.com/vuejs/vue-next/commit/54d06ec495a1743415de9426962024ffb764e4fe
-
-    Once Vue 3 is finalized then all development related comments can be removed.
--->
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -37,7 +25,7 @@
                         <h1>{{hello_world}}</h1>
 
                         <p>
-                            <a href="https://github.com/vuejs/vue-next" target="_blank">Vue 3 with JSX</a><br />
+                            <a href="https://v3.vuejs.org/guide/introduction.html" target="_blank">Vue 3 with JSX</a><br />
                             {window.jsxLoader && jsxLoader.isSupportedBrowser ? '{{jsx_loader}}'
                             : '{{babel_loader}}'}
                         </p>
@@ -60,7 +48,7 @@
         </script>
 
         <!-- Vue 3 -->
-        <script src="https://unpkg.com/vue@next"></script>
+        <script src="https://unpkg.com/vue@3.0.0/dist/vue.global.prod.js"></script>
 
         <!--
             This demo work with either Babel Standalone (350 kB gzip and min / 1.6 MB min version)
@@ -74,8 +62,8 @@
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/react/jsxLoader.min.js"></script>
 
         <!--
-            Warning for IE 11 and Old Mobile Devices because the tested build of Vue 3 (RC 8)
-            does not support them, this may or may not change in the future
+            Warning for IE 11 and Old Mobile Devices because the tested build of Vue 3.0.0
+            does not support them, this may or may not change in the future.
         -->
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/safari-nomodule.min.js"></script>
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/old-browser-warning.min.js"></script>

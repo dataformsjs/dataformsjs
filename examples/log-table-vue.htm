@@ -107,17 +107,18 @@
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/navLinks.min.js"></script>
 
         <!--
-        Vue 2 - Dev Latest:
-			<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-        Vue 2 - Prod Latest:
-            <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-        Vue 2 - Prod Specific Version:
+            https://vuejs.org
+            DataFormsJS works with both Vue 2 and Vue 3
             <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
-
-        Vue 3 (Currently in Beta)
-            <script src="https://unpkg.com/vue@next"></script>
+            <script src="https://cdn.jsdelivr.net/npm/vue@3.0.0/dist/vue.global.prod.js"></script>
         -->
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@3.0.0/dist/vue.global.prod.js"></script>
+
+        <!--
+            Temporarily included while Vue 3 is active - Warning for IE and old Safari
+        -->
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/safari-nomodule.min.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/old-browser-warning.min.js"></script>
 
         <script>
             // Redirect to Default Parameters

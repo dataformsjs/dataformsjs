@@ -158,8 +158,6 @@ app.get('/:file', (req, res, file) => {
 // http://127.0.0.1:8080/examples/hello-world/en/preact.htm
 // http://127.0.0.1:8080/examples/hello-world/en/rax.htm
 // http://127.0.0.1:8080/examples/hello-world/en/hyperapp.htm
-//
-// Experimental (waiting for final release of Vue 3 before this will be finalized):
 // http://127.0.0.1:8080/examples/hello-world/en/vue3-with-jsx.htm
 app.get('/examples/hello-world/:lang/:file', async (req, res, lang, file) => {
     // CSS or SVG file
