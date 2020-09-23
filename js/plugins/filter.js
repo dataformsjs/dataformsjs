@@ -15,6 +15,7 @@
  *     data-filter-class-even
  *     data-filter-clear
  *     data-filter-clear-all
+ *     data-filter-search-text
  *     data-set-filter-selector
  *     data-sort-class-odd
  *     data-sort-class-even
@@ -223,7 +224,8 @@
                     m,
                     hideElement,
                     matched = false,
-                    inputs = null;
+                    inputs = null,
+                    searchItem = null;
 
                 // Get lower-case text of a specific cell in the row or of the entire row or element.
                 // An optimization check is made before the filter to check if any <input>
@@ -232,13 +234,17 @@
                 // the search text. [textContent] does not include <input> values which is
                 // why this is needed. Input text is included in the search even if it is hidden.
                 if (settings.colIndex === null) {
-                    searchText = item.textContent.toLowerCase();
-                    inputs = (settings.containsInputs ? item.querySelectorAll('input') : null);
-                } else {
-                    if (item.cells.length >= settings.colIndex) {
-                        searchText = item.cells[settings.colIndex].textContent.toLowerCase();
-                        inputs = (settings.containsInputs ? item.cells[settings.colIndex].querySelectorAll('input') : null);
+                    searchItem = item;
+                } else if (item.cells.length >= settings.colIndex) {
+                    searchItem = item.cells[settings.colIndex];
+                }
+                if (searchItem !== null) {
+                    searchText = searchItem.getAttribute('data-filter-search-text');
+                    if (searchText === null) {
+                        searchText = searchItem.textContent;
                     }
+                    searchText = searchText.toLowerCase();
+                    inputs = (settings.containsInputs ? searchItem.querySelectorAll('input') : null);
                 }
                 if (inputs !== null) {
                     for (n = 0, m = inputs.length; n < m; n++) {

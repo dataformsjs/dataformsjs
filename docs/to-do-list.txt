@@ -56,6 +56,13 @@ TODO List
     - May use new hash url:
         "#/:lang/quick-reference/:topic"
         However all code should be downloaded only once and displayed in memory
+    *** Update has been made (2020-09-22)
+        - Confirm on the next npm release
+        - uses new filter attribute [data-filter-search-text] so that only the title is filter
+        - Works good enough - no need for new UI or complex features
+        - site is currently using pre-release build - switch back to live build after new release
+            Find and remove:
+                https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/filter.min.js
 
 **) https://awesome-web-react.js.org/
     - Performance issue with the main SVG/CSS Animation was found on a Windows 7 computer with Firefox Version 79 (2020-08-20)

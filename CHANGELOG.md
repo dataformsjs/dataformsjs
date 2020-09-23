@@ -46,7 +46,13 @@ Overall the core Framework files and API are expected to remain stable however t
 * Added Framework Plugin for pickadate.js - https://amsul.ca/pickadate.js/
   * `js/plugins/pickadate.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/pickadate.js
   * Example is included on the entry form demos
-* `js/plugins/modalAlert.js` - Removed un-needed `console.log` statement that was left from development
+* `js/plugins/filter.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/filter.js
+  * Added new attribute `data-filter-search-text="{{search text}}"` that can be used to specify the text that should be filter rather than the element's `textContent` and `<input>` elements
+  * Example usage is on the main site's quick reference page. Previously all text was included in the filter which resulted in too many code templates being returned.
+  * With the new feature only the Title text is included in the feature which results in a better user experience (UX).
+  * https://www.dataformsjs.com/en/quick-reference
+* `js/plugins/modalAlert.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/modalAlert.js
+  * Removed un-needed `console.log` statement that was left from development
 
 ## 4.5.5 (September 11, 2020)
 
