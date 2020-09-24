@@ -8,10 +8,10 @@
         <link rel="stylesheet" href="css/image-gallery.css">
     </head>
     <body>
-        <h1>DataFormJS [imageGallery] Framework Plugin with Handlebars</h1>
+        <h1 tabindex="1">DataFormJS [imageGallery] Framework Plugin with Handlebars</h1>
 
         <div class="about">
-            <h2>Features</h2>
+            <h2 tabindex="2">Features</h2>
             <ul>
                 <li>Shows Overlay with large Image on Thumbnail Click.</li>
                 <li>Handles Left/Right/Escape Keys for the Overlay.</li>
@@ -23,7 +23,7 @@
                 <li>Works with all Browsers.</li>
             </ul>
 
-            <h2>Example Usage and Code</h2>
+            <h2 tabindex="3">Example Usage and Code</h2>
             <pre class="language-html">
                 <code>&#x3C;!--
     Include plugin [js/plugins/imageGallery.min.js]
@@ -52,7 +52,7 @@
         <script type="text/x-template" data-engine="handlebars" id="images">
             <div class="image-gallery">
                 {{#each images}}
-                    <img src="{{thumbnail}}" data-image-gallery="{{image}}" alt="{{title}}">
+                    <img src="{{thumbnail}}" data-image-gallery="{{image}}" alt="{{title}}" tabindex="{{js (concat @index ' + 4')}}">
                 {{/each}}
             </div>
         </script>
@@ -64,6 +64,7 @@
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/DataFormsJS.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/imageGallery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/controls/json-data.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/extensions/handlebars-helpers.min.js"></script>
 
         <script>
             // The default image gallery  'Loading...' text and timeout (2000)

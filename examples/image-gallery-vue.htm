@@ -8,10 +8,10 @@
         <link rel="stylesheet" href="css/image-gallery.css">
     </head>
     <body>
-        <h1>DataFormJS [imageGallery] Framework Plugin with Vue</h1>
+        <h1 tabindex="1">DataFormJS [imageGallery] Framework Plugin with Vue</h1>
 
         <div class="about">
-            <h2>Features</h2>
+            <h2 tabindex="2">Features</h2>
             <ul>
                 <li>Shows Overlay with large Image on Thumbnail Click.</li>
                 <li>Handles Left/Right/Escape Keys for the Overlay.</li>
@@ -23,7 +23,7 @@
                 <li>Works with all Browsers.</li>
             </ul>
 
-            <h2>Example Usage and Code</h2>
+            <h2 tabindex="3">Example Usage and Code</h2>
             <pre class="language-html">
                 <code>&#x3C;!--
     Include plugin [js/plugins/imageGallery.min.js]
@@ -55,7 +55,11 @@
 
         <script type="text/x-template" data-engine="vue" id="images">
             <div class="image-gallery">
-                <img v-for="image in images" v-bind:src="image.thumbnail" v-bind:data-image-gallery="image.image" v-bind:title="image.title">
+                <img v-for="(image, index) in images"
+                    v-bind:src="image.thumbnail"
+                    v-bind:data-image-gallery="image.image"
+                    v-bind:title="image.title"
+                    v-bind:tabindex="index + 4">
             </div>
         </script>
 

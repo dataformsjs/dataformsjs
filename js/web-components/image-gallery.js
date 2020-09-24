@@ -69,6 +69,15 @@ shadowTmpl.innerHTML = `
  *     <style id="image-gallery-css">...</style>
  *     <link rel="stylesheet" id="image-gallery-css" href="css/image-gallery.css">
  */
+const svgForwardButton = `<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g fill="#000000">
+            <path d="M20,0 C31.045695,0 40,8.954305 40,20 C40,31.045695 31.045695,40 20,40 C8.954305,40 0,31.045695 0,20 C0,8.954305 8.954305,0 20,0 Z M12,9.61803399 C11.4477153,9.61803399 11,10.0657492 11,10.618034 L11,10.618034 L11,29.381966 C11,29.5372111 11.0361451,29.6903242 11.1055728,29.8291796 C11.3525621,30.3231581 11.9532351,30.5233825 12.4472136,30.2763932 L12.4472136,30.2763932 L31.2111456,20.8944272 C31.404673,20.7976635 31.5615955,20.640741 31.6583592,20.4472136 C31.9053485,19.9532351 31.7051241,19.3525621 31.2111456,19.1055728 L31.2111456,19.1055728 L12.4472136,9.7236068 C12.3083582,9.65417908 12.1552451,9.61803399 12,9.61803399 Z"></path>
+        </g>
+    </g>
+</svg>`;
+const svgBackButton = svgForwardButton.replace('></path>', ' transform="translate(20.000000, 20.000000) scale(-1, 1) translate(-20.000000, -20.000000)"></path>');
 const overlayStyleId = 'image-gallery-css';
 const overlayStyleCss = `
     body.blur { filter: blur(3px); }
@@ -117,6 +126,27 @@ const overlayStyleCss = `
         background-color: rgba(255,255,255,.4);
     }
 
+    .image-gallery-overlay .btn-previous,
+    .image-gallery-overlay .btn-next {
+        display: block;
+        position: absolute;
+        height: 40px;
+        width: 40px;
+        opacity: .5;
+        background-repeat: no-repeat;
+        background-position: center;
+        padding: 20px;
+    }
+    .image-gallery-overlay .btn-previous { left: 0; background-image: url("data:image/svg+xml;base64,${btoa(svgBackButton)}"); }
+    .image-gallery-overlay .btn-next { right: 0; background-image: url("data:image/svg+xml;base64,${btoa(svgForwardButton)}"); }
+
+    .image-gallery-overlay.mobile .btn-previous,
+    .image-gallery-overlay.mobile .btn-next,
+    .image-gallery-overlay.keyboard .btn-previous,
+    .image-gallery-overlay.keyboard .btn-next {
+        display: none;
+    }
+
     @media (min-width: 1300px) {
         .image-gallery-overlay div {
             left: calc((100% - 1300px) /2);
@@ -154,11 +184,18 @@ let overlayImg = null;
 let overlayTitle = null;
 let overlayIndex = null;
 let overlayLoading = null;
+let overlayBackButton = null;
+let overlayFowardButton = null;
 let touchStartX = null;
 let loadingTimeoutId = null;
 const defaultLoadingText = 'Loading...'; // Message to show if image takes a while to load
 const defaultLoadingTimeout = 2000; // Delay for loading message in milliseconds (thousandths of a second)
 const loadedImages = new Set();
+const isMobile = (() => {
+    const ua = window.navigator.userAgent.toLowerCase();
+    return (ua.indexOf('android') > -1 || ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1);
+})();
+let startedFromKeyboard = false;
 
 function showOverlay() {
     const imageSrc = images[imageIndex].getAttribute('image');
@@ -168,7 +205,7 @@ function showOverlay() {
 
     // Overlay <div> root element
     overlay = document.createElement('div');
-    overlay.className = 'image-gallery-overlay';
+    overlay.className = 'image-gallery-overlay' + (isMobile ? ' mobile' : '') + (startedFromKeyboard ? ' keyboard' : '');
 
     // Add <span> for loading indicator which is hidden
     // by default unless image takes a while to load.
@@ -177,6 +214,18 @@ function showOverlay() {
     overlayLoading.textContent = (loadingText ? loadingText : defaultLoadingText);
     overlayLoading.setAttribute('hidden', '');
     overlay.appendChild(overlayLoading);
+
+    // Add [Back] and [Forward] Buttons
+    overlayBackButton = document.createElement('span');
+    overlayBackButton.className = 'btn-previous';
+    overlayBackButton.setAttribute('role', 'button');
+    overlayBackButton.onclick = () => { changeImage('left'); };
+    overlayFowardButton = document.createElement('span');
+    overlayFowardButton.className = 'btn-next';
+    overlayFowardButton.setAttribute('role', 'button');
+    overlayFowardButton.onclick = () => { changeImage('right'); };
+    overlay.appendChild(overlayBackButton);
+    overlay.appendChild(overlayFowardButton);
 
     // Overlay <img>
     overlayImg = document.createElement('img');
@@ -270,6 +319,10 @@ function addOverlayEvents() {
                 return;
             }
         }
+        // Don't hide if user clicked [Back] or [Forward] buttons
+        if (e.target === overlayBackButton || e.target === overlayFowardButton) {
+            return;
+        }
         hideOverlay();
     };
 
@@ -308,11 +361,14 @@ function handleDocKeyDown(e) {
 function hideOverlay() {
     clearLoadingTimer();
     overlay.parentNode.removeChild(overlay);
+    overlayBackButton = null;
+    overlayFowardButton = null;
     overlayLoading = null;
     overlayIndex = null;
     overlayTitle = null;
     overlayImg = null;
     overlay = null;
+    startedFromKeyboard = false;
     document.removeEventListener('keydown', handleDocKeyDown);
     document.querySelector('body').classList.remove('blur');
 }
@@ -379,6 +435,21 @@ window.customElements.define('image-gallery', class ImageGallery extends HTMLEle
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
         this.addEventListener('click', this.handleClick);
+        this.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    handleKeyDown(e) {
+        if (e.key === ' ') {
+            // If using [tabindex] the keyboard will still be focused on the last image
+            // if the gallery was opened using the keyboard; so make sure overlay is
+            // currently not displayed.
+            if (overlay === null) {
+                startedFromKeyboard = true;
+                this.handleClick();
+            }
+            // Prevent scroll to next element with [tabindex]
+            e.preventDefault();
+        }
     }
 
     handleClick() {

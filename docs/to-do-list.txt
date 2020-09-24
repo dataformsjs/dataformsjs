@@ -21,48 +21,28 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Finish Updates related to Entry Form Support for Vue (2020-09-22)
-    - This will likely be published to npm later this week
-    - Checked in changes are likely stable but still being tested and may go through futher changes
-    - Examples being updated:
-        https://www.dataformsjs.com/examples/entry-form-demo-hbs.htm
-        https://www.dataformsjs.com/examples/entry-form-demo-vue.htm
-        http://127.0.0.1:8080/entry-form-demo-hbs
-        http://127.0.0.1:8080/entry-form-demo-vue
-        * Example currently have mixed npm version and pre-release scripts, later all will run the npm version from jsdelivr
-    - More code comments in the HTML
-    - Code Updates:
-        dataformsjs\js\extensions\vue-directives.js
-        dataformsjs\js\pages\entryForm.js
-        dataformsjs\js\plugins\listEditor.js
-        dataformsjs\js\plugins\clickUrlAction.js
-        * Many others, see recent commits or [CHANGELOG.md]
-    - Also reated - Improve mobile layout for places demo and other example pages
-
-**) Vue 3.0.0 was released last week (2020-09-18)
-    - 3.0.0 release version is confirmed with Unit Tests on the main app object:
-        https://www.dataformsjs.com/unit-testing/vue-3#/
-    - All Vue examples are currently pointing to Vue 3 for testing with different browsers 
-        and will later point back to Vue 2  after the next DataFormsJS npm release
-    - After changing back to Vue 2 remove the warning scripts for old browsers
-
-**) Improve UX of the Quick Ref Page
-    https://www.dataformsjs.com/en/quick-reference
-    - Filtering on all code doesn't work well due to generic terms "JavaScript" "Template", "Vue", etc
-        Too many items are returned
-    - Likely use a topic based list where the user can click and view one code block at a time
-        The topic list itself can be filtered
-    - Needs to work well and look good for both mobile and desktop
-    - May use new hash url:
-        "#/:lang/quick-reference/:topic"
-        However all code should be downloaded only once and displayed in memory
-    *** Update has been made (2020-09-22)
-        - Confirm on the next npm release
-        - uses new filter attribute [data-filter-search-text] so that only the title is filter
-        - Works good enough - no need for new UI or complex features
-        - site is currently using pre-release build - switch back to live build after new release
-            Find and remove:
-                https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/filter.min.js
+**) Finish Current Updates (2020-09-23)
+    - All updates will likely be published to npm later this week or next week
+    - See [CHANGELOG.md] for all changes
+    - Most updates are minor however there are many updates made, particullarly
+        for Vue support with the Entry Form demo and full testing of the new Vue 3.0.0 release
+    - After full testing of Vue 3 changing back to Vue 2 remove the warning scripts for old browsers
+        Using Vue 2 for the examples by default so that all browsers work.
+        Vue 3.0.0 was released last week (2020-09-18)
+    - Current updates are related to the image gallery for the following features:
+        - http://127.0.0.1:8080/image-gallery-web
+        - Other image gallery controls (react, standard framework) will also be updated
+        - After final updates add more code commments and related notes in the example pages
+        - Updates being made include:
+            - Back and Forward Buttons to show by default for Desktop Users
+            - The buttons will not show for mobile by default because mobile users will swipe and the buttons can cover the photo
+            - Image Overlay can now be shown by using keyboard press from the Spacebar
+            - When using keyboad the back and forward buttons will not show by default as well
+            - Keyboard events are usefull if a user uses [tabindex] to navigate between images
+        - Back and Forward SVG buttons are not final and will go through additonal updates
+    - Additional mobile layout for places demo and other example pages will be made before the next update
+    - Many example pages and the main site currently have mixed npm version and pre-release scripts,
+        later all will run the npm version from jsdelivr
 
 **) https://awesome-web-react.js.org/
     - Performance issue with the main SVG/CSS Animation was found on a Windows 7 computer with Firefox Version 79 (2020-08-20)

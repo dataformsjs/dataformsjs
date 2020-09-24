@@ -6,6 +6,20 @@ Overall the core Framework files and API are expected to remain stable however t
 
 ## Next Release (Changes not yet published on npm)
 
+### See notes for the current updates in the `to-do-list.txt` file:
+
+* https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt
+* npm release will likely happen later this week or next week
+
+### Release Overview
+
+* This release contains many small updates, in general:
+  * Framework Entry Form Scripts now work with Vue. The existing Handlebars demo has been updated and a new Vue demo created.
+  * Vue 3.0.0 has been confirmed to work with DataFormsJS. No changes needed from previous release, however some new functions are available for working with Vue.
+  * Image Gallery controls are updated for improved User Experience (UX) and better Accessibility on Desktop Computers.
+
+### Release Details
+
 * Added features and additional examples pages for Vue
   * All Handlebar Examples now have a corresponding Vue Example
   * All Standard Framework files now support Vue
@@ -51,8 +65,22 @@ Overall the core Framework files and API are expected to remain stable however t
   * Example usage is on the main site's quick reference page. Previously all text was included in the filter which resulted in too many code templates being returned.
   * With the new feature only the Title text is included in the feature which results in a better user experience (UX).
   * https://www.dataformsjs.com/en/quick-reference
+* `js/web-components/data-list.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/data-list.js
+  * Added support for `index` enumeration variable in the rendered template.
+  * This can be used to add a `tabindex` to the rendered HTML or used with other actions needed by the page.
+  * `index` can be safely overwritten by the list item if used in an object property.
+* Image Gallery Updates
+  * `js/web-components/image-gallery.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/image-gallery.js
+  * Update for improved User Experience (UX) on Desktop Computers:
+    * All updates are for better Accessibility so that the image gallery can now fully function from either the keyboard or a mouse.
+    * Added ability to show the overlay from a press of the spacebar on the keyboard. Previously a mouse click was required to show the overlay.
+    * Added `Back` and `Forward` Buttons to the overlay that appear by default for Desktop computers. Previously navigation only worked through the keyboard left and right arrow keys.
+    * `Back` and `Forward` Buttons will only show by default on desktop computers when the user clicks the thumbnail image. By default on Mobile devices (determine from `userAgent`) or if using the keyboard spacebar to start the overlay the buttons will now show. The reason is that the buttons can overlap the image so if using a keyboard or swiping on mobile they are not needed (or desired).
+    * `Back` and `Forward` Button visibility and other features can be easily changed through CSS from the page.
 * `js/plugins/modalAlert.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/modalAlert.js
   * Removed un-needed `console.log` statement that was left from development
+* Added example with code comments for documentation of using CSP (Content Security Policy) with DataFormsJS for the examples when running from localhost
+  * https://github.com/dataformsjs/dataformsjs/blob/master/examples/server.js
 
 ## 4.5.5 (September 11, 2020)
 

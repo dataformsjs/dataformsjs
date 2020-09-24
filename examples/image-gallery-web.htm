@@ -8,10 +8,10 @@
         <link rel="stylesheet" href="css/image-gallery.css">
     </head>
     <body>
-        <h1>DataFormsJS &#x3C;image-gallery&#x3E; Web Component</h1>
+        <h1 tabindex="1">DataFormsJS &#x3C;image-gallery&#x3E; Web Component</h1>
 
         <div class="about">
-            <h2>Features</h2>
+            <h2 tabindex="2">Features</h2>
             <ul>
                 <li>Shows Overlay with large Image on Thumbnail Click.</li>
                 <li>Handles Left/Right/Escape Keys for the Overlay.</li>
@@ -23,7 +23,7 @@
                 <li>Works with modern Browsers - won't work with IE or old Mobile Devices.</li>
             </ul>
 
-            <h2>Example Usage and Code</h2>
+            <h2 tabindex="3">Example Usage and Code</h2>
             <pre class="language-html">
                 <code>&#x3C;!--
 Include component on page
@@ -83,9 +83,12 @@ Include component on page
             </is-loaded>
         </json-data>
 
+        <!--
+            Using [tabindex] staring at "3" based on main HTML content
+        -->
         <template id="image">
             <image-gallery image="${image}">
-                <img src="${thumbnail}" alt="${title}" />
+                <img src="${thumbnail}" alt="${title}" tabindex="${index+4}" />
             </image-gallery>
         </template>
 
@@ -96,7 +99,8 @@ Include component on page
                     style="background-image: url('${thumbnail}');"
                     title="${title}"
                     loading-text="Carregando..."
-                    loading-timeout="1000">
+                    loading-timeout="1000"
+                    tabindex="${index+4}">
                 </image-gallery>
             </li>
         </template>
@@ -106,9 +110,13 @@ Include component on page
             https://www.dataformsjs.com/
         -->
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/json-data.min.js"></script>
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/data-list.min.js"></script>
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/image-gallery.min.js"></script>
-
+        <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/data-list.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/image-gallery.min.js"></script> -->
+        <!-- <script type="module" src="../js/web-components/data-list.js"></script>
+        <script type="module" src="../js/web-components/image-gallery.js"></script> -->
+        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/data-list.js"></script>
+        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/image-gallery.js"></script>
+        
         <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/safari-nomodule.min.js"></script>
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/old-browser-warning.min.js"></script>
