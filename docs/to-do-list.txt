@@ -16,8 +16,9 @@ TODO List
 |   All contributions are welcome.
 |
 |   Generally every item in this list is of low priority and more of a
-|   wish list item rather than an actual need. The higest priority items
-|   are at the top and start with `**)`.
+|   wish list item rather than an actual need. The highest priority items
+|   are at the top and start with `**)`. Development typically occurs
+|   based on the need of real world production sites and apps.
 |
 --------------------------------------------------------------------------
 
@@ -43,31 +44,6 @@ TODO List
     - Additional mobile layout for places demo and other example pages will be made before the next update
     - Many example pages and the main site currently have mixed npm version and pre-release scripts,
         later all will run the npm version from jsdelivr
-
-**) https://awesome-web-react.js.org/
-    - Performance issue with the main SVG/CSS Animation was found on a Windows 7 computer with Firefox Version 79 (2020-08-20)
-    - Basically the page slows down and it's hard to scroll or type a filter
-    - Doesn't happen on Mac
-    - Windows 10 hasen't been tested
-    - Attempts to fix the issue with a seperate GPU Rendering Layer did not help:
-        h1 img { transform: translateZ(0); }
-        # or when including `transform: translateZ(0);` directly in the SVG
-    - Could be an issue specific to the computer as Firefox was much slower than any other browser on it (including IE)
-        Seems to happen with other CSS animations on the tested computer with Firefox
-    - More Windows Computers need to be tested with Firefox
-    - A hack can be made to target all Firefox browsers in the SVG using:
-        @-moz-document url-prefix() {
-            #react,
-            #glass-light-left,
-            #glass-light-right {
-                animation: none;
-            }
-        }
-    - However that hack is curently not used because this issue is not expected to affect most Computers
-    - An alternative would be to use:
-        @media (prefers-reduced-motion: reduce) { ... }
-    - However `prefers-reduced-motion` is currently not used because it has to many false positives.
-      For example on the tested computer it was never set but returns true.
 
 **) Playground Site
     - Need to add support for JSON file/resource type
@@ -99,27 +75,22 @@ TODO List
     - A main issue to handle is how to setup HTTPS with https://letsencrypt.org/
         when the host is already being used by another static IP.
         More time to research and test this is needed.
-
-**) Main Web Site and Playground Sites
     - Use HTTP/2 instead of http/1.1
         This can be done if migrating servers to nginx instead of Apache
-    - Recommendation based on Chrome DevTools Lighthouse Audit for Best Practices
 
-**) Markdown Docs to Create
+*) Markdown Docs to Create
     - Build Processs
     - How Unit Testing Works
         See additional notes in this doc related to Unit Testing
     - Both of the above topics are covered briefly in:
         https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
 
-**) Demos
-    - https://www.dataformsjs.com/examples/entry-form-demo-hbs.htm
-        Need Vue and React Versions
-        This will likely require JS updates for Vue and new Components for React
-    - https://www.dataformsjs.com/examples/binary-classification-vue.htm#/en/
-        Need a React Version
-    - Will likely use https://react-hook-form.com/ for React Form Demos
-    - The [edit all] list page from the HBS demo is not required at first it it takes too long
+*) Demos
+    - React examples of the following:
+        - https://www.dataformsjs.com/examples/entry-form-demo-hbs.htm
+        - https://www.dataformsjs.com/examples/binary-classification-vue.htm#/en/
+        - One option is to use https://react-hook-form.com/
+        - A new <EntryForm> and related components might be created in the future as well (not yet decided on though)
     - One Page Site Demos are functional but very ugly:
         [examples/one-page-site-hbs.htm]
         [examples/one-page-and-spa-hbs.htm]
@@ -185,15 +156,56 @@ TODO List
         http://127.0.0.1:8080/countries-no-spa-rax.htm
 
 
-*) Web Components <json-data>
-    - Support for custom Request Headers is needed.
-    - For how the standard Framework handles this see code related to [app.settings.requestHeaders].
-    - React <JsonData> uses props
-    - The Web Components version will likely use global variables to be defined from JS:
-        <script>
-            window.requestHeaders = {}
-            window.requestHeadersByHostName = {}
-        And then the Framework [app.getRequestHeaders] and related code can be used as a starting point
+*) Web Components Updates
+    - These are wish list items that may never be developed. The reason is that as
+        features are added the Web Components go from simple HTML elements to more of a full
+        featured Framework. After development and real-world usage it seems to make sense
+        to keep advanced features in the framework while keeping Web Components small and
+        simple to use. If too many features are added the size of the Web Components can
+        increase a lot and grouping related features (security, shared state, etc) makes
+        more sense for a Framework or React code.
+        ** In general this applies to any comments in this file related to Web Components **
+    - <json-data>
+        - Add support for custom Request Headers.
+        - For how the standard Framework handles this see code related to [app.settings.requestHeaders].
+        - React <JsonData> uses props
+        - The Web Components version will likely use global variables to be defined from JS:
+            <script>
+                window.requestHeaders = {}
+                window.requestHeadersByHostName = {}
+            And then the Framework [app.getRequestHeaders] and related code can be used as a starting point
+    - Create an [I18N] API for Web Components and initially use with:
+        http://127.0.0.1:8080/places-demo-web
+        - API is not yet started on so it has be decided first
+        - Possibly several development versions will be created and tested
+            with the best one selected
+    - Create Search Screen for the following page:
+        - http://127.0.0.1:8080/places-demo-web
+        - This requires creating a new web component (either generic or part of the app)
+        - See standard framework demos with Handlebars, Vue, and React:
+            http://127.0.0.1:8080/places-demo-hbs#/en/
+            http://127.0.0.1:8080/places-demo-graphql#/en/
+            http://127.0.0.1:8080/places-demo-vue#/en/
+            http://127.0.0.1:8080/places-demo-react#/en/
+    - Web Components Polyfill using either the main Framework or standalone scripts?
+        - Currently IE, Older Safari, etc will display a warning message instead of Polyfill for Web Components
+        - Polyfills will be considered (and may be developed in the future) for Web Components but they
+            would need a full re-write and not using babel, etc. For an example of why, see:
+                DataFormsJS\js\web-components\utils.js
+                    export function componentsAreDefined
+                    export function componentsAreSetup
+            - Basically DataFormsJS Web Components are not going to be held back by the need for ES5
+        - Currently the main framework has <json-data> and <data-table> JavaScript controls
+            that are similar to the <json-data> and <data-table> Web Component. These could be changed
+            and additional code developed to match the behavior of Web Components.
+        - Alternatively individual files such as [DataFormsJS\js\web-components\polyfill\json-data.js]
+            could be developed. Currently in favor of using the standard Framework as a it would handle
+            a lot of the need for web components.
+        - If using the standard framework then [url-hash-router] would need to be polyfilled as well,
+            either from the main file [DataFormsJS.js] or a new file [js/controls/url-hash-router.js].
+            This would be determined during development based on what makes sense.
+        - Using the main framework would be preferred to reduce additional duplicate code and because
+            when gzipped the framework is small (9.6 kb for version 1.0.0).
 
 *) Many Docs need to be created along with API page(s)
     - API needs a quick search/filter feature to look up any attribute/class/function/etc
@@ -201,43 +213,8 @@ TODO List
     - UI/UX still needs to be decided on for API docs
     - Or Docs can simply be added to GitHub as Markdown Docs
 
-*)  Create an [I18N] API for Web Components and initially use with:
-    http://127.0.0.1:8080/places-demo-web
-    - API is not yet started on so it has be decided first
-    - Possibly several development versions will be created and tested
-      with the best one selected
-
-*) Create Search Screen for the following page:
-        http://127.0.0.1:8080/places-demo-web
-        This requires creating a new web component (either generic or part of the app)
-   See standard framework demos with Handlebars, Vue, and React:
-        http://127.0.0.1:8080/places-demo-hbs#/en/
-        http://127.0.0.1:8080/places-demo-graphql#/en/
-        http://127.0.0.1:8080/places-demo-vue#/en/
-        http://127.0.0.1:8080/places-demo-react#/en/
-
 *) Create Server-side Starter Sites in all widely used Languages and Frameworks
     - Include ability for content to be defined server-side and saved to a SQLite Db
-
-*) Web Components Polyfill using either the main Framework or standalone scripts?
-    - Currently IE, Older Safari, etc will display a warning message instead of Polyfill for Web Components
-    - Polyfills will be considered (and likely developed in the future) for Web Components but they
-        would need a full re-write and not using babel, etc. For an example of why see:
-            DataFormsJS\js\web-components\utils.js
-                export function componentsAreDefined
-                export function componentsAreSetup
-        - Basically DataFormsJS Web Components are not going to be held back by the need for ES5
-    - Currently the main framework has <json-data> and <data-table> JavaScript controls
-        that are similar to the <json-data> and <data-table> Web Component. These could be changed
-        and additional code developed to match the behavior of Web Components.
-    - Alternatively individual files such as [DataFormsJS\js\web-components\polyfill\json-data.js]
-        could be developed. Currently in favor of using the standard Framework as a it would handle
-        a lot of the need for web components.
-    - If using the standard framework then [url-hash-router] would need to be polyfilled as well,
-        either from the main file [DataFormsJS.js] or a new file [js/controls/url-hash-router.js].
-        This would be determined during development based on what makes sense.
-    - Using the main framework would be preferred to reduce additional duplicate code and because
-        when gzipped the framework is small (9.6 kb for version 1.0.0).
 
 *) Docs and demos to Create
     - Cleanup [DataFormsJS\examples\handlebars-helpers.htm] and add to to the main
@@ -457,7 +434,6 @@ TODO List
         Also possibly do this for the <input filter> control.
 
 *) Web Components
-    - All web components are stable but in early development, many features needed
     - Lazy Loading of scripts when using <url-hash-router>
         - will work similar to the framework [app.lazyLoad] and [data-lazy-load]
         - possibly use [window.lazyLoad = {}] to define all lazy load scripts
@@ -764,35 +740,3 @@ TODO List
     - More testing of different languages, etc
     - Test all options for ifCond
     - 'join' function to work on array properties
-
-*) Low Priority - Make main site features work with Polyfill Service when using older IE, Known requirements:
-    IE 10: Element.prototype.dataset
-    IE 9: console,console.log
-    IE 8: Array.prototype.forEach,Event,Event.hashchange,Object.keys,console,console.log
-    IE 7: Array.prototype.forEach,Event,Event.hashchange,Object.keys,console,console.log,document.querySelector
-
-    - Currently IE 7 (and probably 8) will be broken unless the last comma "," is removed from the final
-       property in an object or item in a list. IE 8 will add an extra [undefined] item while IE7 won't
-       parse the script. Related option for eslint. If supporting down to IE8 in the future then update core
-       file only for this option. This will not be published though but rather if old IE can work then
-       it can be documented.
-          /* eslint comma-dangle: ["error", "never"] */
-
-    - Currently the polyfill service has a bug where [Element.prototype.dataset] is not being returned
-      when using IE 10.
-
-    - Typically (as of 2019) almost no one uses old IE however older corporate intranet sites often target
-      older versions of IE using <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9">
-      Modern apps can be linked via <iframe> however they have to work with old IE to do so.
-
-    textContent needed from here:
-    http://eligrey.com/blog/post/textcontent-in-ie8/
-
-    Also related if using HTML:
-    <!--[if lt IE 9]>
-    <script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
-    <script src="js/polyfill-textContent"></script>
-    <![endif]-->
-
-    polyfill.io v2 supports older versions of IE compared to v3; for example [hashchange] is
-    supported in IE 6 using v2.
