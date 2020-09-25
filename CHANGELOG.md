@@ -8,8 +8,9 @@ Overall the core Framework files and API are expected to remain stable however t
 
 ### See notes for the current updates in the `to-do-list.txt` file:
 
+* Sept 25, 2020 (Friday)
 * https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt
-* npm release will likely happen later this week or next week
+* npm release will likely happen next week
 
 ### Release Overview
 
@@ -17,6 +18,7 @@ Overall the core Framework files and API are expected to remain stable however t
   * Framework Entry Form Scripts now work with Vue. The existing Handlebars demo has been updated and a new Vue demo created.
   * Vue 3.0.0 has been confirmed to work with DataFormsJS. No changes needed from previous release, however some new functions are available for working with Vue.
   * Image Gallery controls are updated for improved User Experience (UX) and better Accessibility on Desktop Computers.
+  * Image Gallery now includes support for next-gen images (AVIF and WebP)
 
 ### Release Details
 
@@ -77,6 +79,11 @@ Overall the core Framework files and API are expected to remain stable however t
     * Added `Back` and `Forward` Buttons to the overlay that appear by default for Desktop computers. Previously navigation only worked through the keyboard left and right arrow keys.
     * `Back` and `Forward` Buttons will only show by default on desktop computers when the user clicks the thumbnail image. By default on Mobile devices (determine from `userAgent`) or if using the keyboard spacebar to start the overlay the buttons will now show. The reason is that the buttons can overlap the image so if using a keyboard or swiping on mobile they are not needed (or desired).
     * `Back` and `Forward` Button visibility and other features can be easily changed through CSS from the page.
+  * Added support for for next-gen images (AVIF and WebP) 
+    * See DataFormsJS examples for usage
+    * Image Format Details:
+      * https://developers.google.com/speed/webp
+      * https://jakearchibald.com/2020/avif-has-landed/
 * `js/plugins/modalAlert.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/modalAlert.js
   * Removed un-needed `console.log` statement that was left from development
 * Added example with code comments for documentation of using CSP (Content Security Policy) with DataFormsJS for the examples when running from localhost

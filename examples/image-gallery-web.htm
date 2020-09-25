@@ -13,14 +13,31 @@
         <div class="about">
             <h2 tabindex="2">Features</h2>
             <ul>
-                <li>Shows Overlay with large Image on Thumbnail Click.</li>
-                <li>Handles Left/Right/Escape Keys for the Overlay.</li>
-                <li>Handles Swipe left/right and Tap to close on Mobile Devices.</li>
+                <li>Shows Overlay with large Image for Thumbnails.</li>
+                <li>Minimal UI so the focus is on the Content.</li>
+                <li>
+                    <div>Great Accessibility and Device Support</div>
+                    <ul>
+                        <li>Handles Swipe left/right and Tap to close on Mobile Devices</li>
+                        <li>Fully works on Desktop from Mouse. Click to open gallery and Back and Forward buttons are displayed when using a Mouse.</li>
+                        <li>Fully works from Desktop Keyboard. If using [tabindex] so thumbnails can be selected a spacebar can be used to open the gallery and Left/Right/Escape Keys can be used for navigation.</li>
+                    </ul>
+                </li>
                 <li>Displays [title] of the image with Index by default. If [title] is not included and a child &#x3C;img&#x3E; element with an [alt] attribute is used then the [alt] text will be used as the overlay title.</li>
                 <li>Displays a loading indicator if an image takes longer than 2 seconds to load. The text and timeout can be changed by setting attributes [loading-text] and [loading-timeout].</li>
+                <li>Supports next-gen image formats AVIF and WebP by using optional attributes [image-avif] and [image-webp]. When using next-gen image formats a default/fallback [image] must be included similar to how the HTML &lt;picture&gt; element works.</li>
                 <li>Overlay style and layout can easily changed with CSS.</li>
                 <li>The code is designed to be small and easy to modify so that it can be easily copied and extended or changed as part of a custom app.</li>
                 <li>Works with modern Browsers - won't work with IE or old Mobile Devices.</li>
+            </ul>
+
+            <h2 tabindex="4" class="github">                
+                <img src="../img/GitHub-Mark-32px.png" alt="GitHub">
+                <span>Full Source Code</span>
+            </h2>
+            <ul>
+                <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/image-gallery.js" target="_blank" ref="noopener">Web Component: <strong>image-gallery.js</strong></a></li>
+                <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-gallery-web.htm" target="_blank" ref="noopener">HTML for this Page</a></li>
             </ul>
 
             <h2 tabindex="3">Example Usage and Code</h2>
@@ -36,7 +53,7 @@ Include component on page
     specify [image] and optional [title] attribute on the &#x3C;image-gallery&#x3E;
     If [title] is not included [alt] from the &#x3C;img&#x3E; can be used.
 --&#x3E;
-&#x3C;image-gallery image=&#x22;${image}&#x22; title=&#x22;${title}&#x22;&#x3E;
+&#x3C;image-gallery image=&#x22;${image}&#x22;&#x3E;
     &#x3C;img src=&#x22;${thumbnail}&#x22; alt=&#x22;${title}&#x22; /&#x3E;
 &#x3C;/image-gallery&#x3E;
 
@@ -50,6 +67,19 @@ Include component on page
     title=&#x22;${title}&#x22;
     loading-text=&#x22;Carregando...&#x22;
     loading-timeout=&#x22;1000&#x22;&#x3E;
+&#x3C;/image-gallery&#x3E;
+
+&#x3C;!--
+    Supports next-gen image formats AVIF and WebP by using
+    optional attributes [image-avif] and [image-webp].
+    When using next-gen image formats a default/fallback [image]
+    must be included similar to how the HTML &lt;picture&gt; element works.
+--&#x3E;
+&#x3C;image-gallery
+    image=&#x22;${image}&#x22;
+    image-avif=&#x22;${image_avif}&#x22;
+    image-webp=&#x22;${image_webp}&#x22;&#x3E;
+        &#x3C;img src=&#x22;${thumbnail}&#x22; alt=&#x22;${title}&#x22; /&#x3E;
 &#x3C;/image-gallery&#x3E;</code>
             </pre>
         </div>
@@ -84,11 +114,14 @@ Include component on page
         </json-data>
 
         <!--
-            Using [tabindex] staring at "3" based on main HTML content
+            Using [tabindex] staring at "5" based on main HTML content
+
+            [image-avif] and [image-webp] are optional and included for
+            browsers that support these images formats.
         -->
         <template id="image">
-            <image-gallery image="${image}">
-                <img src="${thumbnail}" alt="${title}" tabindex="${index+4}" />
+            <image-gallery image="${image}" image-avif="${image_avif}" image-webp="${image_webp}">
+                <img src="${thumbnail}" alt="${title}" tabindex="${index+5}" />
             </image-gallery>
         </template>
 
@@ -114,8 +147,8 @@ Include component on page
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/image-gallery.min.js"></script> -->
         <!-- <script type="module" src="../js/web-components/data-list.js"></script>
         <script type="module" src="../js/web-components/image-gallery.js"></script> -->
-        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/data-list.js"></script>
-        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/image-gallery.js"></script>
+        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/data-list.min.js"></script>
+        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/image-gallery.min.js"></script>
         
         <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/safari-nomodule.min.js"></script>

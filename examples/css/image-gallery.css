@@ -42,6 +42,10 @@ h1 { padding: 1em; }
     max-width: 500px;
     line-height: 1.4em;
 }
+.about ul li { padding:.2em; }
+.about ul ul { padding:0; }
+.about .github { display:flex; justify-content: center; }
+.about .github img { padding-right:20px; }
 
 pre[class*="language-"] { background: none; margin: 0; padding: 0 .5em; }
 code[class*="language-"] { background-color: white; overflow-x: auto; }

@@ -4,9 +4,15 @@
  * This class provides a simple image gallery/viewer that
  * can be used by an app to display a list of thumbnail images
  * with the following features:
- *    - Shows Overlay with large Image on Thumbnail Click
- *    - Handles Left/Right/Escape Keys for the Overlay
- *    - Handles Swipe left/right and Tap to close on Mobile Devices
+ *    - Shows Overlay with large Image for Thumbnails.
+ *    - Minimal UI so the focus is on the Content.
+ *    - Great Accessibility and Device Support
+ *      - Handles Swipe left/right and Tap to close on Mobile Devices
+ *      - Fully works on Desktop from Mouse. Click to open gallery
+ *        and Back and Forward buttons are displayed when using a Mouse.
+ *      - Fully works from Desktop Keyboard. If using [tabindex] so
+ *        thumbnails can be selected a spacebar can be used to open the
+ *        gallery and Left/Right/Escape Keys can be used for navigation.
  *    - Displays [title] of the image with index by default.
  *      [title] is not required and index can be hidden through
  *      CSS if desired. If [title] is not included and a child <img>
@@ -15,6 +21,10 @@
  *    - Displays a loading indicator if an image takes longer than
  *      2 seconds to load. The text and timeout can be changed
  *      by setting attributes [loading-text] and [loading-timeout].
+ *    - Supports next-gen image formats AVIF and WebP by using optional
+ *      attributes [image-avif] and [image-webp]. When using next-gen
+ *      image formats a default/fallback [image] must be included
+ *      similar to how the HTML <picture> element works.
  *
  * This Web Component does not generate large images or thumbnails
  * and requires the images to be created by the site/app.
@@ -24,18 +34,28 @@
  * custom app.
  *
  * Example Usage:
- *     <image-gallery image="large-image1.jpg" title="image title">
- *         <img src="thumbnail1.jpg">
+ *     <image-gallery image="large-image1.jpg">
+ *         <img src="thumbnail1.jpg" alt="image title">
  *         <div>...</div>
  *     </image-gallery>
  *     <image-gallery
  *         image="large-image2.jpg"
+ *         title="image title"
  *         style="background-image: url('thumbnail2.jpg');">
+ *     </image-gallery>
+ *     <image-gallery
+ *         image="large-image3.jpg"
+ *         image-avif="large-image3.avif"
+ *         image-avif="large-image3.webp">
+ *             <img src="thumbnail3.jpg" alt="image title">
  *     </image-gallery>
  *
  * Similar functionality exists for the standard DataFormsJS Framework
  * with the `js/plugins/imageGallery.js` plugin and also for React
  * with the `js/react/es6/ImageGallery.js` Component.
+ *
+ * Online Example:
+ *     https://www.dataformsjs.com/examples/image-gallery-web.htm
  */
 
 /* Validates with both [jshint] and [eslint] */
@@ -191,14 +211,58 @@ let loadingTimeoutId = null;
 const defaultLoadingText = 'Loading...'; // Message to show if image takes a while to load
 const defaultLoadingTimeout = 2000; // Delay for loading message in milliseconds (thousandths of a second)
 const loadedImages = new Set();
-const isMobile = (() => {
+const isMobile = (() => { // This is set only once when the script is first loaded
     const ua = window.navigator.userAgent.toLowerCase();
     return (ua.indexOf('android') > -1 || ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1);
 })();
 let startedFromKeyboard = false;
+let supportsAvif = null;
+let supportsWebp = null;
+
+/**
+ * Check browser support for next-gen image formats (AVIF and WebP).
+ * A one-pixel JPG was converted to each format and is used to
+ * determine browser support.
+ */
+function checkSupportedFormats() {
+    // Image format only needs to be checked one time
+    // when the overlay is first used on a page.
+    if (supportsAvif !== null && supportsWebp !== null) {
+        showOverlay();
+        return;
+    }
+
+    // Checks for both AVIF and WebP run at the same time.
+    // Once both complete then show the overlay.
+    function checkStatus() {
+        if (supportsAvif !== null && supportsWebp !== null) {
+            showOverlay();
+            return;
+        }
+    }
+
+    // AVIF
+    const imgAvif = new Image();
+    imgAvif.onload = () => {
+        supportsAvif = (imgAvif.width === 1 && imgAvif.height === 1);
+        checkStatus();
+    };
+    imgAvif.onerror = () => { supportsAvif = false; checkStatus(); };
+    imgAvif.src = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAABoAAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAEAAAABAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQ0MAAAAABNjb2xybmNseAACAAIAAYAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACJtZGF0EgAKCBgABogQEAwgMgwYAAAAUAAAALASmpg=';
+
+    // WebP
+    const imgWebP = new Image();
+    imgWebP.onload = () => {
+        supportsWebp = (imgWebP.width === 1 && imgWebP.height === 1);
+        checkStatus();
+    };
+    imgWebP.onerror = () => { supportsWebp = false; checkStatus(); };
+    imgWebP.src = 'data:image/webp;base64,UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA';
+}
+
 
 function showOverlay() {
-    const imageSrc = images[imageIndex].getAttribute('image');
+    const imageSrc = getImage(images[imageIndex]);
     const imageTitle = getImageTitle(images[imageIndex]);
     const loadingText = images[imageIndex].getAttribute('loading-text');
     loadCss();
@@ -256,6 +320,18 @@ function showOverlay() {
     document.documentElement.appendChild(overlay);
     document.querySelector('body').classList.add('blur');
     startLoadingTimer();
+}
+
+function getImage(el) {
+    let url = el.getAttribute('image-avif');
+    if (url && supportsAvif) {
+        return url;
+    }
+    url = el.getAttribute('image-webp');
+    if (url && supportsWebp) {
+        return url;
+    }
+    return el.getAttribute('image');
 }
 
 // Returns title to use on the overlay from either <image-gallery title="{title}">
@@ -387,7 +463,7 @@ function preloadNextImages() {
         // This assumes that a CDN or cache headers are used by the
         // server to allow the browser to cache images. For 99%+ of
         // servers this will be the case.
-        const srcLeft = images[indexLeft].getAttribute('image');
+        const srcLeft = getImage(images[indexLeft]);
         if (srcLeft && !loadedImages.has(srcLeft)) {
             const imgLeft = new Image();
             imgLeft.onload = () => { loadedImages.add(srcLeft); };
@@ -401,7 +477,7 @@ function preloadNextImages() {
         indexRight = 0;
     }
     if (indexRight !== imageIndex) {
-        const srcRight = images[indexRight].getAttribute('image');
+        const srcRight = getImage(images[indexRight]);
         if (srcRight && !loadedImages.has(srcRight)) {
             const imgRight = new Image();
             imgRight.onload = () => { loadedImages.add(srcRight); };
@@ -419,7 +495,7 @@ function changeImage(direction) {
     }
     const imageTitle = getImageTitle(images[imageIndex]);
     overlayImg.src = '';
-    overlayImg.src = images[imageIndex].getAttribute('image');
+    overlayImg.src = getImage(images[imageIndex]);
     overlayTitle.textContent = imageTitle;
     overlayTitle.style.display = (imageTitle ? '' : 'none');
     overlayIndex.textContent = `${imageIndex + 1}/${imageCount}`;
@@ -460,6 +536,6 @@ window.customElements.define('image-gallery', class ImageGallery extends HTMLEle
         images = document.querySelectorAll('image-gallery[image]');
         imageIndex = Array.from(images).indexOf(this);
         imageCount = images.length;
-        showOverlay();
+        checkSupportedFormats();
     }
 });
