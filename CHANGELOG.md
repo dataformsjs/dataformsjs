@@ -28,6 +28,7 @@ Overall the core Framework files and API are expected to remain stable however t
   * Originally DataFormsJS was created to use Handlebars so until this release not all Framework scripts worked with Vue
 * Confirmed Vue 3.0.0 Release works with the Framework, previously earlier Beta and Release Candidate versions were confirmed.
   * https://www.dataformsjs.com/unit-testing/vue-3
+  * Most pages currently point to the latest release of Vue 2 `2.6.12` so that they work with IE and older mobile devices
 * Added Vue support for the Framework `entryForm` page object and related plugins
   * Both Vue 2 and Vue 3 are supported
   * Scripts Updated:

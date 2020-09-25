@@ -126,7 +126,7 @@ dataformsjs
         </script>
 
         <!-- Vue 2 -->
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
 
         <!-- Vue 3 -->
         <!-- <script src="https://cdn.jsdelivr.net/npm/vue@3.0.0/dist/vue.global.prod.js"></script> -->
