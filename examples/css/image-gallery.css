@@ -30,6 +30,9 @@ body {
     text-align: center;
 }
 
+a,
+a:visited { color: var(--font-color); }
+
 h1 { padding: 1em; }
 
 .about { max-width: 800px; margin:20px auto; }

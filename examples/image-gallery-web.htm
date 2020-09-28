@@ -28,7 +28,7 @@
                 <li>Supports next-gen image formats AVIF and WebP by using optional attributes [image-avif] and [image-webp]. When using next-gen image formats a default/fallback [image] must be included similar to how the HTML &lt;picture&gt; element works.</li>
                 <li>Overlay style and layout can easily changed with CSS.</li>
                 <li>The code is designed to be small and easy to modify so that it can be easily copied and extended or changed as part of a custom app.</li>
-                <li>Works with modern Browsers - won't work with IE or old Mobile Devices.</li>
+                <li>Because this is a Web Component it only works with modern Browsers. For support with IE or old Mobile Devices use the standard DataFormsJS Framework or the React Version.</li>
             </ul>
 
             <h2 tabindex="3" class="github">                
@@ -40,7 +40,7 @@
                 <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-gallery-web.htm" target="_blank" ref="noopener">HTML for this Page</a></li>
             </ul>
 
-            <h2 tabindex="3">Example Usage and Code</h2>
+            <h2 tabindex="4">Example Usage and Code</h2>
             <pre class="language-html">
                 <code>&#x3C;!--
 Include component on page
@@ -137,6 +137,16 @@ Include component on page
                 </image-gallery>
             </li>
         </template>
+
+        <!--
+            *** IMPORTANT ***
+
+            This file was updated (2020-09-28) and currently contains features not published
+            on the latest npm release. This file is going through final testing and all changes
+            will likely be published to npm later this week.
+
+            New features include next-gen image support and back and foward buttons.
+        -->
 
         <!--
             DataFormsJS Web Components

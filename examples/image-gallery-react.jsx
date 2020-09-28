@@ -9,10 +9,17 @@ function ShowError(props) {
 
 // Example Image Template
 function AppImage(props) {
-    return <img src={props.thumbnail} alt={props.title} onClick={props.onClick} />
+    return <img
+        src={props.thumbnail}
+        alt={props.title}
+        tabIndex={props.tabIndex}
+        onClick={props.onClick}
+        onKeyDown={props.onKeyDown} />
 }
 
-// Alternative Example Image Template that uses attribute [data-image] to specify the thumbnail
+// Alternative Example Image Template that uses attribute [data-image] to specify the thumbnail.
+// This template doesn't include [tabIndex] and [onKeyDown] so opening the overlay from keyboard
+// isn't supported.
 function AppImage2(props) {
     return <span data-image={props.thumbnail} onClick={props.onClick} style={
             {
@@ -49,13 +56,15 @@ function ShowImages(props) {
 
     return (
         <div className="image-gallery">
-            <ImageGallery images={props.data.images} />
+            <ImageGallery images={props.data.images} tabIndex={5} />
 
             {/*
                 Example Usage:
 
                 1) Using a basic image - no template specified
-                    <ImageGallery images={props.data.images} />
+                   [tabIndex] is optional and when included allows for
+                   tab/spacebar to open the overlay.
+                    <ImageGallery images={props.data.images} tabIndex={1} />
 
                 2) Specify custom template using [template] attribute
                     <ImageGallery images={props.data.images} template={<AppImage />} />

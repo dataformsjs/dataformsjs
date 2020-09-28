@@ -156,7 +156,7 @@ const overlayStyleCss = `
         border-radius: 50%;
     }
     .image-gallery-overlay .btn-previous { left: 0; background-position-x: 12px; background-image: url("data:image/svg+xml;base64,${btoa(svgBackButton)}"); }
-    .image-gallery-overlay .btn-next { right: 0; background-position-x: 16px; background-image: url("data:image/svg+xml;base64,${btoa(svgForwardButton)}"); }
+    .image-gallery-overlay .btn-next { right: 0; background-position-x: 15px; background-image: url("data:image/svg+xml;base64,${btoa(svgForwardButton)}"); }
 
     .image-gallery-overlay.mobile .btn-previous,
     .image-gallery-overlay.mobile .btn-next,
@@ -257,7 +257,6 @@ function checkSupportedFormats() {
     imgWebP.onerror = () => { supportsWebp = false; checkStatus(); };
     imgWebP.src = 'data:image/webp;base64,UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA';
 }
-
 
 function showOverlay() {
     const imageSrc = getImage(images[imageIndex]);

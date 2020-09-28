@@ -8,9 +8,9 @@ Overall the core Framework files and API are expected to remain stable however t
 
 ### See notes for the current updates in the `to-do-list.txt` file:
 
-* Sept 25, 2020 (Friday)
+* Monday Sept 28, 2020
 * https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt
-* npm release will likely happen next week
+* npm release will likely happen later this week
 
 ### Release Overview
 
@@ -74,6 +74,8 @@ Overall the core Framework files and API are expected to remain stable however t
   * `index` can be safely overwritten by the list item if used in an object property.
 * Image Gallery Updates
   * `js/web-components/image-gallery.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/image-gallery.js
+  * `js/plugins/imageGallery.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/imageGallery.js
+  * `js/react/es6/ImageGallery.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/react/es6/ImageGallery.js
   * Update for improved User Experience (UX) on Desktop Computers:
     * All updates are for better Accessibility so that the image gallery can now fully function from either the keyboard or a mouse.
     * Added ability to show the overlay from a press of the spacebar on the keyboard. Previously a mouse click was required to show the overlay.

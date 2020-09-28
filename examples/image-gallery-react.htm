@@ -8,22 +8,39 @@
         <link rel="stylesheet" href="css/image-gallery.css">
     </head>
     <body>
-        <h1>DataFormsJS React Component &#x3C;ImageGallery&#x3E;</h1>
+        <h1 tabindex="1">DataFormsJS React Component &#x3C;ImageGallery&#x3E;</h1>
 
         <div class="about">
-            <h2>Features</h2>
+            <h2 tabindex="2">Features</h2>
             <ul>
-                <li>Shows Overlay with large Image on Thumbnail Click.</li>
-                <li>Handles Left/Right/Escape Keys for the Overlay.</li>
-                <li>Handles Swipe left/right and Tap to close on Mobile Devices.</li>
+                <li>Shows Overlay with large Image for Thumbnails.</li>
+                <li>Minimal UI so the focus is on the Content.</li>
+                <li>
+                    <div>Great Accessibility and Device Support</div>
+                    <ul>
+                        <li>Handles Swipe left/right and Tap to close on Mobile Devices</li>
+                        <li>Fully works on Desktop from Mouse. Click to open gallery and Back and Forward buttons are displayed when using a Mouse.</li>
+                        <li>Fully works from Desktop Keyboard. If using [tabindex] so thumbnails can be selected a spacebar can be used to open the gallery and Left/Right/Escape Keys can be used for navigation.</li>
+                    </ul>
+                </li>
                 <li>Displays [title] of the image with Index by default.</li>
                 <li>Displays a loading indicator if an image takes longer than 2 seconds to load. The text and timeout can be changed by setting props [loadingText] and [loadingTimeout].</li>
+                <li>Supports next-gen image formats AVIF and WebP by using optional props [image_avif] and [image_webp]. When using next-gen image formats a default/fallback [image] must be included similar to how the HTML &lt;picture&gt; element works.</li>
                 <li>Overlay style and layout can easily changed with CSS.</li>
                 <li>The code is designed to be small and easy to modify so that it can be easily copied and extended or changed as part of a custom app.</li>
                 <li>Works with all Browsers.</li>
             </ul>
 
-            <h2>Example Usage and Code</h2>
+            <h2 tabindex="3" class="github">                
+                <img src="./img/GitHub-Mark-32px.png" alt="GitHub">
+                <span>Full Source Code</span>
+            </h2>
+            <ul>
+                <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/js/react/es6/ImageGallery.js" target="_blank" ref="noopener">React Component: <strong>ImageGallery.js</strong></a></li>
+                <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-gallery-web.htm" target="_blank" ref="noopener">HTML for this Page</a></li>
+            </ul>
+
+            <h2 tabindex="4">Example Usage and Code</h2>
             <pre class="language-html">
                 <code>&#x3C;!--
 // Import Components from root DataFormsJS file
@@ -44,6 +61,8 @@ const images = [
     {
         thumbnail: "{url}",
         image: "{url}",
+        image_avif: "{url}",
+        image_webp: "{url}",
         title: "{optional text}"
     },
 ];
@@ -81,6 +100,16 @@ Defaults to &quot;Loading...&quot; and 2000 milliseconds. --&#x3E;
         <script src="https://unpkg.com/react@16.13.1/umd/react.production.min.js" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 
+        <!--
+            *** IMPORTANT ***
+
+            This file was updated (2020-09-28) and currently contains features not published
+            on the latest npm release. This file is going through final testing and all changes
+            will likely be published to npm later this week.
+
+            New features include next-gen image support and back and foward buttons.
+        -->
+
         <!-- DataFormsJS React Components -->
         <!--
         <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/react/es6/ErrorBoundary.js"></script>
@@ -89,7 +118,9 @@ Defaults to &quot;Loading...&quot; and 2000 milliseconds. --&#x3E;
         -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/react/es5/ErrorBoundary.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/react/es5/JsonData.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/react/es5/ImageGallery.min.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/react/es5/ImageGallery.min.js"></script> -->
+        <!-- <script type="text/babel" src="../js/react/es6/ImageGallery.js"></script> -->
+        <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/react/ImageGallery.min.js"></script>
 
         <!-- DataFormsJS JSX Loader -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/react/jsxLoader.js"></script>

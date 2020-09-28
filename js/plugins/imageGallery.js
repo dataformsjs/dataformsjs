@@ -4,15 +4,25 @@
  * This plugin provides a simple image gallery/viewer that
  * can be used by an app to display a list of thumbnail images
  * with the following features:
- *    - Shows Overlay with large Image on Thumbnail Click
- *    - Handles Left/Right/Escape Keys for the Overlay
- *    - Handles Swipe left/right and Tap to close on Mobile Devices
+ *    - Shows Overlay with large Image for Thumbnails.
+ *    - Minimal UI so the focus is on the Content.
+ *    - Great Accessibility and Device Support
+ *      - Handles Swipe left/right and Tap to close on Mobile Devices
+ *      - Fully works on Desktop from Mouse. Click to open gallery
+ *        and Back and Forward buttons are displayed when using a Mouse.
+ *      - Fully works from Desktop Keyboard. If using [tabindex] so
+ *        thumbnails can be selected a spacebar can be used to open the
+ *        gallery and Left/Right/Escape Keys can be used for navigation.
  *    - Displays [title] or [alt] of the image with index by default.
  *      [title] and [alt] are not required and index can be hidden through
  *      CSS if desired.
  *    - Displays a loading indicator if an image takes longer than
  *      2 seconds to load. The text and timeout can be changed through
  *      the API.
+ *    - Supports next-gen image formats AVIF and WebP by using optional
+ *      attributes [data-image-avif] and [data-image-webp]. When using next-gen
+ *      image formats a default/fallback [data-image-gallery] must be included
+ *      similar to how the HTML <picture> element works.
  *
  * This Plugin does not generate large images or thumbnails
  * and requires the images to be created by the site/app.
@@ -56,9 +66,13 @@
      *     .image-gallery-overlay { background-color: black !important; }
      *     .image-gallery-overlay { background-color: rgba(0,0,0,.7) !important; }
      *     .image-gallery-overlay div { display:none !important; }
+     *     .image-gallery-overlay .btn-previous,
+     *     .image-gallery-overlay .btn-next { background-color: blue !important; }
      *     <style id="image-gallery-css">...</style>
      *     <link rel="stylesheet" id="image-gallery-css" href="css/image-gallery.css">
      */
+    var svgForwardButton = '<svg width="13" height="22" xmlns="http://www.w3.org/2000/svg"><path d="M3.4.6L12 9c.4.4.6 1 .6 1.5a2 2 0 01-.6 1.5l-8.5 8.5a2 2 0 01-2.8-2.8l7.2-7.2L.6 3.4A2 2 0 013.4.6z" fill="#fff" fill-rule="evenodd"/></svg>';
+    var svgBackButton = '<svg width="13" height="22" xmlns="http://www.w3.org/2000/svg"><path d="M9 .6L.7 9a2 2 0 00-.6 1.5c0 .5.2 1.1.6 1.5L9 20.6a2 2 0 002.8-2.8l-7.2-7.2L12 3.4A2 2 0 009.1.6z" fill="#fff" fill-rule="evenodd"/></svg>';
     var overlayStyleId = 'image-gallery-css';
     var overlayStyleCss = [
         'body.blur { filter: blur(3px); }',
@@ -101,12 +115,40 @@
         '    padding: 10px 20px;',
         '    background-color: rgba(255,255,255,.4);',
         '}',
+        '.image-gallery-overlay .btn-previous,',
+        '.image-gallery-overlay .btn-next {',
+        '    display: block;',
+        '    position: absolute;',
+        '    height: 40px;',
+        '    width: 40px;',
+        '    opacity: .7;',
+        '    background-repeat: no-repeat;',
+        '    background-position: center;',
+        '    padding: 0;',
+        '    margin: 15px;',
+        '    background-color: rgba(0,0,0,.5);',
+        '    border-radius: 50%;',
+        '}',
+        '.image-gallery-overlay .btn-previous { left: 0; background-position-x: 12px; background-image: url("data:image/svg+xml;base64,' + btoa(svgBackButton) + '"); }',
+        '.image-gallery-overlay .btn-next { right: 0; background-position-x: 15px; background-image: url("data:image/svg+xml;base64,' + btoa(svgForwardButton) + '"); }',
+        '.image-gallery-overlay.mobile .btn-previous,',
+        '.image-gallery-overlay.mobile .btn-next,',
+        '.image-gallery-overlay.keyboard .btn-previous,',
+        '.image-gallery-overlay.keyboard .btn-next {',
+        '    display: none;',
+        '}',
         '@media (min-width: 1300px) {',
         '    .image-gallery-overlay div {',
         '        left: calc((100% - 1300px) /2);',
         '        right: auto;',
         '        max-width: 1300px;',
         '    }',
+        '}',
+        // Adjustments for IE 11
+        '@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {',
+        '    .image-gallery-overlay .image-gallery-loading,',
+        '    .image-gallery-overlay .btn-previous,',
+        '    .image-gallery-overlay .btn-next { margin-top: calc((100vh /2) - 35px); }',
         '}',
     ].join('\n');
 
@@ -131,13 +173,20 @@
      * Create Custom Image Viewer Plugin that shows the overlay modal
      */
     var imageGallery = {
+        // Properties [loadingText, loadingTimeout, imageSrcAttr, imageSrcAttrAvif,
+        // imageSrcAttrWebP] can be safely overwritten by the app using this, however
+        // other properties are generally intended for private use by this plugin.
         images: [],
         imageSrcAttr: 'data-image-gallery',
+        imageSrcAttrAvif: 'data-image-avif',
+        imageSrcAttrWebP: 'data-image-webp',
         overlay: null,
         overlayImg: null,
         overlayTitle: null,
         overlayIndex: null,
         overlayLoading: null,
+        overlayBackButton: null,
+        overlayFowardButton: null,
         imageCount: 0,
         imageIndex: -1,
         touchStartX: 0,
@@ -145,6 +194,13 @@
         loadingText: 'Loading...', // Message to show if image takes a while to load
         loadingTimeout: 2000, // Delay for loading message in milliseconds (thousandths of a second)
         loadingTimeoutId: null,
+        isMobile: (function() { // This is set only once when the script is first loaded
+            var ua = window.navigator.userAgent.toLowerCase();
+            return (ua.indexOf('android') > -1 || ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1);
+        })(),
+        startedFromKeyboard: false,
+        supportsAvif: null,
+        supportsWebp: null,
 
         // Event that gets called after the HTML is rendered and before the
         // page's controller [onRendered()] function runs.
@@ -159,7 +215,22 @@
             Array.prototype.forEach.call(this.images, function(image) {
                 image.addEventListener('click', function handleImageClick() {
                     var index = parseInt(image.getAttribute('data-index'), 10);
-                    imageGallery.showOverlay(index);
+                    imageGallery.checkSupportedFormats(index);
+                });
+                image.addEventListener('keydown', function handleKeyDown(e) {
+                    // 'Spacebar' is for IE and Legacy Edge
+                    if (e.key === ' ' || e.key === 'Spacebar') {
+                        // If using [tabindex] the keyboard will still be focused on the last image
+                        // if the gallery was opened using the keyboard; so make sure overlay is
+                        // currently not displayed.
+                        if (imageGallery.overlay === null) {
+                            imageGallery.startedFromKeyboard = true;
+                            var index = parseInt(image.getAttribute('data-index'), 10);
+                            imageGallery.checkSupportedFormats(index);
+                        }
+                        // Prevent scroll to next element with [tabindex]
+                        e.preventDefault();
+                    }
                 });
                 image.setAttribute('data-index', index);
                 index++;
@@ -200,6 +271,47 @@
             }
         },
 
+        /**
+         * Check browser support for next-gen image formats (AVIF and WebP).
+         * A one-pixel JPG was converted to each format and is used to
+         * determine browser support.
+         */
+        checkSupportedFormats: function (imageIndex) {
+            // Image format only needs to be checked one time
+            // when the overlay is first used on a page.
+            if (this.supportsAvif !== null && this.supportsWebp !== null) {
+                this.showOverlay(imageIndex);
+                return;
+            }
+
+            // Checks for both AVIF and WebP run at the same time.
+            // Once both complete then show the overlay.
+            function checkStatus() {
+                if (imageGallery.supportsAvif !== null && imageGallery.supportsWebp !== null) {
+                    imageGallery.showOverlay(imageIndex);
+                    return;
+                }
+            }
+
+            // AVIF
+            var imgAvif = new Image();
+            imgAvif.onload = function() {
+                imageGallery.supportsAvif = (imgAvif.width === 1 && imgAvif.height === 1);
+                checkStatus();
+            };
+            imgAvif.onerror = function() { imageGallery.supportsAvif = false; checkStatus(); };
+            imgAvif.src = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAABoAAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAEAAAABAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQ0MAAAAABNjb2xybmNseAACAAIAAYAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACJtZGF0EgAKCBgABogQEAwgMgwYAAAAUAAAALASmpg=';
+
+            // WebP
+            var imgWebP = new Image();
+            imgWebP.onload = function() {
+                imageGallery.supportsWebp = (imgWebP.width === 1 && imgWebP.height === 1);
+                checkStatus();
+            };
+            imgWebP.onerror = function() { imageGallery.supportsWebp = false; checkStatus(); };
+            imgWebP.src = 'data:image/webp;base64,UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA';
+        },
+
         // This will create a new <div class="image-gallery-overlay"><img src="url"/></div>
         // and add it to the page.
         showOverlay: function (imageIndex) {
@@ -211,7 +323,7 @@
 
             // Overlay <div> root element
             this.overlay = document.createElement('div');
-            this.overlay.className = 'image-gallery-overlay';
+            this.overlay.className = 'image-gallery-overlay' + (this.isMobile ? ' mobile' : '') + (this.startedFromKeyboard ? ' keyboard' : '');
 
             // Add <span> for loading indicator which is hidden
             // by default unless image takes a while to load.
@@ -220,6 +332,18 @@
             this.overlayLoading.textContent = this.loadingText;
             this.overlayLoading.setAttribute('hidden', '');
             this.overlay.appendChild(this.overlayLoading);
+
+            // Add [Back] and [Forward] Buttons
+            this.overlayBackButton = document.createElement('span');
+            this.overlayBackButton.className = 'btn-previous';
+            this.overlayBackButton.setAttribute('role', 'button');
+            this.overlayBackButton.onclick = function() { imageGallery.changeImage('left'); };
+            this.overlayFowardButton = document.createElement('span');
+            this.overlayFowardButton.className = 'btn-next';
+            this.overlayFowardButton.setAttribute('role', 'button');
+            this.overlayFowardButton.onclick = function() { imageGallery.changeImage('right'); };
+            this.overlay.appendChild(this.overlayBackButton);
+            this.overlay.appendChild(this.overlayFowardButton);
 
             // Overlay <img>
             this.overlayImg = document.createElement('img');
@@ -289,6 +413,10 @@
                         return;
                     }
                 }
+                // Don't hide if user clicked [Back] or [Forward] buttons
+                if (e.target === imageGallery.overlayBackButton || e.target === imageGallery.overlayFowardButton) {
+                    return;
+                }
                 imageGallery.hideOverlay();
             };
 
@@ -310,17 +438,29 @@
         hideOverlay: function() {
             this.clearLoadingTimer();
             this.overlay.parentNode.removeChild(this.overlay);
+            this.overlayBackButton = null;
+            this.overlayFowardButton = null;
             this.overlayLoading = null;
             this.overlayIndex = null;
             this.overlayTitle = null;
             this.overlayImg = null;
             this.overlay = null;
+            this.startedFromKeyboard = false;
             document.querySelector('body').classList.remove('blur');
         },
 
         // Get the image to show from the default attribute of [data-image-gallery]
         getImageSource: function(index) {
-            return this.images[index].getAttribute(imageGallery.imageSrcAttr);
+            var el = this.images[index];
+            var url = el.getAttribute(this.imageSrcAttrAvif);
+            if (url && this.supportsAvif) {
+                return url;
+            }
+            url = el.getAttribute(this.imageSrcAttrWebP);
+            if (url && this.supportsWebp) {
+                return url;
+            }
+            return el.getAttribute(imageGallery.imageSrcAttr);
         },
 
         // Change overlay image when user presses left/right or swipes on mobile
