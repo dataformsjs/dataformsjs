@@ -52,6 +52,14 @@ class DataList extends HTMLElement {
         this.renderList();
     }
 
+    get errorClass() {
+        return this.getAttribute('error-class');
+    }
+
+    get defaultErrorStyle() {
+        return 'color:white; background-color:red; padding:0.5rem 1rem; margin:.5rem;';
+    }
+
     renderList() {
         // Ignore if [value] has not yet been set
         const list = this.state.list;
@@ -109,11 +117,30 @@ class DataList extends HTMLElement {
             // The Tagged Template Literal function `render()` from [utils.js] is used to safely escape
             // the variables for HTML encoding. The variable `index` is made availble to the template
             // and it can be safely overwritten by the list item due to variable scoping during rendering.
-            const tmpl = new Function('item', 'index', 'render', 'with(item){return render`' + template.innerHTML + '`}');
-            let index = 0;
-            for (const item of list) {
-                html.push(tmpl(item, index, render));
-                index++;
+            try {
+                const tmpl = new Function('item', 'index', 'render', 'with(item){return render`' + template.innerHTML + '`}');
+                let index = 0;
+                for (const item of list) {
+                    try {
+                        html.push(tmpl(item, index, render));
+                    } catch (e) {
+                        const itemElement = (rootElement === 'ul' ? 'li' : 'div');
+                        const errorClass = this.errorClass;
+                        if (errorClass) {
+                            html.push(render`<${itemElement} class="${this.errorClass}">Item Error - ${e.message}</${itemElement}>`);
+                        } else {
+                            html.push(render`<${itemElement} style="${this.defaultErrorStyle}">Item Error - ${e.message}</${itemElement}>`);
+                        }
+                    }
+                    index++;
+                }
+            } catch (e) {
+                const errorClass = this.errorClass;
+                if (errorClass) {
+                    html.push(render`<div class="${this.errorClass}">Error Rendering Template - ${e.message}</div>`);
+                } else {
+                    html.push(render`<div style="${this.defaultErrorStyle}">Error Rendering Template - ${e.message}</div>`);
+                }
             }
 
             // Close root element if defined

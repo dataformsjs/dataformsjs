@@ -5,8 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Web Component Data List Template Demo</title>
         <style>
-            main { display: flex; }
+            main, .flex { display: flex; }
+            .flex.column { display:flex; flex-direction: column; }
             ul, div { padding: 20px; }
+            .custom-error { color:red; background:pink; border:2px solid darkred; padding:.5em; }
         </style>
     </head>
     <body>
@@ -52,16 +54,55 @@
                         root-element="ul"
                         root-class="items">
                     </data-list>
+
+                    <!--
+                        Error Examples
+                    -->
+                    <div class="flex column">
+                        <data-list
+                            data-bind="countries"
+                            template-selector="#error-template">
+                        </data-list>
+
+                        <data-list
+                            data-bind="countries"
+                            template-selector="#error-template"
+                            error-class="custom-error">
+                        </data-list>
+
+                        <div class="flex">
+                            <data-list
+                                data-bind="countries"
+                                template-selector="#error-item-template">
+                            </data-list>
+
+                            <data-list
+                                data-bind="countries"
+                                template-selector="#error-item-template"
+                                error-class="custom-error"
+                                root-element="ul">
+                            </data-list>
+                        </div>
+                    </div>
                 </main>
             </is-loaded>
         </json-data>
 
+        <!--
+            Templates use standard JavaScript Template literals (Template strings)
+            so JavaScript expressions can be used. Examples:
+                Number(area_km).toLocaleString()
+                formatNumber(population)  // formatNumber() is custom and defined at the bottom of this file
+
+            A zero-based `index` is made available for each item. If the list item object
+            already contains and `index` property it will be used instead.
+        -->
         <template id="item-template">
-            <div>
+            <div data-index="${index}">
                 <strong>Code</strong> ${iso}
                 <br><strong>Country</strong> ${country}
-                <br><strong>Size (KM)</strong> ${area_km}
-                <br><strong>Population</strong> ${population}
+                <br><strong>Size (KM)</strong> ${Number(area_km).toLocaleString()}
+                <br><strong>Population</strong> ${formatNumber(population)}
                 <br><strong>Continent</strong> ${continent}
             </div>
         </template>
@@ -72,7 +113,21 @@
             </li>
         </template>
 
+        <template id="error-template">
+            <div>${error</div>
+        </template>
+
+        <template id="error-item-template">
+            <div>${error}</div>
+        </template>
+
+        <script>
+            window.formatNumber = (num) => { return Number(num).toLocaleString(); };
+        </script>
+
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/json-data.min.js"></script>
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/data-list.min.js"></script>
+        <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/data-list.min.js"></script> -->
+        <!-- <script type="module" src="../js/web-components/data-list.js"></script> -->
+        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/data-list.min.js"></script>
     </body>
 </html>

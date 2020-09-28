@@ -71,7 +71,10 @@ Overall the core Framework files and API are expected to remain stable however t
 * `js/web-components/data-list.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/data-list.js
   * Added support for `index` enumeration variable in the rendered template.
   * This can be used to add a `tabindex` to the rendered HTML or used with other actions needed by the page.
-  * `index` can be safely overwritten by the list item if used in an object property.
+  * If the list item object already contains and `index` property it will be used instead.
+  * Template errors will now show on screen
+  * New attribute `error-class` that allows for control over how errors are displayed. If not included they will use a basic style (white text, red background, margin, padding).
+  * Updated Example: https://www.dataformsjs.com/examples/web-components-data-list.htm
 * Image Gallery Updates
   * `js/web-components/image-gallery.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/image-gallery.js
   * `js/plugins/imageGallery.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/imageGallery.js
