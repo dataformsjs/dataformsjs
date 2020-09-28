@@ -86,18 +86,13 @@ shadowTmpl.innerHTML = `
  *     .image-gallery-overlay { background-color: black !important; }
  *     .image-gallery-overlay { background-color: rgba(0,0,0,.7) !important; }
  *     .image-gallery-overlay div { display:none !important; }
+ *     .image-gallery-overlay .btn-previous,
+ *     .image-gallery-overlay .btn-next { background-color: blue !important; }
  *     <style id="image-gallery-css">...</style>
  *     <link rel="stylesheet" id="image-gallery-css" href="css/image-gallery.css">
  */
-const svgForwardButton = `<?xml version="1.0" encoding="UTF-8"?>
-<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g fill="#000000">
-            <path d="M20,0 C31.045695,0 40,8.954305 40,20 C40,31.045695 31.045695,40 20,40 C8.954305,40 0,31.045695 0,20 C0,8.954305 8.954305,0 20,0 Z M12,9.61803399 C11.4477153,9.61803399 11,10.0657492 11,10.618034 L11,10.618034 L11,29.381966 C11,29.5372111 11.0361451,29.6903242 11.1055728,29.8291796 C11.3525621,30.3231581 11.9532351,30.5233825 12.4472136,30.2763932 L12.4472136,30.2763932 L31.2111456,20.8944272 C31.404673,20.7976635 31.5615955,20.640741 31.6583592,20.4472136 C31.9053485,19.9532351 31.7051241,19.3525621 31.2111456,19.1055728 L31.2111456,19.1055728 L12.4472136,9.7236068 C12.3083582,9.65417908 12.1552451,9.61803399 12,9.61803399 Z"></path>
-        </g>
-    </g>
-</svg>`;
-const svgBackButton = svgForwardButton.replace('></path>', ' transform="translate(20.000000, 20.000000) scale(-1, 1) translate(-20.000000, -20.000000)"></path>');
+const svgForwardButton = '<svg width="13" height="22" xmlns="http://www.w3.org/2000/svg"><path d="M3.4.6L12 9c.4.4.6 1 .6 1.5a2 2 0 01-.6 1.5l-8.5 8.5a2 2 0 01-2.8-2.8l7.2-7.2L.6 3.4A2 2 0 013.4.6z" fill="#fff" fill-rule="evenodd"/></svg>';
+const svgBackButton = '<svg width="13" height="22" xmlns="http://www.w3.org/2000/svg"><path d="M9 .6L.7 9a2 2 0 00-.6 1.5c0 .5.2 1.1.6 1.5L9 20.6a2 2 0 002.8-2.8l-7.2-7.2L12 3.4A2 2 0 009.1.6z" fill="#fff" fill-rule="evenodd"/></svg>';
 const overlayStyleId = 'image-gallery-css';
 const overlayStyleCss = `
     body.blur { filter: blur(3px); }
@@ -152,13 +147,16 @@ const overlayStyleCss = `
         position: absolute;
         height: 40px;
         width: 40px;
-        opacity: .5;
+        opacity: .7;
         background-repeat: no-repeat;
         background-position: center;
-        padding: 20px;
+        padding: 0;
+        margin: 15px;
+        background-color: rgba(0,0,0,.5);
+        border-radius: 50%;
     }
-    .image-gallery-overlay .btn-previous { left: 0; background-image: url("data:image/svg+xml;base64,${btoa(svgBackButton)}"); }
-    .image-gallery-overlay .btn-next { right: 0; background-image: url("data:image/svg+xml;base64,${btoa(svgForwardButton)}"); }
+    .image-gallery-overlay .btn-previous { left: 0; background-position-x: 12px; background-image: url("data:image/svg+xml;base64,${btoa(svgBackButton)}"); }
+    .image-gallery-overlay .btn-next { right: 0; background-position-x: 16px; background-image: url("data:image/svg+xml;base64,${btoa(svgForwardButton)}"); }
 
     .image-gallery-overlay.mobile .btn-previous,
     .image-gallery-overlay.mobile .btn-next,
