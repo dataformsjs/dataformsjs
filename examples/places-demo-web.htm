@@ -135,12 +135,14 @@
                 console.log('router.currentRoute.src = ' + router.currentRoute.src);
                 showJsonDataEvents();
                 setupTableImages();
+                updateTextFormats();
             });
 
             // Because <script type="module"> runs after content is ready manually
             // call the function the first time automatically instead of on router changes.
             showJsonDataEvents();
             setupTableImages();
+            updateTextFormats();
 
             // For <json-data> elements the main event to use is [contentReady]
             // It always runs - both for valid requests and errors, and it only
@@ -189,15 +191,53 @@
                     if (jsonData.contentReady) {
                         // Wait untill all web components are setup
                         await componentsAreSetup();
-                        showTableImages({ target:jsonData });
+                        updateTable({ target:jsonData });
                     } else {
-                        jsonData.addEventListener('contentReady', showTableImages);
+                        jsonData.addEventListener('contentReady', updateTable);
                     }
                 }
             }
 
-            // Add Flag Images to the <table> once it has been rendered.
-            async function showTableImages(e) {
+            function formatDate(value) {
+                let date;
+                if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+                    const nums = value.split('-').map(function(n) { return parseInt(n, 10); });
+                    date = new Date(nums[0], nums[1] - 1, nums[2]);
+                } else {
+                    date = new Date(value);
+                }
+                return new Intl.DateTimeFormat(navigator.language).format(date);
+            }
+
+            // The city page contains several number items that can be updated using
+            // the user's local number format. Example:
+            //   '123456' => '123,456' for 'en-US'.
+            async function updateTextFormats() {
+                // Wait untill all web components are setup
+                await componentsAreSetup();
+
+                // Update Elements
+                const numElements = document.querySelectorAll('.format-number');
+                for (const el of numElements) {
+                    const value = el.textContent;
+                    if (value && !isNaN(parseFloat(value))) {
+                        el.setAttribute('data-value', value);
+                        el.textContent = Number(value).toLocaleString();
+                    }
+                }
+                const dateElements = document.querySelectorAll('.format-date');
+                for (const el of dateElements) {
+                    const value = el.textContent;
+                    if (value) {
+                        el.setAttribute('data-value', value);
+                        el.textContent = formatDate(value);
+                    }
+                }
+            }
+
+            // Add Flag Images to the <table> once it has been rendered
+            // and update number and date format on columns.
+            async function updateTable(e) {
                 // console.log(e);
 
                 // Wait untill all web components are setup
@@ -223,15 +263,49 @@
                     pageIso = (pageIso.country ? pageIso.country.toLowerCase() : null);
                 }
 
+                // Find Number and Date Columns so the data can be formatted
+                const updateCols = [];
+                const cells = table.tHead.rows[0].cells;
+                const colCount = cells.length;
+                let dateCol = -1;
+                for (let x = 0; x < colCount; x++) {
+                    switch (cells[x].textContent) {
+                        case 'Size (KM)':
+                        case 'Population':
+                        case 'Elevation':
+                            updateCols.push(x);
+                            break;
+                        case 'Date Last Modified':
+                            dateCol = x;
+                            break;
+                    }
+                }
+                const updateColLen = updateCols.length;
+
                 // Add flags to all rows
                 const tableRows = table.tBodies[0].rows;
                 const rowCount = tableRows.length;
                 for (let x = 0; x < rowCount; x++) {
                     const row = tableRows[x];
+                    // Add Flag
                     const iso = (pageIso ? pageIso : row.cells[0].textContent.trim().toLowerCase());
                     const flag = document.createElement('i');
                     flag.className = iso + ' flag';
                     row.cells[1].insertAdjacentElement('afterbegin', flag);
+
+                    // Format Numbers
+                    for (let y = 0; y < updateColLen; y++) {
+                        const numValue = row.cells[updateCols[y]].textContent;
+                        row.cells[updateCols[y]].setAttribute('data-value', numValue); // Value for Sorting
+                        row.cells[updateCols[y]].textContent = Number(numValue).toLocaleString(); // Value for Display
+                    }
+
+                    // Format Dates
+                    if (dateCol !== -1) {
+                        const dateValue = row.cells[dateCol].textContent;
+                        row.cells[dateCol].setAttribute('data-value', dateValue);
+                        row.cells[dateCol].textContent = formatDate(dateValue);
+                    }
                 }
             }
         </script>

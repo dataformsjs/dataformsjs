@@ -130,10 +130,17 @@
                     rowCount,
                     textContent,
                     x,
+                    y,
                     tableType,
                     flag,
                     pageIso,
-                    iso;
+                    iso,
+                    updateCols = [],
+                    cells,
+                    colCount,
+                    dateCol = -1,
+                    updateColLen,
+                    value;
 
                 if (table === null || table.tBodies === null || table.tBodies.length !== 1) {
                     return;
@@ -163,6 +170,23 @@
                 // Country Code (iso) for the page
                 pageIso = (app.activeParameterList.country ? app.activeParameterList.country.toLowerCase() : null);
 
+                // Find Number and Date Columns so the data can be formatted
+                cells = table.tHead.rows[0].cells;
+                colCount = cells.length;
+                for (x = 0; x < colCount; x++) {
+                    switch (cells[x].textContent) {
+                        case 'Size (KM)':
+                        case 'Population':
+                        case 'Elevation':
+                            updateCols.push(x);
+                            break;
+                        case 'Date Last Modified':
+                            dateCol = x;
+                            break;
+                    }
+                }
+                updateColLen = updateCols.length;
+
                 // Replace the cell value with the same text an a link
                 for (x = 0; x < rowCount; x++) {
                     row = tableRows[x];
@@ -189,8 +213,54 @@
                     flag = document.createElement('i');
                     flag.className = iso + ' flag';
                     row.cells[1].insertAdjacentElement('afterbegin', flag);
+
+                    // Format Numbers
+                    for (y = 0; y < updateColLen; y++) {
+                        value = row.cells[updateCols[y]].textContent;
+                        row.cells[updateCols[y]].setAttribute('data-value', value); // Value for Sorting
+                        row.cells[updateCols[y]].textContent = Number(value).toLocaleString(); // Value for Display
+                    }
+
+                    // Format Dates
+                    if (dateCol !== -1) {
+                        value = row.cells[dateCol].textContent;
+                        row.cells[dateCol].setAttribute('data-value', value);
+                        row.cells[dateCol].textContent = formatDate(value);
+                    }
                 }
             });
+
+            // Date and Number formatting
+            app.addPlugin('textFormatting', function() {
+                var elements = document.querySelectorAll('.format-number');
+                Array.prototype.forEach.call(elements, function(el) {
+                    const value = el.textContent;
+                    if (value && !isNaN(parseFloat(value))) {
+                        el.setAttribute('data-value', value);
+                        el.textContent = Number(value).toLocaleString();
+                    }
+                });
+                elements = document.querySelectorAll('.format-date');
+                Array.prototype.forEach.call(elements, function(el) {
+                    const value = el.textContent;
+                    if (value) {
+                        el.setAttribute('data-value', value);
+                        el.textContent = formatDate(value);
+                    }
+                });
+            });
+
+            // Simple date formatting to user's local format
+            function formatDate(value) {
+                let date;
+                if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+                    const nums = value.split('-').map(function(n) { return parseInt(n, 10); });
+                    date = new Date(nums[0], nums[1] - 1, nums[2]);
+                } else {
+                    date = new Date(value);
+                }
+                return new Intl.DateTimeFormat(navigator.language).format(date);
+            }
         </script>
     </body>
 </html>

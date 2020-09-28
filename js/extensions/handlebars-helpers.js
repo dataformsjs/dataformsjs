@@ -27,7 +27,7 @@
 
 (function () {
     'use strict';
-    
+
     // This gets called from the bottom of this file
     function addHelpers() {
         // If handlebars is not specified as a <script> on the page then exit
@@ -54,7 +54,15 @@
             try {
                 if (dateTime instanceof Date) {
                     return new Intl.DateTimeFormat(navigator.language, options).format(dateTime);
+                } else if (/^\d{4}-\d{2}-\d{2}$/.test(dateTime)) {
+                    // Basic date without timezone (YYYY-MM-DD)
+                    var nums = dateTime.split('-').map(function(n) { return parseInt(n, 10); });
+                    var date = new Date(nums[0], nums[1] - 1, nums[2]);
+                    return new Intl.DateTimeFormat(navigator.language, options).format(date);
                 } else {
+                    // Assume JavaScript `Date` object can parse the date.
+                    // In the future a new Temporal may be used instead:
+                    //    https://tc39.es/proposal-temporal/docs/
                     var localDate = new Date(dateTime);
                     return new Intl.DateTimeFormat(navigator.language, options).format(localDate);
                 }

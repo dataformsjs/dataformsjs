@@ -407,13 +407,6 @@ TODO List
 
 *) Chosen Plugin, need examples or docs showing how callbacks from [app.events.on] are used
 
-*) New [data-format] Plugin?
-    - Could it be used with <data-table> for Columns?
-    - Or should this also be build into the <data-table> Control? Examples:
-        data-col-align-left="col1, col2"
-        data-col-format-number="col1, col2"
-    - Initial testing could be done with the [places-demo-js] example
-
 *) Log Demo [log-table-hbs.htm], [log-table-vue.htm], etc
     - move <h1>, and <nav> outside of the render section so that they do not flash
         when cleared from each screen. Would need to make sure the [clear filter]
@@ -492,6 +485,8 @@ TODO List
         Framework provides the directive [v-format-number] and for Handlebars there are
         Handlebars helpers such as [formatNumber]. Similar functionality is needed for web components,
         however at the time of writing there is no custom web attribute API to use.
+        For now custom code is used to format the data - see examples:
+            dataformsjs\examples\places-demo-web.htm
     - See example [places-demo-web.htm]
         - DataFormsJS\examples\html\place-web.htm
             [place.ascii_name] should only show if it is different then [place.name]
@@ -532,11 +527,6 @@ TODO List
     - Use a page to show summary data on charts, example
         Pie Chart with Population by Continent
     - Geonames Data Service that shows Country Names in User's local langauge
-    - Places demo
-        Add versions for Nunjucks and Underscore templating but likely exclude
-        from the home page and just show in the examples section. Nunjucks and
-        Underscore will need either a future [data-format] plugin or other code
-        updates to handle date and number formatting.
 
 *) Number and Date/Time formatting for all demos [places-demo-*]
     - Needed on JS and Web Components demos

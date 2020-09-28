@@ -94,6 +94,15 @@ Overall the core Framework files and API are expected to remain stable however t
   * Removed un-needed `console.log` statement that was left from development
 * Added example with code comments for documentation of using CSP (Content Security Policy) with DataFormsJS for the examples when running from localhost
   * https://github.com/dataformsjs/dataformsjs/blob/master/examples/server.js
+* Fix Date Formatting in templating functions to use no Timezone with a basic date format `YYYY-MM-DD`.
+  * Previously the value would be parsed from `new Date(value)` which resulted in local timezone conversion depending on browser.
+  * Updated:
+    * React Class `Format.date()` - `js/react/es6/Format.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/react/es6/Format.js
+    * Handlebars Helper `formatDate` - `js/extensions/handlebars-helpers.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/extensions/handlebars-helpers.js
+    * Vue Directive `v-format-date` - `js/extensions/vue-directives.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/extensions/vue-directives.js
+* Updated Places Demo App for Web Components and plain JavaScript version to include custom JS code on the main page to show how Date and Number formatting can be handled
+  * https://www.dataformsjs.com/examples/places-demo-web.htm
+  * https://www.dataformsjs.com/examples/places-demo-js.htm
 
 ## 4.5.5 (September 11, 2020)
 

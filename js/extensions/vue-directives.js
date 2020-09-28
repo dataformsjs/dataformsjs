@@ -57,7 +57,15 @@
         try {
             if (dateTime instanceof Date) {
                 return new Intl.DateTimeFormat(navigator.language, options).format(dateTime);
+            } else if (/^\d{4}-\d{2}-\d{2}$/.test(dateTime)) {
+                // Basic date without timezone (YYYY-MM-DD)
+                var nums = dateTime.split('-').map(function(n) { return parseInt(n, 10); });
+                var date = new Date(nums[0], nums[1] - 1, nums[2]);
+                return new Intl.DateTimeFormat(navigator.language, options).format(date);
             } else {
+                // Assume JavaScript `Date` object can parse the date.
+                // In the future a new Temporal may be used instead:
+                //    https://tc39.es/proposal-temporal/docs/
                 var localDate = new Date(dateTime);
                 return new Intl.DateTimeFormat(navigator.language, options).format(localDate);
             }
@@ -153,7 +161,7 @@
     var vFormatNumber = function (el, binding) {
         el.textContent = formatNumber(binding.value, {});
     };
-    
+
     var vFormatCurrency = function (el, binding) {
         var currencyCode = binding.arg;
         if (!currencyCode) {
@@ -178,12 +186,12 @@
     var vFormatDate = function (el, binding) {
         el.textContent = formatDateTime(binding.value, {});
     };
-    
+
     var vFormatDateTime = function (el, binding) {
         var intlOptions = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
         el.textContent = formatDateTime(binding.value, intlOptions);
     };
-    
+
     var vFormatTime = function (el, binding) {
         var intlOptions = { hour: 'numeric', minute: 'numeric', second: 'numeric' };
         el.textContent = formatDateTime(binding.value, intlOptions);

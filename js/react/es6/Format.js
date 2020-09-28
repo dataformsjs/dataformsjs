@@ -2,12 +2,12 @@
  * This is a standard JavaScript class which is intended for use
  * with the React Components to provide an easy to use API for
  * formatting Numbers, Dates, Times, etc.
- * 
+ *
  * Example:
  *     const format = new Format();
  *     {format.number(country.area_km)}
  *     {format.date(region.modification_date)}
- * 
+ *
  * API:
  *     format.number(value)
  *     format.currency(value, currencyCode)
@@ -34,12 +34,12 @@ export default class Format {
     }
 
     currency(value, currencyCode) {
-        var intlOptions = { style: 'currency', currency: currencyCode, maximumFractionDigits: 2 };
+        const intlOptions = { style: 'currency', currency: currencyCode, maximumFractionDigits: 2 };
         return formatNumber(value, intlOptions);
     }
 
     percent(value, decimalPlaces=0) {
-        var intlOptions = {
+        const intlOptions = {
             style: 'percent',
             maximumFractionDigits: decimalPlaces,
             minimumFractionDigits: decimalPlaces,
@@ -52,12 +52,12 @@ export default class Format {
     }
 
     dateTime(value) {
-        var intlOptions = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+        const intlOptions = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
         return formatDateTime(value, intlOptions);
     }
 
     time(value) {
-        var intlOptions = { hour: 'numeric', minute: 'numeric', second: 'numeric' };
+        const intlOptions = { hour: 'numeric', minute: 'numeric', second: 'numeric' };
         return formatDateTime(value, intlOptions);
     }
 }
@@ -80,8 +80,16 @@ function formatDateTime(dateTime, options) {
     try {
         if (dateTime instanceof Date) {
             return new Intl.DateTimeFormat(navigator.language, options).format(dateTime);
+        } else if (/^\d{4}-\d{2}-\d{2}$/.test(dateTime)) {
+            // Basic date without timezone (YYYY-MM-DD)
+            const nums = dateTime.split('-').map(function(n) { return parseInt(n, 10); });
+            const date = new Date(nums[0], nums[1] - 1, nums[2]);
+            return new Intl.DateTimeFormat(navigator.language, options).format(date);
         } else {
-            var localDate = new Date(dateTime);
+            // Assume JavaScript `Date` object can parse the date.
+            // In the future a new Temporal may be used instead:
+            //    https://tc39.es/proposal-temporal/docs/
+            const localDate = new Date(dateTime);
             return new Intl.DateTimeFormat(navigator.language, options).format(localDate);
         }
     } catch (e) {
@@ -98,19 +106,10 @@ function formatDateTime(dateTime, options) {
 // Format a numeric value with Intl.NumberFormat()
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
 function formatNumber(value, options) {
-    var style,
-        maximumFractionDigits,
-        digitGrouping = null,
-        decimalMark = null,
-        currencySymbol = null,
-        numberParts,
-        formattedValue,
-        language;
-
     // Get the user's selected language.
     // navigator.language = Standards Version in most browsers and new versions of IE
     // navigator.userLanguage = Older versions of IE such as IE 9
-    language = (navigator.language ? navigator.language : navigator.userLanguage);
+    const language = (navigator.language ? navigator.language : navigator.userLanguage);
 
     // Check for a valid number
     if (value === null || value === '') {
@@ -126,8 +125,8 @@ function formatNumber(value, options) {
     // For example IE9 and below or versions of Safari.
     if (window.Intl === undefined) {
         // Get the specified options
-        style = (options.style ? options.style : null);
-        maximumFractionDigits = (options.maximumFractionDigits ? options.maximumFractionDigits : 0);
+        const style = (options.style ? options.style : null);
+        const maximumFractionDigits = (options.maximumFractionDigits ? options.maximumFractionDigits : 0);
 
         // If percent provide a basic formatting fallback
         if (style === 'percent') {
@@ -135,6 +134,9 @@ function formatNumber(value, options) {
         }
 
         // Fallback for specific langauges
+        let digitGrouping = null;
+        let decimalMark = null;
+        let currencySymbol = null;
         switch (language) {
             case 'en-us':
                 digitGrouping = ',';
@@ -144,9 +146,9 @@ function formatNumber(value, options) {
         }
 
         if (digitGrouping !== null) {
-            numberParts = value.toString().split('.');
+            const numberParts = value.toString().split('.');
             numberParts[0] = numberParts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-            formattedValue = numberParts.join(decimalMark);
+            const formattedValue = numberParts.join(decimalMark);
 
             if (style === 'currency') {
                 return currencySymbol + formattedValue;

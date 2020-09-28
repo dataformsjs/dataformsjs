@@ -199,6 +199,12 @@ function formatDateTime(dateTime, options) {
   try {
     if (_instanceof(dateTime, Date)) {
       return new Intl.DateTimeFormat(navigator.language, options).format(dateTime);
+    } else if (/^\d{4}-\d{2}-\d{2}$/.test(dateTime)) {
+      var nums = dateTime.split('-').map(function (n) {
+        return parseInt(n, 10);
+      });
+      var date = new Date(nums[0], nums[1] - 1, nums[2]);
+      return new Intl.DateTimeFormat(navigator.language, options).format(date);
     } else {
       var localDate = new Date(dateTime);
       return new Intl.DateTimeFormat(navigator.language, options).format(localDate);
@@ -214,15 +220,7 @@ function formatDateTime(dateTime, options) {
 }
 
 function formatNumber(value, options) {
-  var style,
-      maximumFractionDigits,
-      digitGrouping = null,
-      decimalMark = null,
-      currencySymbol = null,
-      numberParts,
-      formattedValue,
-      language;
-  language = navigator.language ? navigator.language : navigator.userLanguage;
+  var language = navigator.language ? navigator.language : navigator.userLanguage;
 
   if (value === null || value === '') {
     return null;
@@ -235,12 +233,16 @@ function formatNumber(value, options) {
   }
 
   if (window.Intl === undefined) {
-    style = options.style ? options.style : null;
-    maximumFractionDigits = options.maximumFractionDigits ? options.maximumFractionDigits : 0;
+    var style = options.style ? options.style : null;
+    var maximumFractionDigits = options.maximumFractionDigits ? options.maximumFractionDigits : 0;
 
     if (style === 'percent') {
       return (value * 100).toFixed(maximumFractionDigits) + '%';
     }
+
+    var digitGrouping = null;
+    var decimalMark = null;
+    var currencySymbol = null;
 
     switch (language) {
       case 'en-us':
@@ -251,9 +253,9 @@ function formatNumber(value, options) {
     }
 
     if (digitGrouping !== null) {
-      numberParts = value.toString().split('.');
+      var numberParts = value.toString().split('.');
       numberParts[0] = numberParts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      formattedValue = numberParts.join(decimalMark);
+      var formattedValue = numberParts.join(decimalMark);
 
       if (style === 'currency') {
         return currencySymbol + formattedValue;
