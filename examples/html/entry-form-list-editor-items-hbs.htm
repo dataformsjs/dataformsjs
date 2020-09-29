@@ -1,4 +1,8 @@
 {{#each records}}
+<!--
+    The template for each line item record is defined by the [data-list-item] attribute
+    and field values need to start with [id="item-field-*"]
+-->
 <tr data-list-item>
     <td>
         <a href="#/record/{{id}}">{{id}}</a>
@@ -7,7 +11,7 @@
     <td><input class="form-control" name="item-field-label" data-label="Label" required value="{{label}}"></td>
     <td><input class="form-control" name="item-field-num_value" data-label="Number" data-type="float" value="{{num_value}}"></td>
     <td>
-        <!-- 
+        <!--
             [../categories] tells handlebars to look up one level to get the list
         -->
         {{select 'class="form-control" name="item-field-category"' ../categories category 'allow-null'}}
@@ -39,7 +43,7 @@
         </select>
     </td>
     <td><input class="form-control datepicker" name="item-field-date_value" value=""></td>
-    <td><input class="form-control" name="item-field-active" type="checkbox" checked></td>    
+    <td><input class="form-control" name="item-field-active" type="checkbox" checked></td>
     <td><textarea class="form-control" rows="3" name="item-field-comment"></textarea></td>
     <td>
         <span title="Add" class="btn btn-info" data-add-button>+</span>
@@ -52,7 +56,7 @@
     <td><input type="hidden" name="item-field-num_value" value=""></td>
     <td><input type="hidden" name="item-field-category" value=""></td>
     <td><input type="hidden" name="item-field-date_value" value=""></td>
-    <td><input type="hidden" name="item-field-active" value="1"></td>    
+    <td><input type="hidden" name="item-field-active" value="1"></td>
     <td><input type="hidden" name="item-field-comment" value=""></td>
     <td>
         <span title="Add" class="btn btn-info" data-add-button>+</span>

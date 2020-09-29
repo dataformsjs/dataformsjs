@@ -31,6 +31,16 @@
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
+                        <!--
+                            List Item Tables related to a main record (or in this case a screen that allows editing of multiple)
+                            records can use the [data-edit-list="{name}"] attribute to define the property where the array
+                            of records are submitted with when the save button is clicked.
+
+                            When using a templating engine (Handlebars, Nunjucks, Underscore) the item source must
+                            live in a seperate "HTML Control" - [data-template-url] or [data-template-id].
+
+                            The rule for [data-template-url] or [data-template-id] does not apply when using Vue.
+                        -->
                         <tbody data-edit-list="records" data-template-url="html/entry-form-list-editor-items-hbs.htm">
                         </tbody>
                     </table>

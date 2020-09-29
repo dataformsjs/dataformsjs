@@ -6,13 +6,22 @@
             <!--
                 For this example css classes ".hide-after-form-load" and ".show-after-form-load"
                 are not needed however they are displayed here for reference as they are usefull
-                when loading large and complex forms. For example if a form has a number of 
+                when loading large and complex forms. For example if a form has a number of
                 child/related/line-item tables with 100's of controls with some being jQuery plugins
                 these classes can be used to make the form appear nice while it is loading.
             -->
             <div class="hide-after-form-load"><div data-template-id="loading-template"></div></div>
             <form hidden class="show-after-form-load">
                 <div class="form-group">
+                    <!--
+                        All <input>, <select>, and <textarea> starting with [id="field-*"]
+                        will be loaded from the download JSON Data [data-url] and when the
+                        [Save] button is clicked they will be used to generate a model object
+                        for submitting to the web service defined in [data-save-url].
+
+                        Additionally [data-type="float|int"] can be used for validating
+                        and casting prop data types when the record to save is generated.
+                    -->
                     {{#if newRecord}}
                         <label for="field-id">(New Record)</label>
                         <input class="form-control" id="field-id" data-type="int" type="hidden" value="">
@@ -50,6 +59,17 @@
                     <label for="field-comment">Comment</label>
                     <textarea class="form-control" rows="3" id="field-comment"></textarea>
                 </div>
+                <!--
+                    Selectors for buttons [Save and Delete] along with info messages can be set
+                    from the route script <script type="text/x-template" data-engine="handlebars">
+                    that defined the entry form. For this app the default selectors are used:
+
+                    data-save-button-selector=".btn-save"
+                    data-delete-button-selector=".btn-delete"
+                    data-info-selector=".info-message"
+                    data-error-selector=".error-message"
+                    data-error-list-selector=".error-list"
+                -->
                 <div class="form-group alert alert-info info-message"></div>
                 <div class="form-group alert alert-danger error-message"></div>
                 <ul class="form-group alert alert-danger error-list"></ul>

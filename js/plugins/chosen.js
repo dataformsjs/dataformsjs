@@ -54,7 +54,9 @@
     // Requires loading [DataFormsJS/js/extensions/events.js] before this file.
     if (app.events !== undefined && typeof app.events.on === 'function') {
         app.events.on('entryForm.loadedFormFields', setupChosen);
-        app.events.on('listEditor.loadedListEditorControl', setupChosen);
+        app.events.on('listEditor.loadedListEditorControl', function(control) {
+            setupChosen(control);
+        });
     }
 
     // Add Plugin to App

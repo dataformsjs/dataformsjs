@@ -31,7 +31,16 @@
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
+                        <!--
+                            List Item Tables related to a main record (or in this case a screen that allows editing of multiple)
+                            records can use the [data-edit-list="{name}"] attribute to define the property where the array
+                            of records are submitted with when the save button is clicked.
+                        -->
                         <tbody data-edit-list="records">
+                            <!--
+                                The template for each line item record is defined by the [data-list-item] attribute
+                                and field values need to start with [id="item-field-*"]
+                            -->
                             <tr data-list-item
                                 v-for="record in records">
                                 <td>
@@ -83,7 +92,7 @@
                                 <td><input type="hidden" name="item-field-num_value" value=""></td>
                                 <td><input type="hidden" name="item-field-category" value=""></td>
                                 <td><input type="hidden" name="item-field-date_value" value=""></td>
-                                <td><input type="hidden" name="item-field-active" value="1" data-default="1"></td>    
+                                <td><input type="hidden" name="item-field-active" value="1" data-default="1"></td>
                                 <td><input type="hidden" name="item-field-comment" value=""></td>
                                 <td>
                                     <span title="Add" class="btn btn-info" data-add-button>+</span>

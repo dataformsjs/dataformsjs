@@ -74,7 +74,7 @@
         // Text that is displayed to the user. These strings can be overwritten
         // to customize the app or use a different language. These can be
         // overwritten from HTML, example:
-        //     [data-saving-record-text="Saving Sales Order.."]
+        //     [data-saving-record-text="Saving Sales Order..."]
         savingRecordText: 'Saving Record...',
         deletingRecordText: 'Deleting Record...',
         recordSavedText: 'Record saved at {time}',

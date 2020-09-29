@@ -160,7 +160,7 @@
                 }
             */
             } else {
-                console.warn('Using [pickadate] plugin and controls were found but [pickadate.js] was not found on the page');
+                app.showErrorAlert('Using [pickadate] plugin and controls were found but [pickadate.js] was not found on the page');
             }
         },
 
