@@ -1,6 +1,6 @@
 <!doctype html>
-<html 
-    lang="en" 
+<html
+    lang="en"
     data-show-errors
     data-i18n-default="en"
     data-i18n-locales="en,ja,es,pt-BR,ar,fr,zh-CN"
@@ -20,12 +20,12 @@
             For Vue including the attributes such as [data-countries] and [data-regions]
             are defined in the template so that Vue creates Watchers for them.
 
-            For this page these properties are typically defined dynamically for the 
+            For this page these properties are typically defined dynamically for the
             model after the JSON service downloads the data. In some pages defining dynamic
             properties may not be needed however it is recommended when using Vue to
             avoid unexpected rendering issues.
         -->
-        
+
         <script
             type="text/x-template"
             data-engine="vue"
@@ -45,38 +45,40 @@
                     <a v-bind:href="'#/' + i18n_Locale + '/search'" v-i18n="'Search'"></a>
                     <a v-bind:href="'#/' + i18n_Locale + '/info'" v-i18n="'Info'"></a>
                 </nav>
-                
-                <input 
+
+                <input
                     data-filter-selector="table"
                     data-filter-results-text-selector="h1"
-                    data-filter-results-text-all="{totalCount} Countries" 
+                    data-filter-results-text-all="{totalCount} Countries"
                     data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
                     placeholder="Enter filter, example 'North America'"
                     v-i18n-attr="'data-filter-results-text-all, data-filter-results-text-filtered, placeholder'">
 
-                <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
-                    <thead>
-                        <tr>
-                            <th v-i18n="'Code'"></th>
-                            <th v-i18n="'Name'"></th>
-                            <th v-i18n="'Size (KM)'"></th>
-                            <th v-i18n="'Population'"></th>
-                            <th v-i18n="'Continent'"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="country in countries">
-                            <td><a v-bind:href="'#/' + i18n_Locale + '/regions/' + country.iso">{{ country.iso }}</a></td>
-                            <td>
-                                <i v-bind:class="country.iso.toLowerCase() + ' flag'"></i>
-                                <span>{{ country.country }}<span>
-                            </td>
-                            <td class="align-right" v-bind:data-value="country.area_km" v-format-number="country.area_km"></td>
-                            <td class="align-right" v-bind:data-value="country.population" v-format-number="country.population"></td>
-                            <td>{{ country.continent }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="responsive-table">
+                    <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
+                        <thead>
+                            <tr>
+                                <th v-i18n="'Code'"></th>
+                                <th v-i18n="'Name'"></th>
+                                <th v-i18n="'Size (KM)'"></th>
+                                <th v-i18n="'Population'"></th>
+                                <th v-i18n="'Continent'"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="country in countries">
+                                <td><a v-bind:href="'#/' + i18n_Locale + '/regions/' + country.iso">{{ country.iso }}</a></td>
+                                <td>
+                                    <i v-bind:class="country.iso.toLowerCase() + ' flag'"></i>
+                                    <span>{{ country.country }}<span>
+                                </td>
+                                <td class="align-right" v-bind:data-value="country.area_km" v-format-number="country.area_km"></td>
+                                <td class="align-right" v-bind:data-value="country.population" v-format-number="country.population"></td>
+                                <td>{{ country.continent }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </script>
 
@@ -100,8 +102,8 @@
             data-load-only-once="true"
             data-cities
             src="html/cities-vue.htm">
-        </script>     
-        
+        </script>
+
         <script
             type="text/x-template"
             data-engine="vue"
@@ -111,7 +113,7 @@
             data-load-only-once="true"
             data-lazy-load="leafletCss, leafletJs, leafletPlugin"
             data-place
-            data-fields            
+            data-fields
             src="html/place-vue.htm">
         </script>
 

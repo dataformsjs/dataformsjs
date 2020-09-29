@@ -13,12 +13,20 @@ button {
     padding: 8px 16px;
     margin: 20px;
     width: 100%;
-    max-width: calc(100% - 80px);
+    max-width: calc(100vw - 80px);
 }
-@media (min-width: 400px) {
+form input,
+form select,
+form button {
+    max-width: calc(100% - 120px);
+}
+@media (min-width: 500px) {
     input,
     select,
-    button {
+    button,
+    form input,
+    form select,
+    form button {
         max-width: 300px;
     }
 }
@@ -32,13 +40,14 @@ button {
     flex-direction: column;
 }
 
-h2, nav, table, form, input, select, button, section, .section {
+h2, nav, table, form, input, select, button, section, .section, .responsive-table {
     flex: 1 0 auto;
     align-self: center;
 }
 table { align-self: start; }
 @media screen and (min-width:900px) {
-    table { align-self: center; }
+    table,
+    .responsive-table { align-self: center; }
 }
 
 input[data-filter-selector],
@@ -50,10 +59,6 @@ input[is='input-filter'] {
     outline: 0;
     padding: 16px 24px;
 }
-form {
-    display: flex;
-    flex-direction: column;
-}
 h1, nav, table, section, form, .responsive-table {
     background-color: white;
     box-shadow: 0 1px 2px rgba(0,0,0,.5);
@@ -62,9 +67,21 @@ h1, nav, table, section, form, .responsive-table {
     display: inline-block;
     border-radius: 8px;
 }
+form {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin: 20px 0;
+}
+@media (min-width: 500px) {
+    form {
+        padding: 20px;
+        margin: 20px;
+    }
+}
 .responsive-table {
     overflow-x: auto;
-    max-width: calc(100% - 40px);
+    max-width: calc(100vw - 40px);
     padding: 0;
 }
 .responsive-table table {
@@ -155,8 +172,8 @@ div[data-leaflet],
     margin-top: 10px;
 }
 
-.alternate-names { padding:10px; }
-.alternate-names ul { list-style-type:none; max-width:800px; min-width:380px; padding-left: 0; }
+.alternate-names { padding:10px; margin:20px 0; }
+.alternate-names ul { list-style-type:none; max-width:800px; min-width:100%; padding-left: 0; }
 .alternate-names li { border:1px solid #dfe2e5; margin:8px; padding:4px 8px; display: inline-block; }
 
 ul.info  {
@@ -188,7 +205,6 @@ table tbody tr.row-even { background-color: #f6f8fa; }
 /* Adjust for jQuery Chosen box-sizing */
 select.chosen-select,
 input.chosen-search-input { max-width:340px; }
-
 
 /* Show the loading screen only if it appears for longer than half a second */
 .loading {

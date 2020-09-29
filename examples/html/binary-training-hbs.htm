@@ -9,24 +9,26 @@
 
         {{#if hasError}}<div class="error">{{errorMessage}}</div>{{/if}}
         {{#if isLoaded}}
-            <table>
-                <thead>
-                    <tr>
-                        {{#each columns}}
-                            <th>{{i18n this}}</th>
+            <div class="responsive-table">
+                <table>
+                    <thead>
+                        <tr>
+                            {{#each columns}}
+                                <th>{{i18n this}}</th>
+                            {{/each}}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each records}}
+                        <tr>
+                            {{#each this}}
+                                <td>{{this}}</td>
+                            {{/each}}
+                        </tr>
                         {{/each}}
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each records}}
-                    <tr>
-                        {{#each this}}
-                            <td>{{this}}</td>
-                        {{/each}}
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         {{/if}}
     </div>
 </section>

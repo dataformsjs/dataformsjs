@@ -46,29 +46,31 @@
 
             <p>Click on a column to sort rows based on column values.</p>
 
-            <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
-                <thead>
-                    <tr>
-                        <th>Code</th>
-                        <th>Name</th>
-                        <th>Size (KM)</th>
-                        <th>Population</th>
-                        <th>Continent</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="country in countries">
-                        <td>{{ country.iso }}</td>
-                        <td>
-                            <i v-bind:class="country.iso.toLowerCase() + ' flag'"></i>
-                            <span>{{ country.country }}<span>
-                        </td>
-                        <td class="align-right" v-bind:data-value="country.area_km" v-format-number="country.area_km"></td>
-                        <td class="align-right" v-bind:data-value="country.population" v-format-number="country.population"></td>
-                        <td>{{ country.continent }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="responsive-table">
+                <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Size (KM)</th>
+                            <th>Population</th>
+                            <th>Continent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="country in countries">
+                            <td>{{ country.iso }}</td>
+                            <td>
+                                <i v-bind:class="country.iso.toLowerCase() + ' flag'"></i>
+                                <span>{{ country.country }}<span>
+                            </td>
+                            <td class="align-right" v-bind:data-value="country.area_km" v-format-number="country.area_km"></td>
+                            <td class="align-right" v-bind:data-value="country.population" v-format-number="country.population"></td>
+                            <td>{{ country.continent }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </script>
 

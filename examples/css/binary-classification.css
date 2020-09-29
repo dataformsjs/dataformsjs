@@ -53,7 +53,7 @@ section { text-align: center; }
     margin-top: calc(var(--padding) * 2);
     text-align: center;
     flex-direction: column;
-    max-width: calc(100% - calc(var(--padding) * 4));
+    max-width: calc(100% - calc(var(--padding) * 6));
 }
 @media screen and (min-width:800px) {
     .content {
@@ -95,14 +95,23 @@ ul {
     text-align: left;
     max-width: 800px;
 }
+.links { overflow-x: auto; }
 html[lang='ar'] ul { text-align:right; }
 
 li { line-height: 1.4em; margin-bottom: calc(var(--padding) / 2); }
 
-table { border-collapse:collapse; margin:var(--padding); }
+table { border-collapse:collapse; }
 td, th { padding:10px 20px; border:1px solid #ababab; }
 thead tr,
 tbody tr:nth-child(odd) { background-color:#fff; }
 tbody tr:nth-child(even) { background-color:#f7f7f7; }
+
+@media (min-width: 1150px) {
+    table { margin:var(--padding); }
+}
+.responsive-table {
+    overflow-x: auto;
+    max-width: 100%;
+}
 
 .training-info { max-width:600px; margin:var(--padding) auto; }

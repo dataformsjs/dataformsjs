@@ -21,7 +21,7 @@
         </template>
 
         <template id="error-screen">
-            <div><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></div>            
+            <div><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></div>
         </template>
 
         <template id="loading-spinner-screen">
@@ -54,15 +54,17 @@
                     placeholder="Enter filter, example 'North America'"
                     data-i18n-attr="data-filter-results-text-all, data-filter-results-text-filtered, placeholder">
 
-                <data-table
-                    class="countries"
-                    data-source="countries"
-                    data-labels="Code, Name, Size (KM), Population, Continent"
-                    data-i18n-attr="data-labels"
-                    data-sort
-                    data-sort-class-odd="row-odd"
-                    data-sort-class-even="row-even">
-                </data-table>
+                <div class="responsive-table">
+                    <data-table
+                        class="countries"
+                        data-source="countries"
+                        data-labels="Code, Name, Size (KM), Population, Continent"
+                        data-i18n-attr="data-labels"
+                        data-sort
+                        data-sort-class-odd="row-odd"
+                        data-sort-class-even="row-even">
+                    </data-table>
+                </div>
             </div>
         </template>
 

@@ -8,17 +8,19 @@
         </ul>
 
         <div v-if="hasError" class="error">{{ errorMessage }}</div>
-        <table v-if="isLoaded">
-            <thead>
-                <tr>
-                    <th v-for="column in columns" v-i18n="column"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="record in records">
-                    <td v-for="value in record">{{ value }}</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="responsive-table">
+            <table v-if="isLoaded">
+                <thead>
+                    <tr>
+                        <th v-for="column in columns" v-i18n="column"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="record in records">
+                        <td v-for="value in record">{{ value }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </section>

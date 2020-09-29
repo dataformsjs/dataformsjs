@@ -10,14 +10,16 @@
 
     <input data-filter-selector="table" placeholder="Enter filter" data-i18n-attr="placeholder">
 
-    <data-table
-        class="cities"
-        data-source="cities"
-        data-columns="geonames_id, name, population, elevation, timezone, modification_date"
-        data-labels="Id, Name, Population, Elevation, Timezone, Date Last Modified"
-        data-i18n-attr="data-labels"
-        data-sort
-        data-sort-class-odd="row-odd"
-        data-sort-class-even="row-even">
-    </data-table>
+    <div class="responsive-table">
+        <data-table
+            class="cities"
+            data-source="cities"
+            data-columns="geonames_id, name, population, elevation, timezone, modification_date"
+            data-labels="Id, Name, Population, Elevation, Timezone, Date Last Modified"
+            data-i18n-attr="data-labels"
+            data-sort
+            data-sort-class-odd="row-odd"
+            data-sort-class-even="row-even">
+        </data-table>
+    </div>
 </div>

@@ -15,14 +15,16 @@
         placeholder="Enter filter"
         data-i18n-attr="placeholder, data-filter-results-text-all, data-filter-results-text-filtered">
 
-    <data-table
-        class="regions"
-        data-source="regions"
-        data-columns="admin1_code, name, population, timezone, modification_date"
-        data-labels="Code, Name, Population, Timezone, Date Last Modified"
-        data-i18n-attr="data-labels"
-        data-sort
-        data-sort-class-odd="row-odd"
-        data-sort-class-even="row-even">
-    </data-table>
+    <div class="responsive-table">
+        <data-table
+            class="regions"
+            data-source="regions"
+            data-columns="admin1_code, name, population, timezone, modification_date"
+            data-labels="Code, Name, Population, Timezone, Date Last Modified"
+            data-i18n-attr="data-labels"
+            data-sort
+            data-sort-class-odd="row-odd"
+            data-sort-class-even="row-even">
+        </data-table>
+    </div>
 </div>
