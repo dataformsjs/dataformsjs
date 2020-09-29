@@ -250,7 +250,7 @@ function ShowSearchResults(props) {
                     <tbody>
                         {props.data && props.data.cities && props.data.cities.map(city => {
                             return (
-                                <tr key={city.geonames_id} onClick={toogleHighlight} className="pointer">
+                                <tr key={city.geonames_id} onClick={toggleHighlight} className="pointer">
                                     <td>
                                         <i class={city.country_code.toLowerCase() + ' flag'}></i>
                                         {city.country_code}

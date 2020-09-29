@@ -53,7 +53,7 @@
     <script type="text/babel">
         const format = new Format();
 
-        function toogleHighlight(e) {
+        function toggleHighlight(e) {
             if (e.target.nodeName === 'A') {
                 return;
             }
@@ -103,7 +103,7 @@
                             <tbody>
                                 {props.data && props.data.countries && props.data.countries.map(country => {
                                     return (
-                                        <tr key={country.iso} onClick={toogleHighlight} className="pointer">
+                                        <tr key={country.iso} onClick={toggleHighlight} className="pointer">
                                             <td>{country.iso}</td>
                                             <td>
                                                 <i class={country.iso.toLowerCase() + ' flag'}></i>
