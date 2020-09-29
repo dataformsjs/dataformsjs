@@ -52,17 +52,20 @@
                                 filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
                                 placeholder="Enter filter, example 'North America'">
 
-                            <!--
-                                Flags are added to the <data-table> from JavaScript at the bottom of this file.
-                            -->
-                            <data-table
-                                data-bind="countries"
-                                col-link-template="#/regions/:iso"
-                                labels="Code, Name, Size (KM), Population, Continent"
-                                table-attr="is=sortable-table,
-                                            data-sort-class-odd=row-odd,
-                                            data-sort-class-even=row-even">
-                            </data-table>
+                            <div class="responsive-table">
+                                <!--
+                                    Flags are added to the <data-table> from JavaScript at the bottom of this file.
+                                    Additionlly Date and Number formatting is handled from the JavaScript.
+                                -->
+                                <data-table
+                                    data-bind="countries"
+                                    col-link-template="#/regions/:iso"
+                                    labels="Code, Name, Size (KM), Population, Continent"
+                                    table-attr="is=sortable-table,
+                                                data-sort-class-odd=row-odd,
+                                                data-sort-class-even=row-even">
+                                </data-table>
+                            </div>
                         </is-loaded>
                     </json-data>
                 </template>

@@ -37,13 +37,15 @@
 
                 <p>Click on a column to sort rows based on column values.</p>
 
-                <data-table
-                    data-bind="countries"
-                    labels="Code, Name, Size (KM), Population, Continent"
-                    table-attr="is=sortable-table,
-                                data-sort-class-odd=row-odd,
-                                data-sort-class-even=row-even">
-                </data-table>
+                <div class="responsive-table">
+                    <data-table
+                        data-bind="countries"
+                        labels="Code, Name, Size (KM), Population, Continent"
+                        table-attr="is=sortable-table,
+                                    data-sort-class-odd=row-odd,
+                                    data-sort-class-even=row-even">
+                    </data-table>
+                </div>
             </is-loaded>
         </json-data>
     </div>
