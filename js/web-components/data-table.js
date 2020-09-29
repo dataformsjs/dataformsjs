@@ -26,7 +26,8 @@ shadowTmpl.innerHTML = `
 `;
 
 function toggleHighlight(e) {
-    if (e.target.nodeName === 'A') {
+    const nodeName = e.target.nodeName;
+    if (nodeName === 'A' || nodeName === 'INPUT' || nodeName === 'SELECT' || nodeName === 'TEXTAREA' || nodeName === 'BUTTON') {
         return;
     }
     this.classList.toggle('highlight');

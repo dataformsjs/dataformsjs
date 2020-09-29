@@ -1,6 +1,6 @@
 /**
  * DataFormJS [clickToHighlight] Plugin.
- * 
+ *
  * This allows a user to easily see where they are on
  * wide table rows or mobile devices or highlight other
  * elements under a list.
@@ -22,11 +22,14 @@
     'use strict';
 
     function toggleHighlight(e) {
-        // Do not change highlight when a link is clicked. The reason is because
-        // it causes a quick flash of the highlighted style on the row before
+        // Do not change highlight when a link or input is clicked. The reason is
+        // because when changing pages the row quickly flashes the highlight before
         // the page changes. Since the user is clicking to another page rather
-        // than highlighting a row the style change is not desired.
-        if (e.target.nodeName === 'A') {
+        // than highlighting a row the style change is not desired. Additionally
+        // if the user is editing a row they will likely not want to trigger a
+        // highlight at the same time.
+        var nodeName = e.target.nodeName;
+        if (nodeName === 'A' || nodeName === 'INPUT' || nodeName === 'SELECT' || nodeName === 'TEXTAREA' || nodeName === 'BUTTON') {
             return;
         }
         /* jshint validthis:true */

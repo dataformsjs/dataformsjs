@@ -31,7 +31,7 @@ input[type='checkbox'] { width: 2rem; }
 
 .alert.error-list { padding-left:2.5rem; }
 
-code { white-space: pre; }
+code { white-space: pre; word-wrap: normal; }
 
 .card-deck .card { align-self: start; }
 
@@ -47,6 +47,9 @@ code { white-space: pre; }
     height: 32px;
     width: 32px;
 }
+
+.table-striped tbody tr:nth-of-type(odd).highlight,
+.table-striped tbody tr:nth-of-type(even).highlight { background-color: yellow; }
 
 /*
 By default Boostrap expands the cards in a card-deck for small tablets.

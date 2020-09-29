@@ -10,6 +10,10 @@
  *     app.plugins.pickadate.options = { ... }
  *     app.plugins.pickadate.options.format = 'yyyy-mm-dd'
  *
+ * Additionally options can be added in the HTML for attributes that
+ * start with [data-pickadate-*] where '*' equals the option. Example:
+ *     <input class="datepicker" data-pickadate-container="#pickadate-root">
+ *
  * The plugin supports pickadate.js Version 3. An alpha version of pickadata
  * Version 5 is being created however it appears in early stage development
  * and as of Sept 2020 it has not been updated in over a year so the status
@@ -91,7 +95,17 @@
             if (window.$ !== undefined && $.fn.pickadate !== undefined) {
                 // Version 3 (requires jQuery)
                 Array.prototype.forEach.call(elements, function(element) {
-                    var $input = $(element).pickadate(plugin.options);
+                    // Get additional options from [data-pickadate-*] attributes
+                    var options = app.deepClone({}, plugin.options);
+                    for (var n = 0, m = element.attributes.length; n < m; n++) {
+                        var attr = element.attributes[n];
+                        if (attr.name.startsWith('data-pickadate-')) {
+                            var prop = attr.name.replace('data-pickadate-', '');
+                            options[prop] = attr.value;
+                        }
+                    }
+                    // Create pickadate.js object
+                    var $input = $(element).pickadate(options);
                     $input.on('mousedown', function cancelEvent(evt) {
                         // There is a bug with pickadate.js in Chrome where it flickers
                         // on the screen  if this code is not included.
