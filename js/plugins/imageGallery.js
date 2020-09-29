@@ -6,8 +6,8 @@
  * with the following features:
  *    - Shows Overlay with large Image for Thumbnails.
  *    - Minimal UI so the focus is on the Content.
- *    - Great Accessibility and Device Support
- *      - Handles Swipe left/right and Tap to close on Mobile Devices
+ *    - Easy to use from any device and fully accessible:
+ *      - Handles Swipe left/right and Tap to close on Mobile Devices.
  *      - Fully works on Desktop from Mouse. Click to open gallery
  *        and Back and Forward buttons are displayed when using a Mouse.
  *      - Fully works from Desktop Keyboard. If using [tabindex] so
