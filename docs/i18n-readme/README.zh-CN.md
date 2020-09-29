@@ -254,7 +254,8 @@ _所有大小都基于来自Web服务器的缩小脚本和gzip压缩._
 
 * React: ~ 40 kB
 * Handlebars: ~ 22 kB
-* Vue: ~ 33 kB
+* Vue 2: ~ 33 kB
+* Vue 3: ~ 40 kB
 * Underscore: ~ 6 kB
 * Nunjucks - ~ 25 kB
 

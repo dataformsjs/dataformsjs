@@ -255,7 +255,8 @@ Si bien el marco DataFormsJS es pequeño, generalmente se utilizará con un moto
 
 * React: ~ 40 kB
 * Handlebars: ~ 22 kB
-* Vue: ~ 33 kB
+* Vue 2: ~ 33 kB
+* Vue 3: ~ 40 kB
 * Underscore: ~ 6 kB
 * Nunjucks - ~ 25 kB
 
