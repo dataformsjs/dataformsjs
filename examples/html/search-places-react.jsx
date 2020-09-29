@@ -137,7 +137,7 @@ class ShowSearchPage extends React.Component {
                     <Link to={'/' + this.props.params.lang + '/'}>{i18n.text('Countries')}</Link>
                 </nav>
 
-                <form>
+                <form className="search">
                     {/* The <Chosen> Component is defined at the bottom of this file */}
                     {useChosen
                         ? <Chosen
@@ -250,7 +250,7 @@ function ShowSearchResults(props) {
                     <tbody>
                         {props.data && props.data.cities && props.data.cities.map(city => {
                             return (
-                                <tr key={city.geonames_id}>
+                                <tr key={city.geonames_id} onClick={toogleHighlight} className="pointer">
                                     <td>
                                         <i class={city.country_code.toLowerCase() + ' flag'}></i>
                                         {city.country_code}

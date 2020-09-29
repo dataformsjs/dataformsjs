@@ -23,19 +23,18 @@
         <div class="is-loading"><div>Loading...</div></div>
         <div class="has-error"><div class="error">Error</div></div>
         <div class="is-loaded flex-col">
-            <div>
-                <input
-                    data-filter-selector="table"
-                    data-filter-results-text-selector="h1"
-                    data-filter-results-text-all="{totalCount} Countries"
-                    data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
-                    placeholder="Enter filter, example 'North America'">
-            </div>
+            <input
+                data-filter-selector="table"
+                data-filter-results-text-selector="h1"
+                data-filter-results-text-all="{totalCount} Countries"
+                data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
+                placeholder="Enter filter, example 'North America'">
 
             <p>Click on a column to sort rows based on column values.</p>
 
             <div class="responsive-table">
                 <data-table
+                    class="click-to-highlight"
                     data-source="countries"
                     data-labels="Code, Name, Size (KM), Population, Continent"
                     data-sort
@@ -51,30 +50,56 @@
     <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/controls/json-data.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/filter.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/sort.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/clickToHighlight.min.js"></script> -->
+    <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/clickToHighlight.min.js"></script>
 
     <!--
-        Add images to the <table> element using a Custom Plugin with standard JavaScript DOM methods
+        Add images to the <table> element using a Custom Plugin with standard JavaScript DOM methods.
+        Additionally format number columns in user's local number format.
     -->
     <script>
         (function() {
             'use strict';
 
-            app.addPlugin('tableIcons', function(element) {
+            app.addPlugin('formatTable', function(element) {
                 // Get table and exit if no data
                 var table = document.querySelector('table');
                 if (table === null || table.tBodies === null || table.tBodies.length !== 1) {
                     return;
                 }
 
-                // Add flags to all rows
+                // Find Number and Date Columns so the data can be formatted
+                var cells = table.tHead.rows[0].cells;
+                var colCount = cells.length;
+                var updateCols = [];
+                for (var n = 0; n < colCount; n++) {
+                    switch (cells[n].textContent) {
+                        case 'Size (KM)':
+                        case 'Population':
+                            updateCols.push(n);
+                            break;
+                    }
+                }
+                var updateColLen = updateCols.length;
+
+                // Process all rows
                 var tableRows = table.tBodies[0].rows;
                 var rowCount = tableRows.length;
                 for (var x = 0; x < rowCount; x++) {
                     var row = tableRows[x];
+
+                    // Add flag to row
                     var iso = row.cells[0].textContent.trim().toLowerCase();
                     var flag = document.createElement('i');
                     flag.className = iso + ' flag';
                     row.cells[1].insertAdjacentElement('afterbegin', flag);
+
+                    // Format Numbers
+                    for (var y = 0; y < updateColLen; y++) {
+                        var value = row.cells[updateCols[y]].textContent;
+                        row.cells[updateCols[y]].setAttribute('data-value', value); // Value for Sorting
+                        row.cells[updateCols[y]].textContent = Number(value).toLocaleString(); // Value for Display
+                    }
                 }
             });
         })();

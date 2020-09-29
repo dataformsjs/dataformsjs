@@ -33,7 +33,12 @@ form button {
     }
 }
 .react-select input { margin:0; padding:0; }
-.react-select { text-align: left; }
+.react-select {
+    text-align: left;
+    max-width: 340px;
+    margin: 20px auto;
+    width: 100%;
+}
 #view,
 #root,
 .flex-col {
@@ -60,6 +65,8 @@ input[is='input-filter'] {
     border: none;
     outline: 0;
     padding: 16px 24px;
+    /* For Safari on iOS */
+    -webkit-appearance: none;
 }
 h1, nav, table, section, form, .responsive-table {
     background-color: white;
@@ -74,6 +81,10 @@ form {
     flex-direction: column;
     padding: 10px;
     margin: 20px 0;
+}
+form.search {
+    width: 90%;
+    max-width: 500px;
 }
 @media (min-width: 500px) {
     form {
@@ -203,6 +214,9 @@ table tbody tr:nth-child(odd) { background-color: white; }
 table tbody tr:nth-child(even) { background-color: #f6f8fa; }
 table tbody tr.row-odd { background-color: white; }
 table tbody tr.row-even { background-color: #f6f8fa; }
+table tbody tr.highlight { background-color: yellow; }
+
+.pointer { cursor: pointer; }
 
 /* Adjust for jQuery Chosen box-sizing */
 select.chosen-select,

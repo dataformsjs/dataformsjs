@@ -12,7 +12,7 @@
         <a v-bind:href="'#/' + i18n_Locale + '/'" v-i18n="'Countries'"></a>
     </nav>
 
-    <form class="flex-col">
+    <form class="search">
         <!--
             If jQuery Chosen was not used then the following would be used for a standard <select>
                 <option value="" v-i18n="'-- Select a Country (Optional) --'"></option>
@@ -62,7 +62,7 @@
                     v-i18n-attr="'data-filter-results-text-all, data-filter-results-text-filtered, placeholder'">
 
                 <div class="responsive-table">
-                    <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
+                    <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even" class="click-to-highlight">
                         <thead>
                             <tr>
                                 <th v-i18n="'Country'"></th>

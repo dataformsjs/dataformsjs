@@ -80,6 +80,16 @@
             const defaultLang = i18n.getUserDefaultLang;
             const format = new Format();
 
+            // Basic function to allow row onClick events to highlight the selected row.
+            // This allows a user to easily see where they are on wide rows or mobile devices.
+            // Based on DataFormJS [clickToHighlight] Plugin: [js/plugins/clickToHighlight.js]
+            function toogleHighlight(e) {
+                if (e.target.nodeName === 'A') {
+                    return;
+                }
+                e.currentTarget.classList.toggle('highlight');
+            }
+
             function ShowLoading() {
                 return <h3>{i18n.text('Loading...')}</h3>;
             }
@@ -121,7 +131,7 @@
                                 <tbody>
                                     {props.data && props.data.countries && props.data.countries.map(country => {
                                         return (
-                                            <tr key={country.iso}>
+                                            <tr key={country.iso} onClick={toogleHighlight} className="pointer">
                                                 <td><Link to={'/' + props.params.lang + '/regions/' + country.iso}>{country.iso}</Link></td>
                                                 <td>
                                                     <i class={country.iso.toLowerCase() + ' flag'}></i>

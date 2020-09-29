@@ -9,7 +9,7 @@
 
         <div v-if="hasError" class="error">{{ errorMessage }}</div>
         <div class="responsive-table">
-            <table v-if="isLoaded">
+            <table v-if="isLoaded" class="click-to-highlight">
                 <thead>
                     <tr>
                         <th v-for="column in columns" v-i18n="column"></th>

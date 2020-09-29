@@ -14,7 +14,7 @@
     <has-error>
         <span class="error" data-bind="errorMessage"></span>
     </has-error>
-    <is-loaded>
+    <is-loaded class="flex-col">
         <input
             is="input-filter"
             filter-selector="table"
@@ -23,6 +23,7 @@
         <div class="responsive-table">
             <data-table
                 data-bind="regions"
+                highlight-class="highlight"
                 col-link-template="#/cities/:country_code/:admin1_code"
                 columns="admin1_code, name, population, timezone, modification_date"
                 labels="Code, Name, Population, Timezone, Date Last Modified"

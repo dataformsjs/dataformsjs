@@ -43,7 +43,7 @@
                         <has-error>
                             <span class="error" data-bind="errorMessage"></span>
                         </has-error>
-                        <is-loaded>
+                        <is-loaded class="flex-col">
                             <input
                                 is="input-filter"
                                 filter-selector="table"
@@ -59,6 +59,7 @@
                                 -->
                                 <data-table
                                     data-bind="countries"
+                                    highlight-class="highlight"
                                     col-link-template="#/regions/:iso"
                                     labels="Code, Name, Size (KM), Population, Continent"
                                     table-attr="is=sortable-table,
@@ -83,7 +84,8 @@
         <!-- DataFormsJS Web Components -->
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/url-hash-router.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/json-data.min.js"></script>
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/data-table.min.js"></script>
+        <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/data-table.min.js"></script> -->
+        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/data-table.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/input-filter.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/sortable-table.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/data-list.min.js"></script>
@@ -212,9 +214,9 @@
                 return new Intl.DateTimeFormat(navigator.language).format(date);
             }
 
-            // The city page contains several number items that can be updated using
-            // the user's local number format. Example:
-            //   '123456' => '123,456' for 'en-US'.
+            // The city page contains elements for formatting (numbers, dates, elevation).
+            // In the Handlebars, Vue, and React demos they are updated through templating functions
+            // but for this demo they are updated from JavaScript after the content has loaded.
             async function updateTextFormats() {
                 // Wait untill all web components are setup
                 await componentsAreSetup();
@@ -234,6 +236,15 @@
                     if (value) {
                         el.setAttribute('data-value', value);
                         el.textContent = formatDate(value);
+                    }
+                }
+                const elevationElements = document.querySelectorAll('.format-elevation');
+                for (const el of elevationElements) {
+                    const value = parseInt(el.textContent, 10);
+                    if (Number.isInteger(value)) {
+                        const displayValue = `${value} m / ${parseInt(value * 3.28084, 10)} '`;
+                        el.setAttribute('data-value', value);
+                        el.textContent = displayValue;
                     }
                 }
             }
@@ -285,11 +296,8 @@
                 }
                 const updateColLen = updateCols.length;
 
-                // Add flags to all rows
-                const tableRows = table.tBodies[0].rows;
-                const rowCount = tableRows.length;
-                for (let x = 0; x < rowCount; x++) {
-                    const row = tableRows[x];
+                // Process all rows
+                for (const row of table.tBodies[0].rows) {
                     // Add Flag
                     const iso = (pageIso ? pageIso : row.cells[0].textContent.trim().toLowerCase());
                     const flag = document.createElement('i');

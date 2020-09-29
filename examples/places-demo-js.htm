@@ -56,7 +56,7 @@
 
                 <div class="responsive-table">
                     <data-table
-                        class="countries"
+                        class="countries click-to-highlight"
                         data-source="countries"
                         data-labels="Code, Name, Size (KM), Population, Continent"
                         data-i18n-attr="data-labels"
@@ -107,6 +107,8 @@
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/filter.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/sort.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/dataBind.min.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/clickToHighlight.min.js"></script> -->
+        <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/clickToHighlight.min.js"></script>
         <script>
             // Lazy Load the following scripts only if needed based on attribute [data-lazy-load].
             // When scripts need to be downloaded in a specific order then use an array otherwise
@@ -232,11 +234,13 @@
                 }
             });
 
-            // Date and Number formatting
+            // Date, Number, and Elevation formatting.
+            // In the Handlebars, Vue, and React demos they are updated through templating functions
+            // but for this demo they are updated from this custom plugin.
             app.addPlugin('textFormatting', function() {
                 var elements = document.querySelectorAll('.format-number');
                 Array.prototype.forEach.call(elements, function(el) {
-                    const value = el.textContent;
+                    var value = el.textContent;
                     if (value && !isNaN(parseFloat(value))) {
                         el.setAttribute('data-value', value);
                         el.textContent = Number(value).toLocaleString();
@@ -244,10 +248,19 @@
                 });
                 elements = document.querySelectorAll('.format-date');
                 Array.prototype.forEach.call(elements, function(el) {
-                    const value = el.textContent;
+                    var value = el.textContent;
                     if (value) {
                         el.setAttribute('data-value', value);
                         el.textContent = formatDate(value);
+                    }
+                });
+                elements = document.querySelectorAll('.format-elevation');
+                Array.prototype.forEach.call(elements, function(el) {
+                    var value = parseInt(el.textContent, 10);
+                    if (Number.isInteger(value)) {
+                        var displayValue = value + ' m / ' + parseInt(value * 3.28084, 10) + " '";
+                        el.setAttribute('data-value', value);
+                        el.textContent = displayValue;
                     }
                 });
             });

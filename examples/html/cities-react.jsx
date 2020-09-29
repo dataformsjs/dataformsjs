@@ -77,7 +77,7 @@ export function ShowCities(props) {
                     <tbody>
                         {props.data.cities.map(city => {
                             return (
-                                <tr key={city.geonames_id}>
+                                <tr key={city.geonames_id} onClick={toogleHighlight} className="pointer">
                                     <td>
                                         <i class={props.params.country.toLowerCase() + ' flag'}></i>
                                         <Link to={'/' + props.params.lang + '/city/' + city.geonames_id}>{city.name}</Link>

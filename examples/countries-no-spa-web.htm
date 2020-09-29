@@ -26,7 +26,7 @@
             <has-error>
                 <span class="error" data-bind="errorMessage"></span>
             </has-error>
-            <is-loaded>
+            <is-loaded class="flex-col">
                 <input
                     is="input-filter"
                     filter-selector="table"
@@ -40,6 +40,7 @@
                 <div class="responsive-table">
                     <data-table
                         data-bind="countries"
+                        highlight-class="highlight"
                         labels="Code, Name, Size (KM), Population, Continent"
                         table-attr="is=sortable-table,
                                     data-sort-class-odd=row-odd,
@@ -53,7 +54,8 @@
     <!-- DataFormsJS Web Components -->
     <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/url-hash-router.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/json-data.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/data-table.min.js"></script>
+    <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/data-table.min.js"></script> -->
+    <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/data-table.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/input-filter.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/web-components/sortable-table.min.js"></script>
 
@@ -72,14 +74,15 @@
             // [contentReady === true] can happen on the first page load if the
             // data loads very fast - (before <script type="module"> finished loading).
             if (jsonData.contentReady) {
-                showTableImages();
+                updateTableContent();
             } else {
-                jsonData.addEventListener('contentReady', showTableImages);
+                jsonData.addEventListener('contentReady', updateTableContent);
             }
         }
 
-        // Add Flag Images to the <table> once it has been rendered.
-        async function showTableImages() {
+        // Add Flag Images to the <table> once it has been rendered
+        // and format Number Columns in User's local number format.
+        async function updateTableContent() {
             // Wait till all web components are setup
             await componentsAreSetup();
 
@@ -89,15 +92,34 @@
                 return;
             }
 
-            // Add flags to all rows
-            const tableRows = table.tBodies[0].rows;
-            const rowCount = tableRows.length;
-            for (let x = 0; x < rowCount; x++) {
-                const row = tableRows[x];
+            // Find Number and Date Columns so the data can be formatted
+            const updateCols = [];
+            const cells = table.tHead.rows[0].cells;
+            const colCount = cells.length;
+            for (let x = 0; x < colCount; x++) {
+                switch (cells[x].textContent) {
+                    case 'Size (KM)':
+                    case 'Population':
+                        updateCols.push(x);
+                        break;
+                }
+            }
+            const updateColLen = updateCols.length;
+
+            // Process all rows
+            for (const row of table.tBodies[0].rows) {
+                // Add flag to row
                 const iso = row.cells[0].textContent.trim().toLowerCase();
                 const flag = document.createElement('i');
                 flag.className = iso + ' flag';
                 row.cells[1].insertAdjacentElement('afterbegin', flag);
+
+                // Format Numbers
+                for (let y = 0; y < updateColLen; y++) {
+                    const numValue = row.cells[updateCols[y]].textContent;
+                    row.cells[updateCols[y]].setAttribute('data-value', numValue); // Value for Sorting
+                    row.cells[updateCols[y]].textContent = Number(numValue).toLocaleString(); // Value for Display
+                }
             }
         }
     </script>

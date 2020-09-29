@@ -70,7 +70,7 @@
         data-page="jsonData"
         data-url="https://www.dataformsjs.com/data/ai-ml/sample-training-data/pima-indians-diabetes"
         data-load-only-once="true"
-        data-lazy-load="jsonData"
+        data-lazy-load="jsonData, clickToHighlight"
         src="html/binary-training-vue.htm"
         data-columns
         data-records>
@@ -103,6 +103,8 @@
                 './binary-classification.js',
             ],
             jsonData: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/pages/jsonData.min.js',
+            // clickToHighlight: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/clickToHighlight.min.js',
+            clickToHighlight: 'https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/clickToHighlight.min.js',
             // Currently this is not used, if adding back then also update:
             //     [data-lazy-load="binaryPredictionPage, vueDirectives"]
             //

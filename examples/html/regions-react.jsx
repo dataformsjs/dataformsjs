@@ -84,7 +84,7 @@ export function ShowRegions(props) {
                     <tbody>
                         {props.data.regions.map(region => {
                             return (
-                                <tr key={region.admin1_code}>
+                                <tr key={region.admin1_code} onClick={toogleHighlight} className="pointer">
                                     <td><Link to={'/' + props.params.lang + '/cities/' + props.params.country + '/' + region.admin1_code}>{region.admin1_code}</Link></td>
                                     <td>
                                         <i class={props.params.country.toLowerCase() + ' flag'}></i>

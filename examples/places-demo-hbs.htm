@@ -72,7 +72,7 @@
                     placeholder="{{i18n 'Enter filter, example \'North America\''}}">
 
                 <div class="responsive-table">
-                    <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even">
+                    <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even" class="click-to-highlight">
                         <thead>
                             <tr>
                                 <th>{{i18n 'Code'}}</th>
@@ -162,6 +162,8 @@
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/i18n.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/filter.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/sort.min.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.5.5/js/plugins/clickToHighlight.min.js"></script> -->
+        <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/clickToHighlight.min.js"></script>
         <script>
             // Lazy Load the following scripts only if needed based on attribute [data-lazy-load].
             // When scripts need to be downloaded in a specific order then use an array otherwise

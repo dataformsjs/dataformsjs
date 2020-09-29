@@ -17,7 +17,7 @@
     <has-error>
         <span class="error" data-bind="errorMessage"></span>
     </has-error>
-    <is-loaded>
+    <is-loaded class="flex-col">
         <input
             is="input-filter"
             filter-selector="table"
@@ -26,6 +26,7 @@
         <div class="responsive-table">
             <data-table
                 data-bind="cities"
+                highlight-class="highlight"
                 col-link-template="#/city/:geonames_id"
                 columns="geonames_id, name, population, elevation, timezone, modification_date"
                 labels="Id, Name, Population, Elevation, Timezone, Date Last Modified"

@@ -41,6 +41,13 @@
     <script type="text/babel">
         const format = new Format();
 
+        function toogleHighlight(e) {
+            if (e.target.nodeName === 'A') {
+                return;
+            }
+            e.currentTarget.classList.toggle('highlight');
+        }
+
         function ShowLoading() {
             return <h3 className="loading">Loading...</h3>;
         }
@@ -77,7 +84,7 @@
                             <tbody>
                                 {props.data && props.data.countries && props.data.countries.map(country => {
                                     return (
-                                        <tr key={country.iso}>
+                                        <tr key={country.iso} onClick={toogleHighlight} className="pointer">
                                             <td>{country.iso}</td>
                                             <td>
                                                 <i class={country.iso.toLowerCase() + ' flag'}></i>
