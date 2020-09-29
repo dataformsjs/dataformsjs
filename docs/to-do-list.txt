@@ -406,6 +406,14 @@ TODO List
     - Allow users to define text results such as "{count} Records matched [{value}]"
     - Need ability to handle multiple languages
 
+*) dataformsjs\js\plugins\codemirror.js
+    - Create a demo page (both Vue and Handlebars)
+    - This would likely include a web service that returns different example code in multiple languages from the server
+    - Possibly add an options to save changes automatically from the textarea. Example:
+        app.plugins.codemirror.saveEditsAutomatically = true;
+    - The option could be setup to be `true` by default. That would change the behavior of the plugin,
+        however in general this plugin would likely be used as a template plugin anyways.
+
 *) todomvc Example
     - Possibly publish it as a seperate Repository with notes on how to copy?
     - Or keep core files with notes on how to install?

@@ -1,9 +1,40 @@
 /**
  * DataFormsJS Plugin to setup CodeMirror editors. CodeMirror has a large number
- * of options and addons so if you use CodeMirror and your needed are different
- * that this file then copy and use this as a starting point for your site.
- * 
+ * of options and addons so if you use CodeMirror and your app needs are different
+ * than this file then copy and use this as a starting point for your site.
+ *
+ * This plugin doesn't automatically save changes back to the <textarea> so it's
+ * up to the app logic to handle changes; in many cases simply by calling
+ * `app.plugins.codemirror.save();`.
+ *
  * @link https://codemirror.net
+ *
+ * -----------------------------------------------------------------------------------------
+ * Example Usage:
+ * -----------------------------------------------------------------------------------------
+ *     // Define from HTML:
+ *     <textarea rows="10" style="width:90%;" class="codemirror" data-lang="htmlmixed"></textarea>
+ *
+ *     // Save all changes from CodeMirror editors back to plain <textarea> elements
+ *     app.plugins.codemirror.save();
+ *
+ *     // Manually load new CodeMirror editors from textareas:
+ *     app.plugins.codemirror.onRendered();
+ *
+ *     // Monitor edits from Codemirror and save back to the original textarea
+ *     app.plugins.codemirror.onChange(function (cm) {
+ *         cm.save();
+ *         // App Logic
+ *     });
+ *
+ *     // Append a new line of code from the app to an editor:
+ *     var newCode = '...';
+ *     var editor = app.plugins.codemirror.cm_objects[0];
+ *     editor.replaceRange((editor.getValue() === "" ? "" : "\n") + newCode, CodeMirror.Pos(editor.lastLine()));
+ *
+ *     // Convert all CodeMirror Editors back to plain <textarea> elements
+ *     app.plugins.codemirror.toTextArea();
+ * -----------------------------------------------------------------------------------------
  */
 
 /* Validates with both [jshint] and [eslint] */
@@ -57,12 +88,13 @@
         },
 
         // Create Codemirror editors after a page has rendered
-        onRendered: function () {
+        onRendered: function (rootElement) {
             // Reset
             this.cm_objects = [];
 
             // Update each codemirror textarea
-            Array.prototype.forEach.call(document.querySelectorAll('textarea.codemirror'), function (textarea) {
+            var textareas = (rootElement || document).querySelectorAll('textarea.codemirror');
+            Array.prototype.forEach.call(textareas, function (textarea) {
                 var mode = textarea.getAttribute('data-mode');
 
                 var options = {
@@ -72,7 +104,8 @@
                     indentUnit: 4,
                     indentWithTabs: false,
                 };
-        
+
+                // Include linting for JavaScript (requires jshint)
                 if (mode === 'text/javascript') {
                     options.gutters = ['CodeMirror-lint-markers'];
                     options.lint = true;
@@ -81,7 +114,7 @@
                 codemirrorPlugin.cm_objects.push(CodeMirror.fromTextArea(textarea, options));
             });
 
-            // If the controller defined a onchange event 
+            // If the controller defined a onchange event
             // before the controls were created then call it now
             if (this.onChangeEvent !== null && this.cm_objects.length > 0) {
                 this.onChange(this.onChangeEvent);
