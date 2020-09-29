@@ -32,6 +32,16 @@ TODO List
     - Many example pages and the main site currently have mixed npm version and pre-release scripts,
         later all will run the npm version from jsdelivr
 
+**) Web Site quick reference updates
+    - https://www.dataformsjs.com/en/quick-reference
+    - Remove duplicate code from each language file that copied the english file:
+        website\app_data\example-code\quick-reference-en.htm
+        website\app_data\example-code\quick-reference-*.htm
+        website\app\Models\ExampleCode.php
+    - This will require adding a unique "key" to each section, reading the english
+        file first then the other language to overwrite "keys" that match. Currently
+        all code is duplicated many times in some files but still in english.
+
 **) Playground Site
     - Need to add support for JSON file/resource type
     - Add liniting for React/JSX, Babel recently started doing this online in the REPL:
@@ -153,6 +163,10 @@ TODO List
         more sense for a Framework or React code.
         ** In general this applies to any comments in this file related to Web Components **
     - <json-data>
+        - Add support on <is-loading> for new [template-selector] attribute
+            It would work similar to the <data-List> control to render the model with JavaScript template literal string:
+                const tmpl = new Function('data', 'render', 'with(data){return render`' + template.innerHTML + '`}');
+            If using this [data-bind] would likely not need to be called.
         - Add support for custom Request Headers.
         - For how the standard Framework handles this see code related to [app.settings.requestHeaders].
         - React <JsonData> uses props
