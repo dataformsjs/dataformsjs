@@ -100,6 +100,10 @@ Overall the core Framework files and API are expected to remain stable however t
     * React Class `Format.date()` - `js/react/es6/Format.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/react/es6/Format.js
     * Handlebars Helper `formatDate` - `js/extensions/handlebars-helpers.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/extensions/handlebars-helpers.js
     * Vue Directive `v-format-date` - `js/extensions/vue-directives.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/extensions/vue-directives.js
+* Click To Highligh Plugin and Related Updates
+  * `js/plugins/clickToHighlight.js` - Prevent highlight changes when a `<a>` element is clicked. The reason is because it causes a quick flash of the highlighted style on the row before the page changes. Since the user is clicking to another page rather than highlighting a row the style change is not desired.
+  * `js/web-components/data-table.js` - Added similar functionality using new attribute `highlight-class`.
+  * React Places Demos have been updated with similar functionality using basic JavaScript functions.
 * Updated Places Demo App for Web Components and plain JavaScript version to include custom JS code on the main page to show how Date and Number formatting can be handled
   * https://www.dataformsjs.com/examples/places-demo-web.htm
   * https://www.dataformsjs.com/examples/places-demo-js.htm

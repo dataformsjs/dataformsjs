@@ -25,6 +25,13 @@ shadowTmpl.innerHTML = `
     <slot></slot>
 `;
 
+function toggleHighlight(e) {
+    if (e.target.nodeName === 'A') {
+        return;
+    }
+    this.classList.toggle('highlight');
+}
+
 class DataTable extends HTMLElement {
     constructor() {
         super();
@@ -38,16 +45,17 @@ class DataTable extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ['col-link-template', 'col-link-fields', 'columns', 'labels', 'table-attr'];
+        return ['col-link-template', 'col-link-fields', 'columns', 'labels', 'table-attr', 'highlight-class'];
     }
 
-    attributeChangedCallback(attr, oldVal, /* newVal */) {
+    attributeChangedCallback(attr, oldVal /* , newVal */) {
         switch (attr) {
             case 'col-link-template':
             case 'col-link-fields':
             case 'columns':
             case 'labels':
             case 'table-attr':
+            case 'highlight-class':
                 if (oldVal !== null || this.state.hasBeenLoaded) {
                     this.renderTable();
                 }
@@ -162,6 +170,18 @@ class DataTable extends HTMLElement {
         }
         html.push('</tbody></table>');
         this.innerHTML = html.join('');
+
+        // Allow user to highlight rows by clicking on them?
+        // This allows a user to easily see where they are on wide rows or mobile devices.
+        // Based on DataFormJS [clickToHighlight] Plugin: [js/plugins/clickToHighlight.js]
+        const highlightClass = this.getAttribute('highlight-class');
+        if (highlightClass) {
+            const rows = this.querySelectorAll('tbody tr');
+            for (const row of rows) {
+                row.style.cursor = 'pointer';
+                row.addEventListener('click', toggleHighlight);
+            }
+        }
 
         // Remove this attribute after the first time a table is rendered
         this.removeAttribute('not-setup');
