@@ -65,15 +65,15 @@
     <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.6/dist/handlebars.min.js"></script>
 
     <!-- DataFormsJS Handlebars Helpers -->
-    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.6.1/js/extensions/handlebars-helpers.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.6.2/js/extensions/handlebars-helpers.min.js"></script>
 
     <!--
         DataFormsJS
         https://www.dataformsjs.com
     -->
-    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.6.1/js/DataFormsJS.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.6.1/js/plugins/i18n.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.6.1/js/plugins/navLinks.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.6.2/js/DataFormsJS.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.6.2/js/plugins/i18n.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.6.2/js/plugins/navLinks.min.js"></script>
     <script>
         // Files 'entryForm.js' and 'binary-classification.js' uses [Object.assign] which isn't available from IE
         // by default. It gets loaded as a polyfill from [DataFormsJS.js] once the page is ready.
@@ -81,12 +81,12 @@
         // to run first.
         app.lazyLoad = {
             binaryPredictionPage: [
-                'https://cdn.jsdelivr.net/npm/dataformsjs@4.6.1/js/pages/jsonData.min.js',
-                'https://cdn.jsdelivr.net/npm/dataformsjs@4.6.1/js/pages/entryForm.min.js',
+                'https://cdn.jsdelivr.net/npm/dataformsjs@4.6.2/js/pages/jsonData.min.js',
+                'https://cdn.jsdelivr.net/npm/dataformsjs@4.6.2/js/pages/entryForm.min.js',
                 './binary-classification.js',
             ],
-            jsonData: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.6.1/js/pages/jsonData.min.js',
-            clickToHighlight: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.6.1/js/plugins/clickToHighlight.min.js',
+            jsonData: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.6.2/js/pages/jsonData.min.js',
+            clickToHighlight: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.6.2/js/plugins/clickToHighlight.min.js',
         }
     </script>
 </body>
