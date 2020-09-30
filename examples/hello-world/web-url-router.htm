@@ -9,7 +9,7 @@
     </head>
     <body>
         <div id="view"></div>
-        
+
         <!--
             Hidden file for developer testing of the <url-router> and <url-route> Web Components.
 
@@ -19,9 +19,13 @@
 
             This file works unless the user refresh on the Hello {Name} page because that would result
             in a 404 errors since the server is not setup to handle child routes on this page.
+
+            URL's to run (locally and on the main server):
+            http://127.0.0.1:8080/examples/hello-world/en/web-url-router.htm
+            https://www.dataformsjs.com/examples/hello-world/en/web-url-router.htm
         -->
         <url-router view-selector="#view">
-                    
+
             <url-route path="/examples/hello-world/{{lang}}/web-url-router.htm" default-route>
                 <template>
                     <h1>{{hello_world}}</h1>
@@ -48,9 +52,9 @@
                 path="/examples/hello-world/{{lang}}/web-url-router.htm/redirect/test"
                 redirect="/examples/hello-world/{{lang}}/web-url-router.htm/Redirected" />
         </url-router>
-        
+
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.6.0/js/web-components/url-router.min.js"></script>
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.6.0/js/web-components/safari-nomodule.min.js"></script>
-        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.6.0/js/web-components/old-browser-warning.min.js"></script>        
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.6.0/js/web-components/old-browser-warning.min.js"></script>
     </body>
 </html>

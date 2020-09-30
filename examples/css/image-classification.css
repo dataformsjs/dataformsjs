@@ -87,6 +87,8 @@ input[type='text'] {
     border:none;
     box-shadow: var(--shadow);
     outline: 0;
+    /* For Safari on iOS */
+    -webkit-appearance: none;
 }
 @media (min-width: 400px) {
     input[type='text'] { width:300px; }

@@ -124,7 +124,7 @@ function setView(router, view, html, urlParams) {
 
     // When using the HTML5 History API update links that start with <a href="/...">
     // and do not include the [data-no-pushstate] attribute to use [window.history.pushState].
-    const links = document.querySelectorAll('a[href^="/"]:not([data-no-pushstate]');
+    const links = document.querySelectorAll('a[href^="/"]:not([data-no-pushstate])');
     for (const link of links) {
         link.addEventListener('click', (e) => {
             // Ignore if user is holding the [ctrl] key so that
@@ -173,27 +173,6 @@ class UrlRouter extends HTMLElement {
     get currentRoute() {
         return this._currentRoute;
     }
-
-    // get rootUrl() {
-    //     const rootUrl = document.documentElement.getAttribute('data-root-url');
-    //     if (rootUrl === null) {
-    //         showErrorAlert('Missing Attribute <html data-root-url="{root_url}>');
-    //         return null;
-    //     }
-    //     return rootUrl;
-    // }
-
-    // get path() {
-    //     const rootUrl = this.rootUrl;
-    //     if (rootUrl === null) {
-    //         return null;
-    //     } else if (window.location.href.indexOf(rootUrl) !== 0) {
-    //         showErrorAlert('Unknown path for <url-router>');
-    //         return null;
-    //     }
-    //     const path = window.location.href.substr(rootUrl.length);
-    //     return path;
-    // }
 
     /**
      * Called when the element is added to the page

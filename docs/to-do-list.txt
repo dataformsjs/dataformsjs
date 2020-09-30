@@ -22,11 +22,6 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Finish testing all updates after latest NPM release on 2020-09-29
-    - Currently testing React Playground updates for lazy-load scripts
-    - Test all recently updates pages in multiple browsers and devices
-    - Additional info and help topics will be made to the image gallery pages
-
 **) Web Site quick reference updates
     - https://www.dataformsjs.com/en/quick-reference
     - Remove duplicate code from each language file that copied the english file:

@@ -279,6 +279,51 @@ Additionally the below snippet shows that `{children}` can be used instead of th
 </LazyLoad>
 ```
 
+In general using `<LazyLoad>` is recommended when all JSX is linked from multiple external files and one file depends on another.
+
+```html
+<!--
+    For example if [data-page.jsx] first requires [app.jsx] to be loaded
+    using this might cause an error on some page loads if [app.jsx] is
+    downloaded and compiled before [data-page.jsx].
+ -->
+<script type="text/babel" src="data-page.jsx"></script>
+<script type="text/babel" src="app.jsx"></script>
+
+<!--
+    One solution would be to embed the [app.jsx] file in the main HTML page
+    because embedded code is compiled after all downloaded scripts.
+-->
+<script type="text/babel" src="data-page.jsx"></script>
+<script type="text/babel">
+    function App() {
+        return <DataPage />
+    }
+
+    ReactDOM.render(
+        <App />,
+        document.getElementById('root')
+    );
+</script>
+
+<!--
+    The other solution is to use <LazyLoad> from [app.jsx].
+    This example is from the DataFormsJS Playground.
+-->
+<script type="text/babel">
+    function LazyLoadDataPage(props) {
+        return (
+            <LazyLoad
+                scripts="data-react.jsx"
+                isLoading={<ShowLoading />}
+                isLoaded="ShowCountries"
+                data={props.data}
+                params={props.params} />
+        );
+    }
+</script>
+```
+
 ## Advanced Usage and Internals :microscope:
 
 You can [view the code here](https://github.com/dataformsjs/dataformsjs/blob/master/js/react/jsxLoader.js)! All code is in a single file and includes many helpfull comments to allow for understanding of how it works.

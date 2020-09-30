@@ -39,10 +39,10 @@ shadowTmpl.innerHTML = `
 
 /**
  * Private function to download route templates from the [src] attribute.
- * 
+ *
  * @param {UrlHashRouter} router
  * @param {HTMLElement} view
- * @param {UrlHashRoute} route 
+ * @param {UrlHashRoute} route
  * @param {object} urlParams
  */
 function downloadTemplate(router, view, route, urlParams) {
@@ -84,10 +84,10 @@ function downloadTemplate(router, view, route, urlParams) {
 
 /**
  * Private function called when the route changes
- * 
+ *
  * @param {UrlHashRouter} router
  * @param {HTMLElement} view
- * @param {string} html 
+ * @param {string} html
  * @param {object} urlParams
  */
 function setView(router, view, html, urlParams) {
@@ -104,12 +104,12 @@ function setView(router, view, html, urlParams) {
     // Update value/textContent for all elements with [url-param] attribute
     elements = view.querySelectorAll('[url-param]');
     for (const element of elements) {
-        const field = element.getAttribute('url-param'); 
+        const field = element.getAttribute('url-param');
         const value = (urlParams[field] === undefined ? '' : urlParams[field]);
         setElementText(element, value);
     }
 
-    // Update all elements with the [url-attr-param] attribute. 
+    // Update all elements with the [url-attr-param] attribute.
     // This will typically be used to replace <a href> and other
     // attributes with values from the URL.
     elements = view.querySelectorAll('[url-attr-param]');
@@ -232,17 +232,17 @@ class UrlHashRouter extends HTMLElement {
 
     /**
      * Check if a Route path is a match to a specified URL hash.
-     * 
+     *
      * Examples:
      *     routeMatches('/page1', '/page2')
      *         returns { isMatch:false }
-     * 
+     *
      *     routeMatches('/orders/edit/123', '/:record/:view/:id')
      *         returns {
      *             isMatch: true,
      *             urlParams: { record:'orders', view:'edit', id:'123' }
      *         }
-     * 
+     *
      * @param {string} path The URL hash to compare against
      * @param {string} routePath The route, dynamic values are prefixed with ':'
      * @return {object}
@@ -281,7 +281,7 @@ class UrlHashRouter extends HTMLElement {
 
     /**
      * Show an error in the element. This is used for fatal errors related to setup.
-     * @param {string} message 
+     * @param {string} message
      */
     showFatalError(message) {
         this.style.display = 'block';
@@ -305,7 +305,7 @@ class UrlHashRoute extends HTMLElement {
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
     }
-    
+
     get path() {
         return this.getAttribute('path');
     }

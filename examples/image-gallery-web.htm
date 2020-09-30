@@ -26,6 +26,7 @@
                 <li>Displays [title] of the image with Index by default. If [title] is not included and a child &#x3C;img&#x3E; element with an [alt] attribute is used then the [alt] text will be used as the overlay title.</li>
                 <li>Displays a loading indicator if an image takes longer than 2 seconds to load. The text and timeout can be changed by setting attributes [loading-text] and [loading-timeout].</li>
                 <li>Supports next-gen image formats AVIF and WebP by using optional attributes [image-avif] and [image-webp]. When using next-gen image formats a default/fallback [image] must be included similar to how the HTML &lt;picture&gt; element works.</li>
+                <li>Image loading is optimized so that large images are loaded only when viewed and the previous and next images preloaded while the user is viewing the focused image.</li>
                 <li>Overlay style and layout can easily changed with CSS.</li>
                 <li>The code is designed to be small and easy to modify so that it can be easily copied and extended or changed as part of a custom app.</li>
                 <li>Because this is a Web Component it only works with modern Browsers. For support with IE or old Mobile Devices use the standard DataFormsJS Framework or the React Version.</li>

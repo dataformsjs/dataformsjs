@@ -4,6 +4,15 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 4.6.1 (September 30, 2020)
+
+* `js/plugins/filter.js` - Previous release included improved filter for `<select>` and `<textarea>` but did not include them on the optimization check if `<input>` was missing.
+* `js/web-components/url-router.js` - Removed old commented out functions that were never used but accidently left in code. Fix invalid query selector `a[href^="/"]:not([data-no-pushstate])` that was missing that last `)`. This didn't cause an error on any tested browsers. It would cause an error on IE or older iOS/Safari however those browsers don't support Web Components anyways.
+* Additionally the JSX Loader Docs have been updated with additional info on using `<LazyLoad>`
+  * https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
+  * https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.pt-BR.md
+  * https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.zh-CN.md
+
 ## 4.6.0 (September 29, 2020)
 
 ### Release Overview

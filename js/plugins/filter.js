@@ -79,7 +79,7 @@
                 operator: element.getAttribute('data-filter-operator'),
                 filterValue: element.getAttribute('data-filter-value'),
                 filterWords: [],
-                containsInputs: (itemsSelector && document.querySelector(itemsSelector + ' input') !== null),
+                containsInputs: (itemsSelector && document.querySelector(itemsSelector + ' input, ' + itemsSelector + ' select, ' + itemsSelector + ' textarea') !== null),
             };
 
         // Log and show errors
