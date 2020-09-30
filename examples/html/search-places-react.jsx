@@ -15,7 +15,7 @@ export function PageSearch({match}) {
     //
     // `loadScriptsInOrder = true` is used for [chosen] because [jquery.js]
     // must be included before [chosen.js] and [countries-chosen.css] must
-    // be loaded after [chosen.css].
+    // be loaded after [chosen.css]. Same issues apply for [React-Select].
     //
     // By default <LazyLoad> will download all scripts at the same time.
     //
@@ -30,7 +30,7 @@ export function PageSearch({match}) {
             'css/countries-chosen.css',
         ];
     } else {
-        loadScriptsInOrder = false;
+        loadScriptsInOrder = true;
         scripts = [
             'https://cdn.jsdelivr.net/npm/emotion@9.2.12/dist/emotion.umd.min.js',
             'https://unpkg.com/prop-types@15.5.10/prop-types.min.js',
