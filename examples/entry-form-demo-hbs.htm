@@ -68,7 +68,16 @@
         <!--
             When using [data-page="entryForm"]
             with [data-new-record="true"] the attribute [data-url]
-            is optional. It it used here to populate the drop-down list
+            is optional. It it used here to populate the drop-down list.
+
+            When using [data-save-url] the default value of [data-use-save-api="true"] is used.
+            By default a response of {success:true} and optionally {fields} are expected.
+            When [data-use-save-api="false"] any 200 response with JSON will be considered a valid
+            and the model will be updated with any returned data from the JSON response.
+
+            For a detailed comparison of the differences search the examples for "data-use-save-api"
+            and then use DevTools to view the how Web Services are submitted on Save. Another demo
+            [binary-classification-vue.htm] shows how [data-use-save-api="false"] is used.
         -->
         <script
             type="text/x-template"
