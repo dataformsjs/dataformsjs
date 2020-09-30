@@ -22,16 +22,6 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Finish Current Updates (2020-09-28)
-    - All updates will likely be published to npm later this week
-    - See [CHANGELOG.md] for all changes
-    - Most updates are minor however there are many updates made, particullarly
-        for Vue support with the Entry Form demo and full testing of the new Vue 3.0.0 release
-    - Additionaly the image gallery code contains a number of updates
-    - Additional mobile layout for places demo and other example pages will be made before the next update
-    - Many example pages and the main site currently have mixed npm version and pre-release scripts,
-        later all will run the npm version from jsdelivr
-
 **) Web Site quick reference updates
     - https://www.dataformsjs.com/en/quick-reference
     - Remove duplicate code from each language file that copied the english file:

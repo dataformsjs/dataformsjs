@@ -4,13 +4,7 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
-## Next Release (Changes not yet published on npm)
-
-### See notes for the current updates in the `to-do-list.txt` file:
-
-* Monday Sept 28, 2020
-* https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt
-* npm release will likely happen later this week
+## 4.6.0 (September 29, 2020)
 
 ### Release Overview
 
