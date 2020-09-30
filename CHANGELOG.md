@@ -4,6 +4,12 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 4.6.2 (September 30, 2020)
+
+* `js/plugins/listEditor.js` - Bug fix where `<input type="checkbox">` or `<input type="radio">` did not track changes on some modern browsers `Samsung Internet for Android` and `UC Browser - Windows Desktop`. The reason is because `oninput` was used instead of `onchange`. Previously `onchange` was only used for `IE 11` but now it's used for all browsers on checkboxes and radio controls.
+* Fixed Local development issue (localhost only) with `UC Browser` where `https://polyfill.io` was not included in the CSP (Content Security Policy)
+  * https://github.com/dataformsjs/dataformsjs/blob/master/examples/server.js
+
 ## 4.6.1 (September 30, 2020)
 
 * `js/plugins/filter.js` - Previous release included improved filter for `<select>` and `<textarea>` but did not include them on the optimization check if `<input>` was missing.

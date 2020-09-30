@@ -100,6 +100,7 @@ app.get('/:file', (req, res, file) => {
         'https://d2xbd92kui7v97.cloudfront.net',
         'https://*.dataformsjs.com',
         'https://unpkg.com',
+        'https://polyfill.io',
         // Hashes - These can be determined from Chrome/Edge DevTools
         // "'sha256-7xY3owh8hUdTNBs11onjKib0EBNTfow+rGLO39veZHU='",
         // "'sha256-+dVYzlB/eDQj/kya4BJI/ql82f/IjfR8xcB7+TogTDY='",

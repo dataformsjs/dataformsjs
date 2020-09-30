@@ -99,8 +99,7 @@
                 y,
                 nodeName,
                 eventName,
-                type,
-                isIE = (navigator.userAgent.indexOf('Trident/') !== -1);
+                type;
 
             // Process each list item element
             for (n = 0, m = listItems.length; n < m; n++) {
@@ -121,11 +120,13 @@
 
                         // Handle when the value is changed
                         eventName = (fields[x].oninput === undefined ? 'change' : 'input');
-                        if (isIE) {
-                            type = fields[x].type;
-                            if (type === 'checkbox' || type === 'radio') {
-                                eventName = 'change';
-                            }
+                        type = fields[x].type;
+                        if (type === 'checkbox' || type === 'radio') {
+                            // As of 2020 updated modern browses (Chrome/Edge/Firefox/Safari) can handle
+                            // checkbox/radio changes from `input` however may browsers including
+                            // older modern browsers (Samsung Internet, UC Browser) and older
+                            // browsers (IE 11, old Mobile Safari) require `change`.
+                            eventName = 'change';
                         }
                         fields[x].addEventListener(eventName, listEditor.listItemValueChanged);
 
