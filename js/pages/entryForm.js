@@ -60,7 +60,7 @@
         saveUrl: null,
         deleteUrl: null,
         // This applies to [saveUrl], by default a response of {success:true} and optionally {fields}
-        // is expected. When [useSaveApi:false] any 200 response with JSON will be considered a valid
+        // are expected. When [useSaveApi:false] any 200 response with JSON will be considered a valid
         // and the model will be updated with any returned data from the JSON response.
         // To see from an attribute on the HTML route use [data-use-save-api="false"]
         useSaveApi: true,
