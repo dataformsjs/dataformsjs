@@ -22,6 +22,17 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+**) Occasional/Random Bug on React Places Demo 
+    - This previously did not happen and starting 2020-09-29 it was found to happen randomly
+    - Start at main page:
+        http://127.0.0.1:8080/places-demo-react#/en/
+    - Click to search page:
+        http://127.0.0.1:8080/places-demo-react#/en/search
+    - Sometimes it works (Chrome) and sometimes an error shows 'Select is not defined' until page refresh    
+    - The same control React-Select seems to always work in this demo when using the same CDN links:
+        https://awesome-web-react.js.org/examples/select-controls/react-select.htm
+    - Need to solve and determine if <LazyLoad> has a bug or something changed in the code that caused this
+
 **) Web Site quick reference updates
     - https://www.dataformsjs.com/en/quick-reference
     - Remove duplicate code from each language file that copied the english file:
