@@ -244,11 +244,23 @@
                         searchText = searchItem.textContent;
                     }
                     searchText = searchText.toLowerCase();
-                    inputs = (settings.containsInputs ? searchItem.querySelectorAll('input') : null);
+                    inputs = (settings.containsInputs ? searchItem.querySelectorAll('input, select, textarea') : null);
                 }
                 if (inputs !== null) {
+                    searchText = '';
                     for (n = 0, m = inputs.length; n < m; n++) {
-                        searchText += ' ' + inputs[n].value;
+                        if (inputs[n].nodeName === 'INPUT' && (inputs[n].type === 'checkbox' || inputs[n].type === 'radio')) {
+                            searchText += String(inputs[n].checked) + ' ';
+                        } else {
+                            searchText += inputs[n].value.toLowerCase() + ' ';
+                        }
+                    }
+                    if (item.nodeName === 'TR') {
+                        for (n = 0, m = item.cells.length; n < m; n++) {
+                            if (item.cells[n].querySelectorAll('input, select, textarea').length === 0) {
+                                searchText += item.cells[n].textContent.toLowerCase() + ' ';
+                            }
+                        }
                     }
                 }
 
