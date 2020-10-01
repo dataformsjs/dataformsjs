@@ -42,7 +42,7 @@
                     <li>
                         <a href="https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/image-gallery.js" target="_blank" ref="noopener">
                             <img src="./img/Unofficial_JavaScript_logo_2.svg" width="64" alt="JavaScript">
-                            <strong>JavaScript</strong>
+                            <strong>Web Component</strong>
                         </a>
                     </li>
                     <li>
@@ -95,7 +95,22 @@ Include component on page
     image-avif=&#x22;${image_avif}&#x22;
     image-webp=&#x22;${image_webp}&#x22;&#x3E;
         &#x3C;img src=&#x22;${thumbnail}&#x22; alt=&#x22;${title}&#x22; /&#x3E;
-&#x3C;/image-gallery&#x3E;</code>
+&#x3C;/image-gallery&#x3E;
+
+&#x3C;!--
+To override default styles use `!important` and specify the style
+attributes to override in any style sheet on the page or define your
+own style sheet before the component runs using id `image-gallery-css`.
+--&#x3E;
+&lt;style&gt;
+.image-gallery-overlay { background-color: black !important; }
+.image-gallery-overlay { background-color: rgba(0,0,0,.7) !important; }
+
+.image-gallery-overlay .btn-previous,
+.image-gallery-overlay .btn-next { background-color: blue !important; }
+&lt;/style&gt;
+&lt;style id=&quot;image-gallery-css&quot;&gt;...&lt;/style&gt;
+&lt;link rel=&quot;stylesheet&quot; id=&quot;image-gallery-css&quot; href=&quot;css/image-gallery.css&quot;&gt;</code>
                 </pre>
             </section>
         </div>
