@@ -4,6 +4,16 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 4.6.3 (September 30, 2020)
+
+* Image Gallery Controls
+  * Added opacity change on forward and back button hover for desktop users
+  * Reason is because the pointer cursor shows for the entire screen so having opacity change on the button hover provides better indication that the button action is different than the image or overlay.
+  * All controls updated:
+    * `js/web-components/image-gallery.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/image-gallery.js
+    * `js/plugins/imageGallery.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/imageGallery.js
+    * `js/react/es6/ImageGallery.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/react/es6/ImageGallery.js
+
 ## 4.6.2 (September 30, 2020)
 
 * `js/plugins/listEditor.js` - Bug fix where `<input type="checkbox">` or `<input type="radio">` did not track changes on some modern browsers `Samsung Internet for Android` and `UC Browser - Windows Desktop`. The reason is because `oninput` was used instead of `onchange`. Previously `onchange` was only used for `IE 11` but now it's used for all browsers on checkboxes and radio controls.

@@ -183,9 +183,15 @@ export default class ImageGallery extends React.Component {
                 margin: 15px;
                 background-color: rgba(0,0,0,.5);
                 border-radius: 50%;
+                transition: all ease-in-out .2s;
             }
             .image-gallery-overlay .btn-previous { left: 0; background-position-x: 12px; background-image: url("data:image/svg+xml;base64,${btoa(this.svgBackButton)}"); }
             .image-gallery-overlay .btn-next { right: 0; background-position-x: 15px; background-image: url("data:image/svg+xml;base64,${btoa(this.svgForwardButton)}"); }
+
+            .image-gallery-overlay .btn-previous:hover,
+            .image-gallery-overlay .btn-next:hover {
+                opacity: .5;
+            }       
 
             .image-gallery-overlay.mobile .btn-previous,
             .image-gallery-overlay.mobile .btn-next,
