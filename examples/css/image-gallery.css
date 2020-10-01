@@ -63,6 +63,7 @@ h1 { padding: 1em; }
 }
 .about ul.emoji-list li {
     display: flex;
+    margin-bottom: 10px;
 }
 .about ul.emoji-list li::before {
     content: attr(data-emoji);
