@@ -8,43 +8,52 @@
         <link rel="stylesheet" href="css/image-gallery.css">
     </head>
     <body>
-        <h1 tabindex="1">DataFormJS [imageGallery] Framework Plugin with Vue</h1>
+        <section class="page-title">
+            <h1 tabindex="1">DataFormJS [imageGallery] Framework Plugin with Vue</h1>
+        </section>
 
         <div class="about">
-            <h2 tabindex="2">Features</h2>
-            <ul>
-                <li>Shows Overlay with large Image for Thumbnails.</li>
-                <li>Minimal UI so the focus is on the Content.</li>
-                <li>
-                    <div>Easy to use from any device and fully accessible</div>
-                    <ul>
-                        <li>Handles Swipe left/right and Tap to close on Mobile Devices.</li>
-                        <li>Fully works on Desktop from Mouse. Click to open gallery and Back and Forward buttons are displayed when using a Mouse.</li>
-                        <li>Fully works from Desktop Keyboard. If using [tabindex] so thumbnails can be selected a spacebar can be used to open the gallery and Left/Right/Escape Keys can be used for navigation.</li>
-                    </ul>
-                </li>
-                <li>Displays [title] or [alt] of the image with index by default. [title] and [alt] are not required and index can be hidden through CSS if desired.</li>
-                <li>Displays a loading indicator if an image takes longer than 2 seconds to load. The text and timeout can be changed through the API.</li>
-                <li>Supports next-gen image formats AVIF and WebP by using optional attributes [image-avif] and [image-webp]. When using next-gen image formats a default/fallback [image] must be included similar to how the HTML &lt;picture&gt; element works.</li>
-                <li>Image loading is optimized so that large images are loaded only when viewed and the previous and next images preloaded while the user is viewing the focused image.</li>
-                <li>Overlay style and layout can easily changed with CSS.</li>
-                <li>Small Download - 3.2 kB when gzipped and minified.</li>
-                <li>The code exists in a single file so it's easy to copy and modify if changes or portions of it are needed as part of a custom app.</li>
-                <li>Works with all Browsers.</li>
-            </ul>
+            <section>
+                <h2 tabindex="2">Features</h2>
+                <ul class="emoji-list">
+                    <li data-emoji="🖼️">Shows Overlay with large Image for Thumbnails.</li>
+                    <li data-emoji="🎨">Minimal UI so the focus is on the Content.</li>
+                    <li data-emoji="💡">Easy to use from any device and fully accessible.</li>
+                    <li data-emoji="📱">Handles Swipe left/right and Tap to close on Mobile Devices.</li>
+                    <li data-emoji="💻">Fully works on Desktop or Laptop Computer from Mouse. Click to open gallery and Back and Forward buttons are displayed when using a Mouse.</li>
+                    <li data-emoji="⌨️">Fully works from a Keyboard. If using [tabindex] so thumbnails can be selected a spacebar can be used to open the gallery and Left/Right/Escape Keys can be used for navigation.</li>
+                    <li data-emoji="🏷️">Displays [title] or [alt] of the image with index position by default. [title] and [alt] are not required and index can be hidden through CSS if desired.</li>
+                    <li data-emoji="🕒">Displays a loading indicator if an image takes longer than 2 seconds to load. The text and timeout can be changed through the API.</li>
+                    <li data-emoji="🚀">Supports next-gen image formats AVIF and WebP by using optional attributes [image-avif] and [image-webp]. When using next-gen image formats a default/fallback [image] must be included similar to how the HTML &lt;picture&gt; element works.</li>
+                    <li data-emoji="✨">Image loading is optimized so that large images are loaded only when viewed and the previous and next images preloaded while the user is viewing the focused image.</li>
+                    <li data-emoji="🎨">Overlay style and layout can easily changed with CSS.</li>
+                    <li data-emoji="☺️">Small Download - 3.2 kB when gzipped and minified.</li>
+                    <li data-emoji="⚙️">The code exists in a single file so it's easy to copy and modify if changes or portions of it are needed as part of a custom app.</li>
+                    <li data-emoji="🌐">Works with all Browsers.</li>
+                </ul>
+            </section>
 
-            <h2 tabindex="3" class="github">
-                <img src="./img/GitHub-Mark-32px.png" alt="GitHub">
-                <span>Full Source Code</span>
-            </h2>
-            <ul>
-                <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/imageGallery.js" target="_blank" ref="noopener">JavaScript: <strong>imageGallery.js</strong></a></li>
-                <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-gallery-vue.htm" target="_blank" ref="noopener">HTML for this Page</a></li>
-            </ul>
+            <section>
+                <ul class="source-code">
+                    <li>
+                        <a href="https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/imageGallery.js" target="_blank" ref="noopener">
+                            <img src="./img/Unofficial_JavaScript_logo_2.svg" width="64" alt="JavaScript">
+                            <strong>JavaScript</strong>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-gallery-vue.htm" target="_blank" ref="noopener">
+                            <img src="./img/HTML5_Logo.svg" width="64" alt="HTML">
+                            <strong>HTML for this Page</strong>
+                        </a>
+                    </li>
+                </ul>
+            </section>
 
-            <h2 tabindex="4">Example Usage and Code</h2>
-            <pre class="language-html">
-                <code>&#x3C;!--
+            <section>
+                <h2 tabindex="4">Example Usage and Code</h2>
+                <pre class="language-html">
+                    <code>&#x3C;!--
     Include plugin [js/plugins/imageGallery.min.js]
 
     Add attribute [data-image-gallery] and optional [title] or [alt]
@@ -62,7 +71,8 @@
     v-bind:style=&#x22;&#x27;background-image: url(&#x27; + image.thumbnail + &#x27;)&#x27;&#x22;
     v-bind:data-image-gallery=&#x22;image.image&#x22;
     v-bind:title=&#x22;image.title&#x22;&#x3E;&#x3C;/div&#x3E;</code>
-            </pre>
+                </pre>
+            </section>
         </div>
 
         <json-data
@@ -109,5 +119,19 @@
             https://prismjs.com/
         -->
         <script src="https://www.dataformsjs.com/js/prism-1.17.1/prism.modified.min.js"></script>
+
+        <script>
+            // Add CSS Variable Support to IE and older Browsers
+            (function() {
+                'use strict';
+                var supportsCssVars = (window.CSS && window.CSS.supports && window.CSS.supports('(--a: 0)'));
+                var polyfillUrl = 'https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2.1.1/dist/css-vars-ponyfill.min.js';
+                app.loadScript(supportsCssVars, polyfillUrl, function() {
+                    if (window.cssVars) {
+                        cssVars({ include:'link[rel="stylesheet"][href="css/image-gallery.css"]' });
+                    }
+                });
+            })();
+        </script>
     </body>
 </html>

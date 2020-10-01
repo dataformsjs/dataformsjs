@@ -28,6 +28,7 @@ body {
     background-color: var(--bg-color);
     color: var(--font-color);
     text-align: center;
+    padding: 20px;
 }
 
 a,
@@ -35,18 +36,23 @@ a:visited { color: var(--font-color); }
 
 h1 { padding: 1em; }
 
-.about { max-width: 800px; margin:20px auto; }
+.about {
+    margin:20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .about h2 { margin-top: 1em; }
 .about ul {
     display: inline-block;
     text-align: left;
     padding: 1em;
     margin-left: 1em;
-    max-width: 500px;
+    width: calc(100% - 30px);
+    max-width: 1000px;
     line-height: 1.4em;
 }
 .about ul li { padding:.2em; }
-.about ul ul { padding:0; }
 .about ul.emoji-list {
     list-style-type: none;
     margin-left: 0;
@@ -58,16 +64,45 @@ h1 { padding: 1em; }
     content: attr(data-emoji);
     padding-right: 20px;
 }
+.about ul.source-code {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+}
+@media (min-width: 580px) {
+    .about ul.source-code {
+        flex-direction: row;
+    }
+}
+.about ul.source-code li a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.7);
+}
+.about ul.source-code li a img {
+    padding-bottom: 10px;
+}
 .about .github { display:flex; justify-content: center; }
 .about .github img { padding-right:20px; }
 
+section {
+    background-color: white;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.7);
+    margin: 20px 0;
+    padding: 0 20px;
+    max-width: calc(100vw - 60px);
+}
+section.page-title { display:inline-block; }
+
 pre[class*="language-"] { background: none; margin: 0; padding: 0 .5em; }
-code[class*="language-"] { background-color: white; overflow-x: auto; }
+code[class*="language-"] { background-color: white; }
 pre { text-align: center; }
 code {
     display: block;
     text-align: left;
-    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.7);
     padding: 20px;
 }
 
