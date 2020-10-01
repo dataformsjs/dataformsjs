@@ -29,6 +29,11 @@ body {
     color: var(--font-color);
     text-align: center;
     padding: 20px;
+    /*
+        For Mobile Safari otherwise it may adjust the [ul.emoji-list li]
+        text sizes in different sizes per list item on an iPhone
+    */
+    -webkit-text-size-adjust: none;
 }
 
 a,
@@ -47,7 +52,6 @@ h1 { padding: 1em; }
     display: inline-block;
     text-align: left;
     padding: 1em;
-    margin-left: 1em;
     width: calc(100% - 30px);
     max-width: 1000px;
     line-height: 1.4em;
@@ -55,7 +59,7 @@ h1 { padding: 1em; }
 .about ul li { padding:.2em; }
 .about ul.emoji-list {
     list-style-type: none;
-    margin-left: 0;
+    padding-bottom: 30px;
 }
 .about ul.emoji-list li {
     display: flex;
