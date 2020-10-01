@@ -47,6 +47,17 @@ h1 { padding: 1em; }
 }
 .about ul li { padding:.2em; }
 .about ul ul { padding:0; }
+.about ul.emoji-list {
+    list-style-type: none;
+    margin-left: 0;
+}
+.about ul.emoji-list li {
+    display: flex;
+}
+.about ul.emoji-list li::before {
+    content: attr(data-emoji);
+    padding-right: 20px;
+}
 .about .github { display:flex; justify-content: center; }
 .about .github img { padding-right:20px; }
 
