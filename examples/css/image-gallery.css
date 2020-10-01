@@ -39,7 +39,12 @@ body {
 a,
 a:visited { color: var(--font-color); }
 
-h1 { padding: 1em; }
+h1 {
+    padding: 1em;
+    font-size: 2em;
+    text-shadow: 1px 1px 3px rgba(0,0,0,.2);
+}
+h1 span { white-space: nowrap; }
 
 .about {
     margin:20px auto;
@@ -68,6 +73,7 @@ h1 { padding: 1em; }
 .about ul.emoji-list li::before {
     content: attr(data-emoji);
     padding-right: 20px;
+    padding-top: .1em;
 }
 .about ul.source-code {
     display: flex;
@@ -100,7 +106,16 @@ section {
     padding: 0 20px;
     max-width: calc(100vw - 60px);
 }
-section.page-title { display:inline-block; }
+section.page-title {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+}
+.page-title img {
+    border: 2px solid var(--font-color);
+    margin-bottom: 2em;
+    max-width: 100%;
+}
 
 pre[class*="language-"] { background: none; margin: 0; padding: 0 .5em; }
 code[class*="language-"] { background-color: white; }

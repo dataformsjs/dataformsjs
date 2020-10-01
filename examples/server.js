@@ -133,12 +133,16 @@ app.get('/:file', (req, res, file) => {
         'blob:',
         'http://*.openstreetmap.org',
     ];
+    const fontSrc = [
+        'https://fonts.gstatic.com/',
+    ];
     const csp = [
         "default-src 'self'",
         `script-src 'self'  ${srcScr.join(' ')}`,
         `style-src 'self' ${styleSrc.join(' ')}`,
         `img-src 'self' ${imageSrc.join(' ')}`,
         `connect-src 'self' ${connectSrc.join(' ')}`,
+        `font-src 'self' ${fontSrc.join(' ')}`,
     ].join('; ');
     res.setHeader('Content-Security-Policy', csp);
 
