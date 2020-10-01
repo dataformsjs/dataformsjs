@@ -88,9 +88,9 @@
         DataFormsJS
         https://www.dataformsjs.com
     -->
-    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.6.3/js/DataFormsJS.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.6.3/js/plugins/i18n.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.6.3/js/plugins/navLinks.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.7.0/js/DataFormsJS.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.7.0/js/plugins/i18n.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.7.0/js/plugins/navLinks.min.js"></script>
     <script>
         // Files 'entryForm.js' and 'binary-classification.js' uses [Object.assign] which isn't available from IE
         // by default. It gets loaded as a polyfill from [DataFormsJS.js] once the page is ready.
@@ -98,16 +98,16 @@
         // to run first.
         app.lazyLoad = {
             binaryPredictionPage: [
-                'https://cdn.jsdelivr.net/npm/dataformsjs@4.6.3/js/pages/jsonData.min.js',
-                'https://cdn.jsdelivr.net/npm/dataformsjs@4.6.3/js/pages/entryForm.min.js',
+                'https://cdn.jsdelivr.net/npm/dataformsjs@4.7.0/js/pages/jsonData.min.js',
+                'https://cdn.jsdelivr.net/npm/dataformsjs@4.7.0/js/pages/entryForm.min.js',
                 './binary-classification.js',
             ],
-            jsonData: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.6.3/js/pages/jsonData.min.js',
-            clickToHighlight: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.6.3/js/plugins/clickToHighlight.min.js',
+            jsonData: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.7.0/js/pages/jsonData.min.js',
+            clickToHighlight: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.7.0/js/plugins/clickToHighlight.min.js',
             // Currently this is not used, if adding back then also update:
             //     [data-lazy-load="binaryPredictionPage, vueDirectives"]
             //
-            // vueDirectives: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.6.3/js/extensions/vue-directives.min.js',
+            // vueDirectives: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.7.0/js/extensions/vue-directives.min.js',
         }
     </script>
 </body>
