@@ -338,7 +338,7 @@ function getImage(el) {
 }
 
 // Returns title to use on the overlay from either <image-gallery title="{title}">
-// or <image-gallery><img alt="{title">
+// or <image-gallery><img alt="{title}">
 function getImageTitle(el) {
     let imageTitle = el.getAttribute('title');
     if (imageTitle === null) {
