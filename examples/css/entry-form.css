@@ -34,7 +34,7 @@ input[type='checkbox'] { width: 2rem; }
     text-decoration: underline;
 }
 .jumbotron a:hover { text-decoration: none; }
-.lead { font-size: 1.1rem; }
+.lead { font-size: 1.1rem; margin-top: 1.5rem; }
 
 .table.edit-all { min-width: 1000px;}
 
