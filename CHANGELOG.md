@@ -4,6 +4,14 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 4.7.0 (October 1, 2020)
+
+* `js/plugins/clickUrlAction.js`
+  * Added actions `refresh-plugins` and `call-function`
+  * `refresh-plugins` can be used on Vue apps instead of `update-view` which only works for Handlebars and other templating engines
+  * `refresh-plugins` is used on the Vue Entry Form Demo https://www.dataformsjs.com/examples/entry-form-demo-vue.htm
+  * `call-function` is generic and allows an app to call any global JavaScript function
+
 ## 4.6.3 (September 30, 2020)
 
 * Image Gallery Controls

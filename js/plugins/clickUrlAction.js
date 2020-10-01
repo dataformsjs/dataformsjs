@@ -11,8 +11,10 @@
  *
  * Examples:
  *     <span data-click-url="{url}" data-action="reload-page">
+ *     <span data-click-url="{url}" data-action="refresh-plugins">
  *     <span data-click-url="{url}" data-action="update-view" data-request-method="POST">
  *     <span data-click-url="{url}" data-action="refresh-html-controls">
+ *     <span data-click-url="{url}" data-action="call-function" data-function="{name}">
  *
  * When using Vue [data-action] is not required and only "reload-page" is supported.
  */
@@ -48,11 +50,17 @@
             return;
         }
 
-        var usingVue = (app.activeVueModel !== null);
+        var usingVue = app.isUsingVue();
         var action = el.getAttribute('data-action');
-        var validActions = (usingVue ? ['reload-page'] : ['reload-page', 'update-view', 'refresh-html-controls']);
+        var validActions = ['reload-page', 'refresh-plugins', 'call-function'];
+        if (!usingVue) {
+            validActions.push('update-view');
+            validActions.push('refresh-html-controls');
+        }
         if (!action) {
             if (!usingVue) {
+                // Vue doesn't require an action because the HTML will be
+                // updated by an data returned from the web service.
                 app.showErrorAlert('Element with [data-click-url] is missing attribute or value for [data-action].');
                 console.log(el);
                 return;
@@ -61,6 +69,27 @@
             app.showErrorAlert('Invalid value of "' + action + '" found in [data-action]. Valid values are [' + validActions.join(', ') + '].');
             console.log(el);
             return;
+        }
+
+        // If using 'call-function' validate the a function is specified and that it exists
+        var fnName = null;
+        if (action === 'call-function') {
+            fnName = el.getAttribute('data-function');
+            if (fnName === null) {
+                app.showErrorAlert('Missing [data-function] for [data-action="call-function"]. Check DevTools Console.');
+                console.log(el);
+                return;
+            } else if (window[fnName] === undefined) {
+                app.showErrorAlert('Function [data-function="' + fnName + '"] for [data-action="call-function"] does not exist.');
+                console.log(el);
+                return;
+            } else if (typeof window[fnName] !== 'function') {
+                app.showErrorAlert('A function was specified [data-function="' + fnName + '"] for [data-action="call-function"] however the variable is a [' + (typeof window[fnName]) + '] and not a function.');
+                console.log(el);
+                console.log(fnName);
+                console.log(window[fnName])
+                return;
+            }
         }
 
         // GET, POST, etc. It's up the the developer for this to be valid based on the server.
@@ -91,6 +120,12 @@
                     // IE 11 will send a [Cache-Control: no-cache] Request Header while calling
                     // only `reload()` will not send the header.
                     window.location.reload(true);
+                    break;
+                case 'refresh-plugins':
+                    app.refreshPlugins();
+                    break;
+                case 'call-function':
+                    window[fnName]();
                     break;
                 case 'update-view':
                     if (!usingVue) {
