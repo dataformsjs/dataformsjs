@@ -127,7 +127,7 @@ This example uses Vue for templating. If you save it with a text editor you can 
         </template>
 
         <template id="loading-screen">
-            <h3>Loading...</h3>
+            <h2>Loading...</h2>
         </template>
 
         <script
@@ -140,8 +140,8 @@ This example uses Vue for templating. If you save it with a text editor you can 
             data-lazy-load="jsonData, flags"
             data-countries>
 
-            <h3 v-if="isLoading" class="loading">Loading...</h3>
-            <h3 v-if="hasError" class="error">{{ errorMessage }}</h3>
+            <h2 v-if="isLoading" class="loading">Loading...</h2>
+            <h2 v-if="hasError" class="error">{{ errorMessage }}</h2>
             <div v-if="isLoaded">
                 <h1>Countries</h1>
                 <ul>
@@ -181,6 +181,7 @@ This example uses React with the `jsxLoader.min.js` script for converting JSX to
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>DataFormsJS Example using React</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
     </head>
     <body>
         <div id="root"></div>
@@ -201,7 +202,10 @@ This example uses React with the `jsxLoader.min.js` script for converting JSX to
                         <ul>
                             {props.data && props.data.countries && props.data.countries.map(country => {
                                 return (
-                                    <li key={country.iso}>{country.country}</li>
+                                    <li key={country.iso}>
+                                        <i className={country.iso.toLowerCase() + ' flag'}></i>
+                                        <span>{country.country}</span>
+                                    </li>
                                 )
                             })}
                         </ul>
@@ -234,6 +238,86 @@ This example uses React with the `jsxLoader.min.js` script for converting JSX to
         <script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/react/es5/DataFormsJS.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/react/jsxLoader.min.js"></script>
+    </body>
+</html>
+```
+
+This example uses DataFormsJS Web Components and can be used on modern browsers. Web Components are well defined standard and provide for functionally similar to JavaScript Frameworks while using less code.
+
+```html
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>DataFormsJS Example using Web Components</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a href="#/">Home</a>
+                <a href="#/data">Data Example</a>
+            </nav>
+        </header>
+
+        <main id="view"></main>
+
+        <!--
+            <url-hash-router> and <url-hash-route> will be
+            used to define #Hash routes.
+
+            Additionally <url-router> and <url-route> exist and
+            can be used for Web History Routes (pushState)
+        -->
+        <url-hash-router view-selector="#view">
+            <!-- Home Page -->
+            <url-hash-route path="/">
+                <template>
+                    <h1>Hello World!</h1>
+                </template>
+            </url-hash-route>
+
+            <!-- Display a list of Countries from a JSON Service -->
+            <url-hash-route path="/data">
+                <template>
+                    <json-data url="https://www.dataformsjs.com/data/geonames/countries">
+                        <is-loading>
+                            <div>Loading...</div>
+                        </is-loading>
+                        <has-error>
+                            <div data-bind="errorMessage"></div>
+                        </has-error>
+                        <is-loaded>
+                            <data-list
+                                data-bind="countries"
+                                template-selector="#country"
+                                root-element="ul">
+                            </data-list>
+                        </is-loaded>
+                    </json-data>
+                </template>
+            </url-hash-route>
+        </url-hash-router>
+
+        <!--
+            Template for <data-list> using Template literals (Template strings)
+        -->
+        <template id="country">
+            <li>
+                <i class="${iso.toLowerCase() + ' flag'}"></i>
+                <span>${country}<span>
+            </li>
+        </template>
+
+        <!-- DataFormsJS Web Components -->
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/web-components/url-hash-router.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/web-components/json-data.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/web-components/data-list.min.js"></script>
+
+        <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/web-components/safari-nomodule.min.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/web-components/old-browser-warning.min.js"></script>
     </body>
 </html>
 ```
