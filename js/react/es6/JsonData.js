@@ -238,9 +238,16 @@ export default class JsonData extends React.Component {
     constructor(props) {
         super(props);
         this._isFetching = false;
-        this._isMounted = false;
+        this._isMounted = false; 
         this.fetchData = this.fetchData.bind(this);
         this.handleChange = this.handleChange.bind(this);
+
+        // [this._query] can be defined by this class automatically when using GraphQL.
+        // Adding `query` to [this.props] has no affect on production builds of React
+        // however when using development builds of React it would cause an error.
+        // Using internal properties works around the issue.
+        this._querySrc = (props && props.querySrc ? props.querySrc : undefined);
+        this._query = (props && props.query ? props.query : undefined);
 
         this.state = {
             fetchState: 0,
@@ -267,15 +274,15 @@ export default class JsonData extends React.Component {
         this._isMounted = true;
 
         // If using GraphQL with a downloaded query then first check cache if it has already been downloaded
-        if (this.props.graphQL === true && this.props.query === undefined && this.props.querySrc !== undefined) {
-            if (graphQL_Cache[this.props.querySrc] !== undefined) {
-                this.props.query = graphQL_Cache[this.props.querySrc];
+        if (this.props.graphQL === true && this._query === undefined && this._querySrc !== undefined) {
+            if (graphQL_Cache[this._querySrc] !== undefined) {
+                this._query = graphQL_Cache[this._querySrc];
             }
         }
 
         // Load data from cache if it matches previous request
         if (this.props.loadOnlyOnce) {
-            const data = getDataFromCache(this.props.url, this.props.query, this.getUrlParams());
+            const data = getDataFromCache(this.props.url, this._query, this.getUrlParams());
             if (data !== null) {
                 this.setState({
                     fetchState: 1,
@@ -286,8 +293,8 @@ export default class JsonData extends React.Component {
         }
 
         // Download GraphQL Query from the [querySrc] is specified before running `fetchData()`.
-        if (this.props.graphQL === true && this.props.query === undefined && this.props.querySrc !== undefined) {
-            const querySrc = this.props.querySrc;
+        if (this.props.graphQL === true && this._query === undefined && this._querySrc !== undefined) {
+            const querySrc = this._querySrc;
             const jsonData = this;
 
             fetch(querySrc, null)
@@ -303,7 +310,7 @@ export default class JsonData extends React.Component {
             .then(response => response.text())
             .then(function(text) {
                 graphQL_Cache[querySrc] = text;
-                jsonData.props.query = graphQL_Cache[querySrc];
+                jsonData._query = graphQL_Cache[querySrc];
                 jsonData.fetchData();
             })
             .catch(function(error) {
@@ -380,7 +387,7 @@ export default class JsonData extends React.Component {
             // is not needed by most apps but can be used by local development or for downloaded pages.
             if (window.location.origin === 'file://' || window.location.origin === 'null') {
                 url += (url.indexOf('?') === -1 ? '?' : '&');
-                url += 'query=' + encodeURIComponent(this.props.query.trim());
+                url += 'query=' + encodeURIComponent(this._query.trim());
                 url += '&variables=' + encodeURIComponent(JSON.stringify(variables));
             } else {
                 options.method = 'POST';
@@ -390,7 +397,7 @@ export default class JsonData extends React.Component {
                     options.headers['Content-Type'] = 'application/json';
                 }
                 options.body = JSON.stringify({
-                    query: this.props.query,
+                    query: this._query,
                     variables: variables,
                 });
             }
@@ -439,7 +446,7 @@ export default class JsonData extends React.Component {
                     });
                 }
                 if (this.props.loadOnlyOnce) {
-                    saveDataToCache(this.props.url, this.props.query, this.getUrlParams(), (graphQL ? data.data : data));
+                    saveDataToCache(this.props.url, this._query, this.getUrlParams(), (graphQL ? data.data : data));
                 }
             })
             .catch(error => {

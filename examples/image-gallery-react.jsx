@@ -14,7 +14,8 @@ function AppImage(props) {
         alt={props.title}
         tabIndex={props.tabIndex}
         onClick={props.onClick}
-        onKeyDown={props.onKeyDown} />
+        onKeyDown={props.onKeyDown}
+        key={props.key} />
 }
 
 // Alternative Example Image Template that uses attribute [data-image] to specify the thumbnail.

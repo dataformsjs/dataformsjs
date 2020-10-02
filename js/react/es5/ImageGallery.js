@@ -59,7 +59,8 @@ function BasicImage(props) {
     alt: props.title,
     tabIndex: props.tabIndex,
     onClick: props.onClick,
-    onKeyDown: props.onKeyDown
+    onKeyDown: props.onKeyDown,
+    key: props.key
   });
 }
 
@@ -458,8 +459,9 @@ var ImageGallery = function (_React$Component) {
 
       var tabIndex = parseInt(this.props.tabIndex, 10);
       var useTabIndex = window.isFinite(tabIndex);
-      return this.state.images.map(function (image) {
+      return this.state.images.map(function (image, index) {
         var imageAttr = {
+          key: index.toString() + '_' + image.thumbnail,
           onClick: _this6.onClick,
           onKeyDown: _this6.onKeyDown
         };

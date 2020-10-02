@@ -1,5 +1,5 @@
 // @link https://www.dataformsjs.com
-// @version 4.7.0
+// @version 4.7.1
 // @author Conrad Sollitt (https://conradsollitt.com)
 // @license MIT
 "use strict";
@@ -662,6 +662,8 @@ var JsonData = function (_React$Component3) {
     _this3._isMounted = false;
     _this3.fetchData = _this3.fetchData.bind(_assertThisInitialized(_this3));
     _this3.handleChange = _this3.handleChange.bind(_assertThisInitialized(_this3));
+    _this3._querySrc = props && props.querySrc ? props.querySrc : undefined;
+    _this3._query = props && props.query ? props.query : undefined;
     _this3.state = {
       fetchState: 0,
       error: null,
@@ -693,14 +695,14 @@ var JsonData = function (_React$Component3) {
     value: function componentDidMount() {
       this._isMounted = true;
 
-      if (this.props.graphQL === true && this.props.query === undefined && this.props.querySrc !== undefined) {
-        if (graphQL_Cache[this.props.querySrc] !== undefined) {
-          this.props.query = graphQL_Cache[this.props.querySrc];
+      if (this.props.graphQL === true && this._query === undefined && this._querySrc !== undefined) {
+        if (graphQL_Cache[this._querySrc] !== undefined) {
+          this._query = graphQL_Cache[this._querySrc];
         }
       }
 
       if (this.props.loadOnlyOnce) {
-        var data = getDataFromCache(this.props.url, this.props.query, this.getUrlParams());
+        var data = getDataFromCache(this.props.url, this._query, this.getUrlParams());
 
         if (data !== null) {
           this.setState({
@@ -711,8 +713,8 @@ var JsonData = function (_React$Component3) {
         }
       }
 
-      if (this.props.graphQL === true && this.props.query === undefined && this.props.querySrc !== undefined) {
-        var querySrc = this.props.querySrc;
+      if (this.props.graphQL === true && this._query === undefined && this._querySrc !== undefined) {
+        var querySrc = this._querySrc;
         var jsonData = this;
         fetch(querySrc, null).then(function (response) {
           var status = response.status;
@@ -727,7 +729,7 @@ var JsonData = function (_React$Component3) {
           return response.text();
         }).then(function (text) {
           graphQL_Cache[querySrc] = text;
-          jsonData.props.query = graphQL_Cache[querySrc];
+          jsonData._query = graphQL_Cache[querySrc];
           jsonData.fetchData();
         }).catch(function (error) {
           throw new Error('Error Downloading GraphQL Script: [' + querySrc + '], Error: ' + error.toString());
@@ -807,7 +809,7 @@ var JsonData = function (_React$Component3) {
 
         if (window.location.origin === 'file://' || window.location.origin === 'null') {
           url += url.indexOf('?') === -1 ? '?' : '&';
-          url += 'query=' + encodeURIComponent(this.props.query.trim());
+          url += 'query=' + encodeURIComponent(this._query.trim());
           url += '&variables=' + encodeURIComponent(JSON.stringify(variables));
         } else {
           options.method = 'POST';
@@ -821,7 +823,7 @@ var JsonData = function (_React$Component3) {
           }
 
           options.body = JSON.stringify({
-            query: this.props.query,
+            query: this._query,
             variables: variables
           });
         }
@@ -870,7 +872,7 @@ var JsonData = function (_React$Component3) {
           }
 
           if (_this4.props.loadOnlyOnce) {
-            saveDataToCache(_this4.props.url, _this4.props.query, _this4.getUrlParams(), graphQL ? data.data : data);
+            saveDataToCache(_this4.props.url, _this4._query, _this4.getUrlParams(), graphQL ? data.data : data);
           }
         }).catch(function (error) {
           if (_this4._isMounted) {

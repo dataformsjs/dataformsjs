@@ -252,7 +252,7 @@ function ShowSearchResults(props) {
                             return (
                                 <tr key={city.geonames_id} onClick={toggleHighlight} className="pointer">
                                     <td>
-                                        <i class={city.country_code.toLowerCase() + ' flag'}></i>
+                                        <i className={city.country_code.toLowerCase() + ' flag'}></i>
                                         {city.country_code}
                                     </td>
                                     <td><Link to={'/' + props.params.lang + '/city/' + city.geonames_id}>{city.name}</Link></td>

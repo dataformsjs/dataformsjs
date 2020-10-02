@@ -86,6 +86,7 @@ function BasicImage(props) {
         tabIndex: props.tabIndex,
         onClick: props.onClick,
         onKeyDown: props.onKeyDown,
+        key: props.key,
     });
 }
 
@@ -555,8 +556,9 @@ export default class ImageGallery extends React.Component {
 
         let tabIndex = parseInt(this.props.tabIndex, 10);
         const useTabIndex = (window.isFinite(tabIndex));
-        return this.state.images.map(image => {
+        return this.state.images.map((image, index) => {
             const imageAttr = {
+                key: (index.toString() + '_' + image.thumbnail),
                 onClick: this.onClick,
                 onKeyDown: this.onKeyDown,
             };

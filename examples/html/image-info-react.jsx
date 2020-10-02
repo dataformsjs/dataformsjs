@@ -15,11 +15,11 @@ function PageInfo() {
                 <h1>{i18n.text('Image Classification Info')}</h1>
 
                 <h2>{i18n.text('Overview')}</h2>
-                <ul class="results">
-                    <li class="legend">
-                        <div class="success-high">{i18n.text('prob_high')}</div>
-                        <div class="success-medium">{i18n.text('prob_med')}</div>
-                        <div class="success-low">{i18n.text('prob_low')}</div>
+                <ul className="results">
+                    <li className="legend">
+                        <div className="success-high">{i18n.text('prob_high')}</div>
+                        <div className="success-medium">{i18n.text('prob_med')}</div>
+                        <div className="success-low">{i18n.text('prob_low')}</div>
                     </li>
                 </ul>                
                 <ul className="info">

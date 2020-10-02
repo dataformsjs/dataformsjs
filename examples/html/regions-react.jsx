@@ -87,7 +87,7 @@ export function ShowRegions(props) {
                                 <tr key={region.admin1_code} onClick={toggleHighlight} className="pointer">
                                     <td><Link to={'/' + props.params.lang + '/cities/' + props.params.country + '/' + region.admin1_code}>{region.admin1_code}</Link></td>
                                     <td>
-                                        <i class={props.params.country.toLowerCase() + ' flag'}></i>
+                                        <i className={props.params.country.toLowerCase() + ' flag'}></i>
                                         <span>{region.name}</span>
                                     </td>
                                     <td className="align-right" data-value={region.population}>{format.number(region.population)}</td>

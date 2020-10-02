@@ -79,7 +79,7 @@ export function ShowCities(props) {
                             return (
                                 <tr key={city.geonames_id} onClick={toggleHighlight} className="pointer">
                                     <td>
-                                        <i class={props.params.country.toLowerCase() + ' flag'}></i>
+                                        <i className={props.params.country.toLowerCase() + ' flag'}></i>
                                         <Link to={'/' + props.params.lang + '/city/' + city.geonames_id}>{city.name}</Link>
                                     </td>
                                     <td className="align-right" data-value={city.population}>{format.number(city.population)}</td>

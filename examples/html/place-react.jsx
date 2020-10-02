@@ -11,11 +11,11 @@ function ShowCity(props) {
                 <Link to={'/' + props.params.lang + '/cities/' + props.data.place.country_code + '/' + props.data.place.admin1_code}>{i18n.text('Cities')}</Link>
             </nav>
 
-            <div class="place-screen">
+            <div className="place-screen">
 
-                <section class="form-fields">
+                <section className="form-fields">
                     <div>
-                        <label class="no-top-margin">{i18n.text('Name')}</label>
+                        <label className="no-top-margin">{i18n.text('Name')}</label>
                         <span>{props.data.place.name}</span>
                     </div>
                     <div v-if="place.name !== place.ascii_name">
@@ -64,14 +64,14 @@ function ShowCity(props) {
                         zoom={11}
                         marker={props.data.place.name} />
 
-                    <div class="map-links">
+                    <div className="map-links">
                         <small><a href={'https://www.openstreetmap.org#map=12/' + props.data.place.latitude + '/' + props.data.place.longitude} target="_blank">{i18n.text('View on OpenStreetMap')}</a></small>
                         <small><a href={'https://www.google.com/maps/@' + props.data.place.latitude + ',' + props.data.place.longitude + ',12z'} target="_blank">{i18n.text('View on Google Maps')}</a></small>
                     </div>
                 </section>
             </div>
 
-            <section class="alternate-names">
+            <section className="alternate-names">
                 <h2>{i18n.text('Alternate Names')} ({props.data.place.alternate_names.length})</h2>
 
                 {props.data.place.alternate_names.length > 10 ?

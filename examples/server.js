@@ -144,7 +144,7 @@ app.get('/:file', (req, res, file) => {
         `connect-src 'self' ${connectSrc.join(' ')}`,
         `font-src 'self' ${fontSrc.join(' ')}`,
     ].join('; ');
-    res.setHeader('Content-Security-Policy', csp);
+    // res.setHeader('Content-Security-Policy', csp);
 
     // Send the file
     res.file(filePath);

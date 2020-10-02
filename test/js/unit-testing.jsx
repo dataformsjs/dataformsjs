@@ -108,7 +108,7 @@ function NumberDescriber(props) {
 
 function DisplayUsers({users}) {
     return (
-        <ul class="users">
+        <ul className="users">
             {users.map(({id, name}) => {
                 return <li id={'user-' + id}>{name}</li>
             })}
@@ -118,7 +118,7 @@ function DisplayUsers({users}) {
 
 function DisplayUsers2(props) {
     return (
-        <ul class="users-2">
+        <ul className="users-2">
             {[
                 <li id={'user2-' + props.users[0].id}>{props.users[0].name + ' Test'}</li>,
                 <li id={'user2-' + props.users[1].id}>{props.users[1].name + ' Test'}</li>
@@ -218,8 +218,8 @@ class UnitTestPage extends React.Component {
                     Typically in JSX [className] is used for classes, however in general [class] should not causes issues.
                     This test confirms it and that elements can be used in the ternary operator (cond ? true : false)
                 */}
-                <div class="expect-true">{1 === 1 ? <ShowTrue /> : <ShowFalse />}</div>
-                <div class="expect-false">{1 === 2 ? <ShowTrue /> : <ShowFalse />}</div>
+                <div className="expect-true">{1 === 1 ? <ShowTrue /> : <ShowFalse />}</div>
+                <div className="expect-false">{1 === 2 ? <ShowTrue /> : <ShowFalse />}</div>
 
                 <testNamespace.Hello />
                 <TestNamespace.Hello />

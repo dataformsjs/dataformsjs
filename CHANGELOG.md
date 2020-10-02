@@ -4,6 +4,13 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 4.7.1 (October 1, 2020)
+
+* Fixed warnings that showed up on React DevTools when using development builds. The errors didn't affect production builds of React so it wasn't caught earlier.
+  * `js/react/es6/JsonData.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/react/es6/JsonData.js
+  * `js/react/es6/ImageGallery.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/react/es6/ImageGallery.js
+  * Also related updated all React Examples to not have warnings. Example, replaced `class` with `className` in HTML examples.
+
 ## 4.7.0 (October 1, 2020)
 
 * `js/plugins/clickUrlAction.js`

@@ -33,7 +33,7 @@ function PageInfo({match}) {
                     <span>{i18n.text('source_code')}</span>
                     <img src="https://www.dataformsjs.com/img/logos/GitHub-Mark-32px.png" alt="GitHub" />
                 </h2>
-                <ul class="info">
+                <ul className="info">
                     <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-react.htm" target="_blank">React</a></li>
                     <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-vue.htm" target="_blank">Vue</a></li>
                     <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-hbs.htm" target="_blank">Handlebars</a></li>

@@ -1,7 +1,7 @@
 'use strict';
 
 function Greeting(props) {
-    return <div class="greeting">{props.firstName} {props.lastName}</div>
+    return <div className="greeting">{props.firstName} {props.lastName}</div>
 }
 
 function DisplayProps(props) {

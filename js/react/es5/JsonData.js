@@ -127,6 +127,8 @@ var JsonData = function (_React$Component) {
     _this._isMounted = false;
     _this.fetchData = _this.fetchData.bind(_assertThisInitialized(_this));
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this._querySrc = props && props.querySrc ? props.querySrc : undefined;
+    _this._query = props && props.query ? props.query : undefined;
     _this.state = {
       fetchState: 0,
       error: null,
@@ -158,14 +160,14 @@ var JsonData = function (_React$Component) {
     value: function componentDidMount() {
       this._isMounted = true;
 
-      if (this.props.graphQL === true && this.props.query === undefined && this.props.querySrc !== undefined) {
-        if (graphQL_Cache[this.props.querySrc] !== undefined) {
-          this.props.query = graphQL_Cache[this.props.querySrc];
+      if (this.props.graphQL === true && this._query === undefined && this._querySrc !== undefined) {
+        if (graphQL_Cache[this._querySrc] !== undefined) {
+          this._query = graphQL_Cache[this._querySrc];
         }
       }
 
       if (this.props.loadOnlyOnce) {
-        var data = getDataFromCache(this.props.url, this.props.query, this.getUrlParams());
+        var data = getDataFromCache(this.props.url, this._query, this.getUrlParams());
 
         if (data !== null) {
           this.setState({
@@ -176,8 +178,8 @@ var JsonData = function (_React$Component) {
         }
       }
 
-      if (this.props.graphQL === true && this.props.query === undefined && this.props.querySrc !== undefined) {
-        var querySrc = this.props.querySrc;
+      if (this.props.graphQL === true && this._query === undefined && this._querySrc !== undefined) {
+        var querySrc = this._querySrc;
         var jsonData = this;
         fetch(querySrc, null).then(function (response) {
           var status = response.status;
@@ -192,7 +194,7 @@ var JsonData = function (_React$Component) {
           return response.text();
         }).then(function (text) {
           graphQL_Cache[querySrc] = text;
-          jsonData.props.query = graphQL_Cache[querySrc];
+          jsonData._query = graphQL_Cache[querySrc];
           jsonData.fetchData();
         }).catch(function (error) {
           throw new Error('Error Downloading GraphQL Script: [' + querySrc + '], Error: ' + error.toString());
@@ -272,7 +274,7 @@ var JsonData = function (_React$Component) {
 
         if (window.location.origin === 'file://' || window.location.origin === 'null') {
           url += url.indexOf('?') === -1 ? '?' : '&';
-          url += 'query=' + encodeURIComponent(this.props.query.trim());
+          url += 'query=' + encodeURIComponent(this._query.trim());
           url += '&variables=' + encodeURIComponent(JSON.stringify(variables));
         } else {
           options.method = 'POST';
@@ -286,7 +288,7 @@ var JsonData = function (_React$Component) {
           }
 
           options.body = JSON.stringify({
-            query: this.props.query,
+            query: this._query,
             variables: variables
           });
         }
@@ -335,7 +337,7 @@ var JsonData = function (_React$Component) {
           }
 
           if (_this2.props.loadOnlyOnce) {
-            saveDataToCache(_this2.props.url, _this2.props.query, _this2.getUrlParams(), graphQL ? data.data : data);
+            saveDataToCache(_this2.props.url, _this2._query, _this2.getUrlParams(), graphQL ? data.data : data);
           }
         }).catch(function (error) {
           if (_this2._isMounted) {
