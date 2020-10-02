@@ -251,7 +251,10 @@ This example uses DataFormsJS Web Components and can be used on modern browsers.
                 </template>
             </url-hash-route>
 
-            <!-- Display a list of Countries from a JSON Service -->
+            <!--
+                Display a list of Countries from a JSON Service. Elements
+                with [data-bind] are populated with data from the Web Service.
+            -->
             <url-hash-route path="/data">
                 <template>
                     <json-data url="https://www.dataformsjs.com/data/geonames/countries">
@@ -274,7 +277,8 @@ This example uses DataFormsJS Web Components and can be used on modern browsers.
         </url-hash-router>
 
         <!--
-            Template for <data-list> using Template literals (Template strings)
+            Template for <data-list> using Template literals (Template strings).
+            Variables are safely escaped for HTML when using <data-list>.
         -->
         <template id="country">
             <li>
