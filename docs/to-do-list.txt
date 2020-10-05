@@ -22,6 +22,36 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+**) Create a Polyfill for Web Components
+    - This may or may not be done, development and testing is needed.
+    - The idea is instead of no support the a single script could be used
+        to load the standard DataFormsJS Framework and other custom code
+        to create polyfills.
+    - Currently pages use code like this:
+        <script type="module" src="js/web-components/url-hash-router.min.js"></script>
+        <script type="module" src="js/web-components/json-data.min.js"></script>
+        ...
+        <script nomodule src="js/web-components/safari-nomodule.min.js"></script>
+        <script nomodule src="js/web-components/old-browser-warning.min.js"></script>
+    - Ideally [safari-nomodule.min.js] and [old-browser-warning.min.js] would be replaced
+        by a single polyfill script:
+            <script nomodule src="js/web-components/polyfill.min.js"></script>
+    - At a minimum the new script would need to handle IE 11, older Safari (example iOS 9), UC Browser.
+        iOS 9 support because older devices such as iPad 2 can't upgrade past it and iPhone 6
+        phones that are not upgraded still use it.
+    - Basically the script if loaded would then load the main DataFormsJS Framework
+        (assuming CDN or node_module path) "../DataFormsJS.min.js" then it would define a number
+        of polyfills for components (example <data-list template-selector="{id}" would need to use
+        regex to gerenerate compatible JS and based on the page content it would reuse standard
+        Framework plugins, pages, etc. Example [image-gallery.js] would instead use [plugins/imageGallery.js]
+        and to work however [plugins/imageGallery.js] would need some tweaks in order for this to work.
+    - Depending on the context <json-data> would ideally download and use one of [js/pages/jsonData.min.js]
+        or [js/controls/json-data.js]. Likely additional changes would be needed or a custom version
+        would have to be created in [js/web-components/polyfill.js].
+    - This is not a trival task and would require a decent amount of work.
+    - Search this file for "Web Components" to find related comments, this task
+        currently overrides the other tasks so a polyfill can be created.
+
 **) Playground Site
     - Need to add support for JSON file/resource type
     - Add liniting for React/JSX, Babel recently started doing this online in the REPL:
