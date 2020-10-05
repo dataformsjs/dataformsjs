@@ -1316,9 +1316,24 @@
             validateStringWithValue(name, 'name', 'app.addPlugin()');
             requireUndefinedProperty(this.plugins, 'app.plugins', name);
 
+            // Define a reload function that will be added for each plugin.
+            // This allows for a simple API for apps to work with any plugin.
+            // Example:
+            //     app.plugins.imageGallery.reload();
+            // Instead of:
+            //     app.plugins.imageGallery.onRouteUnload();
+            //     app.refreshPlugins();
+            //
+            function reload() {
+                if (typeof this.onRouteUnload === 'function') {
+                    this.onRouteUnload();
+                }
+                this.onRendered();
+            }
+
             // Accept either function or full object
             if (typeof plugin === 'function') {
-                this.plugins[name] = { onRendered: plugin };
+                this.plugins[name] = { onRendered: plugin, reload: reload };
                 return this;
             } else {
                 // Plugin Functions - at least one other than [onRouteUnload] is required
@@ -1327,6 +1342,11 @@
                 validateOptionalFunctions(plugin, name, 'plugin', func);
                 func.pop(); // Remove 'onRouteUnload'
                 requireOneNamedProperty(plugin, name, 'plugin', func);
+            }
+
+            // Add `reload()` function if one does not already exist.
+            if (plugin.reload === undefined) {
+                plugin.reload = reload;
             }
 
             // Add the plugin and return the app object
