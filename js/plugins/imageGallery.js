@@ -76,6 +76,7 @@
     var overlayStyleId = 'image-gallery-css';
     var overlayStyleCss = [
         'body.blur { filter: blur(3px); }',
+        '[data-image-gallery] { cursor: pointer; }',
         '.image-gallery-overlay {',
         '    position: fixed;',
         '    top: 0;',

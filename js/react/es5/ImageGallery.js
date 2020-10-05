@@ -60,7 +60,10 @@ function BasicImage(props) {
     tabIndex: props.tabIndex,
     onClick: props.onClick,
     onKeyDown: props.onKeyDown,
-    key: props.key
+    key: props.key,
+    style: {
+      cursor: 'pointer'
+    }
   });
 }
 

@@ -87,6 +87,9 @@ function BasicImage(props) {
         onClick: props.onClick,
         onKeyDown: props.onKeyDown,
         key: props.key,
+        style: {
+            cursor: 'pointer'
+        },
     });
 }
 

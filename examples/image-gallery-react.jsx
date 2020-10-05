@@ -15,7 +15,10 @@ function AppImage(props) {
         tabIndex={props.tabIndex}
         onClick={props.onClick}
         onKeyDown={props.onKeyDown}
-        key={props.key} />
+        key={props.key}
+        style={{
+            cursor: 'pointer'
+        }} />
 }
 
 // Alternative Example Image Template that uses attribute [data-image] to specify the thumbnail.
