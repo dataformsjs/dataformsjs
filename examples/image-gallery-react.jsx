@@ -34,6 +34,7 @@ function AppImage2(props) {
                 backgroundImage: 'url(' + props.thumbnail + ')',
                 backgroundSize: 'contain',
                 backgroundRepeat: 'no-repeat',
+                cursor: 'pointer',
             }
         } />
 }
