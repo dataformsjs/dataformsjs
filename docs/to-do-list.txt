@@ -55,6 +55,20 @@ TODO List
     - Use HTTP/2 instead of http/1.1
         This can be done if migrating servers to nginx instead of Apache
 
+*) New plugin or features to handle content preloading
+    - For example routes could have a [data-preload] attribute and then a new plugin would
+        download all content when the first page is opened. Other options for preloading
+        could be added as well if they make sense.
+    - This can could be developed and tested on the main site.
+    - Ideally all related code would go in a new plugin and not the main [DataFormsJS.js] file
+    - Also related on the main site some content is only downloaded and displayed when the user
+      clicks an example. This is not SEO friendly and can cause a dealy for users with slow mobile
+      devices. Ideally [role="tab"] would be used with content preloading
+        https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Tab_Role
+    - Code for the home page is here:
+        https://github.com/dataformsjs/website/blob/master/public/js/page-home-page.js
+        - See code related to `code.setAttribute('data-template-url', page);`
+
 *) Markdown Docs to Create
     - Build Processs
     - How Unit Testing Works
