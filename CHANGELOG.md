@@ -4,6 +4,33 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 4.8.0 (October 5, 2020)
+
+* Added new API function for Framework plugins for reloading plugin.
+  * `app.plugins[name].reload()`
+  * This makes using plugins easier for basic HTML pages that are not Single Page Apps (SPA).
+  * Example usage, before the update if an basic HTML app make content changes and needed to reload a plugin it would look like this for plugins that needed to call `onRouteUnload()`:
+    * ```js
+      app.plugins.imageGallery.onRouteUnload();
+      app.refreshPlugins();
+      ```
+    * or:
+    * ```js
+      app.plugins.imageGallery.onRouteUnload();
+      app.plugins.imageGallery.onRendered();
+      ```
+  * Now a single easier to read line can be used:
+    ```js
+    app.plugins.imageGallery.reload();
+    ```
+  * The function gets defined by the root `DataFormsJS|app` object when `app.addPlugin()` is called. If a reload function or property already exists on the plugin the no change is made to the plugin.
+  * File updated: `js/DataFormsJS.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/DataFormsJS.js
+* Added default `cursor: pointer` for React and Framework Image Gallery Controls.
+  * Files Updated:
+    * `js/plugins/imageGallery.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/imageGallery.js
+    * `js/react/es6/ImageGallery.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/react/es6/ImageGallery.js
+  * The Web Component Version `js/web-components/image-gallery.js` already had this behavior.
+
 ## 4.7.1 (October 1, 2020)
 
 * Fixed warnings that showed up on React DevTools when using development builds. The errors didn't affect production builds of React so it wasn't caught earlier.
