@@ -23,7 +23,7 @@ Overall the core Framework files and API are expected to remain stable however t
     ```js
     app.plugins.imageGallery.reload();
     ```
-  * The function gets defined by the root `DataFormsJS|app` object when `app.addPlugin()` is called. If a reload function or property already exists on the plugin the no change is made to the plugin.
+  * The function gets defined and added automatically by the root `DataFormsJS|app` object when `app.addPlugin()` is called. If a reload function or property already exists on the plugin the no change is made to the plugin.
   * File updated: `js/DataFormsJS.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/DataFormsJS.js
 * Added default `cursor: pointer` for React and Framework Image Gallery Controls.
   * Files Updated:
