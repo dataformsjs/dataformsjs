@@ -31,9 +31,9 @@
         },
 
         /**
-         * Event that gets called when a <json-control> is rendered on screen
+         * Event that gets called when a <data-list> is rendered on screen
          *
-         * @this dataTable.data
+         * @this dataList.data
          * @param {object} model
          */
         html: function(model) {

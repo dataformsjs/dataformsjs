@@ -35,7 +35,7 @@
         },
 
         /**
-         * Event that gets called when a <json-control> is rendered on screen
+         * Event that gets called when a <data-table> is rendered on screen
          *
          * @this dataTable.data
          * @param {object} model
