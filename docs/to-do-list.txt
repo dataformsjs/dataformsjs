@@ -49,6 +49,10 @@ TODO List
         or [js/controls/json-data.js]. Likely additional changes would be needed or a custom version
         would have to be created in [js/web-components/polyfill.js].
     - This is not a trival task and would require a decent amount of work.
+    * An early verion proof of concept version of this script has been started and works,
+        it's located below this directory:
+            ~/docs/development-concepts/polyfill.js
+        - See comments in the file on how to run it.
     - Search this file for "Web Components" to find related comments, this task
         currently overrides the other tasks so a polyfill can be created.
 
