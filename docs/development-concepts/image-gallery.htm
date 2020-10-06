@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<!----------------------------------------------------------------------------------------
+    Eary Proof of concept file for testing.
+    
+    Run this from a local web server in the current directory.
+    So far this is confirmed to work with both Chrome and IE 11.
+---------------------------------------------------------------------------------------->
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Image Gallery Demo | Web Components</title>
+        <link rel="stylesheet" href="https://www.dataformsjs.com/examples/css/image-gallery.css">
+    </head>
+    <body>
+        <json-data url="https://dataformsjs.s3-us-west-1.amazonaws.com/img/example-images/index.json">
+            <is-loading>
+                <span class="loading">Loading Photos...</span>
+            </is-loading>
+            <has-error>
+                <h2 class="error">Error loading photos</h2>
+                <span class="error" data-bind="errorMessage"></span>
+            </has-error>
+            <is-loaded>
+                <data-list
+                    data-bind="images"
+                    template-selector="#image"
+                    root-element="div"
+                    root-class="image-gallery">
+                </data-list>
+        </json-data>
+
+        <template id="image">
+            <image-gallery image="${image}" image-avif="${image_avif}" image-webp="${image_webp}">
+                <img src="${thumbnail}" alt="${title}" tabindex="${index}" />
+            </image-gallery>
+        </template>
+
+        <script src="polyfill.js"></script>            
+    </body>
+</html>
