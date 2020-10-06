@@ -53,6 +53,14 @@ TODO List
     - Attributes with [data-bind] can also include an optional [data-format="number|date|dateTime|{function}"]
     - Currently the date and time formatting happens in JS on the page in the places demo
     - The standard Framework plugin [js/plugins/dataBind.js] could also be considered for a similar update
+    - The standard Framework includes `app.settings.lazyTemplateSelector` which is used to show an optional
+        loading template while scripts and HTML content is being downloaded. In general the content is
+        very small so it goes un-noticed on a desktop or fast mobile connection. On a slow mobile connection
+        the delay can be noticeable so a similar feature should be added for Web Components.
+        For a starting point this could be added as:
+            <url-hash-router loading-template-selector="#template">
+            <url-router loading-template-selector="#template">
+        Ideally this will also be added to <json-data><is-loading template-selector="#template"> as well.
 
 **) Web Component <data-table>
     - Add <template> which can be used for to define custom <tr> layouts.
