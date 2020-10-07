@@ -61,6 +61,10 @@ TODO List
             <url-hash-router loading-template-selector="#template">
             <url-router loading-template-selector="#template">
         Ideally this will also be added to <json-data><is-loading template-selector="#template"> as well.
+    - Add ability to lazy load scripts based on route <url-hash-route> and <url-route> similar to how
+        the standard Frameworks works. A good test will be the [examples/places-demo-web.htm] file
+        that always loads [https://unpkg.com/leaflet@1.5.1/dist/leaflet.js]. The format for defining 
+        this needs to still be determined. The main framework uses [app.lazyLoad = {}].
 
 **) Web Component <data-table>
     - Add <template> which can be used for to define custom <tr> layouts.
