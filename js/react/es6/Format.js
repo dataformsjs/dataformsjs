@@ -116,7 +116,7 @@ function formatNumber(value, options) {
         return null;
     }
     if (!isNumber(value)) {
-        console.warn('Warning value specified in DateFormsJS Handlebars Helper function formatNumber() is not a number:');
+        console.warn('Warning value specified in DateFormsJS function formatNumber() is not a number:');
         console.log(value);
         return value;
     }
