@@ -30,6 +30,9 @@
                 - Another option is to support <script type="text/x-template"> from the
                     main web components and recommend it if using the polyfill.
                 - Need to research and think more about this.
+                - See this:
+                    https://github.com/webcomponents/polyfills/tree/master/packages/template
+                    However in testing it didn't work (Win 7 / IE 11)
         - Finish "TODO" comments in this file that are in active development.
         - http://127.0.0.1:8080/log-table-web#/10
             Currently displays an error from [filter] plugin. Need to review/debug
