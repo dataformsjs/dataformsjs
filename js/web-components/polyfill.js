@@ -69,6 +69,10 @@
         'div[data-control="json-data"] > div.is-loaded { padding:0; margin:0; }',
     ].join('\n');
 
+    // Module Level Variables
+    var rootUrl = null;
+    var useMinFiles = null;
+
     /**
      * Update specific Web Components to use DataFormsJS Framework Plugins, Controls, etc
      */
@@ -981,7 +985,7 @@
         }
 
         // Download then Plugin
-        var url = getRootUrl() + 'plugins/' + name + '.js';
+        var url = rootUrl + 'plugins/' + name + (useMinFiles ? '.min' : '') + '.js';
         app.loadScripts(url).then(function() {
             app.plugins[name].reload();
         });
@@ -1105,30 +1109,38 @@
         document.head.appendChild(script);
     }
 
-    function getRootUrl() {
-        /*
-        NOTE - In the future several options should be handled:
-       		- Page should look for the path of this scirpt:
-        		<script type="module" src="js/web-components/polyfill.min.js"></script>
-            	- Then based on the path load [js/DataFormsJS.min.js]
-            - It could use a [data-*] attribute to specify the root DataFormsJS path
-            - Option to use either full dev files [DataFormsJS.js] or production files [DataFormsJS.min.js]
-                This will apply to all DataFormsJS Scripts.
-            - The current value will be the fallback if no other root URL is found.
-        */
-        return 'https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/';
+    function findRootUrl() {
+        // Did the app set a custom value? If so use it.
+        if (typeof window.dataformsjsUrl === 'string') {
+            rootUrl = window.dataformsjsUrl;
+            useMinFiles = (window.dataformsjsMinFiles !== false); // Defaults to `true` if not defined
+            return;
+        }
+
+        // If minimized polyfill is being used then download minimized framework files,
+        // otherwise if un-minimized files then download un-minimized framework files.
+        var files = ['/web-components/polyfill.min.js', '/web-components/polyfill.js'];
+        for (var n = 0; n < 2; n++) {
+            var script = document.querySelector('script[src$="' + files[n] + '"]');
+            var src;
+            if (script) {
+                src = script.getAttribute('src');
+                rootUrl = src.substr(0, src.length - files[n].length + 1);
+                useMinFiles = (n === 0);
+                return;
+            }    
+        }
+
+        // Default if [dataformsjs] path cannot be determined.
+        // NOTE - this won't work until the next release of DataFormsJS is published.
+        rootUrl = 'https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/';
+        useMinFiles = true;
     }
 
     function loadPagePlugins() {
         // Testing Example, this should be based on content from the actual page
         var scripts = [
-            // NOTE - depending on development use on of the following options
-            // The published version will only use [getRootUrl() + 'controls/json-data.js'].
-            // A minor change to [json-data.js] was made in order for this to work.
-            //
-            // getRootUrl() + 'controls/json-data.js',
-            // 'https://dataformsjs.s3-us-west-1.amazonaws.com/tmp/concept/json-data.js',
-            'http://127.0.0.1:8080/js/controls/json-data.js',
+            rootUrl + 'controls/json-data' + (useMinFiles ? '.min' : '') + '.js',
             //
             // If standard frameowork code will be modified they may be added here
             // instead of using custom versions in this file. Scripts should only be
@@ -1137,9 +1149,9 @@
             // before other plugins such as [leaflet].
             //
             //
-            // getRootUrl() + 'controls/data-list.js',
-            // getRootUrl() + 'controls/data-table.js',
-            // getRootUrl() + 'plugins/dataBind.js',
+            // rootUrl + 'controls/data-list' + (useMinFiles ? '.min' : '') + '.js',
+            // rootUrl + 'controls/data-table' + (useMinFiles ? '.min' : '') + '.js',
+            // rootUrl + 'plugins/dataBind' + (useMinFiles ? '.min' : '') + '.js',
         ];
         app.loadScripts(scripts).then(function() {
             app
@@ -1166,7 +1178,8 @@
         }
 
         // Download the DataFormsJS Framework main file
-        var url = getRootUrl() + 'DataFormsJS.js';
+        findRootUrl();
+        var url = rootUrl + 'DataFormsJS' + (useMinFiles ? '.min' : '') + '.js';
         loadScript(url, function () {
             // If [jsPlugins.js] is used then add back the plugins
             if (plugins !== null) {

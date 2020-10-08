@@ -89,6 +89,20 @@ TODO List
         - Related to current updates [dataformsjs\examples\html\cities-web.htm] now shows
             both Meters and Feet using `formatElevation(elevation)`. The other demos currently
             display meters only but should also be updated to display both.
+        - Handle and remove all `NOTE` comments in [polyfill.js] before npm publishing
+        - Provide examples of how [polyfill.js].[getRootUrl()] works for documentation.
+            - Or add a markdown doc for it
+            - Here is an example of an defining a custom URL from the app:
+                <script>
+                    window.dataformsjsUrl = 'http://127.0.0.1:8080/js/';
+                    window.dataformsjsMinFiles = false; // Optional (defaults to `true`)
+                </script>
+                <script nomodule src="../js/web-components/polyfill.js"></script>
+            - By default the path will be determined from where [/web-components/polyfill.js] is defined:
+                <script src="../js/web-components/polyfill.min.js"></script>
+                    [*.min.js] Framework files will be downloaded
+                <script src="../js/web-components/polyfill.js"></script>
+                    Full [*.js] Framework files will be downloaded
         - Possible update found during testing:
             Update `app.loadJsControl()` to be safe to call multiple times.
             Currently it adds duplicate `app.activeJsControls` but it's doesn't break anything. 
