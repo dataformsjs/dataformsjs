@@ -49,7 +49,7 @@
                     // If [dataBind.js] with [data-bind-attr] is being used then this plugin is running prior
                     // to the values being bound so exist as [dataBind.js] will call this again after updating attributes.
                     var attrValue = mapEl.getAttribute(numAttr[n].attr);
-                    if (mapEl.getAttribute('data-bind-attr') !== null && (attrValue.startsWith('[') || attrValue === '')) {
+                    if (mapEl.getAttribute('data-bind-attr') !== null && (attrValue === null || attrValue.startsWith('[') || attrValue === '')) {
                         return;
                     }
                     // Invalid attribute

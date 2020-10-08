@@ -154,7 +154,7 @@
 
             var attributes = [
                 'latitude',
-                'latitude',
+                'longitude',
                 'zoom',
                 'marker'
             ];
@@ -939,8 +939,6 @@
             pluginsToLoad.push('sort');
         }
 
-        // TODO - Finish updates for leaflet map on the places demo
-        //  The order of attribute changes is currently not correct for the demo to work.
         elements = document.querySelectorAll('[is]');
         Array.prototype.forEach.call(elements, function(element) {
             switch (element.getAttribute('is')) {
