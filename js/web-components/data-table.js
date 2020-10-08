@@ -14,7 +14,7 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
-import { render, buildUrl } from './utils.js';
+import { render, buildUrl, usingWebComponentsPolyfill } from './utils.js';
 import { Format } from './utils-format.js';
 
 /**
@@ -37,6 +37,9 @@ function toggleHighlight(e) {
 class DataTable extends HTMLElement {
     constructor() {
         super();
+        if (usingWebComponentsPolyfill()) {
+            return;
+        }
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
         this.setAttribute('not-setup', '');
@@ -51,6 +54,9 @@ class DataTable extends HTMLElement {
     }
 
     attributeChangedCallback(attr, oldVal /* , newVal */) {
+        if (this.state === undefined) {
+            return; // if `usingWebComponentsPolyfill() === true`
+        }
         switch (attr) {
             case 'col-link-template':
             case 'col-link-fields':

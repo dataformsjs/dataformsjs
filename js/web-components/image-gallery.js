@@ -66,6 +66,8 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
+import { usingWebComponentsPolyfill } from './utils.js';
+
 /**
  * Shadow DOM for Custom Elements
  */
@@ -511,6 +513,9 @@ function changeImage(direction) {
 window.customElements.define('image-gallery', class ImageGallery extends HTMLElement {
     constructor() {
         super();
+        if (usingWebComponentsPolyfill()) {
+            return;
+        }
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
         this.addEventListener('click', this.handleClick);

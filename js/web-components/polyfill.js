@@ -86,7 +86,8 @@
                 if (el) {
                     var div = document.createElement('div');
                     div.innerHTML = el.innerHTML;
-                    div.className = name;
+                    div.className = el.className;
+                    div.classList.add(name);
                     el.parentNode.replaceChild(div, el);
                 }
             });
@@ -1160,6 +1161,9 @@
                 .addControl('data-table', dataTable)
                 .addPlugin('dataBind', dataBind)
                 .loadCss(polyfillStyleId, polyfillStyleCss);
+
+            // Define a setting so apps can check if this file is being used. 
+            app.settings.usingWebComponentsPolyfill = true;
 
             defineCustomEvents();
             defineRoutes();

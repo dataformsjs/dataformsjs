@@ -25,7 +25,7 @@ import {
     showError,
     componentsAreDefined,
     polyfillCustomElements,
-    showOldBrowserWarning
+    usingWebComponentsPolyfill
 } from './utils.js';
 
 /**
@@ -130,6 +130,9 @@ function setView(router, view, html, urlParams) {
 class UrlHashRouter extends HTMLElement {
     constructor() {
         super();
+        if (usingWebComponentsPolyfill()) {
+            return;
+        }
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
         this._currentRoute = null;
@@ -340,6 +343,5 @@ class UrlHashRoute extends HTMLElement {
 /**
  * Define Custom Elements
  */
-showOldBrowserWarning();
 window.customElements.define('url-hash-router', UrlHashRouter);
 window.customElements.define('url-hash-route', UrlHashRoute);

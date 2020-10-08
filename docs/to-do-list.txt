@@ -103,6 +103,15 @@ TODO List
                     [*.min.js] Framework files will be downloaded
                 <script src="../js/web-components/polyfill.js"></script>
                     Full [*.js] Framework files will be downloaded
+        - [/js/web-components/safari-nomodule.min.js] will be removed from all templates but the file will still be kept
+            [/js/web-components/old-browser-warning.min.js] will have an [X] button added that the user can closure
+            similar to the standard Framework `app.showErrorAlert('Test')`.
+            - Markdown docs should be created for this though. Include links from `usingWebComponentsPolyfill()`
+            - Reason is now [polyfill.js] works instead of [safari-nomodule.min.js] and not only Safari has the
+                issue but Legacy Edge. The [X] button will allow a user to cancel if [old-browser-warning.min.js] is
+                still being used by an app.
+            - [old-browser-warning.min.js] will be kept as commented out in the templates with comments that
+                the polyfill works for older browsers.
         - Possible update found during testing:
             Update `app.loadJsControl()` to be safe to call multiple times.
             Currently it adds duplicate `app.activeJsControls` but it's doesn't break anything. 

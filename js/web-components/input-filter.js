@@ -14,11 +14,14 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
-import { componentsAreSetup } from './utils.js';
+import { componentsAreSetup, usingWebComponentsPolyfill } from './utils.js';
 
 class InputFilter extends HTMLInputElement {
     constructor() {
         super();
+        if (usingWebComponentsPolyfill()) {
+            return;
+        }
         this.addEventListener('input', this.filter);
     }
 
@@ -119,7 +122,7 @@ class InputFilter extends HTMLInputElement {
 
 window.customElements.define('input-filter', InputFilter, { extends: 'input' });
 
-// For Safari, Samsung Internet, and Edge
+// For Safari, Samsung Internet, and Legacy Edge
 window._webComponentPolyfills = window._webComponentPolyfills || [];
 window._webComponentPolyfills.push({
     element: 'input-filter',

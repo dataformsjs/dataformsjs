@@ -60,7 +60,7 @@ class LeafletMap extends HTMLDivElement {
                 // If [json-data.js] with [data-bind-attr] is being used then wait for
                 // the bound values to be updated before creating the map.
                 const attrValue = this.getAttribute(numAttr[n].attr);
-                if (this.getAttribute('data-bind-attr') !== null && (attrValue.startsWith('[') || attrValue === '' || attrValue === 'null')) {
+                if (this.getAttribute('data-bind-attr') !== null && (attrValue === null || attrValue.startsWith('[') || attrValue === '' || attrValue === 'null')) {
                     return;
                 }
                 // Invalid attribute

@@ -27,7 +27,7 @@ import {
     componentsAreDefined,
     polyfillCustomElements,
     showErrorAlert,
-    showOldBrowserWarning
+    usingWebComponentsPolyfill
 } from './utils.js';
 
 /**
@@ -155,6 +155,9 @@ function setView(router, view, html, urlParams) {
 class UrlRouter extends HTMLElement {
     constructor() {
         super();
+        if (usingWebComponentsPolyfill()) {
+            return;
+        }
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
         this._currentRoute = null;
@@ -364,6 +367,5 @@ class UrlRoute extends HTMLElement {
 /**
  * Define Custom Elements
  */
-showOldBrowserWarning();
 window.customElements.define('url-router', UrlRouter);
 window.customElements.define('url-route', UrlRoute);

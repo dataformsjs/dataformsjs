@@ -25,7 +25,7 @@ import {
     bindAttrTmpl,
     componentsAreDefined,
     polyfillCustomElements,
-    showOldBrowserWarning
+    usingWebComponentsPolyfill
 } from './utils.js';
 
 /**
@@ -86,6 +86,9 @@ function getDataFromCache(url, params) {
 class JsonData extends HTMLElement {
     constructor() {
         super();
+        if (usingWebComponentsPolyfill()) {
+            return;
+        }
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
 
@@ -109,6 +112,9 @@ class JsonData extends HTMLElement {
     }
 
     attributeChangedCallback(attr, oldVal, /* newVal */) {
+        if (this.state === undefined) {
+            return; // if `usingWebComponentsPolyfill() === true`
+        }
         switch (attr) {
             case 'url':
             case 'url-params':
@@ -124,7 +130,7 @@ class JsonData extends HTMLElement {
         // the DOM. If [removeChild] and [appendChild] are used to move the
         // element on the page this prevents the web service from being called
         // multiple times.
-        if (!this.state.isLoading && !this.state.hasError && !this.state.isLoaded) {
+        if (this.state !== undefined && !this.state.isLoading && !this.state.hasError && !this.state.isLoaded) {
             this.fetch();
         }
     }
@@ -350,15 +356,17 @@ class JsonData extends HTMLElement {
 /**
  * Define Custom Elements
  */
-showOldBrowserWarning();
 window.customElements.define('json-data', JsonData);
 
 /**
  * Class for <is-loading> Custom Element
  */
-window.customElements.define('is-loading', class extends HTMLElement {
+window.customElements.define('is-loading', class IsLoading extends HTMLElement {
     constructor() {
         super();
+        if (usingWebComponentsPolyfill()) {
+            return;
+        }
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
         if (!(this.parentNode.nodeName === 'JSON-DATA' && this.parentNode.isLoading === true)) {
@@ -370,9 +378,12 @@ window.customElements.define('is-loading', class extends HTMLElement {
 /**
  * Class for <has-error> Custom Element
  */
-window.customElements.define('has-error', class extends HTMLElement {
+window.customElements.define('has-error', class HasError extends HTMLElement {
     constructor() {
         super();
+        if (usingWebComponentsPolyfill()) {
+            return;
+        }
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
         if (!(this.parentNode.nodeName === 'JSON-DATA' && this.parentNode.hasError === true)) {
@@ -384,9 +395,12 @@ window.customElements.define('has-error', class extends HTMLElement {
 /**
  * Class for <is-loaded> Custom Element
  */
-window.customElements.define('is-loaded', class extends HTMLElement {
+window.customElements.define('is-loaded', class IsLoaded extends HTMLElement {
     constructor() {
         super();
+        if (usingWebComponentsPolyfill()) {
+            return;
+        }
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
         if (!(this.parentNode.nodeName === 'JSON-DATA' && this.parentNode.isLoaded === true)) {

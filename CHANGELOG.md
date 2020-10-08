@@ -15,11 +15,16 @@ Overall the core Framework files and API are expected to remain stable however t
   * Added `data-show="js-expression"` to show or hide items from `<json-data>`. It works similar to Vue `v-show`.
   * The new features make for an easier to use API for customizing content on page after data is displayed. Previously the places demo required a lot of custom JavaScript on the page in order to display flag icons, format table data, and additional items.
 
+### Breaking Changes
+
+All breaking changes are minor and only expected to affect internal API's
+
+* `js/web-components/utils.js` - Removed `showOldBrowserWarning()`. The feature has been replaced with the new `js/web-components/polyfill.js` and a function `usingWebComponentsPolyfill()`
+
 ### Release Details
 
 * Files Modified:
-  * `js/web-components/data-list.js`
-  * `js/web-components/json-data.js`
+  * Most or all files under: `js/web-components/*`
   * `js/controls/json-data.js`
 * File Added:
   * `js/web-components/polyfill.js`

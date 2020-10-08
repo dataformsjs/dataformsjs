@@ -20,7 +20,7 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
-import { render } from './utils.js';
+import { render, usingWebComponentsPolyfill } from './utils.js';
 import { Format } from './utils-format.js';
 
 /**
@@ -35,6 +35,9 @@ shadowTmpl.innerHTML = `
 class DataList extends HTMLElement {
     constructor() {
         super();
+        if (usingWebComponentsPolyfill()) {
+            return;
+        }
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
         // The [not-setup] is defined when the component is created and removed when data

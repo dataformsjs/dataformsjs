@@ -245,20 +245,23 @@ export function showErrorAlert(message) {
 }
 
 /**
- * Show a error alert with a message for older browsers.
+ * Return `true` if [polyfill.js] is being used. This allows Web Components to check
+ * if the should run or not. Old Versions of Safari (10.#) have a bug where both
+ * <script type="module"> and <script nomodule> will be loaded. Additionally the 
+ * issue can affect legacy Edge browsers as well.
  * 
- * This is intended for browsers that support <script type="module">
- * but do not support [window.customElements.define()]. This function 
- * gets called by individual web component.
+ * If this happens then allow the app to use the [polyfill.js] file since it runs first.
  * 
- * This issue is known to affect Microsoft Edge Browsers using the 
- * EdgeHTML rendering engine.
+ * Related Links:
+ *   https://caniuse.com/es6-module
+ *   https://gist.github.com/jakub-g/5fc11af85a061ca29cc84892f1059fec
+ *   https://jakearchibald.com/2017/es-modules-in-browsers/
+ *   https://gist.github.com/samthor/64b114e4a4f539915a95b91ffd340acc
  */
-export function showOldBrowserWarning() {
-    if (window.customElements === undefined || window.customElements.define === undefined) {
-        const message = 'Thank you for visiting! However some features on this page require a newer Browser or OS than the one that you are currently using. If you have a different browser available then please open this page with it.';
-        showErrorAlert(message);    
-    }
+export function usingWebComponentsPolyfill() {
+    var result = (window.app && window.app.settings && window.app.settings.usingWebComponentsPolyfill === true);
+    console.log('usingWebComponentsPolyfill: ', result);
+    return result;
 }
 
 /**
