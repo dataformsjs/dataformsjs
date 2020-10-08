@@ -73,19 +73,6 @@
 
         [#test-4] shows that IE keeps the innerHTML but adds a <tbody>
     -->
-    
-    <template id="test-1">
-        <tr>
-            <td>${iso}</td>
-            <td>
-                <i class="${iso.toLowerCase()} flag"></i>
-                ${country}
-            </td>
-            <td class="align-right" data-value="${area_km}">${Format.number(area_km)}</td>
-            <td class="align-right" data-value="${population}">${Format.number(population)}</td>
-            <td>${continent}</td>
-        </tr>
-    </template>
 
     <!--
     <template id="test-1">
@@ -160,7 +147,7 @@
 
     <script nomodule src="../js/web-components/polyfill.js"></script> -->
 
-    <!-- <script src="../js/web-components/polyfill.js"></script> -->
+    <script src="../js/web-components/polyfill.js"></script>
 
     <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
     <!-- <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/safari-nomodule.min.js"></script>
