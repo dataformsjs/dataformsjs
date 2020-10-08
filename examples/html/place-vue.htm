@@ -25,7 +25,7 @@
                 <label class="no-top-margin" v-i18n="'Name'"></label>
                 <span>{{ place.name }}</span>
             </div>
-            <div v-if="place.name !== place.ascii_name">
+            <div v-show="place.name !== place.ascii_name">
                 <label v-i18n="'ASCII Name'"></label>
                 <span>{{ place.ascii_name }}</span>
             </div>
@@ -98,7 +98,7 @@
         <h2><span v-i18n="''"></span>Alternate Names ({{ place.alternate_names.length }})</h2>
 
         <input
-            v-if="place.alternate_names.length > 10"
+            v-show="place.alternate_names.length > 10"
             data-filter-selector=".alternate-names li"
             data-filter-results-text-selector="h2"
             data-filter-results-text-all="Alternate Names ({totalCount})"

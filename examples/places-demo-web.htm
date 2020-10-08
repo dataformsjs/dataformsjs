@@ -54,9 +54,42 @@
 
                             <div class="responsive-table">
                                 <!--
-                                    Flags are added to the <data-table> from JavaScript at the bottom of this file.
-                                    Additionlly Date and Number formatting is handled from the JavaScript.
+                                    This version of the <data-table> uses a custom <template> to
+                                    define how each table row item will be defined. This is used
+                                    here to allow for display of the flag icon and number formatting.
+
+                                    The template format is HTML using JavaScript template literals
+                                    (template strings). All values in `${value}` are safely escaped for HTML.
+
+                                    See another commented option for <data-table> below this version.
                                 -->
+                                <data-table
+                                    data-bind="countries"
+                                    highlight-class="highlight"
+                                    labels="Code, Name, Size (KM), Population, Continent"
+                                    table-attr="is=sortable-table,
+                                                data-sort-class-odd=row-odd,
+                                                data-sort-class-even=row-even">
+                                    <template>
+                                        <tr>
+                                            <td><a href="#/regions/${iso}">${iso}</a></td>
+                                            <td>
+                                                <i class="${iso.toLowerCase()} flag"></i>
+                                                ${country}
+                                            </td>
+                                            <td class="align-right" data-value="${area_km}">${Format.number(area_km)}</td>
+                                            <td class="align-right" data-value="${population}">${Format.number(population)}</td>
+                                            <td>${continent}</td>
+                                        </tr>
+                                    </template>
+                                </data-table>
+
+                                <!--
+                                    For a basic table a <template> is not required. This version still
+                                    contains links by using the [col-link-template] attribute however
+                                    it will not show the flag icons or format numbers.
+                                -->
+                                <!--
                                 <data-table
                                     data-bind="countries"
                                     highlight-class="highlight"
@@ -66,6 +99,7 @@
                                                 data-sort-class-odd=row-odd,
                                                 data-sort-class-even=row-even">
                                 </data-table>
+                                -->
                             </div>
                         </is-loaded>
                     </json-data>
@@ -82,25 +116,55 @@
         </url-hash-router>
 
         <!-- DataFormsJS Web Components -->
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/url-hash-router.min.js"></script>
+        <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/url-hash-router.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/json-data.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/data-table.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/input-filter.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/sortable-table.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/data-list.min.js"></script>
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/leaflet-map.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/leaflet-map.min.js"></script> -->
+
+        <script type="module" src="../js/web-components/url-hash-router.js"></script>
+        <script type="module" src="../js/web-components/json-data.js"></script>
+        <script type="module" src="../js/web-components/data-table.js"></script>
+        <script type="module" src="../js/web-components/input-filter.js"></script>
+        <script type="module" src="../js/web-components/sortable-table.js"></script>
+        <script type="module" src="../js/web-components/data-list.js"></script>
+        <script type="module" src="../js/web-components/leaflet-map.js"></script>
+
+        <!-- <script src="../js/web-components/polyfill.js"></script> -->
 
         <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
+        <!--         
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/safari-nomodule.min.js"></script>
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/old-browser-warning.min.js"></script>
+        -->
 
         <!-- https://leafletjs.com -->
         <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+
+        <script>
+            // Display Elevation in both Meters and Feet
+            function formatElevation(text) {
+                var meters = parseInt(text, 10);
+                if (!isNaN(meters)) {
+                    var feet = parseInt(meters * 3.28084, 10)
+                    return Number(meters).toLocaleString() + ' m / ' + Number(feet).toLocaleString() + "'";
+                }
+                return text;
+            }
+        </script>
+
+        <!--
+            NOTE - the scripts below were created before the updates to <data-table>, [data-show], etc.
+            Before the next npm release these will be moved and provided as examples in another file.
+        -->
 
         <!--
             Elements <url-hash-router> and <json-data> define custom events that
             can be used to call JavaScript code once the content is loaded and ready.
         -->
+        <!--
         <script>
             // If needed handle the first route change [contentLoaded] with <script>
             // instead of <script type="module">. This is because <url-hash-router>
@@ -117,7 +181,9 @@
             }
             router.addEventListener('contentLoaded', contentLoaded);
         </script>
+        -->
 
+        <!--
         <script type="module">
             /* jshint esversion:8 */
 
@@ -319,5 +385,6 @@
                 }
             }
         </script>
+        -->
     </body>
 </html>

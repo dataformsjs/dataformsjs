@@ -121,7 +121,10 @@ const isWindows = (process.platform === 'win32');
             // becomes:
             //    import { ... } from './utils-min.js';
             if (es6) {
-                newCode = newCode.replace('./utils.js', './utils.min.js').replace('./utils-sort.js', './utils-sort.min.js');
+                newCode = newCode
+                    .replace('./utils.js', './utils.min.js')
+                    .replace('./utils-sort.js', './utils-sort.min.js')
+                    .replace('./utils-format.js', './utils-format.min.js');
             }
 
             // Update file if different

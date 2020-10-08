@@ -15,6 +15,7 @@
 /* eslint-disable no-console */
 
 import { render, buildUrl } from './utils.js';
+import { Format } from './utils-format.js';
 
 /**
  * Shadow DOM for Custom Elements
@@ -73,21 +74,58 @@ class DataTable extends HTMLElement {
         this.renderTable();
     }
 
+    get errorClass() {
+        return this.getAttribute('error-class');
+    }
+
+    get defaultErrorStyle() {
+        return 'color:white; background-color:red; padding:0.5rem 1rem; margin:.5rem;';
+    }
+
+    removeTable() {
+        // If there is no template than it's safe to clear all content
+        const template = this.querySelector('template');
+        if (template === null) {
+            this.innerHTML = '';
+            return;
+        }
+
+        // <template> exists so simply remove <table> from the DOM
+        const table = this.querySelector('table');
+        if (table !== null) {
+            table.parentNode.removeChild(table);
+        }
+    }
+
     renderTable() {
         // Ignore if [value] has not yet been set
         const list = this.state.list;
         if (list === null || list === '') {
-            this.innerHTML = '';
+            this.removeTable();
             return;
         }
 
         // Allow attribute changes after first render
         this.state.hasBeenLoaded = true;
 
+        // Is there a template to use for each row?
+        const template = this.querySelector('template');
+
+        // Private function in this scope to add the table
+        const addTable = (html) => {
+            if (template === null) {
+                this.innerHTML = html;
+            } else {
+                this.removeTable();
+                this.insertAdjacentHTML('beforeend', html);
+            }
+            // Remove this attribute after the first time a table is rendered
+            this.removeAttribute('not-setup');
+        };
+
         // Show no-data if empty
         if (Array.isArray(list) && list.length === 0) {
-            this.innerHTML = '<table class="no-data"></table>';
-            this.removeAttribute('not-setup');
+            addTable('<table class="no-data"></table>');
             return;
         }
 
@@ -99,8 +137,7 @@ class DataTable extends HTMLElement {
             isValid = false;
         }
         if (!isValid) {
-            this.innerHTML = '<table><caption class="error">Error invalid data type for table</capiton></table>';
-            this.removeAttribute('not-setup');
+            addTable('<table><caption class="error">Error invalid data type for table</caption></table>');
             return;
         }
 
@@ -113,7 +150,9 @@ class DataTable extends HTMLElement {
         let userLabels = this.getAttribute('labels');
         if (userLabels) {
             labels = userLabels.split(',').map(s => s.trim());
-            if (labels.length !== columns.length) {
+            // If there is a mistmatch between defined columns
+            // and labels then switch to using columns.
+            if ((labels.length !== columns.length) && template === null) {
                 labels = columns;
             }
         }
@@ -141,36 +180,71 @@ class DataTable extends HTMLElement {
         }
         html.push('</tr></thead>');
 
-        // Will the table use a link template?
-        const linkTmpl = this.getAttribute('col-link-template');
-        let linkFields = this.getAttribute('col-link-fields');
-        if (linkTmpl) {
-            if (linkFields) {
-                linkFields = linkFields.split(',').map(s => s.trim());
-            } else {
-                linkFields = [columns[0]];
-            }
-        }
-
         // Table Body
         html.push('<tbody>');
-        for (const item of list) {
-            const row = [];
-            row.push('<tr>');
-            for (const column of columns) {
-                if (linkTmpl && linkFields.includes(column)) {
-                    row.push(render`<td>
-                        <a href="${buildUrl(linkTmpl, item)}">${item[column]}</a>
-                    </td>`);
+        if (template) {
+            // Render each item in the template. A new function is dynamically created that simply
+            // renders the contents of the template as a JavaScript template literal (template string).
+            // The Tagged Template Literal function `render()` from [utils.js] is used to safely escape
+            // the variables for HTML encoding. The variable `index` is made availble to the template
+            // and it can be safely overwritten by the list item due to variable scoping during rendering.
+            try {
+                const tmpl = new Function('item', 'index', 'render', 'Format', 'with(item){return render`' + template.innerHTML + '`}');
+                let index = 0;
+                for (const item of list) {
+                    try {
+                        html.push(tmpl(item, index, render, Format));
+                    } catch (e) {
+                        const errorClass = this.errorClass;
+                        if (errorClass) {
+                            html.push(render`<tr class="${this.errorClass}">`);
+                        } else {
+                            html.push(render`<tr style="${this.defaultErrorStyle}">`);
+                        }
+                        html.push(render`<td colspan="${columns.length}">Item Error - ${e.message}</td></tr>`);
+                    }
+                    index++;
+                }
+            } catch (e) {
+                const errorClass = this.errorClass;
+                if (errorClass) {
+                    addTable(`<table class="${this.errorClass}"><caption>Error Rendering Template - ${e.message}</caption></table>`);
                 } else {
-                    row.push(render`<td>${item[column]}</td>`);
+                    addTable(`<table style="${this.defaultErrorStyle}"><caption>Error Rendering Template - ${e.message}</caption></table>`);
+                }
+                return;
+            }
+        } else {
+            // Will the table use a link template?
+            const linkTmpl = this.getAttribute('col-link-template');
+            let linkFields = this.getAttribute('col-link-fields');
+            if (linkTmpl) {
+                if (linkFields) {
+                    linkFields = linkFields.split(',').map(s => s.trim());
+                } else {
+                    linkFields = [columns[0]];
                 }
             }
-            row.push('</tr>');
-            html.push(row.join(''));
+
+            // Build basic table
+            for (const item of list) {
+                const row = [];
+                row.push('<tr>');
+                for (const column of columns) {
+                    if (linkTmpl && linkFields.includes(column)) {
+                        row.push(render`<td>
+                            <a href="${buildUrl(linkTmpl, item)}">${item[column]}</a>
+                        </td>`);
+                    } else {
+                        row.push(render`<td>${item[column]}</td>`);
+                    }
+                }
+                row.push('</tr>');
+                html.push(row.join(''));
+            }
         }
         html.push('</tbody></table>');
-        this.innerHTML = html.join('');
+        addTable(html.join(''));
 
         // Allow user to highlight rows by clicking on them?
         // This allows a user to easily see where they are on wide rows or mobile devices.
@@ -183,9 +257,6 @@ class DataTable extends HTMLElement {
                 row.addEventListener('click', toggleHighlight);
             }
         }
-
-        // Remove this attribute after the first time a table is rendered
-        this.removeAttribute('not-setup');
     }
 }
 

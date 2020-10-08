@@ -45,6 +45,18 @@
                         table-attr="is=sortable-table,
                                     data-sort-class-odd=row-odd,
                                     data-sort-class-even=row-even">
+                        <template>
+                            <tr>
+                                <td>${iso}</td>
+                                <td>
+                                    <i class="${iso.toLowerCase()} flag"></i>
+                                    ${country}
+                                </td>
+                                <td class="align-right" data-value="${area_km}">${Format.number(area_km)}</td>
+                                <td class="align-right" data-value="${population}">${Format.number(population)}</td>
+                                <td>${continent}</td>
+                            </tr>
+                        </template>
                     </data-table>
                 </div>
             </is-loaded>
@@ -52,75 +64,22 @@
     </div>
 
     <!-- DataFormsJS Web Components -->
-    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/url-hash-router.min.js"></script>
+    <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/url-hash-router.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/json-data.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/data-table.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/input-filter.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/sortable-table.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/sortable-table.min.js"></script> -->
+
+    <!-- <script type="module" src="../js/web-components/url-hash-router.min.js"></script>
+    <script type="module" src="../js/web-components/json-data.min.js"></script>
+    <script type="module" src="../js/web-components/data-table.min.js"></script>
+    <script type="module" src="../js/web-components/input-filter.min.js"></script>
+    <script type="module" src="../js/web-components/sortable-table.min.js"></script> -->
 
     <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
-    <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/safari-nomodule.min.js"></script>
-    <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/old-browser-warning.min.js"></script>
+    <!-- <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/safari-nomodule.min.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/old-browser-warning.min.js"></script> -->
 
-    <!--
-        Add images to the <table is="data-table"> element using standard JavaScript DOM methods
-    -->
-    <script type="module">
-        import { componentsAreSetup } from 'https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/utils.min.js';
-
-        const jsonData = document.querySelector('json-data');
-        if (jsonData !== null) {
-            // [contentReady === true] can happen on the first page load if the
-            // data loads very fast - (before <script type="module"> finished loading).
-            if (jsonData.contentReady) {
-                updateTableContent();
-            } else {
-                jsonData.addEventListener('contentReady', updateTableContent);
-            }
-        }
-
-        // Add Flag Images to the <table> once it has been rendered
-        // and format Number Columns in User's local number format.
-        async function updateTableContent() {
-            // Wait till all web components are setup
-            await componentsAreSetup();
-
-            // Exit if page has no table
-            const table = document.querySelector('table');
-            if (table === null || table.tBodies === null || table.tBodies.length !== 1) {
-                return;
-            }
-
-            // Find Number and Date Columns so the data can be formatted
-            const updateCols = [];
-            const cells = table.tHead.rows[0].cells;
-            const colCount = cells.length;
-            for (let x = 0; x < colCount; x++) {
-                switch (cells[x].textContent) {
-                    case 'Size (KM)':
-                    case 'Population':
-                        updateCols.push(x);
-                        break;
-                }
-            }
-            const updateColLen = updateCols.length;
-
-            // Process all rows
-            for (const row of table.tBodies[0].rows) {
-                // Add flag to row
-                const iso = row.cells[0].textContent.trim().toLowerCase();
-                const flag = document.createElement('i');
-                flag.className = iso + ' flag';
-                row.cells[1].insertAdjacentElement('afterbegin', flag);
-
-                // Format Numbers
-                for (let y = 0; y < updateColLen; y++) {
-                    const numValue = row.cells[updateCols[y]].textContent;
-                    row.cells[updateCols[y]].setAttribute('data-value', numValue); // Value for Sorting
-                    row.cells[updateCols[y]].textContent = Number(numValue).toLocaleString(); // Value for Display
-                }
-            }
-        }
-    </script>
+    <script src="../js/web-components/polyfill.js"></script>
 </body>
 </html>

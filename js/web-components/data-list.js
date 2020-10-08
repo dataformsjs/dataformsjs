@@ -21,6 +21,7 @@
 /* eslint-disable no-console */
 
 import { render } from './utils.js';
+import { Format } from './utils-format.js';
 
 /**
  * Shadow DOM for Custom Elements
@@ -118,11 +119,11 @@ class DataList extends HTMLElement {
             // the variables for HTML encoding. The variable `index` is made availble to the template
             // and it can be safely overwritten by the list item due to variable scoping during rendering.
             try {
-                const tmpl = new Function('item', 'index', 'render', 'with(item){return render`' + template.innerHTML + '`}');
+                const tmpl = new Function('item', 'index', 'render', 'Format', 'with(item){return render`' + template.innerHTML + '`}');
                 let index = 0;
                 for (const item of list) {
                     try {
-                        html.push(tmpl(item, index, render));
+                        html.push(tmpl(item, index, render, Format));
                     } catch (e) {
                         const itemElement = (rootElement === 'ul' ? 'li' : 'div');
                         const errorClass = this.errorClass;

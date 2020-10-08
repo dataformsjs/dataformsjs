@@ -35,7 +35,7 @@ module.exports = {
         // React and Web Components use modern module syntax
         {
             files: ['**/js/web-components/*', '**/js/react/es6/*'],
-            excludedFiles: 'jsPlugins.js',
+            excludedFiles: ['jsPlugins.js', 'polyfill.js'],
             parserOptions: {
                 ecmaVersion: 11,
                 sourceType: 'module',

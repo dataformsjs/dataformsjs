@@ -22,54 +22,76 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Create a Polyfill for Web Components
-    * An early verion proof of concept version of this script has been started and works,
-        it's located below this directory:
-            ~/docs/development-concepts/polyfill.js
-        - See comments in the file on how to run it.
-        - Since this is proof of concept and early testing there is no timeline for development.
-    - The idea is instead of no support the a single script could be used
-        to load the standard DataFormsJS Framework and other custom code
-        to create polyfills.
-    - Currently pages use code like this:
-        <script type="module" src="js/web-components/url-hash-router.min.js"></script>
-        <script type="module" src="js/web-components/json-data.min.js"></script>
-        ...
-        <script nomodule src="js/web-components/safari-nomodule.min.js"></script>
-        <script nomodule src="js/web-components/old-browser-warning.min.js"></script>
-    - Ideally [safari-nomodule.min.js] and [old-browser-warning.min.js] would be replaced
-        by a single polyfill script:
-            <script nomodule src="js/web-components/polyfill.min.js"></script>
-    - At a minimum the new script would need to handle IE 11, older Safari (example iOS 9), UC Browser.
-        iOS 9 support because older devices such as iPad 2 can't upgrade past it and iPhone 6
-        phones that are not upgraded still use it.
-    - Basically the script if loaded will then load the main DataFormsJS Framework
-        and additional pluings or scripts as needed to polyfill the Web Components.
-    - See the other '**)' Web Component priority items below, they might be completed at the same time
-    - Search this file for "Web Components" to find related comments, this task
-        currently overrides the other tasks so a polyfill can be created.
-
-**) Web Component General
-    - Attributes with [data-bind] can also include an optional [data-format="number|date|dateTime|{function}"]
-    - Currently the date and time formatting happens in JS on the page in the places demo
-    - The standard Framework plugin [js/plugins/dataBind.js] could also be considered for a similar update
-    - The standard Framework includes `app.settings.lazyTemplateSelector` which is used to show an optional
-        loading template while scripts and HTML content is being downloaded. In general the content is
-        very small so it goes un-noticed on a desktop or fast mobile connection. On a slow mobile connection
-        the delay can be noticeable so a similar feature should be added for Web Components.
-        For a starting point this could be added as:
-            <url-hash-router loading-template-selector="#template">
-            <url-router loading-template-selector="#template">
-        Ideally this will also be added to <json-data><is-loading template-selector="#template"> as well.
-    - Add ability to lazy load scripts based on route <url-hash-route> and <url-route> similar to how
-        the standard Frameworks works. A good test will be the [examples/places-demo-web.htm] file
-        that always loads [https://unpkg.com/leaflet@1.5.1/dist/leaflet.js]. The format for defining 
-        this needs to still be determined. The main framework uses [app.lazyLoad = {}].
-
-**) Web Component <data-table>
-    - Add <template> which can be used for to define custom <tr> layouts.
-    - The template format will use JavaScript template literals (template strings)
-        in the same manner that the Web Component <data-list> works
+**) Finish Web Component Updates
+    - Many updates are being made and in active development (2020-10-07).
+        See the [CHANGELOG.md] or recent commmits for full details.
+        Since changes are currently in active development the related features may
+        go through additional changes without warning.
+    - Until updates are finished many of the web component examples will be pointing
+        to local build files rather than CDN.
+    - These updates will likely occur over a week or several weeks or longer before being published to npm.
+    - In general:
+        - Add ability to polyfill for old browsers [js/web-components/polyfill.js] using the main framework.
+        - <data-table> - New <template> option
+        - <json-data> Attributes with [data-bind] can also include an
+            optional [data-format="number|date|dateTime|{function}"]
+    - Items currently needed before this will be published to npm
+        - Review all comments in [js/web-components/polyfill.js] and handle all issues.
+            The file is working but still in active development.
+        - The standard Framework includes `app.settings.lazyTemplateSelector` which is used to show an optional
+            loading template while scripts and HTML content is being downloaded. In general the content is
+            very small so it goes un-noticed on a desktop or fast mobile connection. On a slow mobile connection
+            the delay can be noticeable so a similar feature should be added for Web Components.
+            For a starting point this could be added as:
+                <url-hash-router loading-template-selector="#template">
+                <url-router loading-template-selector="#template">
+            Ideally this will also be added to <json-data><is-loading template-selector="#template"> as well.
+        - Add ability to lazy load scripts based on route <url-hash-route> and <url-route> similar to how
+            the standard Frameworks works. A good test will be the [examples/places-demo-web.htm] file
+            that always loads [https://unpkg.com/leaflet@1.5.1/dist/leaflet.js]. The format for defining
+            this needs to still be determined. The main framework uses [app.lazyLoad = {}]. The web components
+            will likely check for the same format if [window.lazyLoad] is defined by the app.
+        - New demo page to test all features of the new [utils-format.js] file
+        - Consider (likely) add multiple optional template options to <data-table>
+            - If only <template> then use for row items (current)
+            - Also support:
+                <template data-header>
+                    - In the places demo this can be use to right align text on number columns in the header
+                <template data-item>
+                <template data-footer>
+            - How to do this using the built-in <slot>? See if it makes sense using <slot>
+        - Consider [document.addEventListener('app:contentReady'] or something similar for
+            the main API as it makes custom code much easier. Currently this is a feature
+            of the new [polyfill.js]. Also need new example page showing how this works.
+            - Likely many updates will be made in [examples/web-components-api.htm] for API examples.
+            - Commented <scripts> at the bottom of [examples/places-demo-web.htm] should
+                be merged to [examples/web-components-api.htm] or documented in a new sperate example.
+        - Decide if [Format.number()] with static functions or instead use `new Format()` then pass `format`.
+            This may be decided based on browser support for static functions. More research is needed.
+        - Also related decide if
+                import { Format } from './utils-format.js';
+            Should be merged with the main './utils.js' to avoid an extra HTTP request. If all code
+            that imports from './utils.js' also imports Format then they should probably be merged.
+        - At a minimum the new script Polyfill scripts needs to handle IE 11, older Safari (example iOS 9), UC Browser.
+            iOS 9 support because older devices such as iPad 2 can't upgrade past it and iPhone 6
+            phones that are not upgraded still use it.
+        - Add [template-selector] to <data-table> similar to <data-list> and vice-versa add ability
+            to specify <template> inside of <data-list>
+        - Currently pages use code like this:
+            <script type="module" src="js/web-components/url-hash-router.min.js"></script>
+            <script type="module" src="js/web-components/json-data.min.js"></script>
+            ...
+            <script nomodule src="js/web-components/safari-nomodule.min.js"></script>
+            <script nomodule src="js/web-components/old-browser-warning.min.js"></script>
+            - Ideally [safari-nomodule.min.js] and [old-browser-warning.min.js] would be replaced
+                by a single polyfill script:
+                    <script nomodule src="js/web-components/polyfill.min.js"></script>
+        - Related to current updates [dataformsjs\examples\html\cities-web.htm] now shows
+            both Meters and Feet using `formatElevation(elevation)`. The other demos currently
+            display meters only but should also be updated to display both.
+        - Possible update found during testing:
+            Update `app.loadJsControl()` to be safe to call multiple times.
+            Currently it adds duplicate `app.activeJsControls` but it's doesn't break anything. 
 
 **) Playground Site
     - Need to add support for JSON file/resource type
@@ -204,7 +226,6 @@ TODO List
         simple to use. If too many features are added the size of the Web Components can
         increase a lot and grouping related features (security, shared state, etc) makes
         more sense for a Framework or React code.
-        ** In general this applies to any comments in this file related to Web Components **
     - <json-data>
         - Add support on <is-loading> for new [template-selector] attribute
             It would work similar to the <data-List> control to render the model with JavaScript template literal string:
@@ -223,6 +244,17 @@ TODO List
         - API is not yet started on so it has be decided first
         - Possibly several development versions will be created and tested
             with the best one selected
+        - <i18n-service> outside of the hash router or <i18n-service url-params> under the hash router.
+            How to do something like this with <data-table>?
+                <a href="#/{{../i18n_Locale}}/regions/{{iso}}">
+            Possibly:
+                col-link-template="#/:window.i18n_Locale/regions/:iso"
+            Another option if using <i18n-service> outside of the hash router could be to define
+            [i18n-key="value"] attributes on elements that <i18n-service> would update.
+            The <i18n-service> then might have to use JS code such as the following to handle updates
+                document.querySelector('url-hash-router').addEventListener('contentLoaded')
+                await componentsAreDefined(document)]
+            Likely try several versions to see what makes the most sense
     - Create Search Screen for the following page:
         - http://127.0.0.1:8080/places-demo-web
         - This requires creating a new web component (either generic or part of the app)
@@ -231,25 +263,6 @@ TODO List
             http://127.0.0.1:8080/places-demo-graphql#/en/
             http://127.0.0.1:8080/places-demo-vue#/en/
             http://127.0.0.1:8080/places-demo-react#/en/
-    - Web Components Polyfill using either the main Framework or standalone scripts?
-        - Currently IE, Older Safari, etc will display a warning message instead of Polyfill for Web Components
-        - Polyfills will be considered (and may be developed in the future) for Web Components but they
-            would need a full re-write and not using babel, etc. For an example of why, see:
-                DataFormsJS\js\web-components\utils.js
-                    export function componentsAreDefined
-                    export function componentsAreSetup
-            - Basically DataFormsJS Web Components are not going to be held back by the need for ES5
-        - Currently the main framework has <json-data> and <data-table> JavaScript controls
-            that are similar to the <json-data> and <data-table> Web Component. These could be changed
-            and additional code developed to match the behavior of Web Components.
-        - Alternatively individual files such as [DataFormsJS\js\web-components\polyfill\json-data.js]
-            could be developed. Currently in favor of using the standard Framework as a it would handle
-            a lot of the need for web components.
-        - If using the standard framework then [url-hash-router] would need to be polyfilled as well,
-            either from the main file [DataFormsJS.js] or a new file [js/controls/url-hash-router.js].
-            This would be determined during development based on what makes sense.
-        - Using the main framework would be preferred to reduce additional duplicate code and because
-            when gzipped the framework is small (9.6 kb for version 1.0.0).
 
 *) Many Docs need to be created along with API page(s)
     - API needs a quick search/filter feature to look up any attribute/class/function/etc
@@ -478,91 +491,6 @@ TODO List
         button doesn't get set multiple times.
         Also possibly do this for the <input filter> control.
 
-*) Web Components
-    - Lazy Loading of scripts when using <url-hash-router>
-        - will work similar to the framework [app.lazyLoad] and [data-lazy-load]
-        - possibly use [window.lazyLoad = {}] to define all lazy load scripts
-        - existing demos such as [places-demo-web.htm] then need to be updated to load scripts only when used
-    - <i18n-service> outside of the hash router or <i18n-service url-params> under the hash router.
-        How to do something like this with <data-table>?
-            <a href="#/{{../i18n_Locale}}/regions/{{iso}}">
-        Possibly:
-            col-link-template="#/:window.i18n_Locale/regions/:iso"
-        Another option if using <i18n-service> outside of the hash router could be to define
-        [i18n-key="value"] attributes on elements that <i18n-service> would update.
-        The <i18n-service> then might have to use JS code such as the following to handle updates
-            document.querySelector('url-hash-router').addEventListener('contentLoaded')
-            await componentsAreDefined(document)]
-        Likely try several versions to see what makes the most sense
-    - Likely create <handlebars-template> and <vue-template>
-        - It will then use a [get value()] and [set value(data)] like the [data-table.js]
-            so that the model can be passed to it. It should then cache the renderd <script>
-            element inside of it and render it in the <*-template> block.
-        - Setting a new value will re-render the template.
-        - If windows.Handlebars or windows.Vue is undefined then they should be downloaded from a CDN
-        - Possible example:
-            <url-hash-router>
-                <url-hash-route path="/:lang/regions/:country">
-                    <json-data
-                        url="http://localhost:3000/html/data/geonames/regions/:country"
-                        url-params>
-
-                        <is-loaded>
-                            <handlebars-template data-bind>
-                                <script type="text/x-template">
-                                    {{#each countries}}
-                                    {{/each}}
-                                </script>
-                            </handlebars-template>
-                        </is-loaded>
-                    </json-data>
-                </url-hash-route>
-            </url-hash-router>
-    - [web-components\utils.js] possibly add more generic functions from the main [DataForms.js]
-      for example [showErrorAlert()]
-    - web-components\json-data.js
-        - Create a similar [graphql-data.js] file and class for GraphQL support.
-            It will behave similar to [json-data.js] and include features from the standard [pages/jsonData.js].
-        - Allow override of default [fetch()] options
-        - Need specific usage documentation, example:
-            Child elements <is-loading>, <has-error>, <is-loaded> all quickly
-            flash unless the custom css [json-data:not(:defined)...] is included.
-            - Currently demo page has comments.
-    - web-components\data-table.js
-        - Add ability to define user defined error messages, labels, etc;
-            simlar to the [Controls\data-table.js] file. Handle these with
-            custom html attributes.
-        - Need ability to format data, possible options:
-            data-format-date="col1, col2"
-            data-format-cols="col1:date, col2:number"
-            data-format-cols="0:bool, 1:datetime"  # also by index
-            also custom labels for bool values such as "yes" or "no"
-        - Related the standard Framework JS Control <data-table> will need a similar update
-            Formatting needed:
-                http://127.0.0.1:8080/places-demo-web
-                http://127.0.0.1:8080/places-demo-js#/en/
-            Formatting works:
-                http://127.0.0.1:8080/places-demo-hbs#/en/
-                http://127.0.0.1:8080/places-demo-graphql#/en/
-                http://127.0.0.1:8080/places-demo-react#/en/
-                http://127.0.0.1:8080/places-demo-vue#/en/
-    - Come up with a good method for formatting numbers, dates, etc. With Vue the standard
-        Framework provides the directive [v-format-number] and for Handlebars there are
-        Handlebars helpers such as [formatNumber]. Similar functionality is needed for web components,
-        however at the time of writing there is no custom web attribute API to use.
-        For now custom code is used to format the data - see examples:
-            dataformsjs\examples\places-demo-web.htm
-    - See example [places-demo-web.htm]
-        - DataFormsJS\examples\html\place-web.htm
-            [place.ascii_name] should only show if it is different then [place.name]
-            [is="input-filter"] should only show if [place.alternate_names.length > 10]
-            Date and Number Formatting, Calculations for [place.elevation]
-        - Because most other demos use templating, react, vue the above items are handled.
-          Should they be handled by the Web Components? If so it can add a lot of code
-          and make them more complex.
-        - An alternative to making the web components more complex would be to use the planned
-            <handlebars-template> and <vue-template>
-
 *) GraphQL
     - Add GraphQL support on [pages/entryForm.js]
     - Add support for other GraphQL types such as Float.
@@ -592,9 +520,6 @@ TODO List
     - Use a page to show summary data on charts, example
         Pie Chart with Population by Continent
     - Geonames Data Service that shows Country Names in User's local langauge
-
-*) Number and Date/Time formatting for all demos [places-demo-*]
-    - Needed on JS and Web Components demos
 
 *) Possible Updates for Vue
     SPA is currently required for Vue

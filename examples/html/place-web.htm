@@ -24,7 +24,7 @@
                     <label class="no-top-margin">Name</label>
                     <span data-bind="place.name"></span>
                 </div>
-                <div>
+                <div data-show="place.name !== place.ascii_name">
                     <label>ASCII Name</label>
                     <span data-bind="place.ascii_name"></span>
                 </div>
@@ -39,11 +39,11 @@
                 </div>
                 <div>
                     <label>Population</label>
-                    <span class="format-number" data-bind="place.population"></span>
+                    <span data-bind="place.population" data-format="number"></span>
                 </div>    
                 <div>
                     <label>Elevation</label>
-                    <span class="format-elevation" data-bind="place.elevation"></span>
+                    <span data-bind="place.elevation" data-format="formatElevation"></span>
                 </div>
                 <div>
                     <label>Latitude</label>
@@ -59,7 +59,7 @@
                 </div>
                 <div>
                     <label>Date Last Modified</label>
-                    <span class="format-date" data-bind="place.modification_date"></span>
+                    <span data-bind="place.modification_date" data-format="date"></span>
                 </div>
             </section>            
     
@@ -84,6 +84,7 @@
 
             <input
                 is="input-filter"
+                data-show="place.alternate_names.length > 10"
                 filter-selector=".alternate-names li"
                 filter-results-selector=".alternate-names h2"
                 filter-results-text-all="Alternate Names ({totalCount})"

@@ -193,6 +193,13 @@
                 url = app.buildUrl(control.url, app.activeModel);
             }
 
+            // Do not fetch data if URL is missing. This can happen if
+            // code is manually adding the URL after initial load.
+            // For example on the Web Components Polyfill.
+            if (url === '') {
+                return;
+            }
+
             // Make the JSON Request
             app
             .fetch(url, init)

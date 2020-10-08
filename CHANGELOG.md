@@ -4,6 +4,27 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## Next Release (changes on main/master branch and not yet published to npm)
+
+### Release Overview
+
+* Many updates are made for overall improvements of DataFormsJS Web Components
+  * Added ability to polyfill Web Components for older browsers using the standard Framework that gets loaded from a single file.
+  * Added ability to define custom `<template>` for table `<tr>` in `<data-table>`
+  * Added option for formatting text from `<json-data>` (date, time, number, etc)
+  * Added `data-show="js-expression"` to show or hide items from `<json-data>`. It works similar to Vue `v-show`.
+  * The new features make for an easier to use API for customizing content on page after data is displayed. Previously the places demo required a lot of custom JavaScript on the page in order to display flag icons, format table data, and additional items.
+
+### Release Details
+
+* Files Modified:
+  * `js/web-components/data-list.js`
+  * `js/web-components/json-data.js`
+  * `js/controls/json-data.js`
+* File Added:
+  * `js/web-components/polyfill.js`
+  * `js/web-components/utils-format.js`
+
 ## 4.8.0 (October 5, 2020)
 
 * Added new API function for Framework plugins for reloading plugin.

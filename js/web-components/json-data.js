@@ -17,6 +17,7 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
+import { Format } from './utils-format.js';
 import {
     buildUrl,
     setElementText,
@@ -291,7 +292,22 @@ class JsonData extends HTMLElement {
         let elements = this.querySelectorAll('[data-bind]');
         for (const element of elements) {
             const key = element.getAttribute('data-bind');
-            const value = (key === '' ? this.state : getBindValue(this.state, key));
+            let value = (key === '' ? this.state : getBindValue(this.state, key));
+            const dataType = element.getAttribute('data-format');
+            if (dataType !== null) {
+                if (typeof Format[dataType] === 'function') {
+                    value = Format[dataType](value);
+                } else if (typeof window[dataType] === 'function') {
+                    try {
+                        value = window[dataType](value);
+                    } catch (e) {
+                        console.error(e);
+                        value = 'Error: ' + e.message;
+                    }
+                } else {
+                    value = 'Error: Unknown format [' + dataType + ']';
+                }
+            }
             setElementText(element, value);
         }
 
@@ -301,6 +317,29 @@ class JsonData extends HTMLElement {
         elements = this.querySelectorAll('[data-bind-attr]');
         for (const element of elements) {
             bindAttrTmpl(element, 'data-bind-attr', this.state);
+        }
+
+        // Show or hide elements based on [data-show="js-expression"].
+        // Elements here will have the toggled `style.display` for viewing
+        // or to hide based on the result of the expression. This is similar
+        // behavior to Vue [v-show].
+        elements = this.querySelectorAll('[data-show]');
+        for (const element of elements) {
+            if (this.state.isLoading) {
+                // [data-show] elements will be hidden during loading
+                element.style.display = 'none';
+            } else {
+                const expression = element.getAttribute('data-show');
+                try {
+                    const tmpl = new Function('state', 'Format', 'with(state){return ' + expression + '}');
+                    const result = tmpl(this.state, Format);
+                    element.style.display = (result === true ? '' : 'none');
+                } catch (e) {
+                    element.style.display = '';
+                    console.error('Error evaluating JavaScript expression from [data-show] attribute.');
+                    console.error(e);
+                }
+            }
         }
 
         // For Safari, Samsung Internet, and Edge

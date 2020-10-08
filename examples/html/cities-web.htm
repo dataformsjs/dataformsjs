@@ -24,6 +24,34 @@
             placeholder="Enter filter">
 
         <div class="responsive-table">
+            <!--
+                Two version of the <data-table> are shown below. The one used for this
+                app includes <template> for displaying flag icons and formatting values.
+
+                Another commented version below uses [col-link-template] and [columns]
+                to specify which data to show and the link.
+            -->
+            <data-table
+                data-bind="cities"
+                highlight-class="highlight"
+                labels="Name, Population, Elevation, Timezone, Date Last Modified"
+                table-attr="is=sortable-table,
+                    data-sort-class-odd=row-odd,
+                    data-sort-class-even=row-even">
+                <template>
+                    <tr>
+                        <td>
+                            <i class="${country_code.toLowerCase()} flag"></i>
+                            <a href="#/city/${geonames_id}">${name}</a></a>
+                        </td>
+                        <td class="align-right" data-value="${population}">${Format.number(population)}</td>
+                        <td class="align-right" data-value="${elevation}">${formatElevation(elevation)}</td>
+                        <td>${timezone}</td>
+                        <td class="align-right">${Format.date(modification_date)}</td>
+                    </tr>
+                </template>
+            </data-table>
+            <!--
             <data-table
                 data-bind="cities"
                 highlight-class="highlight"
@@ -34,6 +62,7 @@
                     data-sort-class-odd=row-odd,
                     data-sort-class-even=row-even">
             </data-table>
+            -->
         </div>
     </is-loaded>
 </json-data>
