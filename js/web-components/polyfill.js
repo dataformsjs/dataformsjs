@@ -13,15 +13,13 @@
         <script nomodule src="../js/web-components/polyfill.js"></script>
 
     Additional items that must be completed before this will be published:
-        - Need to fix issues with IE 11: <template> / <script type="text/x-template">
+        - Current Issue (IE 11): <template> / <script type="text/x-template">
             - Working:
                 http://127.0.0.1:8080/image-gallery-web
+                http://127.0.0.1:8080/countries-no-spa-web  - with new <script type="text/x-template"> option
             - Not working:
-                http://127.0.0.1:8080/countries-no-spa-web
                 http://127.0.0.1:8080/places-demo-web
-                * The `script.innerHTML = template.innerHTML;` in `updateTemplatesForIE` is
-                returning the textContent and not innerHTML.
-            - To replicate:
+            - See comments in:
                 http://127.0.0.1:8080/countries-no-spa-web
                 - comment out all scripts
                 - uncomment working code with `TODO` comment
@@ -29,6 +27,8 @@
                     updateTemplatesForIE() would check for them and handle the issue.
                 - Another option is to support <script type="text/x-template"> from the
                     main web components and recommend it if using the polyfill.
+                    * Will likely keep and use this option
+                    * whatever is decided markdown docs should be created and added to github on it 
                 - Need to research and think more about this.
                 - See this:
                     https://github.com/webcomponents/polyfills/blob/master/packages/template/template.js

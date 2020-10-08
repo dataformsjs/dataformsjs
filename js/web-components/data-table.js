@@ -88,9 +88,17 @@ class DataTable extends HTMLElement {
         return 'color:white; background-color:red; padding:0.5rem 1rem; margin:.5rem;';
     }
 
+    getTemplate() {
+        let template = this.querySelector('template');
+        if (template === null) {
+            template = this.querySelector('script[type="text/x-template"]');
+        }
+        return template;
+    }
+
     removeTable() {
         // If there is no template than it's safe to clear all content
-        const template = this.querySelector('template');
+        const template = this.getTemplate();
         if (template === null) {
             this.innerHTML = '';
             return;
@@ -115,7 +123,7 @@ class DataTable extends HTMLElement {
         this.state.hasBeenLoaded = true;
 
         // Is there a template to use for each row?
-        const template = this.querySelector('template');
+        const template = this.getTemplate();
 
         // Private function in this scope to add the table
         const addTable = (html) => {

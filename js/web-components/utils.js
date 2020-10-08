@@ -259,9 +259,7 @@ export function showErrorAlert(message) {
  *   https://gist.github.com/samthor/64b114e4a4f539915a95b91ffd340acc
  */
 export function usingWebComponentsPolyfill() {
-    var result = (window.app && window.app.settings && window.app.settings.usingWebComponentsPolyfill === true);
-    console.log('usingWebComponentsPolyfill: ', result);
-    return result;
+    return (window.app && window.app.settings && window.app.settings.usingWebComponentsPolyfill === true);
 }
 
 /**

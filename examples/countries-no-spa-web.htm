@@ -45,7 +45,7 @@
                         table-attr="is=sortable-table,
                                     data-sort-class-odd=row-odd,
                                     data-sort-class-even=row-even">
-                        <template>
+                        <script type="text/x-template">
                             <tr>
                                 <td>${iso}</td>
                                 <td>
@@ -56,7 +56,7 @@
                                 <td class="align-right" data-value="${population}">${Format.number(population)}</td>
                                 <td>${continent}</td>
                             </tr>
-                        </template>
+                        </script>
                     </data-table>
                 </div>
             </is-loaded>
@@ -67,6 +67,9 @@
         TODO - IE 11 is removing <tr> from DOM in <template> but not
             <script type="text/x-template">
         See comments at top of [dataformsjs\js\web-components\polyfill.js]
+
+        * Now considering using <script type="text/x-template"> for all browsers as the fix.
+            <template> still works for modern browsers only
 
         [#test-3] does keep the content from IE:
             document.getElementById('test-3').innerHTML
@@ -140,14 +143,14 @@
     <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/input-filter.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/sortable-table.min.js"></script> -->
 
-    <!-- <script type="module" src="../js/web-components/json-data.js"></script>
+    <script type="module" src="../js/web-components/json-data.js"></script>
     <script type="module" src="../js/web-components/data-table.js"></script>
     <script type="module" src="../js/web-components/input-filter.js"></script>
     <script type="module" src="../js/web-components/sortable-table.js"></script>
 
-    <script nomodule src="../js/web-components/polyfill.js"></script> -->
+    <script nomodule src="../js/web-components/polyfill.js"></script>
 
-    <script src="../js/web-components/polyfill.js"></script>
+    <!-- <script src="../js/web-components/polyfill.js"></script> -->
 
     <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
     <!-- <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/safari-nomodule.min.js"></script>
