@@ -2932,6 +2932,27 @@
         },
 
         /**
+         * IE 11 considers <template> elements as valid elements so it applies [querySelector()]
+         * and related methods to elements under <templates>'s so replace with them <script type="text/x-template">.
+         * This avoid's issues of <template> elements that contain embedded content.
+         */
+        updateTemplatesForIE: function() {
+            if (isIE) {
+                var templates = document.querySelectorAll('template');
+                Array.prototype.forEach.call(templates, function(template) {
+                    var script = document.createElement('script');
+                    for (var n = 0, m = template.attributes.length; n < m; n++) {
+                        script.setAttribute(template.attributes[n].name, template.attributes[n].value);
+                    }
+                    script.type = 'text/x-template';
+                    script.setAttribute('data-engine', 'text');
+                    script.innerHTML = template.innerHTML;
+                    template.parentNode.replaceChild(script, template);
+                });
+            }
+        },
+
+        /**
          * Call to setup the App, initial routes should be defined before calling this function
          */
         setup: function () {
@@ -2996,22 +3017,8 @@
                 }
             }
 
-            // IE 11 considers <template> elements as valid elements so it applies [querySelector()]
-            // and related methods to elements under <templates>'s so replace with them <script type="text/x-template">.
-            // This avoid's issues of <template> elements that contain embedded content.
-            if (isIE) {
-                var templates = document.querySelectorAll('template');
-                Array.prototype.forEach.call(templates, function(template) {
-                    var script = document.createElement('script');
-                    for (var n = 0, m = template.attributes.length; n < m; n++) {
-                        script.setAttribute(template.attributes[n].name, template.attributes[n].value);
-                    }
-                    script.type = 'text/x-template';
-                    script.setAttribute('data-engine', 'text');
-                    script.innerHTML = template.innerHTML;
-                    template.parentNode.replaceChild(script, template);
-                });
-            }
+            // If using IE replace <templates> with <script type="text/x-template">
+            app.updateTemplatesForIE();
 
             // Automatically add templates as routes that have the attribute [data-route] defined
             var templateSelector = 'script[type="text/x-template"][data-route],template[data-route]';

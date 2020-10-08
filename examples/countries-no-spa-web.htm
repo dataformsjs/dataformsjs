@@ -63,6 +63,77 @@
         </json-data>
     </div>
 
+    <!-- 
+        TODO - IE 11 is removing <tr> from DOM in <template> but not
+            <script type="text/x-template">
+        See comments at top of [dataformsjs\js\web-components\polyfill.js]
+
+        [#test-3] does keep the content from IE:
+            document.getElementById('test-3').innerHTML
+
+        [#test-4] shows that IE keeps the innerHTML but adds a <tbody>
+    -->
+    
+    <!--
+    <template id="test-1">
+        <tr>
+            <td>${iso}</td>
+            <td>
+                <i class="${iso.toLowerCase()} flag"></i>
+                ${country}
+            </td>
+            <td class="align-right" data-value="${area_km}">${Format.number(area_km)}</td>
+            <td class="align-right" data-value="${population}">${Format.number(population)}</td>
+            <td>${continent}</td>
+        </tr>
+    </template>
+
+    <script type="text/x-template" id="test-2">
+        <tr>
+            <td>${iso}</td>
+            <td>
+                <i class="${iso.toLowerCase()} flag"></i>
+                ${country}
+            </td>
+            <td class="align-right" data-value="${area_km}">${Format.number(area_km)}</td>
+            <td class="align-right" data-value="${population}">${Format.number(population)}</td>
+            <td>${continent}</td>
+        </tr>
+    </script>
+    -->
+   
+    <template id="test-3">
+        <!--
+        <tr>
+            <td>${iso}</td>
+            <td>
+                <i class="${iso.toLowerCase()} flag"></i>
+                ${country}
+            </td>
+            <td class="align-right" data-value="${area_km}">${Format.number(area_km)}</td>
+            <td class="align-right" data-value="${population}">${Format.number(population)}</td>
+            <td>${continent}</td>
+        </tr>
+        -->
+    </template>
+
+    <!--
+    <template id="test-4">
+        <table>
+            <tr>
+                <td>${iso}</td>
+                <td>
+                    <i class="${iso.toLowerCase()} flag"></i>
+                    ${country}
+                </td>
+                <td class="align-right" data-value="${area_km}">${Format.number(area_km)}</td>
+                <td class="align-right" data-value="${population}">${Format.number(population)}</td>
+                <td>${continent}</td>
+            </tr>
+        </table>
+    </template>
+    -->
+
     <!-- DataFormsJS Web Components -->
     <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/json-data.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/data-table.min.js"></script>

@@ -14,6 +14,8 @@ Overall the core Framework files and API are expected to remain stable however t
   * Added option for formatting text from `<json-data>` (date, time, number, etc)
   * Added `data-show="js-expression"` to show or hide items from `<json-data>`. It works similar to Vue `v-show`.
   * The new features make for an easier to use API for customizing content on page after data is displayed. Previously the places demo required a lot of custom JavaScript on the page in order to display flag icons, format table data, and additional items.
+* Minor enhancments for other DataFormsJS files:
+  * Added `app.updateTemplatesForIE()`
 
 ### Breaking Changes
 
@@ -26,6 +28,7 @@ All breaking changes are minor and only expected to affect internal API's
 * Files Modified:
   * Most or all files under: `js/web-components/*`
   * `js/controls/json-data.js`
+  * `js/DataFormsJS.js`
 * File Added:
   * `js/web-components/polyfill.js`
   * `js/web-components/utils-format.js`

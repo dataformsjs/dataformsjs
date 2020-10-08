@@ -13,6 +13,23 @@
         <script nomodule src="../js/web-components/polyfill.js"></script>
 
     Additional items that must be completed before this will be published:
+        - Need to fix issues with IE 11: <template> / <script type="text/x-template">
+            - Working:
+                http://127.0.0.1:8080/image-gallery-web
+            - Not working:
+                http://127.0.0.1:8080/countries-no-spa-web
+                http://127.0.0.1:8080/places-demo-web
+                * The `script.innerHTML = template.innerHTML;` in `updateTemplatesForIE` is
+                returning the textContent and not innerHTML.
+            - To replicate:
+                http://127.0.0.1:8080/countries-no-spa-web
+                - comment out all scripts
+                - uncomment working code with `TODO` comment
+                - Might have to require block comments in <template> for IE then
+                    updateTemplatesForIE() would check for them and handle the issue.
+                - Another option is to support <script type="text/x-template"> from the
+                    main web components and recommend it if using the polyfill.
+                - Need to research and think more about this.
         - Finish "TODO" comments in this file that are in active development.
         - http://127.0.0.1:8080/log-table-web#/10
             Currently displays an error from [filter] plugin. Need to review/debug
@@ -63,6 +80,7 @@
      */
     var polyfillStyleId = 'web-components-polyfill-css';
     var polyfillStyleCss = [
+        'template { display:none }',
         '[data-control] { display:block; padding:0; margin:0; }',
         'div[data-control="json-data"] > div.is-loading,',
         'div[data-control="json-data"] > div.has-error,',
@@ -505,6 +523,10 @@
                 y;
 
             var template = element.querySelector('template');
+            if (template === null) {
+                // <template> elements in IE will be replaced from `app.updateTemplatesForIE()`
+                template = element.querySelector('script[type="text/x-template"]');
+            }
 
             // Define private functions in this scope
             function addTable(html) {
@@ -1094,6 +1116,7 @@
         app.onUpdateViewComplete = function() {
             polyfillPage.onRendered();
         };
+        app.updateTemplatesForIE();
         app.updateView();
     }
 
