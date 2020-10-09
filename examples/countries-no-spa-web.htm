@@ -38,6 +38,11 @@
                 <p>Click on a column to sort rows based on column values.</p>
 
                 <div class="responsive-table">
+                    <!--
+                        Either <template> or <script type="text/x-template"> can be used.
+                            <template> will work with all modern browsers
+                            <script type="text/x-template"> is required if supporting IE with [polyfill.js]
+                    -->
                     <data-table
                         data-bind="countries"
                         highlight-class="highlight"
@@ -58,98 +63,39 @@
                             </tr>
                         </script>
                     </data-table>
+
+                    <!--
+                        For a basic table a <template> is not required. This version shows
+                        the data but does not include flag icons or number formatting.
+                    -->
+                    <!--
+                    <data-table
+                        data-bind="countries"
+                        highlight-class="highlight"
+                        labels="Code, Name, Size (KM), Population, Continent"
+                        table-attr="is=sortable-table,
+                                    data-sort-class-odd=row-odd,
+                                    data-sort-class-even=row-even">
+                    </data-table>
+                    -->
                 </div>
             </is-loaded>
         </json-data>
     </div>
-
-    <!-- 
-        TODO - IE 11 is removing <tr> from DOM in <template> but not
-            <script type="text/x-template">
-        See comments at top of [dataformsjs\js\web-components\polyfill.js]
-
-        * Now considering using <script type="text/x-template"> for all browsers as the fix.
-            <template> still works for modern browsers only
-
-        [#test-3] does keep the content from IE:
-            document.getElementById('test-3').innerHTML
-
-        [#test-4] shows that IE keeps the innerHTML but adds a <tbody>
-    -->
-
-    <!--
-    <template id="test-1">
-        <tr>
-            <td>${iso}</td>
-            <td>
-                <i class="${iso.toLowerCase()} flag"></i>
-                ${country}
-            </td>
-            <td class="align-right" data-value="${area_km}">${Format.number(area_km)}</td>
-            <td class="align-right" data-value="${population}">${Format.number(population)}</td>
-            <td>${continent}</td>
-        </tr>
-    </template>
-
-    <script type="text/x-template" id="test-2">
-        <tr>
-            <td>${iso}</td>
-            <td>
-                <i class="${iso.toLowerCase()} flag"></i>
-                ${country}
-            </td>
-            <td class="align-right" data-value="${area_km}">${Format.number(area_km)}</td>
-            <td class="align-right" data-value="${population}">${Format.number(population)}</td>
-            <td>${continent}</td>
-        </tr>
-    </script>
-    -->
-   
-    <template id="test-3">
-        <!--
-        <tr>
-            <td>${iso}</td>
-            <td>
-                <i class="${iso.toLowerCase()} flag"></i>
-                ${country}
-            </td>
-            <td class="align-right" data-value="${area_km}">${Format.number(area_km)}</td>
-            <td class="align-right" data-value="${population}">${Format.number(population)}</td>
-            <td>${continent}</td>
-        </tr>
-        -->
-    </template>
-
-    <!--
-    <template id="test-4">
-        <table>
-            <tr>
-                <td>${iso}</td>
-                <td>
-                    <i class="${iso.toLowerCase()} flag"></i>
-                    ${country}
-                </td>
-                <td class="align-right" data-value="${area_km}">${Format.number(area_km)}</td>
-                <td class="align-right" data-value="${population}">${Format.number(population)}</td>
-                <td>${continent}</td>
-            </tr>
-        </table>
-    </template>
-    -->
 
     <!-- DataFormsJS Web Components -->
     <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/json-data.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/data-table.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/input-filter.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/sortable-table.min.js"></script> -->
-
+    
     <script type="module" src="../js/web-components/json-data.js"></script>
     <script type="module" src="../js/web-components/data-table.js"></script>
     <script type="module" src="../js/web-components/input-filter.js"></script>
     <script type="module" src="../js/web-components/sortable-table.js"></script>
 
     <script nomodule src="../js/web-components/polyfill.js"></script>
-
+   
     <!-- <script src="../js/web-components/polyfill.js"></script> -->
 
     <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->

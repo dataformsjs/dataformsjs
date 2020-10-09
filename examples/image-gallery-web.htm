@@ -178,17 +178,35 @@ own style sheet before the component runs using id `image-gallery-css`.
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/data-list.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/image-gallery.min.js"></script> -->
 
-        <!-- <script type="module" src="../js/web-components/json-data.js"></script>
+        <script type="module" src="../js/web-components/json-data.js"></script>
         <script type="module" src="../js/web-components/data-list.js"></script>
         <script type="module" src="../js/web-components/image-gallery.js"></script>
 
-        <script nomodule src="../js/web-components/polyfill.js"></script> -->
+        <script nomodule src="../js/web-components/polyfill.js"></script>
 
-        <script src="../js/web-components/polyfill.js"></script>
+        <!-- <script src="../js/web-components/polyfill.js"></script> -->
 
         <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
         <!-- <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/safari-nomodule.min.js"></script>
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/old-browser-warning.min.js"></script> -->
+
+        <!--
+            Add CSS Variable Support to IE and older Browsers
+        -->
+        <script nomodule>
+            (function() {
+                'use strict';
+                document.addEventListener('app:contentReady', function() {
+                    var supportsCssVars = (window.CSS && window.CSS.supports && window.CSS.supports('(--a: 0)'));
+                    var polyfillUrl = 'https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2.1.1/dist/css-vars-ponyfill.min.js';
+                    app.loadScript(supportsCssVars, polyfillUrl, function() {
+                        if (window.cssVars) {
+                            cssVars({ include:'link[rel="stylesheet"]' });
+                        }
+                    });
+                });
+            })();
+        </script>
 
         <!--
             https://prismjs.com/

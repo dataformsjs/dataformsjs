@@ -62,6 +62,10 @@
                                     (template strings). All values in `${value}` are safely escaped for HTML.
 
                                     See another commented option for <data-table> below this version.
+
+                                    Either <template> or <script type="text/x-template"> can be used.
+                                        <template> will work with all modern browsers
+                                        <script type="text/x-template"> is required if supporting IE with [polyfill.js]
                                 -->
                                 <data-table
                                     data-bind="countries"
@@ -70,7 +74,7 @@
                                     table-attr="is=sortable-table,
                                                 data-sort-class-odd=row-odd,
                                                 data-sort-class-even=row-even">
-                                    <template>
+                                    <script type="text/x-template">
                                         <tr>
                                             <td><a href="#/regions/${iso}">${iso}</a></td>
                                             <td>
@@ -81,7 +85,7 @@
                                             <td class="align-right" data-value="${population}">${Format.number(population)}</td>
                                             <td>${continent}</td>
                                         </tr>
-                                    </template>
+                                    </script>
                                 </data-table>
 
                                 <!--
@@ -124,7 +128,7 @@
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/data-list.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/leaflet-map.min.js"></script> -->
 
-        <!-- <script type="module" src="../js/web-components/url-hash-router.js"></script>
+        <script type="module" src="../js/web-components/url-hash-router.js"></script>
         <script type="module" src="../js/web-components/json-data.js"></script>
         <script type="module" src="../js/web-components/data-table.js"></script>
         <script type="module" src="../js/web-components/input-filter.js"></script>
@@ -132,9 +136,9 @@
         <script type="module" src="../js/web-components/data-list.js"></script>
         <script type="module" src="../js/web-components/leaflet-map.js"></script>
 
-        <script nomodule src="../js/web-components/polyfill.js"></script> -->
+        <script nomodule src="../js/web-components/polyfill.js"></script>
 
-        <script src="../js/web-components/polyfill.js"></script>
+        <!-- <script src="../js/web-components/polyfill.js"></script> -->
 
         <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
         <!--         

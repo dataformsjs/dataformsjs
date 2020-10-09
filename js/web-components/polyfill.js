@@ -13,35 +13,9 @@
         <script nomodule src="../js/web-components/polyfill.js"></script>
 
     Additional items that must be completed before this will be published:
-        - Current Issue (IE 11): <template> / <script type="text/x-template">
-            - Working:
-                http://127.0.0.1:8080/image-gallery-web
-                http://127.0.0.1:8080/countries-no-spa-web  - with new <script type="text/x-template"> option
-            - Not working:
-                http://127.0.0.1:8080/places-demo-web
-            - See comments in:
-                http://127.0.0.1:8080/countries-no-spa-web
-                - comment out all scripts
-                - uncomment working code with `TODO` comment
-                - Might have to require block comments in <template> for IE then
-                    updateTemplatesForIE() would check for them and handle the issue.
-                - Another option is to support <script type="text/x-template"> from the
-                    main web components and recommend it if using the polyfill.
-                    * Will likely keep and use this option
-                    * whatever is decided markdown docs should be created and added to github on it 
-                - Need to research and think more about this.
-                - See this:
-                    https://github.com/webcomponents/polyfills/blob/master/packages/template/template.js
-                    However in testing it didn't work because the <templates>
-                    need to be defined after `DOMContentLoaded`. See comments in the file related
-                    to `brokenDocFragment` and `Replace DocumentFragment`
-        - Finish "TODO" comments in this file that are in active development.
-        - http://127.0.0.1:8080/log-table-web#/10
-            Currently displays an error from [filter] plugin. Need to review/debug
-            and possibly modify the main [js/plugins/filter.js]
-        - Add plugin for [leaflet-map.js]
-        - Make sure all data binding works as expected - [data-bind], [url-param], etc
         - Make sure all features for <data-table> work: example [col-link-template]
+        - <data-list> should also support both <template> and <script type="text/x-template">
+            - This is for better IE 11 support, with the current demos it's not needed but one should be created
         - Also consider adding <data-list> and <data-table> changes needed here back to the regular framwork.
             Only if it makes sense so they can be loaded dynamically only if needed.
             If this is done the standard js framework demos [places-demo-js.htm, etc] could
@@ -55,12 +29,13 @@
             HTML content. `app.setup()` handles this one time for IE however a
             function will likely need to be created so it can be handled
             each time a route template is downloaded.
-        - Ideally the Safari 10.1 issue from [js/web-components/safari-nomodule.js] can 
-            be handled and tested in this script. Might be hard to find a specific device to test.
-            If so at least add the code and mock test using browser dev tools. Might have
-            to target based on userAgent. More research is needed.
+            A new function `app.updateTemplatesForIE()` has been added to the main [DataFormsJS.js] file.
+            More testing is needed and add comments that it doesn't work for non-block root elements, example:
+                <template><tr></tr></template>
+            Reason is because IE will remove the '<tr></tr>'
         - See code related to `app.activeModel = this` in this file. Come up with
-            a test and see if the issue can be handled.
+            a test and see if the issue in the comments can be handled. If not provide a
+            warning at least.
         - Currently all demo pages use <json-data>. See variable `hasJsonData` in this file.
             It was added in case a page doesn't use <json-data> however it still needs to be
             tested (at least manually).
@@ -108,9 +83,11 @@
                 var el = element.querySelector(name);
                 if (el) {
                     var div = document.createElement('div');
-                    div.innerHTML = el.innerHTML;
                     div.className = el.className;
                     div.classList.add(name);
+                    while (el.firstChild) {
+                        div.appendChild(el.removeChild(el.firstChild));
+                    }
                     el.parentNode.replaceChild(div, el);
                 }
             });
@@ -125,9 +102,6 @@
             });
         },
         dataTable: function(element) {
-            var source = element.getAttribute('data-bind');
-            element.setAttribute('data-source', source);
-
             var attrList = ['highlight-class', 'labels', 'columns'];
             attrList.forEach(function(attr) {
                 var value = element.getAttribute(attr);
@@ -210,23 +184,8 @@
 		// onBeforeRender: function() { },
 		onRendered: function() {
             var model = this;
-            app.unloadAllJsControls();
-
-            var controls = document.querySelectorAll('[data-control]');
-            var hasJsonData = false;
-            Array.prototype.forEach.call(controls, function(control) {
-                switch (control.getAttribute('data-control')) {
-                    case 'json-data':
-                        updateElements.jsonData(control);
-                        app.loadJsControl(control, app.activeModel);
-                        hasJsonData = true;
-                        break;
-				}
-            });
 
             // Bind [url-param] elements
-            // NOTE - other element types may also needed for full support: [url-params]
-            // and [url-attr-param]. Need to test with all examples to confirm.
             var elements = document.querySelectorAll('[url-param]');
             Array.prototype.forEach.call(elements, function(element) {
                 var name = element.getAttribute('url-param');
@@ -235,6 +194,27 @@
                 }
             });
 
+            // Update all elements with the [url-attr-param] attribute.
+            // This will typically be used to replace <a href> and other
+            // attributes with values from the URL.
+            elements = document.querySelectorAll('[url-attr-param]');
+            Array.prototype.forEach.call(elements, function(element) {
+                dataBind.bindAttrTmpl(element, 'url-attr-param', model);
+            });
+
+            // Update <json-data> Web Component so it matches the
+            // Framework control version then reload the control.
+            var hasJsonData = false;
+            app.activeJsControls.forEach(function(control) {
+                if (control.control === 'json-data') {
+                    updateElements.jsonData(control.element);
+                    app.loadJsControl(control);
+                    hasJsonData = true;
+                }
+            });
+
+            // If <json-data> was found it will call `updateContent()` once the
+            // data is downloaded, otherwise it needs to be called directly.
             if (!hasJsonData) {
                 updateContent();
             }
@@ -249,12 +229,12 @@
         number: function(value) {
             return this.formatNumber(value, {});
         },
-    
+
         currency: function(value, currencyCode) {
             var intlOptions = { style: 'currency', currency: currencyCode, maximumFractionDigits: 2 };
             return this.formatNumber(value, intlOptions);
         },
-    
+
         percent: function(value, decimalPlaces) {
             if (decimalPlaces === undefined) {
                 decimalPlaces = 0;
@@ -266,16 +246,16 @@
             };
             return this.formatNumber(value, intlOptions);
         },
-    
+
         date: function(value) {
             return this.formatDateTime(value, {});
         },
-    
+
         dateTime: function(value) {
             var intlOptions = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
             return this.formatDateTime(value, intlOptions);
         },
-    
+
         time: function(value) {
             var intlOptions = { hour: 'numeric', minute: 'numeric', second: 'numeric' };
             return this.formatDateTime(value, intlOptions);
@@ -401,7 +381,7 @@
             }
 
             // Get Table from Model
-            var list = (model && model[this.bind] ? model[this.bind] : null);
+            var list = dataBind.getBindValue(this.bind, model);
             if (list === null || (Array.isArray(list) && list.length === 0)) {
                 return '';
             }
@@ -502,7 +482,7 @@
          * Data for the control
          */
         data: {
-            source: null,
+            bind: null,
             columns: null,
             labels: null,
             emptyDataText: 'No records found',
@@ -549,7 +529,7 @@
                     element.innerHTML = '';
                     return;
                 }
-        
+
                 // <template> exists so simply remove <table> from the DOM
                 var table = element.querySelector('table');
                 if (table !== null) {
@@ -558,7 +538,7 @@
             }
 
             // Get Table from Active Model
-            var list = (app.activeModel && app.activeModel[this.source] ? app.activeModel[this.source] : null);
+            var list = dataBind.getBindValue(this.bind, app.activeModel);
 
             // Ignore if list has not yet been set
             if (list === null) {
@@ -686,7 +666,7 @@
                             if (this.errorClass) {
                                 html.push('<tr class="' + this.errorClass + '">');
                             } else {
-                                html.push('<tr style="' + this.defaultErrorStyle + '">');                                
+                                html.push('<tr style="' + this.defaultErrorStyle + '">');
                             }
                             html.push('<td colspan="' + columns.length + '">Item Error - ' + e.message + '}</td></tr>');
                         }
@@ -726,7 +706,7 @@
 
     /**
      * Copied from [js/plugins/dataBind.js].
-     * 
+     *
      * Changes here from the [dataBind] plugin will
      * likely be merged back with the main framework plugin.
      */
@@ -771,11 +751,11 @@
 
     /**
      * Copied from [js/plugins/dataBind.js] with additional changes here.
-     * 
+     *
      * Changes here from the [dataBind] plugin will likely be merged
      * back with the main framework plugin. Code is currently copied
      * here for faster development.
-     * 
+     *
      * Use a diff program to merge back changes.
      */
     var dataBind = {
@@ -784,21 +764,61 @@
          * If first bind key is 'window' then the global [window] object is used instead.
          *
          * @param {string} key
+         * @param {object|null|undefined} data
          * @returns {null|string}
          */
-        getBindValue: function (key) {
+        getBindValue: function (key, data) {
             // Using bind requires an active model
-            if (app.activeModel === null) {
+            if (data === undefined) {
+                data = app.activeModel;
+            }
+            if (data === null) {
                 return null;
             }
 
             // Get bind value
             var keys = key.split('.');
-            var value = (keys.length > 1 && keys[0] === 'window' ? window : app.activeModel);
+            var value = (keys.length > 1 && keys[0] === 'window' ? window : data);
             for (var n = 0, m = keys.length; n < m; n++) {
                 value = (typeof value === 'object' && value !== null ? value[keys[n]] : null);
             }
             return (value === undefined ? null : value);
+        },
+
+        bindAttrTmpl: function(element, attribute, data) {
+            var attributes = element.getAttribute(attribute).split(',').map(function(s) { return s.trim(); });
+            attributes.forEach(function(attr) {
+                // Save bind template to an attribute, example:
+                // [data-bind-attr="href"] will save the inital value from [href]
+                // to [data-bind-attr-href]. This allows it to be re-used.
+                var value = element.getAttribute(attribute + '-' + attr);
+                if (value === null) {
+                    value = element.getAttribute(attr);
+                    if (value !== null) {
+                        element.setAttribute(attribute + '-' + attr, value);
+                    }
+                }
+                // Parse the template
+                if (value !== null) {
+                    var loopCount = 0; // For safety to prevent endless loops
+                    var maxLoop = 100;
+                    while (loopCount < maxLoop) {
+                        var posStart = value.indexOf('[');
+                        var posEnd = value.indexOf(']');
+                        if (posStart === -1 || posEnd === -1 || posEnd < posStart) {
+                            break;
+                        }
+                        var key = value.substring(posStart + 1, posEnd);
+                        var boundValue = dataBind.getBindValue(key, data);
+                        if (boundValue === null) {
+                            boundValue = '';
+                        }
+                        value = value.substring(0, posStart) + boundValue + value.substring(posEnd + 1);
+                        loopCount++;
+                    }
+                    element.setAttribute(attr, value);
+                }
+            });
         },
 
         /**
@@ -822,6 +842,7 @@
                 var value = dataBind.getBindValue(fieldName);
                 var elementName = el.nodeName;
                 if (elementName === 'INPUT' || elementName === 'SELECT' || elementName === 'TEXTAREA') {
+                    // Handle Form/Input Elements
                     var elementType = el.type;
                     if (elementType === 'checkbox' || elementType === 'radio') {
                         if (typeof value === 'boolean') {
@@ -837,13 +858,9 @@
                     updateModel({target:el});
                     var eventName = (el.oninput === undefined ? 'change' : 'input');
                     el.addEventListener(eventName, updateModel);
-                } else if (el.getAttribute('data-control') !== null || el.tagName.indexOf('-') !== -1) {
-                    // TODO - continue updates here, likely needed for the [Alternate Names] list on the places demo
-                    //   http://127.0.0.1:8080/places-demo-web#/city/2980291
-                    // console.log('data-control');
-                    // console.log(el);
-                    // console.log(app.activeJsControls);
-                } else {
+                } else if (el.getAttribute('data-control') === null && el.tagName.indexOf('-') === -1) {
+                    // Handle standard HTML Elements. This includes framework "JS Controls"
+                    // or Web Components as they will handle data binding in the control.
                     var dataType = el.getAttribute('data-format');
                     if (dataType !== null) {
                         if (typeof Format[dataType] === 'function') {
@@ -869,41 +886,7 @@
             //     <a href="/[field1]/[field2]" data-bind-attr="href">
             elements = rootElement.querySelectorAll('[data-bind-attr]');
             Array.prototype.forEach.call(elements, function(el) {
-                var attributes = el.getAttribute('data-bind-attr').split(',');
-                for (var n = 0, m = attributes.length; n < m; n++) {
-                    var attr = attributes[n].trim();
-                    if (attr.indexOf('data-') !== 0) {
-                        continue;
-                    }
-                    var tmpl = el.getAttribute(attr + '--tmpl');
-                    var value = el.getAttribute(attr);
-                    if (tmpl === null) {
-                        // Save original version to this function can be
-                        // called multiple times without losing the original template.
-                        el.setAttribute(attr + '--tmpl', value);
-                    } else {
-                        value = tmpl;
-                    }
-                    if (value !== null) {
-                        var loopCount = 0; // For safety to prevent endless loops
-                        var maxLoop = 100;
-                        while (loopCount < maxLoop) {
-                            var posStart = value.indexOf('[');
-                            var posEnd = value.indexOf(']');
-                            if (posStart === -1 || posEnd === -1 || posEnd < posStart) {
-                                break;
-                            }
-                            var key = value.substring(posStart + 1, posEnd);
-                            var boundValue = dataBind.getBindValue(key);
-                            if (boundValue === null) {
-                                boundValue = '';
-                            }
-                            value = value.substring(0, posStart) + boundValue + value.substring(posEnd + 1);
-                            loopCount++;
-                        }
-                        el.setAttribute(attr, value);
-                    }
-                }
+                dataBind.bindAttrTmpl(el, 'data-bind-attr', app.activeModel);
             });
 
             // Show or hide elements based on [data-show="js-expression"].
@@ -934,21 +917,23 @@
     function updateContent() {
         var pluginsToLoad = [];
 
-        // Reload specific controls and content after data was downloaded.
-        var elements = document.querySelectorAll('[data-control="data-list"], [data-control="data-table"]');
-        Array.prototype.forEach.call(elements, function(el) {
-            switch (el.getAttribute('data-control')) {
+        // Reload specific controls and content after
+        // data was downloaded from JSON service.
+        app.activeJsControls.forEach(function(control) {
+            switch (control.control) {
                 case 'data-table':
-                    updateElements.dataTable(el);
+                    updateElements.dataTable(control.element);
+                    app.loadJsControl(control);
                     break;
                 case 'data-list':
-                    updateElements.dataList(el);
+                    updateElements.dataList(control.element);
+                    app.loadJsControl(control);
                     break;
             }
         });
-        app.loadAllJsControls();
 
-        elements = document.querySelectorAll('image-gallery');
+        // Update all <image-gallery> elements
+        var elements = document.querySelectorAll('image-gallery');
         if (elements.length > 0) {
             Array.prototype.forEach.call(elements, function(el) {
                 updateElements.imageGallery(el);
@@ -956,36 +941,33 @@
             pluginsToLoad.push('imageGallery');
         }
 
-        var firstElement = document.querySelector('.click-to-highlight');
-        if (firstElement) {
-            pluginsToLoad.push('clickToHighlight');
-        }
-
-        firstElement = document.querySelector('[data-sort]');
-        if (firstElement) {
-            pluginsToLoad.push('sort');
-        }
-
-        elements = document.querySelectorAll('[is]');
-        Array.prototype.forEach.call(elements, function(element) {
-            switch (element.getAttribute('is')) {
-                case 'input-filter':
-                    updateElements.inputFilter(element);
-                    pluginsToLoad.push('filter');
-                    break;
-                case 'leaflet-map':
-                    updateElements.leafletMap(element);
-                    pluginsToLoad.push('leaflet');
-                    break;
-            }
-        });
-
         // Make sure [data-bind] values are handled before other plugins run
-        firstElement = document.querySelector('[data-bind]');
+        var firstElement = document.querySelector('[data-bind]');
         if (firstElement) {
-            // pluginsToLoad.push('dataBind');
             dataBind.onRendered();
         }
+
+        // Look for elements that would trigger a plugin and add to list
+        var search = [
+            { selector: '.click-to-highlight', plugin: 'clickToHighlight' },
+            { selector: '[data-sort]', plugin: 'sort' },
+            { selector: '[is="input-filter"]', plugin: 'filter', update: updateElements.inputFilter },
+            { selector: '[is="leaflet-map"]', plugin: 'leaflet', update: updateElements.leafletMap },
+        ];
+        search.forEach(function(item) {
+            var element = document.querySelector(item.selector);
+            if (element) {
+                // Add plugin to download list
+                pluginsToLoad.push(item.plugin);
+                // Update all elements for specific plugins
+                if (item.update !== undefined) {
+                    var elements = document.querySelectorAll(item.selector);
+                    Array.prototype.forEach.call(elements, function(el) {
+                        item.update(el);
+                    });
+                }
+            }
+        });
 
         // Load Plugins
         pluginsToLoad.forEach(function(plugin) {
@@ -1013,6 +995,10 @@
         // Download then Plugin
         var url = rootUrl + 'plugins/' + name + (useMinFiles ? '.min' : '') + '.js';
         app.loadScripts(url).then(function() {
+            if (app.plugins[name] === undefined) {
+                console.warn('Plugin [' + name + '] was loaded but not found. The script might still be loading in the DOM.')
+                return;
+            }
             app.plugins[name].reload();
         });
     }
@@ -1155,7 +1141,7 @@
                 rootUrl = src.substr(0, src.length - files[n].length + 1);
                 useMinFiles = (n === 0);
                 return;
-            }    
+            }
         }
 
         // Default if [dataformsjs] path cannot be determined.
@@ -1188,7 +1174,7 @@
                 .addPlugin('dataBind', dataBind)
                 .loadCss(polyfillStyleId, polyfillStyleCss);
 
-            // Define a setting so apps can check if this file is being used. 
+            // Define a setting so apps can check if this file is being used.
             app.settings.usingWebComponentsPolyfill = true;
 
             defineCustomEvents();

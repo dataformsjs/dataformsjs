@@ -16,12 +16,15 @@ Overall the core Framework files and API are expected to remain stable however t
   * The new features make for an easier to use API for customizing content on page after data is displayed. Previously the places demo required a lot of custom JavaScript on the page in order to display flag icons, format table data, and additional items.
 * Minor enhancments for other DataFormsJS files:
   * Added `app.updateTemplatesForIE()`
+* Added ability to easily reload "JavaScript Controls" in the standard Framework by calling `app.activeJsControls(control)`
+  * Updating already loaded controls is not common but can be used in very specific scenarios. For example the new Web Components Polyfill uses it.
 
 ### Breaking Changes
 
 All breaking changes are minor and only expected to affect internal API's
 
 * `js/web-components/utils.js` - Removed `showOldBrowserWarning()`. The feature has been replaced with the new `js/web-components/polyfill.js` and a function `usingWebComponentsPolyfill()`
+* `js/plugins/filter.js` - Removed error alert for text `Column filter requires a table to be correctly defined` that happened if a table was missing when the filter was loaded. The reason is that it makes sense for certain apps to have a defined filter and only optionally include the table.
 
 ### Release Details
 

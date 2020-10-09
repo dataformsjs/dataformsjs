@@ -141,8 +141,9 @@
             if (!(settings.items.length === 1 && settings.items[0].tagName === 'TABLE' &&
                 settings.items[0].tHead && settings.items[0].tHead.rows.length === 1 &&
                 settings.items[0].tBodies.length === 1)) {
-                // Log and throw error
-                filterError('Column filter requires a table to be correctly defined');
+                // Exit if the table was not found. The page could still be rendering.
+                // For example this is happens when using the Web Components Polyfill.
+                return settings;
             }
             table = document.querySelector(settings.itemsSelector);
             settings.items = table.tBodies[0].rows;

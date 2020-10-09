@@ -51,6 +51,9 @@ TODO List
             that always loads [https://unpkg.com/leaflet@1.5.1/dist/leaflet.js]. The format for defining
             this needs to still be determined. The main framework uses [app.lazyLoad = {}]. The web components
             will likely check for the same format if [window.lazyLoad] is defined by the app.
+        - Rename [jsPlugins.js]`refreshJsPlugins()` as `refreshPlugins()` to match standard Framework
+            * Breaking change because the names should match. Before the inital release `app.refreshPlugins()`
+                was named `app.refreshJsPlugins()` so this is a bug
         - New demo page to test all features of the new [utils-format.js] file
         - Consider (likely) add multiple optional template options to <data-table>
             - If only <template> then use for row items (current)
@@ -112,9 +115,28 @@ TODO List
                 still being used by an app.
             - [old-browser-warning.min.js] will be kept as commented out in the templates with comments that
                 the polyfill works for older browsers.
+        - Include features of `js/plugins/navLinks.js` in the Web Component routers?
+            - For example:
+                <url-hash-router nav-selector="nav a" nav-active-class="active">
+                if using [nav-selector] then [nav-active-class] would use "active" as the default
+            - If using this then the custom JS on the Web Component Template will not be needed:
+                https://www.dataformsjs.com/en/getting-started
+            - Also related - does it make sense to combine `js/plugins/navList.js` with `navLinks.js`
+                For example if the elements on the selector are not an <a> then run querySelector on
+                each element in the selector to find the <a>
+            - Since it's a breaking change it's ok to remove [navList.js] if the code can be combined.
         - Possible update found during testing:
             Update `app.loadJsControl()` to be safe to call multiple times.
             Currently it adds duplicate `app.activeJsControls` but it's doesn't break anything. 
+        - Breaking change on [js/plugins/filter.js] to consider keeping but add another option,
+            for example a new attribute that allows the new behavior.
+            At line #144 this:
+                filterError('Column filter requires a table to be correctly defined');
+            Was replaced with some comments and `return settings;`
+            Do more testing to make sure this change makes sense.
+        - On the templates (and probably all examples) add the HTML [crossorigin] attribute
+            so good errors can show in `window.onerror` from DataFormsJS. Need to test and confirm.
+            https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script
 
 **) Playground Site
     - Need to add support for JSON file/resource type

@@ -2234,11 +2234,24 @@
                 type,
                 prop,
                 error,
-                hadError;
+                hadError,
+                existingControl;
 
             // Validate HTML Element
             if (!(element instanceof HTMLElement)) {
-                throw new TypeError('Invalid type for parameter [element] for the function [DataFormsJS.loadJsControl()], expected HTMLElement, received: ' + typeof element);
+                // If the app is manually updating an already loaded control `app.activeJsControls(control)`
+                // then get the control otherwise show an erorr. Updating already loaded controls is not common
+                // but can be used in very specific scenarios. For example the Web Components Polyfill uses it.
+                if (typeof element === 'object') {
+                    existingControl = app.activeJsControls.find(function(control) {
+                        return (control === element);
+                    });
+                }
+                if (existingControl === undefined) {
+                    throw new TypeError('Invalid type for parameter [element] for the function [DataFormsJS.loadJsControl()], expected HTMLElement, received: ' + typeof element);
+                } else {
+                    element = existingControl.element;
+                }
             }
             name = element.getAttribute('data-control');
             tagName = element.tagName.toLowerCase();
@@ -2336,11 +2349,15 @@
             // Mark control as loaded and add to active list
             element.setAttribute('data-control-loaded', '');
             element.removeAttribute('data-control-is-loading');
-            app.activeJsControls.push({
-                element: element,
-                control: name,
-                data: data,
-            });
+            if (existingControl === undefined) {
+                app.activeJsControls.push({
+                    element: element,
+                    control: name,
+                    data: data,
+                });
+            } else {
+                existingControl.data = data;
+            }
         },
 
         /**

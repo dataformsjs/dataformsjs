@@ -26,7 +26,7 @@
         <div class="responsive-table">
             <!--
                 Two version of the <data-table> are shown below. The one used for this
-                app includes <template> for displaying flag icons and formatting values.
+                app includes a template for displaying flag icons and formatting values.
 
                 Another commented version below uses [col-link-template] and [columns]
                 to specify which data to show and the link.
@@ -38,7 +38,7 @@
                 table-attr="is=sortable-table,
                     data-sort-class-odd=row-odd,
                     data-sort-class-even=row-even">
-                <template>
+                <script type="text/x-template">
                     <tr>
                         <td>
                             <i class="${country_code.toLowerCase()} flag"></i>
@@ -49,7 +49,7 @@
                         <td>${timezone}</td>
                         <td class="align-right">${Format.date(modification_date)}</td>
                     </tr>
-                </template>
+                </script>
             </data-table>
             <!--
             <data-table
