@@ -44,10 +44,10 @@
                             <i class="${country_code.toLowerCase()} flag"></i>
                             <a href="#/city/${geonames_id}">${name}</a></a>
                         </td>
-                        <td class="align-right" data-value="${population}">${Format.number(population)}</td>
+                        <td class="align-right" data-value="${population}">${format.number(population)}</td>
                         <td class="align-right" data-value="${elevation}">${formatElevation(elevation)}</td>
                         <td>${timezone}</td>
-                        <td class="align-right">${Format.date(modification_date)}</td>
+                        <td class="align-right">${format.date(modification_date)}</td>
                     </tr>
                 </script>
             </data-table>

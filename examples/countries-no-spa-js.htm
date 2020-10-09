@@ -33,74 +33,44 @@
 
             <div class="responsive-table">
                 <data-table
-                    class="click-to-highlight"
-                    data-source="countries"
+                    data-bind="countries"
                     data-labels="Code, Name, Size (KM), Population, Continent"
-                    data-sort
-                    data-sort-class-odd="row-odd"
-                    data-sort-class-even="row-even">
+                    data-table-attr="
+                        class=click-to-highlight,
+                        data-sort
+                        data-sort-class-odd=row-odd,
+                        data-sort-class-even=row-even">
+                    <script type="text/x-template">
+                        <tr>
+                            <td>${iso}</td>
+                            <td>
+                                <i class="${iso.toLowerCase()} flag"></i>
+                                ${country}
+                            </td>
+                            <td class="align-right" data-value="${area_km}">${format.number(area_km)}</td>
+                            <td class="align-right" data-value="${population}">${format.number(population)}</td>
+                            <td>${continent}</td>
+                        </tr>
+                    </script>
                 </data-table>
             </div>
         </div>
     </template>
 
-    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/DataFormsJS.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/DataFormsJS.min.js"></script>
+    <script src="../js/extensions/format.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/controls/data-table.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/controls/json-data.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/filter.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/sort.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/clickToHighlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/clickToHighlight.min.js"></script> -->
 
-    <!--
-        Add images to the <table> element using a Custom Plugin with standard JavaScript DOM methods.
-        Additionally format number columns in user's local number format.
-    -->
-    <script>
-        (function() {
-            'use strict';
-
-            app.addPlugin('formatTable', function(element) {
-                // Get table and exit if no data
-                var table = document.querySelector('table');
-                if (table === null || table.tBodies === null || table.tBodies.length !== 1) {
-                    return;
-                }
-
-                // Find Number and Date Columns so the data can be formatted
-                var cells = table.tHead.rows[0].cells;
-                var colCount = cells.length;
-                var updateCols = [];
-                for (var n = 0; n < colCount; n++) {
-                    switch (cells[n].textContent) {
-                        case 'Size (KM)':
-                        case 'Population':
-                            updateCols.push(n);
-                            break;
-                    }
-                }
-                var updateColLen = updateCols.length;
-
-                // Process all rows
-                var tableRows = table.tBodies[0].rows;
-                var rowCount = tableRows.length;
-                for (var x = 0; x < rowCount; x++) {
-                    var row = tableRows[x];
-
-                    // Add flag to row
-                    var iso = row.cells[0].textContent.trim().toLowerCase();
-                    var flag = document.createElement('i');
-                    flag.className = iso + ' flag';
-                    row.cells[1].insertAdjacentElement('afterbegin', flag);
-
-                    // Format Numbers
-                    for (var y = 0; y < updateColLen; y++) {
-                        var value = row.cells[updateCols[y]].textContent;
-                        row.cells[updateCols[y]].setAttribute('data-value', value); // Value for Sorting
-                        row.cells[updateCols[y]].textContent = Number(value).toLocaleString(); // Value for Display
-                    }
-                }
-            });
-        })();
-    </script>
+    <script src="../js/DataFormsJS.js"></script>
+    <script src="../js/extensions/format.js"></script>
+    <script src="../js/controls/data-table.js"></script>
+    <script src="../js/controls/json-data.js"></script>
+    <script src="../js/plugins/filter.js"></script>
+    <script src="../js/plugins/sort.js"></script>
+    <script src="../js/plugins/clickToHighlight.js"></script>
 </body>
 </html>

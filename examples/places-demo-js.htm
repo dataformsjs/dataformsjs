@@ -55,22 +55,59 @@
                     data-i18n-attr="data-filter-results-text-all, data-filter-results-text-filtered, placeholder">
 
                 <div class="responsive-table">
+                    <!--
+                        Either <template> or <script type="text/x-template"> can be used.
+                            <template> will work with all modern browsers
+                            <script type="text/x-template"> is required if supporting IE
+                    -->
                     <data-table
-                        class="countries click-to-highlight"
-                        data-source="countries"
+                        data-bind="countries"
                         data-labels="Code, Name, Size (KM), Population, Continent"
                         data-i18n-attr="data-labels"
-                        data-sort
-                        data-sort-class-odd="row-odd"
-                        data-sort-class-even="row-even">
+                        data-table-attr="
+                            class=click-to-highlight,
+                            data-sort
+                            data-sort-class-odd=row-odd,
+                            data-sort-class-even=row-even">
+                        <script type="text/x-template">
+                            <tr>
+                                <td><a href="#/${app.activeModel.i18n_Locale}/regions/${iso}">${iso}</a></td>
+                                <td>
+                                    <i class="${iso.toLowerCase()} flag"></i>
+                                    ${country}
+                                </td>
+                                <td class="align-right" data-value="${area_km}">${format.number(area_km)}</td>
+                                <td class="align-right" data-value="${population}">${format.number(population)}</td>
+                                <td>${continent}</td>
+                            </tr>
+                        </script>
                     </data-table>
+
+                    <!--
+                        For a basic table a <template> is not required. This version still
+                        contains links by using the [data-col-link-template] attribute however
+                        it will not show the flag icons or format numbers or use the selected
+                        i18n Locale
+                    -->
+                    <!--
+                    <data-table
+                        data-bind="countries"
+                        data-col-link-template="#/en/regions/:iso"
+                        data-labels="Code, Name, Size (KM), Population, Continent"
+                        data-i18n-attr="data-labels"
+                        data-table-attr="
+                            class=countries click-to-highlight,
+                            data-sort
+                            data-sort-class-odd=row-odd,
+                            data-sort-class-even=row-even">
+                    </data-table>
+                    -->
                 </div>
             </div>
         </template>
 
         <template
             type="text/x-template"
-            data-engine="handlebars"
             data-route="/:lang/regions/:country"
             data-page="jsonData"
             data-url="https://www.dataformsjs.com/data/geonames/regions/:country"
@@ -100,14 +137,24 @@
             data-src="html/places-info-js.htm">
         </template>
 
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/DataFormsJS.min.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/DataFormsJS.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/controls/data-table.min.js"></script>
+        <script src="../js/extensions/format.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/pages/jsonData.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/i18n.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/filter.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/sort.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/dataBind.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/clickToHighlight.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/clickToHighlight.min.js"></script> -->
+        <script src="../js/DataFormsJS.js"></script>
+        <script src="../js/controls/data-table.js"></script>
+        <script src="../js/extensions/format.js"></script>
+        <script src="../js/pages/jsonData.js"></script>
+        <script src="../js/plugins/i18n.js"></script>
+        <script src="../js/plugins/filter.js"></script>
+        <script src="../js/plugins/sort.js"></script>
+        <script src="../js/plugins/dataBind.js"></script>
+        <script src="../js/plugins/clickToHighlight.js"></script>
         <script>
             // Lazy Load the following scripts only if needed based on attribute [data-lazy-load].
             // When scripts need to be downloaded in a specific order then use an array otherwise
@@ -117,163 +164,23 @@
             app.lazyLoad = {
                 leafletCss: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.css',
                 leafletJs: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.js',
-                leafletPlugin: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/leaflet.min.js',
-                data_list: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/controls/data-list.min.js',
+                // leafletPlugin: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/leaflet.min.js',
+                // data_list: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/controls/data-list.min.js',
+                leafletPlugin: '../js/plugins/leaflet.js',
+                data_list: '../js/controls/data-list.js',
             };
             app.settings.lazyTemplateSelector = '#loading-spinner-screen';
         </script>
 
         <script>
-            // When using a Template or View Engine links would be included
-            // in the table however since only JavaScript is used a Custom Plugin
-            // on this page sets up the links and Flag Images.
-            app.addPlugin("pageLinksAndImages", function() {
-                var table = document.querySelector("table"),
-                    tableRows,
-                    rowCount,
-                    textContent,
-                    x,
-                    y,
-                    tableType,
-                    flag,
-                    pageIso,
-                    iso,
-                    updateCols = [],
-                    cells,
-                    colCount,
-                    dateCol = -1,
-                    updateColLen,
-                    value;
-
-                if (table === null || table.tBodies === null || table.tBodies.length !== 1) {
-                    return;
+            // Display Elevation in both Meters and Feet
+            function formatElevation(text) {
+                var meters = parseInt(text, 10);
+                if (!isNaN(meters)) {
+                    var feet = parseInt(meters * 3.28084, 10)
+                    return Number(meters).toLocaleString() + ' m / ' + Number(feet).toLocaleString() + "'";
                 }
-
-                tableRows = table.tBodies[0].rows;
-                rowCount = tableRows.length;
-
-                // Check the first row and if it contains a link then
-                // exit as this function as the plugin has already ran.
-                textContent = tableRows[0].cells[0].innerHTML.trim();
-                if (textContent.indexOf("<a") > -1) {
-                    return;
-                }
-
-                // Which table to update?
-                if (table.classList.contains("countries")) {
-                    tableType = "countries";
-                } else if (table.classList.contains("regions")) {
-                    tableType = "regions";
-                } else if (table.classList.contains("cities")) {
-                    tableType = "cities";
-                } else {
-                    return;
-                }
-
-                // Country Code (iso) for the page
-                pageIso = (app.activeParameterList.country ? app.activeParameterList.country.toLowerCase() : null);
-
-                // Find Number and Date Columns so the data can be formatted
-                cells = table.tHead.rows[0].cells;
-                colCount = cells.length;
-                for (x = 0; x < colCount; x++) {
-                    switch (cells[x].textContent) {
-                        case 'Size (KM)':
-                        case 'Population':
-                        case 'Elevation':
-                            updateCols.push(x);
-                            break;
-                        case 'Date Last Modified':
-                            dateCol = x;
-                            break;
-                    }
-                }
-                updateColLen = updateCols.length;
-
-                // Replace the cell value with the same text an a link
-                for (x = 0; x < rowCount; x++) {
-                    row = tableRows[x];
-                    textContent = row.cells[0].textContent.trim();
-                    switch (tableType) {
-                        case "countries":
-                            link = '#/' + encodeURIComponent(app.activeModel.i18n_Locale) + '/regions/' + encodeURIComponent(textContent);
-                            break;
-                        case "regions":
-                            link = '#/' + encodeURIComponent(app.activeModel.i18n_Locale) + '/cities/' + encodeURIComponent(app.activeModel.country) + '/' + encodeURIComponent(textContent);
-                            break;
-                        case "cities":
-                            link = '#/' + encodeURIComponent(app.activeModel.i18n_Locale) + '/city/' + encodeURIComponent(textContent);
-                            break;
-                        default:
-                            link = "#/";
-                            break;
-                    }
-                    link = '<a href="' + link + '">' + app.escapeHtml(textContent) + '</a>';
-                    row.cells[0].innerHTML = link;
-
-                    // Add Image
-                    iso = (pageIso ? pageIso : textContent.toLowerCase());
-                    flag = document.createElement('i');
-                    flag.className = iso + ' flag';
-                    row.cells[1].insertAdjacentElement('afterbegin', flag);
-
-                    // Format Numbers
-                    for (y = 0; y < updateColLen; y++) {
-                        value = row.cells[updateCols[y]].textContent;
-                        row.cells[updateCols[y]].setAttribute('data-value', value); // Value for Sorting
-                        row.cells[updateCols[y]].textContent = Number(value).toLocaleString(); // Value for Display
-                    }
-
-                    // Format Dates
-                    if (dateCol !== -1) {
-                        value = row.cells[dateCol].textContent;
-                        row.cells[dateCol].setAttribute('data-value', value);
-                        row.cells[dateCol].textContent = formatDate(value);
-                    }
-                }
-            });
-
-            // Date, Number, and Elevation formatting.
-            // In the Handlebars, Vue, and React demos they are updated through templating functions
-            // but for this demo they are updated from this custom plugin.
-            app.addPlugin('textFormatting', function() {
-                var elements = document.querySelectorAll('.format-number');
-                Array.prototype.forEach.call(elements, function(el) {
-                    var value = el.textContent;
-                    if (value && !isNaN(parseFloat(value))) {
-                        el.setAttribute('data-value', value);
-                        el.textContent = Number(value).toLocaleString();
-                    }
-                });
-                elements = document.querySelectorAll('.format-date');
-                Array.prototype.forEach.call(elements, function(el) {
-                    var value = el.textContent;
-                    if (value) {
-                        el.setAttribute('data-value', value);
-                        el.textContent = formatDate(value);
-                    }
-                });
-                elements = document.querySelectorAll('.format-elevation');
-                Array.prototype.forEach.call(elements, function(el) {
-                    var value = parseInt(el.textContent, 10);
-                    if (Number.isInteger(value)) {
-                        var displayValue = value + ' m / ' + parseInt(value * 3.28084, 10) + " '";
-                        el.setAttribute('data-value', value);
-                        el.textContent = displayValue;
-                    }
-                });
-            });
-
-            // Simple date formatting to user's local format
-            function formatDate(value) {
-                let date;
-                if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
-                    const nums = value.split('-').map(function(n) { return parseInt(n, 10); });
-                    date = new Date(nums[0], nums[1] - 1, nums[2]);
-                } else {
-                    date = new Date(value);
-                }
-                return new Intl.DateTimeFormat(navigator.language).format(date);
+                return text;
             }
         </script>
     </body>

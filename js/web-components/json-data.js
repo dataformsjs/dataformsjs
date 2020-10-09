@@ -28,6 +28,8 @@ import {
     usingWebComponentsPolyfill
 } from './utils.js';
 
+const format = new Format();
+
 /**
  * Shadow DOM for Custom Elements
  */
@@ -337,8 +339,8 @@ class JsonData extends HTMLElement {
             } else {
                 const expression = element.getAttribute('data-show');
                 try {
-                    const tmpl = new Function('state', 'Format', 'with(state){return ' + expression + '}');
-                    const result = tmpl(this.state, Format);
+                    const tmpl = new Function('state', 'format', 'with(state){return ' + expression + '}');
+                    const result = tmpl(this.state, format);
                     element.style.display = (result === true ? '' : 'none');
                 } catch (e) {
                     element.style.display = '';

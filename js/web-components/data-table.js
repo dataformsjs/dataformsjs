@@ -203,11 +203,12 @@ class DataTable extends HTMLElement {
             // the variables for HTML encoding. The variable `index` is made availble to the template
             // and it can be safely overwritten by the list item due to variable scoping during rendering.
             try {
-                const tmpl = new Function('item', 'index', 'render', 'Format', 'with(item){return render`' + template.innerHTML + '`}');
+                const tmpl = new Function('item', 'index', 'render', 'format', 'with(item){return render`' + template.innerHTML + '`}');
                 let index = 0;
+                const format = new Format();
                 for (const item of list) {
                     try {
-                        html.push(tmpl(item, index, render, Format));
+                        html.push(tmpl(item, index, render, format));
                     } catch (e) {
                         const errorClass = this.errorClass;
                         if (errorClass) {

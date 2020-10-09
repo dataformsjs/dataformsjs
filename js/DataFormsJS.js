@@ -2326,7 +2326,7 @@
             try
             {
                 if (control.onLoad !== undefined) {
-                    control.onLoad.call(data, element);
+                    control.onLoad.call(data, element, model);
                 }
             } catch (e) {
                 app.showError(element, 'Error with JavaScript Control [' + name + '] in function [onLoad()]: ' + e.toString());

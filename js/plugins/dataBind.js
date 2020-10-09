@@ -6,11 +6,24 @@
  * view engine such as Handlebars or Vue.
  *
  * This file updates DOM content based on attributes:
- *     data-bind
- *     data-bind-attr
+ *     data-bind="object.property"
+ *     data-format="number|date|dateTime|time|{function}"
+ *     data-bind-attr="attr1, attr2"
+ *     data-show="js-expression"
+ *
+ * Using [data-format] requires [js/extensions/format.js] or
+ * custom functions to be defined by the app.
+ *
+ * Elements with [data-show] will have the toggled `style.display`
+ * for viewing or to hide based on the result of the expression.
+ * This is similar behavior to Vue [v-show]. If the [format.js]
+ * is avaiable then `format` functions will be available for the
+ * JavaScript expression.
  *
  * Additionally API functions can be manually called, example:
  *     app.plugins.dataBind.getBindValue(key)
+ *     app.plugins.dataBind.getBindValue(key, data) // [data] is optional
+ *     app.plugins.dataBind.bindAttrTmpl(element, attribute, data)
  */
 
 /* Validates with both [jshint] and [eslint] */
@@ -78,17 +91,22 @@
          * If first bind key is 'window' then the global [window] object is used instead.
          *
          * @param {string} key
+         * @param {object|null|undefined} data
          * @returns {null|string}
          */
-        getBindValue: function (key) {
+        getBindValue: function (key, data) {
             // Using bind requires an active model
-            if (app.activeModel === null) {
+            if (data === undefined) {
+                data = app.activeModel;
+            } else if (data === null) {
                 return null;
+            } else if (key === null) {
+                throw new Error('Missing [data-bind] attribute.')
             }
 
             // Get bind value
             var keys = key.split('.');
-            var value = (keys.length > 1 && keys[0] === 'window' ? window : app.activeModel);
+            var value = (keys.length > 1 && keys[0] === 'window' ? window : data);
             for (var n = 0, m = keys.length; n < m; n++) {
                 value = (typeof value === 'object' && value !== null ? value[keys[n]] : null);
             }
@@ -96,17 +114,66 @@
         },
 
         /**
+         * Bind an Attribute Template. This is used for [data-bind-attr] to set an
+         * attribute value based on a template and data. Use "[]" characters to
+         * specify the bind key in the related attribute. Example:
+         *     <a href="#/regions/[place.country_code]" data-bind-attr="href">Regions</a>
+         *
+         * Additionaly this can be used for other attributes defined by the app.
+         * For example the [js/web-components/polyfill.js] uses this for [url-attr-param].
+         *
+         * @param {HTMLElement} element
+         * @param {string} attribute
+         * @param {object} data
+         */
+        bindAttrTmpl: function(element, attribute, data) {
+            var attributes = element.getAttribute(attribute).split(',').map(function(s) { return s.trim(); });
+            attributes.forEach(function(attr) {
+                // Save bind template to an attribute, example:
+                // [data-bind-attr="href"] will save the inital value from [href]
+                // to [data-bind-attr-href]. This allows it to be re-used.
+                var value = element.getAttribute(attribute + '-' + attr);
+                if (value === null) {
+                    value = element.getAttribute(attr);
+                    if (value !== null) {
+                        element.setAttribute(attribute + '-' + attr, value);
+                    }
+                }
+                // Parse the template
+                if (value !== null) {
+                    var loopCount = 0; // For safety to prevent endless loops
+                    var maxLoop = 100;
+                    while (loopCount < maxLoop) {
+                        var posStart = value.indexOf('[');
+                        var posEnd = value.indexOf(']');
+                        if (posStart === -1 || posEnd === -1 || posEnd < posStart) {
+                            break;
+                        }
+                        var key = value.substring(posStart + 1, posEnd);
+                        var boundValue = dataBind.getBindValue(key, data);
+                        if (boundValue === null) {
+                            boundValue = '';
+                        }
+                        value = value.substring(0, posStart) + boundValue + value.substring(posEnd + 1);
+                        loopCount++;
+                    }
+                    element.setAttribute(attr, value);
+                }
+            });
+        },
+
+        /**
          * Event called after the HTML is rendered and before the page's
          * controller [onRendered()] function runs.
          */
-        onRendered: function (element) {
+        onRendered: function (rootElement) {
             // Use specific element or entire page (document)
-            if (element === undefined) {
-                element = document;
+            if (rootElement === undefined) {
+                rootElement = document;
             }
 
             // Update element text for all elements with [data-bind] Attribute.
-            var elements = element.querySelectorAll('[data-bind]');
+            var elements = rootElement.querySelectorAll('[data-bind]');
             Array.prototype.forEach.call(elements, function(el) {
                 var fieldName = el.getAttribute('data-bind');
                 if (fieldName === '') {
@@ -116,6 +183,7 @@
                 var value = dataBind.getBindValue(fieldName);
                 var elementName = el.nodeName;
                 if (elementName === 'INPUT' || elementName === 'SELECT' || elementName === 'TEXTAREA') {
+                    // Handle Form/Input Elements
                     var elementType = el.type;
                     if (elementType === 'checkbox' || elementType === 'radio') {
                         if (typeof value === 'boolean') {
@@ -131,7 +199,25 @@
                     updateModel({target:el});
                     var eventName = (el.oninput === undefined ? 'change' : 'input');
                     el.addEventListener(eventName, updateModel);
-                } else {
+                } else if (el.getAttribute('data-control') === null && el.tagName.indexOf('-') === -1) {
+                    // Handle standard HTML Elements. This includes framework "JS Controls"
+                    // or Web Components as they will handle data binding in the control.
+                    var dataType = el.getAttribute('data-format');
+                    if (dataType !== null) {
+                        if (app.format !== undefined && typeof app.format[dataType] === 'function') {
+                            value = app.format[dataType](value);
+                        } else if (typeof window[dataType] === 'function') {
+                            try {
+                                value = window[dataType](value);
+                            } catch (e) {
+                                console.error(e);
+                                value = 'Error: ' + e.message;
+                            }
+                        } else {
+                            value = 'Error: Unhandled format function [' + dataType + ']';
+                            console.warn('Check if the script [js/extensions/format.js] should be included or if a function is missing.');
+                        }
+                    }
                     el.textContent = value;
                 }
             });
@@ -140,30 +226,27 @@
             // This code finds and replaces text such in the format of "[field]".
             // Example:
             //     <a href="/[field1]/[field2]" data-bind-attr="href">
-            elements = element.querySelectorAll('[data-bind-attr]');
+            elements = rootElement.querySelectorAll('[data-bind-attr]');
             Array.prototype.forEach.call(elements, function(el) {
-                var attributes = el.getAttribute('data-bind-attr').split(',');
-                for (var n = 0, m = attributes.length; n < m; n++) {
-                    var attr = attributes[n].trim();
-                    var value = el.getAttribute(attr);
-                    if (value !== null) {
-                        var loopCount = 0; // For safety to prevent endless loops
-                        var maxLoop = 100;
-                        while (loopCount < maxLoop) {
-                            var posStart = value.indexOf('[');
-                            var posEnd = value.indexOf(']');
-                            if (posStart === -1 || posEnd === -1 || posEnd < posStart) {
-                                break;
-                            }
-                            var key = value.substring(posStart + 1, posEnd);
-                            var boundValue = dataBind.getBindValue(key);
-                            if (boundValue === null) {
-                                boundValue = '';
-                            }
-                            value = value.substring(0, posStart) + boundValue + value.substring(posEnd + 1);
-                            loopCount++;
-                        }
-                        el.setAttribute(attr, value);
+                dataBind.bindAttrTmpl(el, 'data-bind-attr', app.activeModel);
+            });
+
+            // Show or hide elements based on [data-show="js-expression"].
+            elements = rootElement.querySelectorAll('[data-show]');
+            Array.prototype.forEach.call(elements, function(el) {
+                if (app.activeModel === null || (app.activeModel && app.activeModel.isLoaded !== true)) {
+                    // [data-show] elements will be hidden during loading
+                    el.style.display = 'none';
+                } else {
+                    var expression = el.getAttribute('data-show');
+                    try {
+                        var tmpl = new Function('state', 'format', 'with(state){return ' + expression + '}');
+                        var result = tmpl(app.activeModel, app.format);
+                        el.style.display = (result === true ? '' : 'none');
+                    } catch (e) {
+                        el.style.display = '';
+                        console.error('Error evaluating JavaScript expression from [data-show] attribute.');
+                        console.error(e);
                     }
                 }
             });

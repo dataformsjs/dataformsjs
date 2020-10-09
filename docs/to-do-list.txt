@@ -29,15 +29,15 @@ TODO List
         go through additional changes without warning.
     - Until updates are finished many of the web component examples will be pointing
         to local build files rather than CDN.
-    - These updates will likely occur over a week or several weeks or longer before being published to npm.
+    - These updates will likely occur over several weeks or longer before being published to npm.
     - In general:
         - Add ability to polyfill for old browsers [js/web-components/polyfill.js] using the main framework.
         - <data-table> - New <template> option
         - <json-data> Attributes with [data-bind] can also include an
             optional [data-format="number|date|dateTime|{function}"]
     - Items currently needed before this will be published to npm
-        - Review all comments in [js/web-components/polyfill.js] and handle all issues.
-            The file is working but still in active development.
+        - Vue Directives and Handlebar Helpers need to use the new [js/extensions/format.js]
+            so functions are not duplicated. Minor breaking change. Provide warning if [format.js] is missing.
         - The standard Framework includes `app.settings.lazyTemplateSelector` which is used to show an optional
             loading template while scripts and HTML content is being downloaded. In general the content is
             very small so it goes un-noticed on a desktop or fast mobile connection. On a slow mobile connection
@@ -54,6 +54,24 @@ TODO List
         - Rename [jsPlugins.js]`refreshJsPlugins()` as `refreshPlugins()` to match standard Framework
             * Breaking change because the names should match. Before the inital release `app.refreshPlugins()`
                 was named `app.refreshJsPlugins()` so this is a bug
+        - Look into minor issue that was found in development
+            http://127.0.0.1:8080/countries-no-spa-js
+            https://www.dataformsjs.com/examples/countries-no-spa-js.htm
+            - From DevTools:
+                app.activeJsControls
+            - 3 items are returned but 2 are expected. The <data-table> is duplicated in memory. This likely
+                doesn't cause any problems but should be fixed regardless.
+        - Look into adding a Search Screen for the places demos on Web and JS
+            - Add here if it makes sense:
+                http://127.0.0.1:8080/places-demo-web
+                http://127.0.0.1:8080/places-demo-js
+            - Based on:
+                http://127.0.0.1:8080/places-demo-hbs#/en/search
+                http://127.0.0.1:8080/places-demo-vue#/en/search
+        - <data-list> should also support both <template> and <script type="text/x-template">
+            - This is for better IE 11 support, with the current demos it's not needed but one should be created
+        - Review all comments in [js/web-components/polyfill.js] and handle all issues.
+            The file is working but still in active development.
         - New demo page to test all features of the new [utils-format.js] file
         - Consider (likely) add multiple optional template options to <data-table>
             - If only <template> then use for row items (current)
@@ -69,9 +87,7 @@ TODO List
             - Likely many updates will be made in [examples/web-components-api.htm] for API examples.
             - Commented <scripts> at the bottom of [examples/places-demo-web.htm] should
                 be merged to [examples/web-components-api.htm] or documented in a new sperate example.
-        - Decide if [Format.number()] with static functions or instead use `new Format()` then pass `format`.
-            This may be decided based on browser support for static functions. More research is needed.
-        - Also related decide if
+        - Decide if
                 import { Format } from './utils-format.js';
             Should be merged with the main './utils.js' to avoid an extra HTTP request. If all code
             that imports from './utils.js' also imports Format then they should probably be merged.
@@ -137,6 +153,11 @@ TODO List
         - On the templates (and probably all examples) add the HTML [crossorigin] attribute
             so good errors can show in `window.onerror` from DataFormsJS. Need to test and confirm.
             https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script
+        - [js\web-components\data-table.js]
+                addTable('<table class="no-data"></table>');
+            Needs a [emptyDataText] like the standard framework that has a default value of "No records found"
+                addTable('<table class="no-data"><caption>' + app.escapeHtml(this.emptyDataText) + '<caption></table>');
+
 
 **) Playground Site
     - Need to add support for JSON file/resource type

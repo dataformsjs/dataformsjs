@@ -16,7 +16,7 @@
                 <label class="no-top-margin" data-i18n="Name"></label>
                 <span data-bind="place.name"></span>
             </div>
-            <div>
+            <div data-show="place.name !== place.ascii_name">
                 <label data-i18n="ASCII Name"></label>
                 <span data-bind="place.ascii_name"></span>
             </div>
@@ -31,11 +31,11 @@
             </div>
             <div>
                 <label data-i18n="Population"></label>
-                <span class="format-number" data-bind="place.population"></span>
+                <span class="format-number" data-bind="place.population" data-format="number"></span>
             </div>    
             <div>
                 <label data-i18n="Elevation"></label>
-                <span class="format-elevation" data-bind="place.elevation"></span>
+                <span class="format-elevation" data-bind="place.elevation" data-format="formatElevation"></span>
             </div>
             <div>
                 <label data-i18n="Latitude"></label>
@@ -51,7 +51,7 @@
             </div>
             <div>
                 <label data-i18n="Date Last Modified"></label>
-                <span class="format-date" data-bind="place.modification_date"></span>
+                <span class="format-date" data-bind="place.modification_date" data-format="date"></span>
             </div>
         </section>            
 
@@ -71,10 +71,11 @@
         </section>
     </div>
 
-    <section class="alternate-names">
+    <section class="alternate-names" data-show="place.alternate_names.length > 0">
         <h2><span data-i18n="Alternate Names"></span> (<span data-bind="place.alternate_names.length"></span>)</h2>
 
         <input
+            data-show="place.alternate_names.length > 10"
             data-filter-selector=".alternate-names li"
             data-filter-results-text-selector="h2"
             data-filter-results-text-all="Alternate Names ({totalCount})"
@@ -82,7 +83,6 @@
             placeholder="Enter filter"
             data-i18n-attr="placeholder, data-filter-results-text-all, data-filter-results-text-filtered">
 
-        <data-list data-source="place.alternate_names">
-        </data-list>
+        <data-list data-bind="place.alternate_names"></data-list>
     </section>
 </div>

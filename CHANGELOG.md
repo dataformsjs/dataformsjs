@@ -16,25 +16,48 @@ Overall the core Framework files and API are expected to remain stable however t
   * The new features make for an easier to use API for customizing content on page after data is displayed. Previously the places demo required a lot of custom JavaScript on the page in order to display flag icons, format table data, and additional items.
 * Minor enhancments for other DataFormsJS files:
   * Added `app.updateTemplatesForIE()`
-* Added ability to easily reload "JavaScript Controls" in the standard Framework by calling `app.activeJsControls(control)`
-  * Updating already loaded controls is not common but can be used in very specific scenarios. For example the new Web Components Polyfill uses it.
+  * Added features in `js/plugins/dataBind.js` based on the Web Components version.
+* Enhancements for "JavaScript Controls" in the standard Framework. The Framework JavaScript Controls are a similar concept to Web Components.
+  * Added ability to easily reload  by calling `app.activeJsControls(control)`. Updating already loaded controls is not common but can be used in very specific scenarios. For example the new Web Components Polyfill uses it.
+  * Update API to include `model` as a parameter in `control.onLoad(element, model)`
+  * Specific controls `<data-table>` and `<data-list>` have significant new functionality based on the matching Web Components that allows for basic templating from HTML. The template syntax is based on JavaScript template literals (template strings) and with the new features basic sites or apps that previously required Handlebars or Vue for templating could possibly use these instead.
 
 ### Breaking Changes
 
-All breaking changes are minor and only expected to affect internal API's
+Most breaking changes are minor and only expected to affect internal API's and examples. Several Framework "JavaScript Controls" were updated to match behavior of the Web Components in order to provide more features and so they can be used with the new Web Components Polyfill. If you developed a site or app with any of the breaking changes they are quick to update.
 
 * `js/web-components/utils.js` - Removed `showOldBrowserWarning()`. The feature has been replaced with the new `js/web-components/polyfill.js` and a function `usingWebComponentsPolyfill()`
 * `js/plugins/filter.js` - Removed error alert for text `Column filter requires a table to be correctly defined` that happened if a table was missing when the filter was loaded. The reason is that it makes sense for certain apps to have a defined filter and only optionally include the table.
-
-### Release Details
-
-* Files Modified:
-  * Most or all files under: `js/web-components/*`
-  * `js/controls/json-data.js`
-  * `js/DataFormsJS.js`
-* File Added:
-  * `js/web-components/polyfill.js`
-  * `js/web-components/utils-format.js`
+* `js/controls/data-table.js` - Replaced `data-source` with `data-bind` and now `<data-table>` will be converted to a `<div>` with a `<table>` in the `<div>` instead of converting to a `<table>` directly. Additionaly `<template>` support has been added.
+  * Code before Update:
+  ~~~html
+  <data-table
+      class="countries click-to-highlight"
+      data-source="countries"
+      data-labels="Code, Name, Size (KM), Population, Continent"
+      data-i18n-attr="data-labels"
+      data-sort
+      data-sort-class-odd="row-odd"
+      data-sort-class-even="row-even">
+  </data-table>
+  ~~~
+  * Code after Update:
+  ~~~html
+  <data-table
+      data-bind="countries"
+      data-labels="Code, Name, Size (KM), Population, Continent"
+      data-i18n-attr="data-labels"
+      data-table-attr="
+          class=countries click-to-highlight,
+          data-sort
+          data-sort-class-odd=row-odd,
+          data-sort-class-even=row-even">
+  </data-table>
+  ~~~
+  * See code comments in examples for more:
+    * `http://127.0.0.1:8080/places-demo-js` - https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-js.htm
+* `js/controls/data-list.js` - Replaced `data-source` with `data-bind` and now `<data-list>` will be converted to a `<div>` with a `<ul>` in the `<div>` instead of converting to a `<ul>` directly. Additionaly `<template>` support has been added.
+<data-list data-source="place.alternate_names"></data-list>
 
 ## 4.8.0 (October 5, 2020)
 
