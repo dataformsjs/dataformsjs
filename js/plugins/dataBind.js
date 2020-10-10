@@ -234,7 +234,7 @@
             // Show or hide elements based on [data-show="js-expression"].
             elements = rootElement.querySelectorAll('[data-show]');
             Array.prototype.forEach.call(elements, function(el) {
-                if (app.activeModel === null || (app.activeModel && app.activeModel.isLoaded !== true)) {
+                if (app.activeModel === null || (app.activeModel && app.activeModel.isLoading === true)) {
                     // [data-show] elements will be hidden during loading
                     el.style.display = 'none';
                 } else {
