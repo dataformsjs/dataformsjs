@@ -30,11 +30,16 @@ TODO List
     - Until updates are finished many of the web component examples will be pointing
         to local build files rather than CDN.
     - These updates will likely occur over several weeks or longer before being published to npm.
-    - In general:
-        - Add ability to polyfill for old browsers [js/web-components/polyfill.js] using the main framework.
-        - <data-table> - New <template> option
-        - <json-data> Attributes with [data-bind] can also include an
-            optional [data-format="number|date|dateTime|{function}"]
+    - Updates can be tested using root URL:
+        https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/
+        - All files under [js] are copied there. Example if testing from the Playground:
+            https://www.dataformsjs.com/en/playground
+        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/url-hash-router.min.js"></script>
+        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/json-data.min.js"></script>
+        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/data-table.min.js"></script>
+        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/input-filter.min.js"></script>
+        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/sortable-table.min.js"></script>
+        <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
         - Vue Directives and Handlebar Helpers need to use the new [js/extensions/format.js]
             so functions are not duplicated. Minor breaking change. Provide warning if [format.js] is missing.
@@ -141,9 +146,7 @@ TODO List
                 For example if the elements on the selector are not an <a> then run querySelector on
                 each element in the selector to find the <a>
             - Since it's a breaking change it's ok to remove [navList.js] if the code can be combined.
-        - Possible update found during testing:
-            Update `app.loadJsControl()` to be safe to call multiple times.
-            Currently it adds duplicate `app.activeJsControls` but it's doesn't break anything. 
+            - For the current example code [navList.min.js] is only used on the main site 
         - Breaking change on [js/plugins/filter.js] to consider keeping but add another option,
             for example a new attribute that allows the new behavior.
             At line #144 this:
@@ -157,7 +160,28 @@ TODO List
                 addTable('<table class="no-data"></table>');
             Needs a [emptyDataText] like the standard framework that has a default value of "No records found"
                 addTable('<table class="no-data"><caption>' + app.escapeHtml(this.emptyDataText) + '<caption></table>');
-
+        - Because of the new features for <data-list> the main site https://www.dataformsjs.com/
+            is being updated to use only JavaScript and not Handlebars templating. More testing on 
+            a variety of devices is needed and one issue must be solved (otherwise rollback changes to 
+            handlebars - most likely all changes will be kept):
+                - Start on Quick Ref Page, then navigate to examples:
+                    http://localhost:3000/en/quick-reference
+                    http://localhost:3000/en/examples
+                - It only happens once but there is a quick flash of the error template.
+                - This did not happen when using Handlebars
+                - It possible that CSS or related events needs to be updated in:
+                    [js/pages/jsonData.js]
+                - It currently is hidden when using this:
+                    <div class="error" data-bind="errorMessage" data-show="typeof errorMessage === 'string'"></div>
+                - If [data-show] is removed then the error is clear.
+                    If the current [data-show] should be kept then likely add it on templates and other JS only examples
+                - Seems that all 3 screens quickly flash while during route unloading so 
+                    additional CSS may have to be added for route unloading. It's very noticeable
+                    when testing with IE 11.
+            - Site Repository:
+                https://github.com/dataformsjs/website
+            - Backup copy before removing Handlebars
+                https://github.com/ConradSollitt/website
 
 **) Playground Site
     - Need to add support for JSON file/resource type
@@ -205,6 +229,10 @@ TODO List
     - Code for the home page is here:
         https://github.com/dataformsjs/website/blob/master/public/js/page-home-page.js
         - See code related to `code.setAttribute('data-template-url', page);`
+    - Longer term once [role="tab"] changes have been made and if a I18N Web Component
+        can be created the main site could switch to DataFormsJS Web Components with
+        the Polyfill fallback. This would be a good test to add more practical features
+        to the Web Components.
 
 *) Markdown Docs to Create
     - Build Processs
@@ -321,6 +349,8 @@ TODO List
                 document.querySelector('url-hash-router').addEventListener('contentLoaded')
                 await componentsAreDefined(document)]
             Likely try several versions to see what makes the most sense
+            Since [polyfill.js] has been created this would need compatability with the main 
+            Framework Plugin.
     - Create Search Screen for the following page:
         - http://127.0.0.1:8080/places-demo-web
         - This requires creating a new web component (either generic or part of the app)
