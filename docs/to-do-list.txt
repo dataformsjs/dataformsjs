@@ -55,7 +55,14 @@ TODO List
             the standard Frameworks works. A good test will be the [examples/places-demo-web.htm] file
             that always loads [https://unpkg.com/leaflet@1.5.1/dist/leaflet.js]. The format for defining
             this needs to still be determined. The main framework uses [app.lazyLoad = {}]. The web components
-            will likely check for the same format if [window.lazyLoad] is defined by the app.
+            will likely check for the same format if [window.lazyLoad] is defined by the app. The web components 
+            version will be expanded on to handle modules; example:
+                window.lazyLoad = {
+                    leafletCss: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.css',
+                    leafletJs: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.js',
+                    leafletWeb: { module: '../js/web-components/leaflet-map.js' },
+                }
+            Then when using the polyfill items with {module} would be ignored.
         - Rename [jsPlugins.js]`refreshJsPlugins()` as `refreshPlugins()` to match standard Framework
             * Breaking change because the names should match. Before the inital release `app.refreshPlugins()`
                 was named `app.refreshJsPlugins()` so this is a bug
@@ -86,6 +93,12 @@ TODO List
                 <template data-item>
                 <template data-footer>
             - How to do this using the built-in <slot>? See if it makes sense using <slot>
+            - Instead of this (or in addition) another option can be to use a new attribute:
+                col-class="{index|name}={class-names}, {index|name}={class-names}"
+                col-class="0=align-right, 2=align-right col-class"
+                col-class="Size (KM)=align-right, Population=align-right"
+              Likely start with this version as it adds the smallest amount of code and works
+              well with the exisitng demos.
         - Consider [document.addEventListener('app:contentReady'] or something similar for
             the main API as it makes custom code much easier. Currently this is a feature
             of the new [polyfill.js]. Also need new example page showing how this works.
