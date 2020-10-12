@@ -73,7 +73,10 @@ import { usingWebComponentsPolyfill } from './utils.js';
  */
 const shadowTmpl = document.createElement('template');
 shadowTmpl.innerHTML = `
-    <style>:host { display:block; cursor:pointer; }</style>
+    <style>
+        :host { display: block; cursor: pointer; }
+        :host([hidden]) { display: none; }
+    </style>
     <slot></slot>
 `;
 

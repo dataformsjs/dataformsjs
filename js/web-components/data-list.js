@@ -28,7 +28,10 @@ import { Format } from './utils-format.js';
  */
 const shadowTmpl = document.createElement('template');
 shadowTmpl.innerHTML = `
-    <style>:host { display:block; }</style>
+    <style>
+        :host { display: block; }
+        :host([hidden]) { display: none; }
+    </style>
     <slot></slot>
 `;
 

@@ -332,33 +332,55 @@ TODO List
             <script>
                 window.requestHeaders = {}
                 window.requestHeadersByHostName = {}
-            And then the Framework [app.getRequestHeaders] and related code can be used as a starting point
+            And then the Framework [app.getRequestHeaders] and related code can be used as a starting point            
     - Create an [I18N] API for Web Components and initially use with:
         http://127.0.0.1:8080/places-demo-web
         - API is not yet started on so it has be decided first
         - Possibly several development versions will be created and tested
             with the best one selected
         - <i18n-service> outside of the hash router or <i18n-service url-params> under the hash router.
-            How to do something like this with <data-table>?
+            - How to do something like this with <data-table>?
                 <a href="#/{{../i18n_Locale}}/regions/{{iso}}">
-            Possibly:
+              Possibly:
                 col-link-template="#/:window.i18n_Locale/regions/:iso"
-            Another option if using <i18n-service> outside of the hash router could be to define
-            [i18n-key="value"] attributes on elements that <i18n-service> would update.
-            The <i18n-service> then might have to use JS code such as the following to handle updates
+            - Another option if using <i18n-service> outside of the hash router could be to define
+                [i18n-key="value"] attributes on elements that <i18n-service> would update.
+            - The <i18n-service> then might have to use JS code such as the following to handle updates
                 document.querySelector('url-hash-router').addEventListener('contentLoaded')
                 await componentsAreDefined(document)]
-            Likely try several versions to see what makes the most sense
-            Since [polyfill.js] has been created this would need compatability with the main 
-            Framework Plugin.
+            - Likely try several versions to see what makes the most sense
+            - Since [polyfill.js] has been created this would need compatability with the main Framework Plugin.
+            - Possible first version to try:
+                # Try <i18n-service> outside of the main view element. Default file = root-file="_"
+                <i18n-service default-lang="en" locales="en,ja,es,pt-BR,ar,fr,zh-CN" root-file="countries">
+                <div id="view" dir="auto"></div>
+                # Routes that have specific i18n files can have them in the data attribute
+                # then <i18n-service> can handle route changes and set the HTML content
+                <url-hash-route path="/" data-i18n-file="home-page">
+                # This version would likely be easy to make compatability with the main Framework
     - Create Search Screen for the following page:
         - http://127.0.0.1:8080/places-demo-web
-        - This requires creating a new web component (either generic or part of the app)
+        - This may require creating a new web component (either generic or part of the app)
+        - Ideally a new [click-selector=".btn-search"] attribute can be added to the <json-data> Web Component.
+          and that the Polyfill can be updated ot handle nested <json-data> elements. Example
+          from the Framework Handlebars Demo:
+            <json-data
+                data-url="https://www.dataformsjs.com/data/geonames/search?country=:country&city=:city"
+                data-click-selector=".btn-search"
+                data-template-url="html/search-places-results-hbs.htm"
+                data-model-prop="search"
+                class="section">
+            </json-data>
         - See standard framework demos with Handlebars, Vue, and React:
             http://127.0.0.1:8080/places-demo-hbs#/en/
             http://127.0.0.1:8080/places-demo-graphql#/en/
             http://127.0.0.1:8080/places-demo-vue#/en/
             http://127.0.0.1:8080/places-demo-react#/en/
+    - Create a new <form is="entry-form"> Component
+        - A Framework JavaScript control could be created as the Polyfill. Ideally the new control
+            would use functions from the main entryForm page object so it doesn't have to be duplicated.
+        - Existing Framework Demo:
+            https://www.dataformsjs.com/examples/entry-form-demo-vue.htm
 
 *) Many Docs need to be created along with API page(s)
     - API needs a quick search/filter feature to look up any attribute/class/function/etc

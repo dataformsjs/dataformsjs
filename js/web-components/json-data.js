@@ -35,7 +35,10 @@ const format = new Format();
  */
 const shadowTmpl = document.createElement('template');
 shadowTmpl.innerHTML = `
-    <style>:host { display:block; }</style>
+    <style>
+        :host { display: block; }
+        :host([hidden]) { display: none; }
+    </style>
     <slot></slot>
 `;
 
