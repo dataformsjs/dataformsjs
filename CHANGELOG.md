@@ -21,6 +21,12 @@ Overall the core Framework files and API are expected to remain stable however t
   * Added ability to easily reload  by calling `app.activeJsControls(control)`. Updating already loaded controls is not common but can be used in very specific scenarios. For example the new Web Components Polyfill uses it.
   * Update API to include `model` as a parameter in `control.onLoad(element, model)`
   * Specific controls `<data-table>` and `<data-list>` have significant new functionality based on the matching Web Components that allows for basic templating from HTML. The template syntax is based on JavaScript template literals (template strings) and with the new features basic sites or apps that previously required Handlebars or Vue for templating could possibly use these instead.
+* Image Gallery Update for Overlay when `title/alt` is not used:
+  * All versions updated (Web Component, Framework Plugin, React)
+  * By default if title is not used the position `{index}/{end}` is displayed. Previously it aligned to the left of the screen. Not it will be aligned in the center of the screen only if title is missing.
+  * To change position see the following CSS examples (works in all browsers included IE):
+    * `.image-gallery-overlay div.no-title { justify-content: flex-start; }`
+    * `.image-gallery-overlay div.no-title { justify-content: flex-end; }`
 
 ### Breaking Changes
 

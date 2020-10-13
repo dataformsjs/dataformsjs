@@ -112,6 +112,9 @@
         '    justify-content: space-between;',
         '    width: 100%;',
         '}',
+        '.image-gallery-overlay div.no-title {',
+        '    justify-content: center;',
+        '}',
         '.image-gallery-overlay div span {',
         '    padding: 10px 20px;',
         '    background-color: rgba(255,255,255,.4);',
@@ -372,6 +375,7 @@
             this.overlayTitle = document.createElement('span');
             this.overlayTitle.textContent = imageTitle;
             this.overlayTitle.style.display = (imageTitle ? '' : 'none');
+            container.className = (imageTitle ? '' : 'no-title');
             container.appendChild(this.overlayTitle);
             this.overlayIndex = document.createElement('span');
             this.overlayIndex.textContent = (imageIndex + 1) + '/' + this.imageCount;
@@ -484,6 +488,7 @@
             this.overlayImg.src = this.getImageSource(this.imageIndex);
             this.overlayTitle.textContent = imageTitle;
             this.overlayTitle.style.display = (imageTitle ? '' : 'none');
+            this.overlayTitle.parentNode.className = (imageTitle ? '' : 'no-title');
             this.overlayIndex.textContent = (this.imageIndex + 1) + '/' + this.imageCount;
             this.startLoadingTimer();
         },

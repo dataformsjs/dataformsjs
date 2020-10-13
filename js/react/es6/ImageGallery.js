@@ -169,6 +169,10 @@ export default class ImageGallery extends React.Component {
                 width: 100%;
             }
 
+            .image-gallery-overlay div.no-title {
+                justify-content: center;
+            }
+
             .image-gallery-overlay div span {
                 padding: 10px 20px;
                 background-color: rgba(255,255,255,.4);
@@ -195,7 +199,7 @@ export default class ImageGallery extends React.Component {
             .image-gallery-overlay .btn-previous:hover,
             .image-gallery-overlay .btn-next:hover {
                 opacity: .5;
-            }       
+            }
 
             .image-gallery-overlay.mobile .btn-previous,
             .image-gallery-overlay.mobile .btn-next,
@@ -370,6 +374,7 @@ export default class ImageGallery extends React.Component {
         this.overlayTitle = document.createElement('span');
         this.overlayTitle.textContent = imageTitle;
         this.overlayTitle.style.display = (imageTitle ? '' : 'none');
+        container.className = (imageTitle ? '' : 'no-title');
         container.appendChild(this.overlayTitle);
         this.overlayIndex = document.createElement('span');
         this.overlayIndex.textContent = `${this.imageIndex + 1}/${this.state.images.length}`;
@@ -543,6 +548,7 @@ export default class ImageGallery extends React.Component {
         this.overlayImg.src = this.getImage(this.state.images[this.imageIndex]);
         this.overlayTitle.textContent = imageTitle;
         this.overlayTitle.style.display = (imageTitle ? '' : 'none');
+        this.overlayTitle.parentNode.className = (imageTitle ? '' : 'no-title');
         this.overlayIndex.textContent = `${this.imageIndex + 1}/${imageCount}`;
         this.startLoadingTimer();
     }

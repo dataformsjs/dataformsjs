@@ -141,6 +141,10 @@ const overlayStyleCss = `
         width: 100%;
     }
 
+    .image-gallery-overlay div.no-title {
+        justify-content: center;
+    }
+
     .image-gallery-overlay div span {
         padding: 10px 20px;
         background-color: rgba(255,255,255,.4);
@@ -317,6 +321,7 @@ function showOverlay() {
     overlayTitle = document.createElement('span');
     overlayTitle.textContent = imageTitle;
     overlayTitle.style.display = (imageTitle ? '' : 'none');
+    container.className = (imageTitle ? '' : 'no-title');
     container.appendChild(overlayTitle);
     overlayIndex = document.createElement('span');
     overlayIndex.textContent = `${imageIndex + 1}/${imageCount}`;
@@ -506,6 +511,7 @@ function changeImage(direction) {
     overlayImg.src = getImage(images[imageIndex]);
     overlayTitle.textContent = imageTitle;
     overlayTitle.style.display = (imageTitle ? '' : 'none');
+    overlayTitle.parentNode.className = (imageTitle ? '' : 'no-title');
     overlayIndex.textContent = `${imageIndex + 1}/${imageCount}`;
     startLoadingTimer();
 }
