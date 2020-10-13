@@ -113,7 +113,7 @@
         '    width: 100%;',
         '}',
         '.image-gallery-overlay div.no-title {',
-        '    justify-content: center;',
+        '    justify-content: flex-end;',
         '}',
         '.image-gallery-overlay div span {',
         '    padding: 10px 20px;',

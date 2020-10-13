@@ -142,7 +142,7 @@ const overlayStyleCss = `
     }
 
     .image-gallery-overlay div.no-title {
-        justify-content: center;
+        justify-content: flex-end;
     }
 
     .image-gallery-overlay div span {
