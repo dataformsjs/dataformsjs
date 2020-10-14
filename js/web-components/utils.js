@@ -214,7 +214,7 @@ export function showError(el, message)
  * Show an error in an element. This will style the element
  * with a red background and white text. If called twice
  * the message will overwrite the previous message.
- * 
+ *
  * Unlike error alerts in the standard framework the user
  * does not have the ability to close these alerts.
  *
@@ -247,11 +247,11 @@ export function showErrorAlert(message) {
 /**
  * Return `true` if [polyfill.js] is being used. This allows Web Components to check
  * if the should run or not. Old Versions of Safari (10.#) have a bug where both
- * <script type="module"> and <script nomodule> will be loaded. Additionally the 
+ * <script type="module"> and <script nomodule> will be loaded. Additionally the
  * issue can affect legacy Edge browsers as well.
- * 
+ *
  * If this happens then allow the app to use the [polyfill.js] file since it runs first.
- * 
+ *
  * Related Links:
  *   https://caniuse.com/es6-module
  *   https://gist.github.com/jakub-g/5fc11af85a061ca29cc84892f1059fec
@@ -265,7 +265,7 @@ export function usingWebComponentsPolyfill() {
 /**
  * As of late 2019 Safari and Samsung Internet do not support extending
  * standard elements using custom elements with [is="custom-element"].
- * 
+ *
  * This function is used to call the polyfill setup code. Custom elements that
  * use the [is] attriubte should call need to define a object in [window._webComponentPolyfills]
  * in order to use this. See examples from [sortable-table.js] and [input-filter.js].
@@ -295,7 +295,7 @@ export function polyfillCustomElements() {
     // Update all elements on screen that need the polyfill
     if (polyfillIsNeeded && Array.isArray(window._webComponentPolyfills)) {
         for (const polyfill of window._webComponentPolyfills) {
-            const elements = document.querySelectorAll(`${polyfill.extends}[is="${polyfill.element}"]`);
+            const elements = document.querySelectorAll(`${polyfill.extendsElement}[is="${polyfill.element}"]`);
             for (const element of elements) {
                 try {
                     polyfill.setup(element);
@@ -310,17 +310,30 @@ export function polyfillCustomElements() {
 }
 
 /**
+ * For Safari, Samsung Internet, and Legacy Edge.
+ * See comments in `polyfillCustomElements()`.
+ *
+ * @param {string} element
+ * @param {string} extendsElement
+ * @param {function} setup
+ */
+export function defineExtendsPolyfill(element, extendsElement, setup) {
+    window._webComponentPolyfills = window._webComponentPolyfills || [];
+    window._webComponentPolyfills.push({ element, extendsElement, setup });
+}
+
+/**
  * Return a promise that can be used to check if custom web components are
  * defined. The promise will resolve once all document components are defined.
  * When components are first added to DOM they are not yet defined until
  * the browser finishes creating this classes, this happens very quickly
  * however if code that depends on the components runs before they are
  * setup then unexpected errors occur.
- * 
+ *
  * See also [componentsAreSetup()].
- * 
- * @param {HTMLElement} element 
- * @param {string} selector 
+ *
+ * @param {HTMLElement} element
+ * @param {string} selector
  * @return {Promise}
  */
 export function componentsAreDefined(element, selector = '') {
@@ -341,7 +354,7 @@ export function componentsAreDefined(element, selector = '') {
  * The promise will resolve once all web components are defined and no elements
  * have the [not-setup] attribute. The [not-setup] is intended for custom web components
  * that need additional setup after they have been added to the DOM.
- * 
+ *
  * See also [componentsAreDefined()].
  *
  * @return {Promise}

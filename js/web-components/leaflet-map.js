@@ -21,6 +21,8 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
+import { defineExtendsPolyfill } from './utils.js';
+
 class LeafletMap extends HTMLDivElement {
     constructor() {
         super();
@@ -96,14 +98,7 @@ class LeafletMap extends HTMLDivElement {
 }
 
 window.customElements.define('leaflet-map', LeafletMap, { extends: 'div' });
-
-// For Safari, Samsung Internet, and Edge
-window._webComponentPolyfills = window._webComponentPolyfills || [];
-window._webComponentPolyfills.push({
-    element: 'leaflet-map',
-    extends: 'div',
-    setup: (el) => {
-        el._map = null;
-        LeafletMap.prototype.createMap.apply(el);
-    },
+defineExtendsPolyfill('leaflet-map', 'div', (el) => {
+    el._map = null;
+    LeafletMap.prototype.createMap.apply(el);
 });

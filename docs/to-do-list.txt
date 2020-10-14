@@ -73,6 +73,7 @@ TODO List
                 app.activeJsControls
             - 3 items are returned but 2 are expected. The <data-table> is duplicated in memory. This likely
                 doesn't cause any problems but should be fixed regardless.
+        - Must verify new [defineExtendsPolyfill] with the versions of Safari or other Legacy modern browsers
         - Look into adding a Search Screen for the places demos on Web and JS
             - Add here if it makes sense:
                 http://127.0.0.1:8080/places-demo-web

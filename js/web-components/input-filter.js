@@ -14,7 +14,11 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
-import { componentsAreSetup, usingWebComponentsPolyfill } from './utils.js';
+import {
+    componentsAreSetup,
+    usingWebComponentsPolyfill,
+    defineExtendsPolyfill
+} from './utils.js';
 
 class InputFilter extends HTMLInputElement {
     constructor() {
@@ -121,13 +125,6 @@ class InputFilter extends HTMLInputElement {
 }
 
 window.customElements.define('input-filter', InputFilter, { extends: 'input' });
-
-// For Safari, Samsung Internet, and Legacy Edge
-window._webComponentPolyfills = window._webComponentPolyfills || [];
-window._webComponentPolyfills.push({
-    element: 'input-filter',
-    extends: 'input',
-    setup: (el) => {
-        el.addEventListener('input', InputFilter.prototype.filter);
-    },
+defineExtendsPolyfill('input-filter', 'input', (el) => {
+    el.addEventListener('input', InputFilter.prototype.filter);
 });

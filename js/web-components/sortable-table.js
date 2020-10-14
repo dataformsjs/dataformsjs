@@ -14,7 +14,7 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
-import { usingWebComponentsPolyfill } from './utils.js';
+import { usingWebComponentsPolyfill, defineExtendsPolyfill } from './utils.js';
 import { getSortObject, smartSort } from './utils-sort.js';
 
 class SortableTable extends HTMLTableElement {
@@ -159,13 +159,6 @@ class SortableTable extends HTMLTableElement {
 }
 
 window.customElements.define('sortable-table', SortableTable, { extends: 'table' });
-
-// For Safari, Samsung Internet, and Legacy Edge
-window._webComponentPolyfills = window._webComponentPolyfills || [];
-window._webComponentPolyfills.push({
-    element: 'sortable-table',
-    extends: 'table',
-    setup: (el) => {
-        SortableTable.prototype.setupTable.apply(el);
-    },
+defineExtendsPolyfill('sortable-table', 'table', (el) => {
+    SortableTable.prototype.setupTable.apply(el);
 });
