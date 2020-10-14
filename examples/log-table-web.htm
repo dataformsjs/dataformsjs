@@ -122,8 +122,18 @@
         <script src="../js/plugins/navLinks.js"></script>
 
         <!--
-            Find related devleopment notes, this version currently works for the Polyfill only 
-            but the standard Web Componetns need to have a related update so they both can use it.
+            Modern Browsers
+            Refresh Plugins after page content is ready (each URL #hash change)
+        -->
+        <script type="module">
+           document.addEventListener('app:contentReady', () => {
+               app.refreshPlugins();
+           });
+       </script>
+
+        <!--
+            Old Browsers (IE, old Safari, etc) will use <script nomodule>
+            and check if a polyfill is needed for CSS Variables.
         -->
         <script nomodule>
             (function() {
@@ -151,31 +161,6 @@
                     app.refreshPlugins();
                 });
             })();
-        </script>
-
-        <!-- Run JS Plugins everytime the <json-data> content changes -->
-        <script type="module">
-            import { componentsAreSetup } from 'https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/utils.min.js';
-            
-            // Setup <json-data> events when the URL hash changes
-            // and when the page is first loaded.
-            const router = document.querySelector('url-hash-router');
-            router.addEventListener('contentLoaded', setupJsonData);
-            setupJsonData();
-            
-            function setupJsonData() {
-                const jsonData = document.querySelector('json-data');
-                if (jsonData) {
-                    jsonData.addEventListener('contentReady', runJsPlugins);
-                }
-            }
-
-            // Run JS Plugins once the <json-data> content is ready and
-            // additional web components are setup.
-            async function runJsPlugins() {
-                await componentsAreSetup();
-                app.refreshJsPlugins();
-            }
         </script>
     </body>
 </html>

@@ -52,7 +52,7 @@
     /**
      * Define the [app] Object. This allows for the framework standard API call
      * [app.addPlugin(name, object)] to be used and allows for code from a React
-     * app to call [app.refreshJsPlugins()] to run the plugins.
+     * app to call [app.refreshPlugins()] to run the plugins.
      * 
      * Additionally several common functions and properties such as [showErrorAlert()]
      * are copied from the standard DataFormsJS framework so they can be used here
@@ -131,7 +131,7 @@
         /**
          * Call this to run all loaded plugins.
          */
-        refreshJsPlugins: function() {
+        refreshPlugins: function() {
             // Only update if not already running
             if (isUpdating) {
                 return;

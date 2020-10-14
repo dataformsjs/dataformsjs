@@ -141,7 +141,7 @@
         <!-- <script src="../js/web-components/polyfill.js"></script> -->
 
         <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
-        <!--         
+        <!--
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/safari-nomodule.min.js"></script>
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/old-browser-warning.min.js"></script>
         -->
@@ -162,235 +162,43 @@
         </script>
 
         <!--
-            NOTE - the scripts below were created before the updates to <data-table>, [data-show], etc.
-            Before the next npm release these will be moved and provided as examples in another file.
+            API Event Demo
         -->
-
-        <!--
-            Elements <url-hash-router> and <json-data> define custom events that
-            can be used to call JavaScript code once the content is loaded and ready.
-        -->
-        <!--
         <script>
-            // If needed handle the first route change [contentLoaded] with <script>
-            // instead of <script type="module">. This is because <url-hash-router>
-            // runs as soon as the element is added to the DOM and scripts using
-            // [type="module"] run after the content is loaded/ready.
-            //
-            // Alternatively, call any needed function directly the first time when using
-            // <script type="module">. See the examples below with [showJsonDataEvents()]
-            // and [setupTableImages()].
-            const router = document.querySelector('url-hash-router');
-            function contentLoaded() {
-                console.log('%crouter.contentLoaded', 'color:green; font-weight:bold;');
-                router.removeEventListener('contentLoaded', contentLoaded);
-            }
-            router.addEventListener('contentLoaded', contentLoaded);
-        </script>
-        -->
+            (function() {
+                'use strict';
+                var isIE = (navigator.userAgent.indexOf('Trident/') !== -1);
 
-        <!--
-        <script type="module">
-            /* jshint esversion:8 */
-
-            import { componentsAreSetup } from 'https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/utils.min.js';
-
-            const router = document.querySelector('url-hash-router');
-
-            router.addEventListener('error', () => {
-                console.log('%crouter.error', 'color:red; font-weight:bold;');
-            });
-
-            // Event [contentLoaded] is called every time the hash changes and once
-            // the template is downloaded and set to the view element. Because this page
-            // downloads data quickly this event may not trigger when the page is first
-            // opened and will likely only run once the route/hash has changed.
-            router.addEventListener('contentLoaded', () => {
-                console.log('%crouter.contentLoaded', 'color:blue; font-weight:bold;');
-                console.log('router.currentRoute.path = ' + router.currentRoute.path);
-                console.log('router.currentRoute.src = ' + router.currentRoute.src);
-                showJsonDataEvents();
-                setupTableImages();
-                updateTextFormats();
-            });
-
-            // Because <script type="module"> runs after content is ready manually
-            // call the function the first time automatically instead of on router changes.
-            showJsonDataEvents();
-            setupTableImages();
-            updateTextFormats();
-
-            // For <json-data> elements the main event to use is [contentReady]
-            // It always runs - both for valid requests and errors, and it only
-            // runs once the content is ready.
-            function showJsonDataEvents() {
-                // Pages in this demo only have one <json-data> element, however this example shows
-                // how you could loop through multiple elements if they exist on a route.
-                const elements = document.querySelectorAll('json-data');
-                const events = ['isLoading', 'hasError', 'isLoaded', 'contentReady'];
-                for (const jsonData of elements) {
-                    if (jsonData.contentReady) {
-                        // This should happen on the initial page load, if the web service runs very fast,
-                        // or when the cached data is used. Search this file for "jsonData.contentReady" to
-                        // see how it is handled for table images.
-                        console.log('jsonData.contentReady = true (events will not run)');
+                function log(text, color) {
+                    if (isIE) {
+                        console.log(text);
                     } else {
-                        for (const event of events) {
-                            jsonData.addEventListener(event, (e) => {
-                                console.log(`jsonData.${event} | url = ${e.target.url} | params = ${e.target.urlParams}`);
-                            });
-                        }
-                    }
-
-                    // The 'contentReady' event runs once DOM content is ready, however if
-                    // the code has "side effects" such as a JavaScript control, web component, etc
-                    // then an additional delay may be needed. For the default page the <input is="input-filter">
-                    // updates the <h1> tag after the <data-table> is setup. The function [componentsAreSetup()]
-                    // using async/await allows for full setup.
-                    if (router.currentRoute.isDefault) {
-                        jsonData.addEventListener('contentReady', async (e) => {
-                            const h1 = document.querySelector('h1');
-                            console.log('<h1> before componentsAreSetup(): ' + h1.textContent);
-                            await componentsAreSetup();
-                            console.log('<h1> after componentsAreSetup(): ' + h1.textContent);
-                        });
+                        console.log('%c' + text, 'color:' + color + '; font-weight:bold;');
                     }
                 }
-            }
 
-            // Called when the page is first opened on each hash/route change
-            async function setupTableImages() {
-                const jsonData = document.querySelector('json-data');
-                if (jsonData !== null) {
-                    // [contentReady === true] can happen on the first page load if the
-                    // data loads very fast - (before <script type="module"> finished loading).
-                    if (jsonData.contentReady) {
-                        // Wait untill all web components are setup
-                        await componentsAreSetup();
-                        updateTable({ target:jsonData });
-                    } else {
-                        jsonData.addEventListener('contentReady', updateTable);
-                    }
-                }
-            }
+                // Handle routing changes from <url-hash-router> or <url-router>
+                document.addEventListener('app:routeChanged', function(event) {
+                    log('app:routeChanged', 'blue');
+                    console.log(event);
+                    console.log(event.target);
+                });
 
-            function formatDate(value) {
-                let date;
-                if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
-                    const nums = value.split('-').map(function(n) { return parseInt(n, 10); });
-                    date = new Date(nums[0], nums[1] - 1, nums[2]);
-                } else {
-                    date = new Date(value);
-                }
-                return new Intl.DateTimeFormat(navigator.language).format(date);
-            }
+                // Handle content ready from <json-data>
+                document.addEventListener('app:contentReady', function(event) {
+                    log('app:contentReady', 'green');
+                    console.log(event);
+                    console.log(event.target);
+                });
 
-            // The city page contains elements for formatting (numbers, dates, elevation).
-            // In the Handlebars, Vue, and React demos they are updated through templating functions
-            // but for this demo they are updated from JavaScript after the content has loaded.
-            async function updateTextFormats() {
-                // Wait untill all web components are setup
-                await componentsAreSetup();
-
-                // Update Elements
-                const numElements = document.querySelectorAll('.format-number');
-                for (const el of numElements) {
-                    const value = el.textContent;
-                    if (value && !isNaN(parseFloat(value))) {
-                        el.setAttribute('data-value', value);
-                        el.textContent = Number(value).toLocaleString();
-                    }
-                }
-                const dateElements = document.querySelectorAll('.format-date');
-                for (const el of dateElements) {
-                    const value = el.textContent;
-                    if (value) {
-                        el.setAttribute('data-value', value);
-                        el.textContent = formatDate(value);
-                    }
-                }
-                const elevationElements = document.querySelectorAll('.format-elevation');
-                for (const el of elevationElements) {
-                    const value = parseInt(el.textContent, 10);
-                    if (Number.isInteger(value)) {
-                        const displayValue = `${value} m / ${parseInt(value * 3.28084, 10)} '`;
-                        el.setAttribute('data-value', value);
-                        el.textContent = displayValue;
-                    }
-                }
-            }
-
-            // Add Flag Images to the <table> once it has been rendered
-            // and update number and date format on columns.
-            async function updateTable(e) {
-                // console.log(e);
-
-                // Wait untill all web components are setup
-                await componentsAreSetup();
-
-                // Update icon for the place page
-                if (document.querySelector('url-hash-router').currentRoute.path === '/city/:id') {
-                    const flagEl = document.querySelector('i.flag');
-                    flagEl.className = flagEl.className.toLowerCase();
-                    return;
-                }
-
-                // Exit if page has no table
-                const table = document.querySelector('table');
-                if (table === null || table.tBodies === null || table.tBodies.length !== 1) {
-                    return;
-                }
-
-                // Does Country Code (ISO) come from URL Parameters?
-                let pageIso = null;
-                if (e && e.target && e.target.urlParams) {
-                    pageIso = JSON.parse(e.target.urlParams);
-                    pageIso = (pageIso.country ? pageIso.country.toLowerCase() : null);
-                }
-
-                // Find Number and Date Columns so the data can be formatted
-                const updateCols = [];
-                const cells = table.tHead.rows[0].cells;
-                const colCount = cells.length;
-                let dateCol = -1;
-                for (let x = 0; x < colCount; x++) {
-                    switch (cells[x].textContent) {
-                        case 'Size (KM)':
-                        case 'Population':
-                        case 'Elevation':
-                            updateCols.push(x);
-                            break;
-                        case 'Date Last Modified':
-                            dateCol = x;
-                            break;
-                    }
-                }
-                const updateColLen = updateCols.length;
-
-                // Process all rows
-                for (const row of table.tBodies[0].rows) {
-                    // Add Flag
-                    const iso = (pageIso ? pageIso : row.cells[0].textContent.trim().toLowerCase());
-                    const flag = document.createElement('i');
-                    flag.className = iso + ' flag';
-                    row.cells[1].insertAdjacentElement('afterbegin', flag);
-
-                    // Format Numbers
-                    for (let y = 0; y < updateColLen; y++) {
-                        const numValue = row.cells[updateCols[y]].textContent;
-                        row.cells[updateCols[y]].setAttribute('data-value', numValue); // Value for Sorting
-                        row.cells[updateCols[y]].textContent = Number(numValue).toLocaleString(); // Value for Display
-                    }
-
-                    // Format Dates
-                    if (dateCol !== -1) {
-                        const dateValue = row.cells[dateCol].textContent;
-                        row.cells[dateCol].setAttribute('data-value', dateValue);
-                        row.cells[dateCol].textContent = formatDate(dateValue);
-                    }
-                }
-            }
+                // Handle errors from <json-data>, <url-hash-router>, or <url-router>
+                document.addEventListener('app:error', function(event) {
+                    log('app:error', 'red');
+                    console.warn(event);
+                    console.log(event.target);
+                    console.error(event.detail); // Error Message or Error Object
+                });
+            })();
         </script>
-        -->
     </body>
 </html>

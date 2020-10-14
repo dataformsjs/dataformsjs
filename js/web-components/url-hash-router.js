@@ -28,6 +28,11 @@ import {
     usingWebComponentsPolyfill
 } from './utils.js';
 
+const appEvents = {
+    routeChanged: 'app:routeChanged',
+    error: 'app:error',
+};
+
 /**
  * Shadow DOM for Custom Elements
  */
@@ -49,8 +54,10 @@ function downloadTemplate(router, view, route, urlParams) {
     // Validate
     const url = route.src;
     if (url === null || url === '') {
-        showError(view, `Missing <template> or [src] attribute for route [${route.path}].`);
-        router.dispatchEvent(new Event('contentLoaded'));
+        const error = `Missing <template> or [src] attribute for route <${route.tagName.toLowerCase()} path="${route.path}">.`;
+        showError(view, error);
+        router.dispatchEvent(new CustomEvent(appEvents.error, { bubbles: true, detail: error }));
+        router.dispatchEvent(new Event(appEvents.routeChanged, { bubbles: true }));
         return;
     }
 
@@ -77,8 +84,9 @@ function downloadTemplate(router, view, route, urlParams) {
         setView(router, view, html, urlParams);
     })
     .catch(error => {
-        showError(view, error);
-        router.dispatchEvent(new Event('contentLoaded'));
+        const text = render`Error with <${route.tagName.toLowerCase()} path="${route.path}"> - Error Downloading Template: [${url}], Error: ${error}`;
+        showError(view, text);
+        router.dispatchEvent(new CustomEvent(appEvents.error, { bubbles: true, detail: text }));
     });
 }
 
@@ -121,7 +129,7 @@ function setView(router, view, html, urlParams) {
     polyfillCustomElements();
 
     // Custom Event
-    router.dispatchEvent(new Event('contentLoaded'));
+    router.dispatchEvent(new Event(appEvents.routeChanged, { bubbles: true }));
 }
 
 /**
@@ -176,10 +184,10 @@ class UrlHashRouter extends HTMLElement {
             return;
         }
 
-		// Get Hash (and remove the hash '#' character)
+        // Get Hash (and remove the hash '#' character)
         let hash = window.location.hash;
         if (hash.indexOf('#') === 0) {
-			hash = hash.substr(1);
+            hash = hash.substr(1);
         }
         if (hash === '') {
             hash = '/';
@@ -293,8 +301,8 @@ class UrlHashRouter extends HTMLElement {
         this.style.color = 'white';
         this.style.fontSize = '1.5em';
         this.textContent = message;
-        this.dispatchEvent(new Event('error'));
-        this.dispatchEvent(new Event('contentLoaded'));
+        this.dispatchEvent(new CustomEvent(appEvents.error, { bubbles: true, detail: message }));
+        this.dispatchEvent(new Event(appEvents.routeChanged, { bubbles: true }));
         console.error(message);
     }
 }

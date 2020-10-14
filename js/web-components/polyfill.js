@@ -126,9 +126,9 @@
      */
     var polyfillPage = {
         model: {},
-		// onRouteLoad: function() { },
-		// onBeforeRender: function() { },
-		onRendered: function() {
+        // onRouteLoad: function() { },
+        // onBeforeRender: function() { },
+        onRendered: function() {
             var model = this;
 
             // Bind [url-param] elements
@@ -148,6 +148,12 @@
                 app.plugins.dataBind.bindAttrTmpl(element, 'url-attr-param', model);
             });
 
+            // App Event
+            // When using Web Components this happens on either <url-hash-router> or <url-router>
+            // and bubbles up to the document. For the polyfill the specific router element
+            // doesn't matter so the event is dispatched on the document.
+            dispatchEvent(document, 'app:routeChanged');
+
             // Update <json-data> Web Component so it matches the
             // Framework control version then reload the control.
             var hasJsonData = false;
@@ -165,7 +171,7 @@
                 updateContent();
             }
         },
-		// onRouteUnload: function() { },
+        // onRouteUnload: function() { },
     };
 
     /**
@@ -190,15 +196,6 @@
             }
         });
 
-        // Update all <image-gallery> elements
-        var elements = document.querySelectorAll('image-gallery');
-        if (elements.length > 0) {
-            Array.prototype.forEach.call(elements, function(el) {
-                updateElements.imageGallery(el);
-            });
-            pluginsToLoad.push('imageGallery');
-        }
-
         // Make sure [data-bind] values are handled before other plugins run
         var firstElement = document.querySelector('[data-bind]');
         if (firstElement) {
@@ -211,6 +208,7 @@
             { selector: '[data-sort]', plugin: 'sort' },
             { selector: '[is="input-filter"]', plugin: 'filter', update: updateElements.inputFilter },
             { selector: '[is="leaflet-map"]', plugin: 'leaflet', update: updateElements.leafletMap },
+            { selector: 'image-gallery', plugin: 'imageGallery', update: updateElements.imageGallery },
         ];
         search.forEach(function(item) {
             var element = document.querySelector(item.selector);
@@ -232,20 +230,40 @@
             loadPlugin(plugin);
         });
 
-        // Trigger DOM Events for Apps to handle
+        // App Event
+        dispatchEvent(document, 'app:contentReady');
+    }
+
+    /**
+     * Trigger DOM Events for Apps to handle
+     *
+     * @param {HTMLElement} element
+     * @param {Event|CustomEvent} event
+     * @param {undefined|any} detail
+     */
+    function dispatchEvent(element, eventName, detail) {
         var event;
-        if (typeof(Event) === 'function') {
-            event = new Event('app:contentReady'); // Modern Browsers
+        if (detail === undefined) {
+            if (typeof(Event) === 'function') {
+                event = new Event(eventName, { bubbles: true }); // Modern Browsers
+            } else {
+                event = document.createEvent('Event'); // IE 11
+                event.initEvent(eventName, true, false);
+            }
         } else {
-            event = document.createEvent('Event'); // IE 11
-            event.initEvent('app:contentReady', true, true);
+            if (typeof(CustomEvent) === 'function') {
+                event = new CustomEvent(eventName, { bubbles: true, detail: detail });
+            } else {
+                event = document.createEvent('CustomEvent');
+                event.initCustomEvent(eventName, true, false, detail);
+            }
         }
-        document.dispatchEvent(event);
+        element.dispatchEvent(event);
     }
 
     /**
      * Download and run a DataFormsJS Framework plugin.
-     * @param {string} name 
+     * @param {string} name
      */
     function loadPlugin(name) {
         // Run plugin if it's already loaded.
@@ -288,6 +306,14 @@
      * and <url-router> to standard Framework routes.
      */
     function defineRoutes() {
+        // Private function related to routing setup
+        function routerError(router, error) {
+            dispatchEvent(router, 'app:error', error);
+            dispatchEvent(router, 'app:routeChanged');
+            app.showError(router, error);
+            console.error(error);
+        }
+
         // Get Router Type
         var router = document.querySelector('url-hash-router');
         var routeSelector = 'url-hash-route';
@@ -302,14 +328,33 @@
             document.documentElement.setAttribute('data-routing-mode', 'history');
         }
 
+        // Define and Validate App Settings based on Router
+        app.settings.viewSelector = router.getAttribute('view-selector');
+        if (app.settings.viewSelector === null) {
+            routerError(router, 'Error, element <' + router.tagName.toLowerCase() + '> is missing attribute [view-selector]');
+            return;
+        }
+        var view = document.querySelector(app.settings.viewSelector);
+        if (view === null) {
+            routerError(router, 'Error, element from <url-hash-router view-selector="' + app.escapeHtml(app.settings.viewSelector) + '"> was not found on the page.');
+            return;
+        }
+
         // Get all routes on the page and for each route add a controller object. When using the
         // standard DataFormsJS framework it converts <template|script data-route="path"> to
         // controllers. For the Web Components Polyfill <url-route|url-hash-route> are used instead.
         var routes = router.querySelectorAll(routeSelector);
         var viewIndex = 0;
         Array.prototype.forEach.call(routes, function(route) {
-            // Get route [path] and check if default route
+            // Get route [path]
             var path = route.getAttribute('path');
+            if (path === null) {
+                routerError(router, 'Error, element <' + route.tagName.toLowerCase() + '> is missing attribute [path]');
+                console.log(route);
+                return;
+            }
+
+            // If default route then update app settings
             var isDefault = (route.getAttribute('default-route') !== null);
             if (isDefault) {
                 app.settings.defaultRoute = path;
@@ -331,11 +376,11 @@
             // Get Template Source
             var viewUrl = route.getAttribute('src');
             var viewId;
-            if (viewUrl === null) {
+            if (viewUrl === null || viewUrl === '') {
                 viewUrl = undefined;
                 var template = route.querySelector('template');
                 if (template === null) {
-                    app.showErrorAlert('Unable to setup route:');
+                    app.showErrorAlert('Missing <template> or [src] attribute for route <' + route.tagName.toLowerCase() + ' path="' + path + '">.');
                     console.log(route);
                     return;
                 }
@@ -386,9 +431,9 @@
      * Basic script loading used once time to load the main framework file
      * [DataFormsJS.js]. After it's loaded `app.loadScript()` and `app.loadScripts()`
      * are used for additional script loading.
-     *  
-     * @param {string} url 
-     * @param {function} callback 
+     *
+     * @param {string} url
+     * @param {function} callback
      */
     function loadScript(url, callback) {
         var script = document.createElement('script');
@@ -474,7 +519,7 @@
         // remove the exiting `window.app` object. An example of this exists
         // in [examples/log-table-web.htm].
         var plugins = null;
-        if (window.app !== undefined && typeof window.app.plugins === 'object') {
+        if (window.app !== undefined && typeof window.app.plugins === 'object' && window.DataFormsJS === undefined) {
             plugins = window.app.plugins;
             delete window.app;
         }

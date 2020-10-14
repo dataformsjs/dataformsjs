@@ -53,9 +53,10 @@
             is defined before other Plugins files.
 
             Then to call use:
-                <JsonData onViewUpdated={window.app.refreshJsPlugins}>
+                <JsonData onViewUpdated={window.app.refreshPlugins}>
         -->
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/jsPlugins.min.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/jsPlugins.min.js"></script> -->
+        <script src="../js/react/jsPlugins.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/filter.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/sort.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/highlighter.min.js"></script>
@@ -171,7 +172,7 @@
                         isLoading={<ShowLoading />}
                         hasError={<ShowError />}
                         isLoaded={<ShowLog />}
-                        onViewUpdated={window.app.refreshJsPlugins}>
+                        onViewUpdated={window.app.refreshPlugins}>
                     </JsonData>
                 );
             }

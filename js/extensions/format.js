@@ -1,7 +1,7 @@
 /**
  * DataFormsJS [app.format] extension for formating values
  * (numbers, dates, etc) in the user's local language.
- * 
+ *
  * Functions added:
  *     app.format.number(value)
  *     app.format.currency(value, currencyCode)
@@ -10,11 +10,16 @@
  *     app.format.dateTime(value)
  *     app.format.time(value)
  *     app.format.isNumber(value)
- * 
+ *
  * Advanced Functions - Used internally but they
  * can also be used by an App:
  *     app.format.formatDateTime(dateTime, options)
  *     app.format.formatNumber(value, options)
+ *
+ * If using DataFormsJS with Vue or Handlebars then this file would not be
+ * used by most apps and instead one of the following scripts can be used:
+ *     js/extensions/handlebars-helpers.js
+ *     js/extensions/vue-directives.js
  */
 
 /* Validates with both [jshint] and [eslint] */

@@ -41,8 +41,11 @@ TODO List
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/sortable-table.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
-        - Vue Directives and Handlebar Helpers need to use the new [js/extensions/format.js]
-            so functions are not duplicated. Minor breaking change. Provide warning if [format.js] is missing.
+        - Handle <json-data load-only-once="true"> in the polyfill
+            Currenlty this is handled in:
+                dataformsjs\js\pages\jsonData.js
+            But not in:
+                dataformsjs\js\controls\json-data.js
         - The standard Framework includes `app.settings.lazyTemplateSelector` which is used to show an optional
             loading template while scripts and HTML content is being downloaded. In general the content is
             very small so it goes un-noticed on a desktop or fast mobile connection. On a slow mobile connection
@@ -63,9 +66,6 @@ TODO List
                     leafletWeb: { module: '../js/web-components/leaflet-map.js' },
                 }
             Then when using the polyfill items with {module} would be ignored.
-        - Rename [jsPlugins.js]`refreshJsPlugins()` as `refreshPlugins()` to match standard Framework
-            * Breaking change because the names should match. Before the inital release `app.refreshPlugins()`
-                was named `app.refreshJsPlugins()` so this is a bug
         - Look into minor issue that was found in development
             http://127.0.0.1:8080/countries-no-spa-js
             https://www.dataformsjs.com/examples/countries-no-spa-js.htm
@@ -80,6 +80,9 @@ TODO List
             - Based on:
                 http://127.0.0.1:8080/places-demo-hbs#/en/search
                 http://127.0.0.1:8080/places-demo-vue#/en/search
+        - Log Demo Pages
+            When using Polyfill the error currently does not show:
+            http://127.0.0.1:8080/log-table-web#/error
         - <data-list> should also support both <template> and <script type="text/x-template">
             - This is for better IE 11 support, with the current demos it's not needed but one should be created
         - Review all comments in [js/web-components/polyfill.js] and handle all issues.
@@ -99,12 +102,6 @@ TODO List
                 col-class="Size (KM)=align-right, Population=align-right"
               Likely start with this version as it adds the smallest amount of code and works
               well with the exisitng demos.
-        - Consider [document.addEventListener('app:contentReady'] or something similar for
-            the main API as it makes custom code much easier. Currently this is a feature
-            of the new [polyfill.js]. Also need new example page showing how this works.
-            - Likely many updates will be made in [examples/web-components-api.htm] for API examples.
-            - Commented <scripts> at the bottom of [examples/places-demo-web.htm] should
-                be merged to [examples/web-components-api.htm] or documented in a new sperate example.
         - Decide if
                 import { Format } from './utils-format.js';
             Should be merged with the main './utils.js' to avoid an extra HTTP request. If all code
@@ -114,15 +111,6 @@ TODO List
             phones that are not upgraded still use it.
         - Add [template-selector] to <data-table> similar to <data-list> and vice-versa add ability
             to specify <template> inside of <data-list>
-        - Currently pages use code like this:
-            <script type="module" src="js/web-components/url-hash-router.min.js"></script>
-            <script type="module" src="js/web-components/json-data.min.js"></script>
-            ...
-            <script nomodule src="js/web-components/safari-nomodule.min.js"></script>
-            <script nomodule src="js/web-components/old-browser-warning.min.js"></script>
-            - Ideally [safari-nomodule.min.js] and [old-browser-warning.min.js] would be replaced
-                by a single polyfill script:
-                    <script nomodule src="js/web-components/polyfill.min.js"></script>
         - Related to current updates [dataformsjs\examples\html\cities-web.htm] now shows
             both Meters and Feet using `formatElevation(elevation)`. The other demos currently
             display meters only but should also be updated to display both.
@@ -195,6 +183,12 @@ TODO List
                 https://github.com/dataformsjs/website
             - Backup copy before removing Handlebars
                 https://github.com/ConradSollitt/website
+        - Before release look for all files with: <script src="../js/  and point them to the AWS S3 site for testing
+            Then after release update and test all pages to use standard CDN
+        - Update and Test Playground Templates before Release, changes needed:
+            - Include Polyfill
+            - Remove old API
+            - Use <template> for <data-table>
 
 **) Playground Site
     - Need to add support for JSON file/resource type

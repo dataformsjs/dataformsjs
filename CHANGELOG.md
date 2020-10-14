@@ -17,6 +17,7 @@ Overall the core Framework files and API are expected to remain stable however t
 * Minor enhancments for other DataFormsJS files:
   * Added `app.updateTemplatesForIE()`
   * Added features in `js/plugins/dataBind.js` based on the Web Components version.
+  * New file `js/extensions/format.js` which is used with the Web Components Polyfill
 * Enhancements for "JavaScript Controls" in the standard Framework. The Framework JavaScript Controls are a similar concept to Web Components.
   * Added ability to easily reload  by calling `app.activeJsControls(control)`. Updating already loaded controls is not common but can be used in very specific scenarios. For example the new Web Components Polyfill uses it.
   * Update API to include `model` as a parameter in `control.onLoad(element, model)`
@@ -33,6 +34,9 @@ Overall the core Framework files and API are expected to remain stable however t
 Most breaking changes are minor and only expected to affect internal API's and examples. Several Framework "JavaScript Controls" were updated to match behavior of the Web Components in order to provide more features and so they can be used with the new Web Components Polyfill. If you developed a site or app with any of the breaking changes they are quick to update.
 
 * `js/web-components/utils.js` - Removed `showOldBrowserWarning()`. The feature has been replaced with the new `js/web-components/polyfill.js` and a function `usingWebComponentsPolyfill()`
+* Web Components API for `<json-data>`, `<url-hash-router>`, and `<url-router>` has been changed. Previously the API required `async/await` from module JavaScript and was complex to use. It has now been simplified so that events bubble up to the document can be handled easily from the root document event listener.
+  * **Before Update:** https://github.com/dataformsjs/dataformsjs/blob/c23bf5e4cd9e826c61313877ae0c2d2da6d6f889/examples/places-demo-web.htm
+  * **After Update:** https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-web.htm
 * `js/plugins/filter.js` - Removed error alert for text `Column filter requires a table to be correctly defined` that happened if a table was missing when the filter was loaded. The reason is that it makes sense for certain apps to have a defined filter and only optionally include the table.
 * `js/controls/data-table.js` - Replaced `data-source` with `data-bind` and now `<data-table>` will be converted to a `<div>` with a `<table>` in the `<div>` instead of converting to a `<table>` directly. Additionaly `<template>` support has been added.
   * Code before Update:
@@ -63,7 +67,10 @@ Most breaking changes are minor and only expected to affect internal API's and e
   * See code comments in examples for more:
     * `http://127.0.0.1:8080/places-demo-js` - https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-js.htm
 * `js/controls/data-list.js` - Replaced `data-source` with `data-bind` and now `<data-list>` will be converted to a `<div>` with a `<ul>` in the `<div>` instead of converting to a `<ul>` directly. Additionaly `<template>` support has been added.
-<data-list data-source="place.alternate_names"></data-list>
+* Rename `jsPlugins.js` function `refreshJsPlugins()` to `refreshPlugins()` so it matches the standard Framework.
+  * Affects Web Components and React
+  * `js/web-components/jsPlugins.js`
+  * `js/react/jsPlugins.js`
 
 ## 4.8.0 (October 5, 2020)
 

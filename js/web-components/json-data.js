@@ -30,6 +30,12 @@ import {
 
 const format = new Format();
 
+const appEvents = {
+    contentReady: 'app:contentReady',
+    error: 'app:error',
+};
+
+
 /**
  * Shadow DOM for Custom Elements
  */
@@ -101,7 +107,6 @@ class JsonData extends HTMLElement {
             isLoading: false,
             hasError: false,
             isLoaded: false,
-            contentReady: false,
             errorMessage: null,
         };
 
@@ -162,9 +167,6 @@ class JsonData extends HTMLElement {
         if (this.elements.isLoading) {
             this.elements.isLoading.style.display = (this.state.isLoading ? '' : 'none');
         }
-        if (val === true) {
-            this.dispatchEvent(new Event('isLoading'));
-        }
     }
 
     get hasError() {
@@ -175,9 +177,6 @@ class JsonData extends HTMLElement {
         this.state.hasError = (val === true ? true : false);
         if (this.elements.hasError) {
             this.elements.hasError.style.display = (this.state.hasError ? '' : 'none');
-        }
-        if (val === true) {
-            this.dispatchEvent(new Event('hasError'));
         }
     }
 
@@ -190,13 +189,6 @@ class JsonData extends HTMLElement {
         if (this.elements.isLoaded) {
             this.elements.isLoaded.style.display = (this.state.isLoaded ? '' : 'none');
         }
-        if (val === true) {
-            this.dispatchEvent(new Event('isLoaded'));
-        }
-    }
-
-    get contentReady() {
-        return this.state.contentReady;
     }
 
     fetch() {
@@ -204,8 +196,7 @@ class JsonData extends HTMLElement {
         let url = urlPath;
         if (url === null || url === '') {
             this.showError('Error, element <json-data> is missing attribute [url]');
-            this.state.contentReady = true;
-            this.dispatchEvent(new Event('contentReady'));
+            this.dispatchEvent(new Event(appEvents.contentReady, { bubbles: true }));
             return;
         }
 
@@ -222,8 +213,7 @@ class JsonData extends HTMLElement {
             const data = getDataFromCache(urlPath, urlParams);
             if (data !== null) {
                 this._setLoadedState(data);
-                this.state.contentReady = true;
-                this.dispatchEvent(new Event('contentReady'));
+                this.dispatchEvent(new Event(appEvents.contentReady, { bubbles: true }));
                 return;
             }
         }
@@ -236,7 +226,6 @@ class JsonData extends HTMLElement {
         this.isLoading = true;
         this.isLoaded = false;
         this.hasError = false;
-        this.state.contentReady = false;
         this.bindData();
 
         fetch(url, {
@@ -266,8 +255,7 @@ class JsonData extends HTMLElement {
             this.showError(error);
         })
         .finally(() => {
-            this.state.contentReady = true;
-            this.dispatchEvent(new Event('contentReady'));
+            this.dispatchEvent(new Event(appEvents.contentReady, { bubbles: true }));
         });
     }
 
@@ -276,6 +264,7 @@ class JsonData extends HTMLElement {
         this.isLoaded = false;
         this.hasError = true;
         this.state.errorMessage = message;
+        this.dispatchEvent(new CustomEvent(appEvents.error, { bubbles: true, detail: message }));
         this.bindData();
         console.error(message);
     }
