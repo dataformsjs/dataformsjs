@@ -423,7 +423,7 @@ function addOverlayEvents() {
         touchStartX = e.changedTouches[0].screenX;
     }, supportsPassive ? { passive: true } : false);
     overlay.addEventListener('touchend', (e) => {
-        var curX = e.changedTouches[0].screenX;
+        const curX = e.changedTouches[0].screenX;
         if (curX > touchStartX) {
             changeImage('left');
         } else if (curX < touchStartX) {
