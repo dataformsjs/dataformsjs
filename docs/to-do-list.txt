@@ -181,6 +181,8 @@ TODO List
             - Use <template> for <data-table>
         - Web Component Template from: https://www.dataformsjs.com/en/getting-started
             Include <nav is="spa-links"> changes from: [examples/web-components-template.htm]
+        - After new release publish here:
+            https://www.webcomponents.org/publish-collection
 
 **) Playground Site
     - Need to add support for JSON file/resource type
