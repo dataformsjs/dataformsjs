@@ -150,7 +150,12 @@
         <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
 
         <script>
-            // Display Elevation in both Meters and Feet
+            /**
+             * Display Elevation in both Meters and Feet
+             *
+             * This function ends up being used by <templates> under <data-table> elements
+             * and also in [data-bind] elements using formatting: [data-format="formatElevation"].
+             */
             function formatElevation(text) {
                 var meters = parseInt(text, 10);
                 if (!isNaN(meters)) {
@@ -163,6 +168,9 @@
 
         <!--
             API Event Demo
+            The 3 events ['app:routeChanged', 'app:contentReady', 'app:error'] are available from both
+            the Web Components and [polyfill.js]. The events happen the specific Web Components and
+            bubble up to the the `document` so they can be easily handled from JavaScript on the page.
         -->
         <script>
             (function() {

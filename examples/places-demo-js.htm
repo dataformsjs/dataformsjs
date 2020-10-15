@@ -173,7 +173,12 @@
         </script>
 
         <script>
-            // Display Elevation in both Meters and Feet
+            /**
+             * Display Elevation in both Meters and Feet
+             *
+             * This function ends up being used by <templates> under <data-table> elements
+             * and also in [data-bind] elements using formatting: [data-format="formatElevation"].
+             */
             function formatElevation(text) {
                 var meters = parseInt(text, 10);
                 if (!isNaN(meters)) {
