@@ -1,11 +1,19 @@
 /**
  * DataFormsJS [navLinks] Plugin
  *
- * This plugin is for use with SPA's and updates all [nav a]
- * links with an "active" class based on the current hash URL.
+ * This plugin is for use with SPA's and by default updates all
+ * [nav a] links with an "active" class based on the current URL.
  *
- * See also the [navList] plugin which is similar but uses
- * a different query selector.
+ * Options can be changed by setting props on the plugin:
+ *     app.plugins.navLinks.itemSelector = 'nav li';
+ *     app.plugins.navLinks.activeClass = 'selected';
+ * 
+ * Default:
+ *     app.plugins.navLinks.itemSelector = 'nav a';
+ *     app.plugins.navLinks.activeClass = 'active';
+ * 
+ * This plugin is small so it's easy to copy and modify if you
+ * have a site with similar but different nav link needs.
  */
 
 /* Validates with both [jshint] and [eslint] */
@@ -20,14 +28,16 @@
 (function () {
     'use strict';
 
-    function updateNavLinks(element) {
-        element = (element === undefined ? document : element);
+    function updateNavLinks(rootElement) {
+        rootElement = (rootElement === undefined ? document : rootElement);
 
-        var elements = element.querySelectorAll('nav a.active');
-        Array.prototype.slice.call(elements).forEach(function (a) {
-            a.classList.remove('active');
+        // Remove existing 'active' classes
+        var elements = rootElement.querySelectorAll(navLinks.itemSelector + '.' + navLinks.activeClass);
+        Array.prototype.slice.call(elements).forEach(function (el) {
+            el.classList.remove(navLinks.activeClass);
         });
 
+        // Get URL path
         var path;
         if (app.routingMode === undefined || app.routingMode() === 'hash') {
             path = (window.location.hash === '' ? '#/' : window.location.hash);
@@ -35,17 +45,28 @@
             path = window.location.pathname;
         }
 
-        elements = element.querySelectorAll("nav a[href='" + path + "']");
-        Array.prototype.slice.call(elements).forEach(function (a) {
-            a.classList.add('active');
+        // Set active on matching links. If the `itemSelector` is looking for a element
+        // other than <a>; for example 'nav li' then this code will find <a> elements under
+        // it and set the 'active' class if the item from the selector is the parent node.
+        elements = rootElement.querySelectorAll(navLinks.itemSelector);
+        Array.prototype.slice.call(elements).forEach(function (el) {
+            var link = (el.nodeName === 'A' ? el : el.querySelector('a'));
+            if (link && link.getAttribute('href') === path && (link === el || link.parentNode === el)) {
+                el.classList.add(navLinks.activeClass);
+            }
         });
     }
 
-    app.addPlugin('navLinks', {
+    var navLinks = {
+        // Default Options
+        itemSelector: 'nav a',
+        activeClass: 'active',
+
         // Use both [onBeforeRender] and [onRendered] so that nav items
         // can show UI change before rendering the view, and also after
         // other plugins run (for example [i18n] may update specific nav links).
         onBeforeRender: updateNavLinks,
-        onRendered: function(element) { updateNavLinks(element); },
-    });
+        onRendered: function(rootElement) { updateNavLinks(rootElement); },
+    };
+    app.addPlugin('navLinks', navLinks);
 })();

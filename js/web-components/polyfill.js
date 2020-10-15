@@ -118,6 +118,24 @@
                 element.setAttribute('data-bind-attr', bindAttr.join(', '));
             }
         },
+        navLinks: function() {
+            // This assumes only one <nav is="spa-links"> exists on the page. If a site
+            // uses multiple nav formats then it will likely need to make additional updates
+            // on the 'app:routeChanged' event.
+            var navSelector = 'nav[is="spa-links"]';
+            var element = document.querySelector(navSelector);
+            if (!element) {
+                return;
+            }
+            var itemSelector = element.getAttribute('item-selector');
+            if (itemSelector) {
+                app.plugins.navLinks.itemSelector = navSelector + ' ' + itemSelector;
+            }
+            var activeClass = element.getAttribute('active-class');
+            if (activeClass) {
+                app.plugins.navLinks.activeClass = activeClass;
+            }
+        }
     };
 
     /**
@@ -206,6 +224,7 @@
         var search = [
             { selector: '.click-to-highlight', plugin: 'clickToHighlight' },
             { selector: '[data-sort]', plugin: 'sort' },
+            { selector: '[is="spa-links"]', plugin: 'navLinks', after: updateElements.navLinks },
             { selector: '[is="input-filter"]', plugin: 'filter', update: updateElements.inputFilter },
             { selector: '[is="leaflet-map"]', plugin: 'leaflet', update: updateElements.leafletMap },
             { selector: 'image-gallery', plugin: 'imageGallery', update: updateElements.imageGallery },
@@ -214,7 +233,11 @@
             var element = document.querySelector(item.selector);
             if (element) {
                 // Add plugin to download list
-                pluginsToLoad.push(item.plugin);
+                if (typeof item.after === undefined) {
+                    pluginsToLoad.push(item.plugin);
+                } else {
+                    pluginsToLoad.push({ name: item.plugin, callback: item.after });
+                }
                 // Update all elements for specific plugins
                 if (item.update !== undefined) {
                     var elements = document.querySelectorAll(item.selector);
@@ -227,7 +250,11 @@
 
         // Load Plugins
         pluginsToLoad.forEach(function(plugin) {
-            loadPlugin(plugin);
+            if (typeof plugin === 'string') {
+                loadPlugin(plugin);
+            } else {
+                loadPlugin(plugin.name, plugin.callback);
+            }
         });
 
         // App Event
@@ -264,10 +291,14 @@
     /**
      * Download and run a DataFormsJS Framework plugin.
      * @param {string} name
+     * @param {undefined|function} callback
      */
-    function loadPlugin(name) {
+    function loadPlugin(name, callback) {
         // Run plugin if it's already loaded.
         if (app.plugins[name] !== undefined) {
+            if (callback !== undefined) {
+                callback();
+            }
             app.plugins[name].reload();
             return;
         }
@@ -278,6 +309,9 @@
             if (app.plugins[name] === undefined) {
                 console.warn('Plugin [' + name + '] was loaded but not found. The script might still be loading in the DOM.')
                 return;
+            }
+            if (callback !== undefined) {
+                callback();
             }
             app.plugins[name].reload();
         });

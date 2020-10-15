@@ -58,7 +58,7 @@ TODO List
             the standard Frameworks works. A good test will be the [examples/places-demo-web.htm] file
             that always loads [https://unpkg.com/leaflet@1.5.1/dist/leaflet.js]. The format for defining
             this needs to still be determined. The main framework uses [app.lazyLoad = {}]. The web components
-            will likely check for the same format if [window.lazyLoad] is defined by the app. The web components 
+            will likely check for the same format if [window.lazyLoad] is defined by the app. The web components
             version will be expanded on to handle modules; example:
                 window.lazyLoad = {
                     leafletCss: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.css',
@@ -138,17 +138,6 @@ TODO List
                 still being used by an app.
             - [old-browser-warning.min.js] will be kept as commented out in the templates with comments that
                 the polyfill works for older browsers.
-        - Include features of `js/plugins/navLinks.js` in the Web Component routers?
-            - For example:
-                <url-hash-router nav-selector="nav a" nav-active-class="active">
-                if using [nav-selector] then [nav-active-class] would use "active" as the default
-            - If using this then the custom JS on the Web Component Template will not be needed:
-                https://www.dataformsjs.com/en/getting-started
-            - Also related - does it make sense to combine `js/plugins/navList.js` with `navLinks.js`
-                For example if the elements on the selector are not an <a> then run querySelector on
-                each element in the selector to find the <a>
-            - Since it's a breaking change it's ok to remove [navList.js] if the code can be combined.
-            - For the current example code [navList.min.js] is only used on the main site 
         - Breaking change on [js/plugins/filter.js] to consider keeping but add another option,
             for example a new attribute that allows the new behavior.
             At line #144 this:
@@ -163,8 +152,8 @@ TODO List
             Needs a [emptyDataText] like the standard framework that has a default value of "No records found"
                 addTable('<table class="no-data"><caption>' + app.escapeHtml(this.emptyDataText) + '<caption></table>');
         - Because of the new features for <data-list> the main site https://www.dataformsjs.com/
-            is being updated to use only JavaScript and not Handlebars templating. More testing on 
-            a variety of devices is needed and one issue must be solved (otherwise rollback changes to 
+            is being updated to use only JavaScript and not Handlebars templating. More testing on
+            a variety of devices is needed and one issue must be solved (otherwise rollback changes to
             handlebars - most likely all changes will be kept):
                 - Start on Quick Ref Page, then navigate to examples:
                     http://localhost:3000/en/quick-reference
@@ -177,7 +166,7 @@ TODO List
                     <div class="error" data-bind="errorMessage" data-show="typeof errorMessage === 'string'"></div>
                 - If [data-show] is removed then the error is clear.
                     If the current [data-show] should be kept then likely add it on templates and other JS only examples
-                - Seems that all 3 screens quickly flash while during route unloading so 
+                - Seems that all 3 screens quickly flash while during route unloading so
                     additional CSS may have to be added for route unloading. It's very noticeable
                     when testing with IE 11.
             - Site Repository:
@@ -190,6 +179,8 @@ TODO List
             - Include Polyfill
             - Remove old API
             - Use <template> for <data-table>
+        - Web Component Template from: https://www.dataformsjs.com/en/getting-started
+            Include <nav is="spa-links"> changes from: [examples/web-components-template.htm]
 
 **) Playground Site
     - Need to add support for JSON file/resource type
@@ -340,7 +331,7 @@ TODO List
             <script>
                 window.requestHeaders = {}
                 window.requestHeadersByHostName = {}
-            And then the Framework [app.getRequestHeaders] and related code can be used as a starting point            
+            And then the Framework [app.getRequestHeaders] and related code can be used as a starting point
     - Create an [I18N] API for Web Components and initially use with:
         http://127.0.0.1:8080/places-demo-web
         - API is not yet started on so it has be decided first
@@ -359,13 +350,15 @@ TODO List
             - Likely try several versions to see what makes the most sense
             - Since [polyfill.js] has been created this would need compatability with the main Framework Plugin.
             - Possible first version to try:
-                # Try <i18n-service> outside of the main view element. Default file = root-file="_"
-                <i18n-service default-lang="en" locales="en,ja,es,pt-BR,ar,fr,zh-CN" root-file="countries">
-                <div id="view" dir="auto"></div>
-                # Routes that have specific i18n files can have them in the data attribute
-                # then <i18n-service> can handle route changes and set the HTML content
-                <url-hash-route path="/" data-i18n-file="home-page">
-                # This version would likely be easy to make compatability with the main Framework
+                - Try <i18n-service> outside of the main view element. Default file = root-file="_"
+                    <i18n-service default-lang="en" locales="en,ja,es,pt-BR,ar,fr,zh-CN" root-file="countries">
+                    <div id="view" dir="auto"></div>
+                - Routes that have specific i18n files can have them in the data attribute
+                    then <i18n-service> can handle route changes and set the HTML content
+                    <url-hash-route path="/" data-i18n-file="home-page">
+                - This version would likely be easy to make compatability with the main Framework
+                - See the new [dataformsjs\js\web-components\spa-links.js] because it handles router
+                    events so if <i18n-service> it may include similar event handling.
     - Create Search Screen for the following page:
         - http://127.0.0.1:8080/places-demo-web
         - This may require creating a new web component (either generic or part of the app)

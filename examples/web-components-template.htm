@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>DataFormsJS Web Components Template</title>
+        <link rel="stylesheet" href="https://d2xbd92kui7v97.cloudfront.net/site/css/getting-started.css">
+        <style>
+            /* Prevent custom web components from appearing during rendering include the following CSS */
+            json-data:not(:defined),
+            is-loading:not(:defined),
+            has-error:not(:defined),
+            is-loaded:not(:defined) { display:none; }
+        </style>
+    </head>
+    <body>
+        <header>
+            <nav is="spa-links">
+                <a class="active" href="#/">Home</a>
+                <a href="#/data">Data Example</a>
+            </nav>
+        </header>
+
+        <main id="view" class="container"></main>
+
+        <url-hash-router view-selector="#view">
+            <url-hash-route path="/">
+                <template>
+                    <h1>DataFormsJS Web Components Template</h1>
+                </template>
+            </url-hash-route>
+
+            <url-hash-route path="/data">
+                <template>
+                    <h1>Countries</h1>
+
+                    <json-data
+                        url="https://www.dataformsjs.com/data/geonames/countries"
+                        load-only-once="true">
+                        <is-loading>
+                            <span class="loading">Loading...</span>
+                        </is-loading>
+                        <has-error>
+                            <span class="error" data-bind="errorMessage"></span>
+                        </has-error>
+                        <is-loaded>
+                            <input
+                                is="input-filter"
+                                filter-selector="table"
+                                filter-results-selector="h1"
+                                filter-results-text-all="{totalCount} Countries"
+                                filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
+                                placeholder="Enter filter, example 'North America'">
+
+                            <data-table
+                                data-bind="countries"
+                                labels="Code, Name, Size (KM), Population, Continent"
+                                table-attr="is=sortable-table,
+                                            data-sort-class-odd=row-odd,
+                                            data-sort-class-even=row-even">
+                            </data-table>
+                        </is-loaded>
+                    </json-data>
+                </template>
+            </url-hash-route>
+        </url-hash-router>
+
+        <!--
+            DataFormsJS Web Components Template
+            https://www.dataformsjs.com
+        -->
+        <!-- 
+        <script type="module" src="../js/web-components/spa-links.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/url-hash-router.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/json-data.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/data-table.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/input-filter.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/sortable-table.min.js"></script> -->
+
+        <script type="module" src="../js/web-components/spa-links.min.js"></script>
+        <script type="module" src="../js/web-components/url-hash-router.min.js"></script>
+        <script type="module" src="../js/web-components/json-data.min.js"></script>
+        <script type="module" src="../js/web-components/data-table.min.js"></script>
+        <script type="module" src="../js/web-components/input-filter.min.js"></script>
+        <script type="module" src="../js/web-components/sortable-table.min.js"></script>
+        <script nomodule src="../js/web-components/polyfill.min.js"></script>
+
+        <!-- <script src="../js/web-components/polyfill.js"></script> -->
+
+        <!--
+            Additional Components:
+        -->
+        <!--
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/url-router.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/data-list.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/leaflet-map.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/image-gallery.min.js"></script>
+        -->
+
+        <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
+        <!-- <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/safari-nomodule.min.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/old-browser-warning.min.js"></script> -->
+    </body>
+</html>

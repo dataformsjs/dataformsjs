@@ -14,6 +14,7 @@ Overall the core Framework files and API are expected to remain stable however t
   * Added option for formatting text from `<json-data>` (date, time, number, etc)
   * Added `data-show="js-expression"` to show or hide items from `<json-data>`. It works similar to Vue `v-show`.
   * The new features make for an easier to use API for customizing content on page after data is displayed. Previously the places demo required a lot of custom JavaScript on the page in order to display flag icons, format table data, and additional items.
+  * Added new Web Components `<nav is="spa-links">`. Previously SPA Nav Links were handled from custom JavaScript code on the page. Now this functionality is much easier for a site to include as only HTML is needed.
 * Minor enhancments for other DataFormsJS files:
   * Added `app.updateTemplatesForIE()`
   * Added features in `js/plugins/dataBind.js` based on the Web Components version.
@@ -71,6 +72,9 @@ Most breaking changes are minor and only expected to affect internal API's and e
   * Affects Web Components and React
   * `js/web-components/jsPlugins.js`
   * `js/react/jsPlugins.js`
+* Combined Framework Pluings `js/pugins/navList.js` and `js/pugins/navLinks.js`
+  * All demos used `navLinks.js` and only the main site used `navList.js`
+  * `navList.js` has been deleted but the functionality can now be handled by using `navLinks.js` and setting the following option from JavaScript: `app.plugins.navLinks.itemSelector = 'nav li';`
 
 ## 4.8.0 (October 5, 2020)
 
