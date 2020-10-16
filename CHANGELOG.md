@@ -8,10 +8,10 @@ Overall the core Framework files and API are expected to remain stable however t
 
 ### Release Overview
 
-* Many updates are made for overall improvements of DataFormsJS Web Components
+* Many many updates are made for overall improvements of DataFormsJS Web Components
   * Added ability to polyfill Web Components for older browsers using the standard Framework that gets loaded from a single file.
   * Added ability to define custom `<template>` for table `<tr>` in `<data-table>`
-  * Added option for formatting text from `<json-data>` (date, time, number, etc)
+  * Added option for formatting text from `<json-data>` (date, time, number, custom functions, etc)
   * Added `data-show="js-expression"` to show or hide items from `<json-data>`. It works similar to Vue `v-show`.
   * The new features make for an easier to use API for customizing content on page after data is displayed. Previously the places demo required a lot of custom JavaScript on the page in order to display flag icons, format table data, and additional items.
   * Added new Web Components `<nav is="spa-links">`. Previously SPA Nav Links were handled from custom JavaScript code on the page. Now this functionality is much easier for a site to include as only HTML is needed.
@@ -23,6 +23,7 @@ Overall the core Framework files and API are expected to remain stable however t
   * Added ability to easily reload  by calling `app.activeJsControls(control)`. Updating already loaded controls is not common but can be used in very specific scenarios. For example the new Web Components Polyfill uses it.
   * Update API to include `model` as a parameter in `control.onLoad(element, model)`
   * Specific controls `<data-table>` and `<data-list>` have significant new functionality based on the matching Web Components that allows for basic templating from HTML. The template syntax is based on JavaScript template literals (template strings) and with the new features basic sites or apps that previously required Handlebars or Vue for templating could possibly use these instead.
+  * Data Attributes for JavaScript controls will not use boolean data types when "true" or "false" are specified. This was created for the new `data-load-only-once` attribute added to `js/controls/json-data.js` for compatability with the Web Components version.
 * Image Gallery Update for Overlay when `title/alt` is not used:
   * All versions updated (Web Component, Framework Plugin, React)
   * By default if title is not used the position `{index}/{end}` is displayed. Previously it aligned to the left of the screen. Now it will be aligned in the right of the screen only if title is missing which matches the behavior if the title is included

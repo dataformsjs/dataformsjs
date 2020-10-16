@@ -57,7 +57,7 @@ function downloadTemplate(router, view, route, urlParams) {
         const error = `Missing <template> or [src] attribute for route <${route.tagName.toLowerCase()} path="${route.path}">.`;
         showError(view, error);
         router.dispatchEvent(new CustomEvent(appEvents.error, { bubbles: true, detail: error }));
-        router.dispatchEvent(new Event(appEvents.routeChanged, { bubbles: true }));
+        router.dispatchEvent(new CustomEvent(appEvents.routeChanged, { bubbles: true, detail: { url: router._currentRoute.path, urlParams } }));
         return;
     }
 
@@ -129,7 +129,7 @@ function setView(router, view, html, urlParams) {
     polyfillCustomElements();
 
     // Custom Event
-    router.dispatchEvent(new Event(appEvents.routeChanged, { bubbles: true }));
+    router.dispatchEvent(new CustomEvent(appEvents.routeChanged, { bubbles: true, detail: { url: router._currentRoute.path, urlParams } }));
 }
 
 /**
@@ -302,7 +302,7 @@ class UrlHashRouter extends HTMLElement {
         this.style.fontSize = '1.5em';
         this.textContent = message;
         this.dispatchEvent(new CustomEvent(appEvents.error, { bubbles: true, detail: message }));
-        this.dispatchEvent(new Event(appEvents.routeChanged, { bubbles: true }));
+        this.dispatchEvent(new CustomEvent(appEvents.routeChanged, { bubbles: true, detail: { url:null, urlParams:null } }));
         console.error(message);
     }
 }

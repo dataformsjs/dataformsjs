@@ -1,5 +1,5 @@
 /**
- * DataFormsJS <json-data> Control
+ * DataFormsJS <json-data> JavaScript Control
  *
  * This control is similar to the main page object `jsonData` but it works
  * with-in a webpage rather than as the main page/controller. This control works
@@ -7,6 +7,10 @@
  * GraphQL service from searching and it can also be used to display JSON Data
  * on a webpage that does not use routing from the framework. It can also be
  * used to display the result of multiple JSON or GraphQL Services on one page.
+ *
+ * In addition to use with the standard DataFormsJS Framework this control is designed
+ * for compatibility with the DataFormsJS Web Component [js/web-components/json-data.js]
+ * and included when using [js/web-components/polyfill.js].
  *
  * Example Usage - Search Screen:
  *     https://www.dataformsjs.com/examples/places-demo-hbs.htm#/en/search
@@ -65,6 +69,49 @@
     'use strict';
 
     /**
+     * Data Caching for when [data-load-only-once="true"] is used.
+     * For common usage this would apply only to the Web Components Polyfill.
+     * The reason is because if [data-load-only-once="true"] is used
+     * at the page level on the standard Framework the `fetch` code
+     * will not be called again here when the page reloads.
+     *
+     * Behavior is based the Web Component and React Versions:
+     *     js/react/es6/JsonData.js
+     *     js/web-components/json-data.js
+     *
+     * The resulting behavior is also similar to the main page object:
+     *      js/pages/jsonData.js
+     */
+    var jsonDataCache = [];
+
+    function saveDataToCache(url, query, params, data) {
+        for (var n = 0, m = jsonDataCache.length; n < m; n++) {
+            var cache = jsonDataCache[n];
+            if (cache.url === url && cache.query === query) {
+                cache.params = params;
+                cache.data = data;
+                return;
+            }
+        }
+        jsonDataCache.push({
+            url: url,
+            query: query,
+            params: params,
+            data: data,
+        });
+    }
+
+    function getDataFromCache(url, query, params) {
+        for (var n = 0, m = jsonDataCache.length; n < m; n++) {
+            var cache = jsonDataCache[n];
+            if (cache.url === url && cache.query === query && cache.params === params) {
+                return cache.data;
+            }
+        }
+        return null;
+    }
+
+    /**
      * CSS loaded if using <template> instead of Handlebars, Vue, etc
      */
     var css = '.dataformsjs-control-loading .is-loaded { display:none; }';
@@ -118,6 +165,8 @@
             graphqlSrc: null,
             graphqlQuery: null,
             errorTextGraphQLErrors: '{count} GraphQL Errors occured. See console for full details.',
+            loadOnlyOnce: false,
+            // Vue variables below are set by this script when using Vue
             vueInstance: null,
             vueApp: null,
         },
@@ -141,7 +190,8 @@
                 activeModelProp = null,
                 url,
                 init = null,
-                usingVue = (app.activeController && app.activeController.viewEngine === 'Vue');
+                usingVue = (app.activeController && app.activeController.viewEngine === 'Vue'),
+                cacheParams;
 
             // When using Vue only assign key web service state props back to Vue.
             // This avoids issues of [control.url] from overwriting the same
@@ -155,61 +205,9 @@
                 });
             }
 
-            // Exit if already loading
-            if (control.isLoading) {
-                return;
-            }
-            control.isLoading = true;
-            control.isLoaded = false;
-            control.hasError = false;
-
-            // If using a property of the active model then get it or create
-            // it as an object and assign control props.
-            if (usingVue) {
-                assignControlToVue();
-            } else if (control.modelProp !== null) {
-                app.activeModel[control.modelProp] = app.activeModel[control.modelProp] || {};
-                activeModelProp = app.activeModel[control.modelProp];
-                Object.assign(activeModelProp, control);
-            }
-
-            // Render HTML to allow for a 'Loading' message to show
-            jsonData.renderControl(element, control);
-
-            // If using GraphQL then POST the Query and Variables.
-            // Otherwise a GET request is made.
-            if (control.graphqlQuery) {
-                url = (control.url ? control.url : app.settings.graphqlUrl);
-                init = {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        query: control.graphqlQuery,
-                        variables: app.buildGraphQLVariables(control.graphqlQuery, app.activeModel),
-                    }),
-                };
-            } else {
-                // Build URL from Model Variables
-                url = app.buildUrl(control.url, app.activeModel);
-            }
-
-            // Do not fetch data if URL is missing. This can happen if
-            // code is manually adding the URL after initial load.
-            // For example on the Web Components Polyfill.
-            if (url === '') {
-                return;
-            }
-
-            // Make the JSON Request
-            app
-            .fetch(url, init)
-            .then(function(data) {
-                // Make sure the response sent an object. This file expects
-                // 'application/json' and not 'text/plain' and other response types.
-                if (!(typeof data === 'object' || data === null)) {
-                    throw new TypeError('Invalid Response type. Received data in format of [' + (typeof data) + ']');
-                }
-
+            // Private variable using variables from parent scope that updates the
+            // control based on data download from the JSON/GraphQL or read from cache.
+            function handleData(data) {
                 // Set control as loaded
                 var vm = (control.vueInstance === null ? control : control.vueInstance);
                 vm.isLoading = false;
@@ -261,6 +259,81 @@
                 }
                 if (callback !== undefined) {
                     callback();
+                }
+            }
+
+            // Exit if already loading
+            if (control.isLoading) {
+                return;
+            }
+            control.isLoading = true;
+            control.isLoaded = false;
+            control.hasError = false;
+
+            // If using a property of the active model then get it or create
+            // it as an object and assign control props.
+            if (usingVue) {
+                assignControlToVue();
+            } else if (control.modelProp !== null) {
+                app.activeModel[control.modelProp] = app.activeModel[control.modelProp] || {};
+                activeModelProp = app.activeModel[control.modelProp];
+                Object.assign(activeModelProp, control);
+            }
+
+            // Render HTML to allow for a 'Loading' message to show
+            jsonData.renderControl(element, control);
+
+            // If using GraphQL then POST the Query and Variables.
+            // Otherwise a GET request is made.
+            if (control.graphqlQuery) {
+                url = (control.url ? control.url : app.settings.graphqlUrl);
+                cacheParams = app.buildGraphQLVariables(control.graphqlQuery, app.activeModel);
+                init = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        query: control.graphqlQuery,
+                        variables: cacheParams,
+                    }),
+                };
+            } else {
+                // Build URL from Model Variables
+                url = app.buildUrl(control.url, app.activeModel);
+                cacheParams = url;
+            }
+
+            // Do not fetch data if URL is missing. This can happen if
+            // code is manually adding the URL after initial load.
+            // For example on the Web Components Polyfill.
+            if (url === '') {
+                return;
+            }
+
+            // Read from Cache
+            if (control.loadOnlyOnce) {
+                var data = getDataFromCache(control.url, control.graphqlQuery, cacheParams);
+                if (data !== null) {
+                    handleData(data);
+                    return;
+                }
+            }
+
+            // Make the JSON Request
+            app
+            .fetch(url, init)
+            .then(function(data) {
+                // Make sure the response sent an object. This file expects
+                // 'application/json' and not 'text/plain' and other response types.
+                if (!(typeof data === 'object' || data === null)) {
+                    throw new TypeError('Invalid Response type. Received data in format of [' + (typeof data) + ']');
+                }
+
+                // Update control using downloaded data
+                handleData(data);
+
+                // Optionally save to cache
+                if (control.loadOnlyOnce) {
+                    saveDataToCache(control.url, control.graphqlQuery, cacheParams, data);
                 }
             })
             .catch(function(error) {

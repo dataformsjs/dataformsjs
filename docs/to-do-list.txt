@@ -41,11 +41,6 @@ TODO List
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/sortable-table.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
-        - Handle <json-data load-only-once="true"> in the polyfill
-            Currenlty this is handled in:
-                dataformsjs\js\pages\jsonData.js
-            But not in:
-                dataformsjs\js\controls\json-data.js
         - The standard Framework includes `app.settings.lazyTemplateSelector` which is used to show an optional
             loading template while scripts and HTML content is being downloaded. In general the content is
             very small so it goes un-noticed on a desktop or fast mobile connection. On a slow mobile connection

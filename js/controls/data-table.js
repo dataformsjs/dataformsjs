@@ -1,7 +1,7 @@
 /**
- * DataFormsJS <data-table> Control
+ * DataFormsJS <data-table> JavaScript Control
  *
- * This controls is designed for compatibility with the DataFormsJS Web Component
+ * This control is designed for compatibility with the DataFormsJS Web Component
  * [js/web-components/data-table.js] and includes the ability for basic templating
  * from HTML using a template syntax based on JavaScript template literals (template strings).
  *

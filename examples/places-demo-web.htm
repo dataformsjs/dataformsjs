@@ -189,14 +189,22 @@
                 document.addEventListener('app:routeChanged', function(event) {
                     log('app:routeChanged', 'blue');
                     console.log(event);
+
+                    // When using Web Components `event.target` will be either
+                    // <url-hash-router> or <url-router> and when using [polyfill.js]
+                    // the root `document` will be passed.
                     console.log(event.target);
+
+                    // Event Detail contains URL Path and Params:
+                    //   { url, urlParams }
+                    console.log(event.detail);
                 });
 
                 // Handle content ready from <json-data>
                 document.addEventListener('app:contentReady', function(event) {
                     log('app:contentReady', 'green');
                     console.log(event);
-                    console.log(event.target);
+                    console.log(event.target); // <json-data> or `document`
                 });
 
                 // Handle errors from <json-data>, <url-hash-router>, or <url-router>

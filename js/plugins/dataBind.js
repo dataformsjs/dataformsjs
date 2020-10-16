@@ -245,8 +245,12 @@
                         el.style.display = (result === true ? '' : 'none');
                     } catch (e) {
                         el.style.display = '';
-                        console.error('Error evaluating JavaScript expression from [data-show] attribute.');
-                        console.error(e);
+                        if (app.activeModel.isLoading !== undefined) {
+                            // Only provide warning if [isLoading] is defined, otherwise this
+                            // can display extra warnings that are not needed while data is loading.
+                            console.warn('Error evaluating JavaScript expression from [data-show] attribute.');
+                            console.warn(e);    
+                        }
                     }
                 }
             });

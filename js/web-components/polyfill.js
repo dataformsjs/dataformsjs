@@ -68,8 +68,7 @@
             });
         },
         jsonData: function(element) {
-            var url = element.getAttribute('url');
-            element.setAttribute('data-url', url);
+            updateElements.dataAttributes(element, ['url', 'load-only-once']);
             var elements = ['is-loading', 'has-error', 'is-loaded'];
             elements.forEach(function(name) {
                 var el = element.querySelector(name);
@@ -170,7 +169,10 @@
             // When using Web Components this happens on either <url-hash-router> or <url-router>
             // and bubbles up to the document. For the polyfill the specific router element
             // doesn't matter so the event is dispatched on the document.
-            dispatchEvent(document, 'app:routeChanged');
+            dispatchEvent(document, 'app:routeChanged', {
+                url: (app.activeController && app.activeController.path ? app.activeController.path : null),
+                urlParams: app.activeParameterList,
+            });
 
             // Update <json-data> Web Component so it matches the
             // Framework control version then reload the control.
@@ -343,7 +345,10 @@
         // Private function related to routing setup
         function routerError(router, error) {
             dispatchEvent(router, 'app:error', error);
-            dispatchEvent(router, 'app:routeChanged');
+            dispatchEvent(router, 'app:routeChanged', {
+                url: (app.activeController && app.activeController.path ? app.activeController.path : null),
+                urlParams: app.activeParameterList,
+            });
             app.showError(router, error);
             console.error(error);
         }

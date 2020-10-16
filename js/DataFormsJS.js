@@ -2301,7 +2301,17 @@
             // Assign HTML [data-*] attributes to [data] Properties for the instance
             for (prop in element.dataset) {
                 if (prop !== 'control') {
-                    data[prop] = element.dataset[prop];
+                    var value = element.dataset[prop];
+                    switch (value) {
+                        case 'true':
+                            data[prop] = true;
+                            break;
+                        case 'false':
+                            data[prop] = false;
+                            break;
+                        default:
+                            data[prop] = value;
+                    }
                 }
             }
 
