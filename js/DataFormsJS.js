@@ -763,9 +763,9 @@
 
         // Show loading screen while the scripts are being loaded. Scripts should load
         // quick but on mobile devices a delay of 1 second makes the page looks like it
-        // is not being loaded. This code displayed the loading view, however only
-        // simple templates embedded on the page can be used.
-        if (app.settings.lazyLoadingViewSelector !== null) {
+        // is not being loaded. This code displays the loading view, however only
+        // simple templates embedded on the page can be used with it.
+        if (app.settings.lazyTemplateSelector !== null) {
             var view = document.querySelector(app.settings.viewSelector);
             var tmpl = document.querySelector(app.settings.lazyTemplateSelector);
             if (view && tmpl) {
@@ -785,8 +785,9 @@
         routeScripts.forEach(function(script) {
             if (app.lazyLoad[script] === undefined) {
                 console.error('Missing [app.LazyLoad] scripts for: ' + script);
+            } else {
+                promises.push(app.loadScripts(app.lazyLoad[script]));
             }
-            promises.push(app.loadScripts(app.lazyLoad[script]));
         });
 
         // Once all scripts are downloaded then finish loading the controller.
