@@ -22,7 +22,7 @@ import {
     showErrorAlert
 } from './utils.js';
 
-export const appEvents = {
+const appEvents = {
     routeChanged: 'app:routeChanged',
     error: 'app:error',
 };

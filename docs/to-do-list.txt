@@ -171,10 +171,15 @@ TODO List
                 https://github.com/dataformsjs/website
             - Backup copy before removing Handlebars
                 https://github.com/ConradSollitt/website
-        - Consider combining <url-hash-router> with <url-router> and then using <url-router mode="hash">
+        - Consider combining <url-hash-router> with <url-router> and then using one of:
+                <url-router mode="hash">
+                <url-router mode="history">
+                * Default to "hash" like the main Framework
             Originally there were created a seperate components to reduce complexity (extra attributes, etc);
             however there is very little logic needed now if combining them. Additionally if combining them
-            then the new 'utils-routing.js' file could be merged back as well.
+            then the new 'utils-routing.js' file could be merged back as well. If merging back then likely
+            make `loadScripts()` and any other function that might be usefull for an app to call a function
+            that can be called from the element.
         - Before release look for all files with: <script src="../js/  and point them to the AWS S3 site for testing
             Then after release update and test all pages to use standard CDN
         - Update and Test Playground Templates before Release, changes needed:
