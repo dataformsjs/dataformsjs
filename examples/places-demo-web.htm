@@ -10,7 +10,6 @@
         <title data-i18n="Countries Demo | Web Components"></title>
         <link rel="stylesheet" href="css/countries.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
         <link rel="canonical" href="https://www.dataformsjs.com/examples/places-demo-hbs.htm">
         <style>
             /* Prevent custom web components from appearing during rendering include the following CSS */
@@ -23,7 +22,7 @@
     <body>
         <div id="view" dir="auto"></div>
 
-        <url-hash-router view-selector="#view">
+        <url-hash-router view-selector="#view" loading-template-selector="#loading-spinner-screen">
             <!--
                 Routes can be embedded directly on the page as a <template> under <url-hash-route>.
                 [default-route] is optional and can be used if the default path is something other than "/".
@@ -115,9 +114,15 @@
             -->
             <url-hash-route path="/regions/:country" src="html/regions-web.htm"></url-hash-route>
             <url-hash-route path="/cities/:country/:region" src="html/cities-web.htm"></url-hash-route>
-            <url-hash-route path="/city/:id" src="html/place-web.htm"></url-hash-route>
+            <url-hash-route path="/city/:id" src="html/place-web.htm" lazy-load="leafletCss, leafletJs, leafletWeb, leafletPlugin, data_list"></url-hash-route>
             <url-hash-route path="/info" src="html/places-info-web.htm"></url-hash-route>
         </url-hash-router>
+
+        <template id="loading-spinner-screen">
+            <div class="loading">
+                <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
+        </template>
 
         <!-- DataFormsJS Web Components -->
         <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/url-hash-router.min.js"></script>
@@ -133,8 +138,6 @@
         <script type="module" src="../js/web-components/data-table.js"></script>
         <script type="module" src="../js/web-components/input-filter.js"></script>
         <script type="module" src="../js/web-components/sortable-table.js"></script>
-        <script type="module" src="../js/web-components/data-list.js"></script>
-        <script type="module" src="../js/web-components/leaflet-map.js"></script>
 
         <script nomodule src="../js/web-components/polyfill.js"></script>
 
@@ -145,9 +148,6 @@
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/safari-nomodule.min.js"></script>
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/old-browser-warning.min.js"></script>
         -->
-
-        <!-- https://leafletjs.com -->
-        <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
 
         <script>
             /**
@@ -164,6 +164,31 @@
                 }
                 return text;
             }
+        </script>
+
+        <script>
+            // Lazy Load the following scripts only if needed based on attribute [lazy-load].
+            // Scripts with `module` will only be loaded for modern browsers and scripts with
+            // `nomodule` will only be loaded when using [polyfill.js]. All other scripts are
+            // always loaded on first use.
+            //
+            // When scripts need to be downloaded in a specific order then use an array otherwise
+            // one script per key is recommended. When a route uses multiple lazy load items
+            // they are downloaded asynchronous however items in the array are download only after
+            // the previous item is loaded. However, this example currently does not include
+            // an array. See [places-demo-vue.htm] for a simliar version with an array.
+            //
+            // [leafletPlugin] listed below is not required as [polyfill.js] would dynamically
+            // download the script on first use, however it is included here to show how
+            // the `nomodule` option can be used.
+            // 
+            window.lazyLoad = {
+                leafletCss: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.css',
+                leafletJs: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.js',
+                leafletWeb: { module: '../js/web-components/leaflet-map.js' },
+                leafletPlugin: { nomodule: '../js/plugins/leaflet.js' },
+                data_list: { module: '../js/web-components/data-list.js' },
+            };
         </script>
 
         <!--

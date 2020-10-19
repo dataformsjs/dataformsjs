@@ -369,6 +369,7 @@
 
         // Define and Validate App Settings based on Router
         app.settings.viewSelector = router.getAttribute('view-selector');
+        app.settings.lazyTemplateSelector = router.getAttribute('loading-template-selector');
         if (app.settings.viewSelector === null) {
             routerError(router, 'Error, element <' + router.tagName.toLowerCase() + '> is missing attribute [view-selector]');
             return;
@@ -377,6 +378,24 @@
         if (view === null) {
             routerError(router, 'Error, element from <url-hash-router view-selector="' + app.escapeHtml(app.settings.viewSelector) + '"> was not found on the page.');
             return;
+        }
+
+        // Map items from [window.lazyLoad] to [app.lazyLoad] excluding items in
+        // the format of `{module:url}` as they are intended only for modern browsers
+        // and items in the format of `{nomodule:url}` will be added as strings.
+        if (window.lazyLoad !== undefined) {
+            for (var prop in window.lazyLoad) {
+                if (window.lazyLoad.hasOwnProperty(prop)) {
+                    var item = window.lazyLoad[prop];
+                    if (Array.isArray(item) || typeof item === 'string') {
+                        app.lazyLoad[prop] = item;
+                    } else if (typeof item.nomodule === 'string') {
+                        app.lazyLoad[prop] = item.nomodule;
+                    } else if (!(typeof item.module === 'string')) {
+                        console.error('Unhandled window.lazyLoad Script: ' + prop);
+                    }
+                }
+            }
         }
 
         // Get all routes on the page and for each route add a controller object. When using the
@@ -430,6 +449,18 @@
                 viewId = template.id;
             }
 
+            // Map items from [lazy-load].
+            var settings;
+            var lazyLoad = route.getAttribute('lazy-load')
+            if (lazyLoad !== null) {
+                lazyLoad = lazyLoad.split(',').map(function(s) { return s.trim(); });
+                settings = {
+                    lazyLoad: lazyLoad.filter(function(item) {
+                        return (app.lazyLoad[item] !== undefined);
+                    }).join(', ')
+                };
+            }
+
             // Add Route as Framework Controller
             app.addController({
                 path: path,
@@ -437,8 +468,8 @@
                 viewUrl: viewUrl,
                 viewEngine: 'Text',
                 pageType: 'polyfillPage',
+                settings: settings,
                 // modelName: undefined,
-                // settings: undefined,
             });
         });
 

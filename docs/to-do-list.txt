@@ -41,26 +41,6 @@ TODO List
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/sortable-table.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
-        - The standard Framework includes `app.settings.lazyTemplateSelector` which is used to show an optional
-            loading template while scripts and HTML content is being downloaded. In general the content is
-            very small so it goes un-noticed on a desktop or fast mobile connection. On a slow mobile connection
-            the delay can be noticeable so a similar feature should be added for Web Components.
-            For a starting point this could be added as:
-                <url-hash-router loading-template-selector="#template">
-                <url-router loading-template-selector="#template">
-            Ideally this will also be added to <json-data><is-loading template-selector="#template"> as well.
-        - Add ability to lazy load scripts based on route <url-hash-route> and <url-route> similar to how
-            the standard Frameworks works. A good test will be the [examples/places-demo-web.htm] file
-            that always loads [https://unpkg.com/leaflet@1.5.1/dist/leaflet.js]. The format for defining
-            this needs to still be determined. The main framework uses [app.lazyLoad = {}]. The web components
-            will likely check for the same format if [window.lazyLoad] is defined by the app. The web components
-            version will be expanded on to handle modules; example:
-                window.lazyLoad = {
-                    leafletCss: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.css',
-                    leafletJs: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.js',
-                    leafletWeb: { module: '../js/web-components/leaflet-map.js' },
-                }
-            Then when using the polyfill items with {module} would be ignored.
         - Look into minor issue that was found in development
             http://127.0.0.1:8080/countries-no-spa-js
             https://www.dataformsjs.com/examples/countries-no-spa-js.htm
@@ -98,10 +78,6 @@ TODO List
                 col-class="Size (KM)=align-right, Population=align-right"
               Likely start with this version as it adds the smallest amount of code and works
               well with the exisitng demos.
-        - Decide if
-                import { Format } from './utils-format.js';
-            Should be merged with the main './utils.js' to avoid an extra HTTP request. If all code
-            that imports from './utils.js' also imports Format then they should probably be merged.
         - At a minimum the new script Polyfill scripts needs to handle IE 11, older Safari (example iOS 9), UC Browser.
             iOS 9 support because older devices such as iPad 2 can't upgrade past it and iPhone 6
             phones that are not upgraded still use it.
@@ -125,7 +101,7 @@ TODO List
                 <script src="../js/web-components/polyfill.js"></script>
                     Full [*.js] Framework files will be downloaded
         - [/js/web-components/safari-nomodule.min.js] will be removed from all templates but the file will still be kept
-            [/js/web-components/old-browser-warning.min.js] will have an [X] button added that the user can closure
+            [/js/web-components/old-browser-warning.min.js] will have an [X] button added that the user can close
             similar to the standard Framework `app.showErrorAlert('Test')`.
             - Markdown docs should be created for this though. Include links from `usingWebComponentsPolyfill()`
             - Reason is now [polyfill.js] works instead of [safari-nomodule.min.js] and not only Safari has the
@@ -146,6 +122,33 @@ TODO List
                 addTable('<table class="no-data"></table>');
             Needs a [emptyDataText] like the standard framework that has a default value of "No records found"
                 addTable('<table class="no-data"><caption>' + app.escapeHtml(this.emptyDataText) + '<caption></table>');
+        - Create Search Screen for the following page:
+            - http://127.0.0.1:8080/places-demo-web
+            - This may require creating a new web component (either generic or part of the app)
+            - Ideally a new [click-selector=".btn-search"] attribute can be added to the <json-data> Web Component.
+            and that the Polyfill can be updated ot handle nested <json-data> elements. Example
+            from the Framework Handlebars Demo:
+                <json-data
+                    data-url="https://www.dataformsjs.com/data/geonames/search?country=:country&city=:city"
+                    data-click-selector=".btn-search"
+                    data-template-url="html/search-places-results-hbs.htm"
+                    data-model-prop="search"
+                    class="section">
+                </json-data>
+            - Polyfill may use Chosen, while the Web Component Version will likely use 
+                <input> with a <datalist>
+                    https://developer.mozilla.org/en-US/docs/Web/HTML/Element/datalist
+                Another option for <datalist>
+                    https://xy-ui.codelabo.cn/docs/#/xy-datalist
+                    https://github.com/XboxYan/xy-ui/blob/master/docs/xy-datalist.md
+                    https://unpkg.com/xy-ui@1.10.2/components/xy-datalist.js
+                For simplicity both will likely use <datalist> however the chosen option
+                should be tested at least to verify it works.
+            - See standard framework demos with Handlebars, Vue, and React:
+                http://127.0.0.1:8080/places-demo-hbs#/en/
+                http://127.0.0.1:8080/places-demo-graphql#/en/
+                http://127.0.0.1:8080/places-demo-vue#/en/
+                http://127.0.0.1:8080/places-demo-react#/en/
         - Because of the new features for <data-list> the main site https://www.dataformsjs.com/
             is being updated to use only JavaScript and not Handlebars templating. More testing on
             a variety of devices is needed and one issue must be solved (otherwise rollback changes to
@@ -168,6 +171,10 @@ TODO List
                 https://github.com/dataformsjs/website
             - Backup copy before removing Handlebars
                 https://github.com/ConradSollitt/website
+        - Consider combining <url-hash-router> with <url-router> and then using <url-router mode="hash">
+            Originally there were created a seperate components to reduce complexity (extra attributes, etc);
+            however there is very little logic needed now if combining them. Additionally if combining them
+            then the new 'utils-routing.js' file could be merged back as well.
         - Before release look for all files with: <script src="../js/  and point them to the AWS S3 site for testing
             Then after release update and test all pages to use standard CDN
         - Update and Test Playground Templates before Release, changes needed:
@@ -356,24 +363,6 @@ TODO List
                 - This version would likely be easy to make compatability with the main Framework
                 - See the new [dataformsjs\js\web-components\spa-links.js] because it handles router
                     events so if <i18n-service> it may include similar event handling.
-    - Create Search Screen for the following page:
-        - http://127.0.0.1:8080/places-demo-web
-        - This may require creating a new web component (either generic or part of the app)
-        - Ideally a new [click-selector=".btn-search"] attribute can be added to the <json-data> Web Component.
-          and that the Polyfill can be updated ot handle nested <json-data> elements. Example
-          from the Framework Handlebars Demo:
-            <json-data
-                data-url="https://www.dataformsjs.com/data/geonames/search?country=:country&city=:city"
-                data-click-selector=".btn-search"
-                data-template-url="html/search-places-results-hbs.htm"
-                data-model-prop="search"
-                class="section">
-            </json-data>
-        - See standard framework demos with Handlebars, Vue, and React:
-            http://127.0.0.1:8080/places-demo-hbs#/en/
-            http://127.0.0.1:8080/places-demo-graphql#/en/
-            http://127.0.0.1:8080/places-demo-vue#/en/
-            http://127.0.0.1:8080/places-demo-react#/en/
     - Create a new <form is="entry-form"> Component
         - A Framework JavaScript control could be created as the Polyfill. Ideally the new control
             would use functions from the main entryForm page object so it doesn't have to be duplicated.

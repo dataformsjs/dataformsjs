@@ -295,8 +295,8 @@ class JsonData extends HTMLElement {
             let value = (key === '' ? this.state : getBindValue(this.state, key));
             const dataType = element.getAttribute('data-format');
             if (dataType !== null) {
-                if (typeof Format[dataType] === 'function') {
-                    value = Format[dataType](value);
+                if (typeof format[dataType] === 'function') {
+                    value = format[dataType](value);
                 } else if (typeof window[dataType] === 'function') {
                     try {
                         value = window[dataType](value);

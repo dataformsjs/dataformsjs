@@ -1,9 +1,12 @@
 /**
  * DataFormsJS <url-hash-router> and <url-hash-route> Web Components
  *
- * This component handles URL hash routing and can be used to create
+ * This component handles URL #hash routing and can be used to create
  * Single Page Applications (SPA) without having to use a large
- * JavaScript framework.
+ * JavaScript framework
+ *
+ * For URL History Routing (pushState / popstate) see
+ * 'js/web-components/url-router.js'.
  *
  * @link     https://www.dataformsjs.com
  * @author   Conrad Sollitt (https://conradsollitt.com)
@@ -19,118 +22,20 @@
 /* eslint-disable no-console */
 
 import {
-    render,
-    setElementText,
-    bindAttrTmpl,
     showError,
     componentsAreDefined,
-    polyfillCustomElements,
     usingWebComponentsPolyfill
 } from './utils.js';
 
-const appEvents = {
-    routeChanged: 'app:routeChanged',
-    error: 'app:error',
-};
-
-/**
- * Shadow DOM for Custom Elements
- */
-const shadowTmpl = document.createElement('template');
-shadowTmpl.innerHTML = `
-    <style>:host { display:none; }</style>
-    <slot></slot>
-`;
-
-/**
- * Private function to download route templates from the [src] attribute.
- *
- * @param {UrlHashRouter} router
- * @param {HTMLElement} view
- * @param {UrlHashRoute} route
- * @param {object} urlParams
- */
-function downloadTemplate(router, view, route, urlParams) {
-    // Validate
-    const url = route.src;
-    if (url === null || url === '') {
-        const error = `Missing <template> or [src] attribute for route <${route.tagName.toLowerCase()} path="${route.path}">.`;
-        showError(view, error);
-        router.dispatchEvent(new CustomEvent(appEvents.error, { bubbles: true, detail: error }));
-        router.dispatchEvent(new CustomEvent(appEvents.routeChanged, { bubbles: true, detail: { url: router._currentRoute.path, urlParams } }));
-        return;
-    }
-
-    // Download HTML Template from [src]
-    fetch(url, {
-        mode: 'cors',
-        cache: 'no-store',
-        credentials: 'same-origin',
-    })
-    .then(response => {
-        const status = response.status;
-        if ((status >= 200 && status < 300) || status === 304) {
-            return Promise.resolve(response);
-        } else {
-            const error = 'Error loading data. Server Response Code: ' + status + ', Response Text: ' + response.statusText;
-            return Promise.reject(error);
-        }
-    })
-    .then(response => {
-        return response.text();
-    })
-    .then(html => {
-        route.template = html;
-        setView(router, view, html, urlParams);
-    })
-    .catch(error => {
-        const text = render`Error with <${route.tagName.toLowerCase()} path="${route.path}"> - Error Downloading Template: [${url}], Error: ${error}`;
-        showError(view, text);
-        router.dispatchEvent(new CustomEvent(appEvents.error, { bubbles: true, detail: text }));
-    });
-}
-
-/**
- * Private function called when the route changes
- *
- * @param {UrlHashRouter} router
- * @param {HTMLElement} view
- * @param {string} html
- * @param {object} urlParams
- */
-function setView(router, view, html, urlParams) {
-    // Set view html
-    view.innerHTML = html;
-
-    // Update all elements with [url-params] attribute with a JSON object
-    let elements = view.querySelectorAll('[url-params]');
-    const jsonUrlParams = JSON.stringify(urlParams);
-    for (const element of elements) {
-        element.setAttribute('url-params', jsonUrlParams);
-    }
-
-    // Update value/textContent for all elements with [url-param] attribute
-    elements = view.querySelectorAll('[url-param]');
-    for (const element of elements) {
-        const field = element.getAttribute('url-param');
-        const value = (urlParams[field] === undefined ? '' : urlParams[field]);
-        setElementText(element, value);
-    }
-
-    // Update all elements with the [url-attr-param] attribute.
-    // This will typically be used to replace <a href> and other
-    // attributes with values from the URL.
-    elements = view.querySelectorAll('[url-attr-param]');
-    for (const element of elements) {
-        bindAttrTmpl(element, 'url-attr-param', urlParams);
-    }
-
-    // For Safari, Samsung Internet, and Edge
-    polyfillCustomElements();
-
-    // Custom Event
-    router.dispatchEvent(new CustomEvent(appEvents.routeChanged, { bubbles: true, detail: { url: router._currentRoute.path, urlParams } }));
-}
+import {
+    shadowTmpl,
+    setupRouting,
+    downloadTemplate,
+    setView,
+    routeMatches,
+    showFatalError,
+    lazyLoadScripts
+} from './utils-router.js';
 
 /**
  * Class for <url-hash-router> Custom Element
@@ -169,20 +74,9 @@ class UrlHashRouter extends HTMLElement {
         // custom properties such as [path] will not be available.
         await componentsAreDefined(this, 'url-hash-route');
 
-        // Reset
+        // Setup Routing
         this._currentRoute = null;
-
-        // Make sure that the view element exists
-        const selector = this.getAttribute('view-selector');
-        if (selector === null || selector === '') {
-            this.showFatalError('Error, element <url-hash-router> is missing attribute [view-selector]');
-            return;
-        }
-        const view = document.querySelector(selector);
-        if (view === null) {
-            this.showFatalError(render`Error, element from <url-hash-router view-selector="${selector}"> was not found on the page.`);
-            return;
-        }
+        const view = setupRouting(this);
 
         // Get Hash (and remove the hash '#' character)
         let hash = window.location.hash;
@@ -198,18 +92,22 @@ class UrlHashRouter extends HTMLElement {
         let defaultRoute = null;
         for (const route of routes) {
             if (route.path === null) {
-                this.showFatalError('Error, element <url-hash-route> is missing attribute [path]');
+                showFatalError(this, 'Error, element <url-hash-route> is missing attribute [path]');
                 console.log(route);
                 return;
             }
-            const result = this.routeMatches(hash, route.path);
+            const result = routeMatches(hash, route.path);
             if (result.isMatch) {
                 // Redirect Route?
                 const redirect = route.redirect;
-                if (redirect !== null) {
+                if (redirect !== null && redirect !== window.location.pathname) {
                     window.location.hash = '#' + redirect;
                     return;
                 }
+
+                // Dynamically load scripts from [lazy-load]
+                await lazyLoadScripts(route);
+
                 // Show Route from <template>, for routes that use [src]
                 // the HTML will be downloaded and set to <template> the
                 // first time the route is accessed.
@@ -239,71 +137,6 @@ class UrlHashRouter extends HTMLElement {
         // No matching and no default route
         const error = `Error - The route [${hash}] does not have a matching <url-hash-route> element and no default route is defined using [default-route].`;
         showError(view, error);
-    }
-
-    /**
-     * Check if a Route path is a match to a specified URL hash.
-     *
-     * Examples:
-     *     routeMatches('/page1', '/page2')
-     *         returns { isMatch:false }
-     *
-     *     routeMatches('/orders/edit/123', '/:record/:view/:id')
-     *         returns {
-     *             isMatch: true,
-     *             urlParams: { record:'orders', view:'edit', id:'123' }
-     *         }
-     *
-     * @param {string} path The URL hash to compare against
-     * @param {string} routePath The route, dynamic values are prefixed with ':'
-     * @return {object}
-     */
-    routeMatches(path, routePath) {
-        const pathParts = path.split('/');
-        const routeParts = routePath.split('/');
-        const m = pathParts.length;
-        const urlParams = {};
-
-        // Quick check if path and route parts are equal
-        if (m !== routeParts.length) {
-            return { isMatch: false };
-        } else {
-            // Compare each route part
-            for (let n = 0; n < m; n++) {
-                // Get the path value (e.g.: 'order/edit/123' = [ 'order', 'edit', '123' ])
-                const value = decodeURIComponent(pathParts[n]);
-
-                // Compare to the route path
-                if (value !== routeParts[n]) {
-                    // If different then does the route path begin with ':'?
-                    // If so it is a parameter and if not the route does not match.
-                    if (routeParts[n].substr(0, 1) === ':') {
-                        urlParams[routeParts[n].substr(1)] = value;
-                    } else {
-                        return { isMatch: false };
-                    }
-                }
-            }
-        }
-
-        // If code reaches then route matches
-        return { isMatch: true, urlParams: urlParams };
-    }
-
-    /**
-     * Show an error in the element. This is used for fatal errors related to setup.
-     * @param {string} message
-     */
-    showFatalError(message) {
-        this.style.display = 'block';
-        this.style.padding = '1em';
-        this.style.backgroundColor = 'red';
-        this.style.color = 'white';
-        this.style.fontSize = '1.5em';
-        this.textContent = message;
-        this.dispatchEvent(new CustomEvent(appEvents.error, { bubbles: true, detail: message }));
-        this.dispatchEvent(new CustomEvent(appEvents.routeChanged, { bubbles: true, detail: { url:null, urlParams:null } }));
-        console.error(message);
     }
 }
 
