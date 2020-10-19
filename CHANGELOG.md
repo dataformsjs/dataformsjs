@@ -471,7 +471,7 @@ Most breaking changes are minor and only expected to affect internal API's and e
   * Added a new `afterFilter` property to allow applications to define a custom events once data is filtered
   * Previously if using a label to show filter results from [filter-results-selector] both [filter-results-text-all] and [filter-results-text-filtered] were required; now only one property is required.
 * DataFormsJS Framework Object `DataFormsJS.js`
-  * Added `app.settings.lazyLoadingViewSelector` to allow for loading screens between page views when using `app.lazyLoad`. In most cases loading logic is used on actual page content however this helps with the user experince to indicate page change on slow mobile devices and scripts are being loaded.
+  * Added `app.settings.lazyTemplateSelector` to allow for loading screens between page views when using `app.lazyLoad`. In most cases loading logic is used on actual page content however this helps with the user experince to indicate page change on slow mobile devices and scripts are being loaded.
   * Added `Array.prototype.find` to Polyfill Bundle for Legacy Browsers
 
 ## 3.6.2 (February 25, 2020)
