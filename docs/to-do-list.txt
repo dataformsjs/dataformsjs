@@ -41,13 +41,6 @@ TODO List
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/sortable-table.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
-        - Look into minor issue that was found in development
-            http://127.0.0.1:8080/countries-no-spa-js
-            https://www.dataformsjs.com/examples/countries-no-spa-js.htm
-            - From DevTools:
-                app.activeJsControls
-            - 3 items are returned but 2 are expected. The <data-table> is duplicated in memory. This likely
-                doesn't cause any problems but should be fixed regardless.
         - Must verify new [defineExtendsPolyfill] with the versions of Safari or other Legacy modern browsers
         - Look into adding a Search Screen for the places demos on Web and JS
             - Add here if it makes sense:
@@ -180,6 +173,8 @@ TODO List
             then the new 'utils-routing.js' file could be merged back as well. If merging back then likely
             make `loadScripts()` and any other function that might be usefull for an app to call a function
             that can be called from the element.
+        - Test mixing Framework and Web Components, likely provide an error alert from Web Components if that
+            happens. Currently the intention is to use one or the other.
         - Before release look for all files with: <script src="../js/  and point them to the AWS S3 site for testing
             Then after release update and test all pages to use standard CDN
         - Update and Test Playground Templates before Release, changes needed:

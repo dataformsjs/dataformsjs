@@ -1326,6 +1326,7 @@
             //     app.refreshPlugins();
             //
             function reload() {
+                /* jshint validthis: true */
                 if (typeof this.onRouteUnload === 'function') {
                     this.onRouteUnload();
                 }
@@ -2100,6 +2101,7 @@
                     renderTemplate(control, null, template, model);
                     if (!isUpdatingView) {
                         app.loadAllJsControls(control, model);
+                        app.unloadUnattachedJsControls();
                     }
                     if (!isUpdatingAllControls) {
                         app.refreshPlugins(control);
@@ -2377,23 +2379,51 @@
          */
         unloadAllJsControls: function () {
             app.activeJsControls.forEach(function(jsControl) {
-                var control = app.controls[jsControl.control];
-                if (control.onUnload !== undefined) {
-                    try {
-                        control.onUnload.call(jsControl.data, jsControl.element);
-                    } catch (e) {
-                        var name = 'Unknown Control';
-                        if (jsControl.element) {
-                            name = jsControl.element.getAttribute('data-control');
-                            name = (name ? name : 'Unknown Control');
-                        }
-                        app.showErrorAlert('Error with JavaScript Control [' + name + '] in function [onUnload()]: ' + e.toString());
-                        console.error(e);
-                    }
-                }
-                jsControl.element.removeAttribute('data-control-loaded');
+                app.unloadJsControl(jsControl);
             });
             app.activeJsControls = [];
+        },
+
+        /**
+         * Unload JavaScript Controls that are no longer attached to the DOM.
+         * This happen can when nested controls re-render content. For example
+         * if the <json-data> control updates a <data-table> or <data-list>
+         * after fetching data. This gets called automatically if an app or
+         * site manually calls `app.refreshHtmlControl()`.
+         */
+        unloadUnattachedJsControls: function () {
+            // Loop backwards so items can simply be removed from the array
+            for (var n = app.activeJsControls.length; n > 0; n--) {
+                if (!document.body.contains(app.activeJsControls[n-1].element)) {
+                    var removed = app.activeJsControls.splice(n - 1, 1);
+                    app.unloadJsControl(removed[0]);
+                }
+            }
+        },
+
+        /**
+         * Unload a JavaScript Control. This function is used internally by
+         * `unloadAllJsControls()` and `unloadUnattachedJsControls()`. In most
+         * cases an external site would not call this function directly.
+         *
+         * @param {object} jsControl
+         */
+        unloadJsControl: function (jsControl) {
+            var control = app.controls[jsControl.control];
+            if (control.onUnload !== undefined) {
+                try {
+                    control.onUnload.call(jsControl.data, jsControl.element);
+                } catch (e) {
+                    var name = 'Unknown Control';
+                    if (jsControl.element) {
+                        name = jsControl.element.getAttribute('data-control');
+                        name = (name ? name : 'Unknown Control');
+                    }
+                    app.showErrorAlert('Error with JavaScript Control [' + name + '] in function [onUnload()]: ' + e.toString());
+                    console.error(e);
+                }
+            }
+            jsControl.element.removeAttribute('data-control-loaded');
         },
 
         /**

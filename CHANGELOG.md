@@ -25,6 +25,7 @@ Overall the core Framework files and API are expected to remain stable however t
   * Update API to include `model` as a parameter in `control.onLoad(element, model)`
   * Specific controls `<data-table>` and `<data-list>` have significant new functionality based on the matching Web Components that allows for basic templating from HTML. The template syntax is based on JavaScript template literals (template strings) and with the new features basic sites or apps that previously required Handlebars or Vue for templating could possibly use these instead.
   * Data Attributes for JavaScript controls will not use boolean data types when "true" or "false" are specified. This was created for the new `data-load-only-once` attribute added to `js/controls/json-data.js` for compatability with the Web Components version.
+  * Added new functions `app.unloadUnattachedJsControls()` and `app.unloadJsControl(jsControl)`. They are mostly for internal use but are available for advanced usage if needed.
 * Image Gallery Update for Overlay when `title/alt` is not used:
   * All versions updated (Web Component, Framework Plugin, React)
   * By default if title is not used the position `{index}/{end}` is displayed. Previously it aligned to the left of the screen. Now it will be aligned in the right of the screen only if title is missing which matches the behavior if the title is included
@@ -34,7 +35,9 @@ Overall the core Framework files and API are expected to remain stable however t
 
 ### Breaking Changes
 
-Most breaking changes are minor and only expected to affect internal API's and examples. Several Framework "JavaScript Controls" were updated to match behavior of the Web Components in order to provide more features and so they can be used with the new Web Components Polyfill. If you developed a site or app with any of the breaking changes they are quick to update.
+For the standard Framework most breaking changes are minor and only expected to affect internal API's and examples. Several Framework "JavaScript Controls" were updated to match behavior of the Web Components in order to provide more features and so they can be used with the new Web Components Polyfill. If you developed a site or app with any of the breaking changes they are quick to update.
+
+The Web Components have the most complex breaking changes related to API usage however due to the complexity of the earlier API it's unlikely to affect any site. If a site did use the ealier API it is generally quick to update as well.
 
 * `js/web-components/utils.js` - Removed `showOldBrowserWarning()`. The feature has been replaced with the new `js/web-components/polyfill.js` and a function `usingWebComponentsPolyfill()`
 * Web Components API for `<json-data>`, `<url-hash-router>`, and `<url-router>` has been changed. Previously the API required `async/await` from module JavaScript and was complex to use. It has now been simplified so that events bubble up to the document can be handled easily from the root document event listener.
