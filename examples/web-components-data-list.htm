@@ -22,8 +22,9 @@
             <is-loaded>
                 <main>
                     <!--
-                        By default a basic <ul> list will be created. [root-class]
-                        is optional and if defined will be added to the <ul> element.
+                        By default a basic <ul> list will be created. [root-attr]
+                        is optional and if defined will be added to the <ul> element
+                        or element defined in [root-element] (optional).
 
                         Because `countries` is an array of objects using a basic:
                             <li>{this}<li>
@@ -32,7 +33,7 @@
                     -->
                     <data-list
                         data-bind="countries"
-                        root-class="items">
+                        root-attr="class=items">
                     </data-list>
 
                     <!--
@@ -52,7 +53,7 @@
                         data-bind="countries"
                         template-selector="#list-template"
                         root-element="ul"
-                        root-class="items">
+                        root-attr="class=items">
                     </data-list>
 
                     <!--

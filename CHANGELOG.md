@@ -6,6 +6,12 @@ Overall the core Framework files and API are expected to remain stable however t
 
 ## Next Release (changes on main/master branch and not yet published to npm)
 
+### Current Development
+
+* See comments at the top of the file: https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt
+* Many updates are being made and in active development (2020-10-20)
+* The next release will likely be published sometime in November of 2020
+
 ### Release Overview
 
 * Many many updates are made for overall improvements of DataFormsJS Web Components
@@ -20,6 +26,7 @@ Overall the core Framework files and API are expected to remain stable however t
   * Added `app.updateTemplatesForIE()`
   * Added features in `js/plugins/dataBind.js` based on the Web Components version.
   * New file `js/extensions/format.js` which is used with the Web Components Polyfill
+  * Updated `js/plugins/filter.js` so that it shows 0 count for empty tables. Previously it expected the table to have at least one `<tbody>` element.
 * Enhancements for "JavaScript Controls" in the standard Framework. The Framework JavaScript Controls are a similar concept to Web Components.
   * Added ability to easily reload  by calling `app.activeJsControls(control)`. Updating already loaded controls is not common but can be used in very specific scenarios. For example the new Web Components Polyfill uses it.
   * Update API to include `model` as a parameter in `control.onLoad(element, model)`
@@ -72,7 +79,11 @@ The Web Components have the most complex breaking changes related to API usage h
   ~~~
   * See code comments in examples for more:
     * `http://127.0.0.1:8080/places-demo-js` - https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-js.htm
-* `js/controls/data-list.js` - Replaced `data-source` with `data-bind` and now `<data-list>` will be converted to a `<div>` with a `<ul>` in the `<div>` instead of converting to a `<ul>` directly. Additionaly `<template>` support has been added.
+* `js/controls/data-list.js`
+  * Replaced `data-source` with `data-bind` and now `<data-list>` will be converted to a `<div>` with a `<ul>` in the `<div>` instead of converting to a `<ul>` directly.
+  * `<template>` support has been added.
+* `js\web-components\data-list.js`
+  * Removed `root-class` attribute and replaced it with `root-attr` which allows for any attribute
 * Rename `jsPlugins.js` function `refreshJsPlugins()` to `refreshPlugins()` so it matches the standard Framework.
   * Affects Web Components and React
   * `js/web-components/jsPlugins.js`

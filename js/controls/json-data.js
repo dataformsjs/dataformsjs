@@ -423,9 +423,15 @@
                     app.refreshHtmlControl(element);
                 }
             } else {
-                // Otherwise no template, so just bind or show error
+                // Otherwise no template, so just update screen (HTML Controls, plugins) or show error
                 if (error === undefined) {
-                    app.refreshPlugins(element);
+                    if (control.clickSelector !== null && element.children.length === 0) {
+                        app.refreshAllHtmlControls(function() {
+                            app.refreshPlugins(element);
+                        });
+                    } else {
+                        app.refreshPlugins(element);
+                    }
                 } else {
                     app.showError(element, error);
                 }

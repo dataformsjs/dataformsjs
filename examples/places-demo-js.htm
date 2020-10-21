@@ -43,6 +43,7 @@
                 <h1 data-i18n="Countries"></h1>
 
                 <nav>
+                    <a href="#/en/search" data-i18n="Search" data-i18n-href></a>
                     <a href="#/en/info" data-i18n="Info" data-i18n-href></a>
                 </nav>
 
@@ -133,6 +134,15 @@
         </template>
 
         <template
+            data-route="/:lang/search"
+            data-page="jsonData"
+            data-url="https://www.dataformsjs.com/data/geonames/countries?order_by=country"
+            data-load-only-once="true"
+            data-lazy-load="json_data, keydownAction, data_list"
+            data-src="html/search-places-js.htm">
+        </template>
+
+        <template
             data-route="/:lang/info"
             data-src="html/places-info-js.htm">
         </template>
@@ -162,6 +172,10 @@
             // they are downloaded asynchronous however items in the array are download only after
             // the previous item is loaded.
             app.lazyLoad = {
+                // keydownAction: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/keydownAction.min.js',
+                // json_data: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/controls/json-data.min.js',
+                keydownAction: '../js/plugins/keydownAction.js',
+                json_data: '../js/controls/json-data.js',
                 leafletCss: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.css',
                 leafletJs: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.js',
                 // leafletPlugin: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/leaflet.min.js',

@@ -164,12 +164,21 @@
         } else {
             // Filtering a single table?
             // If so and it is setup to use CSS from the Sorting Pluing then use those settings.
-            if (settings.items.length === 1 && settings.items[0].tagName === 'TABLE' && settings.items[0].tBodies.length === 1) {
+            if (settings.items.length === 1 && settings.items[0].tagName === 'TABLE') {
                 table = settings.items[0];
-                settings.items = table.tBodies[0].rows;
-                if (settings.cssOdd === null && settings.cssEven === null) {
-                    settings.cssOdd = table.getAttribute('data-sort-class-odd');
-                    settings.cssEven = table.getAttribute('data-sort-class-even');
+                switch (table.tBodies.length) {
+                    case 0:
+                        settings.items = []; // Empty table
+                        break;
+                    case 1:
+                        settings.items = table.tBodies[0].rows;
+                        if (settings.cssOdd === null && settings.cssEven === null) {
+                            settings.cssOdd = table.getAttribute('data-sort-class-odd');
+                            settings.cssEven = table.getAttribute('data-sort-class-even');
+                        }
+                        break;
+                    default:
+                        console.warn('Unexpected Table format for Filter Plugin. Only 1 <tbody> element is supported.');
                 }
             }
         }

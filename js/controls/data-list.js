@@ -32,7 +32,7 @@
             bind: null,
             templateSelector: null,
             rootElement: null,
-            rootClass: null,
+            rootAttr: null,
             errorClass: null,
         },
 
@@ -63,6 +63,26 @@
                 }
             }
 
+            function getAttrHtml() {
+                if (control.rootAttr === null) {
+                    return '';
+                }
+                var rootAttr = control.rootAttr.split(',').map(function(s) { return s.trim(); });
+                var html = '';
+                for (var n = 0, m = rootAttr.length; n < m; n++) {
+                    var attr = rootAttr[n];
+                    var pos = attr.indexOf('=');
+                    if (pos > 1) {
+                        var name = attr.substr(0, pos).trim();
+                        var value = attr.substr(pos+1).trim();
+                        html += ' ' + app.escapeHtml(name) + '="' + app.escapeHtml(value) + '"';
+                    } else {
+                        html += ' ' + app.escapeHtml(attr);
+                    }
+                }
+                return html;
+            }
+
             // Get Table from the Model. If using format of "object.prop"
             // then the [dataBind] plugin (if available) will used to get the data.
             var list = (model && model[this.bind] ? model[this.bind] : null);
@@ -73,16 +93,27 @@
                 return '';
             }
 
-            // Root Element is optional and only used if a template is used
-            if (this.rootElement !== null) {
-                if (this.rootClass === null) {
-                    html.push('<' + app.escapeHtml(this.rootElement) + '>');
-                } else {
-                    html.push('<' + app.escapeHtml(this.rootElement) + ' class="' + app.escapeHtml(this.rootClass) + '">');
-                }
-            }
-
+            // Build content under <data-list> using either a template or a basic <ul> 
             if (this.templateSelector) {
+                // Root Element is optional and only used if a template is used
+                if (this.rootElement !== null) {
+                    if (this.rootElement !== this.rootElement.toLowerCase()) {
+                        addError('<data-list [root-element="name"]> must be all lower-case. Value used: [' + this.rootElement + ']');
+                        closeElement();
+                        return html.join('');
+                    } else if (this.rootElement.indexOf(' ') !== -1) {
+                        addError('<data-list [root-element="name"]> cannot contain a space. Value used: [' + this.rootElement + ']');
+                        closeElement();
+                        return html.join('');
+                    } else if (/[&<>"'/]/.test(this.rootElement) !== false) {
+                        addError('<data-list [root-element="name"]> cannot contain HTML characters that need to be escaped. Invalid characters are [& < > " \' /]. Value used: [' + this.rootElement + ']');
+                        closeElement();
+                        return html.join('');
+                    }
+                    html.push('<' + app.escapeHtml(this.rootElement) + getAttrHtml() + '>');
+                }
+                
+                // Get the template
                 var template = document.querySelector(this.templateSelector);
                 if (!template) {
                     addError('Error <data-list> Template not found from selector: ' + this.templateSelector);
@@ -142,19 +173,15 @@
                         addError('Error Rendering Template - ' + e.message);
                     }
                 }
+                closeElement();
             } else {
                 // Basic <ul> list
-                if (this.rootClass === null) {
-                    html.push('<ul>');
-                } else {
-                    html.push('<ul class="' + app.escapeHtml(this.rootClass) + '">');
-                }
+                html.push('<ul' + getAttrHtml() + '>');
                 for (var n = 0, m = list.length; n < m; n++) {
                     html.push('<li>' + app.escapeHtml(list[n]) + '</li>');
                 }
                 html.push('</ul>');
             }
-            closeElement();
             return html.join('');
         },
     };

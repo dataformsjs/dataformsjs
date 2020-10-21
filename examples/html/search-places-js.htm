@@ -1,0 +1,91 @@
+<div class="is-loading" data-template-id="loading-screen"></div>
+<div class="has-error" data-template-id="error-screen"></div>
+<div class="is-loaded flex-col">
+    <h1 data-i18n="Search"></h1>
+
+    <nav>
+        <a href="#/en/" data-i18n="Countries" data-i18n-href></a>
+    </nav>
+
+    <form class="search">
+        <input data-bind="country" list="country-list" placeholder="-- Select a Country (Optional) --" data-i18n-attr="placeholder">
+        <data-list
+            data-bind="countries"
+            data-root-element="datalist"
+            data-root-attr="id=country-list"
+            data-template-selector="#country-item">
+        </data-list>
+        <template id="country-item">
+            <option value="${iso}">${country}</option>
+        </template>
+
+        <input
+            data-bind="city"
+            data-enter-key-click-selector=".btn-search"
+            placeholder="Search for a City, example 'Paris' or 'London'"
+            data-i18n-attr="data-placeholder">
+
+        <!--
+            When the search button is clicked on the <json-data> element will be triggered
+            based on [data-click-selector] and related properties in [app.activeVueModel]
+            will be updated to change the DOM as would be expected.
+        -->
+        <button class="btn-search" type="button" data-i18n="Search"></button>
+        <json-data
+            data-url="https://www.dataformsjs.com/data/geonames/search?country=:country&city=:city"
+            data-click-selector=".btn-search"
+            data-model-prop="search">
+        </json-data>
+    </form>
+
+    <!--
+        For the [data-show] attributes the property `search` only gets defined
+        once the user clicks on the search button. Defined above based on:
+            [data-model-prop="search"]
+    -->
+    <div class="flex-col" data-show="typeof search === 'object'">
+        <!--
+        <div class="is-loading" data-template-id="loading-screen"></div>
+        <div class="has-error">
+            <div><span data-i18n="Error"></span> - <span data-bind="search.errorMessage"></span></div>
+        </div>
+        <div class="is-loaded flex-col">
+        -->
+            <h2><span data-bind="search.cities.length"></span> <span data-i18n="Cities Found"></span></h2>
+
+            <div data-show="typeof search === 'object' && search.cities && search.cities.length > 0" class="flex-col">
+                <input data-filter-selector="table"
+                    data-filter-results-text-selector="h2"
+                    data-filter-results-text-all="{totalCount} Cities Found"
+                    data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Cities"
+                    placeholder="Enter filter"
+                    data-i18n-attr="data-filter-results-text-all, data-filter-results-text-filtered, placeholder">
+        
+            <div class="responsive-table">
+                <data-table
+                    data-bind="search.cities"
+                    data-labels="Country, Name, Population, Elevation, Timezone, Date Last Modified"
+                    data-i18n-attr="data-labels"
+                    data-table-attr="
+                        class=click-to-highlight,
+                        data-sort
+                        data-sort-class-odd=row-odd,
+                        data-sort-class-even=row-even">
+                    <script type="text/x-template">
+                        <tr>
+                            <td>
+                                <i class="${country_code.toLowerCase()} flag"></i>
+                                <span>${country_code}</span>
+                            </td>
+                            <td><a href="#/${app.activeModel.i18n_Locale}/city/${geonames_id}">${name}</a></a></td>
+                            <td class="align-right" data-value="${population}">${format.number(population)}</td>
+                            <td class="align-right" data-value="${elevation}">${formatElevation(elevation)}</td>
+                            <td>${timezone}</td>
+                            <td class="align-right">${format.date(modification_date)}</td>
+                        </tr>
+                    </script>
+                </data-table>
+            </div>
+        <!-- </div> -->
+    </div>
+</div>

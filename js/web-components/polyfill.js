@@ -84,7 +84,7 @@
             });
         },
         dataList: function(element) {
-            updateElements.dataAttributes(element, ['template-selector', 'root-element', 'root-class', 'error-class'])
+            updateElements.dataAttributes(element, ['template-selector', 'root-element', 'root-attr', 'error-class'])
         },
         dataTable: function(element) {
             updateElements.dataAttributes(element, ['highlight-class', 'labels', 'columns', 'table-attr', 'highlight-class']);

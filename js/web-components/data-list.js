@@ -20,7 +20,7 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
-import { render, usingWebComponentsPolyfill } from './utils.js';
+import { render, showError, usingWebComponentsPolyfill } from './utils.js';
 import { Format } from './utils-format.js';
 
 /**
@@ -89,10 +89,26 @@ class DataList extends HTMLElement {
             return;
         }
 
+        // Build Attributes for Root Element
+        let rootAttr = this.getAttribute('root-attr');
+        let rootAttrHtml = '';
+        if (rootAttr) {
+            rootAttr = rootAttr.split(',').map(s => s.trim());
+            for (const attr of rootAttr) {
+                const pos = attr.indexOf('=');
+                if (pos > 1) {
+                    const name = attr.substr(0, pos).trim();
+                    const value = attr.substr(pos+1).trim();
+                    rootAttrHtml += render` ${name}="${value}"`;
+                } else {
+                    rootAttrHtml += render` ${attr}`;
+                }
+            }
+        }
+
         // List Items
         const html = [];
         const templateSelector = this.getAttribute('template-selector');
-        const rootClass = this.getAttribute('root-class');
         if (templateSelector !== null) {
             // Get and validate the template
             const template = document.querySelector(templateSelector);
@@ -112,11 +128,21 @@ class DataList extends HTMLElement {
             // Root Element is optional and only used if a template is used
             const rootElement = this.getAttribute('root-element');
             if (rootElement !== null) {
-                if (rootClass === null) {
-                    html.push(render`<${rootElement}>`);
-                } else {
-                    html.push(render`<${rootElement} class="${rootClass}">`);
+                if (rootElement !== rootElement.toLowerCase()) {
+                    showError(this, '<data-list [root-element="name"]> must be all lower-case. Value used: [' + rootElement + ']');
+                    this.removeAttribute('not-setup');
+                    return;
+                } else if (rootElement.indexOf(' ') !== -1) {
+                    showError(this, '<data-list [root-element="name"]> cannot contain a space. Value used: [' + rootElement + ']');
+                    this.removeAttribute('not-setup');
+                    return;
+                } else if (/[&<>"'/]/.test(rootElement) !== false) {
+                    showError(this, '<data-list [root-element="name"]> cannot contain HTML characters that need to be escaped. Invalid characters are [& < > " \' /]. Value used: [' + rootElement + ']');
+                    this.removeAttribute('not-setup');
+                    return;
                 }
+                // Values are already escaped - no need to use `render`
+                html.push(`<${rootElement}${rootAttrHtml}>`);
             }
 
             // Render each item in the template. A new function is dynamically created that simply
@@ -157,11 +183,7 @@ class DataList extends HTMLElement {
             }
         } else {
             // Basic <ul> list
-            if (rootClass === null) {
-                html.push('<ul>');
-            } else {
-                html.push(render`<ul class="${rootClass}">`);
-            }
+            html.push(`<ul"${rootAttrHtml}">`);
             for (const item of list) {
                 html.push(render`<li>${item}</li>`);
             }
