@@ -424,15 +424,14 @@
                 }
             } else {
                 // Otherwise no template, so just update screen (HTML Controls, plugins) or show error
-                if (error === undefined) {
-                    if (control.clickSelector !== null && element.children.length === 0) {
-                        app.refreshAllHtmlControls(function() {
-                            app.refreshPlugins(element);
-                        });
-                    } else {
-                        app.refreshPlugins(element);
-                    }
+                if (control.clickSelector !== null && element.children.length === 0) {
+                    app.refreshAllHtmlControls(function() {
+                        app.refreshPlugins();
+                    });
                 } else {
+                    app.refreshPlugins(element);
+                }
+                if (error !== undefined) {
                     app.showError(element, error);
                 }
             }

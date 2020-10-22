@@ -42,15 +42,18 @@
         For the [data-show] attributes the property `search` only gets defined
         once the user clicks on the search button. Defined above based on:
             [data-model-prop="search"]
+
+        Additionally instead of using the <json-data> classes "is-loading, has-error, is-loaded"
+        the code below uses [data-show] since the HTML content is not within the <json-data> element.
+        This usage helps verify different options for <json-data> but for most apps using Handlebars or Vue
+        with the standard Framework is recommend over no templating engine for complex apps.
     -->
     <div class="flex-col" data-show="typeof search === 'object'">
-        <!--
-        <div class="is-loading" data-template-id="loading-screen"></div>
-        <div class="has-error">
-            <div><span data-i18n="Error"></span> - <span data-bind="search.errorMessage"></span></div>
+        <div data-show="typeof search === 'object' && search.isLoading" data-template-id="loading-screen"></div>
+        <div data-show="typeof search === 'object' && search.hasError">
+            <div class="error"><span data-i18n="Error"></span> - <span data-bind="search.errorMessage"></span></div>
         </div>
-        <div class="is-loaded flex-col">
-        -->
+        <div data-show="typeof search === 'object' && search.isLoaded" class="flex-col">
             <h2><span data-bind="search.cities.length"></span> <span data-i18n="Cities Found"></span></h2>
 
             <div data-show="typeof search === 'object' && search.cities && search.cities.length > 0" class="flex-col">
@@ -60,7 +63,8 @@
                     data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Cities"
                     placeholder="Enter filter"
                     data-i18n-attr="data-filter-results-text-all, data-filter-results-text-filtered, placeholder">
-        
+            </div>
+
             <div class="responsive-table">
                 <data-table
                     data-bind="search.cities"
@@ -86,6 +90,6 @@
                     </script>
                 </data-table>
             </div>
-        <!-- </div> -->
+        </div>
     </div>
 </div>

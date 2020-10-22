@@ -8,6 +8,7 @@ Overall the core Framework files and API are expected to remain stable however t
 
 ### Current Development
 
+* The next release will contain breaking changes so it will be published as `5.0.0`
 * See comments at the top of the file: https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt
 * Many updates are being made and in active development (2020-10-20)
 * The next release will likely be published sometime in November of 2020
@@ -26,8 +27,8 @@ Overall the core Framework files and API are expected to remain stable however t
   * Added `app.updateTemplatesForIE()`
   * Added features in `js/plugins/dataBind.js` based on the Web Components version.
   * New file `js/extensions/format.js` which is used with the Web Components Polyfill
-  * Updated `js/plugins/filter.js` so that it shows 0 count for empty tables. Previously it expected the table to have at least one `<tbody>` element.
-* Enhancements for "JavaScript Controls" in the standard Framework. The Framework JavaScript Controls are a similar concept to Web Components.
+  * Updated `js/plugins/filter.js` so that it shows 0 count for empty tables. Previously it expected the table to have at least one `<tbody>` element. A similar update was made for `js/web-components/input-filter.js`
+* Enhancements for "JavaScript Controls" in the standard Framework. The Framework JavaScript Controls are a similar concept to Web Components but work with all Browsers.
   * Added ability to easily reload  by calling `app.activeJsControls(control)`. Updating already loaded controls is not common but can be used in very specific scenarios. For example the new Web Components Polyfill uses it.
   * Update API to include `model` as a parameter in `control.onLoad(element, model)`
   * Specific controls `<data-table>` and `<data-list>` have significant new functionality based on the matching Web Components that allows for basic templating from HTML. The template syntax is based on JavaScript template literals (template strings) and with the new features basic sites or apps that previously required Handlebars or Vue for templating could possibly use these instead.
