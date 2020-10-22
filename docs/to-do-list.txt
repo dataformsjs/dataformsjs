@@ -41,36 +41,30 @@ TODO List
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/sortable-table.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
-        - Look into adding a Search Screen for the places demos on Web
+        - Finish adding a Search Screen for the places demos on Web
             - Add here if it makes sense:
-                http://127.0.0.1:8080/places-demo-web
+                http://127.0.0.1:8080/places-demo-web#/search
             - Based on:
                 http://127.0.0.1:8080/places-demo-js#/en/search
                 http://127.0.0.1:8080/places-demo-hbs#/en/search
                 http://127.0.0.1:8080/places-demo-vue#/en/search
-            - This may require creating a new web component (either generic or part of the app)
-            - Ideally a new [click-selector=".btn-search"] attribute can be added to the <json-data> Web Component.
-                and that the Polyfill can be updated ot handle nested <json-data> elements. Example
-                from the Framework Handlebars Demo:
-                <json-data
-                    data-url="https://www.dataformsjs.com/data/geonames/search?country=:country&city=:city"
-                    data-click-selector=".btn-search"
-                    data-template-url="html/search-places-results-hbs.htm"
-                    data-model-prop="search"
-                    class="section">
-                </json-data>
-            * Current Activity
-                - Updates for next release make it available for the [places-demo-js] demo
-                - <template> should go within the <data-list> in the [places-demo-js] demo once the feature is updated
-                - See if Web Component version can be made in a similar manner so that the [polyfill.js] will work smoothly
-                - See commented HTML code in [dataformsjs\examples\html\search-places-js.htm]
-                    - Later after Web Component version decide if it should be removed or if a seperate HTML control should
-                        be created for the JS demo like the handlebars version
+            - Search for other `TODO` comments in the source, all comments out of this file are related to the search screen
+            - Ideally data will stay in memory like the main framework (Handlebars, Vue) or React Components
+                - It's not required though so only spend a little more time on it
         - Add a new Web Component Version of the Image Classification demo?
             - This now can be possible through the new simplified API
             - Additional updates for <json-data> or other Web Components may still be required though
             - See other examples:
                 https://www.dataformsjs.com/examples/image-classification-hbs.htm#/en/
+            - While working on this likely make an update so JSON data is either passed in a CustomEvent `detail` or a function param.
+                Event Detail Example:
+                    document.addEventListener('app:contentReady', function(event) {
+                        console.log(event.detail)
+                    });
+                Function Param Example:
+                    document.addEventListener('app:contentReady', function(event, data) {
+                        console.log(data)
+                    });
         - Must verify new [defineExtendsPolyfill] with the versions of Safari or other Legacy modern browsers
         - Log Demo Pages
             When using Polyfill the error currently does not show:
@@ -179,6 +173,9 @@ TODO List
             - Use <template> for <data-table>
         - Web Component Template from: https://www.dataformsjs.com/en/getting-started
             Include <nav is="spa-links"> changes from: [examples/web-components-template.htm]
+        - Test using local build with webpack
+            https://webpack.js.org/
+            - If needed after release create a demo repository showing how to use DataFormsJS with webpack
         - After new release publish here:
             https://www.webcomponents.org/publish-collection
 

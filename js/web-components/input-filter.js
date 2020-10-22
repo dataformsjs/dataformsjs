@@ -46,16 +46,22 @@ class InputFilter extends HTMLInputElement {
         // Get elements to filter. If a table is being filtred
         // then get rows under <tbody>.
         let elements = document.querySelectorAll(this.getAttribute('filter-selector'));
-        if (elements.length === 1 && elements[0].tagName === 'TABLE' &&
-            elements[0].tHead && elements[0].tHead.rows.length === 1 &&
-            elements[0].tBodies.length === 1
-        ) {
-            // For tables get [data-sort-class-odd/even] attributes which are defined
-            // from [sortable-table] or [plugins/sort.js].
+        if (elements.length === 1 && elements[0].tagName === 'TABLE') {
             const table = elements[0];
-            cssOdd = table.getAttribute('data-sort-class-odd');
-            cssEven = table.getAttribute('data-sort-class-even');
-            elements = elements[0].tBodies[0].rows;
+            switch (table.tBodies.length) {
+                case 0:
+                    elements = []; // Empty table
+                    break;
+                case 1:
+                    // For tables get [data-sort-class-odd/even] attributes which
+                    // are defined from [sortable-table] and [plugins/sort.js].
+                    elements = table.tBodies[0].rows;
+                    cssOdd = table.getAttribute('data-sort-class-odd');
+                    cssEven = table.getAttribute('data-sort-class-even');
+                    break;
+                default:
+                    console.warn('Unexpected Table format for Filter Plugin. Only 1 <tbody> element is supported.');
+            }
         }
         const totalCount = elements.length;
 

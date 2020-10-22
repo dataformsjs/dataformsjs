@@ -25,7 +25,8 @@ import {
     bindAttrTmpl,
     componentsAreDefined,
     polyfillCustomElements,
-    usingWebComponentsPolyfill
+    usingWebComponentsPolyfill,
+    showErrorAlert
 } from './utils.js';
 
 const format = new Format();
@@ -34,7 +35,6 @@ const appEvents = {
     contentReady: 'app:contentReady',
     error: 'app:error',
 };
-
 
 /**
  * Shadow DOM for Custom Elements
@@ -114,7 +114,10 @@ class JsonData extends HTMLElement {
             isLoading: this.querySelector('is-loading'),
             hasError: this.querySelector('has-error'),
             isLoaded: this.querySelector('is-loaded'),
+            clickButton: null,
         };
+
+        this.handleButtonClick = this.handleButtonClick.bind(this);
     }
 
     static get observedAttributes() {
@@ -136,6 +139,21 @@ class JsonData extends HTMLElement {
     }
 
     connectedCallback() {
+        // Handle the [click-selector] Attribute. If defined on the <json-data>
+        // Control then data is not fetched until the user clicks the element specified
+        // from the selector. This feature along with the form elements that use the
+        // attribute [data-bind] allows for search pages and forms to be developed through HTML.
+        if (this.clickSelector !== null) {
+            this.elements.clickButton = document.querySelector(this.clickSelector);
+            if (this.elements.clickButton === null) {
+                const error = 'Element not found for <json-data> Web Component using [click-selector]: ' + String(this.clickSelector);
+                showErrorAlert(error);
+            } else {
+                this.elements.clickButton.addEventListener('click', this.handleButtonClick);
+            }
+            return;
+        }
+
         // Only fetch data automatically once when the element is attached to
         // the DOM. If [removeChild] and [appendChild] are used to move the
         // element on the page this prevents the web service from being called
@@ -143,6 +161,40 @@ class JsonData extends HTMLElement {
         if (this.state !== undefined && !this.state.isLoading && !this.state.hasError && !this.state.isLoaded) {
             this.fetch();
         }
+    }
+
+    disconnectedCallback() {
+        if (this.elements.clickButton !== null) {
+            this.elements.clickButton.removeEventListener('click', this.handleButtonClick);
+            this.elements.clickButton = null;
+        }
+    }
+
+    /**
+     * Internal function used with [click-selector]
+     */
+    handleButtonClick() {
+        // Disable button while data is being fetched
+        if (typeof this.elements.clickButton.disabled === 'boolean') {
+            this.elements.clickButton.disabled = true;
+        }
+
+        // Get all form elements that have the [data-bind="{name}"] attribute
+        const elements = document.querySelectorAll('input[data-bind],select[data-bind],textarea[data-bind]');
+        const params = {};
+        for (const el of elements) {
+            const name = el.getAttribute('data-bind');
+            if (el.nodeName === 'INPUT' && el.type === 'checkbox') {
+                params[name] = el.checked;
+            } else {
+                params[name] = el.value;
+            }
+        }
+
+        // Set URL Params, this triggers `fetch`. First it must be defined
+        // before having data populated otherwise it won't trigger the fetch.
+        this.setAttribute('url-params', '');
+        this.setAttribute('url-params', JSON.stringify(params));
     }
 
     get url() {
@@ -154,8 +206,11 @@ class JsonData extends HTMLElement {
     }
 
     get loadOnlyOnce() {
-        const value = this.getAttribute('load-only-once');
-        return (value === 'true');
+        return (this.getAttribute('load-only-once') === 'true');
+    }
+
+    get clickSelector() {
+        return this.getAttribute('click-selector');
     }
 
     get isLoading() {
@@ -255,6 +310,9 @@ class JsonData extends HTMLElement {
             this.showError(error);
         })
         .finally(() => {
+            if (this.elements.clickButton !== null && typeof this.elements.clickButton.disabled === 'boolean') {
+                this.elements.clickButton.disabled = false;
+            }
             this.dispatchEvent(new Event(appEvents.contentReady, { bubbles: true }));
         });
     }
@@ -336,9 +394,25 @@ class JsonData extends HTMLElement {
                     element.style.display = (result === true ? '' : 'none');
                 } catch (e) {
                     element.style.display = '';
-                    console.error('Error evaluating JavaScript expression from [data-show] attribute.');
+                    console.error(`Error evaluating JavaScript expression from [data-show="${expression}"] attribute.`);
                     console.error(e);
                 }
+            }
+        }
+
+        // Call functions on elements that define the [data-bind-refresh] attribute.
+        // This allows for elements to be updated as needed from HTML. This will most
+        // commonly be used with [click-selector] and other Web Components. For example
+        // the places demo search screen does this with <input is="input-filter">.
+        elements = this.querySelectorAll('[data-bind-refresh]');
+        for (const element of elements) {
+            const fnName = element.getAttribute('data-bind-refresh');
+            try {
+                element[fnName]();
+            } catch (e) {
+                console.error(`Error calling function from element with [data-bind-refresh="${fnName}"].`);
+                console.error(e);
+                console.log(element);
             }
         }
 

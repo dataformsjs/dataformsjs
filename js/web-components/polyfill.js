@@ -68,7 +68,7 @@
             });
         },
         jsonData: function(element) {
-            updateElements.dataAttributes(element, ['url', 'load-only-once']);
+            updateElements.dataAttributes(element, ['url', 'load-only-once', 'click-selector']);
             var elements = ['is-loading', 'has-error', 'is-loaded'];
             elements.forEach(function(name) {
                 var el = element.querySelector(name);
@@ -102,7 +102,11 @@
             }
         },
         inputFilter: function(element) {
-            updateElements.dataAttributes(element, ['filter-selector', 'filter-results-selector', 'filter-results-text-all', 'filter-results-text-filtered']);
+            updateElements.dataAttributes(element, ['filter-selector', 'filter-results-text-all', 'filter-results-text-filtered']);
+            var selector = element.getAttribute('filter-results-selector');
+            if (selector) {
+                element.setAttribute('data-filter-results-text-selector', selector);
+            }
         },
         leafletMap: function(element) {
             element.setAttribute('data-leaflet', '');
@@ -328,6 +332,9 @@
             // IMPORTANT - if there is more than one <json-data> Web Component on the
             // page this setting [app.activeModel] may cause problems because one
             // control will overwrite the [app.activeModel] of the first.
+            // TODO - updates will likely be made here based on the Places Demo Search Screen:
+            //      http://127.0.0.1:8080/places-demo-web#/search
+            //  After the updates all pages need to be re-tested
             app.activeModel = this;
             if (app.activeController && app.activeController.modelName) {
                 app.models[app.activeController.modelName] = app.activeModel;
@@ -459,6 +466,9 @@
                         return (app.lazyLoad[item] !== undefined);
                     }).join(', ')
                 };
+                if (Object.keys(settings.lazyLoad).length === 0) {
+                    settings = undefined;
+                }
             }
 
             // Add Route as Framework Controller

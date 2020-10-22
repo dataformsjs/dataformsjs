@@ -109,18 +109,18 @@ export function setElementText(element, value) {
                 const lowerValue = String(value).toLowerCase();
                 element.checked = (lowerValue === 'true' || lowerValue === '1' || lowerValue === 'yes' || lowerValue === 'y');
             } else {
-                element.value = String(value);
+                element.value = (value === null ? '' : String(value));
             }
             break;
         case 'SELECT':
         case 'TEXTAREA':
-            element.value = String(value);
+            element.value = (value === null ? '' : String(value));
             break;
         default:
             if ((nodeName.includes('-') || element.getAttribute('is') !== null) && 'value' in element) {
                 element.value = value;
             } else {
-                element.textContent = String(value);
+                element.textContent = (value === null ? '' : String(value));
             }
     }
 }

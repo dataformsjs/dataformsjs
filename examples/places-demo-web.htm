@@ -32,6 +32,7 @@
                     <h1>Countries</h1>
 
                     <nav>
+                        <a href="#/search">Search</a>
                         <a href="#/info">Info</a>
                     </nav>
 
@@ -116,6 +117,7 @@
             <url-hash-route path="/cities/:country/:region" src="html/cities-web.htm"></url-hash-route>
             <url-hash-route path="/city/:id" src="html/place-web.htm" lazy-load="leafletCss, leafletJs, leafletWeb, leafletPlugin, data_list"></url-hash-route>
             <url-hash-route path="/info" src="html/places-info-web.htm"></url-hash-route>
+            <url-hash-route path="/search" src="html/search-places-web.htm" lazy-load="data_list"></url-hash-route>
         </url-hash-router>
 
         <template id="loading-spinner-screen">

@@ -1,0 +1,113 @@
+<json-data
+    url="https://www.dataformsjs.com/data/geonames/countries?order_by=country"
+    load-only-once="true">    
+    <is-loading>
+        <span class="loading">Loading...</span>
+    </is-loading>
+    <has-error>
+        <span class="error" data-bind="errorMessage"></span>
+    </has-error>
+    <is-loaded class="flex-col">
+        <h1>Search</h1>
+
+        <nav>
+            <a href="#/">Countries</a>
+        </nav>
+    
+        <form class="search">
+            <input data-bind="country" list="country-list" placeholder="-- Select a Country (Optional) --">
+            <data-list
+                data-bind="countries"
+                root-element="datalist"
+                root-attr="id=country-list"
+                template-selector="#country-item">
+            </data-list>
+            <template id="country-item">
+                <option value="${iso}">${country}</option>
+            </template>
+    
+            <!--
+                TODO - data-enter-key-click-selector
+                - This will likely require a new Web Component that runs after 'app:routeChanged' or 'app:contentReady' events
+                - For the standard framework this is handled by `js/plugins/keydownAction.js`
+            -->
+            <input
+                data-bind="city"
+                data-enter-key-click-selector=".btn-search"
+                placeholder="Search for a City, example 'Paris' or 'London'">
+    
+            <!--
+                When the search button is clicked on the <json-data> element will be triggered
+                based on [click-selector] and form elements that use [data-bind]
+            -->
+            <button class="btn-search" type="button">Search</button>
+        </form>
+
+        <!--
+            TODO - this feature is in active development and almost complete but has a few issues remaining:
+                - Polyfill
+                    - Inputs and the Countries List clear after search due to [app.activeModel]
+                        being set twice on the same page from [polyfill.js]
+        -->
+        <json-data
+            url="https://www.dataformsjs.com/data/geonames/search?country=:country&city=:city"
+            click-selector=".btn-search">
+            <is-loading>
+                <span class="loading">Loading...</span>
+            </is-loading>
+            <has-error>
+                <span class="error" data-bind="errorMessage"></span>
+            </has-error>
+            <!--
+                The `cities` data will not exist on initial page load from the root
+                <json-data> element but only once the search button is clicked from
+                the nested <json-data> so elements are shown or hidden based on
+                whether the value exists or not. 
+            -->
+            <is-loaded class="flex-col" data-show="typeof cities === 'object'">
+                <h2><span data-bind="cities.length"></span> <span>Cities Found</span></h2>
+
+                <!--
+                    [data-bind-refresh="function"] allows for <json-data> to refresh the
+                    control multiple times after each search. It results in the `filter()`
+                    function being called from the `input-filter` Web Component.
+                -->
+                <div data-show="typeof cities === 'object' && cities.length > 0" class="flex-col">
+                    <input
+                        is="input-filter"
+                        filter-selector="table"
+                        filter-results-selector="h2"
+                        filter-results-text-all="{totalCount} Cities Found"
+                        filter-results-text-filtered="Showing {displayCount} of {totalCount} Cities"
+                        data-bind-refresh="filter"
+                        placeholder="Enter filter">
+                </div>
+            
+                <div class="responsive-table">
+                    <data-table
+                        data-bind="cities"
+                        highlight-class="highlight"
+                        labels="Country, Name, Population, Elevation, Timezone, Date Last Modified"
+                        table-attr="
+                            is=sortable-table,
+                            data-sort-class-odd=row-odd,
+                            data-sort-class-even=row-even">
+                        <script type="text/x-template">
+                            <tr>
+                                <td>
+                                    <i class="${country_code.toLowerCase()} flag"></i>
+                                    <span>${country_code}</span>
+                                </td>
+                                <td><a href="#/city/${geonames_id}">${name}</a></a></td>
+                                <td class="align-right" data-value="${population}">${format.number(population)}</td>
+                                <td class="align-right" data-value="${elevation}">${formatElevation(elevation)}</td>
+                                <td>${timezone}</td>
+                                <td class="align-right">${format.date(modification_date)}</td>
+                            </tr>
+                        </script>
+                    </data-table>
+                </div>
+            </is-loaded>
+        </json-data>
+    </is-loaded>
+</json-data>
