@@ -41,16 +41,6 @@ TODO List
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/sortable-table.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
-        - Finish adding a Search Screen for the places demos on Web
-            - Add here if it makes sense:
-                http://127.0.0.1:8080/places-demo-web#/search
-            - Based on:
-                http://127.0.0.1:8080/places-demo-js#/en/search
-                http://127.0.0.1:8080/places-demo-hbs#/en/search
-                http://127.0.0.1:8080/places-demo-vue#/en/search
-            - Search for other `TODO` comments in the source, all comments out of this file are related to the search screen
-            - Ideally data will stay in memory like the main framework (Handlebars, Vue) or React Components
-                - It's not required though so only spend a little more time on it
         - Add a new Web Component Version of the Image Classification demo?
             - This now can be possible through the new simplified API
             - Additional updates for <json-data> or other Web Components may still be required though
@@ -71,8 +61,9 @@ TODO List
             http://127.0.0.1:8080/log-table-web#/error
         - <data-list> should also support both <template> and <script type="text/x-template">
             - This is for better IE 11 support, with the current demos it's not needed but one should be created
+        - Attempt to create <i18n-service> for the Places Demo, see other comments in this file
         - Review all comments in [js/web-components/polyfill.js] and handle all issues.
-            The file is working but still in active development.
+            The file is mostly complete and properly working but still in active development.
         - New demo page to test all features of the new [utils-format.js] file
         - Consider (likely) add multiple optional template options to <data-table>
             - If only <template> then use for row items (current)
@@ -96,7 +87,6 @@ TODO List
         - Related to current updates [dataformsjs\examples\html\cities-web.htm] now shows
             both Meters and Feet using `formatElevation(elevation)`. The other demos currently
             display meters only but should also be updated to display both.
-        - Handle and remove all `NOTE` comments in [polyfill.js] before npm publishing
         - Provide examples of how [polyfill.js].[getRootUrl()] works for documentation.
             - Or add a markdown doc for it
             - Here is an example of an defining a custom URL from the app:
@@ -171,11 +161,15 @@ TODO List
             - Include Polyfill
             - Remove old API
             - Use <template> for <data-table>
+        - leaflet-map and related scripts currently use HTTP for the map images.
+            - Can they use HTTPS for free?
+            - Need to see latest options for leaflet.
         - Web Component Template from: https://www.dataformsjs.com/en/getting-started
             Include <nav is="spa-links"> changes from: [examples/web-components-template.htm]
         - Test using local build with webpack
             https://webpack.js.org/
             - If needed after release create a demo repository showing how to use DataFormsJS with webpack
+        - Handle and remove all `NOTE` comments in [polyfill.js] before npm publishing
         - After new release publish here:
             https://www.webcomponents.org/publish-collection
 
@@ -316,6 +310,8 @@ TODO List
         simple to use. If too many features are added the size of the Web Components can
         increase a lot and grouping related features (security, shared state, etc) makes
         more sense for a Framework or React code.
+    - Long Term goal - Add Unit Testing
+        - Currently only the main Framework and the React [jsxLoader.js] have Unit Testing
     - <json-data>
         - Add support on <is-loading> for new [template-selector] attribute
             It would work similar to the <data-List> control to render the model with JavaScript template literal string:
@@ -341,9 +337,7 @@ TODO List
                 col-link-template="#/:window.i18n_Locale/regions/:iso"
             - Another option if using <i18n-service> outside of the hash router could be to define
                 [i18n-key="value"] attributes on elements that <i18n-service> would update.
-            - The <i18n-service> then might have to use JS code such as the following to handle updates
-                document.querySelector('url-hash-router').addEventListener('contentLoaded')
-                await componentsAreDefined(document)]
+            - The <i18n-service> then might might have to runs after 'app:routeChanged' or 'app:contentReady' events
             - Likely try several versions to see what makes the most sense
             - Since [polyfill.js] has been created this would need compatability with the main Framework Plugin.
             - Possible first version to try:
@@ -356,6 +350,8 @@ TODO List
                 - This version would likely be easy to make compatability with the main Framework
                 - See the new [dataformsjs\js\web-components\spa-links.js] because it handles router
                     events so if <i18n-service> it may include similar event handling.
+                - See also new file [dataformsjs\js\web-components\keydown-action-service.js] which provides
+                    a "service" to other elements on the page. <i18n-service> would use a similar "service" concept.
     - Create a new <form is="entry-form"> Component
         - A Framework JavaScript control could be created as the Polyfill. Ideally the new control
             would use functions from the main entryForm page object so it doesn't have to be duplicated.

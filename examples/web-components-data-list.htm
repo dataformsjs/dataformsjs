@@ -123,11 +123,10 @@
         </template>
 
         <script>
-            window.formatNumber = (num) => { return Number(num).toLocaleString(); };
+            function formatNumber(num) {
+                return Number(num).toLocaleString();
+            };
         </script>
-
-        <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/json-data.min.js"></script>
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/data-list.min.js"></script> -->
 
         <script type="module" src="../js/web-components/json-data.js"></script>
         <script type="module" src="../js/web-components/data-list.js"></script>

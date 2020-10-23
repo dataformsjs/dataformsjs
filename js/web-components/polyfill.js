@@ -192,7 +192,7 @@
             // If <json-data> was found it will call `updateContent()` once the
             // data is downloaded, otherwise it needs to be called directly.
             if (!hasJsonData) {
-                updateContent();
+                updateContent(document);
             }
         },
         // onRouteUnload: function() { },
@@ -202,7 +202,7 @@
      * Function that gets called after a JSON Service finishes downloading data
      * or after the page is ready once the route has been set.
      */
-    function updateContent() {
+    function updateContent(rootElement) {
         var pluginsToLoad = [];
 
         // Reload specific controls and content after
@@ -234,6 +234,7 @@
             { selector: '[is="input-filter"]', plugin: 'filter', update: updateElements.inputFilter },
             { selector: '[is="leaflet-map"]', plugin: 'leaflet', update: updateElements.leafletMap },
             { selector: 'image-gallery', plugin: 'imageGallery', update: updateElements.imageGallery },
+            { selector: '[data-enter-key-click-selector]', plugin: 'keydownAction' },
         ];
         search.forEach(function(item) {
             var element = document.querySelector(item.selector);
@@ -264,7 +265,7 @@
         });
 
         // App Event
-        dispatchEvent(document, 'app:contentReady');
+        dispatchEvent(rootElement, 'app:contentReady');
     }
 
     /**
@@ -327,20 +328,16 @@
      * Handle DataFormsJS Framework Events
      */
     function defineCustomEvents() {
-        app.controls['json-data'].onFetch = function() {
-            // Set the [app.activeModel] based downloaded data.
-            // IMPORTANT - if there is more than one <json-data> Web Component on the
-            // page this setting [app.activeModel] may cause problems because one
-            // control will overwrite the [app.activeModel] of the first.
-            // TODO - updates will likely be made here based on the Places Demo Search Screen:
-            //      http://127.0.0.1:8080/places-demo-web#/search
-            //  After the updates all pages need to be re-tested
-            app.activeModel = this;
+        app.controls['json-data'].onFetch = function(element) {
+            // Define or update the [app.activeModel] based downloaded data.
             if (app.activeController && app.activeController.modelName) {
-                app.models[app.activeController.modelName] = app.activeModel;
+                app.deepClone(app.models[app.activeController.modelName], this);
+                app.activeModel = app.models[app.activeController.modelName];
+            } else {
+                app.activeModel = this; // Non-SPA
             }
             // Update page content
-            updateContent();
+            updateContent(element);
         };
     }
 
@@ -370,7 +367,7 @@
             }
             routeSelector = 'url-route';
             // Required before `app.setup()` is called in order to use
-            // History Routes (pushState, popState)
+            // History Routes (pushState, popstate)
             document.documentElement.setAttribute('data-routing-mode', 'history');
         }
 

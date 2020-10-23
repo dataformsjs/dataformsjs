@@ -111,13 +111,15 @@
             </url-hash-route>
 
             <!--
-                The <template> source can also be downloaded dynamically when using [src]
+                The <template> source can also be downloaded dynamically when using [src].
+                Routes with [lazy-load] will dynamically download needed scripts from
+                `window.lazyLoad` near the bottom of this file only when first used.
             -->
             <url-hash-route path="/regions/:country" src="html/regions-web.htm"></url-hash-route>
             <url-hash-route path="/cities/:country/:region" src="html/cities-web.htm"></url-hash-route>
             <url-hash-route path="/city/:id" src="html/place-web.htm" lazy-load="leafletCss, leafletJs, leafletWeb, leafletPlugin, data_list"></url-hash-route>
             <url-hash-route path="/info" src="html/places-info-web.htm"></url-hash-route>
-            <url-hash-route path="/search" src="html/search-places-web.htm" lazy-load="data_list"></url-hash-route>
+            <url-hash-route path="/search" src="html/search-places-web.htm" lazy-load="data_list, keydownAction"></url-hash-route>
         </url-hash-router>
 
         <template id="loading-spinner-screen">
@@ -127,29 +129,14 @@
         </template>
 
         <!-- DataFormsJS Web Components -->
-        <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/url-hash-router.min.js"></script>
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/json-data.min.js"></script>
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/data-table.min.js"></script>
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/input-filter.min.js"></script>
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/sortable-table.min.js"></script>
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/data-list.min.js"></script>
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/leaflet-map.min.js"></script> -->
-
         <script type="module" src="../js/web-components/url-hash-router.js"></script>
         <script type="module" src="../js/web-components/json-data.js"></script>
         <script type="module" src="../js/web-components/data-table.js"></script>
         <script type="module" src="../js/web-components/input-filter.js"></script>
         <script type="module" src="../js/web-components/sortable-table.js"></script>
-
         <script nomodule src="../js/web-components/polyfill.js"></script>
 
         <!-- <script src="../js/web-components/polyfill.js"></script> -->
-
-        <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
-        <!--
-        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/safari-nomodule.min.js"></script>
-        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/old-browser-warning.min.js"></script>
-        -->
 
         <script>
             /**
@@ -183,13 +170,14 @@
             // [leafletPlugin] listed below is not required as [polyfill.js] would dynamically
             // download the script on first use, however it is included here to show how
             // the `nomodule` option can be used.
-            // 
+            //
             window.lazyLoad = {
                 leafletCss: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.css',
                 leafletJs: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.js',
                 leafletWeb: { module: '../js/web-components/leaflet-map.js' },
                 leafletPlugin: { nomodule: '../js/plugins/leaflet.js' },
                 data_list: { module: '../js/web-components/data-list.js' },
+                keydownAction: { module: '../js/web-components/keydown-action-service.js' },
             };
         </script>
 
@@ -212,6 +200,9 @@
                     }
                 }
 
+                // To exclude event log during development comment out the next line:
+                // return;
+
                 // Handle routing changes from <url-hash-router> or <url-router>
                 document.addEventListener('app:routeChanged', function(event) {
                     log('app:routeChanged', 'blue');
@@ -231,7 +222,7 @@
                 document.addEventListener('app:contentReady', function(event) {
                     log('app:contentReady', 'green');
                     console.log(event);
-                    console.log(event.target); // <json-data> or `document`
+                    console.log(event.target); // <json-data>, <div data-control="json-data"> or `document`
                 });
 
                 // Handle errors from <json-data>, <url-hash-router>, or <url-router>

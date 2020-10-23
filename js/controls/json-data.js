@@ -114,12 +114,13 @@
     /**
      * CSS loaded if using <template> instead of Handlebars, Vue, etc
      */
-    var css = '.dataformsjs-control-loading .is-loaded { display:none; }';
-    css += ' .dataformsjs-control-loading .has-error { display:none; }';
-    css += ' .dataformsjs-control-loaded .is-loading { display:none; }';
-    css += ' .dataformsjs-control-loaded .has-error { display:none; }';
-    css += ' .dataformsjs-control-error .is-loading { display:none; }';
-    css += ' .dataformsjs-control-error .is-loaded { display:none; }';
+    var css = '.dataformsjs-control-loading > .is-loaded { display:none; }';
+    css += ' .dataformsjs-control-loading > .has-error { display:none; }';
+    css += ' .dataformsjs-control-loaded > .is-loading { display:none; }';
+    css += ' .dataformsjs-control-loaded > .has-error { display:none; }';
+    css += ' .dataformsjs-control-error > .is-loading { display:none; }';
+    css += ' .dataformsjs-control-error > .is-loaded { display:none; }';
+    css += ' .data-control-not-loaded > .has-error, .data-control-not-loaded > .is-loading, .data-control-not-loaded > .is-loaded { display:none; }';
 
     /**
      * Set CSS on Control Element to show Loading/Loaded/Error
@@ -132,6 +133,7 @@
 
         // Create CSS and Update View
         app.loadCss('dataformsjs-control-json-data', css);
+        element.classList.remove('data-control-not-loaded');
         element.classList.remove('dataformsjs-control-loading');
         element.classList.remove('dataformsjs-control-error');
         element.classList.remove('dataformsjs-control-loaded');
@@ -482,7 +484,7 @@
                     var error = 'Element not found for <json-data> Control using [data-click-selector]: ' + String(control.clickSelector);
                     app.showErrorAlert(error);
                 } else {
-                    btn.addEventListener('click', function() {
+                    btn.addEventListener('click', function handleButtonClick() {
                         if (typeof btn.disabled === 'boolean') {
                             btn.disabled = true;
                         }
@@ -493,6 +495,12 @@
                         });
                     });
                 }
+                return;
+            }
+            if (element.getAttribute('click-selector') !== null) {
+                // This happens when using the Web Components [polyfill.js] before the the
+                // <json-data> Web Component is converted to a <json-data> Framework Control.
+                element.classList.add('data-control-not-loaded');
                 return;
             }
 

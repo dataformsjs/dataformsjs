@@ -16,13 +16,22 @@ Overall the core Framework files and API are expected to remain stable however t
 ### Release Overview
 
 * Many many updates are made for overall improvements of DataFormsJS Web Components
+  * Examples:
+    * https://www.dataformsjs.com/examples/hello-world/en/web.htm
+    * https://www.dataformsjs.com/examples/hello-world/en/web-url-router.htm
+    * https://www.dataformsjs.com/examples/places-demo-web.htm
+    * https://www.dataformsjs.com/examples/log-table-web.htm#/10
+    * https://www.dataformsjs.com/examples/countries-no-spa-web.htm
+    * https://www.dataformsjs.com/examples/image-gallery-web.htm
   * Added ability to polyfill Web Components for older browsers using the standard Framework that gets loaded from a single file.
   * Added ability to define custom `<template>` for table `<tr>` in `<data-table>`
   * Added option for formatting text from `<json-data>` (date, time, number, custom functions, etc)
+  * Added ability to use `<json-data>` with the new attribute `click-selector` for search forms similar to the main Framework.
   * Added `data-show="js-expression"` to show or hide items from `<json-data>`. It works similar to Vue `v-show`.
   * The new features make for an easier to use API for customizing content on page after data is displayed. Previously the places demo required a lot of custom JavaScript on the page in order to display flag icons, format table data, and additional items.
-  * Added new Web Components `<nav is="spa-links">`. Previously SPA Nav Links were handled from custom JavaScript code on the page. Now this functionality is much easier for a site to include as only HTML is needed.
+  * Added new Web Component `<nav is="spa-links">`. Previously SPA Nav Links were handled from custom JavaScript code on the page. Now this functionality is much easier for a site to include as only HTML is needed.
   * `<url-router>` and `<url-hash-router>` now have the ability to lazy load scripts (CSS and JavaScript) per route in a similar manner to the main framework using the new `window.lazyLoad` option and related HTML Attributes.
+  * Added new Web Component `<keydown-action-service>`. Based on Framework Plugin `js/plugins/keydownAction.js`
 * Minor enhancments for other DataFormsJS files:
   * Added `app.updateTemplatesForIE()`
   * Added features in `js/plugins/dataBind.js` based on the Web Components version.

@@ -14,8 +14,21 @@
             <a href="#/">Countries</a>
         </nav>
 
+        <!--
+            The <keydown-action-service> Web Component does not render content
+            rather it provides a "service" for elements on the page that contain
+            the attribute [data-enter-key-click-selector]. When using the polyfill
+            the elements are handled by [js/plugins/keydownAction.js].
+        -->
+        <keydown-action-service></keydown-action-service>
+
         <form class="search">
-            <input data-bind="country" list="country-list" placeholder="-- Select a Country (Optional) --">
+            <input
+                data-bind="country"
+                list="country-list"
+                data-enter-key-click-selector=".btn-search"
+                placeholder="-- Select a Country (Optional) --">
+            
             <data-list
                 data-bind="countries"
                 root-element="datalist"
@@ -25,12 +38,7 @@
             <template id="country-item">
                 <option value="${iso}">${country}</option>
             </template>
-
-            <!--
-                TODO - data-enter-key-click-selector
-                - This will likely require a new Web Component that runs after 'app:routeChanged' or 'app:contentReady' events
-                - For the standard framework this is handled by `js/plugins/keydownAction.js`
-            -->
+            
             <input
                 data-bind="city"
                 data-enter-key-click-selector=".btn-search"
@@ -44,13 +52,9 @@
         </form>
 
         <!--
-            TODO - this feature is in active development and almost complete but has a few issues remaining:
-                - Polyfill
-                    - Inputs and the Countries List clear after search due to [app.activeModel]
-                        being set twice on the same page from [polyfill.js]
-                - Web Components and Polyfill
-                    - Need to verify <is-loading> and <has-error> by steping through
-                        the code for loading and update the URL below for error.
+            Data for the below <json-data> Web Component populate when the search button
+            is clicked based on the [click-selector] attribute. Once clicked Form fields
+            with [data-bind] will be used for the URL parameters.
         -->
         <json-data
             url="https://www.dataformsjs.com/data/geonames/search?country=:country&city=:city"
@@ -72,8 +76,11 @@
 
                 <!--
                     [data-bind-refresh="function"] allows for <json-data> to refresh the
-                    control multiple times after each search. It results in the `filter()`
-                    function being called from the `input-filter` Web Component.
+                    control multiple times after each search. In the code below it results
+                    in the `filter()` function being called from the `input-filter` Web Component.
+
+                    When using the Polyfill with the Standard Framework Plugin [dataBind.js]
+                    (or any other code) doesn't perform any action based on the attribute.
                 -->
                 <div data-show="typeof cities === 'object' && cities.length > 0" class="flex-col">
                     <input

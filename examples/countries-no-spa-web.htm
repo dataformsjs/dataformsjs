@@ -19,7 +19,7 @@
     <div id="view">
         <h1>Countries</h1>
 
-        <json-data url="https://www.dataformsjs.com/data/geonames/countries">
+        <json-data url="https://www.dataformsjs.com/data/geonames/countries" load-only-once="true">
             <is-loading>
                 <span class="loading">Loading...</span>
             </is-loading>
@@ -84,22 +84,12 @@
     </div>
 
     <!-- DataFormsJS Web Components -->
-    <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/json-data.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/data-table.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/input-filter.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/sortable-table.min.js"></script> -->
-    
-    <!-- <script type="module" src="../js/web-components/json-data.js"></script>
+    <script type="module" src="../js/web-components/json-data.js"></script>
     <script type="module" src="../js/web-components/data-table.js"></script>
     <script type="module" src="../js/web-components/input-filter.js"></script>
     <script type="module" src="../js/web-components/sortable-table.js"></script>
-
-    <script nomodule src="../js/web-components/polyfill.js"></script> -->
+    <script nomodule src="../js/web-components/polyfill.js"></script>
    
-    <script src="../js/web-components/polyfill.js"></script>
-
-    <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
-    <!-- <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/safari-nomodule.min.js"></script>
-    <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/old-browser-warning.min.js"></script> -->
+    <!-- <script src="../js/web-components/polyfill.js"></script> -->
 </body>
 </html>
