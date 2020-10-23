@@ -151,7 +151,8 @@ class DataList extends HTMLElement {
             // the variables for HTML encoding. The variable `index` is made availble to the template
             // and it can be safely overwritten by the list item due to variable scoping during rendering.
             try {
-                const tmpl = new Function('item', 'index', 'render', 'format', 'with(item){return render`' + template.innerHTML + '`}');
+                const tmplHtml = template.innerHTML.replace(/&amp;/g, '&').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
+                const tmpl = new Function('item', 'index', 'render', 'format', 'with(item){return render`' + tmplHtml + '`}');
                 let index = 0;
                 const format = new Format();
                 for (const item of list) {
@@ -183,7 +184,7 @@ class DataList extends HTMLElement {
             }
         } else {
             // Basic <ul> list
-            html.push(`<ul"${rootAttrHtml}">`);
+            html.push(`<ul${rootAttrHtml}>`);
             for (const item of list) {
                 html.push(render`<li>${item}</li>`);
             }

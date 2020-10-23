@@ -41,20 +41,27 @@ TODO List
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/sortable-table.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
-        - Add a new Web Component Version of the Image Classification demo?
-            - This now can be possible through the new simplified API
-            - Additional updates for <json-data> or other Web Components may still be required though
-            - See other examples:
-                https://www.dataformsjs.com/examples/image-classification-hbs.htm#/en/
-            - While working on this likely make an update so JSON data is either passed in a CustomEvent `detail` or a function param.
-                Event Detail Example:
-                    document.addEventListener('app:contentReady', function(event) {
-                        console.log(event.detail)
-                    });
-                Function Param Example:
-                    document.addEventListener('app:contentReady', function(event, data) {
-                        console.log(data)
-                    });
+        - Finish new Web Component Version of the Image Classification demo
+            - http://127.0.0.1:8080/image-classification-web
+            - Demo is working but additional development is needed
+                - Search for `TODO` in the HTML source to find active development files
+            - See file [dataformsjs\js\web-components\data-list.js]
+                - Several new features are being tested and may or may not be kept
+                - This can be decided on while working on the Image Classification Demo
+                - New Attributes [template-returns-html] and [list-item-name]
+                - Search for `const tmplHtml = template.innerHTML`
+                    - For now the `replace` calls are only used when using [template-returns-html]
+                    - Additionally other characters are likely needed and more research to see how different browsers handle this.
+                    - Alternatively using '&' with in the JS ${} may not be supported as templates are intended on being kept simple.
+                        If so revert to the previous version.
+                        It may need to be more advanced to only escape with in ${}
+                - If keeping other code using the new templates with `new Function` such as [data-table.js] needs this
+                    and all related Framework Controls
+                - See comments in [dataformsjs\examples\html\image-home-web.htm]
+                    - The Framework Control version of [data-list.js] needs more updates to handle more complex templates
+                    - Test with <template id="image-testing">
+                    - Likely switch to `indexOf('${')` rather than regex and use logic to determine '{' count similar
+                        to the jsxLoader.js parsing of comments
         - Must verify new [defineExtendsPolyfill] with the versions of Safari or other Legacy modern browsers
         - Log Demo Pages
             When using Polyfill the error currently does not show:
