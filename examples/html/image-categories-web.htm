@@ -1,0 +1,32 @@
+<json-data
+    url="https://www.dataformsjs.com/data/ai-ml/categories/resnet50"
+    load-only-once="true">
+    <is-loading>
+        <span class="loading">Loading...</span>
+    </is-loading>
+    <has-error>
+        <span class="error" data-bind="errorMessage"></span>
+    </has-error>
+    <is-loaded>
+        <section>
+            <div>
+                <input
+                    is="input-filter"
+                    type="text"
+                    filter-selector=".image-categories li"
+                    filter-results-selector="h1"
+                    filter-results-text-all="{totalCount} Image Categories"
+                    filter-results-text-filtered="Showing {displayCount} of {totalCount} Image Categories"
+                    placeholder="Enter filter, example [dog] or [cat]">
+            </div>
+        
+            <div class="content">
+                <h1></h1>
+                <data-list
+                    data-bind="categories"
+                    root-attr="class=image-categories">
+                </data-list>
+            </div>
+        </section>
+    </is-loaded>
+</json-data>

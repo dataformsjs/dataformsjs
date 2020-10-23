@@ -20,7 +20,7 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
-import { render, showError, usingWebComponentsPolyfill } from './utils.js';
+import { render, showError, usingWebComponentsPolyfill, escapeHtml } from './utils.js';
 import { Format } from './utils-format.js';
 
 /**
@@ -151,13 +151,35 @@ class DataList extends HTMLElement {
             // the variables for HTML encoding. The variable `index` is made availble to the template
             // and it can be safely overwritten by the list item due to variable scoping during rendering.
             try {
-                const tmplHtml = template.innerHTML.replace(/&amp;/g, '&').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
-                const tmpl = new Function('item', 'index', 'render', 'format', 'with(item){return render`' + tmplHtml + '`}');
+                // Get Template Contents
+                let tmplHtml = template.innerHTML;
+
+                // By default content to render is escaped using the `render` Tagged Template Literal function.
+                // If not then then template is likley mixing more advanced JavaScript with HTML so replace
+                // certain HTML escape characters.
+                const renderFn = (this.getAttribute('template-returns-html') === null ? 'render' : '');
+                if (!renderFn) {
+                    tmplHtml = tmplHtml.replace(/&amp;/g, '&').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
+                }
+
+                // By default variables for the list item are scoped using `with`. If [list-item-name]
+                // is used then the template can refer to each list item object by a variable name.
+                const listItemName = this.getAttribute('list-item-name');
+
+                // Create a JavaScript function based on the template (compile the template)
+                let tmpl;
+                if (listItemName) {
+                    tmpl = new Function(listItemName, 'index', 'render', 'escapeHtml', 'format', 'return ' + renderFn + '`' + tmplHtml + '`');
+                } else {
+                    tmpl = new Function('item', 'index', 'render', 'escapeHtml', 'format', 'with(item){return ' + renderFn + '`' + tmplHtml + '`}');
+                }
+
+                // Process each item using the template function
                 let index = 0;
                 const format = new Format();
                 for (const item of list) {
                     try {
-                        html.push(tmpl(item, index, render, format));
+                        html.push(tmpl(item, index, render, escapeHtml, format));
                     } catch (e) {
                         const itemElement = (rootElement === 'ul' ? 'li' : 'div');
                         const errorClass = this.errorClass;

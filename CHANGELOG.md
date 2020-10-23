@@ -41,7 +41,7 @@ Overall the core Framework files and API are expected to remain stable however t
   * Added ability to easily reload  by calling `app.activeJsControls(control)`. Updating already loaded controls is not common but can be used in very specific scenarios. For example the new Web Components Polyfill uses it.
   * Update API to include `model` as a parameter in `control.onLoad(element, model)`
   * Specific controls `<data-table>` and `<data-list>` have significant new functionality based on the matching Web Components that allows for basic templating from HTML. The template syntax is based on JavaScript template literals (template strings) and with the new features basic sites or apps that previously required Handlebars or Vue for templating could possibly use these instead.
-  * Data Attributes for JavaScript controls will not use boolean data types when "true" or "false" are specified. This was created for the new `data-load-only-once` attribute added to `js/controls/json-data.js` for compatability with the Web Components version.
+  * Data Attributes for JavaScript controls will not use boolean data types when "true" or "false" are specified. This was created for the new `data-load-only-once` attribute added to `js/controls/json-data.js` for compatability with the Web Components version. A new `fromCache` option was added as a parameter to `onFetch` based on this change.
   * Added new functions `app.unloadUnattachedJsControls()` and `app.unloadJsControl(jsControl)`. They are mostly for internal use but are available for advanced usage if needed.
 * Image Gallery Update for Overlay when `title/alt` is not used:
   * All versions updated (Web Component, Framework Plugin, React)

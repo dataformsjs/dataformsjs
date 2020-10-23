@@ -34,6 +34,8 @@
             rootElement: null,
             rootAttr: null,
             errorClass: null,
+            templateReturnsHtml: null,
+            listItemName: null,
         },
 
         /**
@@ -93,7 +95,7 @@
                 return '';
             }
 
-            // Build content under <data-list> using either a template or a basic <ul> 
+            // Build content under <data-list> using either a template or a basic <ul>
             if (this.templateSelector) {
                 // Root Element is optional and only used if a template is used
                 if (this.rootElement !== null) {
@@ -112,7 +114,7 @@
                     }
                     html.push('<' + app.escapeHtml(this.rootElement) + getAttrHtml() + '>');
                 }
-                
+
                 // Get the template
                 var template = document.querySelector(this.templateSelector);
                 if (!template) {
@@ -121,11 +123,13 @@
                     return html.join('');
                 }
 
-                // Bulid the template
+                // Build the template
                 // When using Web Components JavaScript template literals (template strings)
                 // are used so this is a basic replacement for the original function.
-                // It covers basic templates but will not handle advanced templates.
+                // It converts basic templates but will not handle advanced templates.
+                // See related comments in [js/web-components/data-list.js]
                 var tmplHtml = template.innerHTML;
+                var returnsHtml = (this.templateReturnsHtml !== null);
                 var js = /\$\{([^}]+)\}/g;
                 var match;
                 var loopCount = 0;
@@ -134,7 +138,11 @@
                 var lastIndex = 0;
                 while ((match = js.exec(tmplHtml)) !== null) {
                     tmplJs.push(JSON.stringify(tmplHtml.substring(lastIndex, match.index)));
-                    tmplJs.push('String(app.escapeHtml(' + match[1] + '))');
+                    if (returnsHtml) {
+                        tmplJs.push('String(' + match[1].replace(/&amp;/g, '&').replace(/&gt;/g, '>').replace(/&lt;/g, '<') + ')');
+                    } else {
+                        tmplJs.push('String(app.escapeHtml(' + match[1] + '))');
+                    }
                     lastIndex = match.index + match[0].length;
                     loopCount++;
                     if (loopCount > maxLoops) {
@@ -159,11 +167,16 @@
                 // Render each item in the template.
                 if (!hasError) {
                     try {
-                        var tmpl = new Function('item', 'index', 'app', 'format', 'with(item){return ' + tmplJs.join(' + ') + '}');
+                        var tmpl;
+                        if (this.listItemName) {
+                            tmpl = new Function(this.listItemName, 'index', 'app', 'escapeHtml', 'format', 'return ' + tmplJs.join(' + '));
+                        } else {
+                            tmpl = new Function('item', 'index', 'app', 'escapeHtml', 'format', 'with(item){return ' + tmplJs.join(' + ') + '}');
+                        }
                         for (var index = 0, count = list.length; index < count; index++) {
                             var item = list[index];
                             try {
-                                html.push(tmpl(item, index, app, app.format));
+                                html.push(tmpl(item, index, app, app.escapeHtml, app.format));
                             } catch (e) {
                                 var itemElement = (this.rootElement === 'ul' ? 'li' : 'div');
                                 addError('Item Error - ' + e.message, itemElement);

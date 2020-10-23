@@ -209,7 +209,7 @@
 
             // Private variable using variables from parent scope that updates the
             // control based on data download from the JSON/GraphQL or read from cache.
-            function handleData(data) {
+            function handleData(data, fromCache) {
                 // Set control as loaded
                 var vm = (control.vueInstance === null ? control : control.vueInstance);
                 vm.isLoading = false;
@@ -257,7 +257,7 @@
 
                 // Custom callback events
                 if (jsonData.onFetch !== null) {
-                    jsonData.onFetch.call(vm, element);
+                    jsonData.onFetch.call(vm, element, fromCache);
                 }
                 if (callback !== undefined) {
                     callback();
@@ -315,7 +315,7 @@
             if (control.loadOnlyOnce) {
                 var data = getDataFromCache(control.url, control.graphqlQuery, cacheParams);
                 if (data !== null) {
-                    handleData(data);
+                    handleData(data, true);
                     return;
                 }
             }
@@ -331,7 +331,7 @@
                 }
 
                 // Update control using downloaded data
-                handleData(data);
+                handleData(data, false);
 
                 // Optionally save to cache
                 if (control.loadOnlyOnce) {

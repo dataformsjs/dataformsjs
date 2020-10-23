@@ -1,0 +1,88 @@
+<json-data
+    url="https://www.dataformsjs.com/data/ai-ml/sample-data/resnet50"
+    load-only-once="true">
+    <is-loading>
+        <span class="loading">Loading...</span>
+    </is-loading>
+    <has-error>
+        <span class="error" data-bind="errorMessage"></span>
+    </has-error>
+    <is-loaded>
+        <section>
+            <div class="content">
+                <h1>Image Prediction Demo</h1>
+                <input type="file" accept="image/*" @change="selectImages" multiple>
+            </div>
+        </section>
+        <div>
+            <data-list
+                data-bind="images"
+                template-selector="#image"
+                template-returns-html
+                list-item-name="image"
+                root-element="ul"
+                root-attr="class=results">
+            </data-list>
+            <!--
+                TODO List - This file is in active development
+                    - This working but several options should be considered:
+                        - Use the current version with many code comments
+                            - It's similar to React and https://github.com/developit/htm so it's easy enough to understand
+                                for JavaScript developers however it's too complex for HTML/CSS-only developers to work wtih
+                            - Using ${prop && <div>} is not supported because 'false' will be returned to HTML text content
+                                because the template returns only a string and not VDom like React or similar
+                        - Switch to Custom Web Component?
+                        - Handle this with JavaScript functions
+                        - Something else...?
+                    - Currently this is only working by requiring new attributes [template-returns-html] and [list-item-name]
+                    - Need to manually test the `hasError` logic or update code to cause the error
+                    * Likely keep serveral templates, one for modern JS that is not used (example below)
+                        and one that works in all browsers
+                    * Currently [dataformsjs\js\controls\data-list.js] needs to be updated to handle [id="image-testing"]
+             -->
+
+            <!--
+            Works with all Browsers but only displays the first prediction
+            -->
+            <template id="image">
+                <li>
+                    <img src="${escapeHtml(image.src)}" />
+                    ${image.isUploading === true ? '<div class="loading">Uploading</div>' : ''}
+                    ${image.hasError === true ? '<div class="error">' + image.error + '</div>' : ''}
+                    ${image.predictions.length > 0 ? '<div class="' + resultClass(image.predictions[0].probability) + '">' + image.predictions[0].label + ' = <span>' + format.percent(image.predictions[0].probability, 5) + '</span></div>' : ''}
+                </li>
+            </template>
+
+            <!--
+            NOTE - this should work in all browsers but [dataformsjs\js\controls\data-list.js] currently needs an update
+            Issue is due to regex parsing of '${' and '}' where the valid '}' in JavaScript is considered the end of the string expression.
+            -->
+            <template id="image-testing">
+                <li>
+                    <img src="${escapeHtml(image.src)}" />
+                    ${image.isUploading === true ? '<div class="loading">Uploading</div>' : ''}
+                    ${image.hasError === true ? '<div class="error">' + image.error + '</div>' : ''}
+                    ${image.predictions.map(function(prediction) {
+                        return '<div class="' + resultClass(prediction.probability) + '">' + prediction.label + ' = <span>' + format.percent(prediction.probability, 5) + '</span></div>'
+                    })}
+                </li>
+            </template>
+
+            <!--
+            Works with modern browsers only when using Web Components and not the Polyfill
+            -->
+            <template id="image-modern-js">
+                <li>
+                    <img src="${escapeHtml(image.src)}" />
+                    ${image.isUploading === true ? '<div class="loading">Uploading</div>' : ''}
+                    ${image.hasError === true ? render`<div class="error">${image.error}</div>` : ''}
+                    ${image.predictions.map(prediction => {
+                        return render`<div class="${resultClass(prediction.probability)}">
+                            ${prediction.label} = <span>${format.percent(prediction.probability, 5)}</span>
+                        </div>`
+                    })}
+                </li>
+            </template>
+        </div>
+    </is-loaded>
+</json-data>

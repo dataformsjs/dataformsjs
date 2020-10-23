@@ -84,7 +84,7 @@
             });
         },
         dataList: function(element) {
-            updateElements.dataAttributes(element, ['template-selector', 'root-element', 'root-attr', 'error-class'])
+            updateElements.dataAttributes(element, ['template-selector', 'root-element', 'root-attr', 'error-class', 'template-returns-html', 'list-item-name'])
         },
         dataTable: function(element) {
             updateElements.dataAttributes(element, ['highlight-class', 'labels', 'columns', 'table-attr', 'highlight-class']);
@@ -328,10 +328,12 @@
      * Handle DataFormsJS Framework Events
      */
     function defineCustomEvents() {
-        app.controls['json-data'].onFetch = function(element) {
+        app.controls['json-data'].onFetch = function(element, fromCache) {
             // Define or update the [app.activeModel] based downloaded data.
             if (app.activeController && app.activeController.modelName) {
-                app.deepClone(app.models[app.activeController.modelName], this);
+                if (!fromCache) {
+                    app.deepClone(app.models[app.activeController.modelName], this);
+                }
                 app.activeModel = app.models[app.activeController.modelName];
             } else {
                 app.activeModel = this; // Non-SPA
