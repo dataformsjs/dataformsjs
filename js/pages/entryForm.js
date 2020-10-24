@@ -451,7 +451,7 @@
             model.showInfo(model.savingRecordText);
 
             // Save the record
-            var url = app.buildUrl(model.saveUrl);
+            var url = app.buildUrl(model.saveUrl, model);
             app
             .fetch(url, {
                 method: 'POST',
