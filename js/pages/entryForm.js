@@ -579,7 +579,7 @@
             // For example ['/record/delete/:id'] will prevent fields from being posted.
             var url = app.buildUrl(model.deleteUrl);
             var record = null;
-            if (url === model.deleteRecord) {
+            if (url === model.deleteUrl) {
                 var data = model.getRecord();
                 record = data.record;
                 if (Object.keys(record).length === 0) {

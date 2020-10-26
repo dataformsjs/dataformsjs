@@ -266,6 +266,21 @@
 
         // App Event
         dispatchEvent(rootElement, 'app:contentReady');
+        if (rootElement.getAttribute('data-control') === 'json-data') {
+            var fnName = rootElement.getAttribute('onready');
+            if (fnName) {
+                if (typeof window[fnName] === 'function') {
+                    try {
+                        window[fnName]();
+                    } catch(e) {
+                        app.showErrorAlert('Error from function <json-data onready="' + fnName + '">: ' + e.message);
+                        console.error(e);
+                    }
+                } else {
+                    app.showErrorAlert('Function not found <json-data onready="' + fnName + '">');
+                }
+            }
+        }
     }
 
     /**

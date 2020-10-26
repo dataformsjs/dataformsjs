@@ -62,6 +62,8 @@ TODO List
                     - Test with <template id="image-testing">
                     - Likely switch to `indexOf('${')` rather than regex and use logic to determine '{' count similar
                         to the jsxLoader.js parsing of comments
+        - <url-route> and <url-hash-route> will have a new [onready] attribute that has the same behavior as the <json-data onready="{fn-name}">.
+            Once added then include some demos in the [places-demo-web.htm] file for both routing and <json-data>
         - Must verify new [defineExtendsPolyfill] with the versions of Safari or other Legacy modern browsers
         - Log Demo Pages
             When using Polyfill the error currently does not show:

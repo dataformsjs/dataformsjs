@@ -49,7 +49,7 @@ Overall the core Framework files and API are expected to remain stable however t
   * To change position see the following CSS examples (works in all browsers included IE):
     * `.image-gallery-overlay div.no-title { justify-content: flex-start; }`
     * `.image-gallery-overlay div.no-title { justify-content: center; }`
-* Bug fix for `js/pages/entryForm.js` where the `saveUrl` did not allow for variables from the model
+* Bug fix for `js/pages/entryForm.js` where the `saveUrl` did not allow for variables from the model if the URL of the page did not include any URL parameters.
 
 ### Breaking Changes
 

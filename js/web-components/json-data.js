@@ -246,12 +246,34 @@ class JsonData extends HTMLElement {
         }
     }
 
+    dispatchContentReady() {
+        // Dispatch Standard DOM Event. Because it bubbles up it can be easily
+        // handled from the document root:
+        //     document.addEventListener('app:contentReady', () => { ... });
+        this.dispatchEvent(new Event(appEvents.contentReady, { bubbles: true }));
+
+        // Call function from [onready] attribute if one is defined
+        const fnName = this.getAttribute('onready');
+        if (fnName) {
+            if (typeof window[fnName] === 'function') {
+                try {
+                    window[fnName]();
+                } catch(e) {
+                    showErrorAlert(`Error from function <json-data onready="${fnName}">: ${e.message}`);
+                    console.error(e);
+                }
+            } else {
+                showErrorAlert(`Function not found <json-data onready="${fnName}">`);
+            }
+        }
+    }
+
     fetch() {
         const urlPath = this.url;
         let url = urlPath;
         if (url === null || url === '') {
             this.showError('Error, element <json-data> is missing attribute [url]');
-            this.dispatchEvent(new Event(appEvents.contentReady, { bubbles: true }));
+            this.dispatchContentReady();
             return;
         }
 
@@ -268,7 +290,7 @@ class JsonData extends HTMLElement {
             const data = getDataFromCache(urlPath, urlParams);
             if (data !== null) {
                 this._setLoadedState(data);
-                this.dispatchEvent(new Event(appEvents.contentReady, { bubbles: true }));
+                this.dispatchContentReady();
                 return;
             }
         }
@@ -313,7 +335,7 @@ class JsonData extends HTMLElement {
             if (this.elements.clickButton !== null && typeof this.elements.clickButton.disabled === 'boolean') {
                 this.elements.clickButton.disabled = false;
             }
-            this.dispatchEvent(new Event(appEvents.contentReady, { bubbles: true }));
+            this.dispatchContentReady();
         });
     }
 
