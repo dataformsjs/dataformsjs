@@ -64,6 +64,12 @@ TODO List
                         to the jsxLoader.js parsing of comments
         - <url-route> and <url-hash-route> will have a new [onready] attribute that has the same behavior as the <json-data onready="{fn-name}">.
             Once added then include some demos in the [places-demo-web.htm] file for both routing and <json-data>
+            * Related consider making the value any valid JavaScript expression rather than a function name. Simliar to 
+                how the standard HTML [onclick] would work.
+            * Example:
+                onready="setupFileUploads()"
+            * Tnstead of:
+                onready="setupFileUploads"
         - Must verify new [defineExtendsPolyfill] with the versions of Safari or other Legacy modern browsers
         - Log Demo Pages
             When using Polyfill the error currently does not show:
