@@ -65,6 +65,12 @@
                 }
             }
 
+            function showError(error, element) {
+                addError(error, element)
+                closeElement();
+                return html.join('');
+            }
+
             function getAttrHtml() {
                 if (control.rootAttr === null) {
                     return '';
@@ -100,17 +106,11 @@
                 // Root Element is optional and only used if a template is used
                 if (this.rootElement !== null) {
                     if (this.rootElement !== this.rootElement.toLowerCase()) {
-                        addError('<data-list [root-element="name"]> must be all lower-case. Value used: [' + this.rootElement + ']');
-                        closeElement();
-                        return html.join('');
+                        return showError('<data-list [root-element="name"]> must be all lower-case. Value used: [' + this.rootElement + ']');
                     } else if (this.rootElement.indexOf(' ') !== -1) {
-                        addError('<data-list [root-element="name"]> cannot contain a space. Value used: [' + this.rootElement + ']');
-                        closeElement();
-                        return html.join('');
+                        return showError('<data-list [root-element="name"]> cannot contain a space. Value used: [' + this.rootElement + ']');
                     } else if (/[&<>"'/]/.test(this.rootElement) !== false) {
-                        addError('<data-list [root-element="name"]> cannot contain HTML characters that need to be escaped. Invalid characters are [& < > " \' /]. Value used: [' + this.rootElement + ']');
-                        closeElement();
-                        return html.join('');
+                        return showError('<data-list [root-element="name"]> cannot contain HTML characters that need to be escaped. Invalid characters are [& < > " \' /]. Value used: [' + this.rootElement + ']');
                     }
                     html.push('<' + app.escapeHtml(this.rootElement) + getAttrHtml() + '>');
                 }
@@ -118,9 +118,7 @@
                 // Get the template
                 var template = document.querySelector(this.templateSelector);
                 if (!template) {
-                    addError('Error <data-list> Template not found from selector: ' + this.templateSelector);
-                    closeElement();
-                    return html.join('');
+                    return showError('Error <data-list> Template not found from selector: ' + this.templateSelector);
                 }
 
                 // Build the template
@@ -130,27 +128,36 @@
                 // See related comments in [js/web-components/data-list.js]
                 var tmplHtml = template.innerHTML;
                 var returnsHtml = (this.templateReturnsHtml !== null);
-                var js = /\$\{([^}]+)\}/g;
-                var match;
-                var loopCount = 0;
-                var maxLoops = 1000; // For safety during development
                 var tmplJs = [];
+                var startPos;
                 var lastIndex = 0;
-                while ((match = js.exec(tmplHtml)) !== null) {
-                    tmplJs.push(JSON.stringify(tmplHtml.substring(lastIndex, match.index)));
-                    if (returnsHtml) {
-                        tmplJs.push('String(' + match[1].replace(/&amp;/g, '&').replace(/&gt;/g, '>').replace(/&lt;/g, '<') + ')');
-                    } else {
-                        tmplJs.push('String(app.escapeHtml(' + match[1] + '))');
-                    }
-                    lastIndex = match.index + match[0].length;
-                    loopCount++;
-                    if (loopCount > maxLoops) {
-                        // Safety check to prevent endless loops
-                        app.showErrorAlert('Unexpected Loop Error in <data-list>');
-                        return;
-                    }
+                var value;
+                if (tmplHtml.includes('render`') || tmplHtml.includes('=> {') || tmplHtml.includes('=>{')) {
+                    return showError('Error - Modern JavaScript Script Templates are only supported with DataFormsJS Web Components and are not supported when using [polyfill.js] or DataFormsJS Framework Controls.');
                 }
+                while ((startPos = tmplHtml.indexOf('${', lastIndex)) > -1) {
+                    // Parse
+                    var nextStart = tmplHtml.indexOf('{', startPos + 2);
+                    var nextEnd = tmplHtml.indexOf('}', startPos + 2);
+                    if (nextStart < nextEnd && nextStart !== -1) {
+                        // Handle nested brackets
+                        while (nextStart < nextEnd && nextStart !== -1) {
+                            nextStart = tmplHtml.indexOf('{', nextEnd + 1);
+                            nextEnd = tmplHtml.indexOf('}', nextEnd + 1);
+                        }
+                    }
+                    value = tmplHtml.substring(startPos + 2, nextEnd);
+
+                    // Add HTML and Value
+                    tmplJs.push(JSON.stringify(tmplHtml.substring(lastIndex, startPos)));
+                    if (returnsHtml) {
+                        tmplJs.push('String(' + value.replace(/&amp;/g, '&').replace(/&gt;/g, '>').replace(/&lt;/g, '<') + ')');
+                    } else {
+                        tmplJs.push('String(app.escapeHtml(' + value + '))');
+                    }
+                    lastIndex = startPos + value.length + 3;
+                }
+                // Add remaining template string
                 tmplJs.push(JSON.stringify(tmplHtml.substring(lastIndex, tmplHtml.length)));
 
                 // Look for unmatched escape characters "${"
@@ -169,14 +176,14 @@
                     try {
                         var tmpl;
                         if (this.listItemName) {
-                            tmpl = new Function(this.listItemName, 'index', 'app', 'escapeHtml', 'format', 'return ' + tmplJs.join(' + '));
+                            tmpl = new Function(this.listItemName, 'index', 'escapeHtml', 'format', 'return ' + tmplJs.join(' + '));
                         } else {
-                            tmpl = new Function('item', 'index', 'app', 'escapeHtml', 'format', 'with(item){return ' + tmplJs.join(' + ') + '}');
+                            tmpl = new Function('item', 'index', 'escapeHtml', 'format', 'with(item){return ' + tmplJs.join(' + ') + '}');
                         }
                         for (var index = 0, count = list.length; index < count; index++) {
                             var item = list[index];
                             try {
-                                html.push(tmpl(item, index, app, app.escapeHtml, app.format));
+                                html.push(tmpl(item, index, app.escapeHtml, app.format));
                             } catch (e) {
                                 var itemElement = (this.rootElement === 'ul' ? 'li' : 'div');
                                 addError('Item Error - ' + e.message, itemElement);

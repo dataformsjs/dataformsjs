@@ -41,7 +41,7 @@
 // NOTE - If <script type="module"> were used instead of <script> then
 // two functions would need to be exported to global scope. Because
 // <json-data> and other Web Components do not "import" functions but
-// rather look for the in the `window` object setting them to the 
+// rather look for the in the `window` object setting them to the
 // window object could be used like this:
 //
 // window.setupFileUploads = setupFileUploads;
@@ -190,7 +190,7 @@ function resizeImage(src) {
             canvas.height = img.height;
             ctx.drawImage(img, 0, 0, img.width, img.height);
 
-            // IE 11 needs a polyfill for [canvas.toBlob], the polyfill is only loaded if needed.
+            // IE 11 needs a polyfill for [canvas.toBlob]. The polyfill is only loaded if needed.
             if (window.app !== undefined) {
                 // Standard DataFormsJS Framework using Polyfill
                 var polyfillUrl = 'https://cdn.jsdelivr.net/npm/blueimp-canvas-to-blob@3.16.0/js/canvas-to-blob.min.js';

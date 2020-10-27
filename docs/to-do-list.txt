@@ -57,12 +57,8 @@ TODO List
                         It may need to be more advanced to only escape with in ${}
                 - If keeping other code using the new templates with `new Function` such as [data-table.js] needs this
                     and all related Framework Controls
-                - See comments in [dataformsjs\examples\html\image-home-web.htm]
-                    - The Framework Control version of [data-list.js] needs more updates to handle more complex templates
-                    - Test with <template id="image-testing">
-                    - Likely switch to `indexOf('${')` rather than regex and use logic to determine '{' count similar
-                        to the jsxLoader.js parsing of comments
-        - <url-route> and <url-hash-route> will have a new [onready] attribute that has the same behavior as the <json-data onready="{fn-name}">.
+                - Currently [dataformsjs\js\controls\data-list.js] is updated to match the Web Component so [data-table.js] is next.
+        - <url-route> and <url-hash-route> will have a new [onload] attribute that has the same behavior as the <json-data onready="{fn-name}">.
             Once added then include some demos in the [places-demo-web.htm] file for both routing and <json-data>
             * Related consider making the value any valid JavaScript expression rather than a function name. Simliar to 
                 how the standard HTML [onclick] would work.
