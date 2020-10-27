@@ -10,12 +10,13 @@ Overall the core Framework files and API are expected to remain stable however t
 
 * The next release will contain breaking changes so it will be published as `5.0.0`
 * See comments at the top of the file: https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt
-* Many updates are being made and in active development (2020-10-20)
+* Many updates are being made and in active development (2020-10-27)
 * The next release will likely be published sometime in November of 2020
 
 ### Release Overview
 
-* Many many updates are made for overall improvements of DataFormsJS Web Components
+* Many updates have been made for overall improvement of DataFormsJS Web Components
+  * The updates are significant and make using the Web Components much easier for complex apps and sites; and provide for wider browser support.
   * Examples:
     * https://www.dataformsjs.com/examples/hello-world/en/web.htm
     * https://www.dataformsjs.com/examples/hello-world/en/web-url-router.htm
@@ -32,6 +33,8 @@ Overall the core Framework files and API are expected to remain stable however t
   * Added new Web Component `<nav is="spa-links">`. Previously SPA Nav Links were handled from custom JavaScript code on the page. Now this functionality is much easier for a site to include as only HTML is needed.
   * `<url-router>` and `<url-hash-router>` now have the ability to lazy load scripts (CSS and JavaScript) per route in a similar manner to the main framework using the new `window.lazyLoad` option and related HTML Attributes.
   * Added new Web Component `<keydown-action-service>`. Based on Framework Plugin `js/plugins/keydownAction.js`
+  * Added ability to style errors using CSS from `utils.js` when calling `showError(element, message)` or `showErrorAlert(message)`.
+  * New function in `utils.js`: `loadCss(id, css)`
 * Minor enhancments for other DataFormsJS files:
   * Added `app.updateTemplatesForIE()`
   * Added features in `js/plugins/dataBind.js` based on the Web Components version.
@@ -40,7 +43,7 @@ Overall the core Framework files and API are expected to remain stable however t
 * Enhancements for "JavaScript Controls" in the standard Framework. The Framework JavaScript Controls are a similar concept to Web Components but work with all Browsers.
   * Added ability to easily reload  by calling `app.activeJsControls(control)`. Updating already loaded controls is not common but can be used in very specific scenarios. For example the new Web Components Polyfill uses it.
   * Update API to include `model` as a parameter in `control.onLoad(element, model)`
-  * Specific controls `<data-table>` and `<data-list>` have significant new functionality based on the matching Web Components that allows for basic templating from HTML. The template syntax is based on JavaScript template literals (template strings) and with the new features basic sites or apps that previously required Handlebars or Vue for templating could possibly use these instead.
+  * Specific controls `<data-table>` and `<data-list>` have significant new functionality based on the matching Web Components that allows for basic templating from HTML. The template syntax is based on JavaScript template literals (template strings) and with the new features basic sites or apps that previously required Handlebars or Vue for templating could possibly use these instead. Use of templating requires using a new file `js/extensions/jsTemplate.js`.
   * Data Attributes for JavaScript controls will not use boolean data types when "true" or "false" are specified. This was created for the new `data-load-only-once` attribute added to `js/controls/json-data.js` for compatability with the Web Components version. A new `fromCache` option was added as a parameter to `onFetch` based on this change.
   * Added new functions `app.unloadUnattachedJsControls()` and `app.unloadJsControl(jsControl)`. They are mostly for internal use but are available for advanced usage if needed.
 * Image Gallery Update for Overlay when `title/alt` is not used:
@@ -245,7 +248,7 @@ The Web Components have the most complex breaking changes related to API usage h
     * Added `Back` and `Forward` Buttons to the overlay that appear by default for Desktop computers. Previously navigation only worked through the keyboard left and right arrow keys.
     * `Back` and `Forward` Buttons will only show by default on desktop computers when the user clicks the thumbnail image. By default on Mobile devices (determine from `userAgent`) or if using the keyboard spacebar to start the overlay the buttons will now show. The reason is that the buttons can overlap the image so if using a keyboard or swiping on mobile they are not needed (or desired).
     * `Back` and `Forward` Button visibility and other features can be easily changed through CSS from the page.
-  * Added support for for next-gen images (AVIF and WebP) 
+  * Added support for for next-gen images (AVIF and WebP)
     * See DataFormsJS examples for usage
     * Image Format Details:
       * https://developers.google.com/speed/webp

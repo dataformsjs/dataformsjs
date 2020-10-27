@@ -7,6 +7,11 @@
  *
  * When [js/web-components/polyfill.js] is used for DataFormsJS Web Component
  * this file will be downloaded and used.
+ *
+ * The script [js/extensions/jsTemplate.js] is required when using templating
+ * and is handled automatically by [polyfill.js]. To use the the standard
+ * Framework simply make sure the script is included from [app.lazyLoad]
+ * before the page loads.
  */
 
 /* Validates with both [jshint] and [eslint] */
@@ -179,45 +184,16 @@
             // Table Body
             html.push('<tbody>');
             if (template !== null) {
-                // Build the template
-                // When using Web Components JavaScript template literals (template strings)
-                // are used so this is a basic replacement for the original function.
-                // It covers basic templates but will not handle advanced templates.
-                var tmplHtml = template.innerHTML;
-                var js = /\$\{([^}]+)\}/g;
-                var match;
-                var loopCount = 0;
-                var maxLoops = 1000; // For safety during development
-                var tmplJs = [];
-                var lastIndex = 0;
-                while ((match = js.exec(tmplHtml)) !== null) {
-                    tmplJs.push(JSON.stringify(tmplHtml.substring(lastIndex, match.index)));
-                    tmplJs.push('String(app.escapeHtml(' + match[1] + '))');
-                    lastIndex = match.index + match[0].length;
-                    loopCount++;
-                    if (loopCount > maxLoops) {
-                        // Safety check to prevent endless loops
-                        app.showErrorAlert('Unexpected Loop Error in <data-table>');
-                        return;
+                 try {
+                    if (app.jsTemplate === undefined) {
+                        throw Error('Error - When using <data-table> with a template the script [js/extensions/jsTemplate.js] is required.');
                     }
-                }
-                tmplJs.push(JSON.stringify(tmplHtml.substring(lastIndex, tmplHtml.length)));
-
-                try {
-                    // Look for unmatched escape characters "${"
-                    for (x = 0, y = tmplJs.length; x < y; x++) {
-                        var text = tmplJs[x];
-                        if (!text.startsWith('String(app.escapeHtml(') && text.includes('${')) {
-                            throw new Error('Invalid expression: missing `}` character');
-                        }
-                    }
-
-                    // Render each item in the template.
-                    var tmpl = new Function('item', 'index', 'app', 'format', 'with(item){return ' + tmplJs.join(' + ') + '}');
+                    // Render each item using the template
+                    var render = app.jsTemplate.compile(null, template.innerHTML);
                     for (var index = 0, count = list.length; index < count; index++) {
                         item = list[index];
                         try {
-                            html.push(tmpl(item, index, app, app.format));
+                            html.push(render(item, index, app.escapeHtml, app.format));
                         } catch (e) {
                             if (this.errorClass) {
                                 html.push('<tr class="' + this.errorClass + '">');

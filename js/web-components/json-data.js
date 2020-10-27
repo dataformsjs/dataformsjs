@@ -253,17 +253,17 @@ class JsonData extends HTMLElement {
         this.dispatchEvent(new Event(appEvents.contentReady, { bubbles: true }));
 
         // Call function from [onready] attribute if one is defined
-        const fnName = this.getAttribute('onready');
-        if (fnName) {
-            if (typeof window[fnName] === 'function') {
-                try {
-                    window[fnName]();
-                } catch(e) {
-                    showErrorAlert(`Error from function <json-data onready="${fnName}">: ${e.message}`);
-                    console.error(e);
+        const js = this.getAttribute('onready');
+        if (js) {
+            try {
+                const fn = new Function('return ' + js);
+                const result = fn();
+                if (typeof result === 'function') {
+                    result();
                 }
-            } else {
-                showErrorAlert(`Function not found <json-data onready="${fnName}">`);
+            } catch(e) {
+                showErrorAlert(`Error from function <json-data onready="${js}">: ${e.message}`);
+                console.error(e);
             }
         }
     }

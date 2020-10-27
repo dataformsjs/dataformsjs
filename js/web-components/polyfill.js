@@ -267,17 +267,17 @@
         // App Event
         dispatchEvent(rootElement, 'app:contentReady');
         if (rootElement.getAttribute('data-control') === 'json-data') {
-            var fnName = rootElement.getAttribute('onready');
-            if (fnName) {
-                if (typeof window[fnName] === 'function') {
-                    try {
-                        window[fnName]();
-                    } catch(e) {
-                        app.showErrorAlert('Error from function <json-data onready="' + fnName + '">: ' + e.message);
-                        console.error(e);
+            var js = rootElement.getAttribute('onready');
+            if (js) {
+                try {
+                    var fn = new Function('return ' + js);
+                    var result = fn();
+                    if (typeof result === 'function') {
+                        result();
                     }
-                } else {
-                    app.showErrorAlert('Function not found <json-data onready="' + fnName + '">');
+                } catch(e) {
+                    app.showErrorAlert('Error from function <json-data onready="' + js + '">: ' + e.message);
+                    console.error(e);
                 }
             }
         }
@@ -587,6 +587,7 @@
             app.loadScripts(rootUrl + 'controls/data-table' + (useMinFiles ? '.min' : '') + '.js'),
             app.loadScripts(rootUrl + 'controls/json-data' + (useMinFiles ? '.min' : '') + '.js'),
             app.loadScripts(rootUrl + 'extensions/format' + (useMinFiles ? '.min' : '') + '.js'),
+            app.loadScripts(rootUrl + 'extensions/jsTemplate' + (useMinFiles ? '.min' : '') + '.js'),
             app.loadScripts(rootUrl + 'plugins/dataBind' + (useMinFiles ? '.min' : '') + '.js'),
         ];
 

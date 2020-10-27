@@ -16,6 +16,62 @@
 let polyfillIsNeeded = null;
 
 /**
+ * Default Error Styles used when calling `showError()` or `showErrorAlert()`.
+ *
+ * These can be overridden by using [!important] CSS rules or by including
+ * the style sheet by ID on the page before Web Components load.
+ */
+const errorStyleId = 'dataformsjs-style-errors';
+const errorCss = `
+    .dataformsjs-error,
+    .dataformsjs-fatal-error {
+        color:#fff;
+        background-color:red;
+        box-shadow:0 1px 5px 0 rgba(0,0,0,.5);
+        background-image:linear-gradient(#e00,#c00);
+        // Next line is included but commented out because it should not show on mobile
+        // however on desktop with DevTools the commented out version makes it easy for a
+        // developer to toggle on errors that use line breaks and white space formatting.
+        /* white-space:pre; */
+        text-align: left;
+    }
+
+    .dataformsjs-error{
+        padding:10px;
+        font-size:1em;
+        margin:5px;
+        display:inline-block;
+    }
+
+    .dataformsjs-fatal-error {
+        z-index:1000000;
+        padding:20px;
+        font-size:1.5em;
+        margin:20px;
+        position:fixed;
+        top:10px;
+    }
+
+    @media only screen and (min-width:1000px){
+        .dataformsjs-fatal-error {
+            max-width:1000px;
+            left:calc(50% - 520px);
+        }
+    }
+
+    .dataformsjs-fatal-error span {
+        padding:5px 10px;
+        float:right;
+        border:1px solid darkred;
+        cursor:pointer;
+        margin-left:10px;
+        box-shadow:0 0 2px 1px rgba(0,0,0,0.3);
+        background-image:linear-gradient(#c00,#a00);
+        border-radius:5px;
+    }
+`;
+
+/**
  * Helper function to convert special characters to HTML entities.
  *
  * Characters escaped are:
@@ -196,20 +252,24 @@ export function bindAttrTmpl(element, attribute, data) {
  * Show an error in an element. This will style the element
  * with a red background and white text.
  *
- * @param {HTMLElement} el
+ * @param {HTMLElement} element
  * @param {string} message
  */
-export function showError(el, message)
+export function showError(element, message)
 {
+    if (element === null) {
+        showErrorAlert(message);
+        return;
+    }
+    loadCss(errorStyleId, errorCss);
     const span = document.createElement('span');
-    span.style.padding = '1em';
-    span.style.backgroundColor = 'red';
-    span.style.color = 'white';
-    span.style.fontSize = '1.5em';
+    span.className = 'dataformsjs-error';
     span.textContent = message;
-    el.innerHTML = '';
-    el.appendChild(span);
-    console.error(message);
+    element.innerHTML = '';
+    element.appendChild(span);
+    if (typeof message !== 'string') {
+        console.error(message);
+    }
 }
 
 /**
@@ -223,27 +283,40 @@ export function showError(el, message)
  * @param {string} message
  */
 export function showErrorAlert(message) {
-    const id = 'dataformsjs-fatal-error';
-    let div = document.getElementById(id);
-    if (div) {
-        div.textContent = message;
-    } else {
-        div = document.createElement('div');
-        div.id = id;
-        div.style.color = '#fff';
-        div.style.backgroundColor = '#f00';
-        div.style.backgroundImage = 'linear-gradient(#e00, #c00)';
-        div.style.boxShadow = '0 1px 5px 0 rgba(0,0,0,.5)';
-        div.style.zIndex = '1000000';
-        div.style.padding = '20px';
-        div.style.fontSize = '1.5em';
-        div.style.margin = '20px';
-        div.style.position = 'fixed';
-        div.style.top = '10px';
-        div.textContent = message;
-        document.body.appendChild(div);
+    loadCss(errorStyleId, errorCss);
+    let errorText = message;
+    if (typeof errorText === 'string' && errorText.toLowerCase().indexOf('error') === -1) {
+        errorText = 'Error: ' + errorText;
     }
-    console.error(message);
+    const div = document.createElement('div');
+    div.className = 'dataformsjs-fatal-error';
+    div.textContent = errorText;
+    const closeButton = document.createElement('span');
+    closeButton.textContent = '✕';
+    closeButton.onclick = (e) => {
+        document.body.removeChild(e.target.parentNode);
+    };
+    div.insertBefore(closeButton, div.firstChild);
+    document.body.appendChild(div);
+    if (typeof message !== 'string') {
+        console.error(message);
+    }
+}
+
+/**
+ * Append CSS to a Style Sheet in the Document if it does not yet exist.
+ *
+ * @param {string} id
+ * @param {string} css
+ */
+export function loadCss(id, css) {
+    let style = document.getElementById(id);
+    if (style === null) {
+        style = document.createElement('style');
+        style.id = id;
+        style.innerHTML = css;
+        document.head.appendChild(style);
+    }
 }
 
 /**

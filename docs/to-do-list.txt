@@ -23,7 +23,7 @@ TODO List
 --------------------------------------------------------------------------
 
 **) Finish Web Component Updates
-    - Many updates are being made and in active development (2020-10-20).
+    - Many updates are being made and in active development (2020-10-27).
         See the [CHANGELOG.md] or recent commmits for full details.
         Since changes are currently in active development the related features may
         go through additional changes without warning.
@@ -46,26 +46,16 @@ TODO List
             - Demo is working but additional development is needed
                 - Search for `TODO` in the HTML source to find active development files
             - See file [dataformsjs\js\web-components\data-list.js]
-                - Several new features are being tested and may or may not be kept
-                - This can be decided on while working on the Image Classification Demo
-                - New Attributes [template-returns-html] and [list-item-name]
+                - New Attributes [template-returns-html] and [list-item-name] need to be added to <data-table>
                 - Search for `const tmplHtml = template.innerHTML`
                     - For now the `replace` calls are only used when using [template-returns-html]
+                        tmplHtml.replace(/&amp;/g, '&').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
                     - Additionally other characters are likely needed and more research to see how different browsers handle this.
-                    - Alternatively using '&' with in the JS ${} may not be supported as templates are intended on being kept simple.
-                        If so revert to the previous version.
-                        It may need to be more advanced to only escape with in ${}
-                - If keeping other code using the new templates with `new Function` such as [data-table.js] needs this
-                    and all related Framework Controls
-                - Currently [dataformsjs\js\controls\data-list.js] is updated to match the Web Component so [data-table.js] is next.
+                    - <data-table> needs the `replace` calls
+                    - Likely create a new function in [utils.js] `compileJsTemplate()` that will be shared and allow
+                        for caching of the template functions similar to the new framework file: [dataformsjs\js\extensions\jsTemplate.js]
         - <url-route> and <url-hash-route> will have a new [onload] attribute that has the same behavior as the <json-data onready="{fn-name}">.
             Once added then include some demos in the [places-demo-web.htm] file for both routing and <json-data>
-            * Related consider making the value any valid JavaScript expression rather than a function name. Simliar to 
-                how the standard HTML [onclick] would work.
-            * Example:
-                onready="setupFileUploads()"
-            * Tnstead of:
-                onready="setupFileUploads"
         - Must verify new [defineExtendsPolyfill] with the versions of Safari or other Legacy modern browsers
         - Log Demo Pages
             When using Polyfill the error currently does not show:
@@ -791,9 +781,6 @@ TODO List
 
 *) Extension validation
     *) Many more validations needed including all HTML standard attributes such as <input pattern>
-
-*) Improvements for [app.showErrorAlert()] to show all errors as a list?
-    For example keep adding errors to a <ul> control and allow user to clear them.
 
 *) Unit Test all Possible Errors
     For example a specific plugin that throws an exception from [onRendered()]

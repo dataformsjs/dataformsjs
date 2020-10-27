@@ -66,7 +66,7 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
-import { usingWebComponentsPolyfill } from './utils.js';
+import { loadCss, usingWebComponentsPolyfill } from './utils.js';
 
 /**
  * Shadow DOM for Custom Elements
@@ -277,7 +277,7 @@ function showOverlay() {
     const imageSrc = getImage(images[imageIndex]);
     const imageTitle = getImageTitle(images[imageIndex]);
     const loadingText = images[imageIndex].getAttribute('loading-text');
-    loadCss();
+    loadCss(overlayStyleId, overlayStyleCss);
 
     // Overlay <div> root element
     overlay = document.createElement('div');
@@ -380,16 +380,6 @@ function clearLoadingTimer() {
     if (loadingTimeoutId !== null) {
         window.clearTimeout(loadingTimeoutId);
         loadingTimeoutId = null;
-    }
-}
-
-function loadCss() {
-    let style = document.getElementById(overlayStyleId);
-    if (style === null) {
-        style = document.createElement('style');
-        style.id = overlayStyleId;
-        style.innerHTML = overlayStyleCss;
-        document.head.appendChild(style);
     }
 }
 
