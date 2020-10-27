@@ -201,12 +201,14 @@ export function bindAttrTmpl(element, attribute, data) {
  */
 export function showError(el, message)
 {
-    el.style.padding = '1em';
-    el.style.backgroundColor = 'red';
-    el.style.color = 'white';
-    el.style.fontSize = '1.5em';
+    const span = document.createElement('span');
+    span.style.padding = '1em';
+    span.style.backgroundColor = 'red';
+    span.style.color = 'white';
+    span.style.fontSize = '1.5em';
+    span.textContent = message;
     el.innerHTML = '';
-    el.textContent = message;
+    el.appendChild(span);
     console.error(message);
 }
 

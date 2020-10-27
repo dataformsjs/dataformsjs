@@ -67,6 +67,7 @@ class DataTable extends HTMLElement {
             case 'labels':
             case 'table-attr':
             case 'highlight-class':
+            case 'empty-data-text':
                 if (oldVal !== null || this.state.hasBeenLoaded) {
                     this.renderTable();
                 }
@@ -89,6 +90,11 @@ class DataTable extends HTMLElement {
 
     get defaultErrorStyle() {
         return 'color:white; background-color:red; padding:0.5rem 1rem; margin:.5rem;';
+    }
+
+    get emptyDataText() {
+        const value = this.getAttribute('empty-data-text');
+        return (value === null ? 'No records found' : value);
     }
 
     getTemplate() {
@@ -140,9 +146,9 @@ class DataTable extends HTMLElement {
             this.removeAttribute('not-setup');
         };
 
-        // Show no-data if empty
+        // Show "no-data" table and default "No records found" text if empty
         if (Array.isArray(list) && list.length === 0) {
-            addTable('<table class="no-data"></table>');
+            addTable(render`<table class="no-data"><caption>${this.emptyDataText}<caption></table>`);
             return;
         }
 

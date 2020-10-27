@@ -133,10 +133,6 @@ TODO List
         - On the templates (and probably all examples) add the HTML [crossorigin] attribute
             so good errors can show in `window.onerror` from DataFormsJS. Need to test and confirm.
             https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script
-        - [js\web-components\data-table.js]
-                addTable('<table class="no-data"></table>');
-            Needs a [emptyDataText] like the standard framework that has a default value of "No records found"
-                addTable('<table class="no-data"><caption>' + app.escapeHtml(this.emptyDataText) + '<caption></table>');
         - Because of the new features for <data-list> the main site https://www.dataformsjs.com/
             is being updated to use only JavaScript and not Handlebars templating. More testing on
             a variety of devices is needed and one issue must be solved (otherwise rollback changes to
