@@ -110,7 +110,7 @@ const isWindows = (process.platform === 'win32');
             if (!es6) {
                 addCopyright = (file.endsWith('DataFormsJS.js') || file.endsWith('DataFormsJS.React.js') || file.endsWith('jsxLoader.js'));
             } else {
-                addCopyright = (file.endsWith('json-data.js') || file.endsWith('url-hash-router.js'));
+                addCopyright = (file.endsWith('json-data.js') || file.endsWith('url-router.js'));
             }
             if (addCopyright) {
                 newCode = copyright + newCode;

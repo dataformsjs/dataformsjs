@@ -10,9 +10,9 @@
     <body>
         <div id="view" dir="auto"></div>
          
-        <url-hash-router view-selector="#view">
+        <url-router view-selector="#view">
                     
-            <url-hash-route path="/">
+            <url-route path="/">
                 <template>
                     <h1>{{hello_world}}</h1>
                     <p>{{modify_this}} <a href="#/{{param_your_name}}">{{URL}}</a> {{with_your_name}}</p>
@@ -24,22 +24,22 @@
                         </div>
                     </div>
                 </template>
-            </url-hash-route>
+            </url-route>
 
-            <url-hash-route path="/:{{param_name}}">
+            <url-route path="/:{{param_name}}">
                 <template>
                     <h1>{{hello}} <span url-param="{{param_name}}"></span></h1>
                     <p><a href="#">{{back_home}}</a></p>
+                    <p><a href="#/redirect/test">Redirect Test</a></p>
                 </template>
-            </url-hash-route>
+            </url-route>
 
-        </url-hash-router>
+            <url-route path="/redirect/test" redirect="/Redirected"></url-route>
+        </url-router>
         
-        <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/url-hash-router.min.js"></script>
-        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/safari-nomodule.min.js"></script>
-        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/old-browser-warning.min.js"></script>         -->
-
-        <script type="module" src="../../../js/web-components/url-hash-router.js"></script>
+        <script type="module" src="../../../js/web-components/url-router.js"></script>
         <script nomodule src="../../../js/web-components/polyfill.js"></script>
+
+        <!-- <script src="../../../js/web-components/polyfill.js"></script> -->
     </body>
 </html>

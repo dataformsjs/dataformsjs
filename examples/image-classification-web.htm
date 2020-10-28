@@ -16,18 +16,18 @@
 
     <div id="view"></div>
 
-    <url-hash-router view-selector="#view">
-        <url-hash-route path="/" src="html/image-home-web.htm" lazy-load="imageClassification"></url-hash-route>
-        <url-hash-route path="/categories" src="html/image-categories-web.htm" lazy-load="filter"></url-hash-route>
-        <url-hash-route path="/info" src="html/image-info-web.htm"></url-hash-route>
-    </url-hash-router>
+    <url-router view-selector="#view">
+        <url-route path="/" src="html/image-home-web.htm" lazy-load="imageClassification"></url-route>
+        <url-route path="/categories" src="html/image-categories-web.htm" lazy-load="filter"></url-route>
+        <url-route path="/info" src="html/image-info-web.htm"></url-route>
+    </url-router>
 
     <!--
         DataFormsJS Web Components
         https://www.dataformsjs.com
     -->
     <script type="module" src="../js/web-components/spa-links.js"></script>
-    <script type="module" src="../js/web-components/url-hash-router.js"></script>
+    <script type="module" src="../js/web-components/url-router.js"></script>
     <script type="module" src="../js/web-components/json-data.js"></script>
     <script type="module" src="../js/web-components/data-list.js"></script>
     <script nomodule src="../js/web-components/polyfill.js"></script>

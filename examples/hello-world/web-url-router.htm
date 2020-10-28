@@ -24,7 +24,7 @@
             http://127.0.0.1:8080/examples/hello-world/en/web-url-router.htm
             https://www.dataformsjs.com/examples/hello-world/en/web-url-router.htm
         -->
-        <url-router view-selector="#view">
+        <url-router view-selector="#view" mode="history">
 
             <url-route path="/examples/hello-world/{{lang}}/web-url-router.htm" default-route>
                 <template>
@@ -50,14 +50,13 @@
 
             <url-route
                 path="/examples/hello-world/{{lang}}/web-url-router.htm/redirect/test"
-                redirect="/examples/hello-world/{{lang}}/web-url-router.htm/Redirected" />
+                redirect="/examples/hello-world/{{lang}}/web-url-router.htm/Redirected">
+            </url-route>
         </url-router>
-
-        <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/url-router.min.js"></script>
-        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/safari-nomodule.min.js"></script>
-        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/old-browser-warning.min.js"></script> -->
 
         <script type="module" src="../../../js/web-components/url-router.js"></script>
         <script nomodule src="../../../js/web-components/polyfill.js"></script>
+
+        <!-- <script src="../../../js/web-components/polyfill.js"></script> -->
     </body>
 </html>

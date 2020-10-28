@@ -32,7 +32,8 @@ Overall the core Framework files and API are expected to remain stable however t
   * Added `data-show="js-expression"` to show or hide items from `<json-data>`. It works similar to Vue `v-show`.
   * The new features make for an easier to use API for customizing content on page after data is displayed. Previously the places demo required a lot of custom JavaScript on the page in order to display flag icons, format table data, and additional items.
   * Added new Web Component `<nav is="spa-links">`. Previously SPA Nav Links were handled from custom JavaScript code on the page. Now this functionality is much easier for a site to include as only HTML is needed.
-  * `<url-router>` and `<url-hash-router>` now have the ability to lazy load scripts (CSS and JavaScript) per route in a similar manner to the main framework using the new `window.lazyLoad` option and related HTML Attributes.
+  * `<url-router>` and `<url-hash-router>` are now combined into one component `<url-router>` and `<url-hash-router>` has been removed
+  * `<url-router>` now has the ability to lazy load scripts (CSS and JavaScript) per route in a similar manner to the main framework using the new `window.lazyLoad` option and related HTML Attributes.
   * New Class `WebComponentService` which can be used to define "service" Web Components
     * The term "service" is used here because the intended use is that components created with this class do not render content but rather provide a service that updates other elements on the page based on HTML attributes element class names, etc. and that the service needs to run when content on the page changes from SPA routes or JSON Services.
     * This is a similar concept to the DataFormsJS Framework Plugins feature allowing for custom functionality to be defined easily and with little API code outside of standard DOM and JavaScript.
@@ -66,8 +67,11 @@ For the standard Framework most breaking changes are minor and only expected to 
 
 The Web Components have the most complex breaking changes related to API usage however due to the complexity of the earlier API it's unlikely to affect any site. If a site did use the ealier API it is generally quick to update as well.
 
+* Removed `<url-hash-router>`
+  * This can now be replaced with `<url-router>`
+  * `<url-router>` previously only worked with HTML5 History Routes `pushState/popstate`. To use history routes now use `<url-router mode="history">`
 * `js/web-components/utils.js` - Removed `showOldBrowserWarning()`. The feature has been replaced with the new `js/web-components/polyfill.js` and a function `usingWebComponentsPolyfill()`
-* Web Components API for `<json-data>`, `<url-hash-router>`, and `<url-router>` has been changed. Previously the API required `async/await` from module JavaScript and was complex to use. It has now been simplified so that events bubble up to the document can be handled easily from the root document event listener and so standard JavaScript functions can be called from HTML attributes.
+* Web Components API for `<json-data>`, `<url-router>` have been changed significantly. Previously the API required `async/await` from module JavaScript and was complex to use. It has now been simplified so that events bubble up to the document can be handled easily from the root document event listener and so standard JavaScript functions can be called from HTML attributes.
   * **Before Update:** https://github.com/dataformsjs/dataformsjs/blob/c23bf5e4cd9e826c61313877ae0c2d2da6d6f889/examples/places-demo-web.htm
   * **After Update:** https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-web.htm
 * `js/plugins/filter.js` - Removed error alert for text `Column filter requires a table to be correctly defined` that happened if a table was missing when the filter was loaded. The reason is that it makes sense for certain apps to have a defined filter and only optionally include the table.

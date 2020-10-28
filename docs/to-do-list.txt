@@ -34,7 +34,7 @@ TODO List
         https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/
         - All files under [js] are copied there. Example if testing from the Playground:
             https://www.dataformsjs.com/en/playground
-        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/url-hash-router.min.js"></script>
+        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/url-router.min.js"></script>
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/json-data.min.js"></script>
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/data-table.min.js"></script>
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/input-filter.min.js"></script>
@@ -155,6 +155,7 @@ TODO List
             https://webpack.js.org/
             - If needed after release create a demo repository showing how to use DataFormsJS with webpack
         - Handle and remove all `NOTE` comments in [polyfill.js] before npm publishing
+        - Before release update docs and example code that use <url-hash-router> to use <url-router> with the new CDN link
         - After new release publish here:
             https://www.webcomponents.org/publish-collection
 

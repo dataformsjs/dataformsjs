@@ -23,14 +23,14 @@
 
         <main id="view" class="container"></main>
 
-        <url-hash-router view-selector="#view">
-            <url-hash-route path="/">
+        <url-router view-selector="#view">
+            <url-route path="/">
                 <template>
                     <h1>DataFormsJS Web Components Template</h1>
                 </template>
-            </url-hash-route>
+            </url-route>
 
-            <url-hash-route path="/data">
+            <url-route path="/data">
                 <template>
                     <h1>Countries</h1>
 
@@ -62,15 +62,15 @@
                         </is-loaded>
                     </json-data>
                 </template>
-            </url-hash-route>
-        </url-hash-router>
+            </url-route>
+        </url-router>
 
         <!--
             DataFormsJS Web Components
             https://www.dataformsjs.com
         -->
         <script type="module" src="../js/web-components/spa-links.js"></script>
-        <script type="module" src="../js/web-components/url-hash-router.js"></script>
+        <script type="module" src="../js/web-components/url-router.js"></script>
         <script type="module" src="../js/web-components/json-data.js"></script>
         <script type="module" src="../js/web-components/data-table.js"></script>
         <script type="module" src="../js/web-components/input-filter.js"></script>
@@ -83,7 +83,6 @@
             Additional Components:
         -->
         <!--
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/url-router.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/data-list.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/leaflet-map.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/image-gallery.min.js"></script>

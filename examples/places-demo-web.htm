@@ -33,15 +33,15 @@
         <!--
             Define SPA (Single Page App) Routes
         -->
-        <url-hash-router view-selector="#view" loading-template-selector="#loading-spinner-screen">
+        <url-router view-selector="#view" loading-template-selector="#loading-spinner-screen">
             <!--
-                Routes can be embedded directly on the page as a <template> under <url-hash-route>.
+                Routes can be embedded directly on the page as a <template> under <url-route>.
                 [default-route] is optional and can be used if the default path is something other than "/".
 
                 [onload] allows for custom JavaScript to be executed or functions
                 to be called whenever the matching route is viewed.
             -->
-            <url-hash-route path="/"
+            <url-route path="/"
                 default-route
                 onload="showMessage('Viewing Countries Page')">
                 <template>
@@ -124,19 +124,19 @@
                         </is-loaded>
                     </json-data>
                 </template>
-            </url-hash-route>
+            </url-route>
 
             <!--
                 The <template> source can also be downloaded dynamically when using [src].
                 Routes with [lazy-load] will dynamically download needed scripts from
                 `window.lazyLoad` near the bottom of this file only when first used.
             -->
-            <url-hash-route path="/regions/:country" src="html/regions-web.htm" onload="showMessage('Viewing Regions Page')"></url-hash-route>
-            <url-hash-route path="/cities/:country/:region" src="html/cities-web.htm"></url-hash-route>
-            <url-hash-route path="/city/:id" src="html/place-web.htm" lazy-load="leafletCss, leafletJs, leafletWeb, leafletPlugin, data_list"></url-hash-route>
-            <url-hash-route path="/info" src="html/places-info-web.htm"></url-hash-route>
-            <url-hash-route path="/search" src="html/search-places-web.htm" lazy-load="data_list, keydownAction"></url-hash-route>
-        </url-hash-router>
+            <url-route path="/regions/:country" src="html/regions-web.htm" onload="showMessage('Viewing Regions Page')"></url-route>
+            <url-route path="/cities/:country/:region" src="html/cities-web.htm"></url-route>
+            <url-route path="/city/:id" src="html/place-web.htm" lazy-load="leafletCss, leafletJs, leafletWeb, leafletPlugin, data_list"></url-route>
+            <url-route path="/info" src="html/places-info-web.htm"></url-route>
+            <url-route path="/search" src="html/search-places-web.htm" lazy-load="data_list, keydownAction"></url-route>
+        </url-router>
 
         <template id="loading-spinner-screen">
             <div class="loading">
@@ -145,7 +145,7 @@
         </template>
 
         <!-- DataFormsJS Web Components -->
-        <script type="module" src="../js/web-components/url-hash-router.js"></script>
+        <script type="module" src="../js/web-components/url-router.js"></script>
         <script type="module" src="../js/web-components/json-data.js"></script>
         <script type="module" src="../js/web-components/data-table.js"></script>
         <script type="module" src="../js/web-components/input-filter.js"></script>
@@ -217,7 +217,7 @@
                 }
 
                 // Show a message in the console. This function gets called from event
-                // attributes <url-hash-route>[onload] and <json-data>[onready].
+                // attributes <url-route>[onload] and <json-data>[onready].
                 // This shows how the attributes can be used to call custom JavaScript functions.
                 window.showMessage = function(text) {
                     log(text, 'orange');
@@ -226,13 +226,13 @@
                 // To exclude event log during development comment out the next line:
                 // return;
 
-                // Handle routing changes from <url-hash-router> or <url-router>
+                // Handle routing changes from <url-router> or <url-router>
                 document.addEventListener('app:routeChanged', function(event) {
                     log('app:routeChanged', 'blue');
                     console.log(event);
 
                     // When using Web Components `event.target` will be either
-                    // <url-hash-router> or <url-router> and when using [polyfill.js]
+                    // <url-router> or <url-router> and when using [polyfill.js]
                     // the root `document` will be passed.
                     console.log(event.target);
 
@@ -248,7 +248,7 @@
                     console.log(event.target); // <json-data>, <div data-control="json-data"> or `document`
                 });
 
-                // Handle errors from <json-data>, <url-hash-router>, or <url-router>
+                // Handle errors from <json-data>, <url-router>, or <url-router>
                 document.addEventListener('app:error', function(event) {
                     log('app:error', 'red');
                     console.warn(event);

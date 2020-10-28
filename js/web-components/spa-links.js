@@ -2,8 +2,7 @@
  * DataFormsJS <nav is="spa-links"> Web Component
  *
  * By default this will set an [class="active"] on <a> links within the <nav>
- * for Single Page Apps (SPA) when the route changes from either
- * <url-hash-router> or <url-router> Web Components.
+ * for Single Page Apps (SPA) when the route changes from <url-router>.
  *
  * Options can be changed by setting attributes [item-selector] and [active-class].
  *
@@ -71,8 +70,9 @@ class SpaLinks extends HTMLElement {
         }
 
         // Get URL path
+        const router = document.querySelector('url-router');
         let path;
-        if (document.querySelector('url-hash-router') !== null) {
+        if (router !== null && router.getAttribute('mode') !== 'history') {
             path = (window.location.hash === '' ? '#/' : window.location.hash);
         } else {
             path = window.location.pathname;

@@ -10,9 +10,9 @@
     <body>
         <div id="view" class="pt10"></div>
 
-        <url-hash-router view-selector="#view">
-            <url-hash-route path="/" redirect="/10"></url-hash-route>
-            <url-hash-route path="/:count">
+        <url-router view-selector="#view">
+            <url-route path="/" redirect="/10"></url-route>
+            <url-route path="/:count">
                 <template>
                     <json-data url="https://www.dataformsjs.com/data/example/log-table/:count?format=list" url-params>
                         <is-loading>
@@ -80,11 +80,11 @@
                         </is-loaded>
                     </json-data>
                 </template>
-            </url-hash-route>
-        </url-hash-router>
+            </url-route>
+        </url-router>
 
         <!-- DataFormsJS Web Components -->
-        <script type="module" src="../js/web-components/url-hash-router.js"></script>
+        <script type="module" src="../js/web-components/url-router.js"></script>
         <script type="module" src="../js/web-components/json-data.js"></script>
         <script type="module" src="../js/web-components/data-table.js"></script>
         <script nomodule src="../js/web-components/polyfill.js"></script>

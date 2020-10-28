@@ -1,11 +1,12 @@
 /**
  * DataFormsJS <url-router> and <url-route> Web Components
  *
- * These component handles URL routing with the HTML5 History API and can be
- * used to create Single Page Applications (SPA) without having to use a large
- * JavaScript framework.
+ * These component handles URL routing for Single Page Apps (SPA)
+ * without having to use a large JavaScript framework.
  *
- * For URL #Hash Routing see 'js/web-components/url-hash-router.js'.
+ * The default mode is URL #hash routing. To use HTML5 History
+ * Routing (pushState/popstate) use the [mode] attribute:
+ *     <url-router mode="history">
  *
  * @link     https://www.dataformsjs.com
  * @author   Conrad Sollitt (https://conradsollitt.com)
@@ -49,15 +50,18 @@ class UrlRouter extends HTMLElement {
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
         this.currentRoute = null;
         this.updateView = this.updateView.bind(this);
+        this.useHistoryMode = (this.getAttribute('mode') === 'history');
         this.updateView();
     }
 
     connectedCallback() {
-        window.addEventListener('popstate', this.updateView);
+        const eventName = (this.useHistoryMode ? 'popstate': 'hashchange');
+        window.addEventListener(eventName, this.updateView);
     }
 
     disconnectedCallback() {
-        window.removeEventListener('popstate', this.updateView);
+        const eventName = (this.useHistoryMode ? 'popstate': 'hashchange');
+        window.removeEventListener(eventName, this.updateView);
     }
 
     /**
@@ -74,7 +78,7 @@ class UrlRouter extends HTMLElement {
         const view = setupRouting(this);
 
         // Get URL Path
-        let path = window.location.pathname;
+        let path = (this.useHistoryMode ? window.location.pathname : window.location.hash.substr(1));
         if (path === '') {
             path = '/';
         }
@@ -92,9 +96,13 @@ class UrlRouter extends HTMLElement {
             if (result.isMatch) {
                 // Redirect Route?
                 const redirect = route.redirect;
-                if (redirect !== null && redirect !== window.location.pathname) {
-                    window.history.pushState(null, null, route.redirect);
-                    this.updateView();
+                if (redirect !== null && redirect !== path) {
+                    if (this.useHistoryMode) {
+                        window.history.pushState(null, null, route.redirect);
+                        this.updateView();
+                    } else {
+                        window.location.hash = '#' + redirect;
+                    }
                     return;
                 }
 
@@ -122,8 +130,12 @@ class UrlRouter extends HTMLElement {
         if (defaultRoute) {
             const path = defaultRoute.path;
             if (path !== '' && path.indexOf(':') === -1) {
-                window.history.pushState(null, null, path);
-                this.updateView();
+                if (this.useHistoryMode) {
+                    window.history.pushState(null, null, path);
+                    this.updateView();
+                } else {
+                    window.location.hash = '#' + defaultRoute.path;
+                }
                 return;
             }
         }

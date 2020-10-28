@@ -142,8 +142,7 @@
     };
 
     /**
-     * Custom Framework Page object to handle routes defined by
-     * <url-hash-router> and <url-router> Routes.
+     * Custom Framework Page object to handle routes defined by <url-router> Routes.
      */
     var polyfillPage = {
         model: {},
@@ -170,8 +169,8 @@
             });
 
             // App Event
-            // When using Web Components this happens on either <url-hash-router> or <url-router>
-            // and bubbles up to the document. For the polyfill the specific router element
+            // When using Web Components this happens on either <url-router> and bubbles
+            // up to the document. For the polyfill the specific router element
             // doesn't matter so the event is dispatched on the document.
             dispatchEvent(document, 'app:routeChanged', {
                 url: (app.activeController && app.activeController.path ? app.activeController.path : null),
@@ -266,7 +265,7 @@
 
         // App Event
         dispatchEvent(rootElement, 'app:contentReady');
-        if (rootElement.getAttribute('data-control') === 'json-data') {
+        if (rootElement !== document && rootElement.getAttribute('data-control') === 'json-data') {
             evalElementJs(rootElement.getAttribute('onready'), 'json-data', 'onready');
         }
     }
@@ -375,8 +374,7 @@
     }
 
     /**
-     * Convert routes under <url-hash-router>
-     * and <url-router> to standard Framework routes.
+     * Convert routes under <url-router> to standard Framework routes
      */
     function defineRoutes() {
         // Private function related to routing setup
@@ -391,14 +389,12 @@
         }
 
         // Get Router Type
-        var router = document.querySelector('url-hash-router');
-        var routeSelector = 'url-hash-route';
+        var router = document.querySelector('url-router');
         if (router === null) {
-            router = document.querySelector('url-router');
-            if (router === null) {
-                return;
-            }
-            routeSelector = 'url-route';
+            // Site has no routes so it's not an SPA
+            return;
+        }
+        if (router.getAttribute('mode') === 'history') {
             // Required before `app.setup()` is called in order to use
             // History Routes (pushState, popstate)
             document.documentElement.setAttribute('data-routing-mode', 'history');
@@ -413,7 +409,7 @@
         }
         var view = document.querySelector(app.settings.viewSelector);
         if (view === null) {
-            routerError(router, 'Error, element from <url-hash-router view-selector="' + app.escapeHtml(app.settings.viewSelector) + '"> was not found on the page.');
+            routerError(router, 'Error, element from <url-router view-selector="' + app.escapeHtml(app.settings.viewSelector) + '"> was not found on the page.');
             return;
         }
 
@@ -437,8 +433,8 @@
 
         // Get all routes on the page and for each route add a controller object. When using the
         // standard DataFormsJS framework it converts <template|script data-route="path"> to
-        // controllers. For the Web Components Polyfill <url-route|url-hash-route> are used instead.
-        var routes = router.querySelectorAll(routeSelector);
+        // controllers. For the Web Components Polyfill <url-route> are used instead.
+        var routes = router.querySelectorAll('url-route');
         var viewIndex = 0;
         Array.prototype.forEach.call(routes, function(route) {
             // Get route [path]
@@ -480,7 +476,7 @@
                     return;
                 }
                 if (!template.id) {
-                    template.id = 'url-hash-route-template-' + viewIndex + '-' + (new Date()).getTime();
+                    template.id = 'url-route-template-' + viewIndex + '-' + (new Date()).getTime();
                     viewIndex++;
                 }
                 viewId = template.id;
@@ -528,8 +524,7 @@
      */
     function noRoutingSetup() {
         // Exit if the page contains a router
-        var urlHashRouter = document.querySelector('url-hash-router, url-router');
-        if (urlHashRouter) {
+        if (document.querySelector('url-router') !== null) {
             return;
         }
 
