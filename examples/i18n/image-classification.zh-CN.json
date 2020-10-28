@@ -10,7 +10,7 @@
     "Loading...": "加载中...",
     "Error": "错误",
     "{totalCount} Image Categories": "{totalCount} 图片类别",
-    "Showing {displayCount} of {totalCount} Image Categories": "Showing {displayCount} of {totalCount} Image Categories",
+    "Showing {displayCount} of {totalCount} Image Categories": "显示{totalCount}个图片类别中的{displayCount}个",
     "Enter filter, example [dog] or [cat]": "请输入筛选类别，如[dog] or [cat]",
     "Image Classification Info": "图片分类信息",
     "Overview": "概述",

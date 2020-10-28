@@ -36,6 +36,8 @@
 
 'use strict';
 
+// TODO - this file will go include some additional minor changes for the new <i18n-service>
+
 // NOTE - If <script type="module"> were used instead of <script> then
 // two functions would need to be exported to global scope. Because
 // <json-data> and other Web Components do not "import" functions but

@@ -47,6 +47,12 @@ TODO List
                 <json-data url="{rootApiUrl}/view-records">
             - Then from JS:
                 `window.rootApiUrl` could be toggled easily based on the root server to use.
+        - Attempt to create <i18n-service> for the Places and Image Classifications, see other comments in this file
+            - Search for `TODO` comments in source, all are currently related to this
+            - Initial development is in early state and first occurring on the Image Classification demo
+            - Testing:
+                http://127.0.0.1:8080/image-classification-web#/en/
+                http://127.0.0.1:8080/image-classification-web#/zh-CN/
         - Must verify new [defineExtendsPolyfill] with the versions of Safari or other Legacy modern browsers
         - Log Demo Pages
             When using Polyfill the error currently does not show:
@@ -62,7 +68,6 @@ TODO List
                 - <data-table> needs the `replace` calls
                 - Likely create a new function in [utils.js] `compileJsTemplate()` that will be shared and allow
                     for caching of the template functions similar to the new framework file: [dataformsjs\js\extensions\jsTemplate.js]
-        - Attempt to create <i18n-service> for the Places and Image Classifications, see other comments in this file
         - Review all comments in [js/web-components/polyfill.js] and handle all issues.
             The file is mostly complete and properly working but still in active development.
         - New demo page to test all features of the new [utils-format.js] file
@@ -129,6 +134,13 @@ TODO List
                 https://github.com/ConradSollitt/website
             - If keeping then likely add more comments on the main site about how <data-list> is used
                 with basic JS templating instead of a full featured templating engine (Handlebars, Vue)
+            - Likley re-create the main site using a web component version. The php code can select
+                which version to return by selecting either [index.htm] or [index_web.htm].
+                - This will require a lot more work and may require additional web components
+                - Files such as Playground Page and Home Page code can be shared between Framework
+                    and Web Components by using logic to assign new functions to the window scope
+                    for routing changes.
+                - search this file for "main site" for more on need updates such as [role="tab"]
         - Test mixing Framework and Web Components, likely provide an error alert from Web Components if that
             happens. Currently the intention is to use one or the other.
         - Before release look for all files with: <script src="../js/  and point them to the AWS S3 site for testing

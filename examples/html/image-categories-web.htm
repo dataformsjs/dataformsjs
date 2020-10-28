@@ -1,11 +1,15 @@
+<!--
+    TODO - this file is still being updated for the new <i18n-service>
+        More testing of the Loading and Error screens is needed
+-->
 <json-data
     url="https://www.dataformsjs.com/data/ai-ml/categories/resnet50"
     load-only-once="true">
     <is-loading>
-        <span class="loading">Loading...</span>
+        <h2 data-i18n="Loading..."></h2>
     </is-loading>
     <has-error>
-        <span class="error" data-bind="errorMessage"></span>
+        <h2 class="error"><span data-i18n="error"></span> - <span data-bind="errorMessage"></span></h2>
     </has-error>
     <is-loaded>
         <section>
@@ -17,7 +21,8 @@
                     filter-results-selector="h1"
                     filter-results-text-all="{totalCount} Image Categories"
                     filter-results-text-filtered="Showing {displayCount} of {totalCount} Image Categories"
-                    placeholder="Enter filter, example [dog] or [cat]">
+                    placeholder="Enter filter, example [dog] or [cat]"
+                    data-i18n-attr="filter-results-text-all, filter-results-text-filtered, placeholder">
             </div>
         
             <div class="content">

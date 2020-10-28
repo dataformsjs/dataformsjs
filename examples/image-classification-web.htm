@@ -9,17 +9,22 @@
 </head>
 <body dir="auto">
     <nav is="spa-links">
-        <a class="active" href="#/">Images</a>
-        <a href="#/categories">Categories</a>
-        <a href="#/info">Info</a>
+        <a href="#/en/" data-i18n="Images" data-i18n-href></a>
+        <a href="#/en/categories" data-i18n="Categories" data-i18n-href></a>
+        <a href="#/en/info" data-i18n="Info" data-i18n-href></a>
     </nav>
+
+    <!--
+        TODO - <i18n-service> is in active development and using this file as part of development
+    -->
+    <i18n-service file="image-classification" default-locale="en" locales="en,ja,es,pt-BR,ar,fr,zh-CN"></i18n-service>
 
     <div id="view"></div>
 
     <url-router view-selector="#view">
-        <url-route path="/" src="html/image-home-web.htm" lazy-load="imageClassification"></url-route>
-        <url-route path="/categories" src="html/image-categories-web.htm" lazy-load="filter"></url-route>
-        <url-route path="/info" src="html/image-info-web.htm"></url-route>
+        <url-route path="/:lang/" src="html/image-home-web.htm" default-route lazy-load="imageClassification"></url-route>
+        <url-route path="/:lang/categories" src="html/image-categories-web.htm" lazy-load="filter"></url-route>
+        <url-route path="/:lang/info" src="html/image-info-web.htm"></url-route>
     </url-router>
 
     <!--
@@ -27,6 +32,7 @@
         https://www.dataformsjs.com
     -->
     <script type="module" src="../js/web-components/spa-links.js"></script>
+    <script type="module" src="../js/web-components/i18n-service.js"></script>
     <script type="module" src="../js/web-components/url-router.js"></script>
     <script type="module" src="../js/web-components/json-data.js"></script>
     <script type="module" src="../js/web-components/data-list.js"></script>

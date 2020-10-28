@@ -48,6 +48,8 @@ shadowTmpl.innerHTML = `
 export class WebComponentService extends HTMLElement {
     constructor() {
         super();
+        // TODO - does `usingWebComponentsPolyfill()` need to be called on `connectedCallback()` as well?
+        // More testing needed.
         if (usingWebComponentsPolyfill()) {
             return;
         }
@@ -76,6 +78,7 @@ export class WebComponentService extends HTMLElement {
     }
 
     runService(e) {
-        this.refresh(e.target);
+        const rootElement = (e.target.tagName === 'URL-ROUTER' ? document : e.target);
+        this.refresh(rootElement);
     }
 }

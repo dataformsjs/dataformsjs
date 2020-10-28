@@ -1,50 +1,52 @@
-<json-data url="i18n/image-classification.en.json" load-only-once="true">
-    <is-loaded>
-        <section>
-            <div class="content">
-                <h1 data-bind="Image Classification Info"></h1>
-        
-                <h2 data-bind="Overview"></h2>
-                <ul class="results">
-                    <li class="legend">
-                        <div class="success-high" data-bind="prob_high"></div>
-                        <div class="success-medium" data-bind="prob_med"></div>
-                        <div class="success-low" data-bind="prob_low"></div>
-                    </li>
-                </ul>
-                <ul class="info">
-                    <li data-bind="info_1"></li>
-                    <li data-bind="info_2"></li>
-                    <li data-bind="info_3"></li>
-                    <li data-bind="info_4"></li>
-                    <li data-bind="info_5"></li>
-                    <li data-bind="info_6"></li>
-                    <li data-bind="info_7"></li>
-                    <li data-bind="info_8"></li>
-                    <li data-bind="info_9"></li>
-                    <li data-bind="info_10"></li>
-                    <li data-bind="info_11"></li>
-                    <li><a href="https://unsplash.com/photos/s-fD5Tpew2k" target="_blank" data-bind="info_12"></a></li>
-                    <li><a href="https://unsplash.com/photos/FGEHnEMaZnE" target="_blank" data-bind="info_13"></a></li>
-                </ul>
-        
-                <h2 class="source-code">
-                    <span data-bind="source_code"></span>
-                    <img src="https://www.dataformsjs.com/img/logos/GitHub-Mark-32px.png" alt="GitHub">
-                </h2>
-                <ul class="info">
-                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-vue.htm" target="_blank">Vue</a></li>
-                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-react.htm" target="_blank">React</a></li>
-                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-hbs.htm" target="_blank">Handlebars</a></li>
-                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification.js" target="_blank" data-bind="src_js_vue_hbs"></a></li>
-                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/html/image-home-react.jsx" target="_blank">JSX (React)</a></li>
-                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-web.htm" target="_blank">Web Components</a></li>
-                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-web.js" target="_blank">JavaScript (Web Components)</a></li>
-                </ul>
-        
-                <h2 data-bind="Links"></h2>
-                <ul class="info" data-template-url="html/image-info-links.htm"></ul>
-            </div>
-        </section>
-    </is-loaded>
-</json-data>
+<section>
+    <div class="content">
+        <h1 data-i18n="Image Classification Info"></h1>
+
+        <h2 data-i18n="Overview"></h2>
+        <ul class="results">
+            <li class="legend">
+                <div class="success-high" data-i18n="prob_high"></div>
+                <div class="success-medium" data-i18n="prob_med"></div>
+                <div class="success-low" data-i18n="prob_low"></div>
+            </li>
+        </ul>
+        <ul class="info">
+            <li data-i18n="info_1"></li>
+            <li data-i18n="info_2"></li>
+            <li data-i18n="info_3"></li>
+            <li data-i18n="info_4"></li>
+            <li data-i18n="info_5"></li>
+            <li data-i18n="info_6"></li>
+            <li data-i18n="info_7"></li>
+            <li data-i18n="info_8"></li>
+            <li data-i18n="info_9"></li>
+            <li data-i18n="info_10"></li>
+            <li data-i18n="info_11"></li>
+            <li><a href="https://unsplash.com/photos/s-fD5Tpew2k" target="_blank" data-i18n="info_12"></a></li>
+            <li><a href="https://unsplash.com/photos/FGEHnEMaZnE" target="_blank" data-i18n="info_13"></a></li>
+        </ul>
+
+        <h2 class="source-code">
+            <span data-i18n="source_code"></span>
+            <img src="https://www.dataformsjs.com/img/logos/GitHub-Mark-32px.png" alt="GitHub">
+        </h2>
+        <ul class="info">
+            <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-vue.htm" target="_blank">Vue</a></li>
+            <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-react.htm" target="_blank">React</a></li>
+            <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-hbs.htm" target="_blank">Handlebars</a></li>
+            <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification.js" target="_blank" data-i18n="src_js_vue_hbs"></a></li>
+            <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/html/image-home-react.jsx" target="_blank">JSX (React)</a></li>
+            <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-web.htm" target="_blank">Web Components</a></li>
+            <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-web.js" target="_blank">JavaScript (Web Components)</a></li>
+        </ul>
+
+        <!--
+            TODO - Web Components currently do not handle [data-template-url]
+            - Should this be handled by a new Service Component?
+            - If so then keep the following once it works.
+            - If not then copy the code here
+        -->
+        <h2 data-i18n="Links"></h2>
+        <ul class="info" data-template-url="html/image-info-links.htm"></ul>
+    </div>
+</section>
