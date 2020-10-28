@@ -124,7 +124,8 @@ const isWindows = (process.platform === 'win32');
                 newCode = newCode
                     .replace('./utils.js', './utils.min.js')
                     .replace('./utils-sort.js', './utils-sort.min.js')
-                    .replace('./utils-format.js', './utils-format.min.js');
+                    .replace('./utils-format.js', './utils-format.min.js')
+                    .replace('./WebComponentService.js', './WebComponentService.min.js');
             }
 
             // Update file if different

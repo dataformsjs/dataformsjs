@@ -337,6 +337,7 @@ TODO List
                     events so if <i18n-service> it may include similar event handling.
                 - See also new file [dataformsjs\js\web-components\keydown-action-service.js] which provides
                     a "service" to other elements on the page. <i18n-service> would use a similar "service" concept.
+                * This will likely use the new [WebComponentService] class just like <keydown-action-service>
     - Create a new <form is="entry-form"> Component
         - A Framework JavaScript control could be created as the Polyfill. Ideally the new control
             would use functions from the main entryForm page object so it doesn't have to be duplicated.

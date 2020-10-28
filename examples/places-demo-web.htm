@@ -22,6 +22,17 @@
     <body>
         <div id="view" dir="auto"></div>
 
+        <!--
+            The <keydown-action-service> Web Component does not render content
+            rather it provides a "service" for elements on the page that contain
+            the attribute [data-enter-key-click-selector]. When using the polyfill
+            the elements are handled by [js/plugins/keydownAction.js].
+        -->
+        <keydown-action-service></keydown-action-service>
+
+        <!--
+            Define SPA (Single Page App) Routes
+        -->
         <url-hash-router view-selector="#view" loading-template-selector="#loading-spinner-screen">
             <!--
                 Routes can be embedded directly on the page as a <template> under <url-hash-route>.
@@ -134,14 +145,14 @@
         </template>
 
         <!-- DataFormsJS Web Components -->
-        <!-- <script type="module" src="../js/web-components/url-hash-router.js"></script>
+        <script type="module" src="../js/web-components/url-hash-router.js"></script>
         <script type="module" src="../js/web-components/json-data.js"></script>
         <script type="module" src="../js/web-components/data-table.js"></script>
         <script type="module" src="../js/web-components/input-filter.js"></script>
         <script type="module" src="../js/web-components/sortable-table.js"></script>
-        <script nomodule src="../js/web-components/polyfill.js"></script> -->
+        <script nomodule src="../js/web-components/polyfill.js"></script>
 
-        <script src="../js/web-components/polyfill.js"></script>
+        <!-- <script src="../js/web-components/polyfill.js"></script> -->
 
         <script>
             /**
