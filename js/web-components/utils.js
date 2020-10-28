@@ -430,7 +430,7 @@ export function componentsAreDefined(element, selector = '') {
  * have the [not-setup] attribute. The [not-setup] is intended for custom web components
  * that need additional setup after they have been added to the DOM.
  *
- * See also [componentsAreDefined()].
+ * See also [componentsAreDefined()] and [isAttachedToDom()]
  *
  * @return {Promise}
  */
@@ -448,12 +448,39 @@ export function componentsAreSetup() {
         // Check every 1/100th of a second for elements with the [not-setup]
         // attribute. For example usage of this, see web components [data-table.js]
         // which sets up [not-setup] and [input-filter.js] which calls this function.
+        // This will run for a max of 10 seconds to avoid issue with very slow
+        // page slows, search screens that wait for setup after a user action, etc.
+        const maxLoops = 1000;
+        let loopCount = 0;
         const interval = window.setInterval(() => {
             const notSetup = document.querySelectorAll('[not-setup]');
             if (notSetup.length === 0) {
                 window.clearInterval(interval);
                 resolve();
+            } else if (loopCount > maxLoops) {
+                window.clearInterval(interval);
+                resolve();
             }
+            loopCount++;
         }, 10);
     });
+}
+
+/**
+ * Return `true` if an element is attached to the DOM. This function
+ * can be used with [componentsAreSetup()] as a safety check before
+ * running code in case custom elements do not remove the [not-setup]
+ * attribute.
+ *
+ * @param {HTMLElement} element
+ */
+export function isAttachedToDom(element) {
+    let node = element.parentNode;
+    while (node !== null) {
+        node = node.parentNode;
+        if (node === document) {
+            return true;
+        }
+    }
+    return false;
 }

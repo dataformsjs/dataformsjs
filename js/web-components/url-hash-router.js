@@ -48,7 +48,7 @@ class UrlHashRouter extends HTMLElement {
         }
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
-        this._currentRoute = null;
+        this.currentRoute = null;
         this.updateView = this.updateView.bind(this);
         this.updateView();
     }
@@ -61,10 +61,6 @@ class UrlHashRouter extends HTMLElement {
         window.removeEventListener('hashchange', this.updateView);
     }
 
-    get currentRoute() {
-        return this._currentRoute;
-    }
-
     /**
      * Called when the element is added to the page
      * and when the URL #hash changes.
@@ -75,7 +71,7 @@ class UrlHashRouter extends HTMLElement {
         await componentsAreDefined(this, 'url-hash-route');
 
         // Setup Routing
-        this._currentRoute = null;
+        this.currentRoute = null;
         const view = setupRouting(this);
 
         // Get Hash (and remove the hash '#' character)
@@ -112,7 +108,7 @@ class UrlHashRouter extends HTMLElement {
                 // the HTML will be downloaded and set to <template> the
                 // first time the route is accessed.
                 const html = route.template;
-                this._currentRoute = route;
+                this.currentRoute = route;
                 if (html === null) {
                     downloadTemplate(this, view, route, result.urlParams);
                 } else {

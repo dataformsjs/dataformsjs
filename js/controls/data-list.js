@@ -130,7 +130,7 @@
 
                 // Render each item using the template.
                 try {
-                    var render = app.jsTemplate.compile(this.listItemName, template.innerHTML);
+                    var render = app.jsTemplate.compile(this.listItemName, this.templateReturnsHtml, template.innerHTML);
                     for (var index = 0, count = list.length; index < count; index++) {
                         var item = list[index];
                         try {

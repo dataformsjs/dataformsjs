@@ -294,6 +294,15 @@
                     return;
                 }
 
+                // Hide elements if view is unloading otherwise they can quickly flash
+                // on screen once the root 'dataformsjs-view-*' classes are removed.
+                if (state === null) {
+                    var elements = view.querySelectorAll('.is-loading, .has-error, .is-loaded');
+                    Array.prototype.forEach.call(elements, function(el) {
+                        el.style.display = 'none';
+                    });
+                }
+
                 // Create CSS and Update View
                 app.loadCss('dataformsjs-view-jsondata', css);
                 view.classList.remove('dataformsjs-view-loading');

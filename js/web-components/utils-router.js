@@ -27,6 +27,36 @@ const appEvents = {
     error: 'app:error',
 };
 
+function dispatchRouteChanged(router, urlParams, error) {
+    // Dispatch Standard DOM Events. Because they bubble up it can be easily
+    // handled from the document root:
+    //     document.addEventListener('app:routeChanged', () => { ... });
+    if (error !== undefined) {
+        router.dispatchEvent(new CustomEvent(appEvents.error, { bubbles: true, detail: error }));
+    }
+    const hasRoute = (router.currentRoute !== null);
+    const detail = { url: (hasRoute ? router.currentRoute.path : null), urlParams };
+    router.dispatchEvent(new CustomEvent(appEvents.routeChanged, { bubbles: true, detail: detail }));
+
+    // Execute JavaScript from [onload] attribute if one is defined
+    if (!hasRoute) {
+        return;
+    }
+    const js = router.currentRoute.getAttribute('onload');
+    if (js) {
+        try {
+            const fn = new Function('return ' + js);
+            const result = fn();
+            if (typeof result === 'function') {
+                result();
+            }
+        } catch(e) {
+            showErrorAlert(`Error from function <${router.tagName.toLowerCase()} onload="${js}">: ${e.message}`);
+            console.error(e);
+        }
+    }
+}
+
 /**
  * Shadow DOM for Custom Elements
  */
@@ -86,8 +116,7 @@ export function downloadTemplate(router, view, route, urlParams) {
     if (url === null || url === '') {
         const error = `Missing <template> or [src] attribute for route <${route.tagName.toLowerCase()} path="${route.path}">.`;
         showError(view, error);
-        router.dispatchEvent(new CustomEvent(appEvents.error, { bubbles: true, detail: error }));
-        router.dispatchEvent(new CustomEvent(appEvents.routeChanged, { bubbles: true, detail: { url: router._currentRoute.path, urlParams } }));
+        dispatchRouteChanged(router, urlParams, error);
         return;
     }
 
@@ -184,7 +213,7 @@ export function setView(router, view, html, urlParams) {
     }
 
     // Custom Event
-    router.dispatchEvent(new CustomEvent(appEvents.routeChanged, { bubbles: true, detail: { url: router._currentRoute.path, urlParams } }));
+    dispatchRouteChanged(router, urlParams);
 }
 
 /**
@@ -249,8 +278,7 @@ export function showFatalError(router, message) {
     router.style.color = 'white';
     router.style.fontSize = '1.5em';
     router.textContent = message;
-    router.dispatchEvent(new CustomEvent(appEvents.error, { bubbles: true, detail: message }));
-    router.dispatchEvent(new CustomEvent(appEvents.routeChanged, { bubbles: true, detail: { url:null, urlParams:null } }));
+    dispatchRouteChanged(router, null, message);
     console.error(message);
 }
 

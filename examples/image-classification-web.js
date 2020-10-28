@@ -1,5 +1,5 @@
 /**
- * Web Component Scirpts for [image-classification-web.htm]
+ * Script for Web Components Demo [image-classification-web.htm]
  *
  * This script contains basic JavaScript functions and uses API's
  * from standard DOM and DataFormsJS Web Components to allow a user
@@ -21,8 +21,6 @@
  * in the file [image-classification.js]. Much of this code for image
  * classification is copied and modified from that file.
  */
-
-// TODO - this file is in active development and may go through additional changes
 
 /* Validates with both [eslint] and [jshint] */
 /* global app, Promise */

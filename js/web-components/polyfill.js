@@ -44,7 +44,7 @@
      */
     var polyfillStyleId = 'web-components-polyfill-css';
     var polyfillStyleCss = [
-        'template { display:none }', /* For IE during loading until `app.updateTemplatesForIE()` is called */
+        'template { display:none }', /* For IE during page loading until `app.updateTemplatesForIE()` is from the main framework */
         '[data-control] { display:block; padding:0; margin:0; }',
         'div[data-control="json-data"] > div.is-loading,',
         'div[data-control="json-data"] > div.has-error,',
@@ -267,18 +267,28 @@
         // App Event
         dispatchEvent(rootElement, 'app:contentReady');
         if (rootElement.getAttribute('data-control') === 'json-data') {
-            var js = rootElement.getAttribute('onready');
-            if (js) {
-                try {
-                    var fn = new Function('return ' + js);
-                    var result = fn();
-                    if (typeof result === 'function') {
-                        result();
-                    }
-                } catch(e) {
-                    app.showErrorAlert('Error from function <json-data onready="' + js + '">: ' + e.message);
-                    console.error(e);
+            evalElementJs(rootElement.getAttribute('onready'), 'json-data', 'onready');
+        }
+    }
+
+    /**
+     * Used to execute code from <url-route>[onload] and <json-data>[onready]
+     *
+     * @param {string} js
+     * @param {string} name
+     * @param {string} prop
+     */
+    function evalElementJs(js, name, prop) {
+        if (js) {
+            try {
+                var fn = new Function('return ' + js);
+                var result = fn();
+                if (typeof result === 'function') {
+                    result();
                 }
+            } catch(e) {
+                app.showErrorAlert('Error from function <' + name + ' ' + prop + '="' + js + '">: ' + e.message);
+                console.error(e);
             }
         }
     }
@@ -291,6 +301,7 @@
      * @param {undefined|any} detail
      */
     function dispatchEvent(element, eventName, detail) {
+        // Standard DOM Event
         var event;
         if (detail === undefined) {
             if (typeof(Event) === 'function') {
@@ -308,6 +319,11 @@
             }
         }
         element.dispatchEvent(event);
+
+        // Execute JavaScript from <url-route onload="{js}">
+        if (eventName === 'app:routeChanged' && app.activeController && app.activeController.settings && app.activeController.settings.onload) {
+            evalElementJs(app.activeController.settings.onload, 'url-route', 'onload');
+        }
     }
 
     /**
@@ -471,18 +487,22 @@
             }
 
             // Map items from [lazy-load].
-            var settings;
+            var settings = {
+                lazyLoad: [],
+                onload: route.getAttribute('onload'),
+            };
             var lazyLoad = route.getAttribute('lazy-load')
             if (lazyLoad !== null) {
                 lazyLoad = lazyLoad.split(',').map(function(s) { return s.trim(); });
-                settings = {
-                    lazyLoad: lazyLoad.filter(function(item) {
-                        return (app.lazyLoad[item] !== undefined);
-                    }).join(', ')
-                };
-                if (Object.keys(settings.lazyLoad).length === 0) {
-                    settings = undefined;
-                }
+                settings.lazyLoad = lazyLoad.filter(function(item) {
+                    return (app.lazyLoad[item] !== undefined);
+                }).join(', ');
+            }
+            var noLazyLoad = (Object.keys(settings.lazyLoad).length === 0);
+            if (noLazyLoad && settings.onload === null) {
+                settings = undefined;
+            } else if (noLazyLoad) {
+                delete settings.lazyLoad;
             }
 
             // Add Route as Framework Controller
@@ -517,7 +537,6 @@
         app.onUpdateViewComplete = function() {
             polyfillPage.onRendered();
         };
-        app.updateTemplatesForIE();
         app.updateView();
     }
 
@@ -593,9 +612,7 @@
 
         // After all scripts have been loaded the setup the app
         Promise.all(promises).finally(function () {
-            app
-                .addPage('polyfillPage', polyfillPage)
-                .loadCss(polyfillStyleId, polyfillStyleCss);
+            app.addPage('polyfillPage', polyfillPage);
 
             // Define a setting so apps can check if this file is being used.
             app.settings.usingWebComponentsPolyfill = true;
@@ -623,6 +640,8 @@
         findRootUrl();
         var url = rootUrl + 'DataFormsJS' + (useMinFiles ? '.min' : '') + '.js';
         loadScript(url, function () {
+            app.loadCss(polyfillStyleId, polyfillStyleCss);
+
             // If [jsPlugins.js] is used then add back the plugins
             if (plugins !== null) {
                 for (var name in plugins) {

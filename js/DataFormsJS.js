@@ -449,6 +449,7 @@
             } else {
                 element.textContent = html;
             }
+            app.updateTemplatesForIE(element);
         } catch (e) {
             // If there was an error (for example a parsing error from Handlebars or Nunjucks) then
             // get template error info that is helpful for the developer and show it along with the
@@ -2993,10 +2994,12 @@
          * IE 11 considers <template> elements as valid elements so it applies [querySelector()]
          * and related methods to elements under <templates>'s so replace with them <script type="text/x-template">.
          * This avoid's issues of <template> elements that contain embedded content.
+         * 
+         * @param {HTMLElement} rootElement
          */
-        updateTemplatesForIE: function() {
+        updateTemplatesForIE: function(rootElement) {
             if (isIE) {
-                var templates = document.querySelectorAll('template');
+                var templates = rootElement.querySelectorAll('template');
                 Array.prototype.forEach.call(templates, function(template) {
                     var script = document.createElement('script');
                     for (var n = 0, m = template.attributes.length; n < m; n++) {
@@ -3076,7 +3079,7 @@
             }
 
             // If using IE replace <templates> with <script type="text/x-template">
-            app.updateTemplatesForIE();
+            app.updateTemplatesForIE(document);
 
             // Automatically add templates as routes that have the attribute [data-route] defined
             var templateSelector = 'script[type="text/x-template"][data-route],template[data-route]';

@@ -252,7 +252,7 @@ class JsonData extends HTMLElement {
         //     document.addEventListener('app:contentReady', () => { ... });
         this.dispatchEvent(new Event(appEvents.contentReady, { bubbles: true }));
 
-        // Call function from [onready] attribute if one is defined
+        // Execute JavaScript from [onready] attribute if one is defined
         const js = this.getAttribute('onready');
         if (js) {
             try {

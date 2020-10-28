@@ -16,6 +16,7 @@
 
 import {
     componentsAreSetup,
+    isAttachedToDom,
     usingWebComponentsPolyfill,
     defineExtendsPolyfill
 } from './utils.js';
@@ -31,7 +32,9 @@ class InputFilter extends HTMLInputElement {
 
     async connectedCallback() {
         await componentsAreSetup();
-        this.filter();
+        if (isAttachedToDom(this)) {
+            this.filter();
+        }
     }
 
     filter() {

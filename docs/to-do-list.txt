@@ -41,32 +41,32 @@ TODO List
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/sortable-table.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
-        - Finish new Web Component Version of the Image Classification demo
-            - http://127.0.0.1:8080/image-classification-web
-            - Demo is working but additional development is needed
-                - Search for `TODO` in the HTML source to find active development files
-            - See file [dataformsjs\js\web-components\data-list.js]
-                - New Attributes [template-returns-html] and [list-item-name] need to be added to <data-table>
-                - Search for `const tmplHtml = template.innerHTML`
-                    - For now the `replace` calls are only used when using [template-returns-html]
-                        tmplHtml.replace(/&amp;/g, '&').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
-                    - Additionally other characters are likely needed and more research to see how different browsers handle this.
-                    - <data-table> needs the `replace` calls
-                    - Likely create a new function in [utils.js] `compileJsTemplate()` that will be shared and allow
-                        for caching of the template functions similar to the new framework file: [dataformsjs\js\extensions\jsTemplate.js]
-        - <url-route> and <url-hash-route> will have a new [onload] attribute that has the same behavior as the <json-data onready="{fn-name}">.
-            Once added then include some demos in the [places-demo-web.htm] file for both routing and <json-data>
+        - Framework [app.buildUrl()] and [utils.js][buildUrl()] need to support "{variables}" that can be read from global window setControllerFromPage
+            - Reason is because changing the Root URL for an API service in many HTML pages on Web Components is not clean.
+            - Once this is added an SPA using Web Components could use something like this:
+                <json-data url="{rootApiUrl}/view-records">
+            - Then from JS:
+                `window.rootApiUrl` could be toggled easily based on the root server to use.
         - Must verify new [defineExtendsPolyfill] with the versions of Safari or other Legacy modern browsers
         - Log Demo Pages
             When using Polyfill the error currently does not show:
             http://127.0.0.1:8080/log-table-web#/error
+        - <data-table>
+            - New Attributes [template-returns-html] and [list-item-name] used in <data-list> need to be included
         - <data-list> should also support both <template> and <script type="text/x-template">
             - This is for better IE 11 support, with the current demos it's not needed but one should be created
-        - Attempt to create <i18n-service> for the Places Demo, see other comments in this file
+            - Search for `const tmplHtml = template.innerHTML`
+                - For now the `replace` calls are only used when using [template-returns-html]
+                    tmplHtml.replace(/&amp;/g, '&').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
+                - Additionally other characters are likely needed and more research to see how different browsers handle this.
+                - <data-table> needs the `replace` calls
+                - Likely create a new function in [utils.js] `compileJsTemplate()` that will be shared and allow
+                    for caching of the template functions similar to the new framework file: [dataformsjs\js\extensions\jsTemplate.js]
+        - Attempt to create <i18n-service> for the Places and Image Classifications, see other comments in this file
         - Review all comments in [js/web-components/polyfill.js] and handle all issues.
             The file is mostly complete and properly working but still in active development.
         - New demo page to test all features of the new [utils-format.js] file
-        - Consider (likely) add multiple optional template options to <data-table>
+        - Consider adding multiple optional template options to <data-table>
             - If only <template> then use for row items (current)
             - Also support:
                 <template data-header>
@@ -74,7 +74,7 @@ TODO List
                 <template data-item>
                 <template data-footer>
             - How to do this using the built-in <slot>? See if it makes sense using <slot>
-            - Instead of this (or in addition) another option can be to use a new attribute:
+            * Instead of this (most likely for now) another option can be to use a new attribute:
                 col-class="{index|name}={class-names}, {index|name}={class-names}"
                 col-class="0=align-right, 2=align-right col-class"
                 col-class="Size (KM)=align-right, Population=align-right"
@@ -121,26 +121,14 @@ TODO List
             https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script
         - Because of the new features for <data-list> the main site https://www.dataformsjs.com/
             is being updated to use only JavaScript and not Handlebars templating. More testing on
-            a variety of devices is needed and one issue must be solved (otherwise rollback changes to
-            handlebars - most likely all changes will be kept):
-                - Start on Quick Ref Page, then navigate to examples:
-                    http://localhost:3000/en/quick-reference
-                    http://localhost:3000/en/examples
-                - It only happens once but there is a quick flash of the error template.
-                - This did not happen when using Handlebars
-                - It possible that CSS or related events needs to be updated in:
-                    [js/pages/jsonData.js]
-                - It currently is hidden when using this:
-                    <div class="error" data-bind="errorMessage" data-show="typeof errorMessage === 'string'"></div>
-                - If [data-show] is removed then the error is clear.
-                    If the current [data-show] should be kept then likely add it on templates and other JS only examples
-                - Seems that all 3 screens quickly flash while during route unloading so
-                    additional CSS may have to be added for route unloading. It's very noticeable
-                    when testing with IE 11.
+            a variety of devices is needed (if it doesn't work as well rollback changes to
+            handlebars - most likely all changes will be kept as testing is good so far):
             - Site Repository:
                 https://github.com/dataformsjs/website
             - Backup copy before removing Handlebars
                 https://github.com/ConradSollitt/website
+            - If keeping then likely add more comments on the main site about how <data-list> is used
+                with basic JS templating instead of a full featured templating engine (Handlebars, Vue)
         - Consider combining <url-hash-router> with <url-router> and then using one of:
                 <url-router mode="hash">
                 <url-router mode="history">

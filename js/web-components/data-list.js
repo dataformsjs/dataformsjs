@@ -75,9 +75,11 @@ class DataList extends HTMLElement {
             return;
         }
 
+        // Remove this attribute the first time a list is being rendered
+        this.removeAttribute('not-setup');
+
         // Show no-data if empty
         if (Array.isArray(list) && list.length === 0) {
-            this.removeAttribute('not-setup');
             return;
         }
 
@@ -85,7 +87,6 @@ class DataList extends HTMLElement {
         if (!Array.isArray(list)) {
             console.error('Invalid list data type for [data-list]');
             console.log(this);
-            this.removeAttribute('not-setup');
             return;
         }
 
@@ -115,13 +116,11 @@ class DataList extends HTMLElement {
             if (template === null) {
                 console.error('Missing template from selector: ' + templateSelector);
                 console.log(this);
-                this.removeAttribute('not-setup');
                 return;
             }
             if (template.nodeName !== 'TEMPLATE') {
                 console.error('Element at selector [' + templateSelector + '] is not a <template>');
                 console.log(this);
-                this.removeAttribute('not-setup');
                 return;
             }
 
@@ -130,15 +129,12 @@ class DataList extends HTMLElement {
             if (rootElement !== null) {
                 if (rootElement !== rootElement.toLowerCase()) {
                     showError(this, '<data-list [root-element="name"]> must be all lower-case. Value used: [' + rootElement + ']');
-                    this.removeAttribute('not-setup');
                     return;
                 } else if (rootElement.indexOf(' ') !== -1) {
                     showError(this, '<data-list [root-element="name"]> cannot contain a space. Value used: [' + rootElement + ']');
-                    this.removeAttribute('not-setup');
                     return;
                 } else if (/[&<>"'/]/.test(rootElement) !== false) {
                     showError(this, '<data-list [root-element="name"]> cannot contain HTML characters that need to be escaped. Invalid characters are [& < > " \' /]. Value used: [' + rootElement + ']');
-                    this.removeAttribute('not-setup');
                     return;
                 }
                 // Values are already escaped - no need to use `render`
@@ -213,9 +209,6 @@ class DataList extends HTMLElement {
             html.push('</ul>');
         }
         this.innerHTML = html.join('');
-
-        // Remove this attribute after the first time a list has been rendered
-        this.removeAttribute('not-setup');
     }
 }
 

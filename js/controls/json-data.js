@@ -127,7 +127,7 @@
      */
     function setControlClass(element, control) {
         // Only load CSS if it is going to be used
-        if (element.querySelector('.is-loading, is-loaded, .has-error') === null) {
+        if (element.querySelector('.is-loading, .is-loaded, .has-error') === null) {
             return;
         }
 

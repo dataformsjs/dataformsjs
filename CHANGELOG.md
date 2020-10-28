@@ -25,6 +25,7 @@ Overall the core Framework files and API are expected to remain stable however t
     * https://www.dataformsjs.com/examples/countries-no-spa-web.htm
     * https://www.dataformsjs.com/examples/image-gallery-web.htm
   * Added ability to polyfill Web Components for older browsers using the standard Framework that gets loaded from a single file.
+  * Added new easier to use API for `<url-router>` and `<json-data>` Web Components
   * Added ability to define custom `<template>` for table `<tr>` in `<data-table>`
   * Added option for formatting text from `<json-data>` (date, time, number, custom functions, etc)
   * Added ability to use `<json-data>` with the new attribute `click-selector` for search forms similar to the main Framework.
@@ -34,12 +35,13 @@ Overall the core Framework files and API are expected to remain stable however t
   * `<url-router>` and `<url-hash-router>` now have the ability to lazy load scripts (CSS and JavaScript) per route in a similar manner to the main framework using the new `window.lazyLoad` option and related HTML Attributes.
   * Added new Web Component `<keydown-action-service>`. Based on Framework Plugin `js/plugins/keydownAction.js`
   * Added ability to style errors using CSS from `utils.js` when calling `showError(element, message)` or `showErrorAlert(message)`.
-  * New function in `utils.js`: `loadCss(id, css)`
+  * New functions in `utils.js`: `loadCss(id, css)`, `isAttachedToDom(element)`
 * Minor enhancments for other DataFormsJS files:
   * Added `app.updateTemplatesForIE()`
   * Added features in `js/plugins/dataBind.js` based on the Web Components version.
   * New file `js/extensions/format.js` which is used with the Web Components Polyfill
   * Updated `js/plugins/filter.js` so that it shows 0 count for empty tables. Previously it expected the table to have at least one `<tbody>` element. A similar update was made for `js/web-components/input-filter.js`
+  * Previously if using `<template>` with `jsonData` page types all `.is-loading, .has-error, .is-loaded` elements could quickly flash on screen during page changes. This has been fixed.
 * Enhancements for "JavaScript Controls" in the standard Framework. The Framework JavaScript Controls are a similar concept to Web Components but work with all Browsers.
   * Added ability to easily reload  by calling `app.activeJsControls(control)`. Updating already loaded controls is not common but can be used in very specific scenarios. For example the new Web Components Polyfill uses it.
   * Update API to include `model` as a parameter in `control.onLoad(element, model)`
@@ -61,7 +63,7 @@ For the standard Framework most breaking changes are minor and only expected to 
 The Web Components have the most complex breaking changes related to API usage however due to the complexity of the earlier API it's unlikely to affect any site. If a site did use the ealier API it is generally quick to update as well.
 
 * `js/web-components/utils.js` - Removed `showOldBrowserWarning()`. The feature has been replaced with the new `js/web-components/polyfill.js` and a function `usingWebComponentsPolyfill()`
-* Web Components API for `<json-data>`, `<url-hash-router>`, and `<url-router>` has been changed. Previously the API required `async/await` from module JavaScript and was complex to use. It has now been simplified so that events bubble up to the document can be handled easily from the root document event listener.
+* Web Components API for `<json-data>`, `<url-hash-router>`, and `<url-router>` has been changed. Previously the API required `async/await` from module JavaScript and was complex to use. It has now been simplified so that events bubble up to the document can be handled easily from the root document event listener and so standard JavaScript functions can be called from HTML attributes.
   * **Before Update:** https://github.com/dataformsjs/dataformsjs/blob/c23bf5e4cd9e826c61313877ae0c2d2da6d6f889/examples/places-demo-web.htm
   * **After Update:** https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-web.htm
 * `js/plugins/filter.js` - Removed error alert for text `Column filter requires a table to be correctly defined` that happened if a table was missing when the filter was loaded. The reason is that it makes sense for certain apps to have a defined filter and only optionally include the table.

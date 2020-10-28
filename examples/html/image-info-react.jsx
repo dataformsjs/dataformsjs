@@ -33,8 +33,9 @@ function PageInfo() {
                     <li>{i18n.text('info_8')}</li>
                     <li>{i18n.text('info_9')}</li>
                     <li>{i18n.text('info_10')}</li>
-                    <li><a href="https://unsplash.com/photos/s-fD5Tpew2k" target="_blank">{i18n.text('info_11')}</a></li>
-                    <li><a href="https://unsplash.com/photos/FGEHnEMaZnE" target="_blank">{i18n.text('info_12')}</a></li>
+                    <li>{i18n.text('info_11')}</li>
+                    <li><a href="https://unsplash.com/photos/s-fD5Tpew2k" target="_blank">{i18n.text('info_12')}</a></li>
+                    <li><a href="https://unsplash.com/photos/FGEHnEMaZnE" target="_blank">{i18n.text('info_13')}</a></li>
                 </ul>
 
                 <h2 className="source-code">
@@ -47,6 +48,8 @@ function PageInfo() {
                     <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-hbs.htm" target="_blank">Handlebars</a></li>
                     <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification.js" target="_blank">{i18n.text('src_js_vue_hbs')}</a></li>
                     <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/html/image-home-react.jsx" target="_blank">JSX (React)</a></li>
+                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-web.htm" target="_blank">Web Components</a></li>
+                    <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-web.js" target="_blank">JavaScript (Web Components)</a></li>
                 </ul>
 
                 <h2>{i18n.text('Links')}</h2>

@@ -10,8 +10,9 @@
  * Framework JS Controls <data-list> and <data-table>.
  *
  * Example Usage:
- *     var render = app.jsTemplate.render(null, template.innerHTML);
- *     var render = app.jsTemplate.render('record', template.innerHTML);
+ *     var returnsHtml = false;
+ *     var render = app.jsTemplate.compile(null, returnsHtml, template.innerHTML);
+ *     var render = app.jsTemplate.compile('record', returnsHtml, template.innerHTML);
  *     html.push(render(item, index, app.escapeHtml, app.format));
  */
 
@@ -52,10 +53,11 @@
          * Compile the template and return the function for rendering
          * 
          * @param {string|null} itemName 
+         * @param {boolean} returnsHtml
          * @param {string} tmplHtml 
          * @return {function}
          */
-        compile: function(itemName, tmplHtml) {
+        compile: function(itemName, returnsHtml, tmplHtml) {
             // Get from Cache
             var key = String(itemName) + '|' + tmplHtml;
             var tmpl = templateCache[key];
@@ -67,7 +69,6 @@
             }
 
             // Build the template
-            var returnsHtml = (this.templateReturnsHtml !== null);
             var tmplJs = [];
             var startPos;
             var lastIndex = 0;

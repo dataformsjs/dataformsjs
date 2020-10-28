@@ -26,8 +26,13 @@
             <!--
                 Routes can be embedded directly on the page as a <template> under <url-hash-route>.
                 [default-route] is optional and can be used if the default path is something other than "/".
+
+                [onload] allows for custom JavaScript to be executed or functions
+                to be called whenever the matching route is viewed.
             -->
-            <url-hash-route path="/" default-route>
+            <url-hash-route path="/"
+                default-route
+                onload="showMessage('Viewing Countries Page')">
                 <template>
                     <h1>Countries</h1>
 
@@ -36,7 +41,7 @@
                         <a href="#/info">Info</a>
                     </nav>
 
-                    <json-data url="https://www.dataformsjs.com/data/geonames/countries" load-only-once="true">
+                    <json-data url="https://www.dataformsjs.com/data/geonames/countries" load-only-once="true" onready="showMessage('Countries List is ready')">
                         <is-loading>
                             <span class="loading">Loading...</span>
                         </is-loading>
@@ -115,7 +120,7 @@
                 Routes with [lazy-load] will dynamically download needed scripts from
                 `window.lazyLoad` near the bottom of this file only when first used.
             -->
-            <url-hash-route path="/regions/:country" src="html/regions-web.htm"></url-hash-route>
+            <url-hash-route path="/regions/:country" src="html/regions-web.htm" onload="showMessage('Viewing Regions Page')"></url-hash-route>
             <url-hash-route path="/cities/:country/:region" src="html/cities-web.htm"></url-hash-route>
             <url-hash-route path="/city/:id" src="html/place-web.htm" lazy-load="leafletCss, leafletJs, leafletWeb, leafletPlugin, data_list"></url-hash-route>
             <url-hash-route path="/info" src="html/places-info-web.htm"></url-hash-route>
@@ -129,14 +134,14 @@
         </template>
 
         <!-- DataFormsJS Web Components -->
-        <script type="module" src="../js/web-components/url-hash-router.js"></script>
+        <!-- <script type="module" src="../js/web-components/url-hash-router.js"></script>
         <script type="module" src="../js/web-components/json-data.js"></script>
         <script type="module" src="../js/web-components/data-table.js"></script>
         <script type="module" src="../js/web-components/input-filter.js"></script>
         <script type="module" src="../js/web-components/sortable-table.js"></script>
-        <script nomodule src="../js/web-components/polyfill.js"></script>
+        <script nomodule src="../js/web-components/polyfill.js"></script> -->
 
-        <!-- <script src="../js/web-components/polyfill.js"></script> -->
+        <script src="../js/web-components/polyfill.js"></script>
 
         <script>
             /**
@@ -199,6 +204,13 @@
                         console.log('%c' + text, 'color:' + color + '; font-weight:bold;');
                     }
                 }
+
+                // Show a message in the console. This function gets called from event
+                // attributes <url-hash-route>[onload] and <json-data>[onready].
+                // This shows how the attributes can be used to call custom JavaScript functions.
+                window.showMessage = function(text) {
+                    log(text, 'orange');
+                };
 
                 // To exclude event log during development comment out the next line:
                 // return;
