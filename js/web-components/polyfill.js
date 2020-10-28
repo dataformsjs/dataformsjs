@@ -25,16 +25,16 @@
             later if it makes sense or not.
 */
 
-/* Validates with both [jshint] and [eslint] */
+/* Validates with both [eslint] and [jshint] */
 /* global app, Promise */
-/* jshint strict: true */
-/* jshint evil:true */
 /* eslint-env browser */
 /* eslint quotes: ["error", "single", { "avoidEscape": true }] */
 /* eslint strict: ["error", "function"] */
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint no-console: ["error", { allow: ["log", "warn", "error"] }] */
 /* eslint no-prototype-builtins: "off" */
+/* jshint strict: true */
+/* jshint evil:true */
 
 (function () {
     'use strict';
@@ -84,7 +84,7 @@
             });
         },
         dataList: function(element) {
-            updateElements.dataAttributes(element, ['template-selector', 'root-element', 'root-attr', 'error-class', 'template-returns-html', 'list-item-name'])
+            updateElements.dataAttributes(element, ['template-selector', 'root-element', 'root-attr', 'error-class', 'template-returns-html', 'list-item-name']);
         },
         dataTable: function(element) {
             updateElements.dataAttributes(element, ['highlight-class', 'labels', 'columns', 'table-attr', 'highlight-class']);
@@ -146,8 +146,6 @@
      */
     var polyfillPage = {
         model: {},
-        // onRouteLoad: function() { },
-        // onBeforeRender: function() { },
         onRendered: function() {
             var model = this;
 
@@ -194,7 +192,6 @@
                 updateContent(document);
             }
         },
-        // onRouteUnload: function() { },
     };
 
     /**
@@ -344,7 +341,7 @@
         var url = rootUrl + 'plugins/' + name + (useMinFiles ? '.min' : '') + '.js';
         app.loadScripts(url).then(function() {
             if (app.plugins[name] === undefined) {
-                console.warn('Plugin [' + name + '] was loaded but not found. The script might still be loading in the DOM.')
+                console.warn('Plugin [' + name + '] was loaded but not found. The script might still be loading in the DOM.');
                 return;
             }
             if (callback !== undefined) {
@@ -424,7 +421,7 @@
                         app.lazyLoad[prop] = item;
                     } else if (typeof item.nomodule === 'string') {
                         app.lazyLoad[prop] = item.nomodule;
-                    } else if (!(typeof item.module === 'string')) {
+                    } else if (typeof item.module !== 'string') {
                         console.error('Unhandled window.lazyLoad Script: ' + prop);
                     }
                 }
@@ -487,7 +484,7 @@
                 lazyLoad: [],
                 onload: route.getAttribute('onload'),
             };
-            var lazyLoad = route.getAttribute('lazy-load')
+            var lazyLoad = route.getAttribute('lazy-load');
             if (lazyLoad !== null) {
                 lazyLoad = lazyLoad.split(',').map(function(s) { return s.trim(); });
                 settings.lazyLoad = lazyLoad.filter(function(item) {
@@ -509,7 +506,6 @@
                 viewEngine: 'Text',
                 pageType: 'polyfillPage',
                 settings: settings,
-                // modelName: undefined,
             });
         });
 
