@@ -17,6 +17,8 @@ Overall the core Framework files and API are expected to remain stable however t
 
 * Many updates have been made for overall improvement of DataFormsJS Web Components
   * The updates are significant and make using the Web Components much easier for complex apps and sites; and provide for wider browser support.
+  * The new features make for an easier to use API for customizing content on page after data is displayed. Previously the places demo required a lot of custom JavaScript on the page in order to display flag icons, format table data, and additional items.
+  * Added ability to polyfill Web Components for older browsers using the standard Framework that gets loaded from a single file.
   * Examples:
     * https://www.dataformsjs.com/examples/hello-world/en/web.htm
     * https://www.dataformsjs.com/examples/hello-world/en/web-url-router.htm
@@ -24,13 +26,19 @@ Overall the core Framework files and API are expected to remain stable however t
     * https://www.dataformsjs.com/examples/log-table-web.htm#/10
     * https://www.dataformsjs.com/examples/countries-no-spa-web.htm
     * https://www.dataformsjs.com/examples/image-gallery-web.htm
-  * Added ability to polyfill Web Components for older browsers using the standard Framework that gets loaded from a single file.
   * Added new easier to use API for `<url-router>` and `<json-data>` Web Components
   * Added ability to define custom `<template>` for table `<tr>` in `<data-table>`
-  * Added option for formatting text from `<json-data>` (date, time, number, custom functions, etc)
-  * Added ability to use `<json-data>` with the new attribute `click-selector` for search forms similar to the main Framework.
-  * Added `data-show="js-expression"` to show or hide items from `<json-data>`. It works similar to Vue `v-show`.
-  * The new features make for an easier to use API for customizing content on page after data is displayed. Previously the places demo required a lot of custom JavaScript on the page in order to display flag icons, format table data, and additional items.
+  * Improvements for `<json-data>`
+    * Added option for formatting text from  (date, time, number, custom functions, etc)
+    * Added ability to use new attribute `click-selector` for search forms similar to the main Framework.  
+    * Added `data-show="js-expression"` to show or hide items. It works similar to Vue `v-show`.
+    * Added ability to include global variables from window scope using `{variable}` syntax
+      * `<json-data url="{rootApiUrl}/web-service">`
+      * `window.rootApiUrl = 'http...';`
+      * This allows an SPA site that contains many different HTML files with the same Root URL to point to the server from one location rather than updating each file.
+      * Any variable name can be used as long as it is defined. This allows for rapid testing or changes to point to a different server when using `<json-data>`.
+      * The actual update exists in `[utils.js].buildUrl()`.
+      * A similar update has been made for the main DataFormsJS Framework `app.buildUrl()`.
   * Added new Web Component `<nav is="spa-links">`. Previously SPA Nav Links were handled from custom JavaScript code on the page. Now this functionality is much easier for a site to include as only HTML is needed.
   * `<url-router>` and `<url-hash-router>` are now combined into one component `<url-router>` and `<url-hash-router>` has been removed
   * `<url-router>` now has the ability to lazy load scripts (CSS and JavaScript) per route in a similar manner to the main framework using the new `window.lazyLoad` option and related HTML Attributes.

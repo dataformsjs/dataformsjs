@@ -119,6 +119,9 @@ export function render(strings, ...values) {
 /**
  * Build and return a URL. For example "/order/:id" becomes "/order/123"
  * if {id:123} is sent in the [params] parameter.
+ * 
+ * Global variables from the `window` object can be included when using
+ * brackets. Example: "{rootApiUrl}/countries" will look for `window.rootApiUrl`.
  *
  * @param {string} url
  * @param {object} params
@@ -126,6 +129,16 @@ export function render(strings, ...values) {
  */
 export function buildUrl(url, params) {
     let newUrl = url;
+
+    // Replace "{variables}" from the global Window Scope.
+    newUrl = newUrl.replace(/\{(\w+)\}/g, function(match, offset) {
+        if (typeof window[offset] === 'string') {
+            return window[offset];
+        }
+        return match;
+    });
+
+    // Replace ":variables" from the params object
     if (params !== null && typeof params === 'object') {
         for (const prop in params) {
             if (params.hasOwnProperty(prop)) {

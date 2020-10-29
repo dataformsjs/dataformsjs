@@ -297,8 +297,8 @@ class JsonData extends HTMLElement {
 
         if (urlParams) {
             urlParams = JSON.parse(urlParams);
-            url = buildUrl(url, urlParams);
         }
+        url = buildUrl(url, urlParams);
 
         this.isLoading = true;
         this.isLoaded = false;

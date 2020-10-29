@@ -52,7 +52,7 @@
                         <a href="#/info">Info</a>
                     </nav>
 
-                    <json-data url="https://www.dataformsjs.com/data/geonames/countries" load-only-once="true" onready="showMessage('Countries List is ready')">
+                    <json-data url="{rootApiUrl}/countries" load-only-once="true" onready="showMessage('Countries List is ready')">
                         <is-loading>
                             <span class="loading">Loading...</span>
                         </is-loading>
@@ -153,6 +153,20 @@
         <script nomodule src="../js/web-components/polyfill.js"></script>
 
         <!-- <script src="../js/web-components/polyfill.js"></script> -->
+
+        <!--
+            Many different HTML files use <json-data> with the same Root URL
+            for JSON API Services. Rather than updating each file the global
+            variable below is used to build the path for fetching data.
+            Example:
+                <json-data url="{rootApiUrl}/countries">
+
+            Any variable name can be used as long as it is defined. This allows for
+            rapid testing or changes to point to a different server when using <json-data>.
+        -->
+        <script>
+            window.rootApiUrl = 'https://www.dataformsjs.com/data/geonames';
+        </script>
 
         <script>
             /**

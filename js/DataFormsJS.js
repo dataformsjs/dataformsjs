@@ -2792,18 +2792,30 @@
          *
          * Example '/order/:id' becomes '/order/123' if [id] is
          * set in the passed object or [app.activeParameterList].
+         * 
+         * Global variables from the `window` object can be included when using
+         * brackets. Example: "{rootApiUrl}/countries" will look for `window.rootApiUrl`.
          *
          * @param {*} url
          * @param {*} params
          */
         buildUrl: function (url, params) {
+            // If the active route has defined parameters then
+            // they will be set in [app.activeParameterList].
             if (params === undefined) {
                 params = app.activeParameterList;
             }
-            // If the active route has defined parameters then
-            // they will be set in [app.activeParameterList].
+
+            // Replace "{variables}" from the global Window Scope.
+            url = url.replace(/\{(\w+)\}/g, function(match, offset) {
+                if (typeof window[offset] === 'string') {
+                    return window[offset];
+                }
+                return match;
+            });
+
+            // Replace ":variables" from the params object
             if (params !== null && Object.keys(params).length > 0) {
-                // Process each of the active parameters
                 for (var prop in params) {
                     if (params.hasOwnProperty(prop)) {
                         // Is it in the url template for this model?

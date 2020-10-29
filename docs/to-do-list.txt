@@ -41,13 +41,7 @@ TODO List
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/sortable-table.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
-        - Framework [app.buildUrl()] and [utils.js][buildUrl()] need to support "{variables}" that can be read from global window setControllerFromPage
-            - Reason is because changing the Root URL for an API service in many HTML pages on Web Components is not clean.
-            - Once this is added an SPA using Web Components could use something like this:
-                <json-data url="{rootApiUrl}/view-records">
-            - Then from JS:
-                `window.rootApiUrl` could be toggled easily based on the root server to use.
-        - Attempt to create <i18n-service> for the Places and Image Classifications, see other comments in this file
+        - Finish creating <i18n-service>, see other related comments in this file
             - Search for `TODO` comments in source, all are currently related to this
             - Initial development is in early state and first occurring on the Image Classification demo
             - Testing:

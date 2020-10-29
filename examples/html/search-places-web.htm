@@ -1,5 +1,5 @@
 <json-data
-    url="https://www.dataformsjs.com/data/geonames/countries?order_by=country"
+    url="{rootApiUrl}/countries?order_by=country"
     load-only-once="true">
     <is-loading>
         <span class="loading">Loading...</span>
@@ -49,7 +49,7 @@
             with [data-bind] will be used for the URL parameters.
         -->
         <json-data
-            url="https://www.dataformsjs.com/data/geonames/search?country=:country&city=:city"
+            url="{rootApiUrl}/search?country=:country&city=:city"
             click-selector=".btn-search">
             <is-loading>
                 <span class="loading">Loading...</span>
