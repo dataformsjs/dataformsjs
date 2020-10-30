@@ -1,18 +1,29 @@
 /**
- * DataFormsJS <i18n-service> Web Component
+ * DataFormsJS <i18n-service> Web Component for Internationalization (I18N)
  *
- * TODO - new - code copied and modified from other files - in early development
- * 
- * This is based on:
- *     dataformsjs\js\plugins\i18n.js
- * 
- * All features from the Framework Plugin need to be included here and testing
- * on all language demos is needed. Likely the main site needs to be re-created
- * with a Web Component version as well in order to confirm this.
- * 
- * All Commented Code blocks need to be handled and additional code from
- * i18n likely needs to be copied. This must be developed in a manner
- * so the [polyfill.js] can use it with the Standard Framework.
+ * This Web Component provides an easy to use API for sites and apps that need to
+ * support multiple languages. I18n Data comes from JSON files on the server.
+ * A overall file (defaults to '_.{lang}.json') needs to exist for each language
+ * and page JSON files '{name}.{lang}.json' can exist for each <url-route>
+ *
+ * [i18n] is spelled "Internationalisation" in British English. [i18n] is an
+ * acronym/numeronym that represents ("i" + 18 characters + "n"). The difference is
+ * US English uses "z" while British English uses an "s" in the spelling of the word.
+ *
+ * Basic Usage:
+ *     <i18n-service file="_" file-dir="i18n" default-locale="en" locales="en,pt-BR,zh-CN"></i18n-service>
+ *     <url-route data-i18n-file="{name}">
+ *
+ * Elements on the page wiht the following HTML Attributes will
+ * be updated by this Component:
+ *     data-i18n
+ *     data-i18n-attr
+ *     data-i18n-href
+ *     data-i18n-replace-text
+ *     data-i18n-nav-lang
+ *     data-i18n-nav-selected
+ *
+ * For detailed usage see the DataFormsJS Examples.
  */
 
 /* Validates with both [eslint] and [jshint] */
@@ -38,8 +49,8 @@ class I18nService extends WebComponentService {
             const value = el.getAttribute(attr);
             return (value ? value : defaultValue);
         }
-        
-        // TODO - more defaults from: dataformsjs\js\plugins\i18n.js
+
+        // Get Defaults
         this.fileName = get(this, 'file', '_');
         this.fileDir = get(this, 'file-dir', 'i18n');
         this.defaultLocale = get(this, 'default-locale');
@@ -48,75 +59,97 @@ class I18nService extends WebComponentService {
         this.langText = {};
         this.langCache = {};
         this._isRunning = false;
+
+        // Determine Routing Type - Hash Routing or HTML5 History
+        const router = document.querySelector('url-router');
+        this.hashRouting = (router === null || router.useHistoryMode !== true);
+    }
+
+    /**
+     * Return a selected language for the user based on supported locales
+     * and the browsers available languages from user settings.
+     *
+     * This may be called from <url-router> during initial page loads.
+     *
+     * @returns {string|null}
+     */
+    getUserDefaultLang() {
+        // First check if any of the supported languages match a user's language.
+        // These are the languages sent with the Request 'Accept-Language' header.
+        if (navigator.languages && navigator.languages.length &&
+            this.supportedLocales && this.supportedLocales.length
+        ) {
+            for (let n = 0, m = navigator.languages.length; n < m; n++) {
+                if (this.supportedLocales.indexOf(navigator.languages[n]) !== -1) {
+                    return navigator.languages[n];
+                }
+            }
+        }
+        // No language matched, use default for the site if defined
+        return this.defaultLocale;
+    }
+
+    /**
+     * Validate that the required settings [defaultLocale] and [supportedLocales]
+     * are filled in.
+     *
+     * @returns {bool} Returns `true` if settings are valid.
+     */
+    validateSettings() {
+        if (this.defaultLocale === null) {
+            console.warn('Using <i18n-service> without [default-locale] being filled in.');
+            return false;
+        } else if (this.supportedLocales.length === 0) {
+            console.warn('Using <i18n-service> without [locales] being filled in.');
+            return false;
+        }
+        return true;
     }
 
     /**
      * Update HTML Elements on the page whenever the document is first loaded,
      * the route changes, or JSON Data downloads.
-     *  
-     * @param {HTMLElement} rootElement 
      */
-    refresh(rootElement) {
-        // console.log(`Called ${this.constructor.name}.refresh(${(rootElement === document ? 'document' : rootElement.tagName.toLowerCase())})`);
-        // console.log(`this._isRunning: ${this._isRunning}`);
-
-        // Exit if still running from the last refresh        
+    load() {
+        // Exit if still running from the last load. This service always
+        // updates all elements at the root document level but can be called
+        // multiple times per page load from <url-router>, <json-data>, etc.
         if (this._isRunning) {
             return;
         }
         this._isRunning = true;
 
         // Get Settings
-        // var isValid = this.validateSettings();
+        const isValid = this.validateSettings();
+        const router = document.querySelector('url-router');
         this.currentLocale = null;
 
         // Get lang from URL '/:lang/path1/path2/etc'
-        const router = document.querySelector('url-router');
-        const hashRouting = (router === null || router.useHistoryMode !== true);
-        if (hashRouting) {
-            if (window.location.hash.indexOf('#/') === 0) {
+        if (this.hashRouting) {
+            if (isValid && window.location.hash.indexOf('#/') === 0) {
                 this.currentLocale = window.location.hash.split('/')[1];
-            } else if (window.location.pathname.split('/').length > 1) {
+            }
+        } else {
+            if (isValid && window.location.pathname.split('/').length > 1) {
                 this.currentLocale = window.location.pathname.split('/')[1];
             }
         }
-        // if (hashRouting) {
-        //     if (isValid && window.location.hash.indexOf('#/') === 0) {
-        //         this.currentLocale = window.location.hash.split('/')[1];
-        //     }
-        // } else {
-        //     if (isValid && window.location.pathname.split('/').length > 1) {
-        //         this.currentLocale = window.location.pathname.split('/')[1];
-        //     }
-        // }
-        // if (this.currentLocale !== null) {
-        //     if (this.currentLocale === '' || this.supportedLocales.indexOf(this.currentLocale) === -1) {
-        //         this.currentLocale = null;
-        //     }
-        // }
+        if (this.currentLocale !== null) {
+            if (this.currentLocale === '' || this.supportedLocales.indexOf(this.currentLocale) === -1) {
+                this.currentLocale = null;
+            }
+        }
 
-        // If language is not matched then redirect back to the default route
-        // if one is found. If no route matches then ignore to avoid an endless
-        // loop of hash changes.
-        //
-        // if (this.currentLocale === null) {
-        //     next(false);
-        //     if (window.app && window.app.controller && window.app.controller('/:lang/') !== null) {
-        //         if (hashRouting) {
-        //             window.location = '#/' + this.defaultLocale + '/';
-        //         } else {
-        //             app.changeRoute('/' + this.defaultLocale + '/');
-        //         }
-        //     }
-        //     return;
-        // }
+        // Update the global variable with the selected locale so it can
+        // be used with templating or easily by custom JavaScript code.
+        window.i18n_Locale = this.currentLocale;
 
-        // Update the Active Model with the selected locale. This value can be used
-        // when creating links with Handlebars or other templating engines.
-        //
-        // if (window.app && typeof window.app.activeModel === 'object') {
-        //     window.app.activeModel.i18n_Locale = this.currentLocale;
-        // }
+        // If language is not matched then exit. This can happen when
+        // the page first loads while <url-router> is stil loading.
+        if (this.currentLocale === null) {
+            this._isRunning = false;
+            return;
+        }
 
         // Update the <html lang="lang"> attribute with the selected locale
         document.documentElement.lang = this.currentLocale;
@@ -125,24 +158,24 @@ class I18nService extends WebComponentService {
         const url = this.fileDir + '/' + this.fileName + '.' + this.currentLocale + '.json';
         const promises = [this.downloadFile(url)];
 
-        // Optionally download file from route define attribute [data-i18n-file / settings.i18nFile]
-        // var routeFileName = null;
+        // Optionally download file from route defined HTML attribute [data-i18n-file]
+        const routeFileName = (router && router.currentRoute ? router.currentRoute.getAttribute('data-i18n-file') : null);
         let routeUrl = null;
-        // if (app.activeController && app.activeController.settings && app.activeController.settings.i18nFile) {
-        //     routeFileName = app.activeController.settings.i18nFile;
-        //     routeUrl = this.fileDir + '/' + routeFileName + '.' + this.currentLocale + '.json';
-        //     promises.push(this.downloadFile(routeUrl));
-        // }
+        if (routeFileName) {
+            routeUrl = this.fileDir + '/' + routeFileName + '.' + this.currentLocale + '.json';
+            promises.push(this.downloadFile(routeUrl));
+        }
 
         // Load language files from cached for download
         Promise.all(promises).finally(() => {
             if (routeUrl) {
+                // TODO - make sure this works properly
                 // this.langText = app.deepClone({}, this.langCache[url], this.langCache[routeUrl]);
                 this.langText = Object.assign({}, this.langCache[url], this.langCache[routeUrl]);
             } else {
                 this.langText = this.langCache[url];
             }
-            this.updateElements(rootElement);
+            this.updateElements();
             this._isRunning = false;
         });
     }
@@ -193,29 +226,9 @@ class I18nService extends WebComponentService {
         });
     }
 
-    updateElements(rootElement) {
-        // var elements,
-        //     element,
-        //     key,
-        //     value,
-        //     html,
-        //     search,
-        //     n,
-        //     m,
-        //     re,
-        //     locales,
-        //     locale,
-        //     data,
-        //     x,
-        //     y,
-        //     attr,
-        //     navLang,
-        //     hashRouting = (app.routingMode === undefined || app.routingMode()  === 'hash'),
-        //     href,
-        //     isI18nHref;
-
+    updateElements() {
         // Set text content of all elements that have the [data-i18n] attribute
-        let elements = rootElement.querySelectorAll('[data-i18n]');
+        let elements = document.querySelectorAll('[data-i18n]');
         for (const element of elements) {
             const field = element.getAttribute('data-i18n');
             const value = (this.langText[field] === undefined ? '' : this.langText[field]);
@@ -223,7 +236,7 @@ class I18nService extends WebComponentService {
         }
 
         // Update attribute content of all elements that have [data-i18n-attr]
-        elements = rootElement.querySelectorAll('[data-i18n-attr]');
+        elements = document.querySelectorAll('[data-i18n-attr]');
         for (const element of elements) {
             const data = element.getAttribute('data-i18n-attr').split(',').map(function(s) { return s.trim(); });
             for (let x = 0, y = data.length; x < y; x++) {
@@ -238,82 +251,88 @@ class I18nService extends WebComponentService {
         // Update links that have the attribute [data-i18n-href]. This allows links
         // to be setup with valid HTML such as (<a href="#/en/">) and then updated
         // by the plugin as the user changes the language.
-        elements = rootElement.querySelectorAll('a[data-i18n-href]');
+        elements = document.querySelectorAll('a[data-i18n-href]');
         for (const element of elements) {
             const data = element.getAttribute('href').split('/');
-            // const href = element.getAttribute('href');
-            // isI18nHref = (hashRouting ? href.indexOf('#/') === 0 : href.indexOf('/') === 0); 
-            // if (isI18nHref && data.length > 1) {
-            if (data.length > 1) {
+            const href = element.getAttribute('href');
+            const isI18nHref = (this.hashRouting ? href.indexOf('#/') === 0 : href.indexOf('/') === 0);
+            if (isI18nHref && data.length > 1) {
                 data[1] = this.currentLocale;
                 element.href = data.join('/');
             }
         }
 
+        // TODO - all items below need to be tested with the main site
+        //  A basic version of it will be recreated but not all features have to be re-created for now.
+
         // Update links that have the attribute [data-i18n-locales] and replace
         // [href] text that contains '{locale}' with the current or default locale.
-        //
-        // elements = rootElement.querySelectorAll('a[data-i18n-locales]');
-        // for (n = 0, m = elements.length; n < m; n++) {
-        //     element = elements[n];
-        //     locales = element.getAttribute('data-i18n-locales').split(',').map(function(s) { return s.trim(); });
-        //     locale = this.currentLocale;
-        //     if (locales.indexOf(locale) === -1) {
-        //         if (locales.indexOf(this.defaultLocale) !== -1) {
-        //             locale = this.defaultLocale;
-        //         } else {
-        //             locale = locales[0];
-        //         }
-        //     }
-        //     re = new RegExp('\\[locale]', 'g');
-        //     element.href = element.href.replace(re, locale);
-        // }
+        elements = document.querySelectorAll('a[data-i18n-locales]');
+        for (const element of elements) {
+            const locales = element.getAttribute('data-i18n-locales').split(',').map(s => { return s.trim(); });
+            let locale = this.currentLocale;
+            if (locales.indexOf(locale) === -1) {
+                if (locales.indexOf(this.defaultLocale) !== -1) {
+                    locale = this.defaultLocale;
+                } else {
+                    locale = locales[0];
+                }
+            }
+            const re = new RegExp('\\[locale]', 'g');
+            element.href = element.href.replace(re, locale);
+        }
 
         // Replace html content of all elements that have [data-i18n-replace-text].
         // This searches for all text in the format of "[[i18n {key}]]" and replaces
         // it with the key. This feature is helpful for specific pages but is likely
         // to not be used by most pages on a site.
-        //
-        // elements = rootElement.querySelectorAll('[data-i18n-replace-text]');
-        // for (n = 0, m = elements.length; n < m; n++) {
-        //     element = elements[n];
-        //     html = element.innerHTML;
-        //     for (key in this.langText) {
-        //         if (this.langText.hasOwnProperty(key)) {
-        //             search = '[[i18n ' + key + ']]';
-        //             if (html.indexOf(search) !== -1) {
-        //                 search = '\\[\\[i18n ' + key + ']]';
-        //                 re = new RegExp(search, 'g');
-        //                 value = (this.langText[key] ? this.langText[key] : key);
-        //                 html = html.replace(re, value);
-        //             }
-        //         }
-        //     }
-        //     element.innerHTML = html;
-        // }
+        elements = document.querySelectorAll('[data-i18n-replace-text]');
+        for (const element of elements) {
+            let html = element.innerHTML;
+            for (const key in this.langText) {
+                if (this.langText.hasOwnProperty(key)) {
+                    let search = '[[i18n ' + key + ']]';
+                    if (html.indexOf(search) !== -1) {
+                        search = '\\[\\[i18n ' + key + ']]';
+                        const re = new RegExp(search, 'g');
+                        const value = (this.langText[key] ? this.langText[key] : key);
+                        html = html.replace(re, value);
+                    }
+                }
+            }
+            element.innerHTML = html;
+        }
 
         // Update all Nav Links on the document (not just the root element)
         // that have [data-i18n-nav-lang] so they point the current page
         // using the language from the link.
-        //
-        // elements = document.querySelectorAll('[data-i18n-nav-lang]');
-        // for (n = 0, m = elements.length; n < m; n++) {
-        //     element = elements[n];
-        //     navLang = element.getAttribute('data-i18n-nav-lang');
-        //     if (hashRouting) {
-        //         element.href = window.location.hash.replace('#/' + i18n.currentLocale + '/', '#/' + navLang + '/');
-        //     } else {
-        //         element.href = window.location.pathname.replace('/' + i18n.currentLocale + '/', '/' + navLang + '/');
-        //         element.addEventListener('click', app.pushStateClick);
-        //     }
-        // }
+        elements = document.querySelectorAll('[data-i18n-nav-lang]');
+        if (elements.length > 0) {
+            const handlePushStateClick = (this.hashRouting ? null : document.querySelector('url-router').handlePushStateClick);
+            for (const element of elements) {
+                const navLang = element.getAttribute('data-i18n-nav-lang');
+                if (this.hashRouting) {
+                    element.href = window.location.hash.replace('#/' + this.currentLocale + '/', '#/' + navLang + '/');
+                } else {
+                    element.href = window.location.pathname.replace('/' + this.currentLocale + '/', '/' + navLang + '/');
+                    element.addEventListener('click', handlePushStateClick);
+                }
+            }
+        }
 
         // Update text for selected Lang on document Nav elements
-        //
-        // elements = document.querySelectorAll('[data-i18n-nav-selected]');
-        // for (n = 0, m = elements.length; n < m; n++) {
-        //     elements[n].textContent = i18n.currentLocale;
-        // }
+        elements = document.querySelectorAll('[data-i18n-nav-selected]');
+        for (const element of elements) {
+            element.textContent = this.currentLocale;
+        }
+
+        // Is there a <nav is="spa-links"> Web Component to update?
+        elements = document.querySelectorAll('nav[is="spa-links"]');
+        for (const spaLinks of elements) {
+            if (typeof spaLinks.updateLinks === 'function') {
+                spaLinks.updateLinks();
+            }
+        }
     }
 }
 

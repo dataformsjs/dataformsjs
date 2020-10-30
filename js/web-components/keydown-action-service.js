@@ -46,7 +46,7 @@ function enterToClick(e) {
  * Add <keydown-action-service> element to the page
  */
 window.customElements.define('keydown-action-service', class KeydownActionService extends WebComponentService {
-    refresh(rootElement) {
+    load(rootElement) {
         const elements = rootElement.querySelectorAll('[data-enter-key-click-selector]');
         for (const el of elements) {
             el.addEventListener('keydown', enterToClick);

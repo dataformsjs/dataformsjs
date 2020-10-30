@@ -1,7 +1,7 @@
 /*
     This is an active development to polyfill DataFormsJS Web Components.
-    It's working so far (2020-10-09) however lot of testing and additional
-    features are needed before this file can be published.
+    It's working so far (2020-10-29) however lot of testing and additional
+    features are needed before this file can be published to npm.
 
     See topic: "Finish Web Component Updates"
     In file [../to-do-list.txt]
@@ -13,16 +13,10 @@
         <script nomodule src="../js/web-components/polyfill.js"></script>
 
     Additional items that must be completed before this will be published:
-        - Confirm this works on all Web Component example pages, playground, and templates
-        - See code related to `app.activeModel = this` in this file. Come up with
-            a test and see if the issue in the comments can be handled. If not provide a
-            warning at least.
         - Currently all demo pages use <json-data>. See variable `hasJsonData` in this file.
             It was added in case a page doesn't use <json-data> however it still needs to be tested
             (at least manually). This may be needed if adding a search screen for the places demo.
-        - Consider downloading 'controls/data-list' and other required scripts only if needed.
-            This is doable however it adds more complexity to the code so this can be decided
-            later if it makes sense or not.
+        - After final updates confirm this works on all Web Component example pages, playground, and templates
 */
 
 /* Validates with both [eslint] and [jshint] */
@@ -63,7 +57,7 @@
             attributes.forEach(function(attr) {
                 var value = element.getAttribute(attr);
                 if (value !== null) {
-                    element.setAttribute('data-' + attr, value);
+                    element.setAttribute('data-' + attr, (value === '' ? 'true' : value));
                 }
             });
         },
@@ -372,8 +366,9 @@
 
     /**
      * Convert routes under <url-router> to standard Framework routes
+     * @param {HTMLElement} router
      */
-    function defineRoutes() {
+    function defineRoutes(router) {
         // Private function related to routing setup
         function routerError(router, error) {
             dispatchEvent(router, 'app:error', error);
@@ -386,11 +381,6 @@
         }
 
         // Get Router Type
-        var router = document.querySelector('url-router');
-        if (router === null) {
-            // Site has no routes so it's not an SPA
-            return;
-        }
         if (router.getAttribute('mode') === 'history') {
             // Required before `app.setup()` is called in order to use
             // History Routes (pushState, popstate)
@@ -519,11 +509,6 @@
      * Setup the page for non-SPA's
      */
     function noRoutingSetup() {
-        // Exit if the page contains a router
-        if (document.querySelector('url-router') !== null) {
-            return;
-        }
-
         app.activeModel = {};
         app.onUpdateViewComplete = function() {
             polyfillPage.onRendered();
@@ -588,8 +573,8 @@
     function loadPagePlugins() {
         // A number of additional scripts are downloaded that may or may not be used,
         // however in general the files are small - "*.min.js" version of all files
-        // is less than 20 kb before gzipping. It's likely most sites using this
-        // will use [json-data], [dataBind] and at least one of [data-list] or [data-table].
+        // is around 20 kb before gzipping. It's likely most sites using this will
+        // use [json-data], [dataBind] and at least one of [data-list] or [data-table].
         // Aditional scripts such as [js/plugins/filter.js] are downloaded later only if they
         // are used by the app. All scripts here are downloaded asynchronously so it's very quick.
         var promises = [
@@ -601,16 +586,55 @@
             app.loadScripts(rootUrl + 'plugins/dataBind' + (useMinFiles ? '.min' : '') + '.js'),
         ];
 
+        // Load [i18n] plugin if <i18n-service> exists on the page and
+        // set needed HTML attributes on the root <html> element.
+        var i18nService = document.querySelector('i18n-service');
+        if (i18nService) {
+            promises.push(app.loadScripts(rootUrl + 'plugins/i18n' + (useMinFiles ? '.min' : '') + '.js'));
+            var attrMap = [
+                { web: 'default-locale', plugin: 'data-i18n-default' },
+                { web: 'file', plugin: 'data-i18n-file' },
+                { web: 'locales', plugin: 'data-i18n-locales' },
+                { web: 'file-dir', plugin: 'data-i18n-dir' },
+            ];
+            attrMap.forEach(function(attr) {
+                var value = i18nService.getAttribute(attr.web);
+                if (value) {
+                    document.documentElement.setAttribute(attr.plugin, value);
+                }
+            });
+        }
+
         // After all scripts have been loaded the setup the app
         Promise.all(promises).finally(function () {
-            app.addPage('polyfillPage', polyfillPage);
-
             // Define a setting so apps can check if this file is being used.
             app.settings.usingWebComponentsPolyfill = true;
 
+            // In general plugin order does not matter with DataFormsJS.
+            // The one exception is if using both [i18n] and [dataBind] then
+            // [dataBind] should run first.
+            if (i18nService) {
+                var pluginNames = Object.keys(app.plugins);
+                if (pluginNames[0] !== 'i18n') {
+                    var plugins = { i18n: app.plugins.i18n };
+                    pluginNames.forEach(function(name) {
+                        if (name !== 'i18n') {
+                            plugins[name] = app.plugins[name];
+                        }
+                    });
+                    app.plugins = plugins;
+                }
+            }
+
+            // Setup DataFormsJS
             defineCustomEvents();
-            defineRoutes();
-            noRoutingSetup();
+            var router = document.querySelector('url-router');
+            if (router === null) {
+                noRoutingSetup();
+            } else {
+                app.addPage('polyfillPage', polyfillPage); // Used by all SPA routes
+                defineRoutes(router);
+            }
         });
     }
 

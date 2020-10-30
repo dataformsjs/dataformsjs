@@ -120,14 +120,29 @@ class InputFilter extends HTMLInputElement {
                 return;
             }
 
-            // Set text
+            // Which text label to use? Update displayCount if filtered text
             let resultText;
             if (displayCount === totalCount) {
                 resultText = resultTextAll;
             } else {
                 resultText = resultTextFiltered.replace(/{displayCount}/g, displayCount);
             }
+
+            // Update total count in text
             resultText = resultText.replace(/{totalCount}/g, totalCount);
+
+            // Update '{props}' from the <url-router> URL Params if defined
+            const router = document.querySelector('url-router');
+            if (router && typeof router.currentUrlParams === 'object') {
+                resultText = resultText.replace(/{(.+)}/g, function(match, prop) {
+                    if (router.currentUrlParams[prop] !== undefined) {
+                        return String(router.currentUrlParams[prop]);
+                    }
+                    return match;
+                });
+            }
+
+            // Overwrite text of the element
             resultLabel.textContent = resultText;
         }
     }

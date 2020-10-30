@@ -124,6 +124,30 @@
         },
 
         /**
+         * Return a selected language for the user based on supported locales
+         * and the browsers available languages from user settings.
+         *
+         * This may be called from DataFormsJS during route loading.
+         *
+         * @returns {string|null}
+         */
+        getUserDefaultLang: function() {
+            // First check if any of the supported languages match a user's language.
+            // These are the languages sent with the Request 'Accept-Language' header.
+            if (navigator.languages && navigator.languages.length &&
+                this.supportedLocales && this.supportedLocales.length
+            ) {
+                for (var n = 0, m = navigator.languages.length; n < m; n++) {
+                    if (this.supportedLocales.indexOf(navigator.languages[n]) !== -1) {
+                        return navigator.languages[n];
+                    }
+                }
+            }
+            // No language matched, use default for the site if defined
+            return this.defaultLocale;
+        },
+
+        /**
          * Read Settings from the <html> element. This gets called as soon
          * as this file is loaded.
          */
@@ -202,25 +226,20 @@
                 }
             }
 
-            // If language is not matched then redirect back to the default route
-            // if one is found. If no route matches then ignore to avoid an endless
-            // loop of hash changes.
-            if (this.currentLocale === null) {
-                next(false);
-                if (window.app && window.app.controller && window.app.controller('/:lang/') !== null) {
-                    if (hashRouting) {
-                        window.location = '#/' + this.defaultLocale + '/';
-                    } else {
-                        app.changeRoute('/' + this.defaultLocale + '/');
-                    }
-                }
-                return;
-            }
+            // Update the global variable with the selected locale so it can be
+            // used with general templating from <data-table>, <data-list>, etc.
+            window.i18n_Locale = this.currentLocale;
 
             // Update the Active Model with the selected locale. This value can be used
             // when creating links with Handlebars or other templating engines.
             if (window.app && typeof window.app.activeModel === 'object') {
                 window.app.activeModel.i18n_Locale = this.currentLocale;
+            }
+
+            // Exit if language is not yet set.
+            if (this.currentLocale === null) {
+                next(false);
+                return;
             }
 
             // Update the <html lang="lang"> attribute with the selected locale
@@ -313,7 +332,7 @@
                 isI18nHref;
 
             // Use either document or specific element
-            rootElement = (rootElement ? rootElement : document); 
+            rootElement = (rootElement ? rootElement : document);
 
             // Set text content of all elements that have the [data-i18n] attribute
             elements = rootElement.querySelectorAll('[data-i18n]');
@@ -351,7 +370,7 @@
                 element = elements[n];
                 data = element.getAttribute('href').split('/');
                 href = element.getAttribute('href');
-                isI18nHref = (hashRouting ? href.indexOf('#/') === 0 : href.indexOf('/') === 0); 
+                isI18nHref = (hashRouting ? href.indexOf('#/') === 0 : href.indexOf('/') === 0);
                 if (isI18nHref && data.length > 1) {
                     data[1] = this.currentLocale;
                     element.href = data.join('/');
@@ -458,7 +477,7 @@
                         }
                     }
                 };
-                
+
                 // For differences between Vue 2 and Vue 3 see comments in [js\extensions\vue-directives.js]
                 var isVue3 = (Vue.directive === undefined && typeof Vue.createApp === 'function');
                 if (isVue3) {

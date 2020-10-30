@@ -2,16 +2,16 @@
     url="{rootApiUrl}/countries?order_by=country"
     load-only-once="true">
     <is-loading>
-        <span class="loading">Loading...</span>
+        <h3 class="loading" data-i18n="Loading..."></h3>
     </is-loading>
     <has-error>
-        <span class="error" data-bind="errorMessage"></span>
+        <h3 class="error"><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></h3>
     </has-error>
     <is-loaded class="flex-col">
-        <h1>Search</h1>
+        <h1 data-i18n="Search"></h1>
 
         <nav>
-            <a href="#/">Countries</a>
+            <a href="#/en/" data-i18n="Countries" data-i18n-href></a>
         </nav>
 
         <form class="search">
@@ -19,8 +19,8 @@
                 data-bind="country"
                 list="country-list"
                 data-enter-key-click-selector=".btn-search"
-                placeholder="-- Select a Country (Optional) --">
-            
+                placeholder="-- Select a Country (Optional) --"
+                data-i18n-attr="placeholder">
             <data-list
                 data-bind="countries"
                 root-element="datalist"
@@ -34,13 +34,14 @@
             <input
                 data-bind="city"
                 data-enter-key-click-selector=".btn-search"
-                placeholder="Search for a City, example 'Paris' or 'London'">
+                placeholder="Search for a City, example 'Paris' or 'London'"
+                data-i18n-attr="placeholder">
 
             <!--
                 When the search button is clicked on the <json-data> element will be triggered
                 based on [click-selector] and form elements that use [data-bind]
             -->
-            <button class="btn-search" type="button">Search</button>
+            <button class="btn-search" type="button" data-i18n="Search"></button>
         </form>
 
         <!--
@@ -52,10 +53,10 @@
             url="{rootApiUrl}/search?country=:country&city=:city"
             click-selector=".btn-search">
             <is-loading>
-                <span class="loading">Loading...</span>
+                <h3 class="loading" data-i18n="Loading..."></h3>
             </is-loading>
             <has-error>
-                <span class="error" data-bind="errorMessage"></span>
+                <h3 class="error"><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></h3>
             </has-error>
             <!--
                 The `cities` data will not exist on initial page load from the root
@@ -64,7 +65,7 @@
                 whether the value exists or not.
             -->
             <is-loaded class="flex-col" data-show="typeof cities === 'object'">
-                <h2><span data-bind="cities.length"></span> <span>Cities Found</span></h2>
+                <h2><span data-bind="cities.length"></span> <span data-i18n="Cities Found"></span></h2>
 
                 <!--
                     [data-bind-refresh="function"] allows for <json-data> to refresh the
@@ -82,7 +83,8 @@
                         filter-results-text-all="{totalCount} Cities Found"
                         filter-results-text-filtered="Showing {displayCount} of {totalCount} Cities"
                         data-bind-refresh="filter"
-                        placeholder="Enter filter">
+                        placeholder="Enter filter"
+                        data-i18n-attr="filter-results-text-all, filter-results-text-filtered, placeholder">
                 </div>
 
                 <div class="responsive-table">
@@ -90,6 +92,7 @@
                         data-bind="cities"
                         highlight-class="highlight"
                         labels="Country, Name, Population, Elevation, Timezone, Date Last Modified"
+                        data-i18n-attr="labels"
                         table-attr="
                             is=sortable-table,
                             data-sort-class-odd=row-odd,
@@ -100,7 +103,7 @@
                                     <i class="${country_code.toLowerCase()} flag"></i>
                                     <span>${country_code}</span>
                                 </td>
-                                <td><a href="#/city/${geonames_id}">${name}</a></a></td>
+                                <td><a href="#/${i18n_Locale}/city/${geonames_id}">${name}</a></a></td>
                                 <td class="align-right" data-value="${population}">${format.number(population)}</td>
                                 <td class="align-right" data-value="${elevation}">${formatElevation(elevation)}</td>
                                 <td>${timezone}</td>

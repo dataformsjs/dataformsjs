@@ -3,62 +3,62 @@
     url-params
     load-only-once="true">
     <is-loading>
-        <span class="loading">Loading...</span>
+        <h3 class="loading" data-i18n="Loading..."></h3>
     </is-loading>
     <has-error>
-        <span class="error" data-bind="errorMessage"></span>
+        <h3 class="error"><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></h3>
     </has-error>
     <is-loaded class="flex-col">
         <h1 data-bind="place.name"></h1>
 
         <nav>
-            <a href="#/">Countries</a>
-            <a href="#/regions/[place.country_code]" data-bind-attr="href">Regions</a>
-            <a href="#/cities/[place.country_code]/[place.admin1_code]" data-bind-attr="href">Cities</a>
+            <a href="#/en/" data-i18n="Countries" data-i18n-href></a>
+            <a href="#/en/regions/[place.country_code]" data-i18n="Regions" data-bind-attr="href" data-i18n-href></a>
+            <a href="#/en/cities/[place.country_code]/[place.admin1_code]" data-i18n="Cities" data-bind-attr="href" data-i18n-href></a>
         </nav>
 
         <div class="place-screen">
 
             <section class="form-fields">
                 <div>
-                    <label class="no-top-margin">Name</label>
+                    <label class="no-top-margin" data-i18n="Name"></label>
                     <span data-bind="place.name"></span>
                 </div>
                 <div data-show="place.name !== place.ascii_name">
-                    <label>ASCII Name</label>
+                    <label data-i18n="ASCII Name"></label>
                     <span data-bind="place.ascii_name"></span>
                 </div>
                 <div>
-                    <label>Country (ISO)</label>
+                    <label data-i18n="Country (ISO)"></label>
                     <span data-bind="place.country_code"></span>
                     <i class="[place.country_code] flag" data-bind-attr="class"></i>
                 </div>
                 <div>
-                    <label>Region (State, Province, etc.)</label>
+                    <label data-i18n="Region (State, Province, etc.)"></label>
                     <span data-bind="place.admin1_code"></span>
                 </div>
                 <div>
-                    <label>Population</label>
+                    <label data-i18n="Population"></label>
                     <span data-bind="place.population" data-format="number"></span>
                 </div>    
                 <div>
-                    <label>Elevation</label>
+                    <label data-i18n="Elevation"></label>
                     <span data-bind="place.elevation" data-format="formatElevation"></span>
                 </div>
                 <div>
-                    <label>Latitude</label>
+                    <label data-i18n="Latitude"></label>
                     <span data-bind="place.latitude"></span>
                 </div>
                 <div>
-                    <label>Longitude</label>
+                    <label data-i18n="Longitude"></label>
                     <span data-bind="place.longitude"></span>
                 </div>
                 <div>
-                    <label>Timezone</label>
+                    <label data-i18n="Timezone"></label>
                     <span data-bind="place.timezone"></span>
                 </div>
                 <div>
-                    <label>Date Last Modified</label>
+                    <label data-i18n="Date Last Modified"></label>
                     <span data-bind="place.modification_date" data-format="date"></span>
                 </div>
             </section>            
@@ -73,14 +73,14 @@
                     data-bind-attr="latitude, longitude, marker">
                 </div>
                 <div class="map-links">
-                    <small><a href="https://www.openstreetmap.org#map=12/[place.latitude]/[place.longitude]" data-bind-attr="href" target="_blank">View on OpenStreetMap</a></small>
-                    <small><a href="https://www.google.com/maps/@[place.latitude],[place.longitude],12z" data-bind-attr="href" target="_blank">View on Google Maps</a></small>
+                    <small><a href="https://www.openstreetmap.org#map=12/[place.latitude]/[place.longitude]" data-bind-attr="href" target="_blank" data-i18n="View on OpenStreetMap"></a></small>
+                    <small><a href="https://www.google.com/maps/@[place.latitude],[place.longitude],12z" data-bind-attr="href" target="_blank" data-i18n="View on Google Maps"></a></small>
                 </div>
             </section>
         </div>
 
         <section class="alternate-names" data-show="place.alternate_names.length > 0">
-            <h2>Alternate Names (<span data-bind="place.alternate_names.length"></span>)</h2>
+            <h2><span data-i18n="Alternate Names"></span> (<span data-bind="place.alternate_names.length"></span>)</h2>
 
             <input
                 is="input-filter"
@@ -89,7 +89,8 @@
                 filter-results-selector=".alternate-names h2"
                 filter-results-text-all="Alternate Names ({totalCount})"
                 filter-results-text-filtered="Showing {displayCount} of {totalCount} Alternate Names"
-                placeholder="Enter filter">
+                placeholder="Enter filter"
+                data-i18n-attr="placeholder, filter-results-text-all, filter-results-text-filtered">
 
             <data-list data-bind="place.alternate_names"></data-list>
         </section>

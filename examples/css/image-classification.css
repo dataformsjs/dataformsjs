@@ -94,6 +94,8 @@ input[type='text'] {
     input[type='text'] { width:300px; }
 }
 
+.download-error { padding:1em; background-color:red; color:white; }
+
 ul.results {
     list-style-type: none;
     display: flex;
@@ -125,7 +127,7 @@ ul.results li div.container { padding:initial; box-shadow:initial; border-radius
 ul.results li div.loading { background-color: blue; }
 ul.results li div.success-high { background-color: green; }
 ul.results li div.success-medium { background-color: purple; }
-ul.results li div.success-low { background-color: red; } */
+ul.results li div.success-low { background-color: red; }
 ul.results li div.error { background-color: darkred; }
 
 ul.image-categories {

@@ -43,10 +43,19 @@ TODO List
     - Items currently needed before this will be published to npm
         - Finish creating <i18n-service>, see other related comments in this file
             - Search for `TODO` comments in source, all are currently related to this
-            - Initial development is in early state and first occurring on the Image Classification demo
-            - Testing:
-                http://127.0.0.1:8080/image-classification-web#/en/
-                http://127.0.0.1:8080/image-classification-web#/zh-CN/
+            - Development of this Component is almost complete
+        - Web Components currently do not handle [data-template-url] and [data-template-id]
+            - Should this be handled by a new Service Component or by <url-router>?
+            - Affected Demo Pages:
+                dataformsjs\examples\html\image-info-web.htm
+                dataformsjs\examples\html\places-info-web.htm
+                http://127.0.0.1:8080/places-demo-web#/en/info
+                http://127.0.0.1:8080/image-classification-web#/en/info
+        - <json-data>
+            Instead of:
+                load-only-once="true"
+            Only require the attribute itself:
+                load-only-once
         - Must verify new [defineExtendsPolyfill] with the versions of Safari or other Legacy modern browsers
         - Log Demo Pages
             When using Polyfill the error currently does not show:

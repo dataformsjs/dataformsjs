@@ -18,10 +18,10 @@
  *     import { WebComponentService } from './WebComponentService.js';
  *
  *     // Create Custom Element extending this class.
- *     // The function `refresh()` is required while `endService()` is optional.
+ *     // The function `load()` is required while `endService()` is optional.
  *     window.customElements.define('my-service', class MyService extends WebComponentService {
- *         refresh(rootElement) {
- *             console.log(`Called ${this.constructor.name}.refresh(${(rootElement === document ? 'document' : rootElement.tagName.toLowerCase())})`);
+ *         load(rootElement) {
+ *             console.log(`Called ${this.constructor.name}.load(${(rootElement === document ? 'document' : rootElement.tagName.toLowerCase())})`);
  *         }
  *
  *         endService() {
@@ -59,14 +59,14 @@ export class WebComponentService extends HTMLElement {
     }
 
     connectedCallback() {
-        if (this.refresh === undefined) {
+        if (this.load === undefined) {
             const name = (this.constructor.name === '' ? 'anonymous' : this.constructor.name);
-            showErrorAlert(`Error - Unable to use service. Element <${this.tagName.toLowerCase()}> class [${name}] is missing function [refresh()].`);
+            showErrorAlert(`Error - Unable to use service. Element <${this.tagName.toLowerCase()}> class [${name}] is missing function [load()].`);
             return;
         }
         document.addEventListener('app:routeChanged', this.runService); // <url-router>
         document.addEventListener('app:contentReady', this.runService); // <json-data>
-        this.refresh(document);
+        this.load(document);
     }
 
     disconnectedCallback() {
@@ -79,6 +79,6 @@ export class WebComponentService extends HTMLElement {
 
     runService(e) {
         const rootElement = (e.target.tagName === 'URL-ROUTER' ? document : e.target);
-        this.refresh(rootElement);
+        this.load(rootElement);
     }
 }

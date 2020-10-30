@@ -1,10 +1,8 @@
-<h1>
-    <span>Largest Cities in</span> <span url-param="country"></span>, <span url-param="region"></span>
-</h1>
-    
+<h1><span data-i18n="Largest Cities in"></span> <span url-param="country"></span>, <span url-param="region"></span></h1>
+
 <nav>
-    <a href="#/">Countries</a>
-    <a href="#/regions/[country]" url-attr-param="href">Regions</a>
+    <a href="#/en/" data-i18n="Countries" data-i18n-href></a>
+    <a href="#/en/regions/[country]" data-i18n="Regions" url-attr-param="href" data-i18n-href></a>
 </nav>
 
 <json-data
@@ -12,16 +10,17 @@
     url-params
     load-only-once="true">
     <is-loading>
-        <span class="loading">Loading...</span>
+        <h3 class="loading" data-i18n="Loading..."></h3>
     </is-loading>
     <has-error>
-        <span class="error" data-bind="errorMessage"></span>
+        <h3 class="error"><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></h3>
     </has-error>
     <is-loaded class="flex-col">
         <input
             is="input-filter"
             filter-selector="table"
-            placeholder="Enter filter">
+            placeholder="Enter filter"
+            data-i18n-attr="placeholder">
 
         <div class="responsive-table">
             <!--
@@ -35,6 +34,7 @@
                 data-bind="cities"
                 highlight-class="highlight"
                 labels="Name, Population, Elevation, Timezone, Date Last Modified"
+                data-i18n-attr="labels"
                 table-attr="is=sortable-table,
                     data-sort-class-odd=row-odd,
                     data-sort-class-even=row-even">
@@ -42,7 +42,7 @@
                     <tr>
                         <td>
                             <i class="${country_code.toLowerCase()} flag"></i>
-                            <a href="#/city/${geonames_id}">${name}</a></a>
+                            <a href="#/${i18n_Locale}/city/${geonames_id}">${name}</a></a>
                         </td>
                         <td class="align-right" data-value="${population}">${format.number(population)}</td>
                         <td class="align-right" data-value="${elevation}">${formatElevation(elevation)}</td>

@@ -59,6 +59,7 @@ class UrlRouter extends HTMLElement {
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
         this.currentRoute = null;
+        this.currentUrlParams = null;
         this.updateView = this.updateView.bind(this);
         this.handlePushStateClick = this.handlePushStateClick.bind(this);
         this.useHistoryMode = (this.getAttribute('mode') === 'history');
@@ -82,6 +83,7 @@ class UrlRouter extends HTMLElement {
         // Wait until child route elements are defined otherwise
         // custom properties such as [path] will not be available.
         this.currentRoute = null;
+        this.currentUrlParams = null;
         await componentsAreDefined(this, 'url-route');
 
         // Make sure that the view element exists
@@ -148,6 +150,7 @@ class UrlRouter extends HTMLElement {
                 // first time the route is accessed.
                 const html = route.template;
                 this.currentRoute = route;
+                this.currentUrlParams = result.urlParams;
                 if (html === null) {
                     this.downloadTemplate(view, route, result.urlParams);
                 } else {
@@ -164,12 +167,20 @@ class UrlRouter extends HTMLElement {
         if (defaultRoute) {
             const path = defaultRoute.path;
             if (path !== '' && path.indexOf(':') === -1) {
-                if (this.useHistoryMode) {
-                    window.history.pushState(null, null, path);
-                    this.updateView();
-                } else {
-                    window.location.hash = '#' + defaultRoute.path;
+                this.changeRoute(path);
+                return;
+            } else if (path === '/:lang/') {
+                // Special case when using <i18n-service>
+                await componentsAreDefined(document, 'i18n-service');
+                const i18nService = document.querySelector('i18n-service');
+                if (i18nService && typeof i18nService.getUserDefaultLang === 'function') {
+                    const selectedLang = i18nService.getUserDefaultLang();
+                    if (selectedLang !== null) {
+                        this.changeRoute('/' + selectedLang + '/');
+                        return;
+                    }
                 }
+                showError(view, 'Missing Web Component [i18n-service.js]');
                 return;
             }
         }
@@ -321,6 +332,27 @@ class UrlRouter extends HTMLElement {
 
         // Custom Event
         this.dispatchRouteChanged(urlParams);
+    }
+
+    /**
+     * Change the route path. When using default hash routing, this does not
+     * need to be used. Instead simply set [window.location.hash = '#...'].
+     *
+     * When using HTML5 History Routing this function calls [window.history.pushState]
+     * with the [path] parameter and displays the new route.
+     *
+     * @param {string} path
+     */
+    changeRoute(path) {
+        if (typeof path !== 'string') {
+            throw new TypeError('Expected string for <url-router>.changeRoute(path)');
+        }
+        if (this.useHistoryMode) {
+            window.history.pushState(null, null, path);
+            this.updateView();
+        } else {
+            window.location.hash = (path.indexOf('#') === 0 ? path : '#' + path);
+        }
     }
 
     /**

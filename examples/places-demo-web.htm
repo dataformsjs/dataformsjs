@@ -23,11 +23,12 @@
         <div id="view" dir="auto"></div>
 
         <!--
-            The <keydown-action-service> Web Component does not render content
-            rather it provides a "service" for elements on the page that contain
-            the attribute [data-enter-key-click-selector]. When using the polyfill
-            the elements are handled by [js/plugins/keydownAction.js].
+            Define Service Web Components which do not render content but rather provide
+            a "service" for elements on the page that contain related HTML attributes:
+                <i18n-service> = [data-i18n], [data-i18n-*]
+                <keydown-action-service> = [data-enter-key-click-selector]
         -->
+        <i18n-service file="countries" default-locale="en" locales="en,ja,es,pt-BR,ar,fr,zh-CN"></i18n-service>
         <keydown-action-service></keydown-action-service>
 
         <!--
@@ -41,23 +42,24 @@
                 [onload] allows for custom JavaScript to be executed or functions
                 to be called whenever the matching route is viewed.
             -->
-            <url-route path="/"
+            <url-route
+                path="/:lang/"
                 default-route
                 onload="showMessage('Viewing Countries Page')">
                 <template>
-                    <h1>Countries</h1>
+                    <h1 data-i18n="Countries"></h1>
 
                     <nav>
-                        <a href="#/search">Search</a>
-                        <a href="#/info">Info</a>
+                        <a href="#/en/search" data-i18n="Search" data-i18n-href></a>
+                        <a href="#/en/info" data-i18n="Info" data-i18n-href></a>
                     </nav>
 
                     <json-data url="{rootApiUrl}/countries" load-only-once="true" onready="showMessage('Countries List is ready')">
                         <is-loading>
-                            <span class="loading">Loading...</span>
+                            <h3 class="loading" data-i18n="Loading..."></h3>
                         </is-loading>
                         <has-error>
-                            <span class="error" data-bind="errorMessage"></span>
+                            <h3 class="error"><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></h3>
                         </has-error>
                         <is-loaded class="flex-col">
                             <input
@@ -66,7 +68,8 @@
                                 filter-results-selector="h1"
                                 filter-results-text-all="{totalCount} Countries"
                                 filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
-                                placeholder="Enter filter, example 'North America'">
+                                placeholder="Enter filter, example 'North America'"
+                                data-i18n-attr="filter-results-text-all, filter-results-text-filtered, placeholder">
 
                             <div class="responsive-table">
                                 <!--
@@ -87,12 +90,13 @@
                                     data-bind="countries"
                                     highlight-class="highlight"
                                     labels="Code, Name, Size (KM), Population, Continent"
+                                    data-i18n-attr="labels"
                                     table-attr="is=sortable-table,
                                                 data-sort-class-odd=row-odd,
                                                 data-sort-class-even=row-even">
                                     <script type="text/x-template">
                                         <tr>
-                                            <td><a href="#/regions/${iso}">${iso}</a></td>
+                                            <td><a href="#/${i18n_Locale}/regions/${iso}">${iso}</a></td>
                                             <td>
                                                 <i class="${iso.toLowerCase()} flag"></i>
                                                 ${country}
@@ -107,7 +111,8 @@
                                 <!--
                                     For a basic table a <template> is not required. This version still
                                     contains links by using the [col-link-template] attribute however
-                                    it will not show the flag icons or format numbers.
+                                    it will not show the flag icons or format numbers or use the selected
+                                    i18n Locale.
                                 -->
                                 <!--
                                 <data-table
@@ -131,11 +136,11 @@
                 Routes with [lazy-load] will dynamically download needed scripts from
                 `window.lazyLoad` near the bottom of this file only when first used.
             -->
-            <url-route path="/regions/:country" src="html/regions-web.htm" onload="showMessage('Viewing Regions Page')"></url-route>
-            <url-route path="/cities/:country/:region" src="html/cities-web.htm"></url-route>
-            <url-route path="/city/:id" src="html/place-web.htm" lazy-load="leafletCss, leafletJs, leafletWeb, leafletPlugin, data_list"></url-route>
-            <url-route path="/info" src="html/places-info-web.htm"></url-route>
-            <url-route path="/search" src="html/search-places-web.htm" lazy-load="data_list, keydownAction"></url-route>
+            <url-route path="/:lang/regions/:country" src="html/regions-web.htm" onload="showMessage('Viewing Regions Page')"></url-route>
+            <url-route path="/:lang/cities/:country/:region" src="html/cities-web.htm"></url-route>
+            <url-route path="/:lang/city/:id" src="html/place-web.htm" lazy-load="leafletCss, leafletJs, leafletWeb, leafletPlugin, data_list"></url-route>
+            <url-route path="/:lang/info" src="html/places-info-web.htm"></url-route>
+            <url-route path="/:lang/search" src="html/search-places-web.htm" lazy-load="data_list, keydownAction"></url-route>
         </url-router>
 
         <template id="loading-spinner-screen">
@@ -145,6 +150,7 @@
         </template>
 
         <!-- DataFormsJS Web Components -->
+        <script type="module" src="../js/web-components/i18n-service.js"></script>
         <script type="module" src="../js/web-components/url-router.js"></script>
         <script type="module" src="../js/web-components/json-data.js"></script>
         <script type="module" src="../js/web-components/data-table.js"></script>

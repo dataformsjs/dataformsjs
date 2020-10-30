@@ -618,26 +618,13 @@
             var newPath = app.settings.defaultRoute;
             if (app.settings.defaultRoute === '/:lang/' &&
                 app.plugins.i18n !== undefined &&
-                typeof app.plugins.i18n.readSettings === 'function'
+                typeof app.plugins.i18n.readSettings === 'function' &&
+                typeof app.plugins.i18n.getUserDefaultLang === 'function'
             ) {
                 app.plugins.i18n.readSettings();
-                // First check if any of the supported languages match a user's language.
-                // These are the languages sent with the Request 'Accept-Language' header.
-                var langMatched = false;
-                if (navigator.languages && navigator.languages.length &&
-                    app.plugins.i18n.supportedLocales && app.plugins.i18n.supportedLocales.length
-                ) {
-                    for (n = 0, m = navigator.languages.length; n < m; n++) {
-                        if (app.plugins.i18n.supportedLocales.indexOf(navigator.languages[n]) !== -1) {
-                            newPath = '/' + navigator.languages[n] + '/';
-                            langMatched = true;
-                            break;
-                        }
-                    }
-                }
-                // No language matched, use default for the site if defined
-                if (!langMatched && app.plugins.i18n.defaultLocale) {
-                    newPath = '/' + app.plugins.i18n.defaultLocale + '/';
+                var selectedLang = app.plugins.i18n.getUserDefaultLang();
+                if (selectedLang !== null) {
+                    newPath = '/' + selectedLang + '/';
                 }
             }
             app.changeRoute(newPath);

@@ -1,7 +1,3 @@
-<!--
-    TODO - this file is still being updated for the new <i18n-service>
-        More testing of the Loading and Error screens is needed
--->
 <json-data
     url="https://www.dataformsjs.com/data/ai-ml/categories/resnet50"
     load-only-once="true">
@@ -9,7 +5,7 @@
         <h2 data-i18n="Loading..."></h2>
     </is-loading>
     <has-error>
-        <h2 class="error"><span data-i18n="error"></span> - <span data-bind="errorMessage"></span></h2>
+        <h2 class="download-error"><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></h2>
     </has-error>
     <is-loaded>
         <section>

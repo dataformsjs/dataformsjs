@@ -1,7 +1,7 @@
 <h1><span>Regions for Country Code</span> <span url-param="country"></span></h1>
 
 <nav>
-    <a href="#/">Countries</a>
+    <a href="#/en/" data-i18n="Countries" data-i18n-href></a>
 </nav>
 
 <json-data
@@ -9,16 +9,20 @@
     url-params
     load-only-once="true">
     <is-loading>
-        <span class="loading">Loading...</span>
+        <h3 class="loading" data-i18n="Loading..."></h3>
     </is-loading>
     <has-error>
-        <span class="error" data-bind="errorMessage"></span>
+        <h3 class="error"><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></h3>
     </has-error>
     <is-loaded class="flex-col">
         <input
             is="input-filter"
             filter-selector="table"
-            placeholder="Enter filter">
+            filter-results-selector="h1"
+            filter-results-text-all="{totalCount} Regions for Country Code {country}"
+            filter-results-text-filtered="Showing {displayCount} of {totalCount} Regions for Country Code {country}"
+            placeholder="Enter filter"
+            data-i18n-attr="placeholder, filter-results-text-all, filter-results-text-filtered">
 
         <div class="responsive-table">
             <!--
@@ -32,12 +36,13 @@
                 data-bind="regions"
                 highlight-class="highlight"
                 labels="Code, Name, Population, Timezone, Date Last Modified"
+                data-i18n-attr="labels"
                 table-attr="is=sortable-table,
                     data-sort-class-odd=row-odd,
                     data-sort-class-even=row-even">
                 <script type="text/x-template">
                     <tr>
-                        <td><a href="#/cities/${country_code}/${admin1_code}">${admin1_code}</a></td>
+                        <td><a href="#/${i18n_Locale}/cities/${country_code}/${admin1_code}">${admin1_code}</a></td>
                         <td>
                             <i class="${country_code.toLowerCase()} flag"></i>
                             ${name}

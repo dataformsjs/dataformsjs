@@ -1,15 +1,12 @@
-<!--
-    TODO - this file is still being updated for the new <i18n-service>
--->
 <json-data
     url="https://www.dataformsjs.com/data/ai-ml/sample-data/resnet50"
     load-only-once="true"
     onready="setupFileUploads()">
     <is-loading>
-        <span class="loading">Loading...</span>
+        <h2 data-i18n="Loading..."></h2>
     </is-loading>
     <has-error>
-        <span class="error" data-bind="errorMessage"></span>
+        <h2 class="download-error"><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></h2>
     </has-error>
     <is-loaded>
         <section>
@@ -30,7 +27,10 @@
                 template-returns-html
                 list-item-name="image"
                 root-element="ul"
-                root-attr="class=results">
+                root-attr="class=results"
+                data-loading="Uploading..."
+                data-error="Error"
+                data-i18n-attr="data-loading, data-error">
             </data-list>
 
             <!--
@@ -48,7 +48,7 @@
                 <li>
                     <img src="${escapeHtml(image.src)}" />
                     ${image.isUploading === true ? '<div class="loading">Uploading</div>' : ''}
-                    ${image.hasError === true ? '<div class="error">' + image.error + '</div>' : ''}
+                    ${image.hasError === true ? '<div class="error">Error</div>' : ''}
                     ${image.predictions.map(function(prediction) {
                         return '<div class="' + resultClass(prediction.probability) + '">' + prediction.label + ' = <span>' + format.percent(prediction.probability, 5) + '</span></div>'
                     }).join('')}
@@ -68,7 +68,7 @@
                 <li>
                     <img src="${escapeHtml(image.src)}" />
                     ${image.isUploading === true ? '<div class="loading">Uploading</div>' : ''}
-                    ${image.hasError === true ? render`<div class="error">${image.error}</div>` : ''}
+                    ${image.hasError === true ? render`<div class="error">Error</div>` : ''}
                     ${image.predictions.map(prediction => {
                         return render`<div class="${resultClass(prediction.probability)}">
                             ${prediction.label} = <span>${format.percent(prediction.probability, 5)}</span>

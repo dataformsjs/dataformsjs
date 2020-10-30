@@ -36,8 +36,6 @@
 
 'use strict';
 
-// TODO - this file will go include some additional minor changes for the new <i18n-service>
-
 // NOTE - If <script type="module"> were used instead of <script> then
 // two functions would need to be exported to global scope. Because
 // <json-data> and other Web Components do not "import" functions but
@@ -53,6 +51,12 @@
  * option requires more JavaScript though.
  */
 var manualDomUpdate = true;
+
+/**
+ * These get updated based on selected language from HTML Attrinutes
+ */
+var uploadingText = 'Uploading';
+var errorText = 'Error';
 
 /**
  * Templating function used to assign CSS class name in a template
@@ -222,7 +226,7 @@ function addImage(image) {
     // Set Element Content
     img.src = image.src;
     div.className = 'loading';
-    div.textContent = 'Uploading';
+    div.textContent = uploadingText;
 
     // Add to Document
     li.appendChild(img);
@@ -247,7 +251,7 @@ function updateItem(image, count) {
     var item = listItems[listItems.length - count - 1];
     var div = item.querySelector('div');
     if (image.hasError) {
-        div.textContent = resultsUl.getAttribute('data-error');
+        div.textContent = errorText;
         div.className = 'error';
     } else {
         div.className = 'container';
@@ -265,6 +269,11 @@ function updateItem(image, count) {
  * This function gets called from HTML in the <json-data> [onready] attribute
  */
 function setupFileUploads() {
+    // Loading and Error text comes from HTML attributes based on the selected language
+    var dataList = document.querySelector('data-list,[data-control="data-list"]');
+    uploadingText = dataList.getAttribute('data-loading');
+    errorText = dataList.getAttribute('data-error');
+
     // Update File Input for upload event
     var fileInput = document.querySelector('input[type="file"]');
     fileInput.addEventListener('change', function() {
