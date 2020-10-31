@@ -98,7 +98,7 @@ function refreshImageList() {
 
 /**
  * Return a reference to the <json-data> state so that images and other
- * properties can be used and modified. Because [load-only-once="true"]
+ * properties can be used and modified. Because [load-only-once]
  * is used the data is cached in memory and the state can be updated if
  * the user clicks to another page while images are uploading.
  */
@@ -240,15 +240,14 @@ function addImage(image) {
  * @param {number} count
  */
 function updateItem(image, count) {
-    var resultsUl = document.querySelector('ul.results');
-    if (resultsUl === null) {
+    var listItems = document.querySelectorAll('ul.results li');
+    if (listItems.length === 0) {
         return; // User clicked to another page while images were being processed
     }
-    var listItems = resultsUl.querySelectorAll('li');
-    if (listItems.length === 0) {
-        return; // User navigated away from page while fetch was still running
-    }
     var item = listItems[listItems.length - count - 1];
+    if (item === undefined) {
+        return; // User navigated away
+    }
     var div = item.querySelector('div');
     if (image.hasError) {
         div.textContent = errorText;

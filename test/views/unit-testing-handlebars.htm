@@ -148,7 +148,7 @@
             data-route="/missing-page-json-data" 
             data-page="jsonData" 
             data-url="404"
-            data-load-only-once="true">
+            data-load-only-once>
             {{#if isLoading}}[missing-page-json-data]Page is Loading{{/if}}
             {{#if isLoaded}}[missing-page-json-data]Page is Loaded{{/if}}
             {{#if hasError}}[missing-page-json-data]{{errorMessage}}{{/if}}
@@ -172,13 +172,13 @@
             {{#if hasError}}[page-reload-json-data]{{errorMessage}}{{/if}}
         </script>
 
-        <script type="text/x-template" data-engine="handlebars" data-route="/page-json-data-load-only-once" data-page="jsonData" data-url="/unit-testing/page-json-data" data-load-only-once="true">
+        <script type="text/x-template" data-engine="handlebars" data-route="/page-json-data-load-only-once" data-page="jsonData" data-url="/unit-testing/page-json-data" data-load-only-once>
             {{#if isLoading}}[page-json-data-load-only-once]Page is Loading{{/if}}
             {{#if isLoaded}}[page-json-data-load-only-once]{{serverMessage}}{{/if}}
             {{#if hasError}}[page-json-data-load-only-once]{{errorMessage}}{{/if}}
         </script>
 
-        <script type="text/x-template" data-engine="handlebars" data-route="/page-json-data-record/:id" data-page="jsonData" data-url="/unit-testing/page-json-data-record/:id" data-load-only-once="true">
+        <script type="text/x-template" data-engine="handlebars" data-route="/page-json-data-record/:id" data-page="jsonData" data-url="/unit-testing/page-json-data-record/:id" data-load-only-once>
             {{#if isLoading}}[page-json-data-record]Page is Loading for {{id}}{{/if}}
             {{#if isLoaded}}[page-json-data-record]Id: {{recordId}}{{/if}}
             {{#if hasError}}[page-json-data-record]{{errorMessage}}{{/if}}

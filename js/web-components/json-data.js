@@ -26,7 +26,8 @@ import {
     componentsAreDefined,
     polyfillCustomElements,
     usingWebComponentsPolyfill,
-    showErrorAlert
+    showErrorAlert,
+    showError
 } from './utils.js';
 
 const format = new Format();
@@ -49,7 +50,7 @@ shadowTmpl.innerHTML = `
 `;
 
 /**
- * Data Caching for when [load-only-once="true"] is used
+ * Data Caching for when [load-only-once] is used
  *
  * Data is saved only once per URL path.
  *
@@ -89,6 +90,22 @@ function getDataFromCache(url, params) {
         }
     }
     return null;
+}
+
+/**
+ * Setup function that gets called to copy templates from [template-selector]
+ * @param {HTMLElement} element
+ */
+function copyTemplateSelector(element) {
+    const templateSelector = element.getAttribute('template-selector');
+    if (templateSelector && element.childNodes.length === 0) {
+        const template = document.querySelector(templateSelector);
+        if (template) {
+            element.appendChild(template.content.cloneNode(true));
+        } else {
+            showError(element, `Error - Could not find template from <${element.tagName.toLowerCase()} [template-selector="${templateSelector}"]>.`)
+        }
+    }
 }
 
 /**
@@ -206,7 +223,7 @@ class JsonData extends HTMLElement {
     }
 
     get loadOnlyOnce() {
-        return (this.getAttribute('load-only-once') === 'true');
+        return (this.getAttribute('load-only-once') !== null);
     }
 
     get clickSelector() {
@@ -284,7 +301,7 @@ class JsonData extends HTMLElement {
             return;
         }
 
-        // Load from Cache if [load-only-once="true"] and the
+        // Load from Cache if [load-only-once] is defined and the
         // same content was previously viewed.
         if (this.loadOnlyOnce) {
             const data = getDataFromCache(urlPath, urlParams);
@@ -462,6 +479,7 @@ window.customElements.define('is-loading', class IsLoading extends HTMLElement {
         if (!(this.parentNode.nodeName === 'JSON-DATA' && this.parentNode.isLoading === true)) {
             this.style.display = 'none';
         }
+        copyTemplateSelector(this);
     }
 });
 
@@ -479,6 +497,7 @@ window.customElements.define('has-error', class HasError extends HTMLElement {
         if (!(this.parentNode.nodeName === 'JSON-DATA' && this.parentNode.hasError === true)) {
             this.style.display = 'none';
         }
+        copyTemplateSelector(this);
     }
 });
 
@@ -496,5 +515,6 @@ window.customElements.define('is-loaded', class IsLoaded extends HTMLElement {
         if (!(this.parentNode.nodeName === 'JSON-DATA' && this.parentNode.isLoaded === true)) {
             this.style.display = 'none';
         }
+        copyTemplateSelector(this);
     }
 });

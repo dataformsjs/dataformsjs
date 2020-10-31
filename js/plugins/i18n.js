@@ -27,6 +27,11 @@
  * When used with Vue the following Directives will be created:
  *     v-i18n
  *     v-i18n-attr
+ * 
+ * The following global API will be available as well and can be
+ * used with templating or by app custom logic.
+ *     window.i18n_Locale = 'en|fr|es|zh-CN'; // Selected language, updated on each page change
+ *     window.i18nText(key) // Returns I18n content for the current page
  *
  * See code comments, examples, and the main site for usage.
  *
@@ -444,6 +449,9 @@
          * automatically when the page is loaded.
          */
         setup: function () {
+            // Global helper function
+            window.i18nText = i18n.getText.bind(i18n);
+            
             // Create Handlebars Helper
             if (window.Handlebars) {
                 Handlebars.registerHelper('i18n', function (key, options) {

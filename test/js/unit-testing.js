@@ -2547,7 +2547,7 @@
         });
 
         // Check the jsonData Page Object
-        // Similar to the above test but view uses the property [data-load-only-once="true"]
+        // Similar to the above test but view uses the property [data-load-only-once]
         // which sets [model.loadOnlyOnce = true] so the web service request is made only once.
         //
         // 1) Load '#/page-json-data-load-only-once'

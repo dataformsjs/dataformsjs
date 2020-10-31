@@ -19,6 +19,7 @@ ul.results li {
     body { margin:40px; }
     nav, h2 { padding:20px; }
     ul.info { margin-left:20px; }
+    input[type='text'] { margin-bottom: 20px; }
 }
 
 /* Page Style */

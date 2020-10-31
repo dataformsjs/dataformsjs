@@ -85,8 +85,7 @@ class DataList extends HTMLElement {
 
         // Validate data type
         if (!Array.isArray(list)) {
-            console.error('Invalid list data type for [data-list]');
-            console.log(this);
+            showError(this, 'Invalid list data type for [data-list]');
             return;
         }
 
@@ -114,13 +113,11 @@ class DataList extends HTMLElement {
             // Get and validate the template
             const template = document.querySelector(templateSelector);
             if (template === null) {
-                console.error('Missing template from selector: ' + templateSelector);
-                console.log(this);
+                showError(this, 'Missing template from selector: ' + templateSelector);
                 return;
             }
             if (template.nodeName !== 'TEMPLATE') {
-                console.error('Element at selector [' + templateSelector + '] is not a <template>');
-                console.log(this);
+                showError(this, 'Element at selector [' + templateSelector + '] is not a <template>');
                 return;
             }
 

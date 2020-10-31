@@ -57,7 +57,7 @@
             attributes.forEach(function(attr) {
                 var value = element.getAttribute(attr);
                 if (value !== null) {
-                    element.setAttribute('data-' + attr, (value === '' ? 'true' : value));
+                    element.setAttribute('data-' + attr, value);
                 }
             });
         },
@@ -70,6 +70,10 @@
                     var div = document.createElement('div');
                     div.className = el.className;
                     div.classList.add(name);
+                    var templateSelector = el.getAttribute('template-selector');
+                    if (templateSelector) {
+                        div.setAttribute('data-template-selector', templateSelector);
+                    }
                     while (el.firstChild) {
                         div.appendChild(el.removeChild(el.firstChild));
                     }

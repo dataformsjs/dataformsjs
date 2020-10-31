@@ -2295,6 +2295,7 @@
                     var value = element.dataset[prop];
                     switch (value) {
                         case 'true':
+                        case '': // Empty values default to `true`
                             data[prop] = true;
                             break;
                         case 'false':
@@ -2794,7 +2795,7 @@
             }
 
             // Replace "{variables}" from the global Window Scope.
-            url = url.replace(/\{(\w+)\}/g, function(match, offset) {
+            url = String(url).replace(/\{(\w+)\}/g, function(match, offset) {
                 if (typeof window[offset] === 'string') {
                     return window[offset];
                 }
@@ -3143,6 +3144,7 @@
                         var value = script.dataset[prop];
                         switch (value) {
                             case 'true':
+                            case '': // Empty values default to `true`
                                 settings[prop] = true;
                                 break;
                             case 'false':

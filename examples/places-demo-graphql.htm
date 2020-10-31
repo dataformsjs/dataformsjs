@@ -70,7 +70,7 @@
             data-default-route
             data-route="/:lang/"
             data-page="jsonData"
-            data-load-only-once="true"
+            data-load-only-once
             data-graphql-id="graphql-countries"
             src="html/countries-hbs.htm">
         </script>
@@ -80,7 +80,7 @@
             data-engine="handlebars"
             data-route="/:lang/regions/:country"
             data-page="jsonData"
-            data-load-only-once="true"
+            data-load-only-once
             data-graphql-id="graphql-regions"
             src="html/regions-hbs.htm">
         </script>
@@ -90,7 +90,7 @@
             data-engine="handlebars"
             data-route="/:lang/cities/:country/:region"
             data-page="jsonData"
-            data-load-only-once="true"
+            data-load-only-once
             data-graphql-src="graphql/cities.graphql"
             src="html/cities-hbs.htm">
         </script>
@@ -100,7 +100,7 @@
             data-engine="handlebars"
             data-route="/:lang/city/:id"
             data-page="jsonData"
-            data-load-only-once="true"
+            data-load-only-once
             data-graphql-src="graphql/place.graphql"
             data-lazy-load="leafletCss, leafletJs, leafletPlugin"
             src="html/place-hbs.htm">
@@ -112,7 +112,7 @@
             data-route="/:lang/search"
             data-page="jsonData"
             data-graphql-src="graphql/country-names.graphql"
-            data-load-only-once="true"
+            data-load-only-once
             data-lazy-load="json_data, keydownAction, chosen, chosenPlugin"
             src="html/search-places-graphql.htm">
         </script>

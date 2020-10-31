@@ -1,12 +1,6 @@
-<json-data
-    url="{rootApiUrl}/countries?order_by=country"
-    load-only-once="true">
-    <is-loading>
-        <h3 class="loading" data-i18n="Loading..."></h3>
-    </is-loading>
-    <has-error>
-        <h3 class="error"><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></h3>
-    </has-error>
+<json-data url="{rootApiUrl}/countries?order_by=country" load-only-once>
+    <is-loading template-selector="#loading-screen"></is-loading>
+    <has-error template-selector="#error-screen"></has-error>
     <is-loaded class="flex-col">
         <h1 data-i18n="Search"></h1>
 
@@ -49,15 +43,9 @@
             is clicked based on the [click-selector] attribute. Once clicked Form fields
             with [data-bind] will be used for the URL parameters.
         -->
-        <json-data
-            url="{rootApiUrl}/search?country=:country&city=:city"
-            click-selector=".btn-search">
-            <is-loading>
-                <h3 class="loading" data-i18n="Loading..."></h3>
-            </is-loading>
-            <has-error>
-                <h3 class="error"><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></h3>
-            </has-error>
+        <json-data url="{rootApiUrl}/search?country=:country&city=:city" click-selector=".btn-search">
+            <is-loading template-selector="#loading-screen"></is-loading>
+            <has-error template-selector="#error-screen"></has-error>
             <!--
                 The `cities` data will not exist on initial page load from the root
                 <json-data> element but only once the search button is clicked from

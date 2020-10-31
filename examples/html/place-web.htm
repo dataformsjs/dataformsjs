@@ -1,13 +1,6 @@
-<json-data
-    url="{rootApiUrl}/place/:id"
-    url-params
-    load-only-once="true">
-    <is-loading>
-        <h3 class="loading" data-i18n="Loading..."></h3>
-    </is-loading>
-    <has-error>
-        <h3 class="error"><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></h3>
-    </has-error>
+<json-data url="{rootApiUrl}/place/:id" url-params load-only-once>
+    <is-loading template-selector="#loading-screen"></is-loading>
+    <has-error template-selector="#error-screen"></has-error>
     <is-loaded class="flex-col">
         <h1 data-bind="place.name"></h1>
 

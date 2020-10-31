@@ -1,13 +1,9 @@
 <json-data
     url="https://www.dataformsjs.com/data/ai-ml/sample-data/resnet50"
-    load-only-once="true"
+    load-only-once
     onready="setupFileUploads()">
-    <is-loading>
-        <h2 data-i18n="Loading..."></h2>
-    </is-loading>
-    <has-error>
-        <h2 class="download-error"><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></h2>
-    </has-error>
+    <is-loading template-selector="#loading-screen"></is-loading>
+    <has-error template-selector="#error-screen"></has-error>
     <is-loaded>
         <section>
             <div class="content">
@@ -43,12 +39,13 @@
                 only text strings using a JavaScript Tagged Template Literal function or a Polyfill.
 
                 This template uses ES5 so it works with all Browsers and can be handled when using [polyfill.js].
+                For ES5 support nested `${js}` expresssions are not supported.
             -->
             <template id="image">
                 <li>
                     <img src="${escapeHtml(image.src)}" />
-                    ${image.isUploading === true ? '<div class="loading">Uploading</div>' : ''}
-                    ${image.hasError === true ? '<div class="error">Error</div>' : ''}
+                    ${image.isUploading === true ? '<div class="loading">' + i18nText('Uploading...') + '</div>' : ''}
+                    ${image.hasError === true ? '<div class="error">' + i18nText('Error') + '</div>' : ''}
                     ${image.predictions.map(function(prediction) {
                         return '<div class="' + resultClass(prediction.probability) + '">' + prediction.label + ' = <span>' + format.percent(prediction.probability, 5) + '</span></div>'
                     }).join('')}
@@ -67,8 +64,8 @@
             <template id="image-modern-js">
                 <li>
                     <img src="${escapeHtml(image.src)}" />
-                    ${image.isUploading === true ? '<div class="loading">Uploading</div>' : ''}
-                    ${image.hasError === true ? render`<div class="error">Error</div>` : ''}
+                    ${image.isUploading === true ? render`<div class="loading">${i18nText('Uploading...')}</div>` : ''}
+                    ${image.hasError === true ? render`<div class="error">${i18nText('Error')}</div>` : ''}
                     ${image.predictions.map(prediction => {
                         return render`<div class="${resultClass(prediction.probability)}">
                             ${prediction.label} = <span>${format.percent(prediction.probability, 5)}</span>

@@ -128,7 +128,7 @@ export function render(strings, ...values) {
  * @return {string}
  */
 export function buildUrl(url, params) {
-    let newUrl = url;
+    let newUrl = String(url);
 
     // Replace "{variables}" from the global Window Scope.
     newUrl = newUrl.replace(/\{(\w+)\}/g, function(match, offset) {

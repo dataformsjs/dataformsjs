@@ -28,7 +28,7 @@
         data-route="/:lang/"
         data-page="imagePredictionPage"
         data-url="https://www.dataformsjs.com/data/ai-ml/sample-data/resnet50"
-        data-load-only-once="true"
+        data-load-only-once
         data-lazy-load="imagePredictionPage, vueDirectives"
         src="html/image-home-vue.htm">
     </script>
@@ -40,7 +40,7 @@
         data-page="jsonData"
         data-url="https://www.dataformsjs.com/data/ai-ml/categories/resnet50"
         data-lazy-load="filter"
-        data-load-only-once="true"
+        data-load-only-once
         data-categories
         src="html/image-categories-vue.htm">
     </script>
@@ -64,10 +64,10 @@
         DataFormsJS
         https://www.dataformsjs.com
     -->
-    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/DataFormsJS.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/i18n.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/navLinks.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/pages/jsonData.min.js"></script>
+    <script src="../js/DataFormsJS.min.js"></script>
+    <script src="../js/plugins/i18n.min.js"></script>
+    <script src="../js/plugins/navLinks.min.js"></script>
+    <script src="../js/pages/jsonData.min.js"></script>
     <script>
         // File 'image-classification.js' uses [Object.assign] which isn't available from IE
         // by default. It gets loaded as a polyfill from [DataFormsJS.js] once the page is ready.
@@ -75,8 +75,8 @@
         // to run first.
         app.lazyLoad = {
             imagePredictionPage: './image-classification.js',
-            vueDirectives: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/extensions/vue-directives.min.js',
-            filter: 'https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/plugins/filter.min.js',
+            vueDirectives: '../js/extensions/vue-directives.min.js',
+            filter: '../js/plugins/filter.min.js',
         };
     </script>
 

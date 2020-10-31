@@ -4,16 +4,16 @@
     <a href="#/en/" data-i18n="Countries" data-i18n-href></a>
 </nav>
 
-<json-data
-    url="{rootApiUrl}/regions/:country"
-    url-params
-    load-only-once="true">
-    <is-loading>
-        <h3 class="loading" data-i18n="Loading..."></h3>
-    </is-loading>
-    <has-error>
-        <h3 class="error"><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></h3>
-    </has-error>
+<!--
+    The variable ":country" is bound from <url-route path="/:lang/regions/:country">
+    Because <json-data> includes [url-params] all parameters from the path
+    will be passed to <json-data> triggering the JSON service to run.
+    
+    [load-only-once] allows for the JSON data to be cached in memory.
+-->
+<json-data url="{rootApiUrl}/regions/:country" url-params load-only-once>
+    <is-loading template-selector="#loading-screen"></is-loading>
+    <has-error template-selector="#error-screen"></has-error>
     <is-loaded class="flex-col">
         <input
             is="input-filter"

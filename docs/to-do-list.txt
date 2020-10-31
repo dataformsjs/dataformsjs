@@ -51,15 +51,7 @@ TODO List
                 dataformsjs\examples\html\places-info-web.htm
                 http://127.0.0.1:8080/places-demo-web#/en/info
                 http://127.0.0.1:8080/image-classification-web#/en/info
-        - <json-data>
-            Instead of:
-                load-only-once="true"
-            Only require the attribute itself:
-                load-only-once
         - Must verify new [defineExtendsPolyfill] with the versions of Safari or other Legacy modern browsers
-        - Log Demo Pages
-            When using Polyfill the error currently does not show:
-            http://127.0.0.1:8080/log-table-web#/error
         - <data-table>
             - New Attributes [template-returns-html] and [list-item-name] used in <data-list> need to be included
         - <data-list> should also support both <template> and <script type="text/x-template">
@@ -118,12 +110,6 @@ TODO List
                 still being used by an app.
             - [old-browser-warning.min.js] will be kept as commented out in the templates with comments that
                 the polyfill works for older browsers.
-        - Breaking change on [js/plugins/filter.js] to consider keeping but add another option,
-            for example a new attribute that allows the new behavior.
-            At line #144 this:
-                filterError('Column filter requires a table to be correctly defined');
-            Was replaced with some comments and `return settings;`
-            Do more testing to make sure this change makes sense.
         - On the templates (and probably all examples) add the HTML [crossorigin] attribute
             so good errors can show in `window.onerror` from DataFormsJS. Need to test and confirm.
             https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script
@@ -162,6 +148,7 @@ TODO List
             - If needed after release create a demo repository showing how to use DataFormsJS with webpack
         - Handle and remove all `NOTE` comments in [polyfill.js] before npm publishing
         - Before release update docs and example code that use <url-hash-router> to use <url-router> with the new CDN link
+            Also update markdown docs to use [load-only-once] instead of [load-only-once="true"]
         - After new release publish here:
             https://www.webcomponents.org/publish-collection
 
@@ -295,20 +282,9 @@ TODO List
 
 
 *) Web Components Updates
-    - These are wish list items that may never be developed. The reason is that as
-        features are added the Web Components go from simple HTML elements to more of a full
-        featured Framework. After development and real-world usage it seems to make sense
-        to keep advanced features in the framework while keeping Web Components small and
-        simple to use. If too many features are added the size of the Web Components can
-        increase a lot and grouping related features (security, shared state, etc) makes
-        more sense for a Framework or React code.
-    - Long Term goal - Add Unit Testing
+    - Add Unit Testing
         - Currently only the main Framework and the React [jsxLoader.js] have Unit Testing
     - <json-data>
-        - Add support on <is-loading> for new [template-selector] attribute
-            It would work similar to the <data-List> control to render the model with JavaScript template literal string:
-                const tmpl = new Function('data', 'render', 'with(data){return render`' + template.innerHTML + '`}');
-            If using this [data-bind] would likely not need to be called.
         - Add support for custom Request Headers.
         - For how the standard Framework handles this see code related to [app.settings.requestHeaders].
         - React <JsonData> uses props
@@ -317,39 +293,15 @@ TODO List
                 window.requestHeaders = {}
                 window.requestHeadersByHostName = {}
             And then the Framework [app.getRequestHeaders] and related code can be used as a starting point
-    - Create an [I18N] API for Web Components and initially use with:
-        http://127.0.0.1:8080/places-demo-web
-        - API is not yet started on so it has be decided first
-        - Possibly several development versions will be created and tested
-            with the best one selected
-        - <i18n-service> outside of the hash router or <i18n-service url-params> under the hash router.
-            - How to do something like this with <data-table>?
-                <a href="#/{{../i18n_Locale}}/regions/{{iso}}">
-              Possibly:
-                col-link-template="#/:window.i18n_Locale/regions/:iso"
-            - Another option if using <i18n-service> outside of the hash router could be to define
-                [i18n-key="value"] attributes on elements that <i18n-service> would update.
-            - The <i18n-service> then might might have to runs after 'app:routeChanged' or 'app:contentReady' events
-            - Likely try several versions to see what makes the most sense
-            - Since [polyfill.js] has been created this would need compatability with the main Framework Plugin.
-            - Possible first version to try:
-                - Try <i18n-service> outside of the main view element. Default file = root-file="_"
-                    <i18n-service default-lang="en" locales="en,ja,es,pt-BR,ar,fr,zh-CN" root-file="countries">
-                    <div id="view" dir="auto"></div>
-                - Routes that have specific i18n files can have them in the data attribute
-                    then <i18n-service> can handle route changes and set the HTML content
-                    <url-route path="/" data-i18n-file="home-page">
-                - This version would likely be easy to make compatability with the main Framework
-                - See the new [dataformsjs\js\web-components\spa-links.js] because it handles router
-                    events so if <i18n-service> it may include similar event handling.
-                - See also new file [dataformsjs\js\web-components\keydown-action-service.js] which provides
-                    a "service" to other elements on the page. <i18n-service> would use a similar "service" concept.
-                * This will likely use the new [WebComponentService] class just like <keydown-action-service>
     - Create a new <form is="entry-form"> Component
         - A Framework JavaScript control could be created as the Polyfill. Ideally the new control
             would use functions from the main entryForm page object so it doesn't have to be duplicated.
         - Existing Framework Demo:
             https://www.dataformsjs.com/examples/entry-form-demo-vue.htm
+        - This may or may not ever be created. It's not a priorty until needed for an actual production site.
+            Web Components (as of release 5.0.0) contain a new easy to use JavaScript API that allows for 
+            a site to be extended using only basic JavaScript functions so it's easy to build custom
+            entry form apps.
 
 *) Many Docs need to be created along with API page(s)
     - API needs a quick search/filter feature to look up any attribute/class/function/etc

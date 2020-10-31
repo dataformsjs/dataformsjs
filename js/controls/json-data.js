@@ -69,9 +69,9 @@
     'use strict';
 
     /**
-     * Data Caching for when [data-load-only-once="true"] is used.
+     * Data Caching for when [data-load-only-once] is used.
      * For common usage this would apply only to the Web Components Polyfill.
-     * The reason is because if [data-load-only-once="true"] is used
+     * The reason is because if [data-load-only-once] is used
      * at the page level on the standard Framework the `fetch` code
      * will not be called again here when the page reloads.
      *
@@ -114,12 +114,12 @@
     /**
      * CSS loaded if using <template> instead of Handlebars, Vue, etc
      */
-    var css = '.dataformsjs-control-loading > .is-loaded { display:none; }';
-    css += ' .dataformsjs-control-loading > .has-error { display:none; }';
-    css += ' .dataformsjs-control-loaded > .is-loading { display:none; }';
-    css += ' .dataformsjs-control-loaded > .has-error { display:none; }';
-    css += ' .dataformsjs-control-error > .is-loading { display:none; }';
-    css += ' .dataformsjs-control-error > .is-loaded { display:none; }';
+    var css = '.dataformsjs-control-loading:not(.dataformsjs-control-loaded) > .is-loaded { display:none; }';
+    css += ' .dataformsjs-control-loading:not(.dataformsjs-control-error) > .has-error { display:none; }';
+    css += ' .dataformsjs-control-loaded:not(.dataformsjs-control-loading) > .is-loading { display:none; }';
+    css += ' .dataformsjs-control-loaded:not(.dataformsjs-control-error) > .has-error { display:none; }';
+    css += ' .dataformsjs-control-error:not(.dataformsjs-control-loading) > .is-loading { display:none; }';
+    css += ' .dataformsjs-control-error:not(.dataformsjs-control-loaded) > .is-loaded { display:none; }';
     css += ' .data-control-not-loaded > .has-error, .data-control-not-loaded > .is-loading, .data-control-not-loaded > .is-loaded { display:none; }';
 
     /**
@@ -139,10 +139,12 @@
         element.classList.remove('dataformsjs-control-loaded');
         if (control.isLoading) {
             element.classList.add('dataformsjs-control-loading');
-        } else if (control.isLoaded) {
-            element.classList.add('dataformsjs-control-loaded');
-        } else if (control.hasError) {
+        }
+        if (control.hasError) {
             element.classList.add('dataformsjs-control-error');
+        }
+        if (control.isLoaded) {
+            element.classList.add('dataformsjs-control-loaded');
         }
     }
 
@@ -474,6 +476,24 @@
          * JSON Services or once the GraphQL query is loaded.
          */
         setupControl: function (control, element) {
+            // Attach template content to based on [data-template-selector]
+            var elements = element.querySelectorAll('.is-loading[data-template-selector], .has-error[data-template-selector], .is-loaded[data-template-selector]');
+            Array.prototype.forEach.call(elements, function(element) {
+                var templateSelector = element.getAttribute('data-template-selector');
+                if (templateSelector && element.childNodes.length === 0) {
+                    var template = document.querySelector(templateSelector);
+                    if (template) {
+                        if (template.content && template.content.cloneNode) {
+                            element.appendChild(template.content.cloneNode(true));
+                        } else {
+                            element.innerHTML = template.innerHTML;
+                        }
+                    } else {
+                        app.showError(element, 'Error - Could not find template from [data-template-selector="' + templateSelector + '"]>.')
+                    }
+                }
+            });
+
             // Handle the [data-click-selector] Attribute. If defined on the <json-data>
             // Control then data is not fetched until the user clicks the element specified
             // from the selector. This feature along with the [dataBind] plugin allows

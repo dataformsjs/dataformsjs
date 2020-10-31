@@ -55,7 +55,15 @@ Overall the core Framework files and API are expected to remain stable however t
   * New file `js/extensions/format.js` which is used with the Web Components Polyfill
   * Updated `js/plugins/filter.js` so that it shows 0 count for empty tables. Previously it expected the table to have at least one `<tbody>` element. A similar update was made for `js/web-components/input-filter.js`
   * Previously if using `<template>` with `jsonData` page types all `.is-loading, .has-error, .is-loaded` elements could quickly flash on screen during page changes. This has been fixed.
-  * Added `app.plugins.i18n.getUserDefaultLang()` to `js/plugins/i18n.js`
+  * Routes and JavaScript controls will have empty data HTML attributes mapped to `true` by default instead of an empty string. Previously `data-load-only-once="true"` was used on many pages but now only `data-load-only-once` is required.
+  * `js/plugins/i18n.js`
+    * Added `app.plugins.i18n.getUserDefaultLang()`
+    * The following global API was added so that it can be used easily with templating or by app custom logic. This was based on the Web Component verison which uses simple JavaScript templating and basic functions.
+      ~~~js
+      window.i18n_Locale = 'en|fr|es|zh-CN'; // Selected language, updated on each page change
+      window.i18nText(key) // Returns I18n content for the current page
+      ~~~
+  * data-load-only-once="true"
 * Enhancements for "JavaScript Controls" in the standard Framework. The Framework JavaScript Controls are a similar concept to Web Components but work with all Browsers.
   * Added ability to easily reload  by calling `app.activeJsControls(control)`. Updating already loaded controls is not common but can be used in very specific scenarios. For example the new Web Components Polyfill uses it.
   * Update API to include `model` as a parameter in `control.onLoad(element, model)`

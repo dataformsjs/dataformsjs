@@ -212,15 +212,17 @@
         // Optional function that runs by default when [manualDomUpdate: true]
         updateItem: function(image, count) {
             var model = this;
-            var resultsUl = document.querySelector('ul.results');
-            var listItems = resultsUl.querySelectorAll('li');
+            var listItems = document.querySelectorAll('ul.results li');
             if (listItems.length === 0) {
-                return; // User navigated away from page while fetch was still running
+                return; // User clicked to another page while images were being processed
             }
             var item = listItems[listItems.length - count - 1];
+            if (item === undefined) {
+                return; // User navigated away
+            }
             var div = item.querySelector('div');
             if (image.hasError) {
-                div.textContent = resultsUl.getAttribute('data-error');
+                div.textContent = document.querySelector('ul.results').getAttribute('data-error');
                 div.className = 'error';
             } else {
                 div.className = 'container';

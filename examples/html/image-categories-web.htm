@@ -1,12 +1,8 @@
 <json-data
     url="https://www.dataformsjs.com/data/ai-ml/categories/resnet50"
-    load-only-once="true">
-    <is-loading>
-        <h2 data-i18n="Loading..."></h2>
-    </is-loading>
-    <has-error>
-        <h2 class="download-error"><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></h2>
-    </has-error>
+    load-only-once>
+    <is-loading template-selector="#loading-screen"></is-loading>
+    <has-error template-selector="#error-screen"></has-error>
     <is-loaded>
         <section>
             <div>

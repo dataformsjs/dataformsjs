@@ -66,7 +66,7 @@
             // once the first time the URL is visited then setting this property to true
             // changes the default behavior so it is only downloaded once and then cached
             // in-memory. This property can also be defined in the script element using
-            // the attribute [data-load-only-once="true"].
+            // the attribute [data-load-only-once].
             loadOnlyOnce: false,
 
             // Default error messages, these can be changed from the calling app or for specific routes.

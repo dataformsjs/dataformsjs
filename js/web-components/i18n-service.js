@@ -22,6 +22,11 @@
  *     data-i18n-replace-text
  *     data-i18n-nav-lang
  *     data-i18n-nav-selected
+ * 
+ * The following global API will be available as well and can be
+ * used with templating or by app custom logic.
+ *     window.i18n_Locale = 'en|fr|es|zh-CN'; // Selected language, updated on each page change
+ *     window.i18nText(key) // Returns I18n content for the current page
  *
  * For detailed usage see the DataFormsJS Examples.
  */
@@ -59,6 +64,9 @@ class I18nService extends WebComponentService {
         this.langText = {};
         this.langCache = {};
         this._isRunning = false;
+
+        // Define API
+        window.i18nText = this.getText.bind(this);
 
         // Determine Routing Type - Hash Routing or HTML5 History
         const router = document.querySelector('url-router');

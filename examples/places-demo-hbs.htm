@@ -52,7 +52,7 @@
             data-route="/:lang/"
             data-page="jsonData"
             data-url="https://www.dataformsjs.com/data/geonames/countries"
-            data-load-only-once="true">
+            data-load-only-once>
 
             {{#if isLoading}}<div data-template-id="loading-screen"></div>{{/if}}
             {{#if hasError}}<div data-template-id="error-screen"></div>{{/if}}
@@ -107,7 +107,7 @@
             data-route="/:lang/regions/:country"
             data-page="jsonData"
             data-url="https://www.dataformsjs.com/data/geonames/regions/:country"
-            data-load-only-once="true"
+            data-load-only-once
             src="html/regions-hbs.htm">
         </script>
 
@@ -117,7 +117,7 @@
             data-route="/:lang/cities/:country/:region"
             data-page="jsonData"
             data-url="https://www.dataformsjs.com/data/geonames/cities/:country/:region"
-            data-load-only-once="true"
+            data-load-only-once
             src="html/cities-hbs.htm">
         </script>
 
@@ -127,7 +127,7 @@
             data-route="/:lang/city/:id"
             data-page="jsonData"
             data-url="https://www.dataformsjs.com/data/geonames/place/:id"
-            data-load-only-once="true"
+            data-load-only-once
             data-lazy-load="leafletCss, leafletJs, leafletPlugin"
             src="html/place-hbs.htm">
         </script>
@@ -138,7 +138,7 @@
             data-route="/:lang/search"
             data-page="jsonData"
             data-url="https://www.dataformsjs.com/data/geonames/countries?order_by=country"
-            data-load-only-once="true"
+            data-load-only-once
             data-lazy-load="json_data, keydownAction, chosen, chosenPlugin"
             src="html/search-places-hbs.htm">
         </script>

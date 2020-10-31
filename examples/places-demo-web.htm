@@ -32,6 +32,36 @@
         <keydown-action-service></keydown-action-service>
 
         <!--
+            <json-data> Web Components will use these templates for loading or errors
+            based on the [template-selector] attribute. [data-i18n] will be populated
+            with translations from the <i18n-service> and [data-bind] for the {errorMessage}
+            will be populated from <json-data> if there is an error.
+        -->
+        <template id="loading-screen">
+            <h3 class="loading" data-i18n="Loading..."></h3>
+        </template>
+
+        <template id="error-screen">
+            <h3 class="error"><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></h3>
+        </template>
+
+        <!--
+            Data screens use the 'Loading...' with translations while the lazy load scripts
+            and HTML downloads will use a spinner. Typicaly an app would have only one
+            shared loading screen but this is a demo page and designed to show different options.
+
+            This screen is linked from <url-router> attribute: [loading-template-selector].
+            When using [loading-template-selector] attributes such as [data-bind] or [data-i18n]
+            will not be populated because this only runs during SPA route changes to quickly
+            download HTML and JS or CSS scripts before the data is available.
+        -->
+        <template id="loading-spinner-screen">
+            <div class="loading">
+                <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
+        </template>
+
+        <!--
             Define SPA (Single Page App) Routes
         -->
         <url-router view-selector="#view" loading-template-selector="#loading-spinner-screen">
@@ -54,13 +84,9 @@
                         <a href="#/en/info" data-i18n="Info" data-i18n-href></a>
                     </nav>
 
-                    <json-data url="{rootApiUrl}/countries" load-only-once="true" onready="showMessage('Countries List is ready')">
-                        <is-loading>
-                            <h3 class="loading" data-i18n="Loading..."></h3>
-                        </is-loading>
-                        <has-error>
-                            <h3 class="error"><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></h3>
-                        </has-error>
+                    <json-data url="{rootApiUrl}/countries" load-only-once onready="showMessage('Countries List is ready')">
+                        <is-loading template-selector="#loading-screen"></is-loading>
+                        <has-error template-selector="#error-screen"></has-error>
                         <is-loaded class="flex-col">
                             <input
                                 is="input-filter"
@@ -83,8 +109,9 @@
                                     See another commented option for <data-table> below this version.
 
                                     Either <template> or <script type="text/x-template"> can be used.
-                                        <template> will work with all modern browsers
-                                        <script type="text/x-template"> is required if supporting IE with [polyfill.js]
+                                        - <template> will work with all modern browsers
+                                        - <script type="text/x-template"> is required if supporting IE with [polyfill.js]
+                                          because IE will automatically parse <tr> and replace it as HTML if using <template>
                                 -->
                                 <data-table
                                     data-bind="countries"
@@ -142,12 +169,6 @@
             <url-route path="/:lang/info" src="html/places-info-web.htm"></url-route>
             <url-route path="/:lang/search" src="html/search-places-web.htm" lazy-load="data_list, keydownAction"></url-route>
         </url-router>
-
-        <template id="loading-spinner-screen">
-            <div class="loading">
-                <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-            </div>
-        </template>
 
         <!-- DataFormsJS Web Components -->
         <script type="module" src="../js/web-components/i18n-service.js"></script>

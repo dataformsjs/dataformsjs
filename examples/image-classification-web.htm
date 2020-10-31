@@ -24,6 +24,14 @@
         <url-route path="/:lang/info" src="html/image-info-web.htm"></url-route>
     </url-router>
 
+    <template id="loading-screen">
+        <h2 data-i18n="Loading..."></h2>
+    </template>
+
+    <template id="error-screen">
+        <h2 class="download-error"><span data-i18n="Error"></span> - <span data-bind="errorMessage"></span></h2>
+    </template>
+
     <!--
         DataFormsJS Web Components
         https://www.dataformsjs.com
