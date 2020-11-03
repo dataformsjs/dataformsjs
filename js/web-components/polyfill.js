@@ -1,6 +1,6 @@
 /*
     This is an active development to polyfill DataFormsJS Web Components.
-    It's working so far (2020-10-29) however lot of testing and additional
+    It's working so far (November 2020) however lot of testing and additional
     features are needed before this file can be published to npm.
 
     See topic: "Finish Web Component Updates"

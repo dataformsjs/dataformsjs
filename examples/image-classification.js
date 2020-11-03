@@ -201,7 +201,7 @@
             // Set Element Content
             img.src = image.src;
             div.className = 'loading';
-            div.textContent = resultsUl.getAttribute('data-loading');
+            div.textContent = window.i18nText('Uploading...');
 
             // Add to Document
             li.appendChild(img);
@@ -222,7 +222,7 @@
             }
             var div = item.querySelector('div');
             if (image.hasError) {
-                div.textContent = document.querySelector('ul.results').getAttribute('data-error');
+                div.textContent = window.i18nText('Error');
                 div.className = 'error';
             } else {
                 div.className = 'container';

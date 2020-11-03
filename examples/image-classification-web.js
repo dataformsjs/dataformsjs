@@ -53,12 +53,6 @@
 var manualDomUpdate = true;
 
 /**
- * These get updated based on selected language from HTML Attrinutes
- */
-var uploadingText = 'Uploading';
-var errorText = 'Error';
-
-/**
  * Templating function used to assign CSS class name in a template
  * for <data-list> and also in this script.
  *
@@ -226,7 +220,7 @@ function addImage(image) {
     // Set Element Content
     img.src = image.src;
     div.className = 'loading';
-    div.textContent = uploadingText;
+    div.textContent = window.i18nText('Uploading...');
 
     // Add to Document
     li.appendChild(img);
@@ -250,7 +244,7 @@ function updateItem(image, count) {
     }
     var div = item.querySelector('div');
     if (image.hasError) {
-        div.textContent = errorText;
+        div.textContent = window.i18nText('Error');
         div.className = 'error';
     } else {
         div.className = 'container';
@@ -268,11 +262,6 @@ function updateItem(image, count) {
  * This function gets called from HTML in the <json-data> [onready] attribute
  */
 function setupFileUploads() {
-    // Loading and Error text comes from HTML attributes based on the selected language
-    var dataList = document.querySelector('data-list,[data-control="data-list"]');
-    uploadingText = dataList.getAttribute('data-loading');
-    errorText = dataList.getAttribute('data-error');
-
     // Update File Input for upload event
     var fileInput = document.querySelector('input[type="file"]');
     fileInput.addEventListener('change', function() {

@@ -23,7 +23,7 @@ TODO List
 --------------------------------------------------------------------------
 
 **) Finish Web Component Updates
-    - Many updates are being made and in active development (2020-10-27).
+    - Many updates are being made and in active development (November 2020).
         See the [CHANGELOG.md] or recent commmits for full details.
         Since changes are currently in active development the related features may
         go through additional changes without warning.
@@ -51,7 +51,28 @@ TODO List
                 dataformsjs\examples\html\places-info-web.htm
                 http://127.0.0.1:8080/places-demo-web#/en/info
                 http://127.0.0.1:8080/image-classification-web#/en/info
+            - First try creating this as <html-import-service>
+        - dataformsjs\js\web-components\WebComponentService.js
+            - Should events be renamed?:
+                load(rootElement) => onLoad(rootElement)
+                endService()      => onEnd()
+            - Instead of triggering `load()` from both 'app:routeChanged' and 'app:contentReady'
+                should a new `onContentReady(rootElement)` be used instead and then `onLoad()` could pass
+                zero parameters or [document | <url-route>.
+                Need to test if this makes sense over currently structure.
+            - Possible that `endSerivce|onEnd` will never be need as well as new `onContentReady`
         - Must verify new [defineExtendsPolyfill] with the versions of Safari or other Legacy modern browsers
+        - Add new <show-errors-service> that would be based on Framework <html data-show-errors>?
+        - Playground Site
+            - Calculator Page needs to be created for Web Component Version (if time permits a React version as well)
+        - For [polyfill.js] should a new attribute be added that shows an error for specific
+            elements on the page such as [data-warning-legacy-browser]?
+            - For example if used the Web Components would show no error on that element but the polyfill file
+                would add one (assuming that it's running from a legacy browser). This would allow for a page
+                to have some content work from old browsers and provide a simiple warning for specific content
+                that does not have a polyfill.
+        - Use the new updates to create a Web Component Version of this:
+            dataformsjs\examples\hacker-news-react.htm
         - <data-table>
             - New Attributes [template-returns-html] and [list-item-name] used in <data-list> need to be included
         - <data-list> should also support both <template> and <script type="text/x-template">
@@ -143,10 +164,13 @@ TODO List
             - Need to see latest options for leaflet.
         - Web Component Template from: https://www.dataformsjs.com/en/getting-started
             Include <nav is="spa-links"> changes from: [examples/web-components-template.htm]
+        - Test using some Web Components with React and Vue to see how they work with other frameworks
         - Test using local build with webpack
             https://webpack.js.org/
             - If needed after release create a demo repository showing how to use DataFormsJS with webpack
         - Handle and remove all `NOTE` comments in [polyfill.js] before npm publishing
+        - For the `npm start` on the main repository update the default page to use <data-list>
+            with a simiple filter to list the examples.
         - Before release update docs and example code that use <url-hash-router> to use <url-router> with the new CDN link
             Also update markdown docs to use [load-only-once] instead of [load-only-once="true"]
         - After new release publish here:
@@ -209,6 +233,9 @@ TODO List
         See additional notes in this doc related to Unit Testing
     - Both of the above topics are covered briefly in:
         https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
+    - Should a new section on the main site be created that uses [jsx-loader.md]
+        and future new docs as the source? A proof of concept should be created
+        to see how this would work.
 
 *) Demos
     - React examples of the following:
@@ -282,6 +309,26 @@ TODO List
 
 
 *) Web Components Updates
+    - Create a new Web Component for advanced drop-down/select lists?
+        - Would use behavior and features from:
+            https://react-select.com/home
+            https://harvesthq.github.io/chosen/
+            https://select2.org/
+            https://selectize.github.io/selectize.js/
+            https://joshuajohnson.co.uk/Choices/
+            https://github.com/downshift-js/downshift
+            https://vue-multiselect.js.org/
+        - If there is a good Web Component alternative then this does not need to be created
+        - Needed features:
+            - Show Images, this can be done with the templating feature similar to <data-list> / <data-table>
+            - Different Value/Label - for example Country Code [value] but Country Name for user list
+            - Type to filter
+            - Multiple select with tags
+            - aria-autocomplete="list" role="combobox" / Need to research more at time of development
+        - Possible names:
+            <data-select>
+            <web-select>
+            <image-select>
     - Add Unit Testing
         - Currently only the main Framework and the React [jsxLoader.js] have Unit Testing
     - <json-data>
@@ -299,7 +346,7 @@ TODO List
         - Existing Framework Demo:
             https://www.dataformsjs.com/examples/entry-form-demo-vue.htm
         - This may or may not ever be created. It's not a priorty until needed for an actual production site.
-            Web Components (as of release 5.0.0) contain a new easy to use JavaScript API that allows for 
+            Web Components (as of release 5.0.0) contain a new easy to use JavaScript API that allows for
             a site to be extended using only basic JavaScript functions so it's easy to build custom
             entry form apps.
 

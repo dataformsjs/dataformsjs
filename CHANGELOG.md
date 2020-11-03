@@ -10,7 +10,7 @@ Overall the core Framework files and API are expected to remain stable however t
 
 * The next release will contain breaking changes so it will be published as `5.0.0`
 * See comments at the top of the file: https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt
-* Many updates are being made and in active development (2020-10-27)
+* Many updates are being made and in active development (November 2020)
 * The next release will likely be published sometime in November of 2020
 
 ### Release Overview
