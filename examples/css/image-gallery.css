@@ -7,6 +7,13 @@ is-loading:not(:defined),
 has-error:not(:defined),
 is-loaded:not(:defined) { display:none; }
 
+/*
+    Since this file is shared with the Standard Framework make sure the
+    <json-data> "JavaScript Control" shows. If this is not included modern browsers
+    would use the above code block for display.
+*/
+json-data[data-control] { display:block; }
+
 /* Using 'Native font stack' - See Bootstrap 4 Docs for info on 'Native font stack' */
 html {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";

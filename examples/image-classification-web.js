@@ -100,6 +100,9 @@ function getState() {
     if (window.app !== undefined) {
         return app.activeModel;
     } else {
+        // This will work when using [polyfill.js] however in that
+        // usage `state` will be temporary and not a reference to
+        // the active model so changes would be lost on page changes.
         return document.querySelector('json-data').state;
     }
 }

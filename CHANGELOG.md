@@ -55,7 +55,7 @@ Overall the core Framework files and API are expected to remain stable however t
   * New file `js/extensions/format.js` which is used with the Web Components Polyfill
   * Updated `js/plugins/filter.js` so that it shows 0 count for empty tables. Previously it expected the table to have at least one `<tbody>` element. A similar update was made for `js/web-components/input-filter.js`
   * Previously if using `<template>` with `jsonData` page types all `.is-loading, .has-error, .is-loaded` elements could quickly flash on screen during page changes. This has been fixed.
-  * Routes and JavaScript controls will have empty data HTML attributes mapped to `true` by default instead of an empty string. Previously `data-load-only-once="true"` was used on many pages but now only `data-load-only-once` is required.
+  * Routes and JavaScript controls will have empty data HTML attributes mapped to `true` by default instead of an empty string. Previously `data-load-only-once="true"` was used on many pages but now only `data-load-only-once` is required. Additionally `null` is now supported as an option.
   * `js/plugins/i18n.js`
     * Added `app.plugins.i18n.getUserDefaultLang()`
     * The following global API was added so that it can be used easily with templating or by app custom logic. This was based on the Web Component verison which uses simple JavaScript templating and basic functions.
@@ -91,6 +91,9 @@ The Web Components have the most complex breaking changes related to API usage h
 * Web Components API for `<json-data>`, `<url-router>` have been changed significantly. Previously the API required `async/await` from module JavaScript and was complex to use. It has now been simplified so that events bubble up to the document can be handled easily from the root document event listener and so standard JavaScript functions can be called from HTML attributes.
   * **Before Update:** https://github.com/dataformsjs/dataformsjs/blob/c23bf5e4cd9e826c61313877ae0c2d2da6d6f889/examples/places-demo-web.htm
   * **After Update:** https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-web.htm
+* Framework JavaScript Controls
+  * Dropped support for replacing the control element with a basic element. Example, previously `<json-data>` would have been converted to `<div data-control="json-data">`. Now the `data-control` attribute is added but the element is not converted.
+  * This behavior allows for easier to use API from sites and apps that use the `<json-data>` Web Component and Polyfill.
 * `js/plugins/filter.js` - Removed error alert for text `Column filter requires a table to be correctly defined` that happened if a table was missing when the filter was loaded. The reason is that it makes sense for certain apps to have a defined filter and only optionally include the table.
 * `js/controls/data-table.js` - Replaced `data-source` with `data-bind` and now `<data-table>` will be converted to a `<div>` with a `<table>` in the `<div>` instead of converting to a `<table>` directly. Additionaly `<template>` support has been added.
   * Code before Update:

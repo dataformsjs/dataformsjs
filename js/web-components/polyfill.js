@@ -13,9 +13,6 @@
         <script nomodule src="../js/web-components/polyfill.js"></script>
 
     Additional items that must be completed before this will be published:
-        - Currently all demo pages use <json-data>. See variable `hasJsonData` in this file.
-            It was added in case a page doesn't use <json-data> however it still needs to be tested
-            (at least manually). This may be needed if adding a search screen for the places demo.
         - After final updates confirm this works on all Web Component example pages, playground, and templates
 */
 
@@ -38,11 +35,14 @@
      */
     var polyfillStyleId = 'web-components-polyfill-css';
     var polyfillStyleCss = [
-        'template { display:none }', /* For IE during page loading until `app.updateTemplatesForIE()` is from the main framework */
+        // For IE during page loading until `app.updateTemplatesForIE()` is from the main framework
+        'template { display:none }',
+        // Reset all JS Controls converted from Web Components
         '[data-control] { display:block; padding:0; margin:0; }',
-        'div[data-control="json-data"] > div.is-loading,',
-        'div[data-control="json-data"] > div.has-error,',
-        'div[data-control="json-data"] > div.is-loaded { padding:0; margin:0; }',
+        // Handle <json-data> for Modern browsers as it will not be defined.
+        // DataFormsJS templates typically have this set to `display:none`
+        // when the component is not defined.
+        'json-data[data-control]:not(:defined) { display:block; }',
     ].join('\n');
 
     // Module Level Variables
@@ -180,7 +180,12 @@
                 if (control.control === 'json-data') {
                     updateElements.jsonData(control.element);
                     app.loadJsControl(control);
-                    hasJsonData = true;
+                    if (control.data.clickSelector === null) {
+                        // Search forms that use [click-selector] will not run until
+                        // after a user action so only set `hasJsonData` when the
+                        // control will run automatically.
+                        hasJsonData = true;
+                    }
                 }
             });
 
@@ -363,6 +368,14 @@
             } else {
                 app.activeModel = this; // Non-SPA
             }
+
+            // Define a `state` property on the element that contains the downloaded
+            // element. This matches the behavior of the <json-data> Web Component
+            // which allows for easy to use API. On key difference though is when
+            // modifying state using the polyfill the main `app.activeModel` should
+            // be updated instead as this is reset on each page view.
+            element.state = this;
+
             // Update page content
             updateContent(element);
         };

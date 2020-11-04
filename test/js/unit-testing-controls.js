@@ -25,7 +25,6 @@
     });
 
     app.addControl('custom-list', {
-        type: 'section',
         data: {
             listCount: 2,
         },

@@ -2728,7 +2728,7 @@
                     var expectedMessage;
                     var expected = [
                         {
-                            tagName: 'div',
+                            tagName: 'hello-world',
                             textContent: 'Hello Conrad!',
                         },
                         {
@@ -2736,7 +2736,7 @@
                             textContent: 'Hello World!',
                         },
                         {
-                            tagName: 'div',
+                            tagName: 'hello-world',
                             textContent: 'Hello World!',
                         },
                     ];
@@ -2756,7 +2756,7 @@
                             listCount: 2,
                         },
                         {
-                            tagName: 'section',
+                            tagName: 'custom-list',
                             listCount: 3,
                         },
                     ];
@@ -2822,9 +2822,13 @@
                     ];
                     elements.forEach(function(el) {
                         var element = document.querySelector(el.selector);
-                        var name = element.getAttribute('data-control');
-                        var textContent = element.textContent;
-                        assert.equal(textContent, el.textContent, 'Text Content for <' + name + '>: ' + textContent);
+                        if (element === null) {
+                            assert.ok(false, 'Missing Element for selector: ' + el.selector);
+                        } else {
+                            var name = element.getAttribute('data-control');
+                            var textContent = element.textContent;
+                            assert.equal(textContent, el.textContent, 'Text Content for <' + name + '>: ' + textContent);
+                        }
                     });
 
                     // Check for final error and event order

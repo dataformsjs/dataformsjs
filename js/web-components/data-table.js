@@ -148,7 +148,7 @@ class DataTable extends HTMLElement {
 
         // Show "no-data" table and default "No records found" text if empty
         if (Array.isArray(list) && list.length === 0) {
-            addTable(render`<table class="no-data"><caption>${this.emptyDataText}<caption></table>`);
+            addTable(render`<table class="no-data"><caption>${this.emptyDataText}</caption></table>`);
             return;
         }
 

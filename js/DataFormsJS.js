@@ -2216,15 +2216,9 @@
          */
         loadJsControl: function (element, model) {
             var name,
-                tagName,
                 control,
                 data,
-                newEl,
-                n,
-                m,
-                type,
                 prop,
-                error,
                 hadError,
                 existingControl;
 
@@ -2244,43 +2238,25 @@
                     element = existingControl.element;
                 }
             }
-            name = element.getAttribute('data-control');
-            tagName = element.tagName.toLowerCase();
 
-            // Custom Tag Name or Standard HTML Element?
-            if (name === null || name === tagName) {
-                // Get Control Name from Custom Element
-                name = tagName;
-                control = app.controls[name];
-                if (control === undefined) {
+            // Get control from element tag name and then assign it to the [data-control] attribute
+            name = element.getAttribute('data-control');
+            if (name === null) {
+                name = element.tagName.toLowerCase();
+            }
+            control = app.controls[name];
+            if (control === undefined) {
+                if (name.indexOf('-') === -1) {
                     // This error can happen if manually calling this function with an invalid element.
-                    error = 'Invalid call to [DataFormsJS.loadJsControl()]. This function only works on valid control elements.';
+                    var error = 'Invalid call to [DataFormsJS.loadJsControl()]. This function only works on valid control elements.';
                     app.showError(element, error);
                     console.log(element);
                     throw new TypeError(error);
-                }
-
-                // Replace Element with a standard HTML element
-                // while keeping child nodes in place
-                type = (control.type || 'div');
-                newEl = document.createElement(type);
-                while (element.firstChild) {
-                    newEl.appendChild(element.firstChild);
-                }
-                for (n = 0, m = element.attributes.length; n < m; n++) {
-                    newEl.setAttribute(element.attributes[n].name, element.attributes[n].value);
-                }
-                newEl.setAttribute('data-control', name);
-                element.parentNode.replaceChild(newEl, element);
-                element = newEl;
-            } else {
-                // Standard HTML element was used, example:
-                //   <div data-control-name="name" ...
-                control = app.controls[name];
-                if (control === undefined) {
+                } else {
                     throw new Error('JavaScript Control was not found by name, check that the file is loaded: ' + name);
                 }
             }
+            element.setAttribute('data-control', name);
 
             // Create or Clone Data Object for the Control Instance
             if (control.data === undefined) {
@@ -2300,6 +2276,9 @@
                             break;
                         case 'false':
                             data[prop] = false;
+                            break;
+                        case 'null':
+                            data[prop] = null;
                             break;
                         default:
                             data[prop] = value;
@@ -2780,7 +2759,7 @@
          *
          * Example '/order/:id' becomes '/order/123' if [id] is
          * set in the passed object or [app.activeParameterList].
-         * 
+         *
          * Global variables from the `window` object can be included when using
          * brackets. Example: "{rootApiUrl}/countries" will look for `window.rootApiUrl`.
          *
@@ -2994,7 +2973,7 @@
          * IE 11 considers <template> elements as valid elements so it applies [querySelector()]
          * and related methods to elements under <templates>'s so replace with them <script type="text/x-template">.
          * This avoid's issues of <template> elements that contain embedded content.
-         * 
+         *
          * @param {HTMLElement} rootElement
          */
         updateTemplatesForIE: function(rootElement) {
@@ -3149,6 +3128,9 @@
                                 break;
                             case 'false':
                                 settings[prop] = false;
+                                break;
+                            case 'null':
+                                settings[prop] = null;
                                 break;
                             default:
                                 settings[prop] = value;

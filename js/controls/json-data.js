@@ -126,8 +126,11 @@
      * Set CSS on Control Element to show Loading/Loaded/Error
      */
     function setControlClass(element, control) {
-        // Only load CSS if it is going to be used
-        if (element.querySelector('.is-loading, .is-loaded, .has-error') === null) {
+        // Only load CSS if it is going to be used.
+        // When using Web Component [polyfill.js] elements such as <is-loading>
+        // will appear first before being converted to <div class="is-loading">.
+        var selector = '.is-loading, .is-loaded, .has-error, is-loading, is-loaded, has-error';
+        if (element.querySelector(selector) === null) {
             return;
         }
 
@@ -515,11 +518,14 @@
                         });
                     });
                 }
+                setControlClass(element, control)
+                element.classList.add('data-control-not-loaded');
                 return;
             }
             if (element.getAttribute('click-selector') !== null) {
                 // This happens when using the Web Components [polyfill.js] before the the
                 // <json-data> Web Component is converted to a <json-data> Framework Control.
+                setControlClass(element, control)
                 element.classList.add('data-control-not-loaded');
                 return;
             }

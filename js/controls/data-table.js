@@ -111,7 +111,7 @@
                 if (this.emptyDataText === null) {
                     addTable('<table class="no-data"></table>');
                 } else {
-                    addTable('<table class="no-data"><caption>' + app.escapeHtml(this.emptyDataText) + '<caption></table>');
+                    addTable('<table class="no-data"><caption>' + app.escapeHtml(this.emptyDataText) + '</caption></table>');
                 }
                 return;
             }
@@ -124,7 +124,7 @@
                 isValid = false;
             }
             if (!isValid) {
-                addTable('<table><caption>' + app.escapeHtml(this.errorInvalidData) + '<caption></table>');
+                addTable('<table><caption>' + app.escapeHtml(this.errorInvalidData) + '</caption></table>');
                 return
             }
 
@@ -232,10 +232,11 @@
                         column = columns[x];
                         item = list[n];
                         value = item[column];
+                        value = (value === null ? '' : app.escapeHtml(value));
                         if (linkTmpl && linkFields.indexOf(column) !== -1) {
                             row.push('<td><a href="' + app.buildUrl(linkTmpl, item) + '">' + app.escapeHtml(value) + '</a></td>');
                         } else {
-                            row.push('<td>' + app.escapeHtml(value) + '</td>');
+                            row.push('<td>' + value + '</td>');
                         }
                     }
                     row.push('</tr>');
