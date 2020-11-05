@@ -65,7 +65,8 @@ ul li a { color: #828282; }
 
 ul li a:visited,
 .post-link a:visited,
-.loading { color:hsla(0, 0%, 61%, 1); }
+.loading { padding:1em; background-color:lightblue; color:hsla(0, 0%, 61%, 1); }
+.error { padding:1em; background-color:red; color:white; }
 
 ul li a.post-title { color:#000; text-decoration: none; }
 ul li a.post-title:visited { color:hsla(0, 0%, 61%, 1); }

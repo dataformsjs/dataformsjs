@@ -371,7 +371,25 @@ class JsonData extends HTMLElement {
         this.isLoaded = true;
         this.hasError = false;
         this.state.errorMessage = null;
-        Object.assign(this.state, data);
+        const transformData = this.getAttribute('transform-data');
+        if (transformData) {
+            try {
+                if (typeof window[transformData] === 'function') {
+                    const data2 = window[transformData](data);
+                    if (typeof data2 === 'object' && data2 !== null) {
+                        Object.assign(this.state, data2);
+                    } else {
+                        this.showError(`Function [${transformData}()] must return an object.`);
+                    }
+                } else {
+                    this.showError(`Function [${transformData}()] was not found.`);
+                }
+            } catch (e) {
+                this.showError(e);
+            }
+        } else {
+            Object.assign(this.state, data);
+        }
         if (typeof data.hasError === 'boolean') {
             this.hasError = data.hasError;
         }

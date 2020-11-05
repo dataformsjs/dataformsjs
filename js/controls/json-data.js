@@ -173,6 +173,7 @@
             graphqlQuery: null,
             errorTextGraphQLErrors: '{count} GraphQL Errors occured. See console for full details.',
             loadOnlyOnce: false,
+            transformData: null,
             // Vue variables below are set by this script when using Vue
             vueInstance: null,
             vueApp: null,
@@ -221,6 +222,25 @@
                 vm.isLoaded = true;
                 vm.hasError = false;
                 vm.errorMessage = null;
+
+                // If there is a global [data-transform-data] function then call it. This exists for
+                // mainly compatability with the <json-data> Web Component [transform-data] attribute.
+                if (vm.transformData) {
+                    try {
+                        if (typeof window[vm.transformData] === 'function') {
+                            data = window[vm.transformData](data);
+                            if (!(typeof data === 'object' && data !== null)) {
+                                throw new Error('Function [' + vm.transformData + '()] must return an object.');
+                            }
+                        } else {
+                            throw new Error('Function [' + vm.transformData + '()] was not found.');
+                        }
+                    } catch (e) {
+                        vm.isLoaded = false;
+                        vm.hasError = true;
+                        vm.errorMessage = e.message;
+                    }
+                }
 
                 // Assign downloaded JSON to either the control or the model
                 if (!vm.graphqlQuery) {

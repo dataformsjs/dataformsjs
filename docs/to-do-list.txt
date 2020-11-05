@@ -71,8 +71,6 @@ TODO List
                 would add one (assuming that it's running from a legacy browser). This would allow for a page
                 to have some content work from old browsers and provide a simiple warning for specific content
                 that does not have a polyfill.
-        - Use the new updates to create a Web Component Version of this:
-            dataformsjs\examples\hacker-news-react.htm
         - <data-table>
             - New Attributes [template-returns-html] and [list-item-name] used in <data-list> need to be included
         - <data-list> should also support both <template> and <script type="text/x-template">
@@ -84,6 +82,7 @@ TODO List
                 - <data-table> needs the `replace` calls
                 - Likely create a new function in [utils.js] `compileJsTemplate()` that will be shared and allow
                     for caching of the template functions similar to the new framework file: [dataformsjs\js\extensions\jsTemplate.js]
+                - Also make any related updates needed in the new <data-view>
         - Review all comments in [js/web-components/polyfill.js] and handle all issues.
             The file is mostly complete and properly working but still in active development.
         - New demo page to test all features of the new [utils-format.js] file
@@ -122,15 +121,6 @@ TODO List
                     [*.min.js] Framework files will be downloaded
                 <script src="../js/web-components/polyfill.js"></script>
                     Full [*.js] Framework files will be downloaded
-        - [/js/web-components/safari-nomodule.min.js] will be removed from all templates but the file will still be kept
-            [/js/web-components/old-browser-warning.min.js] will have an [X] button added that the user can close
-            similar to the standard Framework `app.showErrorAlert('Test')`.
-            - Markdown docs should be created for this though. Include links from `usingWebComponentsPolyfill()`
-            - Reason is now [polyfill.js] works instead of [safari-nomodule.min.js] and not only Safari has the
-                issue but Legacy Edge. The [X] button will allow a user to cancel if [old-browser-warning.min.js] is
-                still being used by an app.
-            - [old-browser-warning.min.js] will be kept as commented out in the templates with comments that
-                the polyfill works for older browsers.
         - On the templates (and probably all examples) add the HTML [crossorigin] attribute
             so good errors can show in `window.onerror` from DataFormsJS. Need to test and confirm.
             https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script

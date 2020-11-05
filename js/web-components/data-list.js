@@ -116,8 +116,8 @@ class DataList extends HTMLElement {
                 showError(this, 'Missing template from selector: ' + templateSelector);
                 return;
             }
-            if (template.nodeName !== 'TEMPLATE') {
-                showError(this, 'Element at selector [' + templateSelector + '] is not a <template>');
+            if (!(template.nodeName === 'TEMPLATE' || (template.nodeName === 'SCRIPT' && template.type === 'text/x-template'))) {
+                showError(this, 'Element at selector [' + templateSelector + '] needs to point to a <template> or a <script type="text/x-template"> element');
                 return;
             }
 

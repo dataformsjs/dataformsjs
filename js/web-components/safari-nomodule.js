@@ -1,9 +1,19 @@
 /**
  * From:
  * https://gist.github.com/samthor/64b114e4a4f539915a95b91ffd340acc#file-safari-nomodule-js
- * 
+ *
  * See also:
  * https://jakearchibald.com/2017/es-modules-in-browsers/
+ *
+ * Example usage:
+ *     <script type="module" src="../js/web-components/json-data.js"></script>
+ *     <script nomodule src="../js/web-components/safari-nomodule.js"></script>
+ *     <script nomodule src="../js/web-components/old-browser-warning.js"></script>
+ *
+ * Originally [old-browser-warning.js] was published without the close [X] button.
+ * Now that a close button is included it's safe to exclude this script if using
+ * [old-browser-warning.js] as the user can still close the warning and as of
+ * late 2020 the target browser of this script [Safari 10.1] has very little usage.
  */
 
 /**

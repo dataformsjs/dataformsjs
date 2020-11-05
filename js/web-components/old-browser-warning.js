@@ -1,12 +1,10 @@
-// This page should only be loaded by older browsers 
-// that do not support <script type="module">.
-//
-// Example usage:
-/*
-<script type="module" src="../js/web-components/json-data.js"></script>
-<script nomodule src="../js/web-components/safari-nomodule.js"></script>
-<script nomodule src="../js/web-components/old-browser-warning.js"></script>  
-*/
+/**
+ * This page should only be loaded by older browsers that do not support <script type="module">.
+ *
+ * Example usage:
+ *     <script type="module" src="../js/web-components/json-data.js"></script>
+ *     <script nomodule src="../js/web-components/old-browser-warning.js"></script>
+ */
 (function() {
     'use strict';
     document.addEventListener('DOMContentLoaded', function() {
@@ -32,7 +30,25 @@
         } else {
             div.textContent = message;
         }
+
+        // Add Close [X] Button
+        var closeButton = document.createElement('span');
+        closeButton.textContent = '✕';
+        closeButton.style.padding = '5px 10px';
+        closeButton.style.float = 'right';
+        closeButton.style.border = '1px solid darkred';
+        closeButton.style.cursor = 'pointer';
+        closeButton.style.marginLeft = '10px';
+        closeButton.style.boxShadow = '0 0 2px 1px rgba(0,0,0,0.3)';
+        closeButton.style.backgroundImage = 'linear-gradient(#c00,#a00)';
+        closeButton.style.borderRadius = '5px';
+        closeButton.onclick = function () {
+            document.body.removeChild(div);
+        };
+        div.insertBefore(closeButton, div.firstChild);
+
+        // Add to Document
         document.body.appendChild(div);
-        console.error(message);        
+        console.error(message);
     });
 })();

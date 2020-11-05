@@ -177,7 +177,10 @@
             Array.prototype.forEach.call(elements, function(el) {
                 var fieldName = el.getAttribute('data-bind');
                 if (fieldName === '') {
-                    console.warn('Element has a [data-bind] attribute, but no field specified');
+                    if (el.getAttribute('data-control') === null && el.tagName.indexOf('-') === -1) {
+                        // Don't warn if a JS Control
+                        console.warn('Element has a [data-bind] attribute, but no field specified');
+                    }
                     return;
                 }
                 var value = dataBind.getBindValue(fieldName);

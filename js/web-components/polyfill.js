@@ -42,7 +42,7 @@
         // Handle <json-data> for Modern browsers as it will not be defined.
         // DataFormsJS templates typically have this set to `display:none`
         // when the component is not defined.
-        'json-data[data-control]:not(:defined) { display:block; }',
+        'json-data[data-control]:not(:defined), is-loading:not(:defined), has-error:not(:defined), is-loaded:not(:defined) { display:block; }',
     ].join('\n');
 
     // Module Level Variables
@@ -62,7 +62,7 @@
             });
         },
         jsonData: function(element) {
-            updateElements.dataAttributes(element, ['url', 'load-only-once', 'click-selector']);
+            updateElements.dataAttributes(element, ['url', 'load-only-once', 'click-selector', 'transform-data']);
             var elements = ['is-loading', 'has-error', 'is-loaded'];
             elements.forEach(function(name) {
                 var el = element.querySelector(name);
@@ -86,6 +86,9 @@
         },
         dataTable: function(element) {
             updateElements.dataAttributes(element, ['highlight-class', 'labels', 'columns', 'table-attr', 'highlight-class']);
+        },
+        dataView: function(element) {
+            updateElements.dataAttributes(element, ['template-selector', 'template-returns-html']);
         },
         imageGallery: function(element) {
             element.setAttribute('data-image-gallery', element.getAttribute('image'));
@@ -214,6 +217,10 @@
                     break;
                 case 'data-list':
                     updateElements.dataList(control.element);
+                    app.loadJsControl(control);
+                    break;
+                case 'data-view':
+                    updateElements.dataView(control.element);
                     app.loadJsControl(control);
                     break;
             }
@@ -591,12 +598,13 @@
         // A number of additional scripts are downloaded that may or may not be used,
         // however in general the files are small - "*.min.js" version of all files
         // is around 20 kb before gzipping. It's likely most sites using this will
-        // use [json-data], [dataBind] and at least one of [data-list] or [data-table].
+        // use [json-data], [dataBind] and at least one of [data-list, data-table, data-view].
         // Aditional scripts such as [js/plugins/filter.js] are downloaded later only if they
         // are used by the app. All scripts here are downloaded asynchronously so it's very quick.
         var promises = [
             app.loadScripts(rootUrl + 'controls/data-list' + (useMinFiles ? '.min' : '') + '.js'),
             app.loadScripts(rootUrl + 'controls/data-table' + (useMinFiles ? '.min' : '') + '.js'),
+            app.loadScripts(rootUrl + 'controls/data-view' + (useMinFiles ? '.min' : '') + '.js'),
             app.loadScripts(rootUrl + 'controls/json-data' + (useMinFiles ? '.min' : '') + '.js'),
             app.loadScripts(rootUrl + 'extensions/format' + (useMinFiles ? '.min' : '') + '.js'),
             app.loadScripts(rootUrl + 'extensions/jsTemplate' + (useMinFiles ? '.min' : '') + '.js'),

@@ -1,0 +1,199 @@
+<!doctype html>
+<!--
+    This demo uses the Hacker News API And serveral DataFormsJS Web Component,
+    including use of nested <json-data> Components.
+
+    With the <json-data> Web Component JSON Web Services can easily be displayed in one of
+    3 states [<is-loading>, <is-loaded>, and <has-error>] without the need for the app to
+    include custom logic. On this demo all custom logic is related to displaying data.
+
+    A similar demo of this using DataFormsJS React Components is also available.
+
+    Hacker News API:
+        https://github.com/HackerNews/API
+
+    <json-data> Web Component
+        https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/json-data.js
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Hacker News API Demo with Web Components</title>
+        <link rel="stylesheet" href="css/hacker-news.css">
+        <style>
+            /* Prevent custom web components from appearing during rendering include the following CSS */
+            json-data:not(:defined),
+            is-loading:not(:defined),
+            has-error:not(:defined),
+            is-loaded:not(:defined) { display:none; }
+        </style>
+    </head>
+    <body>
+        <div id="root">
+            <!--
+                Download a list of ID's for Hacker News Items using <json-data>
+
+                Change the URL to [ `showstories.json`, `askstories.json`, etc. ] to
+                view other news lists. This demo is designed to be simple so
+                only one list is showing.
+
+                The download format is a basic array so it is transformed to an
+                easier to work with format from the JavaScript function
+                `transformData()` defined near the bottom of this file.
+            -->
+            <json-data url="https://hacker-news.firebaseio.com/v0/topstories.json" transform-data="transformData">
+                <is-loading>
+                    <div class="loading">Loading...</div>
+                </is-loading>
+                <has-error template-selector="#error-screen"></has-error>
+                <is-loaded>
+                    <header>
+                        <h1>
+                            <a href="https://news.ycombinator.com/" target="_blank">Hacker News Demo</a>
+                            <span></span>
+                        </h1>
+                        <input
+                            is="input-filter"
+                            filter-selector="ul li"
+                            filter-results-selector="h1 span"
+                            filter-results-text-all="{totalCount} News Items"
+                            filter-results-text-filtered="Showing {displayCount} of {totalCount} News Items"
+                            placeholder="Enter filter, example 'show' or 'github'" />
+                    </header>
+
+                    <data-list
+                        data-bind="idList"
+                        template-selector="#news-item"
+                        root-element="ul">
+                    </data-list>
+
+                    <!--
+                        Use a nested <json-data> to download the details of each Hacker News Post
+                    -->
+                    <template id="news-item">
+                        <li>
+                            <json-data url="https://hacker-news.firebaseio.com/v0/item/${id}.json">
+                                <has-error template-selector="#error-screen"></has-error>
+                                <is-loaded>
+                                    <data-view
+                                        data-bind
+                                        data-name="item"
+                                        template-selector="#news-details">
+                                    </data-view>
+                                </is-loaded>
+                            </json-data>
+                        </li>
+                    </template>
+
+                    <!--
+                        Template for the <data-view> that renders each news item
+                    -->
+                    <script type="text/x-template" id="news-details">
+                        <div>
+                            <a href="${item.url}" class="post-title" target="_blank"><strong>${item.title}</strong></a>
+                            <div class="post-link">
+                                <span><a href="${item.url}" target="_blank">${item.url}</a></span>
+                            </div>
+                            <div>
+                                <span>${item.score} points</span>
+                                <span>by ${item.by}</span>
+                                <span>created ${getTimeDiff(item.time)}</span>
+                                <span><a href="https://news.ycombinator.com/item?id=${item.id}" target="_blank">${(item.kids && item.kids.length ? item.kids.length : 0)} comments</a></span>
+                            </div>
+                        </div>
+                    </script>
+                </is-loaded>
+            </json-data>
+        </div>
+
+        <template id="error-screen">
+            <div class="error" data-bind="errorMessage"></div>
+        </template>
+
+        <!-- DataFormsJS Web Components -->
+        <script type="module" src="../js/web-components/json-data.js"></script>
+        <script type="module" src="../js/web-components/data-list.js"></script>
+        <script type="module" src="../js/web-components/data-view.js"></script>
+        <script type="module" src="../js/web-components/input-filter.js"></script>
+
+        <!--
+            This demo does work with [polyfill.js] because it uses many nested
+            <json-data> elements where each item must bind to it's own content
+            rather than the `app.activeModel` object. For most sites using this
+            sort of API would not be ideal, rather returning an array of objects
+            would be preferred then the <data-list> element could be easily used.
+
+            The [polyfill.js] does support nested <json-data> elements where
+            each element binds different data. For example if two services each
+            returned {records} then one would overwrite the other however if
+            one returns {records} and the other uses {records2} then the nested
+            controls will work.
+
+            This page was created to show that the <json-data> Web Component
+            can be used for complex scenarios.
+        -->
+        <script nomodule src="../js/web-components/old-browser-warning.js"></script>
+
+        <script>
+            'use strict';
+
+            // By default the top level Hacker News API returns hunderds of items
+            // in a simple array of integers so get only the first 50 and convert
+            // to an object that has an array of objects so that it can be easily
+            // used with templating.
+            function transformData(data) {
+                const idList = (data && data.length > 50 ? data.slice(0, 50) : []);
+                const items = [];
+                idList.forEach((id) => {
+                    items.push({ id: id });
+                });
+                return { idList: items };
+            }
+
+            // Return in format similar to Hacker News based on a Unix Timestamp:
+            //    1 minute ago
+            //    10 minutes ago
+            //    1 hour ago
+            function getTimeDiff(timestamp) {
+                const now = new Date();
+                const commentTime = new Date(timestamp * 1000);
+                const diff = now.getTime() - commentTime.getTime();
+                const minutes = Math.floor(diff / 60000);
+                let timeDiff;
+                if (minutes < 1) {
+                    timeDiff = '1 minute ago';
+                } else if (minutes < 60) {
+                    timeDiff = minutes + ' minutes ago';
+                } else if (minutes < (24 * 60)) {
+                    timeDiff = Math.floor(minutes / 60) + ' hours ago';
+                } else if (minutes < (24 * 60 * 2)) {
+                    timeDiff =  + '1 day ago';
+                } else {
+                    // On Hacker News many items show in the 'Show HN' section as '1 day ago'
+                    // that are actually 3 days old or more. They may be using last comment time
+                    // so these items will vary. Unix Timestamp check was confirmed that this
+                    // is correct for create time.
+                    timeDiff =  + Math.floor(minutes / 60 / 24) + ' days ago';
+                }
+                return timeDiff;
+            }
+
+            // After <json-data> elements are rendered check for empty links and the
+            // modify the DOM to remove the [href] on links to keep or hide the link.
+            // to avoid empty whitespace. Typically this affects several links per
+            // page view. To see the view without additional formatting, comment
+            // out the code below.
+            document.addEventListener('app:contentReady', (e) => {
+                const links = e.target.querySelectorAll('a[href=""]');
+                for (const link of links) {
+                    if (link.className === '') {
+                        link.parentNode.parentNode.removeChild(link.parentNode);
+                    } else {
+                        link.removeAttribute('href');
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

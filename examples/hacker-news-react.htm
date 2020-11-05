@@ -7,10 +7,12 @@
     3 states [isLoading, isLoaded, and hasError] without the need for the app to include
     custom logic. On this demo all custom logic is related to displaying data.
 
+    A similar demo of this using DataFormsJS Web Components is also available.
+
     Hacker News API:
         https://github.com/HackerNews/API
 
-    <JsonData> Components
+    <JsonData> Component
         https://github.com/dataformsjs/dataformsjs/blob/master/js/react/es6/JsonData.js
 -->
 <html lang="en">
@@ -40,7 +42,7 @@
             jsxLoader.logCompileTime = true;
             jsxLoader.logCompileDetails = false;
         </script>
-        
+
         <!--
             Babel for JSX
             To test using Babel instead of the `jsxLoader.js` comment out code related to jsxLoader
@@ -111,7 +113,7 @@
                                 filter-results-selector="h1 span"
                                 filter-results-text-all="{totalCount} News Items"
                                 filter-results-text-filtered="Showing {displayCount} of {totalCount} News Items"
-                                placeholder="Enter filter, example 'show' or 'google'" />
+                                placeholder="Enter filter, example 'show' or 'github'" />
                         </header>
 
                         <ul>
