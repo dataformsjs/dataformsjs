@@ -152,6 +152,10 @@ TODO List
         - leaflet-map and related scripts currently use HTTP for the map images.
             - Can they use HTTPS for free?
             - Need to see latest options for leaflet.
+        - Create standard framework demo for Hacker News Demo:
+            dataformsjs\examples\hacker-news-react.htm
+            dataformsjs\examples\hacker-news-web.htm
+            - This would use a custom page object and JavaScript rather than nested JSON controls
         - Web Component Template from: https://www.dataformsjs.com/en/getting-started
             Include <nav is="spa-links"> changes from: [examples/web-components-template.htm]
         - Test using some Web Components with React and Vue to see how they work with other frameworks

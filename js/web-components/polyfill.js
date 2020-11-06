@@ -366,12 +366,11 @@
      */
     function defineCustomEvents() {
         app.controls['json-data'].onFetch = function(element, fromCache) {
-            // Define or update the [app.activeModel] based downloaded data.
+            // Update the [app.activeModel] based downloaded data.
             if (app.activeController && app.activeController.modelName) {
                 if (!fromCache) {
-                    app.deepClone(app.models[app.activeController.modelName], this);
+                    app.deepClone(app.activeModel, this);
                 }
-                app.activeModel = app.models[app.activeController.modelName];
             } else {
                 app.activeModel = this; // Non-SPA
             }
