@@ -14,7 +14,12 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
-import { render, buildUrl, usingWebComponentsPolyfill } from './utils.js';
+import {
+    render,
+    buildUrl,
+    usingWebComponentsPolyfill,
+    polyfillCustomElements
+} from './utils.js';
 import { Format } from './utils-format.js';
 
 /**
@@ -173,7 +178,7 @@ class DataTable extends HTMLElement {
         let userLabels = this.getAttribute('labels');
         if (userLabels) {
             labels = userLabels.split(',').map(s => s.trim());
-            // If there is a mistmatch between defined columns
+            // If there is a mismatch between defined columns
             // and labels then switch to using columns.
             if ((labels.length !== columns.length) && template === null) {
                 labels = columns;
@@ -281,6 +286,9 @@ class DataTable extends HTMLElement {
                 row.addEventListener('click', toggleHighlight);
             }
         }
+
+        // Update table or elements such as <table is="sortable-table"> if needed
+        polyfillCustomElements(this);
     }
 }
 

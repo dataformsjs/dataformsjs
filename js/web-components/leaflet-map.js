@@ -21,7 +21,7 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
-import { defineExtendsPolyfill } from './utils.js';
+import { usingWebComponentsPolyfill, defineExtendsPolyfill } from './utils.js';
 
 class LeafletMap extends HTMLDivElement {
     constructor() {
@@ -44,6 +44,10 @@ class LeafletMap extends HTMLDivElement {
     }
 
     createMap() {
+        if (usingWebComponentsPolyfill()) {
+            return;
+        }
+
         // Get settings from element attribute
         const lat = parseFloat(this.getAttribute('latitude'));
         const long = parseFloat(this.getAttribute('longitude'));

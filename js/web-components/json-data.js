@@ -181,7 +181,7 @@ class JsonData extends HTMLElement {
     }
 
     disconnectedCallback() {
-        if (this.elements.clickButton !== null) {
+        if (this.elements && this.elements.clickButton !== null) {
             this.elements.clickButton.removeEventListener('click', this.handleButtonClick);
             this.elements.clickButton = null;
         }

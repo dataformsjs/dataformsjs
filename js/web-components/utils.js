@@ -160,12 +160,12 @@ export function buildUrl(url, params) {
  *   - Custom Elements that define [value] will have it set. For example usage see [data-table.js].
  *   - All other elements will have [textContent] set with the value
  *
- * @param {HTMLElement} element
+ * @param {HTMLElement|SVGElement} element
  * @param {*} value
  */
 export function setElementText(element, value) {
     // Element must be passed
-    if (element === null || typeof element !== 'object' || !(element instanceof HTMLElement)) {
+    if (!(element instanceof HTMLElement || element instanceof SVGElement)) {
         console.warn('Called setElementText() with an invalid parameter');
         return;
     }
@@ -351,14 +351,18 @@ export function usingWebComponentsPolyfill() {
 }
 
 /**
- * As of late 2019 Safari and Samsung Internet do not support extending
+ * As of late 2020 Safari and various mobile browsers do not support extending
  * standard elements using custom elements with [is="custom-element"].
  *
  * This function is used to call the polyfill setup code. Custom elements that
- * use the [is] attriubte should call need to define a object in [window._webComponentPolyfills]
+ * use the [is] attribute should call need to define a object in [window._webComponentPolyfills]
  * in order to use this. See examples from [sortable-table.js] and [input-filter.js].
+ * 
+ * https://caniuse.com/custom-elementsv1
+ * 
+ * @param {undefined|HTMLElement} rootElement
  */
-export function polyfillCustomElements() {
+export function polyfillCustomElements(rootElement = document) {
     // Check if the polyfill is needed. Example result:
     //   Chrome: false
     //   Safari: true
@@ -383,7 +387,7 @@ export function polyfillCustomElements() {
     // Update all elements on screen that need the polyfill
     if (polyfillIsNeeded && Array.isArray(window._webComponentPolyfills)) {
         for (const polyfill of window._webComponentPolyfills) {
-            const elements = document.querySelectorAll(`${polyfill.extendsElement}[is="${polyfill.element}"]`);
+            const elements = rootElement.querySelectorAll(`${polyfill.extendsElement}[is="${polyfill.element}"]`);
             for (const element of elements) {
                 try {
                     polyfill.setup(element);

@@ -24,7 +24,7 @@ TODO List
 
 **) Finish Web Component Updates
     - Many updates are being made and in active development (November 2020).
-        See the [CHANGELOG.md] or recent commmits for full details.
+        See the [CHANGELOG.md] or recent commits for full details.
         Since changes are currently in active development the related features may
         go through additional changes without warning.
     - Until updates are finished many of the web component examples will be pointing
@@ -49,8 +49,10 @@ TODO List
             - Affected Demo Pages:
                 dataformsjs\examples\html\image-info-web.htm
                 dataformsjs\examples\html\places-info-web.htm
+                website\app\Views\index_web.htm
                 http://127.0.0.1:8080/places-demo-web#/en/info
                 http://127.0.0.1:8080/image-classification-web#/en/info
+                http://localhost:3000/en/
             - First try creating this as <html-import-service>
         - dataformsjs\js\web-components\WebComponentService.js
             - Should events be renamed?:
@@ -61,7 +63,6 @@ TODO List
                 zero parameters or [document | <url-route>.
                 Need to test if this makes sense over currently structure.
             - Possible that `endSerivce|onEnd` will never be need as well as new `onContentReady`
-        - Must verify new [defineExtendsPolyfill] with the versions of Safari or other Legacy modern browsers
         - Add new <show-errors-service> that would be based on Framework <html data-show-errors>?
         - Playground Site
             - Calculator Page needs to be created for Web Component Version (if time permits a React version as well)
@@ -69,7 +70,7 @@ TODO List
             elements on the page such as [data-warning-legacy-browser]?
             - For example if used the Web Components would show no error on that element but the polyfill file
                 would add one (assuming that it's running from a legacy browser). This would allow for a page
-                to have some content work from old browsers and provide a simiple warning for specific content
+                to have some content work from old browsers and provide a simple warning for specific content
                 that does not have a polyfill.
         - <data-table>
             - New Attributes [template-returns-html] and [list-item-name] used in <data-list> need to be included
@@ -99,7 +100,7 @@ TODO List
                 col-class="0=align-right, 2=align-right col-class"
                 col-class="Size (KM)=align-right, Population=align-right"
               Likely start with this version as it adds the smallest amount of code and works
-              well with the exisitng demos.
+              well with the existing demos.
         - At a minimum the new script Polyfill scripts needs to handle IE 11, older Safari (example iOS 9), UC Browser.
             iOS 9 support because older devices such as iPad 2 can't upgrade past it and iPhone 6
             phones that are not upgraded still use it.
@@ -134,7 +135,7 @@ TODO List
                 https://github.com/ConradSollitt/website
             - If keeping then likely add more comments on the main site about how <data-list> is used
                 with basic JS templating instead of a full featured templating engine (Handlebars, Vue)
-            - Likley re-create the main site using a web component version. The php code can select
+            - Likely re-create the main site using a web component version. The php code can select
                 which version to return by selecting either [index.htm] or [index_web.htm].
                 - This will require a lot more work and may require additional web components
                 - Files such as Playground Page and Home Page code can be shared between Framework
@@ -164,7 +165,7 @@ TODO List
             - If needed after release create a demo repository showing how to use DataFormsJS with webpack
         - Handle and remove all `NOTE` comments in [polyfill.js] before npm publishing
         - For the `npm start` on the main repository update the default page to use <data-list>
-            with a simiple filter to list the examples.
+            with a simple filter to list the examples.
         - Before release update docs and example code that use <url-hash-router> to use <url-router> with the new CDN link
             Also update markdown docs to use [load-only-once] instead of [load-only-once="true"]
         - After new release publish here:
@@ -172,7 +173,7 @@ TODO List
 
 **) Playground Site
     - Need to add support for JSON file/resource type
-    - Add liniting for React/JSX, Babel recently started doing this online in the REPL:
+    - Add linting for React/JSX, Babel recently started doing this online in the REPL:
         https://babeljs.io/repl
     - Currently JS is linted using jshint on the Playground, to lint JSX babel standalone will
         likely be used with a custom Code Mirror Plugin
@@ -222,7 +223,7 @@ TODO List
         to the Web Components.
 
 *) Markdown Docs to Create
-    - Build Processs
+    - Build Process
     - How Unit Testing Works
         See additional notes in this doc related to Unit Testing
     - Both of the above topics are covered briefly in:

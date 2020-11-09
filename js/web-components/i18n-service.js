@@ -70,7 +70,7 @@ class I18nService extends WebComponentService {
 
         // Determine Routing Type - Hash Routing or HTML5 History
         const router = document.querySelector('url-router');
-        this.hashRouting = (router === null || router.useHistoryMode !== true);
+        this.hashRouting = (router === null || router.getAttribute('mode') !== 'history');
     }
 
     /**
@@ -177,8 +177,6 @@ class I18nService extends WebComponentService {
         // Load language files from cached for download
         Promise.all(promises).finally(() => {
             if (routeUrl) {
-                // TODO - make sure this works properly
-                // this.langText = app.deepClone({}, this.langCache[url], this.langCache[routeUrl]);
                 this.langText = Object.assign({}, this.langCache[url], this.langCache[routeUrl]);
             } else {
                 this.langText = this.langCache[url];
@@ -270,9 +268,6 @@ class I18nService extends WebComponentService {
             }
         }
 
-        // TODO - all items below need to be tested with the main site
-        //  A basic version of it will be recreated but not all features have to be re-created for now.
-
         // Update links that have the attribute [data-i18n-locales] and replace
         // [href] text that contains '{locale}' with the current or default locale.
         elements = document.querySelectorAll('a[data-i18n-locales]');
@@ -296,6 +291,8 @@ class I18nService extends WebComponentService {
         // to not be used by most pages on a site.
         elements = document.querySelectorAll('[data-i18n-replace-text]');
         for (const element of elements) {
+            // TODO - this needs to be tested with a web component version of the main site.
+            //  A basic version of it is being recreated and may or may not be published.
             let html = element.innerHTML;
             for (const key in this.langText) {
                 if (this.langText.hasOwnProperty(key)) {

@@ -222,7 +222,7 @@
             // one script per key is recommended. When a route uses multiple lazy load items
             // they are downloaded asynchronous however items in the array are download only after
             // the previous item is loaded. However, this example currently does not include
-            // an array. See [places-demo-vue.htm] for a simliar version with an array.
+            // an array. See [places-demo-vue.htm] for a similar version with an array.
             //
             // [leafletPlugin] listed below is not required as [polyfill.js] would dynamically
             // download the script on first use, however it is included here to show how
@@ -267,14 +267,13 @@
                 // To exclude event log during development comment out the next line:
                 // return;
 
-                // Handle routing changes from <url-router> or <url-router>
+                // Handle routing changes from <url-router>
                 document.addEventListener('app:routeChanged', function(event) {
                     log('app:routeChanged', 'blue');
                     console.log(event);
 
-                    // When using Web Components `event.target` will be either
-                    // <url-router> or <url-router> and when using [polyfill.js]
-                    // the root `document` will be passed.
+                    // When using Web Components `event.target` will be <url-router>
+                    // and when using [polyfill.js] the root `document` will be passed.
                     console.log(event.target);
 
                     // Event Detail contains URL Path and Params:
@@ -289,7 +288,7 @@
                     console.log(event.target); // <json-data>, <div data-control="json-data"> or `document`
                 });
 
-                // Handle errors from <json-data>, <url-router>, or <url-router>
+                // Handle errors from <json-data> or <url-router>
                 document.addEventListener('app:error', function(event) {
                     log('app:error', 'red');
                     console.warn(event);
