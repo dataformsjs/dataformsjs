@@ -13,6 +13,11 @@ Overall the core Framework files and API are expected to remain stable however t
 * Many updates are being made and in active development (November 2020)
 * The next release will likely be published sometime in November of 2020
 
+### Credits / Thanks!
+
+* **Thanks ElevateBart** for helping with the idea and API proposal related to `jsxLoader` updates with this release: https://github.com/elevatebart
+  * https://github.com/dataformsjs/dataformsjs/issues/16
+
 ### Release Overview
 
 * Many updates have been made for overall improvement of DataFormsJS Web Components
@@ -53,8 +58,6 @@ Overall the core Framework files and API are expected to remain stable however t
   * New functions in `utils.js`: `loadCss(id, css)`, `isAttachedToDom(element)`
   * Added `[X]` Close Button for `js/web-components/old-browser-warning.js` so that users can close the alert. With the new close button using `js/web-components/safari-nomodule.js` is no longer needed, however the file is stil being kept for reference and sites that want to customize and use it.
 * Added Node Support for `jsxLoader`
-  * **Thanks ElevateBart** for helping with the idea and API proposal! https://github.com/elevatebart
-  * https://github.com/dataformsjs/dataformsjs/issues/16
   * Previously `jsxLoader` only worked in a browser.
   * Now several API's are available for node `{ jsxLoader, transform(jsx, options) }`
 * Enhancments for DataFormsJS Framework files:
