@@ -52,6 +52,11 @@ Overall the core Framework files and API are expected to remain stable however t
   * Added ability to style errors using CSS from `utils.js` when calling `showError(element, message)` or `showErrorAlert(message)`.
   * New functions in `utils.js`: `loadCss(id, css)`, `isAttachedToDom(element)`
   * Added `[X]` Close Button for `js/web-components/old-browser-warning.js` so that users can close the alert. With the new close button using `js/web-components/safari-nomodule.js` is no longer needed, however the file is stil being kept for reference and sites that want to customize and use it.
+* Added Node Support for `jsxLoader`
+  * **Thanks ElevateBart** for helping with the idea and API proposal! https://github.com/elevatebart
+  * https://github.com/dataformsjs/dataformsjs/issues/16
+  * Previously `jsxLoader` only worked in a browser.
+  * Now several API's are available for node `{ jsxLoader, transform(jsx, options) }`
 * Enhancments for DataFormsJS Framework files:
   * Added `app.updateTemplatesForIE(rootElement)`. IE 11 considers `<template>` elements as valid elements so it applies `querySelector()` and related methods to elements under `<templates>`'s so replace with them `<script type="text/x-template">`. This avoid's issues of `<template>` elements that contain embedded content. Previously this was only handled once per page load but now is handled (for IE only) when views are rendered.
   * Added features in `js/plugins/dataBind.js` based on the Web Components version.

@@ -30,6 +30,10 @@ TODO List
     - Until updates are finished many of the web component examples will be pointing
         to local build files rather than CDN.
     - The next release will likely be published sometime in November of 2020
+    - More testing and updates related to jsxLoader Node Support
+        https://github.com/dataformsjs/dataformsjs/issues/16
+        More details will be published in the main JSX Loader doc:
+        https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
     - Updates can be tested using root URL:
         https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/
         - All files under [js] are copied there. Example if testing from the Playground:

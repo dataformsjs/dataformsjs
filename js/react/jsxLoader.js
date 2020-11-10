@@ -30,7 +30,7 @@
  */
 
 /* Validates with both [jshint] and [eslint] */
-/* global Babel, Promise */
+/* global Babel, Promise, module */
 /* jshint evil:true */
 /* jshint strict: true */
 /* eslint-env browser */
@@ -142,7 +142,7 @@
         /**
          * Condition to check for if the browser needs a Polyfill or not
          */
-        needsPolyfill: (Array.from && window.Promise && window.fetch && Promise.prototype.finally ? false : true),
+        needsPolyfill: (Array.from && typeof window !== 'undefined' && window.Promise && window.fetch && Promise.prototype.finally ? false : true),
 
         /**
          * When using the compiler from jsxLoader specific code for ES or node modules should
@@ -1347,7 +1347,7 @@
                 // Babel is found such as `// @jsx preact.createElement` then use
                 // the `createElement()` function from the code hint.
                 var createElement = 'React.createElement';
-                var regex = /(\/\/|\/\*|\/\*\*)\s+@jsx\s+([a-zA-z.]+)/gm;
+                var regex = /(\/\/|\/\*|\/\*\*)\s+@jsx\s+([a-zA-Z.]+)/gm;
                 var match = regex.exec(input);
                 if (match) {
                     createElement = match[2];
@@ -1536,6 +1536,39 @@
             },
         },
     };
+
+    /**
+     * Optional Node Support
+     * https://github.com/dataformsjs/dataformsjs/issues/16
+     */
+    var isBrowser = (typeof window !== 'undefined' && typeof window.document !== 'undefined');
+    if (!isBrowser && typeof module === 'object' && typeof module.exports === 'object') {
+        module.exports = {
+            /**
+             * Full JSX Loader API
+             */
+            jsxLoader: jsxLoader,
+
+            /**
+             * Transform (compile) a JSX String into a modern JavaScript String.
+             *
+             * @param {string} jsx
+             * @param {object} options
+             * @returns {string}
+             */
+            transform: function(jsx, options) {
+                // By default jsxLoader uses 'React.createElement' for the Virtual DOM method
+                // and it supports code hints just like Babel Standalone `// @jsx Vue.h`
+                if (options && typeof options.pragma === 'string' && /^[a-zA-Z.]+$/.test(options.pragma) && jsx.indexOf('// @jsx ') === -1) {
+                    jsx = '// @jsx ' + options.pragma + '\n' + jsx;
+                }
+                return jsxLoader.compiler.compile(jsx);
+            },
+        };
+
+        // Web Browser is not being used so do not run any setup code.
+        return;
+    }
 
     /**
      * Assign [jsxLoader] as a global property to the [window] object
