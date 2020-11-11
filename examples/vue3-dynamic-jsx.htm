@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
-	NOTE - this page is in active development related to:
-	https://github.com/dataformsjs/dataformsjs/issues/16
+    NOTE - this page is in active development related to:
+    https://github.com/dataformsjs/dataformsjs/issues/16
 -->
 <html lang="en">
     <head>
@@ -16,7 +16,7 @@
             }
             
             body {
-            	background-color: #efefef;
+                background-color: #efefef;
             }
             
             p { margin:1em auto; }
@@ -50,9 +50,9 @@
         <section id="root" class="container"></section>
 
         <!--
-			JSX Loader will run this script on page load
-			because it uses [type="text/babel"]
-		-->
+            JSX Loader will run this script on page load
+            because it uses [type="text/babel"]
+        -->
         <script type="text/babel">
             // @jsx Vue.h
             function App() {
@@ -72,12 +72,12 @@
         </script>
         
         <!--
-			Additional scripts use [type="text/x-template"]
+            Additional scripts use [type="text/x-template"]
             so they get loaded from code on this page.
             
             However VS Code and other editors will likely not
             highlight these scripts as JSX.
-		-->
+        -->
         <section class="container example-code">
             <button>Click Button 1</button>
             <div class="target"></div>
@@ -132,8 +132,8 @@
             Vue 3 - Prod Version:
                 <script src="https://cdn.jsdelivr.net/npm/vue@3.0.2/dist/vue.global.prod.js"></script>
 
-			** Currently using Development to see error details
-		-->
+            ** Currently using Development to see error details
+        -->
         <script src="https://cdn.jsdelivr.net/npm/vue@3.0.2/dist/vue.global.js"></script>
 
         <!-- DataFormsJS jsxLoader -->
@@ -146,7 +146,7 @@
         <!--
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/safari-nomodule.min.js"></script>
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/old-browser-warning.min.js"></script>
-		-->
+        -->
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/old-browser-warning.min.js"></script>
         
         <script>
@@ -162,13 +162,13 @@
             // This applies only to scripts that load from the initial page load
             jsxLoader.logCompileTime = false;
             //
-			jsxLoader.logCompileDetails = false;
+            jsxLoader.logCompileDetails = false;
             // *) Tokens generated from Lexical Analysis
-			// *) Abstract Syntax Tree (AST) generated from the Tokens
-			// *) Generated Code from the AST (Only on scripts that load from initial page load)
+            // *) Abstract Syntax Tree (AST) generated from the Tokens
+            // *) Generated Code from the AST (Only on scripts that load from initial page load)
             
             (function() {
-            	'use strict';
+                'use strict';
                 
                 function setupCodeSection(section) {
                     var button = section.querySelector('button');
@@ -196,7 +196,7 @@
                         // Compile/Transform JSX to JS and evaulate
                         try {                           
                             // Compile
-                        	var js = jsxLoader.compiler.compile(jsx);
+                            var js = jsxLoader.compiler.compile(jsx);
                             if (window.showCode) {
                                 console.log('-'.repeat(80));
                                 console.log(js);
@@ -209,7 +209,7 @@
                             // most recent versions of Chrome and Firefox:
                             //
                             // eval(js);
-                        	new Function('"use strict";' + js)();
+                            new Function('"use strict";' + js)();
                             
                             // Check for Runtime error. This can happen if using the
                             // production version of Vue. When using the Dev build of Vue
