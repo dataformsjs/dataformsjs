@@ -1,0 +1,240 @@
+<!doctype html>
+<!--
+	NOTE - this page is in active development related to:
+	https://github.com/dataformsjs/dataformsjs/issues/16
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Vue 3 JSX Testing</title>
+        <style>
+            * { margin:0; padding:0; }
+            
+            html {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            }
+            
+            body {
+            	background-color: #efefef;
+            }
+            
+            p { margin:1em auto; }
+
+            body,
+            section {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            section {
+                box-shadow: 0 1px 5px 0 rgba(0,0,0,.5);
+                padding: 30px 60px;
+                margin: 40px;
+                border-radius: 20px;
+                background-color: white;
+            }
+            
+            button { padding:.5em 1em; margin-bottom:1em; }
+            
+            .error {
+                padding: 1em;
+                color: white;
+                background-color: red;
+                border: 1px solid darkred;
+            }
+        </style>
+    </head>
+    <body>
+        <section id="root" class="container"></section>
+
+        <!--
+			JSX Loader will run this script on page load
+			because it uses [type="text/babel"]
+		-->
+        <script type="text/babel">
+            // @jsx Vue.h
+            function App() {
+                return (
+                    <Vue.Fragment>
+                        <h1>Hello World from Page Load!</h1>
+                        <p>This page contains Vue 3 Demos built using JSX</p>
+                        <p><a href="https://github.com/vuejs/jsx/issues/141" target="_blank">Vue 3 JSX Design</a></p>                        
+                    </Vue.Fragment>
+                )
+            }
+
+            Vue.render(
+                <App />,
+                document.getElementById('root')
+            );
+        </script>
+        
+        <!--
+			Additional scripts use [type="text/x-template"]
+            so they get loaded from code on this page.
+            
+            However VS Code and other editors will likely not
+            highlight these scripts as JSX.
+		-->
+        <section class="container example-code">
+            <button>Click Button 1</button>
+            <div class="target"></div>
+            <script type="text/x-template">
+                function App() {
+                    return (<h2>Clicked Button 1 at {new Date().toLocaleString()}!</h2>)
+                }
+            </script>
+        </section>
+        
+        <section class="container example-code">
+            <button>Click Button 2</button>
+            <div class="target"></div>
+            <script type="text/x-template">
+                function App() {
+                    return <h2>Clicked Button 2 at {new Date().toLocaleString()}!</h2>
+                }
+            </script>
+        </section>
+        
+        <section class="container example-code">
+            <button>Compile Error</button>
+            <div class="target"></div>
+            <script type="text/x-template">
+                function App() {
+                    return (
+                        <Vue.Fragment>
+                            <h2>Clicked Button 1 at {new Date().toLocaleString()}!</h2>
+                        </Vue.Fragment2>
+                    )
+                }
+            </script>
+        </section>
+        
+        <section class="container example-code">
+            <button>Runtime Error</button>
+            <div class="target"></div>
+            <script type="text/x-template">
+                function App() {
+                    return (
+                        <Vue.Fragment>
+                            <h2>Clicked Button 2 at {new Date().toLocaleStrings()}!</h2>
+                        </Vue.Fragment>
+                    )
+                }
+            </script>
+        </section>
+
+        <!--
+            Vue 3 - Dev Version:
+                <script src="https://cdn.jsdelivr.net/npm/vue@3.0.2/dist/vue.global.js"></script>
+            Vue 3 - Prod Version:
+                <script src="https://cdn.jsdelivr.net/npm/vue@3.0.2/dist/vue.global.prod.js"></script>
+
+			** Currently using Development to see error details
+		-->
+        <script src="https://cdn.jsdelivr.net/npm/vue@3.0.2/dist/vue.global.js"></script>
+
+        <!-- DataFormsJS jsxLoader -->
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/jsxLoader.min.js"></script>
+        
+        <!--
+            Warning for IE 11 and Old Mobile Devices because the tested build of Vue 3.0.0
+            does not support them, this may or may not change in the future.
+        -->
+        <!--
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/safari-nomodule.min.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/old-browser-warning.min.js"></script>
+		-->
+        <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/old-browser-warning.min.js"></script>
+        
+        <script>
+            // Set this to `true` from DevTools to see basic
+            // transformed JS code for this page in the console.
+            window.showCode = false;
+            
+            // Set these to `true` to view compiler details.
+            //
+            // Full Documentation at:
+            //    https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
+            //
+            // This applies only to scripts that load from the initial page load
+            jsxLoader.logCompileTime = false;
+            //
+			jsxLoader.logCompileDetails = false;
+            // *) Tokens generated from Lexical Analysis
+			// *) Abstract Syntax Tree (AST) generated from the Tokens
+			// *) Generated Code from the AST (Only on scripts that load from initial page load)
+            
+            (function() {
+            	'use strict';
+                
+                function setupCodeSection(section) {
+                    var button = section.querySelector('button');
+                    var target = section.querySelector('.target');
+                    var template = section.querySelector('script[type="text/x-template"]');
+                    if (button === null || target === null || template === null) {
+                        return;
+                    }
+                    
+                    button.onclick = function() {
+                        if (target.id === '') {
+                            target.id = 'target-' + new Date().getTime();
+                        }
+                        
+                        // By default `React.createElement` is used.
+                        // Add a code hint so `Vue.h` is used instead.
+                        // Additionally render the <App> object to the target element.
+                        var jsx = template.innerHTML;
+                        jsx = '// @jsx Vue.h\n' + jsx;
+                        jsx += '\n Vue.render(<App />, document.getElementById("' + target.id + '"));';
+                        
+                        // Hide previous error if any
+                        target.classList.remove('error');
+
+                        // Compile/Transform JSX to JS and evaulate
+                        try {                           
+                            // Compile
+                        	var js = jsxLoader.compiler.compile(jsx);
+                            if (window.showCode) {
+                                console.log('-'.repeat(80));
+                                console.log(js);
+                            }
+                            
+                            // Reset
+                            target.innerHTML = '';
+                            
+                            // Both `eval()` and `new Function()` work with
+                            // most recent versions of Chrome and Firefox:
+                            //
+                            // eval(js);
+                        	new Function('"use strict";' + js)();
+                            
+                            // Check for Runtime error. This can happen if using the
+                            // production version of Vue. When using the Dev build of Vue
+                            // the error will be raised instead.
+                            var renderedHtml = target.innerHTML;
+                            if (renderedHtml === '' || renderedHtml === '<!---->') {
+                                target.textContent = 'Runtime Error - Check Console';
+                                target.classList.add('error');
+                            }
+                        } catch (e) {
+                            // Show Error
+                            target.textContent = 'Error - ' + e.message;
+                            target.classList.add('error');
+                            console.error(e);
+                        }
+                    }
+                }
+                
+                document.addEventListener('DOMContentLoaded', function() {
+                    var sections = document.querySelectorAll('section.example-code');
+                    Array.prototype.forEach.call(sections, function(section) {
+                        setupCodeSection(section);
+                    });
+                });
+            })();
+        </script>
+    </body>
+</html>
