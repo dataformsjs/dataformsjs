@@ -51,12 +51,14 @@ Overall the core Framework files and API are expected to remain stable however t
   * New Class `WebComponentService` which can be used to define "service" Web Components
     * The term "service" is used here because the intended use is that components created with this class do not render content but rather provide a service that updates other elements on the page based on HTML attributes element class names, etc. and that the service needs to run when content on the page changes from SPA routes or JSON Services.
     * This is a similar concept to the DataFormsJS Framework Plugins feature allowing for custom functionality to be defined easily and with little API code outside of standard DOM and JavaScript.
-    * This will be used by all DataFormsJS Web Components that end with "sevice" in the component name.
+    * This will be used by all DataFormsJS Web Components that end with "service" in the component name.
   * Added new Web Component `<data-view>` and related Framework JavaScript Control for viewing data from `<json-data>` or other web components.
   * Added new Web Component `<keydown-action-service>`. Based on Framework Plugin `js/plugins/keydownAction.js`
   * Added ability to style errors using CSS from `utils.js` when calling `showError(element, message)` or `showErrorAlert(message)`.
   * New functions in `utils.js`: `loadCss(id, css)`, `isAttachedToDom(element)`
   * Added `[X]` Close Button for `js/web-components/old-browser-warning.js` so that users can close the alert. With the new close button using `js/web-components/safari-nomodule.js` is no longer needed, however the file is stil being kept for reference and sites that want to customize and use it.
+  * `js\web-components\data-list.js`
+    * Added HTML attribute `root-attr` which allows for any attribute to be set on the root element. Previously only the `class` could be set from `root-class`. The attribute `root-class` is still supported.
 * Added Node Support for `jsxLoader`
   * Previously `jsxLoader` only worked in a browser.
   * Now several API's are available for node `{ jsxLoader, transform(jsx, options) }`
@@ -106,7 +108,7 @@ The Web Components have the most complex breaking changes related to API usage h
   * Dropped support for replacing the control element with a basic element. Example, previously `<json-data>` would have been converted to `<div data-control="json-data">`. Now the `data-control` attribute is added but the element is not converted.
   * This behavior allows for easier to use API from sites and apps that use the `<json-data>` Web Component and Polyfill.
 * `js/plugins/filter.js` - Removed error alert for text `Column filter requires a table to be correctly defined` that happened if a table was missing when the filter was loaded. The reason is that it makes sense for certain apps to have a defined filter and only optionally include the table.
-* `js/controls/data-table.js` - Replaced `data-source` with `data-bind` and now `<data-table>` will be converted to a `<div>` with a `<table>` in the `<div>` instead of converting to a `<table>` directly. Additionaly `<template>` support has been added.
+* `js/controls/data-table.js` - Replaced `data-source` with `data-bind` and now `<data-table>` will be converted to a `<div>` with a `<table>` in the `<div>` instead of converting to a `<table>` directly. Additionally `<template>` support has been added.
   * Code before Update:
   ~~~html
   <data-table
@@ -137,8 +139,6 @@ The Web Components have the most complex breaking changes related to API usage h
 * `js/controls/data-list.js`
   * Replaced `data-source` with `data-bind` and now `<data-list>` will be converted to a `<div>` with a `<ul>` in the `<div>` instead of converting to a `<ul>` directly.
   * `<template>` support has been added.
-* `js\web-components\data-list.js`
-  * Added HTML attribute `root-attr` which allows for any attribute to be set on the root element. Previously only the `class` could be set from `root-class`. The attribute `root-class` is still supported.
 * Rename `jsPlugins.js` function `refreshJsPlugins()` to `refreshPlugins()` so it matches the standard Framework.
   * Affects Web Components and React
   * `js/web-components/jsPlugins.js`
