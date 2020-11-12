@@ -43,6 +43,9 @@
         // DataFormsJS templates typically have this set to `display:none`
         // when the component is not defined.
         'json-data[data-control]:not(:defined), is-loading:not(:defined), has-error:not(:defined), is-loaded:not(:defined) { display:block; }',
+        // Older Webkit Browsers (UC Browser, Old Safari) need additional updates
+        // for non-JS-control components otherwise margin/padding can appear slightly off.
+        'image-gallery { display: block; }',
     ].join('\n');
 
     // Module Level Variables
