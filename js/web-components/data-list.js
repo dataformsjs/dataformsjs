@@ -90,8 +90,12 @@ class DataList extends HTMLElement {
         }
 
         // Build Attributes for Root Element
+        let rootClass = this.getAttribute('root-class');
         let rootAttr = this.getAttribute('root-attr');
         let rootAttrHtml = '';
+        if (rootClass) {
+            rootAttrHtml = render` class="${rootClass}"`;
+        }
         if (rootAttr) {
             rootAttr = rootAttr.split(',').map(s => s.trim());
             for (const attr of rootAttr) {

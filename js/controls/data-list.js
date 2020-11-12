@@ -4,10 +4,10 @@
  * This control is designed for compatibility with the DataFormsJS Web Component
  * [js/web-components/data-list.js] and includes the ability for basic templating
  * from HTML using a template syntax based on JavaScript template literals (template strings).
- * 
+ *
  * When [js/web-components/polyfill.js] is used for DataFormsJS Web Component
  * this file will be downloaded and used.
- * 
+ *
  * The script [js/extensions/jsTemplate.js] is required when using templating
  * and is handled automatically by [polyfill.js]. To use the the standard
  * Framework simply make sure the script is included from [app.lazyLoad]
@@ -37,6 +37,7 @@
             bind: null,
             templateSelector: null,
             rootElement: null,
+            rootClass: null,
             rootAttr: null,
             errorClass: null,
             templateReturnsHtml: null,
@@ -71,17 +72,20 @@
             }
 
             function showError(error, element) {
-                addError(error, element)
+                addError(error, element);
                 closeElement();
                 return html.join('');
             }
 
             function getAttrHtml() {
+                var html = '';
+                if (control.rootClass !== null) {
+                    html = ' class="' + app.escapeHtml(control.rootClass) + '"';
+                }
                 if (control.rootAttr === null) {
-                    return '';
+                    return html;
                 }
                 var rootAttr = control.rootAttr.split(',').map(function(s) { return s.trim(); });
-                var html = '';
                 for (var n = 0, m = rootAttr.length; n < m; n++) {
                     var attr = rootAttr[n];
                     var pos = attr.indexOf('=');

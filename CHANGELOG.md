@@ -138,7 +138,7 @@ The Web Components have the most complex breaking changes related to API usage h
   * Replaced `data-source` with `data-bind` and now `<data-list>` will be converted to a `<div>` with a `<ul>` in the `<div>` instead of converting to a `<ul>` directly.
   * `<template>` support has been added.
 * `js\web-components\data-list.js`
-  * Removed `root-class` attribute and replaced it with `root-attr` which allows for any attribute
+  * Added HTML attribute `root-attr` which allows for any attribute to be set on the root element. Previously only the `class` could be set from `root-class`. The attribute `root-class` is still supported.
 * Rename `jsPlugins.js` function `refreshJsPlugins()` to `refreshPlugins()` so it matches the standard Framework.
   * Affects Web Components and React
   * `js/web-components/jsPlugins.js`

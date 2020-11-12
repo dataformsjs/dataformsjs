@@ -82,7 +82,7 @@
             });
         },
         dataList: function(element) {
-            updateElements.dataAttributes(element, ['template-selector', 'root-element', 'root-attr', 'error-class', 'template-returns-html', 'list-item-name']);
+            updateElements.dataAttributes(element, ['template-selector', 'root-element', 'root-class', 'root-attr', 'error-class', 'template-returns-html', 'list-item-name']);
         },
         dataTable: function(element) {
             updateElements.dataAttributes(element, ['highlight-class', 'labels', 'columns', 'table-attr', 'highlight-class']);
