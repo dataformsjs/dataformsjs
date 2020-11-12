@@ -42,6 +42,10 @@
             errorClass: null,
             defaultErrorStyle: 'color:white; background-color:red; padding:0.5rem 1rem; margin:.5rem;',
             highlightClass: null,
+            tableAttr: null,
+            colClass: null,
+            colLinkTemplate: null,
+            colLinkFields: null,
         },
 
         /**
@@ -153,9 +157,8 @@
             // Table Header
             var html = [];
             var tableHtml = '<table';
-            var tableAttr = element.getAttribute('data-table-attr');
-            if (tableAttr) {
-                tableAttr = tableAttr.split(',').map(function(s) { return s.trim(); });
+            if (this.tableAttr) {
+                var tableAttr = this.tableAttr.split(',').map(function(s) { return s.trim(); });
                 for (n = 0, m = tableAttr.length; n < m; n++) {
                     var attr = tableAttr[n];
                     var pos = attr.indexOf('=');
@@ -175,8 +178,35 @@
             }
             html.push(tableHtml + '><thead><tr>');
             row = [];
-            for (n = 0, m = labels.length; n < m; n++) {
-                row.push('<th>' + app.escapeHtml(labels[n]) + '</th>');
+            if (this.colClass) {
+                var classList = this.colClass.split(',').map(function(s) { return s.trim(); });
+                var classIndex = {};
+                classList.forEach(function(item) {
+                    var pos = item.indexOf('=');
+                    if (pos > 0) {
+                        var col = item.substr(0, pos);
+                        var className = item.substr(pos+1);
+                        classIndex[col] = className;
+                    }
+                });
+                for (n = 0, m = labels.length; n < m; n++) {
+                    var label = labels[n];
+                    var className = null;
+                    if (classIndex[n.toString()] !== undefined) {
+                        className = classIndex[n.toString()];
+                    } else if (classIndex[label] !== undefined) {
+                        className = classIndex[label];
+                    }
+                    if (className) {
+                        row.push('<th class="' + app.escapeHtml(className) + '">' + app.escapeHtml(labels[n]) + '</th>');
+                    } else {
+                        row.push('<th>' + app.escapeHtml(labels[n]) + '</th>');
+                    }
+                }
+            } else {
+                for (n = 0, m = labels.length; n < m; n++) {
+                    row.push('<th>' + app.escapeHtml(labels[n]) + '</th>');
+                }
             }
             html.push(row.join(''));
             html.push('</tr></thead>');
@@ -213,11 +243,11 @@
                 }
             } else {
                 // Will the table use a link template?
-                var linkTmpl = element.getAttribute('data-col-link-template');
-                var linkFields = element.getAttribute('data-col-link-fields');
+                var linkTmpl = this.colLinkTemplate;
+                var linkFields = null;
                 if (linkTmpl) {
-                    if (linkFields) {
-                        linkFields = linkFields.split(',').map(function(s) { return s.trim(); });
+                    if (this.colLinkFields) {
+                        linkFields = this.colLinkFields.split(',').map(function(s) { return s.trim(); });
                     } else {
                         linkFields = [columns[0]];
                     }
@@ -247,7 +277,7 @@
             addTable(html.join(''));
 
             // Allow user to highlight rows by clicking on them using [clickToHighlight] Plugin?
-            if (element.getAttribute('data-highlight-class')) {
+            if (this.highlightClass) {
                 element.querySelector('table').classList.add('click-to-highlight');
             }
         },

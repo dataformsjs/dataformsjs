@@ -145,14 +145,14 @@ class DataList extends HTMLElement {
             // Render each item in the template. A new function is dynamically created that simply
             // renders the contents of the template as a JavaScript template literal (template string).
             // The Tagged Template Literal function `render()` from [utils.js] is used to safely escape
-            // the variables for HTML encoding. The variable `index` is made availble to the template
+            // the variables for HTML encoding. The variable `index` is made available to the template
             // and it can be safely overwritten by the list item due to variable scoping during rendering.
             try {
                 // Get Template Contents
                 let tmplHtml = template.innerHTML;
 
                 // By default content to render is escaped using the `render` Tagged Template Literal function.
-                // If not then then template is likley mixing more advanced JavaScript with HTML so replace
+                // If not then then template is likely mixing more advanced JavaScript with HTML so replace
                 // certain HTML escape characters.
                 const renderFn = (this.getAttribute('template-returns-html') === null ? 'render' : '');
                 if (!renderFn) {

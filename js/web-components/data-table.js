@@ -58,7 +58,7 @@ class DataTable extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ['col-link-template', 'col-link-fields', 'columns', 'labels', 'table-attr', 'highlight-class'];
+        return ['col-link-template', 'col-link-fields', 'col-class', 'columns', 'labels', 'table-attr', 'highlight-class'];
     }
 
     attributeChangedCallback(attr, oldVal /* , newVal */) {
@@ -68,6 +68,7 @@ class DataTable extends HTMLElement {
         switch (attr) {
             case 'col-link-template':
             case 'col-link-fields':
+            case 'col-class':
             case 'columns':
             case 'labels':
             case 'table-attr':
@@ -201,10 +202,38 @@ class DataTable extends HTMLElement {
                 }
             }
         }
+        const colClass = this.getAttribute('col-class');
         const html = [];
         html.push(`${tableHtml}><thead><tr>`);
-        for (const label of labels) {
-            html.push(render`<th>${label}</th>`);
+        if (colClass) {
+            const classList = colClass.split(',').map(s => s.trim());
+            const classIndex = {};
+            for (const item of classList) {
+                const pos = item.indexOf('=');
+                if (pos > 0) {
+                    const col = item.substr(0, pos);
+                    const className = item.substr(pos+1);
+                    classIndex[col] = className;
+                }
+            }
+            for (let n = 0, m = labels.length; n < m; n++) {
+                const label = labels[n];
+                let className;
+                if (classIndex[n.toString()] !== undefined) {
+                    className = classIndex[n.toString()];
+                } else if (classIndex[label] !== undefined) {
+                    className = classIndex[label];
+                }
+                if (className) {
+                    html.push(render`<th class="${className}">${label}</th>`);
+                } else {
+                    html.push(render`<th>${label}</th>`);
+                }
+            }
+        } else {
+            for (const label of labels) {
+                html.push(render`<th>${label}</th>`);
+            }
         }
         html.push('</tr></thead>');
 
@@ -214,7 +243,7 @@ class DataTable extends HTMLElement {
             // Render each item in the template. A new function is dynamically created that simply
             // renders the contents of the template as a JavaScript template literal (template string).
             // The Tagged Template Literal function `render()` from [utils.js] is used to safely escape
-            // the variables for HTML encoding. The variable `index` is made availble to the template
+            // the variables for HTML encoding. The variable `index` is made available to the template
             // and it can be safely overwritten by the list item due to variable scoping during rendering.
             try {
                 const tmpl = new Function('item', 'index', 'render', 'format', 'with(item){return render`' + template.innerHTML + '`}');

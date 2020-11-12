@@ -88,23 +88,10 @@ TODO List
                 - Likely create a new function in [utils.js] `compileJsTemplate()` that will be shared and allow
                     for caching of the template functions similar to the new framework file: [dataformsjs\js\extensions\jsTemplate.js]
                 - Also make any related updates needed in the new <data-view>
+                - This issue is avoided when using <script type="text/x-template"> so add comments in docs on it (or code comments at least)
         - Review all comments in [js/web-components/polyfill.js] and handle all issues.
             The file is mostly complete and properly working but still in active development.
         - New demo page to test all features of the new [utils-format.js] file
-        - Consider adding multiple optional template options to <data-table>
-            - If only <template> then use for row items (current)
-            - Also support:
-                <template data-header>
-                    - In the places demo this can be use to right align text on number columns in the header
-                <template data-item>
-                <template data-footer>
-            - How to do this using the built-in <slot>? See if it makes sense using <slot>
-            * Instead of this (most likely for now) another option can be to use a new attribute:
-                col-class="{index|name}={class-names}, {index|name}={class-names}"
-                col-class="0=align-right, 2=align-right col-class"
-                col-class="Size (KM)=align-right, Population=align-right"
-              Likely start with this version as it adds the smallest amount of code and works
-              well with the existing demos.
         - At a minimum the new script Polyfill scripts needs to handle IE 11, older Safari (example iOS 9), UC Browser.
             iOS 9 support because older devices such as iPad 2 can't upgrade past it and iPhone 6
             phones that are not upgraded still use it.
