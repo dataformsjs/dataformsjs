@@ -10,15 +10,15 @@
         <title>Vue 3 JSX Testing</title>
         <style>
             * { margin:0; padding:0; }
-            
+
             html {
                 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
             }
-            
+
             body {
                 background-color: #efefef;
             }
-            
+
             p { margin:1em auto; }
 
             body,
@@ -27,7 +27,7 @@
                 flex-direction: column;
                 align-items: center;
             }
-            
+
             section {
                 box-shadow: 0 1px 5px 0 rgba(0,0,0,.5);
                 padding: 30px 60px;
@@ -35,9 +35,9 @@
                 border-radius: 20px;
                 background-color: white;
             }
-            
+
             button { padding:.5em 1em; margin-bottom:1em; }
-            
+
             .error {
                 padding: 1em;
                 color: white;
@@ -60,7 +60,7 @@
                     <Vue.Fragment>
                         <h1>Hello World from Page Load!</h1>
                         <p>This page contains Vue 3 Demos built using JSX</p>
-                        <p><a href="https://github.com/vuejs/jsx/issues/141" target="_blank">Vue 3 JSX Design</a></p>                        
+                        <p><a href="https://github.com/vuejs/jsx/issues/141" target="_blank">Vue 3 JSX Design</a></p>
                     </Vue.Fragment>
                 )
             }
@@ -70,11 +70,11 @@
                 document.getElementById('root')
             );
         </script>
-        
+
         <!--
             Additional scripts use [type="text/x-template"]
             so they get loaded from code on this page.
-            
+
             However VS Code and other editors will likely not
             highlight these scripts as JSX.
         -->
@@ -87,7 +87,7 @@
                 }
             </script>
         </section>
-        
+
         <section class="container example-code">
             <button>Click Button 2</button>
             <div class="target"></div>
@@ -97,7 +97,7 @@
                 }
             </script>
         </section>
-        
+
         <section class="container example-code">
             <button>Compile Error</button>
             <div class="target"></div>
@@ -111,7 +111,7 @@
                 }
             </script>
         </section>
-        
+
         <section class="container example-code">
             <button>Runtime Error</button>
             <div class="target"></div>
@@ -138,7 +138,7 @@
 
         <!-- DataFormsJS jsxLoader -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/jsxLoader.min.js"></script>
-        
+
         <!--
             Warning for IE 11 and Old Mobile Devices because the tested build of Vue 3.0.0
             does not support them, this may or may not change in the future.
@@ -148,12 +148,12 @@
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/old-browser-warning.min.js"></script>
         -->
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/old-browser-warning.min.js"></script>
-        
+
         <script>
             // Set this to `true` from DevTools to see basic
             // transformed JS code for this page in the console.
             window.showCode = false;
-            
+
             // Set these to `true` to view compiler details.
             //
             // Full Documentation at:
@@ -166,10 +166,10 @@
             // *) Tokens generated from Lexical Analysis
             // *) Abstract Syntax Tree (AST) generated from the Tokens
             // *) Generated Code from the AST (Only on scripts that load from initial page load)
-            
+
             (function() {
                 'use strict';
-                
+
                 function setupCodeSection(section) {
                     var button = section.querySelector('button');
                     var target = section.querySelector('.target');
@@ -177,40 +177,40 @@
                     if (button === null || target === null || template === null) {
                         return;
                     }
-                    
+
                     button.onclick = function() {
                         if (target.id === '') {
                             target.id = 'target-' + new Date().getTime();
                         }
-                        
+
                         // By default `React.createElement` is used.
                         // Add a code hint so `Vue.h` is used instead.
                         // Additionally render the <App> object to the target element.
                         var jsx = template.innerHTML;
                         jsx = '// @jsx Vue.h\n' + jsx;
                         jsx += '\n Vue.render(<App />, document.getElementById("' + target.id + '"));';
-                        
+
                         // Hide previous error if any
                         target.classList.remove('error');
 
                         // Compile/Transform JSX to JS and evaulate
-                        try {                           
+                        try {
                             // Compile
                             var js = jsxLoader.compiler.compile(jsx);
                             if (window.showCode) {
                                 console.log('-'.repeat(80));
                                 console.log(js);
                             }
-                            
+
                             // Reset
                             target.innerHTML = '';
-                            
+
                             // Both `eval()` and `new Function()` work with
                             // most recent versions of Chrome and Firefox:
                             //
                             // eval(js);
                             new Function('"use strict";' + js)();
-                            
+
                             // Check for Runtime error. This can happen if using the
                             // production version of Vue. When using the Dev build of Vue
                             // the error will be raised instead.
@@ -227,7 +227,7 @@
                         }
                     }
                 }
-                
+
                 document.addEventListener('DOMContentLoaded', function() {
                     var sections = document.querySelectorAll('section.example-code');
                     Array.prototype.forEach.call(sections, function(section) {
