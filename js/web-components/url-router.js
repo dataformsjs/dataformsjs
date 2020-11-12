@@ -1,7 +1,7 @@
 /**
  * DataFormsJS <url-router> and <url-route> Web Components
  *
- * These component handles URL routing for Single Page Apps (SPA) without
+ * These components handle URL routing for Single Page Apps (SPA) without
  * having to use a large JavaScript framework.
  *
  * The default mode is URL #hash routing. To use HTML5 History Routing
