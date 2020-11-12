@@ -46,6 +46,7 @@
             colClass: null,
             colLinkTemplate: null,
             colLinkFields: null,
+            rowItemName: null,
         },
 
         /**
@@ -219,7 +220,7 @@
                         throw Error('Error - When using <data-table> with a template the script [js/extensions/jsTemplate.js] is required.');
                     }
                     // Render each item using the template
-                    var render = app.jsTemplate.compile(null, false, template.innerHTML);
+                    var render = app.jsTemplate.compile(this.rowItemName, false, template.innerHTML);
                     for (var index = 0, count = list.length; index < count; index++) {
                         item = list[index];
                         try {

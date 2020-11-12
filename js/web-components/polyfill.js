@@ -88,7 +88,7 @@
             updateElements.dataAttributes(element, ['template-selector', 'root-element', 'root-class', 'root-attr', 'error-class', 'template-returns-html', 'list-item-name']);
         },
         dataTable: function(element) {
-            updateElements.dataAttributes(element, ['highlight-class', 'labels', 'columns', 'table-attr', 'col-class', 'col-link-template', 'col-link-fields']);
+            updateElements.dataAttributes(element, ['highlight-class', 'labels', 'columns', 'table-attr', 'col-class', 'col-link-template', 'col-link-fields', 'row-item-name']);
         },
         dataView: function(element) {
             updateElements.dataAttributes(element, ['template-selector', 'template-returns-html']);

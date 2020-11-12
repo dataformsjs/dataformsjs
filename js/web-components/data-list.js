@@ -153,9 +153,9 @@ class DataList extends HTMLElement {
 
                 // By default content to render is escaped using the `render` Tagged Template Literal function.
                 // If not then then template is likely mixing more advanced JavaScript with HTML so replace
-                // certain HTML escape characters.
+                // certain HTML escape characters if using a <template> instead of a <script>.
                 const renderFn = (this.getAttribute('template-returns-html') === null ? 'render' : '');
-                if (!renderFn) {
+                if (!renderFn && template.nodeName === 'TEMPLATE') {
                     tmplHtml = tmplHtml.replace(/&amp;/g, '&').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
                 }
 

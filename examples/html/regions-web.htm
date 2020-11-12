@@ -8,7 +8,7 @@
     The variable ":country" is bound from <url-route path="/:lang/regions/:country">
     Because <json-data> includes [url-params] all parameters from the path
     will be passed to <json-data> triggering the JSON service to run.
-    
+
     [load-only-once] allows for the JSON data to be cached in memory.
 -->
 <json-data url="{rootApiUrl}/regions/:country" url-params load-only-once>
@@ -31,25 +31,30 @@
 
                 Another commented version below uses [col-link-template] and [columns]
                 to specify which data to show and the link.
+
+                [row-item-name] is option and can be used to name the row object
+                for the template. When not included all fields are available at the
+                root template scope (used in other demos for this app).
             -->
             <data-table
                 data-bind="regions"
                 highlight-class="highlight"
                 labels="Code, Name, Population, Timezone, Date Last Modified"
                 data-i18n-attr="labels"
+                row-item-name="country"
                 table-attr="is=sortable-table,
                     data-sort-class-odd=row-odd,
                     data-sort-class-even=row-even">
                 <script type="text/x-template">
                     <tr>
-                        <td><a href="#/${i18n_Locale}/cities/${country_code}/${admin1_code}">${admin1_code}</a></td>
+                        <td><a href="#/${i18n_Locale}/cities/${country.country_code}/${country.admin1_code}">${country.admin1_code}</a></td>
                         <td>
-                            <i class="${country_code.toLowerCase()} flag"></i>
+                            <i class="${country.country_code.toLowerCase()} flag"></i>
                             ${name}
                         </td>
-                        <td class="align-right" data-value="${population}">${format.number(population)}</td>
-                        <td>${timezone}</td>
-                        <td class="align-right">${format.date(modification_date)}</td>
+                        <td class="align-right" data-value="${country.population}">${format.number(country.population)}</td>
+                        <td>${country.timezone}</td>
+                        <td class="align-right">${format.date(country.modification_date)}</td>
                     </tr>
                 </script>
             </data-table>

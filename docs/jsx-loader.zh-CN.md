@@ -116,6 +116,9 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
 * https://www.dataformsjs.com/examples/hello-world/zh-CN/preact.htm
 * https://www.dataformsjs.com/examples/countries-no-spa-preact.htm
 
+### Vue 3 <img src="https://www.dataformsjs.com/img/logos/vue.svg" width="32" height="32">
+* https://www.dataformsjs.com/examples/hello-world/en/vue3-with-jsx.htm
+
 ### Rax <img src="https://www.dataformsjs.com/img/logos/rax.png" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/zh-CN/rax.htm
 

@@ -94,7 +94,7 @@ class DataView extends HTMLElement {
         // Get Template Contents
         let tmplHtml = template.innerHTML;
         const renderFn = (this.getAttribute('template-returns-html') === null ? 'render' : '');
-        if (!renderFn) {
+        if (!renderFn && template.nodeName === 'TEMPLATE') {
             tmplHtml = tmplHtml.replace(/&amp;/g, '&').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
         }
 

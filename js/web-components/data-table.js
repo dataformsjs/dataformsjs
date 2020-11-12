@@ -246,7 +246,15 @@ class DataTable extends HTMLElement {
             // the variables for HTML encoding. The variable `index` is made available to the template
             // and it can be safely overwritten by the list item due to variable scoping during rendering.
             try {
-                const tmpl = new Function('item', 'index', 'render', 'format', 'with(item){return render`' + template.innerHTML + '`}');
+                // By default variables for the list item are scoped using `with`. If [row-item-name]
+                // is used then the template can refer to each list item object by a variable name.
+                const rowItemName = this.getAttribute('row-item-name');
+                let tmpl;
+                if (rowItemName) {
+                    tmpl = new Function(rowItemName, 'index', 'render', 'format', 'return render`' + template.innerHTML + '`');
+                } else {
+                    tmpl = new Function('item', 'index', 'render', 'format', 'with(item){return render`' + template.innerHTML + '`}');
+                }
                 let index = 0;
                 const format = new Format();
                 for (const item of list) {

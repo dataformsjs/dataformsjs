@@ -6,8 +6,8 @@
  * It converts basic templates but will not handle advanced templates.
  *
  * This is not intended as a full featured templating engine rather
- * it's created for a specific purpose to be used with with DataFormsJS
- * Framework JS Controls <data-list> and <data-table>.
+ * it's created for a specific purpose to be used with DataFormsJS
+ * Framework JS Controls <data-list>, <data-table>, and <data-view>.
  *
  * Example Usage:
  *     var returnsHtml = false;

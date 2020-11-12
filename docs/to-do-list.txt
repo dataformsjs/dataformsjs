@@ -76,43 +76,7 @@ TODO List
                 would add one (assuming that it's running from a legacy browser). This would allow for a page
                 to have some content work from old browsers and provide a simple warning for specific content
                 that does not have a polyfill.
-        - <data-table>
-            - New Attributes [template-returns-html] and [list-item-name] used in <data-list> need to be included
-        - <data-list> should also support both <template> and <script type="text/x-template">
-            - This is for better IE 11 support, with the current demos it's not needed but one should be created
-            - Search for `const tmplHtml = template.innerHTML`
-                - For now the `replace` calls are only used when using [template-returns-html]
-                    tmplHtml.replace(/&amp;/g, '&').replace(/&gt;/g, '>').replace(/&lt;/g, '<');
-                - Additionally other characters are likely needed and more research to see how different browsers handle this.
-                - <data-table> needs the `replace` calls
-                - Likely create a new function in [utils.js] `compileJsTemplate()` that will be shared and allow
-                    for caching of the template functions similar to the new framework file: [dataformsjs\js\extensions\jsTemplate.js]
-                - Also make any related updates needed in the new <data-view>
-                - This issue is avoided when using <script type="text/x-template"> so add comments in docs on it (or code comments at least)
-        - Review all comments in [js/web-components/polyfill.js] and handle all issues.
-            The file is mostly complete and properly working but still in active development.
         - New demo page to test all features of the new [utils-format.js] file
-        - At a minimum the new script Polyfill scripts needs to handle IE 11, older Safari (example iOS 9), UC Browser.
-            iOS 9 support because older devices such as iPad 2 can't upgrade past it and iPhone 6
-            phones that are not upgraded still use it.
-        - Add [template-selector] to <data-table> similar to <data-list> and vice-versa add ability
-            to specify <template> inside of <data-list>
-        - Related to current updates [dataformsjs\examples\html\cities-web.htm] now shows
-            both Meters and Feet using `formatElevation(elevation)`. The other demos currently
-            display meters only but should also be updated to display both.
-        - Provide examples of how [polyfill.js].[getRootUrl()] works for documentation.
-            - Or add a markdown doc for it
-            - Here is an example of an defining a custom URL from the app:
-                <script>
-                    window.dataformsjsUrl = 'http://127.0.0.1:8080/js/';
-                    window.dataformsjsMinFiles = false; // Optional (defaults to `true`)
-                </script>
-                <script nomodule src="../js/web-components/polyfill.js"></script>
-            - By default the path will be determined from where [/web-components/polyfill.js] is defined:
-                <script src="../js/web-components/polyfill.min.js"></script>
-                    [*.min.js] Framework files will be downloaded
-                <script src="../js/web-components/polyfill.js"></script>
-                    Full [*.js] Framework files will be downloaded
         - On the templates (and probably all examples) add the HTML [crossorigin] attribute
             so good errors can show in `window.onerror` from DataFormsJS. Need to test and confirm.
             https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script
@@ -154,13 +118,33 @@ TODO List
         - Test using local build with webpack
             https://webpack.js.org/
             - If needed after release create a demo repository showing how to use DataFormsJS with webpack
-        - Handle and remove all `NOTE` comments in [polyfill.js] before npm publishing
         - For the `npm start` on the main repository update the default page to use <data-list>
             with a simple filter to list the examples.
+        - Handle and remove all `NOTE` comments in [polyfill.js] before npm publishing
+        - At a minimum the new script Polyfill scripts needs to handle IE 11, older Safari (example iOS 9), UC Browser.
+            iOS 9 support because older devices such as iPad 2 can't upgrade past it and iPhone 6
+            phones that are not upgraded still use it. Currently all of these browsers are confirmed to work.
         - Before release update docs and example code that use <url-hash-router> to use <url-router> with the new CDN link
             Also update markdown docs to use [load-only-once] instead of [load-only-once="true"]
-        - After new release publish here:
-            https://www.webcomponents.org/publish-collection
+
+**) After next release create a markdown overview doc using Web Components
+    - After new release publish here:
+        https://www.webcomponents.org/publish-collection
+    - Will cover overview and details - similar to the JSX Loader doc: 
+        https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
+    - Provide examples of how [polyfill.js].[getRootUrl()] works for documentation.
+        - Or add a markdown doc for it
+        - Here is an example of an defining a custom URL from the app:
+            <script>
+                window.dataformsjsUrl = 'http://127.0.0.1:8080/js/';
+                window.dataformsjsMinFiles = false; // Optional (defaults to `true`)
+            </script>
+            <script nomodule src="../js/web-components/polyfill.js"></script>
+        - By default the path will be determined from where [/web-components/polyfill.js] is defined:
+            <script src="../js/web-components/polyfill.min.js"></script>
+                [*.min.js] Framework files will be downloaded
+            <script src="../js/web-components/polyfill.js"></script>
+                Full [*.js] Framework files will be downloaded
 
 **) Playground Site
     - Need to add support for JSON file/resource type
