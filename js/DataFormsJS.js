@@ -342,7 +342,7 @@
      * @param {string} engineType
      * @param {bool} isError
      * @param {string} sourceCode
-     * @return {function} Compiled Template
+     * @return {object} Compiled Template
      */
     function addTemplate(script, templateId, templateUrl, engineType, isError, sourceCode) {
         var fn = null,

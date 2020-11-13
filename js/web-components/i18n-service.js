@@ -22,7 +22,7 @@
  *     data-i18n-replace-text
  *     data-i18n-nav-lang
  *     data-i18n-nav-selected
- * 
+ *
  * The following global API will be available as well and can be
  * used with templating or by app custom logic.
  *     window.i18n_Locale = 'en|fr|es|zh-CN'; // Selected language, updated on each page change
@@ -118,7 +118,7 @@ class I18nService extends WebComponentService {
      * Update HTML Elements on the page whenever the document is first loaded,
      * the route changes, or JSON Data downloads.
      */
-    load() {
+    onLoad() {
         // Exit if still running from the last load. This service always
         // updates all elements at the root document level but can be called
         // multiple times per page load from <url-router>, <json-data>, etc.
@@ -291,8 +291,6 @@ class I18nService extends WebComponentService {
         // to not be used by most pages on a site.
         elements = document.querySelectorAll('[data-i18n-replace-text]');
         for (const element of elements) {
-            // TODO - this needs to be tested with a web component version of the main site.
-            //  A basic version of it is being recreated and may or may not be published.
             let html = element.innerHTML;
             for (const key in this.langText) {
                 if (this.langText.hasOwnProperty(key)) {

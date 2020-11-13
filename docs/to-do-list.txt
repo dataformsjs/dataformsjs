@@ -45,11 +45,10 @@ TODO List
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/sortable-table.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
-        - Finish creating <i18n-service>, see other related comments in this file
-            - Search for `TODO` comments in source, all are currently related to this
-            - Development of this Component is almost complete
-        - Web Components currently do not handle [data-template-url] and [data-template-id]
-            - Should this be handled by a new Service Component or by <url-router>?
+        - <html-import-service> is now working, additional development:
+            - This is almost ready but going through additional testing using a web component version of the main web site
+            - Should the polyfill attach functions to the main element that call related `app.refreshAllHtmlControls()`, etc?
+                This would allow the same code for modern and legacy browsers without checking to see what mode the app is in.
             - Affected Demo Pages:
                 dataformsjs\examples\html\image-info-web.htm
                 dataformsjs\examples\html\places-info-web.htm
@@ -57,17 +56,6 @@ TODO List
                 http://127.0.0.1:8080/places-demo-web#/en/info
                 http://127.0.0.1:8080/image-classification-web#/en/info
                 http://localhost:3000/en/
-            - First try creating this as <html-import-service>
-        - dataformsjs\js\web-components\WebComponentService.js
-            - Should events be renamed?:
-                load(rootElement) => onLoad(rootElement)
-                endService()      => onEnd()
-            - Instead of triggering `load()` from both 'app:routeChanged' and 'app:contentReady'
-                should a new `onContentReady(rootElement)` be used instead and then `onLoad()` could pass
-                zero parameters or [document | <url-route>.
-                Need to test if this makes sense over currently structure.
-            - Possible that `endSerivce|onEnd` will never be need as well as new `onContentReady`
-        - Add new <show-errors-service> that would be based on Framework <html data-show-errors>?
         - Playground Site
             - Calculator Page needs to be created for Web Component Version (if time permits a React version as well)
         - For [polyfill.js] should a new attribute be added that shows an error for specific
@@ -97,6 +85,9 @@ TODO List
                     and Web Components by using logic to assign new functions to the window scope
                     for routing changes.
                 - search this file for "main site" for more on need updates such as [role="tab"]
+                - Likely add [role="button"] on home page and other pages here and the live site, current dev links:
+                    https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/button_role
+                    https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Tab_Role
         - Test mixing Framework and Web Components, likely provide an error alert from Web Components if that
             happens. Currently the intention is to use one or the other.
         - Before release look for all files with: <script src="../js/  and point them to the AWS S3 site for testing
@@ -118,8 +109,6 @@ TODO List
         - Test using local build with webpack
             https://webpack.js.org/
             - If needed after release create a demo repository showing how to use DataFormsJS with webpack
-        - For the `npm start` on the main repository update the default page to use <data-list>
-            with a simple filter to list the examples.
         - Handle and remove all `NOTE` comments in [polyfill.js] before npm publishing
         - At a minimum the new script Polyfill scripts needs to handle IE 11, older Safari (example iOS 9), UC Browser.
             iOS 9 support because older devices such as iPad 2 can't upgrade past it and iPhone 6
@@ -132,6 +121,13 @@ TODO List
         https://www.webcomponents.org/publish-collection
     - Will cover overview and details - similar to the JSX Loader doc: 
         https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
+    - Topics to cover:
+        - SPA Routing
+        - Using to download JSON Data and bind to other elements on screen
+        - How data binding works
+        - Web Component "Services" Concept
+            Need to add template for this in quick ref section on main site
+        - How the polyfill works and reason it was created over other options
     - Provide examples of how [polyfill.js].[getRootUrl()] works for documentation.
         - Or add a markdown doc for it
         - Here is an example of an defining a custom URL from the app:

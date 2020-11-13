@@ -10,6 +10,8 @@
     <body>
         <div id="view" class="pt10"></div>
 
+        <show-errors-service></show-errors-service>
+
         <url-router view-selector="#view">
             <url-route path="/" redirect="/10"></url-route>
             <url-route path="/:count">
@@ -26,14 +28,14 @@
                                 <h2></h2>
                                 <button data-filter-clear-all>Clear Filter</button>
                             </div>
-                
+
                             <nav>
                                 <a href="#/10">10 Records</a>
                                 <a href="#/100">100 Records</a>
                                 <a href="#/200">200 Records</a>
                                 <a href="#/error">Error Example</a>
                             </nav>
-                
+
                             <div>
                                 <input type="text" class="large form-control medium-margin-right"
                                     data-filter-selector="table"
@@ -43,11 +45,11 @@
                                     data-filter-class-odd="row-odd"
                                     data-filter-class-even="row-even"
                                     placeholder="Enter Filter">
-                
+
                                 <button type="button" data-export-csv-selector="table" data-export-file-name="Log-Report.csv">Export to CSV</button>
                             </div>
-                
-                            <div class="highlighter" style="display:none;">                                
+
+                            <div class="highlighter" style="display:none;">
                                 <ul>
                                     <li class="info">Click or Tap to Filter</li>
                                     <li class="log-error"
@@ -87,6 +89,7 @@
         <script type="module" src="../js/web-components/url-router.js"></script>
         <script type="module" src="../js/web-components/json-data.js"></script>
         <script type="module" src="../js/web-components/data-table.js"></script>
+        <script type="module" src="../js/web-components/show-errors-service.js"></script>
         <script nomodule src="../js/web-components/polyfill.js"></script>
 
         <!-- <script src="../js/web-components/polyfill.js"></script> -->

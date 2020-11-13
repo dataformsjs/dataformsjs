@@ -171,7 +171,7 @@
             });
 
             // App Event
-            // When using Web Components this happens on either <url-router> and bubbles
+            // When using Web Components this happens on the <url-router> and bubbles
             // up to the document. For the polyfill the specific router element
             // doesn't matter so the event is dispatched on the document.
             dispatchEvent(document, 'app:routeChanged', {
@@ -630,6 +630,12 @@
                     document.documentElement.setAttribute(attr.plugin, value);
                 }
             });
+        }
+
+        // Handle global script errors if the page uses <show-errors-service>.
+        // This only has to be set once and must be set before `app.setup()` is called.
+        if (document.querySelector('show-errors-service')) {
+            document.documentElement.setAttribute('data-show-errors', '');
         }
 
         // After all scripts have been loaded the setup the app

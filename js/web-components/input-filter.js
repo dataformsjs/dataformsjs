@@ -4,6 +4,9 @@
  * This component extends the standard <input> as an input filter when <input is="input-filter">
  * is used. This class is based on the standard framework plugin [DataFormsJS\js\Plugins\filter.js]
  * and is similar to the React class [DataFormsJS\js\React\InputFilter.jsx].
+ * 
+ * Example usage:
+ *     <input is="input-filter" filter-selector="ul li" filter-results-selector="h1" filter-results-text-all="{totalCount} Records" filter-results-text-filtered="Showing {displayCount} of {totalCount} Records" placeholder="Enter filter">
  */
 
 /* Validates with both [jshint] and [eslint] */

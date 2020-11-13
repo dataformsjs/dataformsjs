@@ -54,6 +54,8 @@ Overall the core Framework files and API are expected to remain stable however t
     * This will be used by all DataFormsJS Web Components that end with "service" in the component name.
   * Added new Web Component `<data-view>` and related Framework JavaScript Control for viewing data from `<json-data>` or other web components.
   * Added new Web Component `<keydown-action-service>`. Based on Framework Plugin `js/plugins/keydownAction.js`
+  * Added new Web Component `<html-import-service>`. Based on standard framework features for `[data-template-url]` and `[data-template-id]`.
+  * Added new Web Component `<show-errors-service>`. Based on standard framework features for `<html data-show-errors>`.
   * Added ability to style errors using CSS from `utils.js` when calling `showError(element, message)` or `showErrorAlert(message)`.
   * New functions in `utils.js`: `loadCss(id, css)`, `isAttachedToDom(element)`
   * Added `[X]` Close Button for `js/web-components/old-browser-warning.js` so that users can close the alert. With the new close button using `js/web-components/safari-nomodule.js` is no longer needed, however the file is stil being kept for reference and sites that want to customize and use it.

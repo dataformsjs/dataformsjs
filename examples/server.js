@@ -55,12 +55,36 @@ async function getFiles() {
 }
 
 app.get('/', async (req, res) => {
-    let html = '<h1>DataFormsJS Examples</h1><ul>';
+    const listItems = [];
     const files = await getFiles();
+    files.push('https://awesome-web-react.js.org/');
     files.forEach(file => {
-        html += `<li><a href="${file}">${file}</a></li>`;
+        listItems.push(`<li><a href="${file}">${file}</a></li>`);
     });
-    html += '</ul>';
+    const html = `
+        <!doctype html>
+        <html lang="en">
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <title>DataFormsJS Examples</title>
+                <style>
+                    body { display:flex; flex-direction:column; align-items:center; background-color:#fafafa; font-family:arial; }
+                    input { padding:.5em 1em; width:100%; max-width:400px; margin:1.5em; }
+                    ul { list-style-type:none; display:flex; flex-wrap:wrap; max-width:100%; }
+                    li { padding:.5em 1em;  margin:.5em; box-shadow:0 0 1px 1px rgba(0,0,0,.3); background-color:white; }
+                    a { text-decoration: none; }
+                </style>
+            </head>
+            <body>
+                <h1>DataFormsJS Examples</h1>
+                <input is="input-filter" filter-selector="ul li" filter-results-selector="h1" filter-results-text-all="Showing all {totalCount} DataFormsJS Examples" filter-results-text-filtered="Showing {displayCount} of {totalCount} DataFormsJS Examples" placeholder="Enter filter, example 'web', 'react', or 'vue'">
+                <ul>${listItems.join('')}</ul>
+            </body>
+            <script type="module" src="/js/web-components/input-filter.js"></script>
+            <script nomodule src="/js/web-components/polyfill.js"></script>
+        </html>
+    `;
     res.html(html);
 });
 

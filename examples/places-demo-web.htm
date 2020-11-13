@@ -27,9 +27,13 @@
             a "service" for elements on the page that contain related HTML attributes:
                 <i18n-service> = [data-i18n], [data-i18n-*]
                 <keydown-action-service> = [data-enter-key-click-selector]
+                <html-import-service> = [data-template-url], [data-template-id]
+                <show-errors-service> = Displays unhandled script errors in an alert
         -->
         <i18n-service file="countries" default-locale="en" locales="en,ja,es,pt-BR,ar,fr,zh-CN"></i18n-service>
         <keydown-action-service></keydown-action-service>
+        <html-import-service></html-import-service>
+        <show-errors-service></show-errors-service>
 
         <!--
             <json-data> Web Components will use these templates for loading or errors
@@ -173,17 +177,18 @@
             <url-route path="/:lang/regions/:country" src="html/regions-web.htm" onload="showMessage('Viewing Regions Page')"></url-route>
             <url-route path="/:lang/cities/:country/:region" src="html/cities-web.htm"></url-route>
             <url-route path="/:lang/city/:id" src="html/place-web.htm" lazy-load="leafletCss, leafletJs, leafletWeb, leafletPlugin, data_list"></url-route>
-            <url-route path="/:lang/info" src="html/places-info-web.htm"></url-route>
+            <url-route path="/:lang/info" src="html/places-info-web.htm" lazy-load="html_import_service"></url-route>
             <url-route path="/:lang/search" src="html/search-places-web.htm" lazy-load="data_list, keydownAction"></url-route>
         </url-router>
 
         <!-- DataFormsJS Web Components -->
-        <script type="module" src="../js/web-components/i18n-service.js"></script>
         <script type="module" src="../js/web-components/url-router.js"></script>
         <script type="module" src="../js/web-components/json-data.js"></script>
         <script type="module" src="../js/web-components/data-table.js"></script>
         <script type="module" src="../js/web-components/input-filter.js"></script>
         <script type="module" src="../js/web-components/sortable-table.js"></script>
+        <script type="module" src="../js/web-components/i18n-service.js"></script>
+        <script type="module" src="../js/web-components/show-errors-service.js"></script>
         <script nomodule src="../js/web-components/polyfill.js"></script>
 
         <!-- <script src="../js/web-components/polyfill.js"></script> -->
@@ -242,6 +247,7 @@
                 leafletPlugin: { nomodule: '../js/plugins/leaflet.js' },
                 data_list: { module: '../js/web-components/data-list.js' },
                 keydownAction: { module: '../js/web-components/keydown-action-service.js' },
+                html_import_service: { module: '../js/web-components/html-import-service.js' },
             };
         </script>
 
@@ -288,7 +294,7 @@
                     console.log(event.detail);
                 });
 
-                // Handle content ready from <json-data>
+                // Handle content ready from <json-data> and <html-import-service>
                 document.addEventListener('app:contentReady', function(event) {
                     log('app:contentReady', 'green');
                     console.log(event);

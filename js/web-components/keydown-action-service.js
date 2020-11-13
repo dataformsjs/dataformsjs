@@ -1,13 +1,9 @@
 /**
  * DataFormsJS <keydown-action-service> Web Component
  *
- * This "service" looks for elements with the attribute [data-enter-key-click-selector]
+ * This service looks for elements with the attribute [data-enter-key-click-selector]
  * and allows the [enter] key of the element to trigger a [click()] event on the element
  * specified in the selector.
- *
- * The term "service" is used here because all elements on the page with the
- * attribute will have an event assigned to them so rather than rendering content
- * this Web Component provides a "service" for other elements on the page.
  *
  * Common usage would be for Entry Forms where the {enter} key should perform a
  * default action. For example usage see the Places Demo Search Screen.
@@ -46,8 +42,8 @@ function enterToClick(e) {
  * Add <keydown-action-service> element to the page
  */
 window.customElements.define('keydown-action-service', class KeydownActionService extends WebComponentService {
-    load(rootElement) {
-        const elements = rootElement.querySelectorAll('[data-enter-key-click-selector]');
+    onLoad() {
+        const elements = document.querySelectorAll('[data-enter-key-click-selector]');
         for (const el of elements) {
             el.addEventListener('keydown', enterToClick);
         }

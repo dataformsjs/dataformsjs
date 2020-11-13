@@ -15,13 +15,15 @@
     </nav>
 
     <i18n-service file="image-classification" default-locale="en" locales="en,ja,es,pt-BR,ar,fr,zh-CN"></i18n-service>
+    <html-import-service></html-import-service>
+    <show-errors-service></show-errors-service>
 
     <div id="view"></div>
 
     <url-router view-selector="#view">
         <url-route path="/:lang/" src="html/image-home-web.htm" default-route lazy-load="imageClassification"></url-route>
         <url-route path="/:lang/categories" src="html/image-categories-web.htm" lazy-load="filter"></url-route>
-        <url-route path="/:lang/info" src="html/image-info-web.htm"></url-route>
+        <url-route path="/:lang/info" src="html/image-info-web.htm" lazy-load="html_import_service"></url-route>
     </url-router>
 
     <template id="loading-screen">
@@ -41,6 +43,7 @@
     <script type="module" src="../js/web-components/url-router.js"></script>
     <script type="module" src="../js/web-components/json-data.js"></script>
     <script type="module" src="../js/web-components/data-list.js"></script>
+    <script type="module" src="../js/web-components/show-errors-service.js"></script>
     <script nomodule src="../js/web-components/polyfill.js"></script>
 
     <!-- <script src="../js/web-components/polyfill.js"></script> -->
@@ -49,6 +52,7 @@
         window.lazyLoad = {
             imageClassification: './image-classification-web.js',
             filter: { module: '../js/web-components/input-filter.js' },
+            html_import_service: { module: '../js/web-components/html-import-service.js' },
         };
     </script>
 </body>

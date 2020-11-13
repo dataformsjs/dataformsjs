@@ -17,15 +17,19 @@
  *     // Import Class
  *     import { WebComponentService } from './WebComponentService.js';
  *
- *     // Create Custom Element extending this class.
- *     // The function `load()` is required while `endService()` is optional.
+ *     // Create Custom Element extending this class
  *     window.customElements.define('my-service', class MyService extends WebComponentService {
- *         load(rootElement) {
- *             console.log(`Called ${this.constructor.name}.load(${(rootElement === document ? 'document' : rootElement.tagName.toLowerCase())})`);
+ *         // The only function required is `onLoad()`
+ *         onLoad(element) {
+ *             console.log(`Called ${this.constructor.name}.onLoad(${(element === document ? 'document' : element.tagName.toLowerCase())})`);
+ *             console.log('Current URL Path: ' + document.querySelector('url-router').currentRoute.path);
  *         }
  *
- *         endService() {
- *             console.log(`Called ${this.constructor.name}.endService`);
+ *         // `onEnd()` is optional, however for typical usage `onEnd()` will never be called
+ *         // by the app is it would only get called on `disconnectedCallback()` and services
+ *         // that are defined at the root page level are only loaded once.
+ *         onEnd() {
+ *             console.log(`Called ${this.constructor.name}.onEnd`);
  *         }
  *     });
  */
@@ -57,26 +61,26 @@ export class WebComponentService extends HTMLElement {
     }
 
     connectedCallback() {
-        if (this.load === undefined) {
+        if (this.onLoad === undefined) {
             const name = (this.constructor.name === '' ? 'anonymous' : this.constructor.name);
-            showErrorAlert(`Error - Unable to use service. Element <${this.tagName.toLowerCase()}> class [${name}] is missing function [load()].`);
+            showErrorAlert(`Error - Unable to use service. Element <${this.tagName.toLowerCase()}> class [${name}] is missing function [onLoad()].`);
             return;
         }
         document.addEventListener('app:routeChanged', this.runService); // <url-router>
         document.addEventListener('app:contentReady', this.runService); // <json-data>
-        this.load(document);
+        this.onLoad(document);
     }
 
     disconnectedCallback() {
         document.removeEventListener('app:routeChanged', this.runService);
         document.removeEventListener('app:contentReady', this.runService);
-        if (typeof this.endService === 'function') {
-            this.endService();
+        if (typeof this.onEnd === 'function') {
+            this.onEnd();
         }
     }
 
     runService(e) {
-        const rootElement = (e.target.tagName === 'URL-ROUTER' ? document : e.target);
-        this.load(rootElement);
+        const element = (e.target.tagName === 'URL-ROUTER' ? e.target.currentRoute : e.target);
+        this.onLoad(element);
     }
 }
