@@ -69,10 +69,23 @@ app.get('/', async (req, res) => {
                 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <title>DataFormsJS Examples</title>
                 <style>
-                    body { display:flex; flex-direction:column; align-items:center; background-color:#fafafa; font-family:arial; }
+                    html { min-height:100vh; }
+                    body {
+                        display:flex;
+                        flex-direction:column;
+                        align-items:center;
+                        font-family:arial;
+                        background-image: linear-gradient(180deg, hsla(0, 0%, 100%, .6) 1%, hsla(0, 0%, 100%, .5) 30%,#fff), linear-gradient(25deg, #ffdbe7, #a9d9ff 32%,#f3eba6);
+                    }
                     input { padding:.5em 1em; width:100%; max-width:400px; margin:1.5em; }
                     ul { list-style-type:none; display:flex; flex-wrap:wrap; max-width:100%; }
-                    li { padding:.5em 1em;  margin:.5em; box-shadow:0 0 1px 1px rgba(0,0,0,.3); background-color:white; }
+                    li {
+                        padding:.5em 1em;
+                        margin:.5em;
+                        box-shadow:0 0 1px 1px rgba(0,0,0,.3);
+                        background-color:white;
+                        border-radius: 1em;
+                    }
                     a { text-decoration: none; }
                 </style>
             </head>

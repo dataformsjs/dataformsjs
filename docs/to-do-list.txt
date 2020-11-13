@@ -45,17 +45,14 @@ TODO List
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/sortable-table.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
-        - <html-import-service> is now working, additional development:
-            - This is almost ready but going through additional testing using a web component version of the main web site
-            - Should the polyfill attach functions to the main element that call related `app.refreshAllHtmlControls()`, etc?
-                This would allow the same code for modern and legacy browsers without checking to see what mode the app is in.
-            - Affected Demo Pages:
-                dataformsjs\examples\html\image-info-web.htm
-                dataformsjs\examples\html\places-info-web.htm
-                website\app\Views\index_web.htm
-                http://127.0.0.1:8080/places-demo-web#/en/info
-                http://127.0.0.1:8080/image-classification-web#/en/info
-                http://localhost:3000/en/
+        - <nav is="spa-links"> is broken on Safari desktop (13.1.2) because `get itemSelector()` does not run
+            from `SpaLinks.prototype.updateLinks.apply(el);`.
+            - Need to research and test more (likely affects UC Browser and Samsung Internet as well)
+            - Work around if needed will be to manually call [getAttribute] instead
+                of a getter. That would not be ideal as other web component code likely
+                is affected as well.
+            - To find all affected components search for `defineExtendsPolyfill` then see
+                if the class uses a getter.
         - Playground Site
             - Calculator Page needs to be created for Web Component Version (if time permits a React version as well)
         - For [polyfill.js] should a new attribute be added that shows an error for specific

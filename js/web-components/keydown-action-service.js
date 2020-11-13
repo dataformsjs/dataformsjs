@@ -18,7 +18,7 @@
 import { WebComponentService } from './WebComponentService.js';
 
 /**
- * Click Event that get's attached to [data-enter-key-click-selector] elements
+ * Click Event that gets attached to [data-enter-key-click-selector] elements
  *
  * @param {KeyboardEvent} e
  */

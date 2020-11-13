@@ -14,7 +14,7 @@
  *     <i18n-service file="_" file-dir="i18n" default-locale="en" locales="en,pt-BR,zh-CN"></i18n-service>
  *     <url-route data-i18n-file="{name}">
  *
- * Elements on the page wiht the following HTML Attributes will
+ * Elements on the page with the following HTML Attributes will
  * be updated by this Component:
  *     data-i18n
  *     data-i18n-attr
@@ -153,7 +153,7 @@ class I18nService extends WebComponentService {
         window.i18n_Locale = this.currentLocale;
 
         // If language is not matched then exit. This can happen when
-        // the page first loads while <url-router> is stil loading.
+        // the page first loads while <url-router> is still loading.
         if (this.currentLocale === null) {
             this._isRunning = false;
             return;
@@ -181,7 +181,7 @@ class I18nService extends WebComponentService {
             } else {
                 this.langText = this.langCache[url];
             }
-            this.updateElements();
+            this.updateContent(document);
             this._isRunning = false;
         });
     }
@@ -232,9 +232,9 @@ class I18nService extends WebComponentService {
         });
     }
 
-    updateElements() {
+    updateContent(rootElement) {
         // Set text content of all elements that have the [data-i18n] attribute
-        let elements = document.querySelectorAll('[data-i18n]');
+        let elements = rootElement.querySelectorAll('[data-i18n]');
         for (const element of elements) {
             const field = element.getAttribute('data-i18n');
             const value = (this.langText[field] === undefined ? '' : this.langText[field]);
@@ -242,7 +242,7 @@ class I18nService extends WebComponentService {
         }
 
         // Update attribute content of all elements that have [data-i18n-attr]
-        elements = document.querySelectorAll('[data-i18n-attr]');
+        elements = rootElement.querySelectorAll('[data-i18n-attr]');
         for (const element of elements) {
             const data = element.getAttribute('data-i18n-attr').split(',').map(function(s) { return s.trim(); });
             for (let x = 0, y = data.length; x < y; x++) {
@@ -257,7 +257,7 @@ class I18nService extends WebComponentService {
         // Update links that have the attribute [data-i18n-href]. This allows links
         // to be setup with valid HTML such as (<a href="#/en/">) and then updated
         // by the plugin as the user changes the language.
-        elements = document.querySelectorAll('a[data-i18n-href]');
+        elements = rootElement.querySelectorAll('a[data-i18n-href]');
         for (const element of elements) {
             const data = element.getAttribute('href').split('/');
             const href = element.getAttribute('href');
@@ -270,7 +270,7 @@ class I18nService extends WebComponentService {
 
         // Update links that have the attribute [data-i18n-locales] and replace
         // [href] text that contains '{locale}' with the current or default locale.
-        elements = document.querySelectorAll('a[data-i18n-locales]');
+        elements = rootElement.querySelectorAll('a[data-i18n-locales]');
         for (const element of elements) {
             const locales = element.getAttribute('data-i18n-locales').split(',').map(s => { return s.trim(); });
             let locale = this.currentLocale;
@@ -289,7 +289,7 @@ class I18nService extends WebComponentService {
         // This searches for all text in the format of "[[i18n {key}]]" and replaces
         // it with the key. This feature is helpful for specific pages but is likely
         // to not be used by most pages on a site.
-        elements = document.querySelectorAll('[data-i18n-replace-text]');
+        elements = rootElement.querySelectorAll('[data-i18n-replace-text]');
         for (const element of elements) {
             let html = element.innerHTML;
             for (const key in this.langText) {
@@ -309,7 +309,7 @@ class I18nService extends WebComponentService {
         // Update all Nav Links on the document (not just the root element)
         // that have [data-i18n-nav-lang] so they point the current page
         // using the language from the link.
-        elements = document.querySelectorAll('[data-i18n-nav-lang]');
+        elements = rootElement.querySelectorAll('[data-i18n-nav-lang]');
         if (elements.length > 0) {
             const handlePushStateClick = (this.hashRouting ? null : document.querySelector('url-router').handlePushStateClick);
             for (const element of elements) {
@@ -324,13 +324,13 @@ class I18nService extends WebComponentService {
         }
 
         // Update text for selected Lang on document Nav elements
-        elements = document.querySelectorAll('[data-i18n-nav-selected]');
+        elements = rootElement.querySelectorAll('[data-i18n-nav-selected]');
         for (const element of elements) {
             element.textContent = this.currentLocale;
         }
 
         // Is there a <nav is="spa-links"> Web Component to update?
-        elements = document.querySelectorAll('nav[is="spa-links"]');
+        elements = rootElement.querySelectorAll('nav[is="spa-links"]');
         for (const spaLinks of elements) {
             if (typeof spaLinks.updateLinks === 'function') {
                 spaLinks.updateLinks();

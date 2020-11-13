@@ -56,6 +56,7 @@ Overall the core Framework files and API are expected to remain stable however t
   * Added new Web Component `<keydown-action-service>`. Based on Framework Plugin `js/plugins/keydownAction.js`
   * Added new Web Component `<html-import-service>`. Based on standard framework features for `[data-template-url]` and `[data-template-id]`.
   * Added new Web Component `<show-errors-service>`. Based on standard framework features for `<html data-show-errors>`.
+  * Added new Web Component `<prism-service>`. Based on Framework Plugin `js/plugins/prism.js`
   * Added ability to style errors using CSS from `utils.js` when calling `showError(element, message)` or `showErrorAlert(message)`.
   * New functions in `utils.js`: `loadCss(id, css)`, `isAttachedToDom(element)`
   * Added `[X]` Close Button for `js/web-components/old-browser-warning.js` so that users can close the alert. With the new close button using `js/web-components/safari-nomodule.js` is no longer needed, however the file is stil being kept for reference and sites that want to customize and use it.

@@ -5,7 +5,7 @@
  * When scripts trigger an error it will result in them being displayed
  * in an alert at the top of the page. Each alert has a close button so the
  * user can close them, however it can help during development for users
- * who have the abilty to send print screens or for developers to view errors.
+ * who have the ability to send print screens or for developers to view errors.
  *
  * When using the DataFormsJS Framework this is handled by using: <html data-show-errors>
  *
@@ -46,22 +46,16 @@ function errorHandler(errorEvent) {
 }
 
 /**
- * This only needs to be defined once
- */
-// let errorHandlerWasSet = false;
-
-/**
  * Define the <show-errors-service> element
  */
 window.customElements.define('show-errors-service', class ShowErrorsService extends WebComponentService {
     onLoad() {
-        //if (!errorHandlerWasSet) {
-            window.addEventListener('error', errorHandler);
-        //    errorHandlerWasSet = true;
-        //}
+        // Note - this may get called many on SPA sites however because
+        // a named function is used over an anonymous function only 1
+        // event ever gets added.
+        window.addEventListener('error', errorHandler);
     }
     onEnd() {
         window.removeEventListener('error', errorHandler);
-        // errorHandlerWasSet = false;
     }
 });

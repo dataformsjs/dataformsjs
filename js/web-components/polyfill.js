@@ -244,6 +244,7 @@
             { selector: '[is="leaflet-map"]', plugin: 'leaflet', update: updateElements.leafletMap },
             { selector: 'image-gallery', plugin: 'imageGallery', update: updateElements.imageGallery },
             { selector: '[data-enter-key-click-selector]', plugin: 'keydownAction' },
+            { selector: 'prism-service', plugin: 'prism' },
         ];
         search.forEach(function(item) {
             var element = document.querySelector(item.selector);
@@ -508,10 +509,22 @@
                 }).join(', ');
             }
             var noLazyLoad = (Object.keys(settings.lazyLoad).length === 0);
-            if (noLazyLoad && settings.onload === null) {
-                settings = undefined;
-            } else if (noLazyLoad) {
+            if (noLazyLoad) {
                 delete settings.lazyLoad;
+            }
+            if (settings.onload === null) {
+                delete settings.onload;
+            }
+
+            // Additional supported settings
+            var i18nFile = route.getAttribute('data-i18n-file');
+            if (i18nFile) {
+                settings.i18nFile = i18nFile;
+            }
+
+            // Only keep settings if there is at least one prop
+            if (Object.keys(settings).length === 0) {
+                settings = undefined;
             }
 
             // Add Route as Framework Controller
@@ -601,7 +614,7 @@
         // however in general the files are small - "*.min.js" version of all files
         // is around 20 kb before gzipping. It's likely most sites using this will
         // use [json-data], [dataBind] and at least one of [data-list, data-table, data-view].
-        // Aditional scripts such as [js/plugins/filter.js] are downloaded later only if they
+        // Additional scripts such as [js/plugins/filter.js] are downloaded later only if they
         // are used by the app. All scripts here are downloaded asynchronously so it's very quick.
         var promises = [
             app.loadScripts(rootUrl + 'controls/data-list' + (useMinFiles ? '.min' : '') + '.js'),
@@ -630,12 +643,38 @@
                     document.documentElement.setAttribute(attr.plugin, value);
                 }
             });
+            // Add common API function so it can be called by app code
+            i18nService.updateContent = function(rootElement) {
+                app.plugins.i18n.onRendered(rootElement);
+            };
         }
 
         // Handle global script errors if the page uses <show-errors-service>.
         // This only has to be set once and must be set before `app.setup()` is called.
         if (document.querySelector('show-errors-service')) {
             document.documentElement.setAttribute('data-show-errors', '');
+        }
+
+        // Support API from <html-import-service> if it's defined on the page.
+        // Note - the original Framework functions support an optional `model`
+        // parameter however it's not included with Web Components so it doesn't
+        // need to be defined as the Framework will handle it automatically.
+        var importService = document.querySelector('html-import-service');
+        if (importService) {
+            importService.refreshAllHtmlControls = function (callback) {
+                app.refreshAllHtmlControls(callback);
+            };
+            importService.refreshHtmlControl = function(control, callback) {
+                app.refreshHtmlControl(control, callback);
+            };
+        }
+
+        // Add API for additional Web Components
+        var prismService = document.querySelector('prism-service');
+        if (prismService) {
+            prismService.onLoad = function(rootElement) {
+                app.plugins.prism.onRendered(rootElement);
+            };
         }
 
         // After all scripts have been loaded the setup the app
