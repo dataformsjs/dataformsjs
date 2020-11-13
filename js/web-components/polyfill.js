@@ -201,6 +201,12 @@
                 updateContent(document);
             }
         },
+        onRouteUnload: function() {
+            // Execute JavaScript from <url-route onunload="{js}">
+            if (typeof this.onunload === 'string') {
+                evalElementJs(this.onunload, 'url-route', 'onunload');
+            }
+        },
     };
 
     /**
@@ -496,10 +502,11 @@
                 viewId = template.id;
             }
 
-            // Map items from [lazy-load].
+            // Map items from [lazy-load] and JS events.
             var settings = {
                 lazyLoad: [],
                 onload: route.getAttribute('onload'),
+                onunload: route.getAttribute('onunload'),
             };
             var lazyLoad = route.getAttribute('lazy-load');
             if (lazyLoad !== null) {
@@ -509,17 +516,33 @@
                 }).join(', ');
             }
             var noLazyLoad = (Object.keys(settings.lazyLoad).length === 0);
-            if (noLazyLoad) {
-                delete settings.lazyLoad;
-            }
-            if (settings.onload === null) {
-                delete settings.onload;
-            }
+            if (noLazyLoad) { delete settings.lazyLoad; }
+            if (settings.onload === null) { delete settings.onload; }
+            if (settings.onunload === null) { delete settings.onunload; }
 
-            // Additional supported settings
-            var i18nFile = route.getAttribute('data-i18n-file');
-            if (i18nFile) {
-                settings.i18nFile = i18nFile;
+            // Convert core HTML 'data-*' attributes to a Controller Settings.
+            // Example:
+            //   'data-url' becomes 'settings.url'
+            //   'data-i18n-file' becomes 'settings.i18nFile'
+            var skipProps = ['route', 'page', 'model', 'src', 'engine'];
+            for (var prop in route.dataset) {
+                if (skipProps.indexOf(prop) === -1) {
+                    var value = route.dataset[prop];
+                    switch (value) {
+                        case 'true':
+                        case '': // Empty values default to `true`
+                            settings[prop] = true;
+                            break;
+                        case 'false':
+                            settings[prop] = false;
+                            break;
+                        case 'null':
+                            settings[prop] = null;
+                            break;
+                        default:
+                            settings[prop] = value;
+                    }
+                }
             }
 
             // Only keep settings if there is at least one prop

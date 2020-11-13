@@ -75,13 +75,11 @@ TODO List
                 https://github.com/ConradSollitt/website
             - If keeping then likely add more comments on the main site about how <data-list> is used
                 with basic JS templating instead of a full featured templating engine (Handlebars, Vue)
-            - Likely re-create the main site using a web component version. The php code can select
-                which version to return by selecting either [index.htm] or [index_web.htm].
-                - This will require a lot more work and may require additional web components
-                - Files such as Playground Page and Home Page code can be shared between Framework
-                    and Web Components by using logic to assign new functions to the window scope
-                    for routing changes.
-                - search this file for "main site" for more on need updates such as [role="tab"]
+            - Possibly add back all Handlebars versions using "-hbs.htm" naming
+            - Finish re-creating the main site using web components. The php code can select
+                which version to return by selecting either [index.htm] or [index-web.htm].
+                - See `TODO` comments in source, all are currently related to this development.
+                - Search this file for "main site" for more on need updates such as [role="tab"]
                 - Likely add [role="button"] on home page and other pages here and the live site, current dev links:
                     https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/button_role
                     https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Tab_Role

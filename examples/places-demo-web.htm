@@ -73,13 +73,14 @@
                 Routes can be embedded directly on the page as a <template> under <url-route>.
                 [default-route] is optional and can be used if the default path is something other than "/".
 
-                [onload] allows for custom JavaScript to be executed or functions
-                to be called whenever the matching route is viewed.
+                [onload] and [onunload] allows for custom JavaScript to be executed or functions
+                to be called whenever the matching route is loaded or unloaded.
             -->
             <url-route
                 path="/:lang/"
                 default-route
-                onload="showMessage('Viewing Countries Page')">
+                onload="showMessage('Viewing Countries Page')"
+                onunload="showMessage('Unloading Countries Page')">
                 <template>
                     <h1 data-i18n="Countries"></h1>
 

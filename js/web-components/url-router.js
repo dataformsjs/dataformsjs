@@ -80,6 +80,11 @@ class UrlRouter extends HTMLElement {
      * Called when the element is added to the page and when the URL route changes.
      */
     async updateView() {
+        // If there is a existing route then run code from [onunload] if defined
+        if (this.currentRoute) {
+            this.executeJsEvent('onunload');
+        }
+
         // Wait until child route elements are defined otherwise
         // custom properties such as [path] will not be available.
         this.currentRoute = null;
@@ -218,12 +223,19 @@ class UrlRouter extends HTMLElement {
         const hasRoute = (this.currentRoute !== null);
         const detail = { url: (hasRoute ? this.currentRoute.path : null), urlParams };
         this.dispatchEvent(new CustomEvent(appEvents.routeChanged, { bubbles: true, detail: detail }));
-
-        // Execute JavaScript from [onload] attribute if one is defined
         if (!hasRoute) {
             return;
         }
-        const js = this.currentRoute.getAttribute('onload');
+        // Execute JavaScript from [onload] attribute if one is defined
+        this.executeJsEvent('onload')
+    }
+
+    /**
+     * Used internally to run code from [onload] and [onunload] events
+     * @param {string} attribute
+     */
+    executeJsEvent(attribute) {
+        const js = this.currentRoute.getAttribute(attribute);
         if (js) {
             try {
                 const fn = new Function('return ' + js);
@@ -232,7 +244,7 @@ class UrlRouter extends HTMLElement {
                     result();
                 }
             } catch(e) {
-                showErrorAlert(`Error from function <url-route path="${this.currentRoute.getAttribute('path')}" onload="${js}">: ${e.message}`);
+                showErrorAlert(`Error from function <url-route path="${this.currentRoute.getAttribute('path')}" ${attribute}="${js}">: ${e.message}`);
                 console.error(e);
             }
         }
@@ -447,6 +459,7 @@ class UrlRouter extends HTMLElement {
             routeScripts.forEach((script) => {
                 if (window.lazyLoad === undefined || window.lazyLoad[script] === undefined) {
                     showErrorAlert('Missing [window.lazyLoad] scripts for: ' + script);
+                    return;
                 }
                 promises.push(this.loadScripts(window.lazyLoad[script]));
             });

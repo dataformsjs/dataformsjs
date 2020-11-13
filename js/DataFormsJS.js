@@ -3114,7 +3114,7 @@
                 }
 
                 // Convert core HTML 'data-*' attributes to a Controller Settings.
-                // Values will be either bool or strings. Example:
+                // Example:
                 //   'data-url' becomes 'settings.url'
                 //   'data-save-url' becomes 'settings.saveUrl'
                 var skipProps = ['route', 'page', 'model', 'src', 'engine'];
