@@ -392,7 +392,7 @@ export function polyfillCustomElements(rootElement = document) {
                 try {
                     polyfill.setup(element);
                 } catch (e) {
-                    console.error(e);
+                    showErrorAlert(e);
                     console.log(polyfill.element);
                     console.log(element);
                 }
@@ -412,6 +412,19 @@ export function polyfillCustomElements(rootElement = document) {
 export function defineExtendsPolyfill(element, extendsElement, setup) {
     window._webComponentPolyfills = window._webComponentPolyfills || [];
     window._webComponentPolyfills.push({ element, extendsElement, setup });
+    document.addEventListener('DOMContentLoaded', runPolyfill);
+}
+
+/**
+ * Internal function that gets called from `defineExtendsPolyfill()`. Because this
+ * is a named function it gets called only once if added to 'DOMContentLoaded'
+ * multiple times. In SPA sites that use <url-router> or pages that use <json-data>
+ * the needed function `polyfillCustomElements()` will get called, however if components
+ * such as <input is="input-filter"> are loaded on a plan page with no routing or data
+ * component they would never otherwise. This functions runs for those cases.
+ */
+function runPolyfill() {
+    polyfillCustomElements(document);
 }
 
 /**

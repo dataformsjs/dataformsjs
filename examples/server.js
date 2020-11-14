@@ -59,7 +59,8 @@ app.get('/', async (req, res) => {
     const files = await getFiles();
     files.push('https://awesome-web-react.js.org/');
     files.forEach(file => {
-        listItems.push(`<li><a href="${file}">${file}</a></li>`);
+        const label = (file.startsWith('https://') ? file : file.replace(/-/g, ' '));
+        listItems.push(`<li><a href="${file}">${label}</a></li>`);
     });
     const html = `
         <!doctype html>
@@ -69,16 +70,34 @@ app.get('/', async (req, res) => {
                 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <title>DataFormsJS Examples</title>
                 <style>
+                    * { padding:0; margin:0; }
                     html { min-height:100vh; }
                     body {
-                        display:flex;
-                        flex-direction:column;
-                        align-items:center;
-                        font-family:arial;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        font-family: arial;
                         background-image: linear-gradient(180deg, hsla(0, 0%, 100%, .6) 1%, hsla(0, 0%, 100%, .5) 30%,#fff), linear-gradient(25deg, #ffdbe7, #a9d9ff 32%,#f3eba6);
+                        padding: 40px;
                     }
-                    input { padding:.5em 1em; width:100%; max-width:400px; margin:1.5em; }
-                    ul { list-style-type:none; display:flex; flex-wrap:wrap; max-width:100%; }
+                    input {
+                        padding: 1em 1.5em;
+                        width: 100%;
+                        max-width: 400px;
+                        margin: 4em;
+                        box-shadow: 0 1px 2px rgba(0,0,0,.5);
+                        border-radius: 2em;
+                        border: none;
+                        -webkit-appearance: none;
+                        outline: none;
+                    }
+                    ul {
+                        list-style-type: none;
+                        display: flex;
+                        flex-wrap: wrap;
+                        max-width: 100%;
+                        justify-content: center;
+                    }
                     li {
                         padding:.5em 1em;
                         margin:.5em;
@@ -91,7 +110,7 @@ app.get('/', async (req, res) => {
             </head>
             <body>
                 <h1>DataFormsJS Examples</h1>
-                <input is="input-filter" filter-selector="ul li" filter-results-selector="h1" filter-results-text-all="Showing all {totalCount} DataFormsJS Examples" filter-results-text-filtered="Showing {displayCount} of {totalCount} DataFormsJS Examples" placeholder="Enter filter, example 'web', 'react', or 'vue'">
+                <input is="input-filter" filter-selector="ul li" filter-results-selector="h1" filter-results-text-all="Showing all {totalCount} DataFormsJS Examples" filter-results-text-filtered="Showing {displayCount} of {totalCount} DataFormsJS Examples" placeholder="Enter filter, example 'web', 'react', 'vue', or 'hbs'">
                 <ul>${listItems.join('')}</ul>
             </body>
             <script type="module" src="/js/web-components/input-filter.js"></script>

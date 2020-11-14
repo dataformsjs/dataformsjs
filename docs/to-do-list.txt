@@ -45,14 +45,6 @@ TODO List
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/sortable-table.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
-        - <nav is="spa-links"> is broken on Safari desktop (13.1.2) because `get itemSelector()` does not run
-            from `SpaLinks.prototype.updateLinks.apply(el);`.
-            - Need to research and test more (likely affects UC Browser and Samsung Internet as well)
-            - Work around if needed will be to manually call [getAttribute] instead
-                of a getter. That would not be ideal as other web component code likely
-                is affected as well.
-            - To find all affected components search for `defineExtendsPolyfill` then see
-                if the class uses a getter.
         - Playground Site
             - Calculator Page needs to be created for Web Component Version (if time permits a React version as well)
         - For [polyfill.js] should a new attribute be added that shows an error for specific
@@ -69,25 +61,16 @@ TODO List
             happens. Currently the intention is to use one or the other.
         - Before release look for all files with: <script src="../js/  and point them to the AWS S3 site for testing
             Then after release update and test all pages to use standard CDN
-        - Update and Test Playground Templates before Release, changes needed:
-            - Include Polyfill
-            - Remove old API
-            - Use <template> for <data-table>
-        - leaflet-map and related scripts currently use HTTP for the map images.
-            - Can they use HTTPS for free?
-            - Need to see latest options for leaflet.
         - Confirm main site updates, 3 versions of the main site exist, see code in:
                 website\app\app.php
             - Then search for: "index-web.htm"
-            - The live production site currently uses handlebars however it's likley the Web Component version
+            - The live production site currently uses handlebars however it's likely the Web Component version
                 will be used instead after release.
             - All 3 sites should be tested more with a variety of devices and browsers to make sure everything works properly
         - Create standard framework demo for Hacker News Demo:
             dataformsjs\examples\hacker-news-react.htm
             dataformsjs\examples\hacker-news-web.htm
             - This would use a custom page object and JavaScript rather than nested JSON controls
-        - Web Component Template from: https://www.dataformsjs.com/en/getting-started
-            Include <nav is="spa-links"> changes from: [examples/web-components-template.htm]
         - Test using some Web Components with React and Vue to see how they work with other frameworks
         - Test using local build with webpack
             https://webpack.js.org/
@@ -102,7 +85,7 @@ TODO List
 **) After next release create a markdown overview doc using Web Components
     - After new release publish here:
         https://www.webcomponents.org/publish-collection
-    - Will cover overview and details - similar to the JSX Loader doc: 
+    - Will cover overview and details - similar to the JSX Loader doc:
         https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
     - Topics to cover:
         - SPA Routing
@@ -164,8 +147,11 @@ TODO List
         could be added as well if they make sense.
     - This can could be developed and tested on the main site.
     - Ideally all related code would go in a new plugin and not the main [DataFormsJS.js] file
+    - An alternative option to consider is to update `refreshAllHtmlControls()` so it processes
+        multiple downloads on the screen async. If doing this it will still need to include the
+        recursive logic to handle all nested elements.
     - Also related on the main site some content is only downloaded and displayed when the user
-      clicks an example. This is not SEO friendly and can cause a dealy for users with slow mobile
+      clicks an example. This is not SEO friendly and can cause a delay for users with slow mobile
       devices. Ideally [role="tab"] would be used with content preloading.
       Currently all tabs on the main site point to the same tabpanel and content is replaced once the
       the user clicks the button.
@@ -232,7 +218,7 @@ TODO List
         http://127.0.0.1:5000/unit-testing-react
         http://127.0.0.1:5000/unit-testing-preact
     - It's possible that every line it tested but it's not yet known for sure
-    - Possible new functions to support JavaScript version by year for new Sytax, example:
+    - Possible new functions to support JavaScript version by year for new Syntax, example:
         jsxLoader.requireES2018 = function() {
             this.evalCode = '"use strict"; const { id, ...other } = { id:123, test:456 };';
         };
@@ -256,7 +242,6 @@ TODO List
       Seems like it may be an issue due to Rax and not the jsxLoader. See comments in the HTML file.
         http://127.0.0.1:8080/countries-no-spa-rax.htm
 
-
 *) Web Components Updates
     - Create a new Web Component for advanced drop-down/select lists?
         - Would use behavior and features from:
@@ -273,7 +258,8 @@ TODO List
             - Different Value/Label - for example Country Code [value] but Country Name for user list
             - Type to filter
             - Multiple select with tags
-            - aria-autocomplete="list" role="combobox" / Need to research more at time of development
+            - [role="listbox"] - example in: website/public/html/getting-started.htm
+            - or use [aria-autocomplete="list" role="combobox"] / Need to research more at time of development
         - Possible names:
             <data-select>
             <web-select>
@@ -289,12 +275,13 @@ TODO List
                 window.requestHeaders = {}
                 window.requestHeadersByHostName = {}
             And then the Framework [app.getRequestHeaders] and related code can be used as a starting point
+            If using this option it will be easy to work with the the framework when using [polyfill.js]
     - Create a new <form is="entry-form"> Component
         - A Framework JavaScript control could be created as the Polyfill. Ideally the new control
             would use functions from the main entryForm page object so it doesn't have to be duplicated.
         - Existing Framework Demo:
             https://www.dataformsjs.com/examples/entry-form-demo-vue.htm
-        - This may or may not ever be created. It's not a priorty until needed for an actual production site.
+        - This may or may not ever be created. It's not a priority until needed for an actual production site.
             Web Components (as of release 5.0.0) contain a new easy to use JavaScript API that allows for
             a site to be extended using only basic JavaScript functions so it's easy to build custom
             entry form apps.
@@ -436,7 +423,7 @@ TODO List
     - How to replicate embedded page links using hash URL:
         Normally <a href="#target"> would work to link to:
             <div id="target">
-        However because SPA hash routing is used App would redict to another page
+        However because SPA hash routing is used App would redirect to another page
         Example work-around:
             <a href="javascript:document.getElementById('target').scrollIntoView();window.scrollTo(0, window.pageYOffset-100);">
         In the future this could be make into a generic plugin. The [window.scrollTo()] is used above to handle
@@ -461,15 +448,6 @@ TODO List
         data2.a === data.a
         data.a.push(4)
         data2.a.indexOf(4)
-
-*) Home Page - Fix Main Computer Animation for IE 11 and Edge?
-    - Currently the animation only partially shows on IE and Edge.
-        IE and Edge support CSS animations with SVG elements well but it appears
-        that using JS events on certain types of SVG elements does not work.
-        A possible fix would be to check user agent and if IE or Edge then
-        use window.setTimeout() instead of transitionend - Might not be worth
-        it though because of low number of developers who use IE.
-            domEl.addEventListener('transitionend', transitionEnd);
 
 *) [Website\public\sitemap.xml]
     In the future this file will be generated as more languages are added.
@@ -506,12 +484,12 @@ TODO List
         however in general this plugin would likely be used as a template plugin anyways.
 
 *) todomvc Example
-    - Possibly publish it as a seperate Repository with notes on how to copy?
+    - Possibly publish it as a separate Repository with notes on how to copy?
     - Or keep core files with notes on how to install?
     - Future - run unit tests against it:
         https://github.com/tastejs/todomvc/tree/master/tests
 
-*) Add unit tests for momentjs with handlebars - or add to a seperate page?
+*) Add unit tests for momentjs with handlebars - or add to a separate page?
     - Originally it was included but has been removed from the initial release:
             <div id="moment-01">{{moment (now) "YYYY.MM.DD"}}</div>
             <div id="moment-02">{{moment dateTime "YYYY.MM.DD, h:mm:ss A"}}</div>
@@ -529,7 +507,7 @@ TODO List
 *) GraphQL
     - Add GraphQL support on [pages/entryForm.js]
     - Add support for other GraphQL types such as Float.
-        Currently only Strings and Ints are supported, see:
+        Currently only Strings and Integers are supported, see:
         https://graphql.org/graphql-js/basic-types/
         - Related Code:
             app.buildGraphQLVariables()
@@ -543,23 +521,6 @@ TODO List
       See how it can be done from:
         DataFormsJS\js\pages\jsonData.js
       When adding a demo page needs to be created to test
-
-*) Create pluings and examples for popular JS libraries
-    https://www.chartjs.org/
-    http://ckeditor.com/
-    https://www.tiny.cloud/
-    https://codemirror.net/
-    Many, many more
-
-*) Demo Pages
-    - Use a page to show summary data on charts, example
-        Pie Chart with Population by Continent
-    - Geonames Data Service that shows Country Names in User's local langauge
-
-*) Possible Updates for Vue
-    SPA is currently required for Vue
-    Example Non-SPA demo [DataFormsJS\examples\countries-no-spa-hbs.htm]
-    currently cannot be converted to Vue
 
 *) Create Unit Tests for the following functions:
     Controller.onRouteUnload
@@ -611,25 +572,25 @@ TODO List
     Event Order for manual calls to [refreshHtmlControl()] and [refreshAllHtmlControls()]
         and how they call [refreshPlugins()] and [loadAllJsControls()].
         This can probably be checked in test "Route Change and Event Order"
-        - Parmas should be tested for these functions as well
+        - Params should be tested for these functions as well
     addPlugin(name, function)
         Currently only [addPlugin(name, object)] is validated
     addPage() and addController()
         When creating Unit Tests for Vue these two functions should exclude the function [onBeforeRender]
         from validation in case a controller only defines that function. When using Vue [onBeforeRender()]
         is not called - low priority updated needed in [DataForms.js] for this
-    app.setttings.getRequestHeaders
+    app.settings.getRequestHeaders
         - Example:
             app.settings.requestHeaders = { "X-Test-Header": "Test123", "X-Test2": "ABC" };
             app.settings.requestHeadersByHostName = { localhost: { "X-Test-Header": "123456789" }};
             app.getRequestHeaders("http://localhost/test");
             app.getRequestHeaders("https://www.example.com/");
-    Test paramaters for all [apply(app.activeModel, app.activeParameters)] code
+    Test parameters for all [apply(app.activeModel, app.activeParameters)] code
     app.handleGlobalErrors()
     <templates> = [display:none] for IE but not other browsers
     plugin.onRouteLoad
-    Create a seperate page for testing features if no controllers are included on a page
-        verify that plungins run, etc
+    Create a separate page for testing features if no controllers are included on a page
+        verify that plugins run, etc
     data-set-text-content
     app.getTemplateType()
         Error under [(script.tagName !== 'TEMPLATE' && script.tagName !== 'SCRIPT')] is not tested
@@ -637,7 +598,6 @@ TODO List
         '.dataformsjs-error,.dataformsjs-fatal-error{',
             'white-space:pre;',
             'text-align:left;',
-
 
 *) Update for previous Unit Tests that changed when [app.lazyLoad] as added.
     - Before [app.lazyLoad] the pages had to be defined when controllers were added
@@ -652,7 +612,7 @@ TODO List
                 app.addController({ path: "Test", pageType: "MissingPage" });
                 assert.ok(false, "Test should have failed");
             } catch (e) {
-                assert.ok(e instanceof TypeError, "Execption should be a TypeError");
+                assert.ok(e instanceof TypeError, "Exception should be a TypeError");
                 assert.equal(e.message, expectedMessage, expectedMessage);
             }
 
@@ -668,7 +628,7 @@ TODO List
                 app.addController({ path: "Test", pageType: "InvalidPage" });
                 assert.ok(false, "Test should have failed");
             } catch (e) {
-                assert.ok(e instanceof TypeError, "Execption should be a TypeError");
+                assert.ok(e instanceof TypeError, "Exception should be a TypeError");
                 assert.equal(e.message, expectedMessage, expectedMessage);
             }
     - That validation is now handled in [function setControllerFromPage(controller)] with the following code
@@ -677,7 +637,7 @@ TODO List
 			} else if (typeof app.pages[controller.pageType].model !== 'object') {
 				error = 'Error - The [model] property for page object [' + controller.pageType + '] must be a valid JavaScript Object.';
 			}
-    - The new validaiton needs to be tested and will have to use hash routing to check the view after hash change for the errors
+    - The new validation needs to be tested and will have to use hash routing to check the view after hash change for the errors
 
 *) DataFormsJS Object
     *) app.addPage("name", callback)
@@ -701,27 +661,18 @@ TODO List
     *) Add support for radio input controls
     *) Add support for additional [data-type] values
     *) Keep [Save] button disabled if there are no changes
-        Try adding this first as a seperate plugin
+        Try adding this first as a separate plugin
     *) <input type="file"> likely to be handled with various plugin options and example server code
         see the image classification demo for now
     *) Add validation options to highlight invalid controls
     *) Possibly here or in [plugins/listEditor.js] add a [saveFormat] option with values such as
-        "all-records" or "changes-only". Variaous Server Side code examples need to go with it
-
-*) Control [json-data]
-    *) Nested templates are currently not supported, does it make sense to support?
-        See example in [examples\places-demo-hbs.htm]
+        "all-records" or "changes-only". Various Server Side code examples need to go with it
 
 *) Plugin [clickUrlAction]
     *) Add options for showing loading or indicator, etc or a or callback for user to handle
     *) If a new page is loaded before this service downloads then don't write back to active model
         To start a simple currentUrl <> previousUrl can be used
     *) Action "refresh-html-controls" should also support an optional [data-controls-selector]
-
-*) Control [data-table.js]
-    Add support for [col-link-template] and [col-link-fields] just like is used in the Web Components.
-    This may remove the need for a custom plugin used in [examples\places-demo-js.htm], however
-    the root [i18n_Locale] variable will have to be figured out how to add it.
 
 *) Extension validation
     *) Many more validations needed including all HTML standard attributes such as <input pattern>
@@ -733,7 +684,7 @@ TODO List
 
 *) Support Built-In Timers for both Controller and Controls?
     data-refresh-time-interval="1000"
-    Currently [refreshTimeInterval] is avaialble on the [json-data] Control
+    Currently [refreshTimeInterval] is available on the [json-data] Control
 *) Handlebars Helpers
     - Make sure all helpers are tested - examples of needed [nlbr, yesNo, yesNoNull]
     - More testing of different languages, etc

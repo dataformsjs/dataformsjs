@@ -1214,7 +1214,7 @@ var LeafletMap = function (_React$Component5) {
       }
 
       var map = L.map(this.div.current).setView([lat, long], zoom);
-      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a> contributors'
       }).addTo(map);
 

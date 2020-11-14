@@ -65,8 +65,8 @@ Overall the core Framework files and API are expected to remain stable however t
 * Added Node Support for `jsxLoader`
   * Previously `jsxLoader` only worked in a browser.
   * Now several API's are available for node `{ jsxLoader, transform(jsx, options) }`
-* Enhancments for DataFormsJS Framework files:
-  * Added `app.updateTemplatesForIE(rootElement)`. IE 11 considers `<template>` elements as valid elements so it applies `querySelector()` and related methods to elements under `<templates>`'s so replace with them `<script type="text/x-template">`. This avoid's issues of `<template>` elements that contain embedded content. Previously this was only handled once per page load but now is handled (for IE only) when views are rendered.
+* Enhancements for DataFormsJS Framework files:
+  * Added `app.updateTemplatesForIE(rootElement)`. IE 11 considers `<template>` elements as valid elements so it applies `querySelector()` and related methods to elements under `<templates>`'s so replace with them `<script type="text/x-template">`. This avoids issues of `<template>` elements that contain embedded content. Previously this was only handled once per page load but now is handled (for IE only) when views are rendered.
   * Added features in `js/plugins/dataBind.js` based on the Web Components version.
   * New file `js/extensions/format.js` which is used with the Web Components Polyfill
   * Updated `js/plugins/filter.js` so that it shows 0 count for empty tables. Previously it expected the table to have at least one `<tbody>` element. A similar update was made for `js/web-components/input-filter.js`
@@ -93,12 +93,17 @@ Overall the core Framework files and API are expected to remain stable however t
     * `.image-gallery-overlay div.no-title { justify-content: flex-start; }`
     * `.image-gallery-overlay div.no-title { justify-content: center; }`
 * Bug fix for `js/pages/entryForm.js` where the `saveUrl` did not allow for variables from the model if the URL of the page did not include any URL parameters.
+* All Leaflet code has been updated to download map images using `https` instead of `http`; originally when DataFormsJS was published `https` was not available as a free option for leaflet.
+  * Files updates:
+    * `<leaflet-map>` Web Component
+    * `LeafletMap` React Component and main `DataFormsJS.js` React file
+    * `leaflet` Framework plugin.
 
 ### Breaking Changes
 
-For the standard Framework most breaking changes are minor and only expected to affect internal API's and examples. Several Framework "JavaScript Controls" were updated to match behavior of the Web Components in order to provide more features and so they can be used with the new Web Components Polyfill. If you developed a site or app with any of the breaking changes they are quick to update.
+For the standard Framework most breaking changes are minor and only expected to affect internal API's and examples. Several Framework "JavaScript Controls" were updated to match behavior of the Web Components in order to provide more features and so they can be used with the new Web Components Polyfill. If you developed a site or app with any of the breaking changes they are quick to update and if you need help please open an issue.
 
-The Web Components have the most complex breaking changes related to API usage however due to the complexity of the earlier API it's unlikely to affect any site. If a site did use the ealier API it is generally quick to update as well.
+The Web Components have the most complex breaking changes related to API usage however due to the complexity of the earlier API it's unlikely to affect any site. If a site did use the earlier API it is generally quick to update as well.
 
 * Removed `<url-hash-router>`
   * This can now be replaced with `<url-router>`
@@ -146,7 +151,7 @@ The Web Components have the most complex breaking changes related to API usage h
   * Affects Web Components and React
   * `js/web-components/jsPlugins.js`
   * `js/react/jsPlugins.js`
-* Combined Framework Pluings `js/pugins/navList.js` and `js/pugins/navLinks.js`
+* Combined Framework Plugins `js/plugins/navList.js` and `js/plugins/navLinks.js`
   * All demos used `navLinks.js` and only the main site used `navList.js`
   * `navList.js` has been deleted but the functionality can now be handled by using `navLinks.js` and setting the following option from JavaScript: `app.plugins.navLinks.itemSelector = 'nav li';`
 
