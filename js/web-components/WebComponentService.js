@@ -20,6 +20,8 @@
  *     // Create Custom Element extending this class
  *     window.customElements.define('my-service', class MyService extends WebComponentService {
  *         // The only function required is `onLoad()`
+ *         // Code should run quickly and be able to handle multiple calls because it can be called
+ *         // multiple times on a page loaded depending what is used <url-router>, <json-data>, <html-import-service>, etc.
  *         onLoad(element) {
  *             console.log(`Called ${this.constructor.name}.onLoad(${(element === document ? 'document' : element.tagName.toLowerCase())})`);
  *             console.log('Current URL Path: ' + document.querySelector('url-router').currentRoute.path);
@@ -80,7 +82,7 @@ export class WebComponentService extends HTMLElement {
     }
 
     runService(e) {
-        const element = (e.target.tagName === 'URL-ROUTER' ? e.target.currentRoute : e.target);
+        const element = (e.target.tagName === 'URL-ROUTER' && e.target.currentRoute !== null ? e.target.currentRoute : e.target);
         this.onLoad(element);
     }
 }

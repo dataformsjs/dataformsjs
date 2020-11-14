@@ -65,24 +65,6 @@ TODO List
         - On the templates (and probably all examples) add the HTML [crossorigin] attribute
             so good errors can show in `window.onerror` from DataFormsJS. Need to test and confirm.
             https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script
-        - Because of the new features for <data-list> the main site https://www.dataformsjs.com/
-            is being updated to use only JavaScript and not Handlebars templating. More testing on
-            a variety of devices is needed (if it doesn't work as well rollback changes to
-            handlebars - most likely all changes will be kept as testing is good so far):
-            - Site Repository:
-                https://github.com/dataformsjs/website
-            - Backup copy before removing Handlebars
-                https://github.com/ConradSollitt/website
-            - If keeping then likely add more comments on the main site about how <data-list> is used
-                with basic JS templating instead of a full featured templating engine (Handlebars, Vue)
-            - Possibly add back all Handlebars versions using "-hbs.htm" naming
-            - Finish re-creating the main site using web components. The php code can select
-                which version to return by selecting either [index.htm] or [index-web.htm].
-                - See `TODO` comments in source, all are currently related to this development.
-                - Search this file for "main site" for more on need updates such as [role="tab"]
-                - Likely add [role="button"] on home page and other pages here and the live site, current dev links:
-                    https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/button_role
-                    https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Tab_Role
         - Test mixing Framework and Web Components, likely provide an error alert from Web Components if that
             happens. Currently the intention is to use one or the other.
         - Before release look for all files with: <script src="../js/  and point them to the AWS S3 site for testing
@@ -94,6 +76,12 @@ TODO List
         - leaflet-map and related scripts currently use HTTP for the map images.
             - Can they use HTTPS for free?
             - Need to see latest options for leaflet.
+        - Confirm main site updates, 3 versions of the main site exist, see code in:
+                website\app\app.php
+            - Then search for: "index-web.htm"
+            - The live production site currently uses handlebars however it's likley the Web Component version
+                will be used instead after release.
+            - All 3 sites should be tested more with a variety of devices and browsers to make sure everything works properly
         - Create standard framework demo for Hacker News Demo:
             dataformsjs\examples\hacker-news-react.htm
             dataformsjs\examples\hacker-news-web.htm
@@ -178,15 +166,15 @@ TODO List
     - Ideally all related code would go in a new plugin and not the main [DataFormsJS.js] file
     - Also related on the main site some content is only downloaded and displayed when the user
       clicks an example. This is not SEO friendly and can cause a dealy for users with slow mobile
-      devices. Ideally [role="tab"] would be used with content preloading
+      devices. Ideally [role="tab"] would be used with content preloading.
+      Currently all tabs on the main site point to the same tabpanel and content is replaced once the
+      the user clicks the button.
         https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Tab_Role
+        https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/ARIA:_tabpanel_role
     - Code for the home page is here:
+        https://github.com/dataformsjs/website/blob/master/public/html/home-page.htm
         https://github.com/dataformsjs/website/blob/master/public/js/page-home-page.js
         - See code related to `code.setAttribute('data-template-url', page);`
-    - Longer term once [role="tab"] changes have been made and if a I18N Web Component
-        can be created the main site could switch to DataFormsJS Web Components with
-        the Polyfill fallback. This would be a good test to add more practical features
-        to the Web Components.
 
 *) Markdown Docs to Create
     - Build Process

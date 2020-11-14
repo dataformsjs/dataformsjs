@@ -130,7 +130,7 @@
             var attributes = element.getAttribute(attribute).split(',').map(function(s) { return s.trim(); });
             attributes.forEach(function(attr) {
                 // Save bind template to an attribute, example:
-                // [data-bind-attr="href"] will save the inital value from [href]
+                // [data-bind-attr="href"] will save the initial value from [href]
                 // to [data-bind-attr-href]. This allows it to be re-used.
                 var value = element.getAttribute(attribute + '-' + attr);
                 if (value === null) {

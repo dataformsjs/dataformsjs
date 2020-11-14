@@ -9,13 +9,14 @@
  * @license  MIT
  */
 
-/* Validates with both [jshint] and [eslint] */
+/* Validates with both [eslint] and [jshint] */
 /* For online eslint - Source Type = 'module' must be manually selected. */
-/* jshint esversion:8 */
 /* eslint-env browser, es6 */
 /* eslint quotes: ["error", "single", { "avoidEscape": true }] */
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
+/* jshint esversion:8 */
+/* jshint evil:true */
 
 import { Format } from './utils-format.js';
 import {
@@ -103,7 +104,7 @@ function copyTemplateSelector(element) {
         if (template) {
             element.appendChild(template.content.cloneNode(true));
         } else {
-            showError(element, `Error - Could not find template from <${element.tagName.toLowerCase()} [template-selector="${templateSelector}"]>.`)
+            showError(element, `Error - Could not find template from <${element.tagName.toLowerCase()} [template-selector="${templateSelector}"]>.`);
         }
     }
 }
@@ -285,11 +286,11 @@ class JsonData extends HTMLElement {
         }
     }
 
-    fetch() {
+    async fetch() {
         const urlPath = this.url;
         let url = urlPath;
         if (url === null || url === '') {
-            this.showError('Error, element <json-data> is missing attribute [url]');
+            await this.showError('Error, element <json-data> is missing attribute [url]');
             this.dispatchContentReady();
             return;
         }
@@ -306,7 +307,7 @@ class JsonData extends HTMLElement {
         if (this.loadOnlyOnce) {
             const data = getDataFromCache(urlPath, urlParams);
             if (data !== null) {
-                this._setLoadedState(data);
+                await this._setLoadedState(data);
                 this.dispatchContentReady();
                 return;
             }
@@ -320,7 +321,7 @@ class JsonData extends HTMLElement {
         this.isLoading = true;
         this.isLoaded = false;
         this.hasError = false;
-        this.bindData();
+        await this.bindData();
 
         fetch(url, {
             mode: 'cors',
@@ -339,14 +340,14 @@ class JsonData extends HTMLElement {
         .then(response => {
             return response.json();
         })
-        .then(data => {
+        .then(async (data) => {
             if (this.loadOnlyOnce) {
                 saveDataToCache(urlPath, urlParams, data);
             }
-            this._setLoadedState(data);
+            await this._setLoadedState(data);
         })
-        .catch(error => {
-            this.showError(error);
+        .catch(async (error) => {
+            await this.showError(error);
         })
         .finally(() => {
             if (this.elements.clickButton !== null && typeof this.elements.clickButton.disabled === 'boolean') {
@@ -356,17 +357,17 @@ class JsonData extends HTMLElement {
         });
     }
 
-    showError(message) {
+    async showError(message) {
         this.isLoading = false;
         this.isLoaded = false;
         this.hasError = true;
         this.state.errorMessage = message;
         this.dispatchEvent(new CustomEvent(appEvents.error, { bubbles: true, detail: message }));
-        this.bindData();
+        await this.bindData();
         console.error(message);
     }
 
-    _setLoadedState(data) {
+    async _setLoadedState(data) {
         this.isLoading = false;
         this.isLoaded = true;
         this.hasError = false;
@@ -379,13 +380,13 @@ class JsonData extends HTMLElement {
                     if (typeof data2 === 'object' && data2 !== null) {
                         Object.assign(this.state, data2);
                     } else {
-                        this.showError(`Function [${transformData}()] must return an object.`);
+                        await this.showError(`Function [${transformData}()] must return an object.`);
                     }
                 } else {
-                    this.showError(`Function [${transformData}()] was not found.`);
+                    await this.showError(`Function [${transformData}()] was not found.`);
                 }
             } catch (e) {
-                this.showError(e);
+                await this.showError(e);
             }
         } else {
             Object.assign(this.state, data);
@@ -393,7 +394,7 @@ class JsonData extends HTMLElement {
         if (typeof data.hasError === 'boolean') {
             this.hasError = data.hasError;
         }
-        this.bindData();
+        await this.bindData();
     }
 
     async bindData() {

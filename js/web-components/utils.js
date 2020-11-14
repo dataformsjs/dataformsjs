@@ -228,7 +228,7 @@ export function bindAttrTmpl(element, attribute, data) {
     const attributes = element.getAttribute(attribute).split(',').map(s => s.trim());
     for (const attr of attributes) {
         // Save bind template to an attribute, example:
-        // [data-bind-attr="href"] will save the inital value from [href]
+        // [data-bind-attr="href"] will save the initial value from [href]
         // to [data-bind-attr-href]. This allows it to be re-used.
         let value = element.getAttribute(attribute + '-' + attr);
         if (value === null) {

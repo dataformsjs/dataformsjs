@@ -152,10 +152,18 @@ class I18nService extends WebComponentService {
         // be used with templating or easily by custom JavaScript code.
         window.i18n_Locale = this.currentLocale;
 
-        // If language is not matched then exit. This can happen when
-        // the page first loads while <url-router> is still loading.
+        // If language is not matched then redirect back to the default route
+        // if one is found. If no route matches then ignore to avoid an endless
+        // loop of hash changes.
         if (this.currentLocale === null) {
             this._isRunning = false;
+            if (router && router.querySelector('url-route[path="/:lang/"]')) {
+                if (this.hashRouting) {
+                    window.location = '#/' + this.defaultLocale + '/';
+                } else {
+                    router.changeRoute('/' + this.defaultLocale + '/');
+                }
+            }
             return;
         }
 
@@ -182,6 +190,7 @@ class I18nService extends WebComponentService {
                 this.langText = this.langCache[url];
             }
             this.updateContent(document);
+            this.dispatchEvent(new CustomEvent('app:i18nLoaded', { bubbles: true }));
             this._isRunning = false;
         });
     }

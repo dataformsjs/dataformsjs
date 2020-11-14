@@ -137,7 +137,7 @@
                     });
                 }
 
-                // Refresh Plugins after page content is ready (each URL #hash change)
+                // Refresh Plugins after page content is ready (each URL #hash change and JSON data download)
                 document.addEventListener('app:contentReady', function() {
                     addCssPolyfill();
                     app.refreshPlugins();

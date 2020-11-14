@@ -27,7 +27,7 @@
  * When used with Vue the following Directives will be created:
  *     v-i18n
  *     v-i18n-attr
- * 
+ *
  * The following global API will be available as well and can be
  * used with templating or by app custom logic.
  *     window.i18n_Locale = 'en|fr|es|zh-CN'; // Selected language, updated on each page change
@@ -241,9 +241,18 @@
                 window.app.activeModel.i18n_Locale = this.currentLocale;
             }
 
-            // Exit if language is not yet set.
+            // If language is not matched then redirect back to the default route
+            // if one is found. If no route matches then ignore to avoid an endless
+            // loop of hash changes.
             if (this.currentLocale === null) {
                 next(false);
+                if (window.app && window.app.controller && window.app.controller('/:lang/') !== null) {
+                    if (hashRouting) {
+                        window.location = '#/' + this.defaultLocale + '/';
+                    } else {
+                        app.changeRoute('/' + this.defaultLocale + '/');
+                    }
+                }
                 return;
             }
 
@@ -270,6 +279,21 @@
                 } else {
                     i18n.langText = i18n.langCache[url];
                 }
+
+                // Trigger a custom event for compatability with the Web Component <i18n-service>
+                // when using [polyfill.js]. This is not needed when using the Standard Framework
+                // Plugin because data is downloaded and made available in a predictable order,
+                // however with Web Components events can happen in any order (by design).
+                var event, eventName = 'app:i18nLoaded';
+                if (typeof(Event) === 'function') {
+                    event = new Event(eventName, { bubbles: true }); // Modern Browsers
+                } else {
+                    event = document.createEvent('Event'); // IE 11
+                    event.initEvent(eventName, true, false);
+                }
+                document.dispatchEvent(event);
+
+                // Callback
                 next();
             });
         },
@@ -451,7 +475,7 @@
         setup: function () {
             // Global helper function
             window.i18nText = i18n.getText.bind(i18n);
-            
+
             // Create Handlebars Helper
             if (window.Handlebars) {
                 Handlebars.registerHelper('i18n', function (key, options) {

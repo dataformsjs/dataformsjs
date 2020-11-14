@@ -153,6 +153,12 @@
         onRendered: function() {
             var model = this;
 
+            // Define API based on Web Component version that apps may call
+            var router = document.querySelector('url-router');
+            if (router) {
+                router.currentRoute = { path: app.activeController.path };
+            }
+
             // Bind [url-param] elements
             var elements = document.querySelectorAll('[url-param]');
             Array.prototype.forEach.call(elements, function(element) {
@@ -433,6 +439,13 @@
             return;
         }
 
+        // Define API events on the element that can be used by apps.
+        // Full compatability is not needed, rather functions can be added
+        // if it's determined that they would be commonly called or useful.
+        router.changeRoute = function(path) {
+            app.changeRoute(path);
+        };
+
         // Map items from [window.lazyLoad] to [app.lazyLoad] excluding items in
         // the format of `{module:url}` as they are intended only for modern browsers
         // and items in the format of `{nomodule:url}` will be added as strings.
@@ -695,6 +708,7 @@
         // Add API for additional Web Components
         var prismService = document.querySelector('prism-service');
         if (prismService) {
+            app.loadScripts(rootUrl + 'plugins/prism' + (useMinFiles ? '.min' : '') + '.js'),
             prismService.onLoad = function(rootElement) {
                 app.plugins.prism.onRendered(rootElement);
             };
@@ -704,22 +718,6 @@
         Promise.all(promises).finally(function () {
             // Define a setting so apps can check if this file is being used.
             app.settings.usingWebComponentsPolyfill = true;
-
-            // In general plugin order does not matter with DataFormsJS.
-            // The one exception is if using both [i18n] and [dataBind] then
-            // [dataBind] should run first.
-            if (i18nService) {
-                var pluginNames = Object.keys(app.plugins);
-                if (pluginNames[0] !== 'i18n') {
-                    var plugins = { i18n: app.plugins.i18n };
-                    pluginNames.forEach(function(name) {
-                        if (name !== 'i18n') {
-                            plugins[name] = app.plugins[name];
-                        }
-                    });
-                    app.plugins = plugins;
-                }
-            }
 
             // Setup DataFormsJS
             defineCustomEvents();
