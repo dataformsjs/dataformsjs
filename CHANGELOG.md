@@ -24,6 +24,7 @@ Overall the core Framework files and API are expected to remain stable however t
   * The updates are significant and make using the Web Components much easier for complex apps and sites; and provide for wider browser support.
   * The new features make for an easier to use API for customizing content on page after data is displayed. Previously the places demo required a lot of custom JavaScript on the page in order to display flag icons, format table data, and additional items.
   * Added ability to polyfill Web Components for older browsers using the standard Framework that gets loaded from a single file and then that file `polyfill.js` loads additional framework files as needed.
+  * Web Components have been updated for full support with React (16 and 17) and React Router. Additionally Web Components have been tested and have partial support for Vue 2 and Vue 3 when using Vue Router.
   * Web Component Examples:
     * https://www.dataformsjs.com/examples/hello-world/en/web.htm
     * https://www.dataformsjs.com/examples/hello-world/en/web-url-router.htm
@@ -33,6 +34,7 @@ Overall the core Framework files and API are expected to remain stable however t
     * https://www.dataformsjs.com/examples/image-gallery-web.htm
     * `http://127.0.0.1:8080/image-classification-web`
     * `http://127.0.0.1:8080/web-components-with-react`
+    * `http://127.0.0.1:8080/web-components-with-vue`
     * `http://127.0.0.1:8080/web-components-template`
     * `http://127.0.0.1:8080/web-components-data-list`
     * `http://127.0.0.1:8080/web-components-format`

@@ -716,8 +716,8 @@
 
         // After all scripts have been loaded the setup the app
         Promise.all(promises).finally(function () {
-            // Define a setting so apps can check if this file is being used.
-            app.settings.usingWebComponentsPolyfill = true;
+            // Define a global variable so apps can check if this file is being used.
+            window.usingWebComponentsPolyfill = true;
 
             // Setup DataFormsJS
             defineCustomEvents();

@@ -7,6 +7,9 @@
         <link rel="stylesheet" href="https://d2xbd92kui7v97.cloudfront.net/site/css/getting-started.css">
         <style>
             section { border:1px solid black; padding:20px; margin:20px; }
+            .home-page { max-width:700px; margin:auto; }
+            .home-page h1 { margin-bottom: 20px; }
+            .home-page p { padding:.5em; text-align:left; }
             .population { margin:10px auto; }
             .image-gallery { display:flex; flex-wrap:wrap; justify-content:center; }
             image-gallery { margin:20px; }
@@ -25,7 +28,7 @@
         </template>
 
         <!--
-            Templates for the <image-gallery> and <data-view>
+            Templates for <image-gallery> and <data-view>
 
             These cannot be included within JSX because both Babel and the jsxLoader
             attempt to compile elements within <template> as child elements of the

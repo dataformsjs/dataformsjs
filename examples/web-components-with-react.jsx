@@ -6,7 +6,11 @@ const NavLink = window.ReactRouterDOM.NavLink;
 function HomePage() {
     return (
         <React.Fragment>
-            <h1>Hello World</h1>
+            <section className="home-page">
+                <h1>Hello World</h1>
+                <p>This page is used to manually test DataFormsJS Web Components with React and React Router.</p>
+                <p>All Web Component and page features should work in all browsers.</p>
+            </section>
         </React.Fragment>
     );
 }
@@ -140,7 +144,7 @@ ReactDOM.render(
  * sites so having a site work is usually enough for user's of older browsers.
  */
 window.addEventListener('hashchange', function() {
-    if (window.app !== undefined) {
+    if (window.usingWebComponentsPolyfill) {
         app.updateView();
     }
 });

@@ -45,26 +45,17 @@ TODO List
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/sortable-table.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
-        - Create a file for Vue that is similar to the React test:
-            web-components-with-react.htm
+        - Test mixing Framework and Web Components, possibly provide an error alert from Web Components if that
+            happens and the code doesn't work. Currently the intention is to use one or the other.
         - Playground Site
             - Calculator Page needs to be created for Web Component Version (if time permits a React version as well)
+            - This has been started on but is very early in development
         - For [polyfill.js] should a new attribute be added that shows an error for specific
             elements on the page such as [data-warning-legacy-browser]?
             - For example if used the Web Components would show no error on that element but the polyfill file
                 would add one (assuming that it's running from a legacy browser). This would allow for a page
                 to have some content work from old browsers and provide a simple warning for specific content
                 that does not have a polyfill.
-        - Test mixing Framework and Web Components, likely provide an error alert from Web Components if that
-            happens. Currently the intention is to use one or the other.
-        - Before release look for all files with: <script src="../js/  and point them to the AWS S3 site for testing
-            Then after release update and test all pages to use standard CDN
-        - Confirm main site updates, 3 versions of the main site exist, see code in:
-                website\app\app.php
-            - Then search for: "index-web.htm"
-            - The live production site currently uses handlebars however it's likely the Web Component version
-                will be used instead after release.
-            - All 3 sites should be tested more with a variety of devices and browsers to make sure everything works properly
         - Create standard framework demo for Hacker News Demo:
             dataformsjs\examples\hacker-news-react.htm
             dataformsjs\examples\hacker-news-web.htm
@@ -74,6 +65,14 @@ TODO List
             - If needed after release create a demo repository showing how to use DataFormsJS with webpack
         - Update all React demos to use `react@17.0.1` and re-test all react pages using the new build of jsxLoader
             No errors are expected as Unit Tests have been updated for the jsxLoader update (minor bug fix with specific JSX syntax)
+        - Before release look for all files with: <script src="../js/  and point them to the AWS S3 site for testing
+            Then after release update and test all pages to use standard CDN
+        - Confirm main site updates, 3 versions of the main site exist, see code in:
+                website\app\app.php
+            - Then search for: "index-web.htm"
+            - The live production site currently uses handlebars however it's likely the Web Component version
+                will be used instead after release.
+            - All 3 sites should be tested more with a variety of devices and browsers to make sure everything works properly
         - Handle and remove all `NOTE` comments in [polyfill.js] before npm publishing
         - At a minimum the new script Polyfill scripts needs to handle IE 11, older Safari (example iOS 9), UC Browser.
             iOS 9 support because older devices such as iPad 2 can't upgrade past it and iPhone 6
