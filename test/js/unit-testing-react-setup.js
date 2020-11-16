@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 new Function('"use strict"; const { id, ...other } = { id:123, test:456 };')();
             } catch (e) {
                 var warningSpreadSyntax = document.querySelector('.browser-warnings .spread-syntax');
-                warningSpreadSyntax.textContent = 'This browser does not support the spread syntax [...props] so some tests are expected to fail.';
+                warningSpreadSyntax.textContent = 'This browser does not support the spread syntax [...props] so 5 tests are expected to fail.';
                 warningSpreadSyntax.style.display = '';
             }
         }

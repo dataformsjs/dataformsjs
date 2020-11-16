@@ -69,9 +69,11 @@ Overall the core Framework files and API are expected to remain stable however t
   * `js\web-components\data-list.js`
     * Added HTML attribute `root-attr` which allows for any attribute to be set on the root element. Previously only the `class` could be set from `root-class`. The attribute `root-class` is still supported.
   * For `<url-router>` and DataFormsJS Framework when using HTMl5 History Mode (pushState, popstate) the Mac `Command` Key is now supported so users can open SPA links in a separate tab. Previously the only the `{Control}` key worked which is used on Windows for new tags and on Mac for a context menu (right-click menu).
-* Added Node Support for `jsxLoader`
-  * Previously `jsxLoader` only worked in a browser.
-  * Now several API's are available for node `{ jsxLoader, transform(jsx, options) }`
+* `jsxLoader` Updates
+  * Minor bug fix where empty data props were not parsed correctly in a specific condition if this previous prop was not empty; this was found when updating Web Components for full React Support.
+  * Added Node Support for 
+    * Previously `jsxLoader` only worked in a browser.
+    * Now several API's are available for node `{ jsxLoader, transform(jsx, options) }`
 * Enhancements for DataFormsJS Framework files:
   * Added `app.updateTemplatesForIE(rootElement)`. IE 11 considers `<template>` elements as valid elements so it applies `querySelector()` and related methods to elements under `<templates>`'s so replace with them `<script type="text/x-template">`. This avoids issues of `<template>` elements that contain embedded content. Previously this was only handled once per page load but now is handled (for IE only) when views are rendered.
   * Added features in `js/plugins/dataBind.js` based on the Web Components version.

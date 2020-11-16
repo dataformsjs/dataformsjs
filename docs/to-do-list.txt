@@ -27,14 +27,9 @@ TODO List
         See the [CHANGELOG.md] or recent commits for full details.
         Since changes are currently in active development the related features may
         go through additional changes without warning.
-    - Until updates are finished many of the web component examples will be pointing
+    - Until updates are finished many or most examples will be pointing
         to local build files rather than CDN.
     - The next release will likely be published sometime in November of 2020
-    - It appears jsxLoader currently cannot handle empty attributes at the end of an element.
-        - This was found when testing Web Components with React, example:
-            <json-data url="https://www.dataformsjs.com/data/geonames/countries" load-only-once>
-        - Solved temporarily by using:
-            <json-data url="https://www.dataformsjs.com/data/geonames/countries" load-only-once="true">
     - More testing and updates related to jsxLoader Node Support
         https://github.com/dataformsjs/dataformsjs/issues/16
         More details will be published in the main JSX Loader doc:
@@ -77,6 +72,8 @@ TODO List
         - Test using local build with webpack
             https://webpack.js.org/
             - If needed after release create a demo repository showing how to use DataFormsJS with webpack
+        - Update all React demos to use `react@17.0.1` and re-test all react pages using the new build of jsxLoader
+            No errors are expected as Unit Tests have been updated for the jsxLoader update (minor bug fix with specific JSX syntax)
         - Handle and remove all `NOTE` comments in [polyfill.js] before npm publishing
         - At a minimum the new script Polyfill scripts needs to handle IE 11, older Safari (example iOS 9), UC Browser.
             iOS 9 support because older devices such as iPad 2 can't upgrade past it and iPhone 6

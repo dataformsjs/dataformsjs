@@ -149,7 +149,7 @@ function ShorthandFragment2() {
 
 function ShowLinks() {
     return <ul className="links2">
-                <li>Test</li>                
+                <li>Test</li>
                 {links.map(link => {
                     return <li key={link}>{link}</li>
                 })}
@@ -164,7 +164,7 @@ class UnitTestPage extends React.Component {
         ];
 
         const div10 = (123 <= 456 ? 'true' : 'false');
-        
+
         return (
             <React.Fragment>
                 <h1>Unit Testing Content</h1>
@@ -185,6 +185,8 @@ class UnitTestPage extends React.Component {
                 <div id="div-9" data-selector="ul.link > li">https://www.dataformsjs.com/</div>
                 <div id="div-10">{div10}</div>
                 <div id="div-11">{(123 <= 456 ? 'true' : 'false')}</div>
+                <ShowProps id="div-12"></ShowProps>
+                <ShowProps id="div-13" test></ShowProps>
 
                 <ul className="links">
                     {links.map(link => {
@@ -299,12 +301,16 @@ function ShowMessage(props) {
     return <div>{props.serverMessage}</div>
 }
 
+function ShowProps(props) {
+    return <div id={props.id}>{JSON.stringify(props)}</div>
+}
+
 function ShowData(props) {
     return <React.Fragment>
             <span>{props.data && props.data.serverMessage ? props.data.serverMessage : null}</span>
             {props.data && props.data.serverMessage ?
                 <ShowMessage serverMessage={props.data.serverMessage} />
-                : null}                
+                : null}
         </React.Fragment>
 }
 

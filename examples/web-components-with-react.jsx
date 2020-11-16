@@ -14,7 +14,7 @@ function HomePage() {
 function DataPage() {
     return (
         <React.Fragment>
-            <json-data url="https://www.dataformsjs.com/data/geonames/countries" load-only-once="true">
+            <json-data url="https://www.dataformsjs.com/data/geonames/countries" load-only-once>
                 <is-loading template-selector="#loading-screen"></is-loading>
                 <has-error template-selector="#error-screen"></has-error>
                 <is-loaded class="flex-col">
@@ -47,7 +47,7 @@ function DataPage() {
 function ImagePage() {
     return (
         <React.Fragment>
-            <json-data url="https://dataformsjs.s3-us-west-1.amazonaws.com/img/example-images/index.json">
+            <json-data url="https://dataformsjs.s3-us-west-1.amazonaws.com/img/example-images/index.json" load-only-once>
                 <is-loading>
                     <span class="loading">Loading Photos...</span>
                 </is-loading>
@@ -70,7 +70,7 @@ function ImagePage() {
 
 function MapPage() {
     return (
-        <json-data url="https://www.dataformsjs.com/data/geonames/place/5368361">
+        <json-data url="https://www.dataformsjs.com/data/geonames/place/5368361" load-only-once>
             <is-loading>
                 <span class="loading">Loading Photos...</span>
             </is-loading>

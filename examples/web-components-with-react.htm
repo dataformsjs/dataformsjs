@@ -64,7 +64,7 @@
             DataFormsJS JSX Loader
             https://www.dataformsjs.com
         -->
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/jsxLoader.min.js"></script>
+        <script src="../js/react/jsxLoader.min.js"></script>
         <script>
             // Set to `true` to view compiler details
             jsxLoader.logCompileTime = false;
@@ -87,13 +87,15 @@
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/es5/ImageGallery.min.js"></script>
         -->
         <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/es5/DataFormsJS.min.js"></script> -->
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/es5/ErrorBoundary.min.js"></script>
+        <script src="../js/react/es5/ErrorBoundary.min.js"></script>
 
         <!--
             DataFormsJS Web Components
 
             <url-router> and <i18n-service> are excluded from this page because
-            they are not expected to work with React
+            they are not expected to work well with React. <url-router> may work
+            however it would overwrite large portions of the DOM and <i18n-service>
+            is dependant on <url-router>.
         -->
         <script type="module" src="../js/web-components/json-data.js"></script>
         <script type="module" src="../js/web-components/data-list.js"></script>

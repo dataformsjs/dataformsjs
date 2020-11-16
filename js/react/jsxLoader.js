@@ -951,7 +951,9 @@
                                             break;
                                     }
                                     if (state.breakLoop) {
-                                        if (state.value === '/' && char === '>' && tokens[tokens.length-1].type === tokenTypes.e_start) {
+                                        var trimValue = state.value.trim();
+                                        var lastToken = tokens[tokens.length-1];
+                                        if (state.value === '/' && char === '>' && lastToken.type === tokenTypes.e_start) {
                                             tokens.push({
                                                 type: tokenTypes.e_end,
                                                 value: state.value + char,
@@ -967,13 +969,18 @@
                                                 state.elementState.pop();
                                                 state.currentElementState = (state.elementStack === 0 ? null : state.elementState[state.elementStack - 1]);
                                             }
-                                        } else if (char === '>' && (/^[a-zA-Z1-9-_]*$/.test(state.value) || /{\.\.\.(.+)}/.test(state.value)) && tokens[tokens.length-1].type === tokenTypes.e_start) {
+                                        } else if (
+                                            char === '>' &&
+                                            trimValue !== '' &&
+                                            (/^[a-zA-Z0-9-_]*$/.test(trimValue) || /{\.\.\.(.+)}/.test(trimValue)) &&
+                                            (lastToken.type === tokenTypes.e_start || lastToken.type === tokenTypes.e_value)
+                                        ) {
                                             tokens.push({
                                                 type: tokenTypes.e_prop,
-                                                value: state.value,
+                                                value: trimValue,
                                                 pos: current,
                                             });
-                                        } else if (state.value.trim() !== '') {
+                                        } else if (trimValue !== '') {
                                             console.log(tokens);
                                             throw new Error('Unhandled character in element properties: `' + state.value + '`' + jsxLoader.compiler.getTextPosition(input, current));
                                         }
