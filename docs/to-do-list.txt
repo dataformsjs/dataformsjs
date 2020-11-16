@@ -30,6 +30,11 @@ TODO List
     - Until updates are finished many of the web component examples will be pointing
         to local build files rather than CDN.
     - The next release will likely be published sometime in November of 2020
+    - It appears jsxLoader currently cannot handle empty attributes at the end of an element.
+        - This was found when testing Web Components with React, example:
+            <json-data url="https://www.dataformsjs.com/data/geonames/countries" load-only-once>
+        - Solved temporarily by using:
+            <json-data url="https://www.dataformsjs.com/data/geonames/countries" load-only-once="true">
     - More testing and updates related to jsxLoader Node Support
         https://github.com/dataformsjs/dataformsjs/issues/16
         More details will be published in the main JSX Loader doc:
@@ -45,6 +50,8 @@ TODO List
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/sortable-table.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
+        - Create a file for Vue that is similar to the React test:
+            web-components-with-react.htm
         - Playground Site
             - Calculator Page needs to be created for Web Component Version (if time permits a React version as well)
         - For [polyfill.js] should a new attribute be added that shows an error for specific
@@ -53,10 +60,6 @@ TODO List
                 would add one (assuming that it's running from a legacy browser). This would allow for a page
                 to have some content work from old browsers and provide a simple warning for specific content
                 that does not have a polyfill.
-        - New demo page to test all features of the new [utils-format.js] file
-        - On the templates (and probably all examples) add the HTML [crossorigin] attribute
-            so good errors can show in `window.onerror` from DataFormsJS. Need to test and confirm.
-            https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script
         - Test mixing Framework and Web Components, likely provide an error alert from Web Components if that
             happens. Currently the intention is to use one or the other.
         - Before release look for all files with: <script src="../js/  and point them to the AWS S3 site for testing
@@ -71,7 +74,6 @@ TODO List
             dataformsjs\examples\hacker-news-react.htm
             dataformsjs\examples\hacker-news-web.htm
             - This would use a custom page object and JavaScript rather than nested JSON controls
-        - Test using some Web Components with React and Vue to see how they work with other frameworks
         - Test using local build with webpack
             https://webpack.js.org/
             - If needed after release create a demo repository showing how to use DataFormsJS with webpack
@@ -185,6 +187,22 @@ TODO List
         - [one-page-and-spa-hbs.htm] was started based on the [template-files-hbs.htm] page
             so some content on the SPA pages is not needed
 
+*) Add option for lazy load scripts from [app.loadScript], [app.loadScripts], and Web Component
+    `window.lazyLoad = {}` to include support for additional attributes. For example without
+    the [crossorigin] attribute on <script> elements detailed errors are not shown. However
+    [crossorigin] can't be included by default because it actually requires the server to
+    support CORS. To see an example use the playground and add this to the bottom of the 
+    main page. Then run it with an without 'crossorigin'.
+        document.addEventListener('DOMContentLoaded', function() {
+            var url = 'https://dataformsjs.s3-us-west-1.amazonaws.com/tmp/calcPage.js';
+            var script = document.createElement('script');
+            script.setAttribute('crossorigin', 'anonymous');
+            script.src = url;
+            document.head.appendChild(script);
+        });
+    Mozilla Docs:
+        https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script
+
 *) Version for deno of [dataformsjs/server/app.js]
     Allow server to start with either deno or node
 
@@ -194,6 +212,7 @@ TODO List
     - Possible new URL:
         https://www.dataformsjs.com/en/unit-tests
     - The current URL would then redirect
+    - If adding documentation to the main site these could simply be linked from that page
     - New page would need to look nice and provide a brief overview
     - Currently many Vue unit tests fail if using IE so this might have to be fixed first
         (either that or simply add notes to the page regarding IE and Vue)

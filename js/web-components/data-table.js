@@ -9,6 +9,7 @@
 /* Validates with both [jshint] and [eslint] */
 /* For online eslint - Source Type = 'module' must be manually selected. */
 /* jshint esversion:8 */
+/* jshint evil:true */
 /* eslint-env browser, es6 */
 /* eslint quotes: ["error", "single", { "avoidEscape": true }] */
 /* eslint spaced-comment: ["error", "always"] */
@@ -17,7 +18,6 @@
 import {
     render,
     buildUrl,
-    usingWebComponentsPolyfill,
     polyfillCustomElements
 } from './utils.js';
 import { Format } from './utils-format.js';
@@ -45,12 +45,8 @@ function toggleHighlight(e) {
 class DataTable extends HTMLElement {
     constructor() {
         super();
-        if (usingWebComponentsPolyfill()) {
-            return;
-        }
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
-        this.setAttribute('not-setup', '');
         this.state = {
             list: null,
             hasBeenLoaded: false,
@@ -62,9 +58,6 @@ class DataTable extends HTMLElement {
     }
 
     attributeChangedCallback(attr, oldVal /* , newVal */) {
-        if (this.state === undefined) {
-            return; // if `usingWebComponentsPolyfill() === true`
-        }
         switch (attr) {
             case 'col-link-template':
             case 'col-link-fields':
@@ -140,7 +133,7 @@ class DataTable extends HTMLElement {
         // Is there a template to use for each row?
         const template = this.getTemplate();
 
-        // Private function in this scope to add the table
+        // Private functions in this scope to add the table and show errors
         const addTable = (html) => {
             if (template === null) {
                 this.innerHTML = html;
@@ -148,13 +141,20 @@ class DataTable extends HTMLElement {
                 this.removeTable();
                 this.insertAdjacentHTML('beforeend', html);
             }
-            // Remove this attribute after the first time a table is rendered
-            this.removeAttribute('not-setup');
+        };
+
+        const showError = (errorMessage) => {
+            const errorClass = this.errorClass;
+            if (errorClass) {
+                addTable(render`<table class="${this.errorClass}"><caption>Error Rendering Template - ${errorMessage}</caption></table>`);
+            } else {
+                addTable(render`<table><caption style="display:block; ${this.defaultErrorStyle}">Error Rendering Template - ${errorMessage}</caption></table>`);
+            }
         };
 
         // Show "no-data" table and default "No records found" text if empty
         if (Array.isArray(list) && list.length === 0) {
-            addTable(render`<table class="no-data"><caption>${this.emptyDataText}</caption></table>`);
+            addTable(render`<table class="no-data"><caption style="display:block;">${this.emptyDataText}</caption></table>`);
             return;
         }
 
@@ -166,7 +166,7 @@ class DataTable extends HTMLElement {
             isValid = false;
         }
         if (!isValid) {
-            addTable('<table><caption class="error">Error invalid data type for table</caption></table>');
+            showError('Error invalid data type for <data-table>, an array of objects is required.');
             return;
         }
 
@@ -272,12 +272,7 @@ class DataTable extends HTMLElement {
                     index++;
                 }
             } catch (e) {
-                const errorClass = this.errorClass;
-                if (errorClass) {
-                    addTable(`<table class="${this.errorClass}"><caption>Error Rendering Template - ${e.message}</caption></table>`);
-                } else {
-                    addTable(`<table style="${this.defaultErrorStyle}"><caption>Error Rendering Template - ${e.message}</caption></table>`);
-                }
+                showError('Error Rendering Template - ' + e.message);
                 return;
             }
         } else {

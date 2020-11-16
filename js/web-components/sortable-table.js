@@ -14,15 +14,15 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
-import { usingWebComponentsPolyfill, defineExtendsPolyfill } from './utils.js';
+import { defineExtendsPolyfill } from './utils.js';
 import { getSortObject, smartSort } from './utils-sort.js';
 
 class SortableTable extends HTMLTableElement {
     constructor() {
         super();
-        if (usingWebComponentsPolyfill()) {
-            return;
-        }
+    }
+
+    connectedCallback() {
         this.setupTable();
     }
 

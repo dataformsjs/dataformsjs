@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Web Component with React</title>
+        <link rel="stylesheet" href="https://d2xbd92kui7v97.cloudfront.net/site/css/getting-started.css">
+        <style>
+            section { border:1px solid black; padding:20px; margin:20px; }
+            .population { margin:10px auto; }
+            .image-gallery { display:flex; flex-wrap:wrap; justify-content:center; }
+            image-gallery { margin:20px; }
+            image-gallery img { max-width: 300px; }
+        </style>
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <template id="loading-screen">
+            <h3 class="loading" data-i18n="Loading..."></h3>
+        </template>
+
+        <template id="error-screen">
+            <h3 class="error">Error - <span data-bind="errorMessage"></span></h3>
+        </template>
+
+        <!--
+            Templates for the <image-gallery> and <data-view>
+
+            These cannot be included within JSX because both Babel and the jsxLoader
+            attempt to compile elements within <template> as child elements of the
+            template. Same issue happens if attempting to use <script type="text/x-template">
+        -->
+        <template id="image-template">
+            <image-gallery image="${image}" image-avif="${image_avif}" image-webp="${image_webp}">
+                <img src="${thumbnail}" alt="${title}" />
+            </image-gallery>
+        </template>
+        <template id="city-info">
+            <h2>${place.name}</h2>
+            <div class="population"><strong>Population:</strong> ${format.number(place.population)}</div>
+        </template>
+
+        <!--
+            React
+            https://reactjs.org
+        -->
+        <!--
+        <script src="https://unpkg.com/react@17.0.1/umd/react.development.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/react-dom@17.0.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+        -->
+        <script src="https://unpkg.com/react@17.0.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/react-dom@17.0.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+        <!--
+            React Router
+            https://reacttraining.com/react-router/
+            https://github.com/ReactTraining/react-router
+        -->
+        <script src="https://unpkg.com/react-router/umd/react-router.min.js"></script>
+        <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
+
+        <!--
+            DataFormsJS JSX Loader
+            https://www.dataformsjs.com
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/jsxLoader.min.js"></script>
+        <script>
+            // Set to `true` to view compiler details
+            jsxLoader.logCompileTime = false;
+            jsxLoader.logCompileDetails = false;
+        </script>
+
+        <!--
+            DataFormsJS React Components
+        -->
+        <!--
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/es6/ErrorBoundary.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/es6/JsonData.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/es6/LazyLoad.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/es6/InputFilter.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/es6/SortableTable.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/es6/I18n.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/es6/Format.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/es6/LeafletMap.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/es6/ImageGallery.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/es5/ImageGallery.min.js"></script>
+        -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/es5/DataFormsJS.min.js"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/es5/ErrorBoundary.min.js"></script>
+
+        <!--
+            DataFormsJS Web Components
+
+            <url-router> and <i18n-service> are excluded from this page because
+            they are not expected to work with React
+        -->
+        <script type="module" src="../js/web-components/json-data.js"></script>
+        <script type="module" src="../js/web-components/data-list.js"></script>
+        <script type="module" src="../js/web-components/data-table.js"></script>
+        <script type="module" src="../js/web-components/data-view.js"></script>
+        <script type="module" src="../js/web-components/input-filter.js"></script>
+        <script type="module" src="../js/web-components/sortable-table.js"></script>
+        <script type="module" src="../js/web-components/image-gallery.js"></script>
+        <script type="module" src="../js/web-components/html-import-service.js"></script>
+        <script type="module" src="../js/web-components/leaflet-map.js"></script>
+        <script nomodule src="../js/web-components/polyfill.js"></script>
+
+        <!-- <script src="../js/web-components/polyfill.js"></script> -->
+
+        <!-- https://leafletjs.com/ -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css">
+        <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+
+        <!-- App Code -->
+        <script type="text/babel" src="web-components-with-react.jsx"></script>
+    </body>
+</html>

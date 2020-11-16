@@ -1,5 +1,5 @@
 /**
- * DataFormsJS [app.format] extension for formating values
+ * DataFormsJS [app.format] extension for formatting values
  * (numbers, dates, etc) in the user's local language.
  *
  * Functions added:

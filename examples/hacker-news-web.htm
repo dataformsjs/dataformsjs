@@ -31,6 +31,20 @@
     </head>
     <body>
         <div id="root">
+            <header>
+                <h1>
+                    <a href="https://news.ycombinator.com/" target="_blank">Hacker News Demo</a>
+                    <span></span>
+                </h1>
+                <input
+                    is="input-filter"
+                    filter-selector="ul li"
+                    filter-results-selector="h1 span"
+                    filter-results-text-all="{totalCount} News Items"
+                    filter-results-text-filtered="Showing {displayCount} of {totalCount} News Items"
+                    placeholder="Enter filter, example 'show' or 'github'" />
+            </header>
+
             <!--
                 Download a list of ID's for Hacker News Items using <json-data>
 
@@ -48,20 +62,6 @@
                 </is-loading>
                 <has-error template-selector="#error-screen"></has-error>
                 <is-loaded>
-                    <header>
-                        <h1>
-                            <a href="https://news.ycombinator.com/" target="_blank">Hacker News Demo</a>
-                            <span></span>
-                        </h1>
-                        <input
-                            is="input-filter"
-                            filter-selector="ul li"
-                            filter-results-selector="h1 span"
-                            filter-results-text-all="{totalCount} News Items"
-                            filter-results-text-filtered="Showing {displayCount} of {totalCount} News Items"
-                            placeholder="Enter filter, example 'show' or 'github'" />
-                    </header>
-
                     <data-list
                         data-bind="idList"
                         template-selector="#news-item"
@@ -129,8 +129,8 @@
             returned {records} then one would overwrite the other however if
             one returns {records} and the other uses {records2} then the nested
             controls will work. When using the DataFormsJS Standard Framework
-            this would typically be accomplished using a custom Page Object
-            defined by the app or site.
+            the needed logic for this page would typically be accomplished
+            using a custom Page Object defined by the app or site.
 
             This page was created to show that the <json-data> Web Component
             can be used for complex scenarios.
@@ -140,7 +140,7 @@
         <script>
             'use strict';
 
-            // By default the top level Hacker News API returns hunderds of items
+            // By default the top level Hacker News API returns hundreds of items
             // in a simple array of integers so get only the first 50 and convert
             // to an object that has an array of objects so that it can be easily
             // used with templating.

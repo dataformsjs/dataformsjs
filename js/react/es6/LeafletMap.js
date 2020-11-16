@@ -62,6 +62,12 @@ export default class LeafletMap extends React.Component {
             }
         }
 
+        // Make sure Leaflet `L` object is loaded
+        if (window.L === undefined) {
+            console.error('Error - Unable to show map because Leaflet is not loaded on the page.');
+            return;
+        }
+
         // Create map
         const map = L.map(this.div.current).setView([lat, long], zoom);
 

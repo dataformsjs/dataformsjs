@@ -20,7 +20,7 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
-import { render, showError, usingWebComponentsPolyfill, escapeHtml } from './utils.js';
+import { render, showError, escapeHtml } from './utils.js';
 import { Format } from './utils-format.js';
 
 /**
@@ -38,15 +38,8 @@ shadowTmpl.innerHTML = `
 class DataView extends HTMLElement {
     constructor() {
         super();
-        if (usingWebComponentsPolyfill()) {
-            return;
-        }
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
-        // The [not-setup] is defined when the component is created and removed when data
-        // is set. It allows for applications to handle logic based on whether or not the
-        // data list has been rendered. For usage see `componentsAreSetup()` from [utils.js].
-        this.setAttribute('not-setup', '');
         this.state = null;
     }
 
@@ -65,9 +58,6 @@ class DataView extends HTMLElement {
             this.innerHTML = '';
             return;
         }
-
-        // Remove this attribute the first time a list is being rendered
-        this.removeAttribute('not-setup');
 
         // Validate data type (must be object or an array)
         if (typeof this.state !== 'object') {

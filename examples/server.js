@@ -62,6 +62,12 @@ app.get('/', async (req, res) => {
         const label = (file.startsWith('https://') ? file : file.replace(/-/g, ' '));
         listItems.push(`<li><a href="${file}">${label}</a></li>`);
     });
+    // TODO - likely use <url-router> and list all hello world demos on another page (links later in this file).
+    //  If doing that likely move this code to an HTML file so it can be modified
+    //  without having to restart the node server.
+    //  - Also showing a page for docs [jsxLoader, readme, future docs] would be good as well
+    //    This would require a new markdown component and plugin which has been planned for the future.
+    //  - If this will take too long then add it to notes for future development
     const html = `
         <!doctype html>
         <html lang="en">
@@ -80,6 +86,7 @@ app.get('/', async (req, res) => {
                         background-image: linear-gradient(180deg, hsla(0, 0%, 100%, .6) 1%, hsla(0, 0%, 100%, .5) 30%,#fff), linear-gradient(25deg, #ffdbe7, #a9d9ff 32%,#f3eba6);
                         padding: 40px;
                     }
+                    h1 { text-align:center; }
                     input {
                         padding: 1em 1.5em;
                         width: 100%;
@@ -101,7 +108,7 @@ app.get('/', async (req, res) => {
                     li {
                         padding:.5em 1em;
                         margin:.5em;
-                        box-shadow:0 0 1px 1px rgba(0,0,0,.3);
+                        box-shadow:0 1px 2px 1px rgba(0,0,0,.3);
                         background-color:white;
                         border-radius: 1em;
                     }

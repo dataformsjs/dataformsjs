@@ -26,7 +26,6 @@ import {
     bindAttrTmpl,
     componentsAreDefined,
     polyfillCustomElements,
-    usingWebComponentsPolyfill,
     showErrorAlert,
     showError
 } from './utils.js';
@@ -115,9 +114,6 @@ function copyTemplateSelector(element) {
 class JsonData extends HTMLElement {
     constructor() {
         super();
-        if (usingWebComponentsPolyfill()) {
-            return;
-        }
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
 
@@ -128,13 +124,6 @@ class JsonData extends HTMLElement {
             errorMessage: null,
         };
 
-        this.elements = {
-            isLoading: this.querySelector('is-loading'),
-            hasError: this.querySelector('has-error'),
-            isLoaded: this.querySelector('is-loaded'),
-            clickButton: null,
-        };
-
         this.handleButtonClick = this.handleButtonClick.bind(this);
     }
 
@@ -143,9 +132,6 @@ class JsonData extends HTMLElement {
     }
 
     attributeChangedCallback(attr, oldVal, /* newVal */) {
-        if (this.state === undefined) {
-            return; // if `usingWebComponentsPolyfill() === true`
-        }
         switch (attr) {
             case 'url':
             case 'url-params':
@@ -157,6 +143,13 @@ class JsonData extends HTMLElement {
     }
 
     connectedCallback() {
+        this.elements = {
+            isLoading: this.querySelector('is-loading'),
+            hasError: this.querySelector('has-error'),
+            isLoaded: this.querySelector('is-loaded'),
+            clickButton: null,
+        };
+
         // Handle the [click-selector] Attribute. If defined on the <json-data>
         // Control then data is not fetched until the user clicks the element specified
         // from the selector. This feature along with the form elements that use the
@@ -490,11 +483,10 @@ window.customElements.define('json-data', JsonData);
 window.customElements.define('is-loading', class IsLoading extends HTMLElement {
     constructor() {
         super();
-        if (usingWebComponentsPolyfill()) {
-            return;
-        }
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
+    }
+    connectedCallback() {
         if (!(this.parentNode.nodeName === 'JSON-DATA' && this.parentNode.isLoading === true)) {
             this.style.display = 'none';
         }
@@ -508,11 +500,10 @@ window.customElements.define('is-loading', class IsLoading extends HTMLElement {
 window.customElements.define('has-error', class HasError extends HTMLElement {
     constructor() {
         super();
-        if (usingWebComponentsPolyfill()) {
-            return;
-        }
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
+    }
+    connectedCallback() {
         if (!(this.parentNode.nodeName === 'JSON-DATA' && this.parentNode.hasError === true)) {
             this.style.display = 'none';
         }
@@ -526,11 +517,10 @@ window.customElements.define('has-error', class HasError extends HTMLElement {
 window.customElements.define('is-loaded', class IsLoaded extends HTMLElement {
     constructor() {
         super();
-        if (usingWebComponentsPolyfill()) {
-            return;
-        }
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
+    }
+    connectedCallback() {
         if (!(this.parentNode.nodeName === 'JSON-DATA' && this.parentNode.isLoaded === true)) {
             this.style.display = 'none';
         }

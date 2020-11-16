@@ -40,7 +40,7 @@
 /* jshint esversion:8 */
 /* eslint-env browser, es6 */
 
-import { usingWebComponentsPolyfill, showErrorAlert } from './utils.js';
+import { showErrorAlert } from './utils.js';
 
 /**
  * Shadow DOM for Custom Elements
@@ -54,9 +54,6 @@ shadowTmpl.innerHTML = `
 export class WebComponentService extends HTMLElement {
     constructor() {
         super();
-        if (usingWebComponentsPolyfill()) {
-            return;
-        }
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
         this.runService = this.runService.bind(this);

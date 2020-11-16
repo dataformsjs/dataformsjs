@@ -21,16 +21,26 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint-disable no-console */
 
-import { usingWebComponentsPolyfill, defineExtendsPolyfill } from './utils.js';
+import { defineExtendsPolyfill, showError } from './utils.js';
 
 class LeafletMap extends HTMLDivElement {
     constructor() {
         super();
         this._map = null;
+        this._isConnected = false;
     }
 
     connectedCallback() {
+        this._isConnected = true;
         this.createMap();
+    }
+
+    disconnectedCallback() {
+        this._isConnected = false;
+        if (this._map !== null) {
+            this._map.remove();
+            this._map = null;
+        }
     }
 
     static get observedAttributes() {
@@ -38,16 +48,17 @@ class LeafletMap extends HTMLDivElement {
     }
 
     attributeChangedCallback(attr, /* oldVal, newVal */) {
+        if (!this._isConnected) {
+            // This can happen if using <leaflet-map> with React
+            // while the component is being created.
+            return;
+        }
         if (LeafletMap.observedAttributes.includes(attr)) {
             this.createMap();
         }
     }
 
     createMap() {
-        if (usingWebComponentsPolyfill()) {
-            return;
-        }
-
         // Get settings from element attribute
         const lat = parseFloat(this.getAttribute('latitude'));
         const long = parseFloat(this.getAttribute('longitude'));
@@ -70,12 +81,18 @@ class LeafletMap extends HTMLDivElement {
                     return;
                 }
                 // Invalid attribute
-                console.error('Leaflet Map - Invalid Attribute for [' + numAttr[n].attr + ']');
+                showError(this, 'Leaflet Map - Invalid Attribute for [' + numAttr[n].attr + ']');
                 console.log(numAttr[n].attr);
                 console.log(this.getAttribute(numAttr[n].attr));
                 console.log(this);
                 return;
             }
+        }
+
+        // Make sure Leaflet `L` object is loaded
+        if (window.L === undefined) {
+            showError(this, 'Error - Unable to show map because Leaflet is not loaded on the page.');
+            return;
         }
 
         // Create map

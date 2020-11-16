@@ -4,7 +4,7 @@
  * This component extends the standard <input> as an input filter when <input is="input-filter">
  * is used. This class is based on the standard framework plugin [DataFormsJS\js\Plugins\filter.js]
  * and is similar to the React class [DataFormsJS\js\React\InputFilter.jsx].
- * 
+ *
  * Example usage:
  *     <input is="input-filter" filter-selector="ul li" filter-results-selector="h1" filter-results-text-all="{totalCount} Records" filter-results-text-filtered="Showing {displayCount} of {totalCount} Records" placeholder="Enter filter">
  */
@@ -18,39 +18,47 @@
 /* eslint-disable no-console */
 
 import {
-    componentsAreSetup,
     isAttachedToDom,
-    usingWebComponentsPolyfill,
     defineExtendsPolyfill
 } from './utils.js';
 
 class InputFilter extends HTMLInputElement {
     constructor() {
         super();
-        if (usingWebComponentsPolyfill()) {
-            return;
-        }
         this.addEventListener('input', this.filter);
     }
 
-    async connectedCallback() {
-        await componentsAreSetup();
-        if (isAttachedToDom(this)) {
+    connectedCallback() {
+        // Filter content immediately if there is not result text to display
+        if (!this.hasAttribute('filter-results-selector')) {
             this.filter();
+            return;
         }
+
+        // When showing a related label (example: "Showing all X Records / Showing x of x records"),
+        // the element to filter must be first populated otherwise the result will show text such as
+        // "Showing 0 of x records...". Often this element will be used with <data-table>, <data-list>
+        // etc which are populated after this element loads. In most cases this happens quickly so
+        // only 1 second is given (10 tries - one every 1/10th of a second) for the data to populate.
+        let counter = 0;
+        const interval = window.setInterval(() => {
+            const { elements } = this.getElementsToFilter();
+            if (elements.length === 0 && counter < 10) {
+                counter++;
+                return;
+            }
+            window.clearInterval(interval);
+            if (isAttachedToDom(this)) {
+                this.filter();
+            }
+        }, 100);
     }
 
-    filter() {
-        // Get filter element and text
-        const filterWords = this.value.toLowerCase().split(' ');
-        const filterWordCount = filterWords.length;
-        const hasFilter = (filterWordCount !== 0);
-        let displayCount = 0;
+    getElementsToFilter() {
+        // Get elements to filter. If a table is being filtered
+        // then get rows under <tbody>.
         let cssOdd = null;
         let cssEven = null;
-
-        // Get elements to filter. If a table is being filtred
-        // then get rows under <tbody>.
         let elements = document.querySelectorAll(this.getAttribute('filter-selector'));
         if (elements.length === 1 && elements[0].tagName === 'TABLE') {
             const table = elements[0];
@@ -69,7 +77,18 @@ class InputFilter extends HTMLInputElement {
                     console.warn('Unexpected Table format for Filter Plugin. Only 1 <tbody> element is supported.');
             }
         }
-        const totalCount = elements.length;
+        return { elements, cssOdd, cssEven };
+    }
+
+    filter() {
+        // Get filter element and text
+        const filterWords = this.value.toLowerCase().split(' ');
+        const filterWordCount = filterWords.length;
+        const hasFilter = (filterWordCount !== 0);
+        let displayCount = 0;
+
+        // Elements to filter and related settings
+        const { elements, cssOdd, cssEven } = this.getElementsToFilter();
 
         // Show/hide elements based on the filter
         const hasCss = (cssEven && cssOdd);
@@ -125,6 +144,7 @@ class InputFilter extends HTMLInputElement {
 
             // Which text label to use? Update displayCount if filtered text
             let resultText;
+            const totalCount = elements.length;
             if (displayCount === totalCount) {
                 resultText = resultTextAll;
             } else {

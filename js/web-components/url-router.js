@@ -29,8 +29,7 @@ import {
     polyfillCustomElements,
     showError,
     showErrorAlert,
-    componentsAreDefined,
-    usingWebComponentsPolyfill
+    componentsAreDefined
 } from './utils.js';
 
 const appEvents = {
@@ -53,9 +52,6 @@ shadowTmpl.innerHTML = `
 class UrlRouter extends HTMLElement {
     constructor() {
         super();
-        if (usingWebComponentsPolyfill()) {
-            return;
-        }
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
         this.currentRoute = null;
@@ -63,12 +59,12 @@ class UrlRouter extends HTMLElement {
         this.updateView = this.updateView.bind(this);
         this.handlePushStateClick = this.handlePushStateClick.bind(this);
         this.useHistoryMode = (this.getAttribute('mode') === 'history');
-        this.updateView();
     }
 
     connectedCallback() {
         const eventName = (this.useHistoryMode ? 'popstate': 'hashchange');
         window.addEventListener(eventName, this.updateView);
+        this.updateView();
     }
 
     disconnectedCallback() {
@@ -378,9 +374,9 @@ class UrlRouter extends HTMLElement {
      * @param {Event} e
      */
     handlePushStateClick(e) {
-        // Ignore if user is holding the [ctrl] key so that
-        // the link can be opened in a new tab.
-        if (e.ctrlKey === true) {
+        // Ignore if user is holding the [ctrl] key or command key
+        // for macOS so that the link can be opened in a new tab.
+        if (e.ctrlKey === true || e.metaKey) {
             return;
         }
         // Change route based on the link

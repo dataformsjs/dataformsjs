@@ -85,6 +85,14 @@
                 }
             }
 
+            function showError(errorMessage, errorClass, defaultErrorStyle) {
+                if (errorClass) {
+                    addTable('<table class="' + errorClass + '}"><caption>' + app.escapeHtml(errorMessage) + '</caption></table>');
+                } else {
+                    addTable('<table><caption style="display:block; ' + defaultErrorStyle + '">' + app.escapeHtml(errorMessage) + '</caption></table>');
+                }
+            };
+
             function removeTable() {
                 // If there is no template than it's safe to clear all content
                 if (template === null) {
@@ -129,7 +137,7 @@
                 isValid = false;
             }
             if (!isValid) {
-                addTable('<table><caption>' + app.escapeHtml(this.errorInvalidData) + '</caption></table>');
+                showError(this.errorInvalidData, this.errorClass, this.defaultErrorStyle);
                 return
             }
 
@@ -235,11 +243,7 @@
                         }
                     }
                 } catch (e) {
-                    if (this.errorClass) {
-                        addTable('<table class="' + this.errorClass + '"><caption>Error Rendering Template - ' + e.message + '}</caption></table>');
-                    } else {
-                        addTable('<table style="' + this.defaultErrorStyle + '"><caption>Error Rendering Template - ' + e.message + '</caption></table>');
-                    }
+                    showError('Error Rendering Template - ' + e.message, this.errorClass, this.defaultErrorStyle);
                     return;
                 }
             } else {

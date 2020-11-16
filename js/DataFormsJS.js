@@ -1233,9 +1233,9 @@
          * @param {Event} e
          */
         pushStateClick: function (e) {
-            // Ignore if user is holding the [ctrl] key so that
-            // the link can be opened in a new tab.
-            if (e.ctrlKey === true) {
+            // Ignore if user is holding the [ctrl] key or command key
+            // for macOS so that the link can be opened in a new tab.
+            if (e.ctrlKey === true || e.metaKey) {
                 return;
             }
             // Change route based on the link
@@ -2627,7 +2627,7 @@
          * @return {Promise|void}
          */
         loadScript: function(condition, url, callback) {
-            function dowloadScript(success, error) {
+            function downloadScript(success, error) {
                 var script = document.createElement('script');
                 script.onload = success;
                 script.onerror = function () {
@@ -2641,10 +2641,10 @@
             if (condition === false || condition === undefined) {
                 if (callback === undefined) {
                     return new Promise(function(resolve, reject) {
-                        dowloadScript(resolve, reject);
+                        downloadScript(resolve, reject);
                     });
                 }
-                dowloadScript(callback, callback);
+                downloadScript(callback, callback);
             } else {
                 if (callback === undefined) {
                     return new Promise(function(resolve) { resolve(); });
@@ -2972,7 +2972,7 @@
         /**
          * IE 11 considers <template> elements as valid elements so it applies [querySelector()]
          * and related methods to elements under <templates>'s so replace with them <script type="text/x-template">.
-         * This avoid's issues of <template> elements that contain embedded content.
+         * This avoids issues of <template> elements that contain embedded content.
          *
          * @param {HTMLElement} rootElement
          */

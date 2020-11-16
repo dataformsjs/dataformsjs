@@ -49,6 +49,9 @@
         html: function(model) {
             // Get Table from the Model. If using format of "object.prop"
             // then the [dataBind] plugin (if available) will used to get the data.
+            if (this.bind === null) {
+                return '';
+            }
             var data = (this.bind === true ? model : (model && model[this.bind] ? model[this.bind] : null));
             if (data === null && app.plugins.dataBind !== undefined && typeof app.plugins.dataBind.getBindValue === 'function') {
                 data = app.plugins.dataBind.getBindValue(this.bind, model);

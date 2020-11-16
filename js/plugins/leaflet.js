@@ -53,12 +53,18 @@
                         return;
                     }
                     // Invalid attribute
-                    app.showErrorAlert('Leaflet Map - Invalid Attribute for [' + numAttr[n].attr + '], see console for Map Element');
+                    app.showError(mapEl, 'Leaflet Map - Invalid Attribute for [' + numAttr[n].attr + '], see console for Map Element');
                     console.log(numAttr[n].attr);
                     console.log(mapEl.getAttribute(numAttr[n].attr));
                     console.log(mapEl);
                     return;
                 }
+            }
+
+            // Make sure Leaflet `L` object is loaded
+            if (window.L === undefined) {
+                app.showError(mapEl, 'Error - Unable to show map because Leaflet is not loaded on the page.');
+                return;
             }
 
             // Create map

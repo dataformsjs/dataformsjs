@@ -29,10 +29,6 @@ const errorCss = `
         background-color:red;
         box-shadow:0 1px 5px 0 rgba(0,0,0,.5);
         background-image:linear-gradient(#e00,#c00);
-        // Next line is included but commented out because it should not show on mobile
-        // however on desktop with DevTools the commented out version makes it easy for a
-        // developer to toggle on errors that use line breaks and white space formatting.
-        /* white-space:pre; */
         text-align: left;
     }
 
@@ -171,7 +167,7 @@ export function setElementText(element, value) {
     }
 
     // Set the value based on node type
-    const nodeName = element.nodeName;
+    const nodeName = element.nodeName.toLowerCase();
     switch (nodeName) {
         case 'INPUT':
             if (element.type === 'checkbox') {
@@ -185,9 +181,27 @@ export function setElementText(element, value) {
         case 'TEXTAREA':
             element.value = (value === null ? '' : String(value));
             break;
-        default:
-            if ((nodeName.includes('-') || element.getAttribute('is') !== null) && 'value' in element) {
-                element.value = value;
+        default:            
+            if (nodeName.includes('-') || element.hasAttribute('is')) {
+                if ('value' in element) {
+                    // <data-list>, <data-table>, <data-view>, etc
+                    element.value = value;
+                } else {
+                    // If the custom element is defined but doesn't include `value`
+                    // then simply set `textContent` otherwise assume show an error
+                    // on the element as it's likely missing from the page. This error
+                    // can be viewed on an example that uses <json-data> with a <data-table>
+                    // element; simply comment out the <data-table> script.
+                    const isCustomElement = nodeName.includes('-');
+                    const name = (isCustomElement ? nodeName : element.getAttribute('is'));
+                    const isDefined = (window.customElements.get(name) !== undefined);
+                    if (isDefined) {
+                        element.textContent = (value === null ? '' : String(value));
+                    } else {
+                        const elText = (isCustomElement ? `<${name}>` : `<${nodeName} is="${name}">`);
+                        showError(element, `Error - Web Component ${elText} is not defined; the related JavaScript file might be missing from this page.`);
+                    }
+                }
             } else {
                 element.textContent = (value === null ? '' : String(value));
             }
@@ -333,24 +347,6 @@ export function loadCss(id, css) {
 }
 
 /**
- * Return `true` if [polyfill.js] is being used. This allows Web Components to check
- * if the should run or not. Old Versions of Safari (10.#) have a bug where both
- * <script type="module"> and <script nomodule> will be loaded. Additionally the
- * issue can affect legacy Edge browsers as well.
- *
- * If this happens then allow the app to use the [polyfill.js] file since it runs first.
- *
- * Related Links:
- *   https://caniuse.com/es6-module
- *   https://gist.github.com/jakub-g/5fc11af85a061ca29cc84892f1059fec
- *   https://jakearchibald.com/2017/es-modules-in-browsers/
- *   https://gist.github.com/samthor/64b114e4a4f539915a95b91ffd340acc
- */
-export function usingWebComponentsPolyfill() {
-    return (window.app && window.app.settings && window.app.settings.usingWebComponentsPolyfill === true);
-}
-
-/**
  * As of late 2020 Safari and various mobile browsers do not support extending
  * standard elements using custom elements with [is="custom-element"].
  *
@@ -429,13 +425,13 @@ function runPolyfill() {
 
 /**
  * Return a promise that can be used to check if custom web components are
- * defined. The promise will resolve once all document components are defined.
+ * defined. The promise will resolve once all document components are defined,
+ * or if components are missing from the page it will timeout after 1 second.
  * When components are first added to DOM they are not yet defined until
  * the browser finishes creating this classes, this happens very quickly
- * however if code that depends on the components runs before they are
- * setup then unexpected errors occur.
- *
- * See also [componentsAreSetup()].
+ * often in less than 10 milliseconds and the check is important because
+ * if code that depends on the components runs before they are setup than
+ * unexpected errors can occur on the page.
  *
  * @param {HTMLElement} element
  * @param {string} selector
@@ -448,59 +444,22 @@ export function componentsAreDefined(element, selector = '') {
             const promises = [...undefinedComponents].map(
                 c => window.customElements.whenDefined(c.getAttribute('is') || c.localName)
             );
-            await Promise.all(promises);
+            const timeout = new Promise((resolve) => {
+                window.setTimeout(() => {
+                    resolve();
+                }, 1000);
+            });
+            await Promise.race([Promise.all(promises), timeout]);
         }
         resolve();
     });
 }
 
 /**
- * Return a promise that can be used to check if custom web components are setup and ready.
- * The promise will resolve once all web components are defined and no elements
- * have the [not-setup] attribute. The [not-setup] is intended for custom web components
- * that need additional setup after they have been added to the DOM.
- *
- * See also [componentsAreDefined()] and [isAttachedToDom()]
- *
- * @return {Promise}
- */
-export function componentsAreSetup() {
-    return new Promise(async (resolve) => {
-        // Wait until all web components on the page are defined.
-        const undefinedComponents = document.querySelectorAll(':not(:defined)');
-        if (undefinedComponents.length > 0) {
-            const promises = [...undefinedComponents].map(
-                c => window.customElements.whenDefined(c.getAttribute('is') || c.localName)
-            );
-            await Promise.all(promises);
-        }
-
-        // Check every 1/100th of a second for elements with the [not-setup]
-        // attribute. For example usage of this, see web components [data-table.js]
-        // which sets up [not-setup] and [input-filter.js] which calls this function.
-        // This will run for a max of 10 seconds to avoid issue with very slow
-        // page slows, search screens that wait for setup after a user action, etc.
-        const maxLoops = 1000;
-        let loopCount = 0;
-        const interval = window.setInterval(() => {
-            const notSetup = document.querySelectorAll('[not-setup]');
-            if (notSetup.length === 0) {
-                window.clearInterval(interval);
-                resolve();
-            } else if (loopCount > maxLoops) {
-                window.clearInterval(interval);
-                resolve();
-            }
-            loopCount++;
-        }, 10);
-    });
-}
-
-/**
  * Return `true` if an element is attached to the DOM. This function
- * can be used with [componentsAreSetup()] as a safety check before
- * running code in case custom elements do not remove the [not-setup]
- * attribute.
+ * can be used with long running scenarios as a safety check before
+ * running code in a SPA route with the element changes before setup
+ * code runs. For example usage see <input is="input-filter">
  *
  * @param {HTMLElement} element
  */

@@ -18,7 +18,7 @@
 /* jshint esversion:8 */
 /* jshint strict: true */
 
-import { WebComponentService } from '/js/web-components/WebComponentService.js';
+import { WebComponentService } from './WebComponentService.js';
 
 window.customElements.define('prism-service', class PrismService extends WebComponentService {
     onLoad(rootElement) {

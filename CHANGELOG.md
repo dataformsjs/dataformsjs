@@ -23,14 +23,20 @@ Overall the core Framework files and API are expected to remain stable however t
 * Many updates have been made for overall improvement of DataFormsJS Web Components
   * The updates are significant and make using the Web Components much easier for complex apps and sites; and provide for wider browser support.
   * The new features make for an easier to use API for customizing content on page after data is displayed. Previously the places demo required a lot of custom JavaScript on the page in order to display flag icons, format table data, and additional items.
-  * Added ability to polyfill Web Components for older browsers using the standard Framework that gets loaded from a single file.
-  * Examples:
+  * Added ability to polyfill Web Components for older browsers using the standard Framework that gets loaded from a single file and then that file `polyfill.js` loads additional framework files as needed.
+  * Web Component Examples:
     * https://www.dataformsjs.com/examples/hello-world/en/web.htm
     * https://www.dataformsjs.com/examples/hello-world/en/web-url-router.htm
     * https://www.dataformsjs.com/examples/places-demo-web.htm
     * https://www.dataformsjs.com/examples/log-table-web.htm#/10
     * https://www.dataformsjs.com/examples/countries-no-spa-web.htm
     * https://www.dataformsjs.com/examples/image-gallery-web.htm
+    * `http://127.0.0.1:8080/image-classification-web`
+    * `http://127.0.0.1:8080/web-components-with-react`
+    * `http://127.0.0.1:8080/web-components-template`
+    * `http://127.0.0.1:8080/web-components-data-list`
+    * `http://127.0.0.1:8080/web-components-format`
+    * `http://127.0.0.1:8080/hacker-news-web`
   * Added new easier to use API for `<url-router>` and `<json-data>` Web Components
   * Added ability to define custom `<template>` for table `<tr>` in `<data-table>`
   * Improvements for `<json-data>`
@@ -46,12 +52,12 @@ Overall the core Framework files and API are expected to remain stable however t
       * A similar update has been made for the main DataFormsJS Framework `app.buildUrl()`.
     * Added new attribute `[transform-data]` that allows for a JavaScript function to be specified and used to transform the downloaded data before it is passed to other elements.
   * Added new Web Component `<nav is="spa-links">`. Previously SPA Nav Links were handled from custom JavaScript code on the page. Now this functionality is much easier for a site to include as only HTML is needed.
-  * `<url-router>` and `<url-hash-router>` are now combined into one component `<url-router>` and `<url-hash-router>` has been removed
+  * `<url-router>` and `<url-hash-router>` are now combined into one component `<url-router>` and `<url-hash-router>` has been removed. 
   * `<url-router>` now has the ability to lazy load scripts (CSS and JavaScript) per route in a similar manner to the main framework using the new `window.lazyLoad` option and related HTML Attributes.
   * New Class `WebComponentService` which can be used to define "service" Web Components
     * The term "service" is used here because the intended use is that components created with this class do not render content but rather provide a service that updates other elements on the page based on HTML attributes element class names, etc. and that the service needs to run when content on the page changes from SPA routes or JSON Services.
     * This is a similar concept to the DataFormsJS Framework Plugins feature allowing for custom functionality to be defined easily and with little API code outside of standard DOM and JavaScript.
-    * This will be used by all DataFormsJS Web Components that end with "service" in the component name.
+    * This will be used by all DataFormsJS Web Components that end with "service" in the component name.    
   * Added new Web Component `<data-view>` and related Framework JavaScript Control for viewing data from `<json-data>` or other web components.
   * Added new Web Component `<keydown-action-service>`. Based on Framework Plugin `js/plugins/keydownAction.js`
   * Added new Web Component `<html-import-service>`. Based on standard framework features for `[data-template-url]` and `[data-template-id]`.
@@ -59,9 +65,10 @@ Overall the core Framework files and API are expected to remain stable however t
   * Added new Web Component `<prism-service>`. Based on Framework Plugin `js/plugins/prism.js`
   * Added ability to style errors using CSS from `utils.js` when calling `showError(element, message)` or `showErrorAlert(message)`.
   * New functions in `utils.js`: `loadCss(id, css)`, `isAttachedToDom(element)`
-  * Added `[X]` Close Button for `js/web-components/old-browser-warning.js` so that users can close the alert. With the new close button using `js/web-components/safari-nomodule.js` is no longer needed, however the file is stil being kept for reference and sites that want to customize and use it.
+  * Added `[X]` Close Button for `js/web-components/old-browser-warning.js` so that users can close the alert. With the new close button using `js/web-components/safari-nomodule.js` is no longer needed, however the file is still being kept for reference and sites that want to customize and use it.
   * `js\web-components\data-list.js`
     * Added HTML attribute `root-attr` which allows for any attribute to be set on the root element. Previously only the `class` could be set from `root-class`. The attribute `root-class` is still supported.
+  * For `<url-router>` and DataFormsJS Framework when using HTMl5 History Mode (pushState, popstate) the Mac `Command` Key is now supported so users can open SPA links in a separate tab. Previously the only the `{Control}` key worked which is used on Windows for new tags and on Mac for a context menu (right-click menu).
 * Added Node Support for `jsxLoader`
   * Previously `jsxLoader` only worked in a browser.
   * Now several API's are available for node `{ jsxLoader, transform(jsx, options) }`
@@ -94,6 +101,7 @@ Overall the core Framework files and API are expected to remain stable however t
     * `.image-gallery-overlay div.no-title { justify-content: center; }`
 * Bug fix for `js/pages/entryForm.js` where the `saveUrl` did not allow for variables from the model if the URL of the page did not include any URL parameters.
 * All Leaflet code has been updated to download map images using `https` instead of `http`; originally when DataFormsJS was published `https` was not available as a free option for leaflet.
+  * Additionally error messages have been improved for Leaflet.
   * Files updates:
     * `<leaflet-map>` Web Component
     * `LeafletMap` React Component and main `DataFormsJS.js` React file
@@ -108,7 +116,9 @@ The Web Components have the most complex breaking changes related to API usage h
 * Removed `<url-hash-router>`
   * This can now be replaced with `<url-router>`
   * `<url-router>` previously only worked with HTML5 History Routes `pushState/popstate`. To use history routes now use `<url-router mode="history">`
-* `js/web-components/utils.js` - Removed `showOldBrowserWarning()`. The feature has been replaced with the new `js/web-components/polyfill.js` and a function `usingWebComponentsPolyfill()`
+* `js/web-components/utils.js`
+  * Removed `showOldBrowserWarning()`. The feature has been replaced with the new `js/web-components/polyfill.js` and also the file `js/web-components/old-browser-warning.js` now includes a [X] close button so it it runs on Safari 10.1 or an old Chromium browser that doesn't support [nomodule] the user can simply close the alert.
+  * Removed `componentsAreSetup()`. This function is no longer needed and the logic related to it's usage prevented Web Components from working with React and was not fully valid based on Custom Element specs because elements were writing HTML attributes on their `constructor()`.
 * Web Components API for `<json-data>`, `<url-router>` have been changed significantly. Previously the API required `async/await` from module JavaScript and was complex to use. It has now been simplified so that events bubble up to the document can be handled easily from the root document event listener and so standard JavaScript functions can be called from HTML attributes.
   * **Before Update:** https://github.com/dataformsjs/dataformsjs/blob/c23bf5e4cd9e826c61313877ae0c2d2da6d6f889/examples/places-demo-web.htm
   * **After Update:** https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-web.htm

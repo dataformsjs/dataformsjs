@@ -735,6 +735,33 @@
      * Setup the app when the page is ready
      */
     document.addEventListener('DOMContentLoaded', function() {
+        // Check if DataFormsJS Web Components are already defined on the page
+        // and if they are then exit with a console warning.
+        //
+        // This can happen if using Web Components with <script src="polyfill.js">
+        // instead of <script nomodule src="polyfill.js">.
+        //
+        // Old Versions of Safari (10.#) have a bug where both <script type="module">
+        // and <script nomodule> will be loaded. Additionally the issue can affect
+        // legacy Edge browsers as well.
+        //
+        // This does not check all DataFormsJS Web Components; rather it should
+        // handle the majority of apps that use DataFormsJS Web Components.
+        // Basically most apps are expected to use on of <url-router> or <json-data>
+        // and if a page had only <table is="sortable-table"> then the Web Component
+        // and polyfill would run at the same time resulting in unpredictable sorting.
+        //
+        // Related Links:
+        //   https://caniuse.com/es6-module
+        //   https://gist.github.com/jakub-g/5fc11af85a061ca29cc84892f1059fec
+        //   https://jakearchibald.com/2017/es-modules-in-browsers/
+        //   https://gist.github.com/samthor/64b114e4a4f539915a95b91ffd340acc
+        //
+        if (window.customElements && (window.customElements.get('url-router') || window.customElements.get('json-data') || window.customElements.get('sortable-table'))) {
+            console.warn('It appears that both DataFormsJS Web Components and [polyfill.js] are loaded. Because of this [polyfill.js] will not run.');
+            return;
+        }
+
         // Handle already loaded plugins from [jsPlugins.js] and if defined
         // remove the exiting `window.app` object. An example of this exists
         // in [examples/log-table-web.htm].
@@ -748,6 +775,7 @@
         findRootUrl();
         var url = rootUrl + 'DataFormsJS' + (useMinFiles ? '.min' : '') + '.js';
         loadScript(url, function () {
+            app.viewEngine('Text');
             app.loadCss(polyfillStyleId, polyfillStyleCss);
 
             // If [jsPlugins.js] is used then add back the plugins

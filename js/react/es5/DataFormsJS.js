@@ -1213,6 +1213,11 @@ var LeafletMap = function (_React$Component5) {
         }
       }
 
+      if (window.L === undefined) {
+        console.error('Error - Unable to show map because Leaflet is not loaded on the page.');
+        return;
+      }
+
       var map = L.map(this.div.current).setView([lat, long], zoom);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a> contributors'

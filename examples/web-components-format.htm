@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Web Component Format Class</title>
+        <style>
+            body { display:flex; flex-direction:column; justify-content:center; align-items:center; }
+            section { max-width: 600px; }
+            data-view label { display:inline-block; width:250px; font-weight:bold; }
+            data-view label,
+            data-view span { border: 1px solid black; margin:5px 0; padding:.5em 1em; }
+        </style>
+    </head>
+    <body>
+        <section>
+            <h1>Web Component Format Class</h1>
+            <p>This page shows functions and example usage from the Format class in [utils-format.js].</p>
+            <p>The Format class is used with &lt;data-list&gt;, &lt;data-table&gt;, &lt;data-view&gt;, and &lt;json-data&gt; elements and it formats numbers and dates using the user's local language settings.</p>
+            <p>When using the standard DataFormsJS Framework `format` is provided by [js/extensions/format.js]</p>
+        </section>
+
+        <data-view template-selector="#format-test"></data-view>
+        <template id="format-test">
+            <div>
+                <label>format.number(${num1})</label>
+                <span>${format.number(num1)}</span>
+            </div>
+            <div>
+                <label>format.number(${num2})</label>
+                <span>${format.number(num2)}</span>
+            </div>
+            <div>
+                <label>format.currency(num, 'USD')</label>
+                <span>${format.currency(num2, 'USD')}</span>
+            </div>
+            <div>
+                <label>format.percent(${pct1})</label>
+                <span>${format.percent(pct1)}</span>
+            </div>
+            <div>
+                <label>format.percent(${pct2}, 2)</label>
+                <span>${format.percent(pct2, 2)}</span>
+            </div>
+            <div>
+                <label>format.percent(${pct2}, 3)</label>
+                <span>${format.percent(pct2, 4)}</span>
+            </div>
+            <div>
+                <label>format.date(new Date())</label>
+                <span>${format.date(dateValue)}</span>
+            </div>
+            <div>
+                <label>format.dateTime(new Date())</label>
+                <span>${format.dateTime(dateValue)}</span>
+            </div>
+            <div>
+                <label>format.time(new Date())</label>
+                <span>${format.time(dateValue)}</span>
+            </div>
+        </template>
+
+        <!--
+            DataFormsJS Web Components
+        -->
+        <script type="module" src="../js/web-components/data-view.js"></script>
+        <script nomodule src="../js/web-components/polyfill.js"></script>
+
+        <!-- <script src="../js/web-components/polyfill.js"></script> -->
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var data = {
+                        num1: 123456,
+                        num2: 123456.789,
+                        pct1: 0.505,
+                        pct2: 0.12345,
+                        dateValue: new Date(),
+                    };
+
+                // Using Web Components <data-view>
+                if (window.customElements && window.customElements.get('data-view')) {
+                    document.querySelector('data-view').value = data;
+                    return;
+                }
+
+                // Using [polyfill.js] so wait half a second for the DataFormsJS
+                // framework to load. If running this with slow internet (for example a mobile
+                // device and slow connection) then this code would error.
+                //
+                // This is uncommon usage of <data-view> as it would typically be used
+                // with <json-data> or a page object which is why a timeout is used here.
+                window.setTimeout(function() {
+                    if (window.app !== undefined) {
+                        // The <data-view> JavaScript controls requires [data-bind]
+                        // and an `activeModel` when using the Framework.
+                        app.activeModel = data;
+                        document.querySelector('data-view').setAttribute('data-bind', '');
+
+                        // Both options can be used below to reload the control:
+
+                        app.loadJsControl(app.activeJsControls[0]);
+
+                        // app.unloadAllJsControls();
+                        // app.loadAllJsControls();
+                    }
+                }, 500);
+            });
+        </script>
+    </body>
+</html>
