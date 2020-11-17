@@ -45,24 +45,11 @@ TODO List
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/sortable-table.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
-        - Playground Site
-            - Calculator Page needs to be created for Web Component Version (if time permits a React version as well)
-            - This has been started on but is very early in development
-        - For [polyfill.js] should a new attribute be added that shows an error for specific
-            elements on the page such as [data-warning-legacy-browser]?
-            - For example if used the Web Components would show no error on that element but the polyfill file
-                would add one (assuming that it's running from a legacy browser). This would allow for a page
-                to have some content work from old browsers and provide a simple warning for specific content
-                that does not have a polyfill.
-        - Create standard framework demo for Hacker News Demo:
-            dataformsjs\examples\hacker-news-react.htm
-            dataformsjs\examples\hacker-news-web.htm
-            - This would use a custom page object and JavaScript rather than nested JSON controls
         - Test using local build with webpack
             https://webpack.js.org/
             - If needed after release create a demo repository showing how to use DataFormsJS with webpack
-        - Update all React demos to use `react@17.0.1` and re-test all react pages using the new build of jsxLoader
-            No errors are expected as Unit Tests have been updated for the jsxLoader update (minor bug fix with specific JSX syntax)
+        - Create a version of the entry form demo for Web Components?
+            - If so this custom JavaScript will be used for the page rather than new Components for now.
         - Before release look for all files with: <script src="../js/  and point them to the AWS S3 site for testing
             Then after release update and test all pages to use standard CDN
         - Confirm main site updates, 3 versions of the main site exist, see code in:
@@ -79,6 +66,9 @@ TODO List
             Also update markdown docs to use [load-only-once] instead of [load-only-once="true"]
 
 **) After next release create a markdown overview doc using Web Components
+    - Update https://awesome-web-react.js.org/ to use React 17 then re-test all examples because
+        jsxLoader had a minor bug fix with specific JSX syntax.
+        No errors are expected as Unit Tests have been updated for the jsxLoader update as well as all example pages tested.
     - After new release publish here:
         https://www.webcomponents.org/publish-collection
     - Will cover overview and details - similar to the JSX Loader doc:
@@ -174,6 +164,10 @@ TODO List
         - https://www.dataformsjs.com/examples/binary-classification-vue.htm#/en/
         - One option is to use https://react-hook-form.com/
         - A new <EntryForm> and related components might be created in the future as well (not yet decided on though)
+    - Create standard framework demo for Hacker News Demo:
+        dataformsjs\examples\hacker-news-react.htm
+        dataformsjs\examples\hacker-news-web.htm
+        - This would use a custom page object and JavaScript rather than nested JSON controls
     - One Page Site Demos are functional but very ugly:
         [examples/one-page-site-hbs.htm]
         [examples/one-page-and-spa-hbs.htm]
@@ -181,11 +175,11 @@ TODO List
         - [one-page-and-spa-hbs.htm] was started based on the [template-files-hbs.htm] page
             so some content on the SPA pages is not needed
 
-*) Add option for lazy load scripts from [app.loadScript], [app.loadScripts], and Web Component
+*) Add options for lazy load scripts from [app.loadScript], [app.loadScripts], and Web Component
     `window.lazyLoad = {}` to include support for additional attributes. For example without
     the [crossorigin] attribute on <script> elements detailed errors are not shown. However
     [crossorigin] can't be included by default because it actually requires the server to
-    support CORS. To see an example use the playground and add this to the bottom of the 
+    support CORS. To see an example use the playground and add this to the bottom of the
     main page. Then run it with an without 'crossorigin'.
         document.addEventListener('DOMContentLoaded', function() {
             var url = 'https://dataformsjs.s3-us-west-1.amazonaws.com/tmp/calcPage.js';

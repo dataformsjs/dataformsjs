@@ -91,7 +91,7 @@
                 } else {
                     addTable('<table><caption style="display:block; ' + defaultErrorStyle + '">' + app.escapeHtml(errorMessage) + '</caption></table>');
                 }
-            };
+            }
 
             function removeTable() {
                 // If there is no template than it's safe to clear all content

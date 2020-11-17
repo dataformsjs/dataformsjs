@@ -10,12 +10,12 @@
  *     document.querySelector('data-list').renderList()
  *     document.querySelector('json-data').state
  *
- * Code that checks `(window.app !== undefined)` switches between the
+ * Code that checks `window.usingWebComponentsPolyfill` switches between the
  * Web Components and DataFormsJS Framework using [polyfill.js].
  *
  * The file is written using ES5 so that it can work with both modern browsers
  * and old browsers when using [polyfill.js]. If only modern browser support
- * was needed then logic using `(window.app !== undefined)` would not be needed.
+ * was needed then logic using `window.usingWebComponentsPolyfill` would not be needed.
  *
  * See similar code for DataFormsJS Framework using Handlebars and Vue
  * in the file [image-classification.js]. Much of this code for image
@@ -72,7 +72,7 @@ function resultClass(probability) {
  * This gets called when using option `manualDomUpdate = false`.
  */
 function refreshImageList() {
-    if (window.app !== undefined) {
+    if (window.usingWebComponentsPolyfill) {
         // DataFormsJS Framework using [polyfill.js]
         // Refresh the <data-list> JavaScript Control.
         var control = app.activeJsControls.find(function(control) {
@@ -97,7 +97,7 @@ function refreshImageList() {
  * the user clicks to another page while images are uploading.
  */
 function getState() {
-    if (window.app !== undefined) {
+    if (window.usingWebComponentsPolyfill) {
         return app.activeModel;
     } else {
         // This will work when using [polyfill.js] however in that
@@ -192,7 +192,7 @@ function resizeImage(src) {
             ctx.drawImage(img, 0, 0, img.width, img.height);
 
             // IE 11 needs a polyfill for [canvas.toBlob]. The polyfill is only loaded if needed.
-            if (window.app !== undefined) {
+            if (window.usingWebComponentsPolyfill) {
                 // Standard DataFormsJS Framework using Polyfill
                 var polyfillUrl = 'https://cdn.jsdelivr.net/npm/blueimp-canvas-to-blob@3.16.0/js/canvas-to-blob.min.js';
                 app.loadScript(canvas.toBlob, polyfillUrl).then(function() {

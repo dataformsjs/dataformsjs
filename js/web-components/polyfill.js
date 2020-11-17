@@ -216,6 +216,22 @@
     };
 
     /**
+     * Function used to add a plugin for elements that have the class [old-browser-warning].
+     * All elements with the class will be updated regardless of the browser. The reason is
+     * the intended production use of this file is to run from <script nomodule>.
+     *
+     * @param {HTMLElement} rootElement
+     */
+    var oldBrowserWarning = function(rootElement) {
+        var elements = (rootElement || document).querySelectorAll('.old-browser-warning');
+        var defaultMessage = 'Thank you for visiting! However some features on this page require a newer Browser or OS than the one that you are currently using. If you have a different browser available then please open this page with it.';
+        Array.prototype.forEach.call(elements, function(element) {
+            var message = element.getAttribute('data-old-browser-warning');
+            app.showError(element, (message ? message : defaultMessage));
+        });
+    };
+
+    /**
      * Function that gets called after a JSON Service finishes downloading data
      * or after the page is ready once the route has been set.
      */
@@ -708,7 +724,7 @@
         // Add API for additional Web Components
         var prismService = document.querySelector('prism-service');
         if (prismService) {
-            app.loadScripts(rootUrl + 'plugins/prism' + (useMinFiles ? '.min' : '') + '.js'),
+            app.loadScripts(rootUrl + 'plugins/prism' + (useMinFiles ? '.min' : '') + '.js');
             prismService.onLoad = function(rootElement) {
                 app.plugins.prism.onRendered(rootElement);
             };
@@ -721,6 +737,7 @@
 
             // Setup DataFormsJS
             defineCustomEvents();
+            app.addPlugin('oldBrowserWarning', oldBrowserWarning);
             var router = document.querySelector('url-router');
             if (router === null) {
                 noRoutingSetup();

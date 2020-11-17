@@ -11,6 +11,14 @@
             is-loading:not(:defined),
             has-error:not(:defined),
             is-loaded:not(:defined) { display:none; }
+
+            /* Update content on this page */
+            p {
+                max-width: 800px;
+                padding: 2em 1em;
+                text-align: left;
+                margin: auto;
+            }
         </style>
     </head>
     <body>
@@ -18,6 +26,7 @@
             <nav is="spa-links">
                 <a class="active" href="#/">Home</a>
                 <a href="#/data">Data Example</a>
+                <a href="#/custom">Custom Component</a>
             </nav>
         </header>
 
@@ -30,7 +39,7 @@
                 </template>
             </url-route>
 
-            <url-route path="/data">
+            <url-route path="/data" lazy-load="json_data, input_filter, data_table, sortable_table">
                 <template>
                     <h1>Countries</h1>
 
@@ -55,12 +64,36 @@
                             <data-table
                                 data-bind="countries"
                                 labels="Code, Name, Size (KM), Population, Continent"
+                                col-class="2=text-right, 3=text-right"
                                 table-attr="is=sortable-table,
                                             data-sort-class-odd=row-odd,
                                             data-sort-class-even=row-even">
+                                <script type="text/x-template">
+                                    <tr>
+                                        <td>${iso}</td>
+                                        <td>${country}</td>
+                                        <td class="text-right" data-value="${area_km}">${format.number(area_km)}</td>
+                                        <td class="text-right" data-value="${population}">${format.number(population)}</td>
+                                        <td>${continent}</td>
+                                    </tr>
+                                </script>
                             </data-table>
                         </is-loaded>
                     </json-data>
+                </template>
+            </url-route>
+
+            <url-route path="/custom">
+                <template>
+                    <h1>Custom Web Component defined on this Page</h1>
+                    <p>This page defines a custom &lt;hello-world&gt; Web Component. Because it’s a Web Component it will only work with modern browsers so IE and older mobile devices will see a warning on the root element because it uses the class “old-browser-warning”. The warning is handled by [polyfill.js].</p>
+                    <div class="old-browser-warning">
+                        <hello-world></hello-world>
+                        <hello-world name="Mars" color="blue"></hello-world>
+                    </div>
+                    <div class="old-browser-warning" data-old-browser-warning="Old Browser Warning using a Custom Error Message">
+                        <hello-world name="Moon" color="gray"></hello-world>
+                    </div>
                 </template>
             </url-route>
         </url-router>
@@ -69,13 +102,17 @@
             DataFormsJS Web Components
             https://www.dataformsjs.com
         -->
-        <script type="module" src="../js/web-components/spa-links.js"></script>
         <script type="module" src="../js/web-components/url-router.js"></script>
-        <script type="module" src="../js/web-components/json-data.js"></script>
-        <script type="module" src="../js/web-components/data-table.js"></script>
-        <script type="module" src="../js/web-components/input-filter.js"></script>
-        <script type="module" src="../js/web-components/sortable-table.js"></script>
+        <script type="module" src="../js/web-components/spa-links.js"></script>
         <script nomodule src="../js/web-components/polyfill.js"></script>
+        <script>
+            window.lazyLoad = {
+                json_data: { module: '../js/web-components/json-data.js' },
+                input_filter: { module: '../js/web-components/input-filter.js' },
+                data_table: { module: '../js/web-components/data-table.js' },
+                sortable_table: { module: '../js/web-components/sortable-table.js' },
+            };
+        </script>
 
         <!-- <script src="../js/web-components/polyfill.js"></script> -->
 
@@ -84,13 +121,107 @@
         -->
         <!--
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/data-list.min.js"></script>
+        <script type="module" src="../js/web-components/data-view.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/leaflet-map.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/image-gallery.min.js"></script>
         <script type="module" src="../js/web-components/keydown-action-service.js"></script>
+        <script type="module" src="../js/web-components/i18n-service.js"></script>
+        <script type="module" src="../js/web-components/html-import-service.js"></script>
+        <script type="module" src="../js/web-components/show-errors-service.js"></script>
         -->
 
         <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
-        <!-- <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/safari-nomodule.min.js"></script>
-        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/old-browser-warning.min.js"></script> -->
+        <!-- <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/web-components/old-browser-warning.min.js"></script> -->
+
+        <!--
+            Create a custom <hello-world> Web Component for this page
+        -->
+        <script type="module">
+            import { render } from '../js/web-components/utils.js';
+                        
+            /**
+             * Shadow DOM for Custom Elements
+             */
+            const shadowTmpl = document.createElement('template');
+            shadowTmpl.innerHTML = `
+                <style>
+                    :host { display: block; }
+                    :host([hidden]) { display: none; }
+                </style>
+                <slot></slot>
+            `;
+            
+            /**
+             * Define class for the <hello-world> element
+             */
+            class HelloWorld extends HTMLElement {
+                constructor() {
+                    super();
+                    const shadowRoot = this.attachShadow({mode: 'open'});
+                    shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
+                    this.state = {
+                        name: null,
+                        color: 'red',
+                    };
+                }
+            
+                connectedCallback() {
+                    this.render();
+                }
+            
+                // [observedAttributes] and [attributeChangedCallback] are used
+                // to handle HTML attribute changes.
+                static get observedAttributes() {
+                    return ['name', 'color'];
+                }
+            
+                attributeChangedCallback(attrName, oldValue, newValue) {
+                    switch (attrName) {
+                        case 'color':
+                        case 'name':
+                            this.state[attrName] = newValue;
+                            this.render();
+                            break;
+                    }
+                }
+            
+                // Define [name] and [color] properties for JavaScript
+                // Example usage:
+                //   document.querySelector('hello-world').name = 'John Doe';
+                //   document.querySelector('hello-world').color = '#ff0';
+                get name() {
+                    return this.state.name;
+                }
+            
+                set name(newValue) {
+                    this.state.name = newValue;
+                    this.render();
+                }
+            
+                get color() {
+                    return this.state.color;
+                }
+            
+                set color(newValue) {
+                    this.state.color = newValue;
+                    this.render();
+                }
+            
+                // Update the element contents
+                render() {
+                    const name = (this.state.name ? this.state.name : 'World');
+                    const html = render`
+                        <div style="color:${this.state.color};">
+                            Hello ${name}!
+                        <div>`;
+                    this.innerHTML = html;
+                }
+            }
+            
+            /**
+             * Add <hello-world> element to the page
+             */
+            window.customElements.define('hello-world', HelloWorld);
+        </script>
     </body>
 </html>
