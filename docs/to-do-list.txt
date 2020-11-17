@@ -39,11 +39,20 @@ TODO List
     - Items currently needed before this will be published to npm
         - Test using local build with webpack
             https://webpack.js.org/
-            - If needed after release create a demo repository showing how to use DataFormsJS with webpack
+            - If needed after release create a demo repository showing how to use DataFormsJS with webpack        
         - More testing and updates related to jsxLoader Node Support
             https://github.com/dataformsjs/dataformsjs/issues/16
             More details will be published in the main JSX Loader doc:
             https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
+        - Update build dependancies to lastest versions then make sure all Unit Tests and examples work as expected
+        - React Components build items to test and decide on
+            - Replace `import React from"react";` with empty string on [react/es6/*.min.js] files?
+            - That way the could be used in the browser as <script type="module" src="..."> and use native import as well
+            - Need to test and see if it works.
+            - This could result in an smaller download size for most users if options such as:
+                <script type="module" src="react/es6/JsonData.min.js">
+                <script nomodule src="react/es5/JsonData.js">
+            - Should 'use strict' be included at the top of the files?
         - Create a version of the entry form demo for Web Components?
             - If so this custom JavaScript will be used for the page rather than new Components for now.
             - All 3 sites should be tested more with a variety of devices and browsers to make sure everything works properly

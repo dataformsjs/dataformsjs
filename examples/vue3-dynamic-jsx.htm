@@ -20,7 +20,8 @@
                 background-image: linear-gradient(180deg, hsla(0, 0%, 100%, .6) 1%, hsla(0, 0%, 100%, .5) 30%,#fff), linear-gradient(25deg, #ffdbe7, #a9d9ff 32%,#f3eba6);
             }
 
-            p { margin:1em auto; }
+            h1 { margin-bottom: 1em; }
+            p { margin:.5em auto; }
 
             body,
             section {
@@ -37,7 +38,7 @@
                 background-color: white;
             }
 
-            button { padding:.5em 1em; margin-bottom:1em; }
+            button { padding:.5em 1em; margin:1em; margin-top:0; }
 
             .error {
                 padding: 1em;
@@ -50,18 +51,17 @@
     <body>
         <section id="root" class="container"></section>
 
-        <!--
-            JSX Loader will run this script on page load
-            because it uses [type="text/babel"]
-        -->
-        <script type="text/babel">
+        <script type="text/babel" id="welcome-content">
             // @jsx Vue.h
+            const issueLink = 'https://github.com/dataformsjs/dataformsjs/issues/16';
             function App() {
                 return (
                     <Vue.Fragment>
-                        <h1>Hello World from Page Load!</h1>
-                        <p>This page contains Vue 3 Demos built using JSX</p>
+                        <h1>Vue 3 using the jsxLoader</h1>
+                        <p>This page contains Vue 3 Demos built using JSX and uses lower-level API from the jsxLoader.</p>
+                        <p>Each example will be rendered or fully re-rendered on button clicks.</p>
                         <p><a href="https://github.com/vuejs/jsx/issues/141" target="_blank">Vue 3 JSX Design</a></p>
+                        <p><a href={issueLink} target="_blank">{issueLink}</a></p>
                     </Vue.Fragment>
                 )
             }
@@ -72,17 +72,10 @@
             );
         </script>
 
-        <!--
-            Additional scripts use [type="text/x-template"]
-            so they get loaded from code on this page.
-
-            However VS Code and other editors will likely not
-            highlight these scripts as JSX.
-        -->
         <section class="container example-code">
             <button>Click Button 1</button>
             <div class="target"></div>
-            <script type="text/x-template">
+            <script type="text/babel">
                 function App() {
                     return (<h2>Clicked Button 1 at {new Date().toLocaleString()}!</h2>)
                 }
@@ -92,17 +85,87 @@
         <section class="container example-code">
             <button>Click Button 2</button>
             <div class="target"></div>
-            <script type="text/x-template">
+            <script type="text/babel">
                 function App() {
-                    return <h2>Clicked Button 2 at {new Date().toLocaleString()}!</h2>
+                    return <h2>Clicked Button 2 at {new Date().toLocaleTimeString()}!</h2>
                 }
             </script>
         </section>
 
         <section class="container example-code">
+            <button>Import Custom Components</button>
+            <div class="target"></div>
+            <script type="text/babel">
+                import MyCounter from 'my-counter'
+                import HelloWorld from 'hello-world'
+
+                function App() {
+                    return (<div style={{textAlign:'center'}}>
+                        <MyCounter />
+                        <MyCounter />
+                        <HelloWorld />
+                        <HelloWorld name="Barthélémy" color="blue" />
+                    </div>)
+                }
+            </script>
+        </section>
+
+        <!--
+            Componet Source From:
+            https://mrcrmn.dev/articles/lightweight-components-with-vue3-and-jsx/
+        -->
+        <script type="text/babel" data-vue-component="my-counter">
+            export default Vue.defineComponent({
+                data() {
+                    return {
+                        count: 0
+                    }
+                },
+
+                methods: {
+                    increment() {
+                        this.count++
+                    }
+                },
+
+                render() {
+                    return (
+                        <div>
+                            <button onClick={this.increment}>Increment</button>
+                            <span>Count: {this.count}</span>
+                        </div>
+                    )
+                }
+            })
+        </script>
+
+        <script type="text/babel" data-vue-component="hello-world">
+            export default Vue.defineComponent({
+                props: {
+                    name: {
+                        type: String,
+                        default: 'World',
+                        required: false,
+                    },
+                    color: {
+                        type: String,
+                        default: 'red',
+                        required: false,
+                    },
+                },
+
+                render() {
+                    return (
+                        <div style={{color:this.color}}>Hello {this.name}</div>
+                    )
+                }
+            })
+        </script>
+
+        <section class="container example-code">
             <button>Compile Error</button>
             <div class="target"></div>
-            <script type="text/x-template">
+            <script type="text/babel">
                 function App() {
                     return (
                         <Vue.Fragment>
@@ -116,7 +179,7 @@
         <section class="container example-code">
             <button>Runtime Error</button>
             <div class="target"></div>
-            <script type="text/x-template">
+            <script type="text/babel">
                 function App() {
                     return (
                         <Vue.Fragment>
@@ -133,9 +196,10 @@
             Vue 3 - Prod Version:
                 <script src="https://cdn.jsdelivr.net/npm/vue@3.0.2/dist/vue.global.prod.js"></script>
 
-            ** Currently using Development to see error details
+            ** Currently using Development to see error details on the runtime error example
         -->
         <script src="https://cdn.jsdelivr.net/npm/vue@3.0.2/dist/vue.global.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/vue@3.0.2/dist/vue.global.prod.js"></script> -->
 
         <!-- DataFormsJS jsxLoader -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/jsxLoader.min.js"></script>
@@ -155,13 +219,31 @@
             // transformed JS code for this page in the console.
             window.showCode = false;
 
+            // By default jsxLoader will check the environment and then download
+            // Polyfills and Babel Standalone if needed during 'DOMContentLoaded'.
+            // This page does not need scripts to load automatically so automatically
+            // loading is cancelled by using specific jsxLoader API.
+            //
+            // `jsxLoader.isSupportedBrowser = true` can be used instead of
+            // `jsxLoader.evalCode = '';` once DataFormsJS 5.0.0 is released.
+            // Until the 5.0.0 release there will be one minor side effect of a
+            // `new Function()` being automatically created. It has no effect
+            // to the user but can result in a console warning for sites with
+            // strict Content Security Policy (CSP) that do not allow 'unsafe-eval'.
+            // This has no effect on sites without CSP.
+            //
+            jsxLoader.evalCode = '';
+            jsxLoader.needsPolyfill = false;
+            jsxLoader.setup = function(){};
+
             // Set these to `true` to view compiler details.
             //
             // Full Documentation at:
             //    https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
             //
-            // This applies only to scripts that load from the initial page load
             jsxLoader.logCompileTime = false;
+            // `logCompileTime applies only to scripts that are loaded from the initial page
+            // load scripts that are added to the page from `jsxLoader.loadScript(element)`.
             //
             jsxLoader.logCompileDetails = false;
             // *) Tokens generated from Lexical Analysis
@@ -172,22 +254,49 @@
                 'use strict';
 
                 function setupCodeSection(section) {
-                    var button = section.querySelector('button');
-                    var target = section.querySelector('.target');
-                    var template = section.querySelector('script[type="text/x-template"]');
+                    const button = section.querySelector('button');
+                    const target = section.querySelector('.target');
+                    const template = section.querySelector('script[type="text/babel"]');
                     if (button === null || target === null || template === null) {
                         return;
                     }
 
-                    button.onclick = function() {
+                    button.onclick = () => {
                         if (target.id === '') {
                             target.id = 'target-' + new Date().getTime();
+                        }
+
+                        // Get template
+                        let jsx = template.innerHTML;
+
+                        // Use Regex to determine if components on this page should be included.
+                        // This is a basic demo and not desgined to handle all scenarios including:
+                        //  - Duplicate 'import' of the same Component
+                        //  - Missing Components
+                        //  - Non-English or specical characters
+                        const regex = /import ([a-zA-Z0-9-_]*) from ('|")([a-zA-Z0-9-_]*)('|")/gm;
+                        let match;
+                        while ((match = regex.exec(jsx)) !== null) {
+                            const importStatement = match[0];
+                            const componentName = match[1];
+                            const componentImport = match[3];
+                            let componentJsx = document.querySelector('[data-vue-component="' + componentImport + '"]');
+                            if (componentJsx) {
+                                componentJsx = componentJsx.innerHTML;
+                                componentJsx = componentJsx.replace('export default ', 'const ' + componentName + ' = ');
+                            }
+                            jsx = jsx.replace(importStatement, componentJsx);
                         }
 
                         // By default `React.createElement` is used.
                         // Add a code hint so `Vue.h` is used instead.
                         // Additionally render the <App> object to the target element.
-                        var jsx = template.innerHTML;
+                        //
+                        // Once DataFormsJS 5.0.0 is released the following will
+                        // be made avaiable in addition to code hints.
+                        //    jsxLoader.compiler.pragma = 'Vue.h'
+                        //    jsxLoader.compiler.pragmaFrag = 'Vue.Fragment'
+                        //
                         jsx = '// @jsx Vue.h\n' + jsx;
                         jsx += '\n Vue.render(<App />, document.getElementById("' + target.id + '"));';
 
@@ -230,6 +339,11 @@
                 }
 
                 document.addEventListener('DOMContentLoaded', function() {
+                    // Normally when using jsxLoader this would happen automatically,
+                    // however auotmatic loading is turned off for this page.
+                    jsxLoader.loadScript(document.querySelector('script#welcome-content'));
+
+                    // Setup all code examples
                     var sections = document.querySelectorAll('section.example-code');
                     Array.prototype.forEach.call(sections, function(section) {
                         setupCodeSection(section);
