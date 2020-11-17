@@ -45,8 +45,6 @@ TODO List
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/sortable-table.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
-        - Test mixing Framework and Web Components, possibly provide an error alert from Web Components if that
-            happens and the code doesn't work. Currently the intention is to use one or the other.
         - Playground Site
             - Calculator Page needs to be created for Web Component Version (if time permits a React version as well)
             - This has been started on but is very early in development
