@@ -2,8 +2,8 @@
  * This page should only be loaded by older browsers that do not support <script type="module">.
  *
  * Example usage:
- *     <script type="module" src="../js/web-components/json-data.js"></script>
- *     <script nomodule src="../js/web-components/old-browser-warning.js"></script>
+ *     <script type="module" src="dataformsjs/js/web-components/json-data.js"></script>
+ *     <script nomodule src="dataformsjs/js/web-components/old-browser-warning.js"></script>
  */
 (function() {
     'use strict';

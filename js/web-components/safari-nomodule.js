@@ -6,9 +6,9 @@
  * https://jakearchibald.com/2017/es-modules-in-browsers/
  *
  * Example usage:
- *     <script type="module" src="../js/web-components/json-data.js"></script>
- *     <script nomodule src="../js/web-components/safari-nomodule.js"></script>
- *     <script nomodule src="../js/web-components/old-browser-warning.js"></script>
+ *     <script type="module" src="dataformsjs/js/web-components/json-data.js"></script>
+ *     <script nomodule src="dataformsjs/js/web-components/safari-nomodule.js"></script>
+ *     <script nomodule src="dataformsjs/js/web-components/old-browser-warning.js"></script>
  *
  * Originally [old-browser-warning.js] was published without the close [X] button.
  * Now that a close button is included it's safe to exclude this script if using

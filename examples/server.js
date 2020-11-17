@@ -41,8 +41,8 @@ const readFile = util.promisify(fs.readFile);
 
 const port = 8080;
 
-async function getFiles() {
-    return await readdir(__dirname)
+async function getFiles(path) {
+    return await readdir(path)
     .then(files => {
         return files.filter(f => f.endsWith('.htm') && !f.startsWith('_'));
     })
@@ -56,18 +56,23 @@ async function getFiles() {
 
 app.get('/', async (req, res) => {
     const listItems = [];
-    const files = await getFiles();
+
+    // Get Hello World Examples
+    let files = await getFiles(path.join(__dirname, 'hello-world'));
+    files.forEach(file => {
+        const label = 'hello world ' + file;
+        listItems.push(`<li><a href="/examples/hello-world/en/${file}.htm">${label}</a></li>`);
+    });
+
+    // Get all Examples from this dir
+    files = await getFiles(__dirname);
     files.push('https://awesome-web-react.js.org/');
     files.forEach(file => {
         const label = (file.startsWith('https://') ? file : file.replace(/-/g, ' '));
         listItems.push(`<li><a href="${file}">${label}</a></li>`);
     });
-    // TODO - likely use <url-router> and list all hello world demos on another page (links later in this file).
-    //  If doing that likely move this code to an HTML file so it can be modified
-    //  without having to restart the node server.
-    //  - Also showing a page for docs [jsxLoader, readme, future docs] would be good as well
-    //    This would require a new markdown component and plugin which has been planned for the future.
-    //  - If this will take too long then add it to notes for future development
+
+    // Return as list in a basic HTML page
     const html = `
         <!doctype html>
         <html lang="en">

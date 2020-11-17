@@ -28,49 +28,58 @@ TODO List
         Since changes are currently in active development the related features may
         go through additional changes without warning.
     - Until updates are finished many or most examples will be pointing
-        to local build files rather than CDN.
+        to local build or s3 bucket rather than CDN.
     - The next release will likely be published sometime in November of 2020
-    - More testing and updates related to jsxLoader Node Support
-        https://github.com/dataformsjs/dataformsjs/issues/16
-        More details will be published in the main JSX Loader doc:
-        https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
     - Updates can be tested using root URL:
         https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/
         - All files under [js] are copied there. Example if testing from the Playground:
             https://www.dataformsjs.com/en/playground
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/url-router.min.js"></script>
-        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/json-data.min.js"></script>
-        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/data-table.min.js"></script>
-        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/input-filter.min.js"></script>
-        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/sortable-table.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
         - Test using local build with webpack
             https://webpack.js.org/
             - If needed after release create a demo repository showing how to use DataFormsJS with webpack
+        - More testing and updates related to jsxLoader Node Support
+            https://github.com/dataformsjs/dataformsjs/issues/16
+            More details will be published in the main JSX Loader doc:
+            https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
         - Create a version of the entry form demo for Web Components?
             - If so this custom JavaScript will be used for the page rather than new Components for now.
-        - Before release look for all files with: <script src="../js/  and point them to the AWS S3 site for testing
-            Then after release update and test all pages to use standard CDN
+            - All 3 sites should be tested more with a variety of devices and browsers to make sure everything works properly
+        - Update `npm start` home page to include docs?
+            - If not for the next release then in the a future one
+            - Likely use <url-router> and list all markdown docs [jsxLoader, readme, future docs] on another page
+            - Possibly move the HTML template code to an HTML file so it can be modified
+                without having to restart the node server.
+            - Also showing a page for docs  would be good as well
+            - This will require a new markdown component and plugin which has been planned for the future.
+        - More testing of examples using different devices and browsers
+        - Handle and remove all `NOTE` comments in [polyfill.js] before npm publishing
+        - Before release update docs and example code that use <url-hash-router> to use <url-router> with the new CDN link
+            Also update markdown docs to use [load-only-once] instead of [load-only-once="true"]
+
+**) Steps after release
+    - Replace test JS scripts from:
+        https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/
+      With latest vesion from jsdelivr once it becomes available
+    - Update https://awesome-web-react.js.org/ to use React 17 then re-test all examples because
+        jsxLoader had a minor bug fix with specific JSX syntax.
+        No errors are expected as Unit Tests have been updated for the jsxLoader update as well as all example pages tested.
+    - Regression testing
+        - Test all examples with many different browsers and devices
+        - At a minimum the new script Polyfill scripts needs to handle IE 11, older Safari (example iOS 9), UC Browser.
+            iOS 9 support because older devices such as iPad 2 can't upgrade past it and iPhone 6
+            phones that are not upgraded still use it. Currently all of these browsers are confirmed to work.
         - Confirm main site updates, 3 versions of the main site exist, see code in:
                 website\app\app.php
             - Then search for: "index-web.htm"
             - The live production site currently uses handlebars however it's likely the Web Component version
                 will be used instead after release.
-            - All 3 sites should be tested more with a variety of devices and browsers to make sure everything works properly
-        - Handle and remove all `NOTE` comments in [polyfill.js] before npm publishing
-        - At a minimum the new script Polyfill scripts needs to handle IE 11, older Safari (example iOS 9), UC Browser.
-            iOS 9 support because older devices such as iPad 2 can't upgrade past it and iPhone 6
-            phones that are not upgraded still use it. Currently all of these browsers are confirmed to work.
-        - Before release update docs and example code that use <url-hash-router> to use <url-router> with the new CDN link
-            Also update markdown docs to use [load-only-once] instead of [load-only-once="true"]
-
-**) After next release create a markdown overview doc using Web Components
-    - Update https://awesome-web-react.js.org/ to use React 17 then re-test all examples because
-        jsxLoader had a minor bug fix with specific JSX syntax.
-        No errors are expected as Unit Tests have been updated for the jsxLoader update as well as all example pages tested.
     - After new release publish here:
         https://www.webcomponents.org/publish-collection
+
+**) After next release create a markdown overview doc using Web Components
     - Will cover overview and details - similar to the JSX Loader doc:
         https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
     - Topics to cover:
