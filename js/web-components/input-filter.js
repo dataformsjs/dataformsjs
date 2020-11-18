@@ -29,6 +29,10 @@ class InputFilter extends HTMLInputElement {
     }
 
     connectedCallback() {
+        this.setupFilter();
+    }
+
+    setupFilter() {
         // Filter content immediately if there is not result text to display
         if (!this.hasAttribute('filter-results-selector')) {
             this.filter();
@@ -86,6 +90,11 @@ class InputFilter extends HTMLInputElement {
         const filterWordCount = filterWords.length;
         const hasFilter = (filterWordCount !== 0);
         let displayCount = 0;
+
+        // TODO - this gets called multiple times on page load of places demo
+        // Mac only (both Chrome and Safari), due to line `polyfillIsNeeded = !(div instanceof WebComponentCheck);`
+        // in [utils.js] returning true for both browsers (only expected for Safari).
+        console.log('filter with: ' + this.value);
 
         // Elements to filter and related settings
         const { elements, cssOdd, cssEven } = this.getElementsToFilter();
@@ -173,5 +182,9 @@ class InputFilter extends HTMLInputElement {
 
 window.customElements.define('input-filter', InputFilter, { extends: 'input' });
 defineExtendsPolyfill('input-filter', 'input', (el) => {
-    el.addEventListener('input', InputFilter.prototype.filter);
+    el.addEventListener('input', InputFilter.prototype.filter.bind(el));
+    el.setupFilter = InputFilter.prototype.setupFilter.bind(el);
+    el.getElementsToFilter = InputFilter.prototype.getElementsToFilter.bind(el);
+    el.filter = InputFilter.prototype.filter.bind(el);
+    el.setupFilter();
 });
