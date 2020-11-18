@@ -31,9 +31,9 @@
     "url": "https://github.com/dataformsjs/dataformsjs.git"
   },
   "devDependencies": {
-    "@babel/standalone": "^7.7.7",
+    "@babel/standalone": "^7.12.6",
     "eslint": "^7.3.1",
     "uglify-es": "^3.3.9",
-    "uglify-js": "^3.7.3"
+    "uglify-js": "^3.11.6"
   }
 }

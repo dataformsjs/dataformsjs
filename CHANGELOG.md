@@ -124,6 +124,9 @@ Overall the core Framework files and API are expected to remain stable however t
     * `<leaflet-map>` Web Component
     * `LeafletMap` React Component and main `DataFormsJS.js` React file
     * `leaflet` Framework plugin.
+* Updated dependencies used for building the `*.min.js` files
+  * `@babel/standalone` updated from `7.7.7` to `7.12.6`, used to build es5 version of React Components
+  * `uglify-js` updated from `3.7.3` to `3.11.6`
 
 ### Breaking Changes
 
