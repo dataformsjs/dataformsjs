@@ -115,7 +115,7 @@ export function render(strings, ...values) {
 /**
  * Build and return a URL. For example "/order/:id" becomes "/order/123"
  * if {id:123} is sent in the [params] parameter.
- * 
+ *
  * Global variables from the `window` object can be included when using
  * brackets. Example: "{rootApiUrl}/countries" will look for `window.rootApiUrl`.
  *
@@ -181,7 +181,7 @@ export function setElementText(element, value) {
         case 'TEXTAREA':
             element.value = (value === null ? '' : String(value));
             break;
-        default:            
+        default:
             if (nodeName.includes('-') || element.hasAttribute('is')) {
                 if ('value' in element) {
                     // <data-list>, <data-table>, <data-view>, etc
@@ -353,9 +353,9 @@ export function loadCss(id, css) {
  * This function is used to call the polyfill setup code. Custom elements that
  * use the [is] attribute should call need to define a object in [window._webComponentPolyfills]
  * in order to use this. See examples from [sortable-table.js] and [input-filter.js].
- * 
+ *
  * https://caniuse.com/custom-elementsv1
- * 
+ *
  * @param {undefined|HTMLElement} rootElement
  */
 export function polyfillCustomElements(rootElement = document) {
@@ -363,21 +363,30 @@ export function polyfillCustomElements(rootElement = document) {
     //   Chrome: false
     //   Safari: true
     if (polyfillIsNeeded === null) {
-        class WebComponentCheck extends HTMLDivElement {}
-        if (window.customElements.get('web-component-polyfill-check') === undefined) {
-            // Only define the custom element once, if a page attempts to load
-            // both 'utils.min.js' and 'utils.js' versions then an error can show
-            // in console if the element is not first checked.
-            window.customElements.define('web-component-polyfill-check', WebComponentCheck, { extends: 'div' });
+        // If this file gets loaded multiple times under a different name or path
+        // (example both as [utils.min.js] and [utils.js]) then the global variable
+        // `_webComponentPolyfillIsNeeded` defined in this function prevents the code
+        // from resulting in `true` when it should be `false`. The reason is because
+        // the class defined here is in local scope so it would technically a different
+        // class in each file and then `instanceof WebComponentCheck` will fail in one
+        // of the files but work in the first one loaded.
+        if (window._webComponentPolyfillIsNeeded === undefined) {
+            class WebComponentCheck extends HTMLDivElement {}
+            if (window.customElements.get('web-component-polyfill-check') === undefined) {
+                window.customElements.define('web-component-polyfill-check', WebComponentCheck, { extends: 'div' });
+            }
+            let docEl = document.querySelector('body');
+            if (!docEl) {
+                docEl = document.documentElement;
+            }
+            docEl.insertAdjacentHTML('beforeend', '<div is="web-component-polyfill-check"></div>');
+            const div = document.querySelector('div[is="web-component-polyfill-check"]');
+            polyfillIsNeeded = !(div instanceof WebComponentCheck);
+            docEl.removeChild(div);
+            window._webComponentPolyfillIsNeeded = polyfillIsNeeded;
+        } else {
+            polyfillIsNeeded = window._webComponentPolyfillIsNeeded;
         }
-        let docEl = document.querySelector('body');
-        if (!docEl) {
-            docEl = document.documentElement;
-        }
-        docEl.insertAdjacentHTML('beforeend', '<div is="web-component-polyfill-check"></div>');
-        const div = document.querySelector('div[is="web-component-polyfill-check"]');
-        polyfillIsNeeded = !(div instanceof WebComponentCheck);
-        docEl.removeChild(div);
     }
 
     // Update all elements on screen that need the polyfill

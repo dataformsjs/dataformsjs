@@ -19,7 +19,7 @@
     <body>
         <div id="view">
             <h1>Countries</h1>
-            
+
             <div id="root"></div>
         </div>
 
@@ -45,8 +45,11 @@
         // Set to `true` to view compiler details
         jsxLoader.logCompileTime = false;
         jsxLoader.logCompileDetails = false;
-        
-        // Replace commonly used React API's with Preact once code is compiled
+
+        // Replace commonly used React API's with Preact once code is compiled.
+        // A few elements in this file use <React.Component> or <React.Fragment>
+        // and calling this function handles them which makes it easy to use
+        // the jsxLoader to swap out React Code for Preact.
         jsxLoader.usePreact();
     </script>
 

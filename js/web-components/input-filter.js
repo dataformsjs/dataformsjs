@@ -91,13 +91,6 @@ class InputFilter extends HTMLInputElement {
         const hasFilter = (filterWordCount !== 0);
         let displayCount = 0;
 
-        // TODO - this gets called multiple times on page load of places demo
-        // Mac only (both Chrome and Safari), due to line `polyfillIsNeeded = !(div instanceof WebComponentCheck);`
-        // in [utils.js] returning true for both browsers (only expected for Safari).
-        // It happens on Chrome all OS's if both [utils.js] and [utils.min.js] are included (or a local [utils.js] and a server version).
-        // That is not intended but it can be looked at further to see if it can be avoided.
-        console.log('filter with: ' + this.value);
-
         // Elements to filter and related settings
         const { elements, cssOdd, cssEven } = this.getElementsToFilter();
 
@@ -184,9 +177,17 @@ class InputFilter extends HTMLInputElement {
 
 window.customElements.define('input-filter', InputFilter, { extends: 'input' });
 defineExtendsPolyfill('input-filter', 'input', (el) => {
+    // This function may get called multiple times per page
+    // load however the element should be setup only once because
+    // each time this is called it would create a new function when
+    // using `.bind()`.
+    if (el.hasAttribute('data-polyfill-is-setup')) {
+        return;
+    }
     el.addEventListener('input', InputFilter.prototype.filter.bind(el));
     el.setupFilter = InputFilter.prototype.setupFilter.bind(el);
     el.getElementsToFilter = InputFilter.prototype.getElementsToFilter.bind(el);
     el.filter = InputFilter.prototype.filter.bind(el);
     el.setupFilter();
+    el.setAttribute('data-polyfill-is-setup', '');
 });

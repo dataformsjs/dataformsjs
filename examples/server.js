@@ -60,7 +60,7 @@ app.get('/', async (req, res) => {
     // Get Hello World Examples
     let files = await getFiles(path.join(__dirname, 'hello-world'));
     files.forEach(file => {
-        const label = 'hello world ' + file;
+        const label = 'hello world ' + file.replace(/-/g, ' ');
         listItems.push(`<li><a href="/examples/hello-world/en/${file}.htm">${label}</a></li>`);
     });
 
@@ -158,7 +158,7 @@ app.get('/:file', (req, res, file) => {
         // When not including it sha256 hashes can be used as shown below. Hashes can be used
         // with the standard framework on most examples that use the simple `app.LazyLoad`
         // code snippet, however with React many browsers would have to be tested in order
-        // to get all the hashes so 'unsafe-inline' is recommened for React.
+        // to get all the hashes so 'unsafe-inline' is recommend for React.
         "'unsafe-inline'",
         // URL's
         'https://cdn.jsdelivr.net',

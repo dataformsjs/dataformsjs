@@ -8,7 +8,7 @@
  * and Babel Standalone are downloaded from a CDN and used to convert the JSX code to JS.
  *
  * The result of this script is that React/JSX can be used directly in production webpages
- * without having to use a large build process and dependancy download to convert JSX to JS.
+ * without having to use a large build process and dependency download to convert JSX to JS.
  *
  * Documentation:
  *     https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
@@ -91,6 +91,8 @@
      *     jsxLoader.jsUpdates.push({ find:/regex_search/g, replace:'{string}' });
      *     jsxLoader.usePreact();
      *     jsxLoader.addBabelPolyfills = function() { '...'; }
+     *     jsxLoader.compiler.pragma = 'Vue.h';
+     *     jsxLoader.compiler.pragmaFrag = 'Vue.Fragment';
      * </script>
      */
     var jsxLoader = {
@@ -123,7 +125,7 @@
          * and Babel will be downloaded and used.
          *
          * This property can be overwritten before the page finishes loading in case you would
-         * like to target specific browsers or featuers. In the first example below Firefox, Edge
+         * like to target specific browsers or features. In the first example below Firefox, Edge
          * and other supported Browsers will use Babel because Chrome version 79 is being targeted.
          *
          *     window.jsxLoader.evalCode = "if (!navigator.userAgent.includes('Chrome/79')) throw 'Test';";
@@ -178,17 +180,14 @@
         /**
          * This property gets set to either `true` or `false` depending on `evalCode`.
          * When `false` it means that Babel was downloaded and used to compile JSX.
+         * To manually override the default setup set this a value prior to the
+         * 'DOMContentLoaded' event.
          */
         isSupportedBrowser: null,
 
         /**
-         * Maximum number of calls for recursive functions.
-         */
-        maxRecursiveCalls: 1000,
-
-        /**
          * Setup the compiler to use Preact instead of React. This function is designed
-         * for good compatability between React Components and Preact and it will allow
+         * for good compatibility between React Components and Preact and it will allow
          * React Components to be used for Preact without defining an alias variable.
          *
          * If you are developing a Preact app that has different needs then this function
@@ -197,6 +196,10 @@
          * See Preact demos for usage.
          */
         usePreact: function () {
+            // Set compiler directives
+            this.compiler.pragma = 'preact.createElement';
+            this.compiler.pragmaFrag = 'preact.Fragment';
+
             // Replace commonly used React API's with Preact once code is compiled
             this.jsUpdates.push({ find: /ReactDOM\.render/g, replace: 'preact.render' });
             this.jsUpdates.push({ find: /React\.Component/g, replace: 'preact.Component' });
@@ -472,6 +475,13 @@
          */
         compiler: {
             /**
+             * Compiler Options
+             */
+            pragma: 'React.createElement',
+            pragmaFrag: 'React.Fragment',
+            maxRecursiveCalls: 1000,
+
+            /**
              * Compile JSX to JS
              *
              * @param {string} input
@@ -690,7 +700,8 @@
                     pos,
                     loopCount = 0,
                     callCount = 0,
-                    nextChar;
+                    nextChar,
+                    maxRecursiveCalls = this.maxRecursiveCalls;
 
                 // Private function to return the next React/JSX Element
                 function nextElementPos() {
@@ -760,8 +771,8 @@
                 function tokenizeElement(startPosition, firstNode) {
                     // Safety check
                     callCount++;
-                    if (callCount > jsxLoader.maxRecursiveCalls) {
-                        throw new Error('Call count exceeded in tokenizer. If you have a large JSX file that is valid you can increase them limit using the property `jsxLoader.maxRecursiveCalls`.');
+                    if (callCount > maxRecursiveCalls) {
+                        throw new Error('Call count exceeded in tokenizer. If you have a large JSX file that is valid you can increase them limit using the property `jsxLoader.compiler.maxRecursiveCalls`.');
                     }
 
                     // Current state of the processed text
@@ -1181,7 +1192,18 @@
                         pos: null,
                     },
                     callCount = 0,
-                    tokenCount = tokens.length;
+                    tokenCount = tokens.length,
+                    maxRecursiveCalls = this.maxRecursiveCalls,
+                    pragmaFrag = this.pragmaFrag;
+
+                // Default to use `React.Fragment`, however if a code hint for
+                // Babel is found such as `// @jsxFrag Vue.Fragment` then use
+                // the `Fragment` component from the code hint.
+                var regex = /(\/\/|\/\*|\/\*\*)\s+@jsxFrag\s+([a-zA-Z.]+)/gm;
+                var match = regex.exec(input);
+                if (match) {
+                    pragmaFrag = match[2];
+                }
 
                 function nextTokenType() {
                     if (current < tokenCount) {
@@ -1192,8 +1214,8 @@
 
                 function walk(stackCount) {
                     callCount++;
-                    if (callCount > jsxLoader.maxRecursiveCalls) {
-                        throw new Error('Call count exceeded in parser. If you have a large JSX file that is valid you can increase them limit using the property `jsxLoader.maxRecursiveCalls`.');
+                    if (callCount > maxRecursiveCalls) {
+                        throw new Error('Call count exceeded in parser. If you have a large JSX file that is valid you can increase them limit using the property `jsxLoader.compiler.maxRecursiveCalls`.');
                     }
 
                     var token = tokens[current];
@@ -1211,7 +1233,7 @@
                     if (token.type === tokenTypes.e_start) {
                         var elName = token.value.replace('<', '').replace('/', '').replace('>', '');
                         if (elName === '') {
-                            elName = 'React.Fragment';
+                            elName = pragmaFrag;
                         }
                         var firstChar = elName[0];
                         var node = {
@@ -1353,7 +1375,7 @@
                 // Default to use `React.createElement`, however if a code hint for
                 // Babel is found such as `// @jsx preact.createElement` then use
                 // the `createElement()` function from the code hint.
-                var createElement = 'React.createElement';
+                var createElement = this.pragma;
                 var regex = /(\/\/|\/\*|\/\*\*)\s+@jsx\s+([a-zA-Z.]+)/gm;
                 var match = regex.exec(input);
                 if (match) {
@@ -1545,36 +1567,16 @@
     };
 
     /**
-     * Optional Node Support
+     * Optional Node Support. Additionally if using webpack or a bundler is being used
+     * and only compiling is needed lower-level API settings can be used to prevent
+     * this script from checking if it needs to download polyfills or babel.
+     *
      * https://github.com/dataformsjs/dataformsjs/issues/16
      */
     var isBrowser = (typeof window !== 'undefined' && typeof window.document !== 'undefined');
     if (!isBrowser && typeof module === 'object' && typeof module.exports === 'object') {
-        module.exports = {
-            /**
-             * Full JSX Loader API
-             */
-            jsxLoader: jsxLoader,
-
-            /**
-             * Transform (compile) a JSX String into a modern JavaScript String.
-             *
-             * @param {string} jsx
-             * @param {object} options
-             * @returns {string}
-             */
-            transform: function(jsx, options) {
-                // By default jsxLoader uses 'React.createElement' for the Virtual DOM method
-                // and it supports code hints just like Babel Standalone `// @jsx Vue.h`
-                if (options && typeof options.pragma === 'string' && /^[a-zA-Z.]+$/.test(options.pragma) && jsx.indexOf('// @jsx ') === -1) {
-                    jsx = '// @jsx ' + options.pragma + '\n' + jsx;
-                }
-                return jsxLoader.compiler.compile(jsx);
-            },
-        };
-
-        // Web Browser is not being used so do not run any setup code.
-        return;
+        module.exports = { jsxLoader: jsxLoader };
+        return; // Web Browser is not being used so do not run any setup code below
     }
 
     /**
@@ -1590,11 +1592,15 @@
         // Create a new function and call the code from `evalCode` to check the browser
         // supports the `class` keyword along with `let` and `const`. If so then the compiler
         // from [jsxLoader] will be used, otherwise Babel will be used.
-        try {
-            new Function('"use strict";' + jsxLoader.evalCode)();
-            jsxLoader.isSupportedBrowser = true;
-        } catch (e) {
-            jsxLoader.isSupportedBrowser = false;
+        // By default this is checked, however an app can bypass this check
+        // by setting `isSupportedBrowser` prior to the 'DOMContentLoaded' event.
+        if (jsxLoader.isSupportedBrowser === null) {
+            try {
+                new Function('"use strict";' + jsxLoader.evalCode)();
+                jsxLoader.isSupportedBrowser = true;
+            } catch (e) {
+                jsxLoader.isSupportedBrowser = false;
+            }
         }
 
         // Download, Compile JSX, and add as JavaScript to the page.

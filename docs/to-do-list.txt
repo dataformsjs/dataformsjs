@@ -37,36 +37,30 @@ TODO List
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/url-router.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
-        - Fixing issues related to <input is="input-filter"> for Safari
-            Seach for related `TODO` comments in source
-        - Test using local build with webpack
-            https://webpack.js.org/
-            - This is being actively tested, docs to follow
-            - If needed after release create a demo repository showing how to use DataFormsJS with webpack        
         - More testing and updates related to jsxLoader Node Support
             https://github.com/dataformsjs/dataformsjs/issues/16
             More details will be published in the main JSX Loader doc:
             https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
-        - Update build dependancies to lastest versions then make sure all Unit Tests and examples work as expected
+            - Unit test the new options and support for new code hint:
+                jsxLoader.compiler.pragma = 'Vue.h';
+                jsxLoader.compiler.pragmaFrag = 'Vue.Fragment';
+                // @jsxFrag Vue.Fragment
+            - The code hint might require a newer version of babel for IE so
+                proper testing is needed for many browsers.
+            * Unit tests updated - now confirm in more browsers
+            - Add a markdown import example to:
+                dataformsjs/examples/vue3-dynamic-jsx.htm
+        - Update build dependencies to latest versions then make sure all Unit Tests and examples work as expected
         - React Components build items to test and decide on
             - Replace `import React from"react";` with empty string on [react/es6/*.min.js] files?
             - That way the could be used in the browser as <script type="module" src="..."> and use native import as well
             - Need to test and see if it works.
-            - This could result in an smaller download size for most users if options such as:
+            - This could result in an smaller download size for most users if allows for code such as:
                 <script type="module" src="react/es6/JsonData.min.js">
                 <script nomodule src="react/es5/JsonData.js">
             - Should 'use strict' be included at the top of the files?
-        - Create a version of the entry form demo for Web Components?
-            - If so this custom JavaScript will be used for the page rather than new Components for now.
-            - All 3 sites should be tested more with a variety of devices and browsers to make sure everything works properly
-        - Update `npm start` home page to include docs?
-            - If not for the next release then in the a future one
-            - Likely use <url-router> and list all markdown docs [jsxLoader, readme, future docs] on another page
-            - Possibly move the HTML template code to an HTML file so it can be modified
-                without having to restart the node server.
-            - Also showing a page for docs  would be good as well
-            - This will require a new markdown component and plugin which has been planned for the future.
         - More testing of examples using different devices and browsers
+        - Prepare all quick ref docs before publishing so changes are quick to publish once npm is updated
         - Handle and remove all `NOTE` comments in [polyfill.js] before npm publishing
         - Before release update docs and example code that use <url-hash-router> to use <url-router> with the new CDN link
             Also update markdown docs to use [load-only-once] instead of [load-only-once="true"]
@@ -74,7 +68,7 @@ TODO List
 **) Steps after release
     - Replace test JS scripts from:
         https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/
-      With latest vesion from jsdelivr once it becomes available
+      With latest version from jsdelivr once it becomes available
     - Update https://awesome-web-react.js.org/ to use React 17 then re-test all examples because
         jsxLoader had a minor bug fix with specific JSX syntax.
         No errors are expected as Unit Tests have been updated for the jsxLoader update as well as all example pages tested.
@@ -88,8 +82,37 @@ TODO List
             - Then search for: "index-web.htm"
             - The live production site currently uses handlebars however it's likely the Web Component version
                 will be used instead after release.
+            - All 3 sites should be tested more with a variety of devices and browsers to make sure everything works properly
     - After new release publish here:
         https://www.webcomponents.org/publish-collection
+
+**) Near future updates
+    - After the 5.0.0 release create a new repository showing how to use DataFormsJS
+        with webpack: https://webpack.js.org/
+    - The DataFormsJS React Components have been developed and tested
+        using create-react-app, webpack, etc; however the main framework,
+        web components, and the jsxLoader were not tested
+    - Basics:
+        - Import files directly, future docs can go into detail on why
+        # Framework
+        import 'dataformsjs/js/DataFormsJS'
+        import 'dataformsjs/js/plugins/navLinks'
+        # JSX Loader
+        import 'dataformsjs/js/react/jsxLoader'
+            # To prevent side effects from the jsxLoader on webpack set
+            # the following directly in the related script.
+            jsxLoader.isSupportedBrowser = true;
+            jsxLoader.needsPolyfill = false;
+            jsxLoader.setup = function() { };
+        # Web Components
+        import 'dataformsjs/js/web-components/json-data'
+        import 'dataformsjs/js/web-components/data-table'
+    - Update `npm start` home page to include docs
+        - Likely use <url-router> and list all markdown docs [jsxLoader, readme, future docs] on another page
+        - Possibly move the HTML template code to an HTML file so it can be modified
+            without having to restart the node server.
+        - Also showing a page for docs  would be good as well
+        - This will require a new markdown component and plugin which has been planned for the future.
 
 **) After next release create a markdown overview doc using Web Components
     - Will cover overview and details - similar to the JSX Loader doc:
@@ -147,6 +170,52 @@ TODO List
         More time to research and test this is needed.
     - Use HTTP/2 instead of http/1.1
         This can be done if migrating servers to nginx instead of Apache
+
+*) Web Components Updates
+    - <json-data>
+        - Add support for custom Request Headers.
+        - For how the standard Framework handles this see code related to [app.settings.requestHeaders].
+        - React <JsonData> uses props
+        - The Web Components version will likely use global variables to be defined from JS:
+            <script>
+                window.requestHeaders = {}
+                window.requestHeadersByHostName = {}
+            And then the Framework [app.getRequestHeaders] and related code can be used as a starting point
+            If using this option it will be easy to work with the the framework when using [polyfill.js]
+    - Create a new <form is="entry-form"> Component
+        - A Framework JavaScript control could be created as the Polyfill. Ideally the new control
+            would use functions from the main entryForm page object so it doesn't have to be duplicated.
+        - Existing Framework Demo:
+            https://www.dataformsjs.com/examples/entry-form-demo-vue.htm
+        - This may or may not ever be created. It's not a priority until needed for an actual production site.
+            Web Components (as of release 5.0.0) contain a new easy to use JavaScript API that allows for
+            a site to be extended using only basic JavaScript functions so it's easy to build custom
+            entry form apps.
+        - If it doesn't make sense to create <form is="entry-form"> then the demo can
+            be re-created using custom JS
+    - Create a new Web Component for advanced drop-down/select lists?
+        - Would use behavior and features from:
+            https://react-select.com/home
+            https://harvesthq.github.io/chosen/
+            https://select2.org/
+            https://selectize.github.io/selectize.js/
+            https://joshuajohnson.co.uk/Choices/
+            https://github.com/downshift-js/downshift
+            https://vue-multiselect.js.org/
+        - If there is a good Web Component alternative then this does not need to be created
+        - Needed features:
+            - Show Images, this can be done with the templating feature similar to <data-list> / <data-table>
+            - Different Value/Label - for example Country Code [value] but Country Name for user list
+            - Type to filter
+            - Multiple select with tags
+            - [role="listbox"] - example in: website/public/html/getting-started.htm
+            - or use [aria-autocomplete="list" role="combobox"] / Need to research more at time of development
+        - Possible names:
+            <data-select>
+            <web-select>
+            <image-select>
+    - Add Unit Testing
+        - Currently only the main Framework and the React [jsxLoader.js] have Unit Testing
 
 *) New plugin or features to handle content preloading
     - For example routes could have a [data-preload] attribute and then a new plugin would
@@ -269,50 +338,6 @@ TODO List
     - This demo does not fully work so it's in code but not linked from the main site.
       Seems like it may be an issue due to Rax and not the jsxLoader. See comments in the HTML file.
         http://127.0.0.1:8080/countries-no-spa-rax.htm
-
-*) Web Components Updates
-    - Create a new Web Component for advanced drop-down/select lists?
-        - Would use behavior and features from:
-            https://react-select.com/home
-            https://harvesthq.github.io/chosen/
-            https://select2.org/
-            https://selectize.github.io/selectize.js/
-            https://joshuajohnson.co.uk/Choices/
-            https://github.com/downshift-js/downshift
-            https://vue-multiselect.js.org/
-        - If there is a good Web Component alternative then this does not need to be created
-        - Needed features:
-            - Show Images, this can be done with the templating feature similar to <data-list> / <data-table>
-            - Different Value/Label - for example Country Code [value] but Country Name for user list
-            - Type to filter
-            - Multiple select with tags
-            - [role="listbox"] - example in: website/public/html/getting-started.htm
-            - or use [aria-autocomplete="list" role="combobox"] / Need to research more at time of development
-        - Possible names:
-            <data-select>
-            <web-select>
-            <image-select>
-    - Add Unit Testing
-        - Currently only the main Framework and the React [jsxLoader.js] have Unit Testing
-    - <json-data>
-        - Add support for custom Request Headers.
-        - For how the standard Framework handles this see code related to [app.settings.requestHeaders].
-        - React <JsonData> uses props
-        - The Web Components version will likely use global variables to be defined from JS:
-            <script>
-                window.requestHeaders = {}
-                window.requestHeadersByHostName = {}
-            And then the Framework [app.getRequestHeaders] and related code can be used as a starting point
-            If using this option it will be easy to work with the the framework when using [polyfill.js]
-    - Create a new <form is="entry-form"> Component
-        - A Framework JavaScript control could be created as the Polyfill. Ideally the new control
-            would use functions from the main entryForm page object so it doesn't have to be duplicated.
-        - Existing Framework Demo:
-            https://www.dataformsjs.com/examples/entry-form-demo-vue.htm
-        - This may or may not ever be created. It's not a priority until needed for an actual production site.
-            Web Components (as of release 5.0.0) contain a new easy to use JavaScript API that allows for
-            a site to be extended using only basic JavaScript functions so it's easy to build custom
-            entry form apps.
 
 *) Many Docs need to be created along with API page(s)
     - API needs a quick search/filter feature to look up any attribute/class/function/etc

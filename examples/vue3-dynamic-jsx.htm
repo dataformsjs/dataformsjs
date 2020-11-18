@@ -111,8 +111,11 @@
         </section>
 
         <!--
-            Componet Source From:
+            Component Source From:
             https://mrcrmn.dev/articles/lightweight-components-with-vue3-and-jsx/
+
+            NOTE - `Vue.defineComponent` is not required and was created
+            for use with TypeScript: https://v3.vuejs.org/guide/typescript-support.html#defining-vue-components
         -->
         <script type="text/babel" data-vue-component="my-counter">
             export default Vue.defineComponent({
@@ -140,7 +143,7 @@
         </script>
 
         <script type="text/babel" data-vue-component="hello-world">
-            export default Vue.defineComponent({
+            export default {
                 props: {
                     name: {
                         type: String,
@@ -159,7 +162,7 @@
                         <div style={{color:this.color}}>Hello {this.name}</div>
                     )
                 }
-            })
+            }
         </script>
 
         <section class="container example-code">
@@ -202,7 +205,8 @@
         <!-- <script src="https://cdn.jsdelivr.net/npm/vue@3.0.2/dist/vue.global.prod.js"></script> -->
 
         <!-- DataFormsJS jsxLoader -->
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/jsxLoader.min.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/jsxLoader.min.js"></script> -->
+        <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/react/jsxLoader.min.js"></script>
 
         <!--
             Warning for IE 11 and Old Mobile Devices because the tested build of Vue 3.0.0
@@ -219,6 +223,14 @@
             // transformed JS code for this page in the console.
             window.showCode = false;
 
+            // Several lower-level settings have been added to the jsxLoader
+            // based ont his demo and issue. Detect which version is being used.
+            const isJsxLoader5 = (jsxLoader.compiler.pragma !== undefined);
+            if (isJsxLoader5) {
+                jsxLoader.compiler.pragma = 'Vue.h';
+                jsxLoader.compiler.pragmaFrag = 'Vue.Fragment';
+            }
+
             // By default jsxLoader will check the environment and then download
             // Polyfills and Babel Standalone if needed during 'DOMContentLoaded'.
             // This page does not need scripts to load automatically so automatically
@@ -230,11 +242,22 @@
             // `new Function()` being automatically created. It has no effect
             // to the user but can result in a console warning for sites with
             // strict Content Security Policy (CSP) that do not allow 'unsafe-eval'.
-            // This has no effect on sites without CSP.
+            // This has no effect on sites without CSP. Granted this specific
+            // file would not work with that CSP because it needs to generate
+            // code dynamically at runtime.
             //
-            jsxLoader.evalCode = '';
+            if (isJsxLoader5) {
+                jsxLoader.isSupportedBrowser = true;
+            } else {
+                jsxLoader.evalCode = '';
+            }
             jsxLoader.needsPolyfill = false;
             jsxLoader.setup = function(){};
+
+            // Optional to prevent jsxLoader from skipping one-line JSX code
+            // blocks with specific JS. Not needed in this demo.
+            //
+            // jsxLoader.compiler.isMinimized = function() { return false; };
 
             // Set these to `true` to view compiler details.
             //
@@ -270,10 +293,10 @@
                         let jsx = template.innerHTML;
 
                         // Use Regex to determine if components on this page should be included.
-                        // This is a basic demo and not desgined to handle all scenarios including:
+                        // This is a basic demo and not designed to handle all scenarios including:
                         //  - Duplicate 'import' of the same Component
                         //  - Missing Components
-                        //  - Non-English or specical characters
+                        //  - Non-English or special characters
                         const regex = /import ([a-zA-Z0-9-_]*) from ('|")([a-zA-Z0-9-_]*)('|")/gm;
                         let match;
                         while ((match = regex.exec(jsx)) !== null) {
@@ -293,7 +316,7 @@
                         // Additionally render the <App> object to the target element.
                         //
                         // Once DataFormsJS 5.0.0 is released the following will
-                        // be made avaiable in addition to code hints.
+                        // be made available in addition to code hints.
                         //    jsxLoader.compiler.pragma = 'Vue.h'
                         //    jsxLoader.compiler.pragmaFrag = 'Vue.Fragment'
                         //
@@ -340,7 +363,7 @@
 
                 document.addEventListener('DOMContentLoaded', function() {
                     // Normally when using jsxLoader this would happen automatically,
-                    // however auotmatic loading is turned off for this page.
+                    // however automatic loading is turned off for this page.
                     jsxLoader.loadScript(document.querySelector('script#welcome-content'));
 
                     // Setup all code examples

@@ -17,6 +17,7 @@ Overall the core Framework files and API are expected to remain stable however t
 
 * **Thanks ElevateBart** for helping with the idea and API proposal related to `jsxLoader` updates with this release: https://github.com/elevatebart
   * https://github.com/dataformsjs/dataformsjs/issues/16
+  * The result is that jsxLoader can not be used from both node and webpack without side effects. Originally jsxLoader was intended only for browser use and it would always check if polyfills or babel standalone were needed based on the browser environment. Now this can be turned off. 
 
 ### Release Overview
 
@@ -73,9 +74,22 @@ Overall the core Framework files and API are expected to remain stable however t
   * For `<url-router>` and DataFormsJS Framework when using HTMl5 History Mode (pushState, popstate) the Mac `Command` Key is now supported so users can open SPA links in a separate tab. Previously the only the `{Control}` key worked which is used on Windows for new tags and on Mac for a context menu (right-click menu).
 * `jsxLoader` Updates
   * Minor bug fix where empty data props were not parsed correctly in a specific condition if this previous prop was not empty; this was found when updating Web Components for full React Support.
-  * Added Node Support for 
-    * Previously `jsxLoader` only worked in a browser.
-    * Now several API's are available for node `{ jsxLoader, transform(jsx, options) }`
+  * Added Node Support
+  * Added ability for jsxLoader to run from webpack (or in a browser) without any side effects if only the compiler is needed.
+  * Previously `jsxLoader` only worked in a browser.
+  * jsxLoader is now available as a node API and it works in the browser.
+  * Added new compiler settings and options:
+  ~~~js
+  jsxLoader.compiler.pragma = 'React.createElement';
+  jsxLoader.compiler.pragmaFrag = 'React.Fragment';
+  jsxLoader.compiler.maxRecursiveCalls = 1000;
+  // The above setting replaces `jsxLoader.maxRecursiveCalls` so it's a breaking
+  // change, however it's mostly just an internal property for unit testing and
+  // for safety in the event of an unexpected error.
+
+  // Added new code hint that is supported by Babel:
+  /* @jsxFrag Vue.Fragment */
+  ~~~
 * Enhancements for DataFormsJS Framework files:
   * Added `app.updateTemplatesForIE(rootElement)`. IE 11 considers `<template>` elements as valid elements so it applies `querySelector()` and related methods to elements under `<templates>`'s so replace with them `<script type="text/x-template">`. This avoids issues of `<template>` elements that contain embedded content. Previously this was only handled once per page load but now is handled (for IE only) when views are rendered.
   * Added features in `js/plugins/dataBind.js` based on the Web Components version.

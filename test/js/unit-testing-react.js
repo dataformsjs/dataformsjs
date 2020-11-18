@@ -114,8 +114,18 @@ describe('jsxLoader.js', function() {
             expect(typeof jsxLoader.needsPolyfill).to.equal('boolean');
         });
 
-        it('should have jsxLoader.maxRecursiveCalls', function() {
-            expect(jsxLoader).to.have.property('maxRecursiveCalls', 1000);
+        it('should have jsxLoader.compiler.maxRecursiveCalls', function() {
+            expect(jsxLoader.compiler).to.have.property('maxRecursiveCalls', 1000);
+        });
+
+        it('should have jsxLoader.compiler.pragma', function() {
+            var expected = (window.preact === undefined ? 'React.createElement' : 'preact.createElement');
+            expect(jsxLoader.compiler).to.have.property('pragma', expected);
+        });
+
+        it('should have jsxLoader.compiler.pragmaFrag', function() {
+            var expected = (window.preact === undefined ? 'React.Fragment' : 'preact.Fragment');
+            expect(jsxLoader.compiler).to.have.property('pragmaFrag', expected);
         });
 
         it('should have jsxLoader.hasPendingScripts() === false', function() {
@@ -541,31 +551,44 @@ describe('jsxLoader.js', function() {
             return error;
         }
 
+        // Reset if using Preact test before calling `it()` functions
+        function resetIfUsingPreact() {
+            if (window.preact !== undefined) {
+                jsxLoader.compiler.pragma = 'React.createElement';
+                jsxLoader.compiler.pragmaFrag = 'React.Fragment';
+            }
+        }
+
         it('should compile simple element', function() {
+            resetIfUsingPreact();
             var jsx = '<div></div>';
             var js = jsxLoader.compiler.compile(jsx);
             expect(js).to.equal("React.createElement(\"div\", null)");
         });
 
         it('should compile simple element with 1 child', function() {
+            resetIfUsingPreact();
             var jsx = '<Test>Hello</Test>';
             var js = jsxLoader.compiler.compile(jsx);
             expect(js).to.equal("React.createElement(Test, null, \"Hello\")");
         });
 
         it('should compile simple element with 2 children', function() {
+            resetIfUsingPreact();
             var jsx = '<div>Hello {this.props.name}</div>';
             var js = jsxLoader.compiler.compile(jsx);
             expect(js).to.equal("React.createElement(\"div\", null, \"Hello \", this.props.name)");
         });
 
         it('should compile nested elements', function() {
+            resetIfUsingPreact();
             var jsx = '<div><div>Hello {this.props.name}</div></div>';
             var js = jsxLoader.compiler.compile(jsx);
             expect(js).to.equal("React.createElement(\"div\", null, \n            React.createElement(\"div\", null, \"Hello \", this.props.name))");
         });
 
         it('should compile simple element with props', function() {
+            resetIfUsingPreact();
             var jsx = '<Test message="test" value={123}>Hello</Test>';
             var js = jsxLoader.compiler.compile(jsx);
             console.log(js);
@@ -574,33 +597,36 @@ describe('jsxLoader.js', function() {
         });
 
         it('should have correct child whitespace nodes', function() {
+            resetIfUsingPreact();
             var jsx = '<div><strong className={this.props.cssClass}>Test:</strong> {this.props.name} <section>Test [{this.props.name}] <span className="test">Test2</span></section></div>';
             var js = jsxLoader.compiler.compile(jsx);
             expect(js).to.equal('React.createElement(\"div\", null, \n            React.createElement(\"strong\", {className: this.props.cssClass}, \"Test:\"), \" \", this.props.name, \" \",  React.createElement(\"section\", null, \"Test [\", this.props.name, \"] \", \n                React.createElement(\"span\", {className: \"test\"}, \"Test2\")))');
         });
 
-        it('should have a helpfull error message for different closing element', function() {
+        it('should have a helpful error message for different closing element', function() {
+            resetIfUsingPreact();
             var error = getCompilerError('<div></span>');
             expect(error).to.equal('Error: Found closing element [span] that does not match opening element [div] from Token # 1 at Line #: 1, Column #: 10, Line: <div></span');
         });
 
-        it('should have a helpfull error message for missing closing element', function() {
+        it('should have a helpful error message for missing closing element', function() {
+            resetIfUsingPreact();
             var error = getCompilerError('\n\n<div><span></div>');
             expect(error).to.equal('Error: Found closing element [div] that does not match opening element [span] from Token # 3 at Line #: 3, Column #: 15, Line: <div><span></div');
         });
 
-        it('should error in the tokenizer for recusive calls', function() {
-            jsxLoader.maxRecursiveCalls = 1;
+        it('should error in the tokenizer for recursive calls', function() {
+            jsxLoader.compiler.maxRecursiveCalls = 1;
             var error = getCompilerError('<Parent data={<Child />}</Parent>');
-            expect(error).to.equal('Error: Call count exceeded in tokenizer. If you have a large JSX file that is valid you can increase them limit using the property `jsxLoader.maxRecursiveCalls`.');
-            jsxLoader.maxRecursiveCalls = 1000; // Reset
+            expect(error).to.equal('Error: Call count exceeded in tokenizer. If you have a large JSX file that is valid you can increase them limit using the property `jsxLoader.compiler.maxRecursiveCalls`.');
+            jsxLoader.compiler.maxRecursiveCalls = 1000; // Reset
         });
 
-        it('should error in the parser for recusive calls', function() {
-            jsxLoader.maxRecursiveCalls = 1;
+        it('should error in the parser for recursive calls', function() {
+            jsxLoader.compiler.maxRecursiveCalls = 1;
             var error = getCompilerError('<Parent><Child></Child></Parent>');
-            expect(error).to.equal('Error: Call count exceeded in parser. If you have a large JSX file that is valid you can increase them limit using the property `jsxLoader.maxRecursiveCalls`.');
-            jsxLoader.maxRecursiveCalls = 1000; // Reset
+            expect(error).to.equal('Error: Call count exceeded in parser. If you have a large JSX file that is valid you can increase them limit using the property `jsxLoader.compiler.maxRecursiveCalls`.');
+            jsxLoader.compiler.maxRecursiveCalls = 1000; // Reset
         });
 
         it('should error with a minimized js `for` loop', function() {
@@ -612,16 +638,16 @@ describe('jsxLoader.js', function() {
         });
 
         it('should work with a spaced js `for` loop', function() {
-            // Simlar to the above but spaces are used so the code compiles correctly.
+            // Similar to the above but spaces are used so the code compiles correctly.
             var jsx = 'for (let n = 0; n < m; n++) {console.log(n);} <div></div>';
             var js = jsxLoader.compiler.compile(jsx);
             expect(js).to.equal('for (let n = 0; n < m; n++) {console.log(n);} React.createElement("div", null)');
         });
 
         it('should support @jsx code hint on single line comment', function() {
-            var jsx = '// @jsx preact.createElement\n<div></div>';
+            var jsx = '// @jsx Vue.h\n// @jsxFrag Vue.Fragment\n<><div></div></>';
             var js = jsxLoader.compiler.compile(jsx);
-            expect(js).to.equal("                            \npreact.createElement(\"div\", null)");
+            expect(js).to.equal('             \n                        \nVue.h(Vue.Fragment, null, \n            Vue.h("div", null))');
         });
 
         it('should support @jsx code hint on multline line comment', function() {

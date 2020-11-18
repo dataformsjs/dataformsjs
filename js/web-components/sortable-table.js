@@ -54,7 +54,6 @@ class SortableTable extends HTMLTableElement {
         // Add click events to all the last header row of all columns
         const row = table.tHead.rows[table.tHead.rows.length-1];
         for (let cellIndex = 0, cellCount = row.cells.length; cellIndex < cellCount; cellIndex++) {
-            // TODO - test next code block in more detail
             if (this instanceof HTMLTableElement) {
                 row.cells[cellIndex].addEventListener('click', SortableTable.prototype.sortColumn);
             } else {

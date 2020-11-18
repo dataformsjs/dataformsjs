@@ -32,7 +32,7 @@
          * Each route/controller that is used will create a new model for it's page.
          */
         model: {
-            // Propeties
+            // Properties
             counter: 0,
 
             logFuncHash: function(func) {
