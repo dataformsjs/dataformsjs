@@ -94,6 +94,8 @@ class InputFilter extends HTMLInputElement {
         // TODO - this gets called multiple times on page load of places demo
         // Mac only (both Chrome and Safari), due to line `polyfillIsNeeded = !(div instanceof WebComponentCheck);`
         // in [utils.js] returning true for both browsers (only expected for Safari).
+        // It happens on Chrome all OS's if both [utils.js] and [utils.min.js] are included (or a local [utils.js] and a server version).
+        // That is not intended but it can be looked at further to see if it can be avoided.
         console.log('filter with: ' + this.value);
 
         // Elements to filter and related settings

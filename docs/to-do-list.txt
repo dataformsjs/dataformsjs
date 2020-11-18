@@ -37,7 +37,8 @@ TODO List
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/url-router.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
-        - <input is="input-filter"> is broken on Safari after recent development updates. Need to fix.
+        - Fixing issues related to <input is="input-filter"> for Safari
+            Seach for related `TODO` comments in source
         - Test using local build with webpack
             https://webpack.js.org/
             - This is being actively tested, docs to follow
