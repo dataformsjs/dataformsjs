@@ -23,106 +23,78 @@ TODO List
 --------------------------------------------------------------------------
 
 **) Steps after 5.0.0 release (Thursday, November 19, 2020)
-    - Check main site quick-reference filter
-        Not working properly for web components - likely need a fix based on main framework
-    - Main site
-        - i18n [overview_1] home page updated in en lang, need to update other languages
-        - home page - replace react template:
-            <script type="text/babel" src="js/es6/JsonData.js"></script>
-        - with new module/nomodule version
-        - Also update getting started templates for React/Preact
-    - Update https://awesome-web-react.js.org/ to use React 17 then re-test all examples because
-        jsxLoader had a minor bug fix with specific JSX syntax.
-        No errors are expected as Unit Tests have been updated for the jsxLoader update as well as all example pages tested.
-    - Regression testing
-        - Test all examples with many different browsers and devices
-        - At a minimum the new script Polyfill scripts needs to handle IE 11, older Safari (example iOS 9), UC Browser.
-            iOS 9 support because older devices such as iPad 2 can't upgrade past it and iPhone 6
-            phones that are not upgraded still use it. Currently all of these browsers are confirmed to work.
-        - Confirm main site updates, 3 versions of the main site exist, see code in:
-                website\app\app.php
-            - Then search for: "index-web.htm"
-            - The live production site currently uses handlebars however it's likely the Web Component version
-                will be used instead after release.
-            - Currently 2 of the 3 sites likely point to local build and need to be updated to use CDN
-            - All 3 sites should be tested more with a variety of devices and browsers to make sure everything works properly
-            - Need to move [public/js/*] files to [public/site-js/*] or something similar
-                They get mixed up to easy when performing find/replace with latest DataFormsJS CDN build that also uses "/js/"
-                An alternative would be to publish DataFormsJS using something other than /js/ however the /js/ dir makes sense for most sites
-        - After @latest is updated on jsdelivr with 5.0.0 release verify all readme code snippets
-        - Confirm updates work as expected with webpack and create-react-app after new release
-    - After @latest is updated on jsdelivr confirm the following line of code:
+    - After @latest is updated on jsdelivr (likely Friday) confirm the following line of code:
         dataformsjs/js/web-components/polyfill.js
         function findRootUrl() {
             rootUrl = 'https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/';
-    - Update jsxLoader docs on how the new build works and how files can be used:
-        <script type="module" src="../js/react/es6/DataFormsJS.min.js"></script>
-        <script nomodule src="../js/react/es5/DataFormsJS.min.js"></script>
-        - Also update doc based on updates and findings from this issue:
-            https://github.com/dataformsjs/dataformsjs/issues/16
-    - After new release publish here:
-        https://www.webcomponents.org/publish-collection
+        Also verify readme snippet, currently it requires specific version for polyfill:
+            <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.1/js/web-components/polyfill.min.js"></script>
 
 **) https://github.com/dataformsjs/dataformsjs/issues/16
     - Add a markdown import example to:
         dataformsjs/examples/vue3-dynamic-jsx.htm
 
 **) Near future updates (November and December 2020)
-    - After the 5.0.0 release create a new repository showing how to use DataFormsJS
-        with webpack: https://webpack.js.org/
-    - The DataFormsJS React Components have been developed and tested
-        using create-react-app, webpack, etc; however the main framework,
-        web components, and the jsxLoader were not tested
-    - Basics:
-        - Import files directly, future docs can go into detail on why
-        # Framework
-        import 'dataformsjs/js/DataFormsJS'
-        import 'dataformsjs/js/plugins/navLinks'
-        # JSX Loader
-        import 'dataformsjs/js/react/jsxLoader'
-            # To prevent side effects from the jsxLoader on webpack set
-            # the following directly in the related script.
-            jsxLoader.isSupportedBrowser = true;
-            jsxLoader.needsPolyfill = false;
-            jsxLoader.setup = function() { };
-        # Web Components
-        import 'dataformsjs/js/web-components/json-data'
-        import 'dataformsjs/js/web-components/data-table'
+    - Add Web Component API examples to quick ref section of the main site
+        'app:contentReady', etc
+    - Publish Web Components here:
+        https://www.webcomponents.org/publish-collection
+    - Update jsxLoader doc based on updates and findings from this issue:
+        https://github.com/dataformsjs/dataformsjs/issues/16
+    - Create a new repository showing how to use DataFormsJS
+            with webpack: https://webpack.js.org/
+        - The DataFormsJS React Components have been developed and tested
+            using create-react-app, webpack, etc; however the main framework,
+            web components, and the jsxLoader were not originally tested with webpack
+        - Basics:
+            - Import files directly, future docs can go into detail on why
+            # Framework
+            import 'dataformsjs/js/DataFormsJS'
+            import 'dataformsjs/js/plugins/navLinks'
+            # JSX Loader
+            import 'dataformsjs/js/react/jsxLoader'
+                # To prevent side effects from the jsxLoader on webpack set
+                # the following directly in the related script.
+                jsxLoader.isSupportedBrowser = true;
+                jsxLoader.needsPolyfill = false;
+                jsxLoader.setup = function() { };
+            # Web Components
+            import 'dataformsjs/js/web-components/json-data'
+            import 'dataformsjs/js/web-components/data-table'
     - Update `npm start` home page to include docs
         - Likely use <url-router> and list all markdown docs [jsxLoader, readme, future docs] on another page
         - Possibly move the HTML template code to an HTML file so it can be modified
             without having to restart the node server.
         - Also showing a page for docs  would be good as well
         - This will require a new markdown component and plugin which has been planned for the future.
-
-**) After next release create a markdown overview doc using Web Components
-    - Will cover overview and details - similar to the JSX Loader doc:
-        https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
-    - Topics to cover:
-        - SPA Routing
-        - Using to download JSON Data and bind to other elements on screen
-        - How data binding works
-        - Web Component "Services" Concept
-            Need to add template for this in quick ref section on main site
-        - How the polyfill works and reason it was created over other options
-        - How to test the polyfill with modern browsers:
-            Just use:
-                <script src="../js/web-components/polyfill.js"></script>
-            Instead of:
+    - Create a markdown overview doc using Web Components
+        - Will cover overview and details - similar to the JSX Loader doc:
+            https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
+        - Topics to cover:
+            - SPA Routing
+            - Using to download JSON Data and bind to other elements on screen
+            - How data binding works
+            - Web Component "Services" Concept
+                Need to add template for this in quick ref section on main site
+            - How the polyfill works and reason it was created over other options
+            - How to test the polyfill with modern browsers:
+                Just use:
+                    <script src="../js/web-components/polyfill.js"></script>
+                Instead of:
+                    <script nomodule src="../js/web-components/polyfill.js"></script>
+        - Provide examples of how [polyfill.js].[getRootUrl()] works for documentation.
+            - Or add a markdown doc for it
+            - Here is an example of an defining a custom URL from the app:
+                <script>
+                    window.dataformsjsUrl = 'http://127.0.0.1:8080/js/';
+                    window.dataformsjsMinFiles = false; // Optional (defaults to `true`)
+                </script>
                 <script nomodule src="../js/web-components/polyfill.js"></script>
-    - Provide examples of how [polyfill.js].[getRootUrl()] works for documentation.
-        - Or add a markdown doc for it
-        - Here is an example of an defining a custom URL from the app:
-            <script>
-                window.dataformsjsUrl = 'http://127.0.0.1:8080/js/';
-                window.dataformsjsMinFiles = false; // Optional (defaults to `true`)
-            </script>
-            <script nomodule src="../js/web-components/polyfill.js"></script>
-        - By default the path will be determined from where [/web-components/polyfill.js] is defined:
-            <script src="../js/web-components/polyfill.min.js"></script>
-                [*.min.js] Framework files will be downloaded
-            <script src="../js/web-components/polyfill.js"></script>
-                Full [*.js] Framework files will be downloaded
+            - By default the path will be determined from where [/web-components/polyfill.js] is defined:
+                <script src="../js/web-components/polyfill.min.js"></script>
+                    [*.min.js] Framework files will be downloaded
+                <script src="../js/web-components/polyfill.js"></script>
+                    Full [*.js] Framework files will be downloaded
 
 **) Playground Site
     - Need to add support for JSON file/resource type
@@ -200,29 +172,13 @@ TODO List
             <data-select>
             <web-select>
             <image-select>
-    - [uglify-es] is used to generate the [*.min.js] files, however a release has
-        not been published in 3 years and the project is abandoned.
-            https://www.npmjs.com/package/uglify-es
-            https://github.com/mishoo/UglifyJS/tree/harmony
-        - Currently all Web Components go through a lot testing on different devices
-            so there are no known issues with the generated [*.min.js] files but using
-            and abandoned minifier is not ideal.
-        - Should Terser or something else be used? Some related links:
-            https://blog.logrocket.com/uglify-vs-babel-minify-vs-terser-a-mini-battle-royale/
-            https://www.npmtrends.com/babel-minify-vs-terser-vs-uglify-js
-            https://github.com/webpack-contrib/terser-webpack-plugin/issues/15
-        - Alternatives:
-            https://terser.org/
-            https://github.com/terser/terser
-            https://github.com/babel/minify
-        - Most likely Terser will be used as it's a fork of [uglify-es] and well maintained
     - Add Unit Testing
         - Currently only the main Framework and the React [jsxLoader.js] have Unit Testing
 
-*) New plugin or features to handle content preloading
+*) New plugin or features to handle content preloading?
     - For example routes could have a [data-preload] attribute and then a new plugin would
-        download all content when the first page is opened. Other options for preloading
-        could be added as well if they make sense.
+        download and cache all content in memory when the first page is opened.
+        Other options for preloading could be added as well if they make sense.
     - This can could be developed and tested on the main site.
     - Ideally all related code would go in a new plugin and not the main [DataFormsJS.js] file
     - An alternative option to consider is to update `refreshAllHtmlControls()` so it processes

@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>DataFormsJS Web Components Template</title>
         <link rel="stylesheet" href="https://d2xbd92kui7v97.cloudfront.net/site/css/getting-started.css">
         <style>
@@ -85,6 +85,15 @@
 
             <url-route path="/custom">
                 <template>
+                    <style>
+                        p {
+                            max-width: 800px;
+                            padding: 2em 1em;
+                            text-align: left;
+                            margin: auto;
+                        }
+                        hello-world { padding:0.5em; }
+                    </style>
                     <h1>Custom Web Component defined on this Page</h1>
                     <p>This page defines a custom &lt;hello-world&gt; Web Component. Because it’s a Web Component it will only work with modern browsers so IE and older mobile devices will see a warning on the root element because it uses the class “old-browser-warning”. The warning is handled by [polyfill.js].</p>
                     <div class="old-browser-warning">
@@ -113,8 +122,6 @@
                 sortable_table: { module: 'https://cdn.jsdelivr.net/npm/dataformsjs@5.0.1/js/web-components/sortable-table.min.js' },
             };
         </script>
-
-        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.1/js/web-components/polyfill.min.js"></script> -->
 
         <!--
             Additional Components:

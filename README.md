@@ -109,7 +109,7 @@ This example uses Vue for templating. If you save it with a text editor you can 
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>DataFormsJS Example using Vue</title>
     </head>
     <body>
@@ -179,7 +179,7 @@ This example uses React with the `jsxLoader.min.js` script for converting JSX to
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>DataFormsJS Example using React</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
     </head>
@@ -243,16 +243,15 @@ This example uses React with the `jsxLoader.min.js` script for converting JSX to
 </html>
 ```
 
-This example uses DataFormsJS Web Components and can be used on modern browsers. Web Components are well defined standard and provide for functionally similar to JavaScript Frameworks while using less code.
+This example uses DataFormsJS Web Components. Web Components are well defined standard and provide for functionally similar to JavaScript Frameworks while using less JavaScript code.
 
 ```html
 <!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>DataFormsJS Example using Web Components</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
     </head>
     <body>
         <header>
@@ -264,12 +263,14 @@ This example uses DataFormsJS Web Components and can be used on modern browsers.
 
         <main id="view"></main>
 
+        <template id="loading-screen">
+            <h2>Loading...</h2>
+        </template>
+
         <!--
-            Single Page App (SPA) Routes can be defined using <url-router>
-            and <url-route>. This works for both #hash routes and Web History
-            (pushState / popstate).
+            <url-router> and <url-route> will be used to define #hash routes
         -->
-        <url-router view-selector="#view">
+        <url-router view-selector="#view" loading-template-selector="#loading-screen">
             <!-- Home Page -->
             <url-route path="/">
                 <template>
@@ -280,8 +281,11 @@ This example uses DataFormsJS Web Components and can be used on modern browsers.
             <!--
                 Display a list of Countries from a JSON Service. Elements
                 with [data-bind] are populated with data from the Web Service.
+
+                [lazy-load] is used along with `window.lazyLoad` near the bottom
+                of this file to dynamically load scripts only if they will be used.
             -->
-            <url-route path="/data">
+            <url-route path="/data" lazy-load="json_data, data_list, flags">
                 <template>
                     <json-data url="https://www.dataformsjs.com/data/geonames/countries">
                         <is-loading>
@@ -303,8 +307,7 @@ This example uses DataFormsJS Web Components and can be used on modern browsers.
         </url-router>
 
         <!--
-            Template for <data-list> using Template literals (Template strings).
-            Variables are safely escaped for HTML when using <data-list>.
+            Template for <data-list> using Template literals (Template strings)
         -->
         <template id="country">
             <li>
@@ -313,19 +316,16 @@ This example uses DataFormsJS Web Components and can be used on modern browsers.
             </li>
         </template>
 
-        <!--
-            DataFormsJS Web Components
-            Legacy Browsers can be polyfilled using the DataFormsJS Framework
-        -->
+        <!-- DataFormsJS Web Components -->
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/web-components/url-router.min.js"></script>
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/web-components/json-data.min.js"></script>
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/web-components/data-list.min.js"></script>
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/web-components/polyfill.min.js"></script>
-
-        <!-- Optional - Show a warning for Older browsers instead of using Polyfill (IE, Older Mobile Devices, etc) -->
-        <!--
-        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/web-components/safari-nomodule.min.js"></script>
-        -->
+        <script>
+            window.lazyLoad = {
+                json_data: { module: 'https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/web-components/json-data.min.js' },
+                data_list: { module: 'https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/web-components/data-list.min.js' },
+                flags: 'https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css',
+            };
+        </script>
     </body>
 </html>
 ```
@@ -365,8 +365,8 @@ _All sizes are based on minified scripts and gzip compression from the web serve
 * Additional files (controllers, plugins, etc) are typically only 1-3 kB each.
 * In general when using the Framework expect about 15 kB for the initial page load, and then several kB for additional pages that load extra plugins, pages, controllers, etc.
 
-* **React JSX Loader – 5.4 kB** (77 kB full version uncompressed)
-* **React (All Components in JavaScript) – 7.0 kB**
+* **React JSX Loader – 5.7 kB** (85 kB full version uncompressed)
+* **React (Core Components) – 5.1 kB**
 * Individual React Components are between 3 and 12 kB when uncompressed and including comments.
 * Web Components are typically around 1 to 3 kB each, typically you will use a number of components so in the example apps this adds up to about 15 kB for each app.
 

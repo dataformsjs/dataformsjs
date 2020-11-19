@@ -2,7 +2,7 @@
     <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/docs/jsx-loader.png" title="DataFormsJS JSX Loader">
 </h1>
 
-<p align="center">An ultra-fast and tiny (5.4 kB) browser based compiler for JSX / React.</p>
+<p align="center">An ultra-fast and tiny (5.7 kB) browser based compiler for JSX / React.</p>
 <hr>
 
 <table>
@@ -63,14 +63,14 @@ The script is tested with a variety of devices and browsers including the follow
 
 In addition to React, it also works and is tested with the React alternative library, Preact.
 
-The `jsxLoader.js` script is very small to download (5.4 kB - min and gzip) and compiles code very fast (often in milliseconds for each JSX script).
+The `jsxLoader.js` script is very small to download (5.7 kB - min and gzip) and compiles code very fast (often in milliseconds for each JSX script).
 
 ## How to use? :star2:
 
 ```html
 <!-- Include React on the Page -->
-<script src="https://unpkg.com/react@16.13.1/umd/react.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react@17.0.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@17.0.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 
 <!--
     Include the DataFormsJS JSX Loader.
@@ -83,6 +83,7 @@ The `jsxLoader.js` script is very small to download (5.4 kB - min and gzip) and 
     This is the same method that would be used with Babel Standalone.
 -->
 <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.1/js/react/es6/JsonData.js"></script>
+<script type="text/babel" src="app.jsx"></script>
 <script type="text/babel">
 
     class HelloMessage extends React.Component {
@@ -118,6 +119,7 @@ The `jsxLoader.js` script is very small to download (5.4 kB - min and gzip) and 
 
 ### Vue 3 <img src="https://www.dataformsjs.com/img/logos/vue.svg" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/en/vue3-with-jsx.htm
+* https://www.dataformsjs.com/examples/vue3-dynamic-jsx.htm
 
 ### Rax <img src="https://www.dataformsjs.com/img/logos/rax.png" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/en/rax.htm

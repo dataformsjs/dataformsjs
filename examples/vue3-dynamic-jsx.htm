@@ -205,17 +205,11 @@
         <!-- <script src="https://cdn.jsdelivr.net/npm/vue@3.0.2/dist/vue.global.prod.js"></script> -->
 
         <!-- DataFormsJS jsxLoader -->
-        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.1/js/react/jsxLoader.min.js"></script> -->
-        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.1/js/react/jsxLoader.min.js"></script> -->
-        <script src="/js/react/jsxLoader.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.1/js/react/jsxLoader.min.js"></script>
 
         <!--
             Warning for IE 11 and Old Mobile Devices because the tested build of Vue 3.0.0
             does not support them, this may or may not change in the future.
-        -->
-        <!--
-        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.1/js/web-components/safari-nomodule.min.js"></script>
-        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.1/js/web-components/old-browser-warning.min.js"></script>
         -->
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.1/js/web-components/old-browser-warning.min.js"></script>
 
@@ -224,36 +218,17 @@
             // transformed JS code for this page in the console.
             window.showCode = false;
 
-            // Several lower-level settings have been added to the jsxLoader
-            // based ont his demo and issue. Detect which version is being used.
-            const isJsxLoader5 = (jsxLoader.compiler.pragma !== undefined);
-            if (isJsxLoader5) {
-                jsxLoader.compiler.pragma = 'Vue.h';
-                jsxLoader.compiler.pragmaFrag = 'Vue.Fragment';
-            }
-
             // By default jsxLoader will check the environment and then download
             // Polyfills and Babel Standalone if needed during 'DOMContentLoaded'.
             // This page does not need scripts to load automatically so automatically
             // loading is cancelled by using specific jsxLoader API.
-            //
-            // `jsxLoader.isSupportedBrowser = true` can be used instead of
-            // `jsxLoader.evalCode = '';` once DataFormsJS 5.0.0 is released.
-            // Until the 5.0.0 release there will be one minor side effect of a
-            // `new Function()` being automatically created. It has no effect
-            // to the user but can result in a console warning for sites with
-            // strict Content Security Policy (CSP) that do not allow 'unsafe-eval'.
-            // This has no effect on sites without CSP. Granted this specific
-            // file would not work with that CSP because it needs to generate
-            // code dynamically at runtime.
-            //
-            if (isJsxLoader5) {
-                jsxLoader.isSupportedBrowser = true;
-            } else {
-                jsxLoader.evalCode = '';
-            }
+            jsxLoader.isSupportedBrowser = true;
             jsxLoader.needsPolyfill = false;
             jsxLoader.setup = function(){};
+
+            // By default jsxLoader uses `React.createElement` and `React.Fragment`
+            jsxLoader.compiler.pragma = 'Vue.h';
+            jsxLoader.compiler.pragmaFrag = 'Vue.Fragment';
 
             // Optional to prevent jsxLoader from skipping one-line JSX code
             // blocks with specific JS. Not needed in this demo.
@@ -311,19 +286,6 @@
                             }
                             jsx = jsx.replace(importStatement, componentJsx);
                         }
-
-                        // By default `React.createElement` is used.
-                        // Add a code hint so `Vue.h` is used instead.
-                        // Additionally render the <App> object to the target element.
-                        //
-                        // Once DataFormsJS 5.0.0 is released the following will
-                        // be made available in addition to code hints.
-                        //    jsxLoader.compiler.pragma = 'Vue.h'
-                        //    jsxLoader.compiler.pragmaFrag = 'Vue.Fragment'
-                        //
-                        if (!isJsxLoader5) {
-                            jsx = '// @jsx Vue.h\n' + jsx;
-                        }
                         jsx += '\n Vue.render(<App />, document.getElementById("' + target.id + '"));';
 
                         // Hide previous error if any
@@ -345,13 +307,7 @@
                             // most recent versions of Chrome and Firefox:
                             //
                             // eval(js);
-                            if (isJsxLoader5) {
-                                // Starting with version 5.0.0 "use strict" is automatically added.
-                                // It can be turned off using `jsxLoader.compiler.addUseStrict = false`
-                                new Function(js)();
-                            } else {
-                                new Function('"use strict";' + js)();
-                            }
+                            new Function(js)();
 
                             // Check for Runtime error. This can happen if using the
                             // production version of Vue. When using the Dev build of Vue

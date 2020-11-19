@@ -63,14 +63,14 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
 
 此外,对React来说,它也可以工作,并已通过React的代替库Preact进行了测试.
 
-`jsxLoader.js`脚本的下载量很小(5.4 kB - min and gzip),并且编译速度非常快(每个JSX脚本通常以毫秒为单位).
+`jsxLoader.js`脚本的下载量很小(5.7 kB - min and gzip),并且编译速度非常快(每个JSX脚本通常以毫秒为单位).
 
 ## 如何使用? :star2:
 
 ```html
 <!-- Include React on the Page -->
-<script src="https://unpkg.com/react@16.13.1/umd/react.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react@17.0.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@17.0.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 
 <!--
     Include the DataFormsJS JSX Loader.
@@ -83,6 +83,7 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
     This is the same method that would be used with Babel Standalone.
 -->
 <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.1/js/react/es6/JsonData.js"></script>
+<script type="text/babel" src="app.jsx"></script>
 <script type="text/babel">
 
     class HelloMessage extends React.Component {
@@ -118,6 +119,7 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
 
 ### Vue 3 <img src="https://www.dataformsjs.com/img/logos/vue.svg" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/en/vue3-with-jsx.htm
+* https://www.dataformsjs.com/examples/vue3-dynamic-jsx.htm
 
 ### Rax <img src="https://www.dataformsjs.com/img/logos/rax.png" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/zh-CN/rax.htm
