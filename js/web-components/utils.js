@@ -212,6 +212,7 @@ export function setElementText(element, value) {
  * Used to get an object value for data binding. Key is either a property from the
  * object or a path such as "object.property". If the root object starts with
  * "window" then the global [window] object is used. Example: "window.location.href".
+ * Additionally if the property is not found the [window] object will be checked.
  *
  * @param {object} data
  * @param {string} key

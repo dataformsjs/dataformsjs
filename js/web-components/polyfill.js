@@ -1,20 +1,40 @@
-/*
-    This is an active development to polyfill DataFormsJS Web Components.
-    It's working so far (November 2020) however lot of testing and additional
-    features are needed before this file can be published to npm.
-
-    See topic: "Finish Web Component Updates"
-    In file [../to-do-list.txt]
-        https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt
-
-    For the purpose of testing this file is being developed in modern browsers using this:
-        <script src="../js/web-components/polyfill.js"></script>
-    For the release the Web Components will be uncommented and this script will use [nomodule]
-        <script nomodule src="../js/web-components/polyfill.js"></script>
-
-    Additional items that must be completed before this will be published:
-        - After final updates confirm this works on all Web Component example pages, playground, and templates
-*/
+/**
+ * DataFormsJS Web Components Polyfill
+ *
+ * This script provides polyfills for older browsers for all DataFormsJS Web Components and
+ * core features needed for app development. This script does not provide polyfills for
+ * [window.customElements] or any Web Component APIs; rather it uses the DataFormsJS
+ * Framework to replicate the needed functionality for DataFormsJS Web Components to work.
+ *
+ * When DataFormsJS was first created it started out as a JavaScript Framework that can
+ * use HTML to handle a lot of app functionality. For example, defining SPA routes from
+ * script elements that download HTML as needed, defining JSON services through HTML,
+ * and adding features to apps using HTML attributes. This is similar to a goal of
+ * Web Components which allow for custom app logic based on user defined HTML elements.
+ * Most of the DataFormsJS Web Components have been designed based on the original
+ * Framework so this made for an ideal use of the polyfill because Framework code
+ * is small in size and optimized to work with all browsers.
+ *
+ * Additionally, DataFormsJS Web Components provide an easy to customize API based on
+ * plain JavaScript functions or code. This script will trigger the same API DOM events
+ * which allows apps to define simple functions that can work with both modern and
+ * legacy browsers if needed.
+ *
+ * Example Usage:
+ *     <script type="module" src="dataformsjs/js/web-components/url-router.min.js"></script>
+ *     <script type="module" src="dataformsjs/js/web-components/json-data.min.js"></script>
+ *     <script nomodule src="dataformsjs/js/web-components/polyfill.min.js"></script>
+ *
+ * When this script runs it will determine the URL it’s running from and then download
+ * additional Framework Plugins and Scripts as needed for the page. If the install path
+ * can be determined or if it’s manually set it will download from that location otherwise
+ * it will use a public CDN. These files are small in size and download asynchronously
+ * so there is no or minimal delay for most users.
+ *
+ * @link     https://www.dataformsjs.com
+ * @author   Conrad Sollitt (https://conradsollitt.com)
+ * @license  MIT
+ */
 
 /* Validates with both [eslint] and [jshint] */
 /* global app, Promise */
@@ -31,7 +51,7 @@
     'use strict';
 
     /**
-     * CSS that get's added to the page.
+     * CSS that is added to the page.
      */
     var polyfillStyleId = 'web-components-polyfill-css';
     var polyfillStyleCss = [
@@ -456,7 +476,7 @@
         }
 
         // Define API events on the element that can be used by apps.
-        // Full compatability is not needed, rather functions can be added
+        // Full compatibility is not needed, rather functions can be added
         // if it's determined that they would be commonly called or useful.
         router.changeRoute = function(path) {
             app.changeRoute(path);
@@ -652,7 +672,6 @@
         }
 
         // Default if [dataformsjs] path cannot be determined.
-        // NOTE - this won't work until the next release of DataFormsJS is published.
         rootUrl = 'https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/';
         useMinFiles = true;
     }

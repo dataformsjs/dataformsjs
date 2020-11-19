@@ -22,42 +22,7 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Finish Web Component Updates
-    - Many updates are being made and in active development (November 2020).
-        See the [CHANGELOG.md] or recent commits for full details.
-        Since changes are currently in active development the related features may
-        go through additional changes without warning.
-    - Until updates are finished many or most examples will be pointing
-        to local build or s3 bucket rather than CDN.
-    - The next release will likely be published sometime in November of 2020
-    - Updates can be tested using root URL:
-        https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/
-        - All files under [js] are copied there. Example if testing from the Playground:
-            https://www.dataformsjs.com/en/playground
-        <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/url-router.min.js"></script>
-        <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
-    - Items currently needed before this will be published to npm
-        - https://github.com/dataformsjs/dataformsjs/issues/16
-            - Add a markdown import example to:
-                dataformsjs/examples/vue3-dynamic-jsx.htm            
-        - For build try using [terser] instead of [uglify-es]
-            - See related comments later in this file.
-            - This change has been made however more testing on different computers is needed to verify
-                as the intial change broke some code.
-        - Finish testing new React Build and update all example files that use the React Components
-            <script type="module" src="../js/react/es6/DataFormsJS.min.js"></script>
-            <script nomodule src="../js/react/es5/DataFormsJS.min.js"></script>
-            - See releated comments and examples in places demo, changelog, and unit tests
-        - More testing of examples using different devices and browsers
-            - Both examples and unit tests
-        - Prepare all quick ref docs before publishing so changes are quick to publish once npm is updated
-        - Handle and remove all `NOTE` comments in [polyfill.js] before npm publishing            
-        - Confirm with local testing all pages in https://awesome-web-react.js.org/ using the new jsxLoader build.
-            Don't publish updates though until 5.0.0 is published on jsdelivr
-        - Before release update docs and example code that use <url-hash-router> to use <url-router> with the new CDN link
-            Also update markdown docs to use [load-only-once] instead of [load-only-once="true"]
-
-**) Steps after release
+**) Steps after 5.0.0 release (Thursday, November 19, 2020)
     - Replace test JS scripts from:
         https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/
       With latest version from jsdelivr once it becomes available
@@ -77,6 +42,10 @@ TODO List
             - All 3 sites should be tested more with a variety of devices and browsers to make sure everything works properly
         - After @latest is updated on jsdelivr with 5.0.0 release verify all readme code snippets
         - Confirm updates work as expected with webpack and create-react-app after new release
+    - After @latest is updated on jsdelivr confirm the following line of code:
+        dataformsjs/js/web-components/polyfill.js
+        function findRootUrl() {
+            rootUrl = 'https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/';
     - Update jsxLoader docs on how the new build works and how files can be used:
         <script type="module" src="../js/react/es6/DataFormsJS.min.js"></script>
         <script nomodule src="../js/react/es5/DataFormsJS.min.js"></script>
@@ -84,6 +53,10 @@ TODO List
             https://github.com/dataformsjs/dataformsjs/issues/16
     - After new release publish here:
         https://www.webcomponents.org/publish-collection
+
+**) https://github.com/dataformsjs/dataformsjs/issues/16
+    - Add a markdown import example to:
+        dataformsjs/examples/vue3-dynamic-jsx.htm
 
 **) Near future updates
     - After the 5.0.0 release create a new repository showing how to use DataFormsJS
@@ -123,6 +96,11 @@ TODO List
         - Web Component "Services" Concept
             Need to add template for this in quick ref section on main site
         - How the polyfill works and reason it was created over other options
+        - How to test the polyfill with modern browsers:
+            Just use:
+                <script src="../js/web-components/polyfill.js"></script>
+            Instead of:
+                <script nomodule src="../js/web-components/polyfill.js"></script>
     - Provide examples of how [polyfill.js].[getRootUrl()] works for documentation.
         - Or add a markdown doc for it
         - Here is an example of an defining a custom URL from the app:
@@ -219,7 +197,7 @@ TODO List
             https://github.com/mishoo/UglifyJS/tree/harmony
         - Currently all Web Components go through a lot testing on different devices
             so there are no known issues with the generated [*.min.js] files but using
-            and abandoned minifier is not ideal.            
+            and abandoned minifier is not ideal.
         - Should Terser or something else be used? Some related links:
             https://blog.logrocket.com/uglify-vs-babel-minify-vs-terser-a-mini-battle-royale/
             https://www.npmtrends.com/babel-minify-vs-terser-vs-uglify-js
@@ -228,7 +206,7 @@ TODO List
             https://terser.org/
             https://github.com/terser/terser
             https://github.com/babel/minify
-        - Most likley Terser will be used as it's a fork of [uglify-es] and well maintained
+        - Most likely Terser will be used as it's a fork of [uglify-es] and well maintained
     - Add Unit Testing
         - Currently only the main Framework and the React [jsxLoader.js] have Unit Testing
 

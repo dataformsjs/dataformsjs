@@ -2,7 +2,7 @@
 
 <nav>
     <a href="#/en/" data-i18n="Countries" data-i18n-href></a>
-    <a href="#/en/regions/[country]" data-i18n="Regions" url-attr-param="href" data-i18n-href></a>
+    <a href="#/[window.i18n_Locale]/regions/[country]" data-i18n="Regions" url-attr-param="href"></a>
 </nav>
 
 <json-data url="{rootApiUrl}/cities/:country/:region" url-params load-only-once>

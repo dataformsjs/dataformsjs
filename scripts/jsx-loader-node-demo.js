@@ -25,25 +25,49 @@ const { jsxLoader } = require('../js/react/jsxLoader')
  */
 const reactCode = jsxLoader.compiler.compile('<Comp>hello mama</Comp>')
 console.log(reactCode)
-// React.createElement(Comp, null, "hello mama");
+console.log('\n')
+/*
+Result:
+"use strict";
+React.createElement(Comp, null, "hello mama");
+*/
 
 /**
  * `h` Demo
  */
 jsxLoader.compiler.pragma = 'h';
- const desugarizedCode = jsxLoader.compiler.compile('<Comp>hello mama</Comp>')
+const desugarizedCode = jsxLoader.compiler.compile('<Comp>hello mama</Comp>')
 console.log(desugarizedCode)
-// h(Comp, null, "hello mama")
+console.log('\n')
+/*
+"use strict";
+h(Comp, null, "hello mama")
+*/
 
 /**
  * Nested Elements using Vue 3 `Vue.h` and `Vue.Fragment`
  */
 jsxLoader.compiler.pragma = 'Vue.h';
 jsxLoader.compiler.pragmaFrag = 'Vue.Fragment';
-const nestedElement = jsxLoader.compiler.compile('<>hello mama <span>test</span> <span>test2</span></>')
+const nestedElement = jsxLoader.compiler.compile('<>hello extra space <span>test</span> <span>test2</span></>')
 console.log(nestedElement)
+console.log('\n')
 /*
-Vue.h(Vue.Fragment, null, "hello mama ", 
+"use strict";
+Vue.h(Vue.Fragment, null, "hello extra space ", 
             Vue.h("span", null, "test"), " ", 
             Vue.h("span", null, "test2"))
+*/
+
+/**
+ * [jsxLoader.usePreact()] Helper and do not automatically add "use strict"
+ */
+jsxLoader.usePreact()
+jsxLoader.compiler.addUseStrict = false;
+const preactCode = jsxLoader.compiler.compile('<><div>Hello Preact</div></>')
+console.log(preactCode)
+console.log('\n')
+/*
+preact.createElement(preact.Fragment, null, 
+            preact.createElement("div", null, "Hello Preact"))
 */

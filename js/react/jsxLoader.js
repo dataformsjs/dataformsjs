@@ -201,7 +201,7 @@
             this.compiler.pragma = 'preact.createElement';
             this.compiler.pragmaFrag = 'preact.Fragment';
 
-            // Replace commonly used React API's with Preact once code is compiled
+            // Replace commonly used React APIs with Preact once code is compiled
             this.jsUpdates.push({ find: /ReactDOM\.render/g, replace: 'preact.render' });
             this.jsUpdates.push({ find: /React\.Component/g, replace: 'preact.Component' });
             this.jsUpdates.push({ find: /React\.Fragment/g, replace: 'preact.Fragment' });
@@ -222,7 +222,7 @@
             // This allows DataFormsJS Components (or other components) that use
             // <script type="module"> with references to `React.Component` to run
             // as long as they are using matching React API.
-            if (window.React === undefined && window.preact !== undefined) {
+            if (typeof window !== 'undefined' && window.React === undefined && window.preact !== undefined) {
                 window.React = window.preact;
             }
         },

@@ -17,7 +17,7 @@
  * Elements with [data-show] will have the toggled `style.display`
  * for viewing or to hide based on the result of the expression.
  * This is similar behavior to Vue [v-show]. If the [format.js]
- * is avaiable then `format` functions will be available for the
+ * is available then `format` functions will be available for the
  * JavaScript expression.
  *
  * Additionally API functions can be manually called, example:
@@ -119,7 +119,7 @@
          * specify the bind key in the related attribute. Example:
          *     <a href="#/regions/[place.country_code]" data-bind-attr="href">Regions</a>
          *
-         * Additionaly this can be used for other attributes defined by the app.
+         * Additionally this can be used for other attributes defined by the app.
          * For example the [js/web-components/polyfill.js] uses this for [url-attr-param].
          *
          * @param {HTMLElement} element
