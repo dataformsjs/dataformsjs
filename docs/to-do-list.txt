@@ -25,6 +25,12 @@ TODO List
 **) Steps after 5.0.0 release (Thursday, November 19, 2020)
     - Check main site quick-reference filter
         Not working properly for web components - likely need a fix based on main framework
+    - Main site
+        - i18n [overview_1] home page updated in en lang, need to update other languages
+        - home page - replace react template:
+            <script type="text/babel" src="js/es6/JsonData.js"></script>
+        - with new module/nomodule version
+        - Also update getting started templates for React/Preact
     - Update https://awesome-web-react.js.org/ to use React 17 then re-test all examples because
         jsxLoader had a minor bug fix with specific JSX syntax.
         No errors are expected as Unit Tests have been updated for the jsxLoader update as well as all example pages tested.
@@ -38,7 +44,11 @@ TODO List
             - Then search for: "index-web.htm"
             - The live production site currently uses handlebars however it's likely the Web Component version
                 will be used instead after release.
+            - Currently 2 of the 3 sites likely point to local build and need to be updated to use CDN
             - All 3 sites should be tested more with a variety of devices and browsers to make sure everything works properly
+            - Need to move [public/js/*] files to [public/site-js/*] or something similar
+                They get mixed up to easy when performing find/replace with latest DataFormsJS CDN build that also uses "/js/"
+                An alternative would be to publish DataFormsJS using something other than /js/ however the /js/ dir makes sense for most sites
         - After @latest is updated on jsdelivr with 5.0.0 release verify all readme code snippets
         - Confirm updates work as expected with webpack and create-react-app after new release
     - After @latest is updated on jsdelivr confirm the following line of code:

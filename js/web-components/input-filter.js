@@ -99,8 +99,14 @@ class InputFilter extends HTMLInputElement {
         for (const element of elements) {
             let showItem = true;
             if (hasFilter) {
+                // Get lower-case text of search item
+                let text = element.textContent;
+                const searchText = element.getAttribute('data-filter-search-text');
+                if (searchText !== null) {
+                    text = searchText;
+                }
+                text = text.toLowerCase();
                 // All words must be found in the text
-                const text = element.textContent.toLowerCase();
                 for (let n = 0; n < filterWordCount; n++) {
                     if (filterWords[n] !== '' && !text.includes(filterWords[n])) {
                         showItem = false;

@@ -4,7 +4,13 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
-## Next Release (changes on main/master branch and not yet published to npm)
+## 5.0.1 (November 19, 2020)
+
+* Fix - Added attribute `data-filter-search-text` to `js/web-components/input-filter.js`
+* Technically this is a new feature to a specific file.
+* However it was missed in development migration from `js/plugins/filter.js` so it's being published as a backward compatible bug fix.
+
+## 5.0.0 (November 19, 2020)
 
 ### Current Development
 
