@@ -58,7 +58,7 @@ TODO List
     - Add a markdown import example to:
         dataformsjs/examples/vue3-dynamic-jsx.htm
 
-**) Near future updates
+**) Near future updates (November and December 2020)
     - After the 5.0.0 release create a new repository showing how to use DataFormsJS
         with webpack: https://webpack.js.org/
     - The DataFormsJS React Components have been developed and tested

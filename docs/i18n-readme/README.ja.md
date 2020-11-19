@@ -206,10 +206,11 @@ This example uses React with the `jsxLoader.min.js` script for converting JSX to
             );
         </script>
 
-        <script src="https://unpkg.com/react@16.13.1/umd/react.production.min.js" crossorigin="anonymous"></script>
-        <script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/react/es5/DataFormsJS.min.js"></script>
+        <script crossorigin="anonymous" src="https://unpkg.com/react@17.0.1/umd/react.production.min.js"></script>
+        <script crossorigin="anonymous" src="https://unpkg.com/react-dom@17.0.1/umd/react-dom.production.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/react/jsxLoader.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/react/es6/DataFormsJS.min.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/react/es5/DataFormsJS.min.js"></script>
     </body>
 </html>
 ```
@@ -236,25 +237,23 @@ This example uses DataFormsJS Web Components and can be used on modern browsers.
         <main id="view"></main>
 
         <!--
-            <url-hash-router> and <url-hash-route> will be
-            used to define #Hash routes.
-
-            Additionally <url-router> and <url-route> exist and
-            can be used for Web History Routes (pushState)
+            Single Page App (SPA) Routes can be defined using <url-router>
+            and <url-route>. This works for both #hash routes and Web History
+            (pushState / popstate).
         -->
-        <url-hash-router view-selector="#view">
+        <url-router view-selector="#view">
             <!-- Home Page -->
-            <url-hash-route path="/">
+            <url-route path="/">
                 <template>
                     <h1>Hello World!</h1>
                 </template>
-            </url-hash-route>
+            </url-route>
 
             <!--
                 Display a list of Countries from a JSON Service. Elements
                 with [data-bind] are populated with data from the Web Service.
             -->
-            <url-hash-route path="/data">
+            <url-route path="/data">
                 <template>
                     <json-data url="https://www.dataformsjs.com/data/geonames/countries">
                         <is-loading>
@@ -272,8 +271,8 @@ This example uses DataFormsJS Web Components and can be used on modern browsers.
                         </is-loaded>
                     </json-data>
                 </template>
-            </url-hash-route>
-        </url-hash-router>
+            </url-route>
+        </url-router>
 
         <!--
             Template for <data-list> using Template literals (Template strings).
@@ -286,14 +285,19 @@ This example uses DataFormsJS Web Components and can be used on modern browsers.
             </li>
         </template>
 
-        <!-- DataFormsJS Web Components -->
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/web-components/url-hash-router.min.js"></script>
+        <!--
+            DataFormsJS Web Components
+            Legacy Browsers can be polyfilled using the DataFormsJS Framework
+        -->
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/web-components/url-router.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/web-components/json-data.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/web-components/data-list.min.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/web-components/polyfill.min.js"></script>
 
-        <!-- Older browsers (IE, Older Mobile Devices, etc) will see a warning -->
+        <!-- Optional - Show a warning for Older browsers instead of using Polyfill (IE, Older Mobile Devices, etc) -->
+        <!--
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/web-components/safari-nomodule.min.js"></script>
-        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/web-components/old-browser-warning.min.js"></script>
+        -->
     </body>
 </html>
 ```
