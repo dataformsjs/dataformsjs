@@ -42,7 +42,7 @@ const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 const Babel = require('@babel/standalone');
 const UglifyJS = require('uglify-js');
-const UglifyES = require('uglify-es');
+const { minify } = require('terser');
 
 // Handle CRLF for Windows when comparing files
 const isWindows = (process.platform === 'win32');
@@ -73,10 +73,19 @@ const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'InputFilter', 'JsonDa
     let { filesChecked, filesUpdated } = await buildReactFiles(copyright);
 
     // Get all JS Files
+    const terser = {
+        minify: async (code) => {
+            return await minify(code, {
+                format: {
+                    comments: false,
+                }
+            });
+        }
+    };
     const {jsFiles, webFiles} = await getAllFiles();
     const fileGroups = [
         { files:jsFiles,  es6:false, minifier:UglifyJS, title:'JavaScript Files' },
-        { files:webFiles, es6:true,  minifier:UglifyES, title:'Web Components / React' },
+        { files:webFiles, es6:true,  minifier:terser, title:'Web Components / React' },
     ];
     let fileErrors = 0;
 
@@ -111,7 +120,12 @@ const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'InputFilter', 'JsonDa
             }
 
             // Minify in-memory
-            const result = minifier.minify(code);
+            let result;
+            if (es6) {
+                result = await minifier.minify(code);
+            } else {
+                result = minifier.minify(code);
+            }
             if (result.error !== undefined) {
                 console.error('Unable to compress code, check file:');
                 console.error(file);
@@ -120,6 +134,9 @@ const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'InputFilter', 'JsonDa
             }
             let newCode = result.code;
             if (isWindows) {
+                if (newCode === undefined) {
+                    console.log('test');
+                }
                 newCode = newCode.replace(/\n/g, '\r\n');
             }
 
@@ -155,7 +172,7 @@ const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'InputFilter', 'JsonDa
                     .replace('import React from"react";', '');
 
                 if (buildClasses.includes(componentName)) {
-                    reactCoreComponents.push(newCode);
+                    reactCoreComponents.push(newCode + ';');
                 }
             }
 

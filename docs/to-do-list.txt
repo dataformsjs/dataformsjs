@@ -42,6 +42,8 @@ TODO List
                 dataformsjs/examples/vue3-dynamic-jsx.htm            
         - For build try using [terser] instead of [uglify-es]
             - See related comments later in this file.
+            - This change has been made however more testing on different computers is needed to verify
+                as the intial change broke some code.
         - Finish testing new React Build and update all example files that use the React Components
             <script type="module" src="../js/react/es6/DataFormsJS.min.js"></script>
             <script nomodule src="../js/react/es5/DataFormsJS.min.js"></script>

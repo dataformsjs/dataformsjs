@@ -75,7 +75,7 @@ Overall the core Framework files and API are expected to remain stable however t
 
 * **DataFormsJS React Components and jsxLoader Updates**
   * Minor bug fix where empty data props were not parsed correctly in a specific condition if this previous prop was not empty; this was found when updating Web Components for full React Support.
-  * Added Node Support
+  * Added Node Support for jsxLoader
   * Added ability for jsxLoader to run from webpack (or in a browser) without any side effects if only the compiler is needed. Documentation will be updated after npm release on how this can be handled.
   * Previously `jsxLoader` only worked in a browser.
   * jsxLoader is now available as a node API and it works in the browser.
@@ -112,6 +112,11 @@ Overall the core Framework files and API are expected to remain stable however t
   <script type="module" src="dataformsjs/js/react/es6/DataFormsJS.min.js"></script>
   <script nomodule src="dataformsjs/js/react/es5/DataFormsJS.min.js"></script>
   ~~~
+  * `Format` class has several functions added that were previously private scoped in the module:
+    * `isNumber(n)`
+    * `formatDateTime(dateTime, options)`
+    * `formatNumber(value, options)`
+    * They are mostly internal so for usage view the source code.
 
 * **Enhancements for DataFormsJS Framework files and general updates:**
   * Added `app.updateTemplatesForIE(rootElement)`. IE 11 considers `<template>` elements as valid elements so it applies `querySelector()` and related methods to elements under `<templates>`'s so replace with them `<script type="text/x-template">`. This avoids issues of `<template>` elements that contain embedded content. Previously this was only handled once per page load but now is handled (for IE only) when views are rendered.
@@ -151,6 +156,11 @@ Overall the core Framework files and API are expected to remain stable however t
   * `@babel/standalone` updated from `7.7.7` to `7.12.6`, used to build es5 version of React Components
   * `uglify-js` updated from `3.7.3` to `3.11.6`
   * `eslint` updated from `7.3.1` to `7.13.0`
+* Replaced `uglify-es` with `terser` for the minification of React Components and Web Components
+  * `*.min.js` files are generated from `npm run build`. Only changed files get updated
+  * Build Script `scripts/build.js`
+  * `uglify-es` is an abandon projects and `terser` is a widely used fork.
+    * https://github.com/terser/terser
 
 ### Breaking Changes
 
