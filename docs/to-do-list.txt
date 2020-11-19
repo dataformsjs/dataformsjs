@@ -23,9 +23,8 @@ TODO List
 --------------------------------------------------------------------------
 
 **) Steps after 5.0.0 release (Thursday, November 19, 2020)
-    - Replace test JS scripts from:
-        https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/
-      With latest version from jsdelivr once it becomes available
+    - Check main site quick-reference filter
+        Not working properly for web components - likely need a fix based on main framework
     - Update https://awesome-web-react.js.org/ to use React 17 then re-test all examples because
         jsxLoader had a minor bug fix with specific JSX syntax.
         No errors are expected as Unit Tests have been updated for the jsxLoader update as well as all example pages tested.
