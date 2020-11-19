@@ -12,10 +12,10 @@
  *
  * To install dependencies download this repository and then run:
  *     npm install
- * 
+ *
  * To run from project root:
  *     node run build
- * 
+ *
  * Or run the file directly:
  *     node build.js
  *
@@ -28,7 +28,7 @@
  *
  * When running this script will update only files (*.min.js) if the main
  * file has been modified.
- * 
+ *
  * Additionally this script should be ran after the [package.json] version
  * update but prior to new NPM release because it includes the version
  * number in several of the minimized files.
@@ -46,6 +46,11 @@ const UglifyES = require('uglify-es');
 
 // Handle CRLF for Windows when comparing files
 const isWindows = (process.platform === 'win32');
+
+// Include only specific components for the main React build file [DataFormsJS.js].
+// This excludes components/classes such as [<ImageGallery>, <LeafletMap>, I18n]
+// that would not be used with most apps.
+const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'InputFilter', 'JsonData', 'LazyLoad', 'SortableTable'];
 
 /**
  * Main function
@@ -77,6 +82,9 @@ const isWindows = (process.platform === 'win32');
 
     // Process all JavaScript files using [uglify-js]
     // Process all React and Web Component files using [uglify-es]
+    const reactCoreComponents = [];
+    let reactCoreMinCode = null;
+    let reactCoreOutFile = null;
     for (const { files, es6, minifier, title } of fileGroups) {
         console.log('-'.repeat(40));
         console.log(`${title} (${files.length}):`);
@@ -90,6 +98,16 @@ const isWindows = (process.platform === 'win32');
             let minCode = null;
             if (fs.existsSync(outFile)) {
                 minCode = await readFile(outFile, 'utf8');
+            }
+
+            // Skip minifying the main DataFormsJS React Namespace.
+            // It's a special file and handled later in code.
+            const isReactComponent = (es6 && (file.includes('react/es6/') || file.includes('react\\es6\\')));
+            const componentName = (isReactComponent ? path.basename(file).replace('.js', '') : null);
+            if (isReactComponent && componentName === 'DataFormsJS') {
+                reactCoreMinCode = minCode;
+                reactCoreOutFile = outFile;
+                continue;
             }
 
             // Minify in-memory
@@ -128,10 +146,33 @@ const isWindows = (process.platform === 'win32');
                     .replace('./WebComponentService.js', './WebComponentService.min.js');
             }
 
+            // Additional updates for minified React Components so they can be used
+            // in a browser as modules, example:
+            //     <script type="module" src="js/react/es6/JsonData.min.js"></script>
+            if (isReactComponent) {
+                newCode = newCode
+                    .replace('export default class', `window.${componentName} = class`)
+                    .replace('import React from"react";', '');
+
+                if (buildClasses.includes(componentName)) {
+                    reactCoreComponents.push(newCode);
+                }
+            }
+
             // Update file if different
             if (newCode !== minCode) {
                 console.log('Writing file: ' + outFile);
                 await writeFile(outFile, newCode);
+                filesUpdated++;
+            }
+        }
+
+        // Handle the main React DataFormsJS Namespace
+        if (es6) {
+            let newCode = copyright + reactCoreComponents.join('\n');
+            if (newCode !== reactCoreMinCode) {
+                console.log('Writing file: ' + reactCoreOutFile);
+                await writeFile(reactCoreOutFile, newCode);
                 filesUpdated++;
             }
         }
@@ -167,13 +208,6 @@ async function buildReactFiles(copyright) {
         .then(files => { return files.filter(f => f.endsWith('.js') && !f.endsWith('.min.js') && f !== 'DataFormsJS.js'); })
         .then(files => { return files.map(f => f.replace('.js', '')); })
         .catch(err => { throw err; });
-
-    // Include only specific components for the main build file [DataFormsJS.js].
-    // This excludes components such as <ImageGallery> that would not
-    // be used with most apps. In a future major release other classes
-    // that would not be used by most apps such as [I18n] and [LeafletMap]
-    // can be dropped from the main file to keep file size small.
-    const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'I18n', 'InputFilter', 'JsonData', 'LazyLoad', 'LeafletMap', 'SortableTable'];
 
     // Status
     console.log('-'.repeat(40));

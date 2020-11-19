@@ -85,6 +85,11 @@ var ImageGallery = function (_React$Component) {
     _this.showOverlay = _this.showOverlay.bind(_assertThisInitialized(_this));
     _this.hideOverlay = _this.hideOverlay.bind(_assertThisInitialized(_this));
     _this.changeImage = _this.changeImage.bind(_assertThisInitialized(_this));
+
+    if (props === undefined || props.images === undefined) {
+      throw new Error('Error - ImageGallery - Missing props or images from props. See examples for usage.');
+    }
+
     _this.svgForwardButton = '<svg width="13" height="22" xmlns="http://www.w3.org/2000/svg"><path d="M3.4.6L12 9c.4.4.6 1 .6 1.5a2 2 0 01-.6 1.5l-8.5 8.5a2 2 0 01-2.8-2.8l7.2-7.2L.6 3.4A2 2 0 013.4.6z" fill="#fff" fill-rule="evenodd"/></svg>';
     _this.svgBackButton = '<svg width="13" height="22" xmlns="http://www.w3.org/2000/svg"><path d="M9 .6L.7 9a2 2 0 00-.6 1.5c0 .5.2 1.1.6 1.5L9 20.6a2 2 0 002.8-2.8l-7.2-7.2L12 3.4A2 2 0 009.1.6z" fill="#fff" fill-rule="evenodd"/></svg>';
     _this.overlayStyleId = 'image-gallery-css';

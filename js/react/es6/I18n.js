@@ -33,7 +33,7 @@ export default class I18n {
     constructor(defaultLocale, supportedLocales, fileName = '_', fileDir = 'i18n') {
         // Basic validation of parameters
         if (typeof defaultLocale !== 'string') {
-            throw new Error('Error - I18n - Missing default locale See examples for usage.');
+            throw new Error('Error - I18n - Missing default locale. See examples for usage.');
         } else if (!Array.isArray(supportedLocales)) {
             throw new Error('Error - I18n - Missing or invalid supported locales. See examples for usage.');
         }

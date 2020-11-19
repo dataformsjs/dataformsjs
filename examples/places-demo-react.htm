@@ -31,7 +31,31 @@
         <script src="https://unpkg.com/react-router/umd/react-router.min.js"></script>
         <script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
 
-        <!-- DataFormsJS React Components -->
+        <!--
+            DataFormsJS React Components
+            
+            The Core file includes commonly used React Components for data apps:
+            [ErrorBoundary, InputFilter, JsonData, LazyLoad, SortableTable]
+            and JavaScript Classes [Cache, Format].
+
+            Additional components and classes [LeafletMap, I18n] are loaded individually.
+
+            The [es6] scripts will be loaded for modern browsers because [type="module"] is used.
+            and [es5] scripts will be loaded for legacy browsers because [nomodule] is used.
+        -->
+        <script type="module" src="../js/react/es6/DataFormsJS.min.js"></script>
+        <script type="module" src="../js/react/es6/I18n.min.js"></script>
+        <script type="module" src="../js/react/es6/LeafletMap.min.js"></script>
+
+        <script nomodule src="../js/react/es5/DataFormsJS.min.js"></script>
+        <script nomodule src="../js/react/es5/I18n.min.js"></script>
+        <script nomodule src="../js/react/es5/LeafletMap.min.js"></script>
+
+        <!--
+            Unminimized Components would need to use [type="text/babel"] because
+                import React from 'react';
+            is used on most source files which is not compatable with web browsers.
+        -->
         <!--
         <script type="text/babel" src="../js/react/es6/ErrorBoundary.js"></script>
         <script type="text/babel" src="../js/react/es6/LazyLoad.js"></script>
@@ -43,7 +67,6 @@
         <script type="text/babel" src="../js/react/es6/LeafletMap.js"></script>
         <script type="text/babel" src="../js/react/es6/Cache.js"></script>
         -->
-        <script src="../js/react/es5/DataFormsJS.js"></script>
 
         <!-- DataFormsJS JSX Loader -->
         <script src="../js/react/jsxLoader.js"></script>

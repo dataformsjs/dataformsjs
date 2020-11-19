@@ -217,6 +217,14 @@
             // This also applies to if the app calls `jsxLoader.addBabelPolyfills()`.
             this.globalNamespaces.react = 'preact';
             this.globalNamespaces['react-dom'] = 'preact';
+
+            // Define a `React` global if not defined and `preact` is already loaded.
+            // This allows DataFormsJS Components (or other components) that use
+            // <script type="module"> with references to `React.Component` to run
+            // as long as they are using matching React API.
+            if (window.React === undefined && window.preact !== undefined) {
+                window.React = window.preact;
+            }
         },
 
         /**

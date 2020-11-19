@@ -37,27 +37,21 @@ TODO List
         <script type="module" src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/url-router.min.js"></script>
         <script nomodule src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/web-components/polyfill.min.js"></script>
     - Items currently needed before this will be published to npm
-        - More testing and updates related to jsxLoader Node Support
-            https://github.com/dataformsjs/dataformsjs/issues/16
-            More details will be published in the main JSX Loader doc:
-            https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
-            * Unit tests updated - now confirm in more browsers (UC Browser, Safari)
+        - https://github.com/dataformsjs/dataformsjs/issues/16
             - Add a markdown import example to:
-                dataformsjs/examples/vue3-dynamic-jsx.htm
-        - React Components build items to test and decide on
-            - Replace `import React from"react";` with empty string on [react/es6/*.min.js] files?
-            - That way the could be used in the browser as <script type="module" src="..."> and use native import as well
-            - Need to test and see if it works.
-            - This could result in an smaller download size for most users if allows for code such as:
-                <script type="module" src="react/es6/JsonData.min.js">
-                <script nomodule src="react/es5/JsonData.js">
-            - Should 'use strict' be included at the top of the files?
+                dataformsjs/examples/vue3-dynamic-jsx.htm            
         - For build try using [terser] instead of [uglify-es]
             - See related comments later in this file.
+        - Finish testing new React Build and update all example files that use the React Components
+            <script type="module" src="../js/react/es6/DataFormsJS.min.js"></script>
+            <script nomodule src="../js/react/es5/DataFormsJS.min.js"></script>
+            - See releated comments and examples in places demo, changelog, and unit tests
         - More testing of examples using different devices and browsers
             - Both examples and unit tests
         - Prepare all quick ref docs before publishing so changes are quick to publish once npm is updated
-        - Handle and remove all `NOTE` comments in [polyfill.js] before npm publishing
+        - Handle and remove all `NOTE` comments in [polyfill.js] before npm publishing            
+        - Confirm with local testing all pages in https://awesome-web-react.js.org/ using the new jsxLoader build.
+            Don't publish updates though until 5.0.0 is published on jsdelivr
         - Before release update docs and example code that use <url-hash-router> to use <url-router> with the new CDN link
             Also update markdown docs to use [load-only-once] instead of [load-only-once="true"]
 
@@ -80,6 +74,12 @@ TODO List
                 will be used instead after release.
             - All 3 sites should be tested more with a variety of devices and browsers to make sure everything works properly
         - After @latest is updated on jsdelivr with 5.0.0 release verify all readme code snippets
+        - Confirm updates work as expected with webpack and create-react-app after new release
+    - Update jsxLoader docs on how the new build works and how files can be used:
+        <script type="module" src="../js/react/es6/DataFormsJS.min.js"></script>
+        <script nomodule src="../js/react/es5/DataFormsJS.min.js"></script>
+        - Also update doc based on updates and findings from this issue:
+            https://github.com/dataformsjs/dataformsjs/issues/16
     - After new release publish here:
         https://www.webcomponents.org/publish-collection
 

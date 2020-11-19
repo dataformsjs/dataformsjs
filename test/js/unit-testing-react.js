@@ -104,6 +104,12 @@ describe('jsxLoader.js', function() {
             expect(jsxLoader.globalNamespaces).to.deep.equal(namesspaces);
         });
 
+        it('should have React set to preact if calling [jsxLoader.usePreact()]', function() {
+            const usingPreact = (window.preact !== undefined);
+            const isValid = (usingPreact ? window.React === window.preact : true);
+            expect(isValid).to.equal(true);
+        });
+
         it('should have jsxLoader.isSupportedBrowser start with null', function() {
             expect(startingIsSupported).to.be.null;
         });
@@ -693,7 +699,7 @@ describe('DataFormsJS React Components', function() {
         //    var obj = new JsonData();
         //    expect(obj).to.be.instanceof(JsonData);
         //
-        var classes = 'ErrorBoundary, JsonData, InputFilter, Format, SortableTable, LeafletMap, LazyLoad, Cache';
+        var classes = 'Cache, ErrorBoundary, Format, InputFilter, JsonData, LazyLoad, LeafletMap, SortableTable';
         classes = classes.split(', ');
         classes.forEach(function(className) {
             it('should have <' + className + '>', function() {
@@ -702,7 +708,7 @@ describe('DataFormsJS React Components', function() {
             });
         });
 
-        // The `I18n` class requires constructor parameters so verify the known error
+        // Validate known errors for classes and components that require constructor parameters/props
         it('should have <I18n>', function() {
             var error = null;
             try {
@@ -710,7 +716,16 @@ describe('DataFormsJS React Components', function() {
             } catch (e) {
                 error = e.toString();
             }
-            expect(error).to.equal('Error: Error - I18n - Missing default locale See examples for usage.');
+            expect(error).to.equal('Error: Error - I18n - Missing default locale. See examples for usage.');
+        });
+        it('should have <ImageGallery>', function() {
+            var error = null;
+            try {
+                new ImageGallery;
+            } catch (e) {
+                error = e.toString();
+            }
+            expect(error).to.equal('Error: Error - ImageGallery - Missing props or images from props. See examples for usage.');
         });
     });
 });

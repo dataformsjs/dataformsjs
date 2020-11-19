@@ -17,11 +17,11 @@ Overall the core Framework files and API are expected to remain stable however t
 
 * **Thanks ElevateBart** for helping with the idea and API proposal related to `jsxLoader` updates with this release: https://github.com/elevatebart
   * https://github.com/dataformsjs/dataformsjs/issues/16
-  * The result is that jsxLoader can not be used from both node and webpack without side effects. Originally jsxLoader was intended only for browser use and it would always check if polyfills or babel standalone were needed based on the browser environment. Now this can be turned off. 
+  * The result is that jsxLoader can not be used from both node and webpack without side effects. Originally jsxLoader was intended only for browser use and it would always check if polyfills or babel standalone were needed based on the browser environment. Now this can be turned off.
 
 ### Release Overview
 
-* Many updates have been made for overall improvement of DataFormsJS Web Components
+* **Many updates have been made for overall improvement of DataFormsJS Web Components**
   * The updates are significant and make using the Web Components much easier for complex apps and sites; and provide for wider browser support.
   * The new features make for an easier to use API for customizing content on page after data is displayed. Previously the places demo required a lot of custom JavaScript on the page in order to display flag icons, format table data, and additional items.
   * Added ability to polyfill Web Components for older browsers using the standard Framework that gets loaded from a single file and then that file `polyfill.js` loads additional framework files as needed.
@@ -44,7 +44,7 @@ Overall the core Framework files and API are expected to remain stable however t
   * Added ability to define custom `<template>` for table `<tr>` in `<data-table>`
   * Improvements for `<json-data>`
     * Added option for formatting text from  (date, time, number, custom functions, etc)
-    * Added ability to use new attribute `click-selector` for search forms similar to the main Framework.  
+    * Added ability to use new attribute `click-selector` for search forms similar to the main Framework.
     * Added `data-show="js-expression"` to show or hide items. It works similar to Vue `v-show`.
     * Added ability to include global variables from window scope using `{variable}` syntax
       * `<json-data url="{rootApiUrl}/web-service">`
@@ -55,12 +55,12 @@ Overall the core Framework files and API are expected to remain stable however t
       * A similar update has been made for the main DataFormsJS Framework `app.buildUrl()`.
     * Added new attribute `[transform-data]` that allows for a JavaScript function to be specified and used to transform the downloaded data before it is passed to other elements.
   * Added new Web Component `<nav is="spa-links">`. Previously SPA Nav Links were handled from custom JavaScript code on the page. Now this functionality is much easier for a site to include as only HTML is needed.
-  * `<url-router>` and `<url-hash-router>` are now combined into one component `<url-router>` and `<url-hash-router>` has been removed. 
+  * `<url-router>` and `<url-hash-router>` are now combined into one component `<url-router>` and `<url-hash-router>` has been removed.
   * `<url-router>` now has the ability to lazy load scripts (CSS and JavaScript) per route in a similar manner to the main framework using the new `window.lazyLoad` option and related HTML Attributes.
   * New Class `WebComponentService` which can be used to define "service" Web Components
     * The term "service" is used here because the intended use is that components created with this class do not render content but rather provide a service that updates other elements on the page based on HTML attributes element class names, etc. and that the service needs to run when content on the page changes from SPA routes or JSON Services.
     * This is a similar concept to the DataFormsJS Framework Plugins feature allowing for custom functionality to be defined easily and with little API code outside of standard DOM and JavaScript.
-    * This will be used by all DataFormsJS Web Components that end with "service" in the component name.    
+    * This will be used by all DataFormsJS Web Components that end with "service" in the component name.
   * Added new Web Component `<data-view>` and related Framework JavaScript Control for viewing data from `<json-data>` or other web components.
   * Added new Web Component `<keydown-action-service>`. Based on Framework Plugin `js/plugins/keydownAction.js`
   * Added new Web Component `<html-import-service>`. Based on standard framework features for `[data-template-url]` and `[data-template-id]`.
@@ -72,10 +72,11 @@ Overall the core Framework files and API are expected to remain stable however t
   * `js\web-components\data-list.js`
     * Added HTML attribute `root-attr` which allows for any attribute to be set on the root element. Previously only the `class` could be set from `root-class`. The attribute `root-class` is still supported.
   * For `<url-router>` and DataFormsJS Framework when using HTMl5 History Mode (pushState, popstate) the Mac `Command` Key is now supported so users can open SPA links in a separate tab. Previously the only the `{Control}` key worked which is used on Windows for new tags and on Mac for a context menu (right-click menu).
-* `jsxLoader` Updates
+
+* **DataFormsJS React Components and jsxLoader Updates**
   * Minor bug fix where empty data props were not parsed correctly in a specific condition if this previous prop was not empty; this was found when updating Web Components for full React Support.
   * Added Node Support
-  * Added ability for jsxLoader to run from webpack (or in a browser) without any side effects if only the compiler is needed.
+  * Added ability for jsxLoader to run from webpack (or in a browser) without any side effects if only the compiler is needed. Documentation will be updated after npm release on how this can be handled.
   * Previously `jsxLoader` only worked in a browser.
   * jsxLoader is now available as a node API and it works in the browser.
   * Added new compiler settings and options:
@@ -97,7 +98,22 @@ Overall the core Framework files and API are expected to remain stable however t
   ~~~
   * Updated the CDN version of Babel Standalone used for old browsers from `7.10.4` to `7.12.6`
   * Added improved error message for compile errors where the number of opening tags did not match the number of closing tags. Previously some of these errors were only caught at runtime and not compile time.
-* Enhancements for DataFormsJS Framework files:
+  * Updated `.eslintrc.js` for improved syntax validation when using VS Code with `*.jsx` example and test files
+  * When calling `jsxLoader.usePreact` a global `React` variable pointing to `preact` will be assigned to `window` by default if not already set and Preact is loaded.
+  * ES6 `*.min.js` Components can now be loaded in a web browser using `[type="module"]`. Previously only the ES5 min files could be loaded in a browser.
+  ~~~html
+  <!-- Previous Release typical CDN usage -->
+  <script src="dataformsjs/js/react/es5/DataFormsJS.min.js"></script>
+
+  <!--
+    With the latest release of DataFormsJS modern browsers can use the smaller files with
+    modern code syntax while legacy browsers still the es5 build.
+  -->
+  <script type="module" src="dataformsjs/js/react/es6/DataFormsJS.min.js"></script>
+  <script nomodule src="dataformsjs/js/react/es5/DataFormsJS.min.js"></script>
+  ~~~
+
+* **Enhancements for DataFormsJS Framework files and general updates:**
   * Added `app.updateTemplatesForIE(rootElement)`. IE 11 considers `<template>` elements as valid elements so it applies `querySelector()` and related methods to elements under `<templates>`'s so replace with them `<script type="text/x-template">`. This avoids issues of `<template>` elements that contain embedded content. Previously this was only handled once per page load but now is handled (for IE only) when views are rendered.
   * Added features in `js/plugins/dataBind.js` based on the Web Components version.
   * New file `js/extensions/format.js` which is used with the Web Components Polyfill
@@ -135,11 +151,34 @@ Overall the core Framework files and API are expected to remain stable however t
   * `@babel/standalone` updated from `7.7.7` to `7.12.6`, used to build es5 version of React Components
   * `uglify-js` updated from `3.7.3` to `3.11.6`
   * `eslint` updated from `7.3.1` to `7.13.0`
-* Updated `.eslintrc.js` for improved syntax validation when using VS Code with `*.jsx` example and test files
 
 ### Breaking Changes
 
 For the standard Framework most breaking changes are minor and only expected to affect internal API's and examples. Several Framework "JavaScript Controls" were updated to match behavior of the Web Components in order to provide more features and so they can be used with the new Web Components Polyfill. If you developed a site or app with any of the breaking changes they are quick to update and if you need help please open an issue.
+
+For React Components one component `LeafletMap` and one class `I18n` that would not be commonly used in most apps have been droped from the core ES5 build file `js/react/es5/DataFormsJS.js`. However new options exist so they (along with all other components and classes) have improved options for loading.
+~~~html
+<!-- Previous Release included [I18n, LeafletMap] and was ES5 sytnax only for CDN -->
+<script src="../js/react/es5/DataFormsJS.min.js"></script>
+
+<!--
+  In the places demo the above script was replaced with the following.
+-->
+<script type="module" src="../js/react/es6/DataFormsJS.min.js"></script>
+<script type="module" src="../js/react/es6/I18n.min.js"></script>
+<script type="module" src="../js/react/es6/LeafletMap.min.js"></script>
+
+<script nomodule src="../js/react/es5/DataFormsJS.min.js"></script>
+<script nomodule src="../js/react/es5/I18n.min.js"></script>
+<script nomodule src="../js/react/es5/LeafletMap.min.js"></script>
+
+<!--
+  However for most sites this will be enough and it results in a smaller
+  download size for the end user and modern code for most users.
+-->
+<script type="module" src="../js/react/es6/DataFormsJS.min.js"></script>
+<script nomodule src="../js/react/es5/DataFormsJS.min.js"></script>
+~~~
 
 The Web Components have the most complex breaking changes related to API usage however due to the complexity of the earlier API it's unlikely to affect any site. If a site did use the earlier API it is generally quick to update as well.
 

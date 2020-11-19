@@ -108,6 +108,11 @@ export default class ImageGallery extends React.Component {
         this.hideOverlay = this.hideOverlay.bind(this);
         this.changeImage = this.changeImage.bind(this);
 
+        // Basic validation of parameters
+        if (props === undefined || props.images === undefined) {
+            throw new Error('Error - ImageGallery - Missing props or images from props. See examples for usage.');
+        }
+
         /**
          * CSS for the Overlay Image Viewer
          *

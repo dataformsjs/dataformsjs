@@ -78,8 +78,20 @@
 
             All of these options should work for testing DataFormsJS Components when using Preact.
 
-            # 1) Check the single build file
-            <script src="/src/react/es5/DataFormsJS.min.js"></script>
+            # 1) Check the single build file(s)
+            #
+            [module="type"] for modern browsers
+            [nomodule] for IE and legacy
+            Additional individual components not included with the main file.
+            #
+            <script type="module" src="/src/react/es6/DataFormsJS.min.js"></script>
+            <script type="module" src="/src/react/es6/I18n.min.js"></script>
+            <script type="module" src="/src/react/es6/ImageGallery.min.js"></script>
+            <script type="module" src="/src/react/es6/LeafletMap.min.js"></script>
+            <script nomodule src="/src/react/es5/DataFormsJS.min.js"></script>
+            <script nomodule src="/src/react/es5/I18n.min.js"></script>
+            <script nomodule src="/src/react/es5/ImageGallery.min.js"></script>
+            <script nomodule src="/src/react/es5/LeafletMap.min.js"></script>
 
             # 2) Include individual component files using the es5 build
             <script src="/src/react/es5/ErrorBoundary.js"></script>
@@ -91,6 +103,7 @@
             <script src="/src/react/es5/LeafletMap.js"></script>
             <script src="/src/react/es5/LazyLoad.js"></script>
             <script src="/src/react/es5/Cache.js"></script>
+            <script src="/src/react/es5/ImageGallery.js"></script>
 
             # 3) Include individual component source files for babel/jsxLoader - es6 build
             <script type="text/babel" src="/src/react/es6/ErrorBoundary.js"></script>
@@ -102,19 +115,16 @@
             <script type="text/babel" src="/src/react/es6/LeafletMap.js"></script>
             <script type="text/babel" src="/src/react/es6/LazyLoad.js"></script>
             <script type="text/babel" src="/src/react/es6/Cache.js"></script>
-
-            # 4) Minimized individual es6 component files
-            <script type="text/babel" src="/src/react/es6/ErrorBoundary.min.js"></script>
-            <script type="text/babel" src="/src/react/es6/JsonData.min.js"></script>
-            <script type="text/babel" src="/src/react/es6/InputFilter.min.js"></script>
-            <script type="text/babel" src="/src/react/es6/SortableTable.min.js"></script>
-            <script type="text/babel" src="/src/react/es6/I18n.min.js"></script>
-            <script type="text/babel" src="/src/react/es6/Format.min.js"></script>
-            <script type="text/babel" src="/src/react/es6/LeafletMap.min.js"></script>
-            <script type="text/babel" src="/src/react/es6/LazyLoad.min.js"></script>
-            <script type="text/babel" src="/src/react/es6/Cache.min.js"></script>
+            <script type="text/babel" src="/src/react/es6/ImageGallery.js"></script>
         -->
-        <script src="/src/react/es5/DataFormsJS.min.js"></script>
+        <script type="module" src="/src/react/es6/DataFormsJS.min.js"></script>
+        <script type="module" src="/src/react/es6/I18n.min.js"></script>
+        <script type="module" src="/src/react/es6/ImageGallery.min.js"></script>
+        <script type="module" src="/src/react/es6/LeafletMap.min.js"></script>
+        <script nomodule src="/src/react/es5/DataFormsJS.min.js"></script>
+        <script nomodule src="/src/react/es5/I18n.min.js"></script>
+        <script nomodule src="/src/react/es5/ImageGallery.min.js"></script>
+        <script nomodule src="/src/react/es5/LeafletMap.min.js"></script>
 
         <!--
             https://mochajs.org/
