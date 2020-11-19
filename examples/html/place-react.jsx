@@ -1,4 +1,3 @@
-'use strict';
 
 function ShowCity(props) {
     return (

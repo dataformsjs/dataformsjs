@@ -1,4 +1,3 @@
-'use strict';
 
 export function PageRegions({match}) {
     // NOTE - this can be updated to change which web service runs.

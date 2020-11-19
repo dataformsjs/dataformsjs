@@ -41,16 +41,9 @@ TODO List
             https://github.com/dataformsjs/dataformsjs/issues/16
             More details will be published in the main JSX Loader doc:
             https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
-            - Unit test the new options and support for new code hint:
-                jsxLoader.compiler.pragma = 'Vue.h';
-                jsxLoader.compiler.pragmaFrag = 'Vue.Fragment';
-                // @jsxFrag Vue.Fragment
-            - The code hint might require a newer version of babel for IE so
-                proper testing is needed for many browsers.
-            * Unit tests updated - now confirm in more browsers
+            * Unit tests updated - now confirm in more browsers (UC Browser, Safari)
             - Add a markdown import example to:
                 dataformsjs/examples/vue3-dynamic-jsx.htm
-        - Update build dependencies to latest versions then make sure all Unit Tests and examples work as expected
         - React Components build items to test and decide on
             - Replace `import React from"react";` with empty string on [react/es6/*.min.js] files?
             - That way the could be used in the browser as <script type="module" src="..."> and use native import as well
@@ -59,7 +52,10 @@ TODO List
                 <script type="module" src="react/es6/JsonData.min.js">
                 <script nomodule src="react/es5/JsonData.js">
             - Should 'use strict' be included at the top of the files?
+        - For build try using [terser] instead of [uglify-es]
+            - See related comments later in this file.
         - More testing of examples using different devices and browsers
+            - Both examples and unit tests
         - Prepare all quick ref docs before publishing so changes are quick to publish once npm is updated
         - Handle and remove all `NOTE` comments in [polyfill.js] before npm publishing
         - Before release update docs and example code that use <url-hash-router> to use <url-router> with the new CDN link
@@ -83,6 +79,7 @@ TODO List
             - The live production site currently uses handlebars however it's likely the Web Component version
                 will be used instead after release.
             - All 3 sites should be tested more with a variety of devices and browsers to make sure everything works properly
+        - After @latest is updated on jsdelivr with 5.0.0 release verify all readme code snippets
     - After new release publish here:
         https://www.webcomponents.org/publish-collection
 
@@ -214,6 +211,22 @@ TODO List
             <data-select>
             <web-select>
             <image-select>
+    - [uglify-es] is used to generate the [*.min.js] files, however a release has
+        not been published in 3 years and the project is abandoned.
+            https://www.npmjs.com/package/uglify-es
+            https://github.com/mishoo/UglifyJS/tree/harmony
+        - Currently all Web Components go through a lot testing on different devices
+            so there are no known issues with the generated [*.min.js] files but using
+            and abandoned minifier is not ideal.            
+        - Should Terser or something else be used? Some related links:
+            https://blog.logrocket.com/uglify-vs-babel-minify-vs-terser-a-mini-battle-royale/
+            https://www.npmtrends.com/babel-minify-vs-terser-vs-uglify-js
+            https://github.com/webpack-contrib/terser-webpack-plugin/issues/15
+        - Alternatives:
+            https://terser.org/
+            https://github.com/terser/terser
+            https://github.com/babel/minify
+        - Most likley Terser will be used as it's a fork of [uglify-es] and well maintained
     - Add Unit Testing
         - Currently only the main Framework and the React [jsxLoader.js] have Unit Testing
 
@@ -315,6 +328,16 @@ TODO List
         http://127.0.0.1:5000/unit-testing-react
         http://127.0.0.1:5000/unit-testing-preact
     - It's possible that every line it tested but it's not yet known for sure
+    - Add new [data-type="module"] option from Babel v7.10.0?
+        <script type="text/babel" data-type="module">
+        https://babeljs.io/docs/en/babel-standalone
+        - Other new options exist such as: data-presets="env,stage-3"
+        - Currently none of the examples need to use modules or different presets
+            so this can be added in the future if it comes up
+        - Currently with jsxLoader the presets can be changed from:
+            jsxLoader.babelOptions.presets = ['es2015', 'react']
+        - The main reason this would be needed is if JSX code should include
+            imports directly within the browser - example `import { object } from 'https...'`
     - Possible new functions to support JavaScript version by year for new Syntax, example:
         jsxLoader.requireES2018 = function() {
             this.evalCode = '"use strict"; const { id, ...other } = { id:123, test:456 };';
@@ -501,14 +524,6 @@ TODO List
         data2.a === data.a
         data.a.push(4)
         data2.a.indexOf(4)
-
-*) [Website\public\sitemap.xml]
-    In the future this file will be generated as more languages are added.
-    - Rather than including all examples one language for each demo is selected (a mix of Handlebars, Vue, React, Web Components)
-      and some examples are excluded such as the log demo and entry form demo since they only include random data and no info.
-    - For each demo the selected version should be also be used for canonical links, example:
-        <link rel="canonical" href="https://www.dataformsjs.com/examples/places-demo-hbs.htm">
-    - For new demos that will be excluded from the sitemap they should still have a canonical link added
 
 *) Playground Page
     - Optimization - stop/start the timers based on if the tab is active or not?

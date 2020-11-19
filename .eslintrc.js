@@ -1,3 +1,4 @@
+/* global module */
 module.exports = {
     // Running:
     //     Windows:
@@ -24,7 +25,7 @@ module.exports = {
     ignorePatterns: ['**/*.min.js', '**/js/react/es5/*'],
     // In general DataFormsJS uses intentation of 4 however it would trigger many
     // errors with eslint using default settings because `case` statements are 
-    // currently indented under `switch` and genrally promise `then()` functions
+    // currently indented under `switch` and generally promise `then()` functions
     // are at the same level on most DataFormsJS code.
     rules: {
         'no-prototype-builtins': 0,
@@ -40,6 +41,19 @@ module.exports = {
                 ecmaVersion: 11,
                 sourceType: 'module',
             },
+        },
+        {
+            files: ['*.jsx'],
+            parserOptions: {
+                ecmaVersion: 11,
+                sourceType: 'module',
+                ecmaFeatures: {
+                    jsx: true
+                }
+            },
+            plugins: [
+                'react'
+            ],
         },
     ]
 };

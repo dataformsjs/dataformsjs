@@ -1,4 +1,3 @@
-'use strict';
 
 // This demo can use either [jQuery] and [chosen] or [React Select] depending on the value of `useChosen`.
 const useChosen = false;

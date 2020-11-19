@@ -87,9 +87,16 @@ Overall the core Framework files and API are expected to remain stable however t
   // change, however it's mostly just an internal property for unit testing and
   // for safety in the event of an unexpected error.
 
+  jsxLoader.compiler.addUseStrict = true;
+  // By default "use strict"; is now added to the top of compiled JS code if
+  // does not already exist. This can be turned off by setting `addUseStrict = false`.
+  // This behavior is similar to the latest version of Babel 7.
+
   // Added new code hint that is supported by Babel:
   /* @jsxFrag Vue.Fragment */
   ~~~
+  * Updated the CDN version of Babel Standalone used for old browsers from `7.10.4` to `7.12.6`
+  * Added improved error message for compile errors where the number of opening tags did not match the number of closing tags. Previously some of these errors were only caught at runtime and not compile time.
 * Enhancements for DataFormsJS Framework files:
   * Added `app.updateTemplatesForIE(rootElement)`. IE 11 considers `<template>` elements as valid elements so it applies `querySelector()` and related methods to elements under `<templates>`'s so replace with them `<script type="text/x-template">`. This avoids issues of `<template>` elements that contain embedded content. Previously this was only handled once per page load but now is handled (for IE only) when views are rendered.
   * Added features in `js/plugins/dataBind.js` based on the Web Components version.
@@ -127,6 +134,8 @@ Overall the core Framework files and API are expected to remain stable however t
 * Updated dependencies used for building the `*.min.js` files
   * `@babel/standalone` updated from `7.7.7` to `7.12.6`, used to build es5 version of React Components
   * `uglify-js` updated from `3.7.3` to `3.11.6`
+  * `eslint` updated from `7.3.1` to `7.13.0`
+* Updated `.eslintrc.js` for improved syntax validation when using VS Code with `*.jsx` example and test files
 
 ### Breaking Changes
 

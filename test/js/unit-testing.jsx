@@ -1,5 +1,5 @@
-'use strict';
 
+// "use strict"; will automatically be added by both the jsxLoader or Babel
 const isStrictMode = (function() { return !this; })();
 
 // Make sure the compiler allows [//] comment characters with-in the 3 types of JavaScript Strings.

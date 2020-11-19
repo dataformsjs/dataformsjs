@@ -1,4 +1,3 @@
-'use strict';
 
 function Greeting(props) {
     return <div className="greeting">{props.firstName} {props.lastName}</div>

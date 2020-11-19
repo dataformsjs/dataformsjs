@@ -1,4 +1,3 @@
-'use strict';
 
 /**
  * This file is used by [examples/image-classification-react.htm]

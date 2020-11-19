@@ -1,4 +1,3 @@
-'use strict';
 
 const links = [
     'https://www.tensorflow.org',

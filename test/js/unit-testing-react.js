@@ -24,6 +24,8 @@
     http://127.0.0.1:8080/examples/hello-world/en/rax.htm
 */
 
+/* global jsxLoader, chai, describe, it, I18n */
+
 var expect = chai.expect;
 
 // Babel script count is based on DataFormsJS React Components are loaded in [unit-testing-react.htm]
@@ -48,7 +50,7 @@ describe('jsxLoader.js', function() {
         });
 
         it('should have jsxLoader.babelUrl', function() {
-            expect(jsxLoader).to.have.property('babelUrl', 'https://unpkg.com/@babel/standalone@7.10.4/babel.js');
+            expect(jsxLoader).to.have.property('babelUrl', 'https://unpkg.com/@babel/standalone@7.12.6/babel.js');
         });
 
         it('should have jsxLoader.babelOptions', function() {
@@ -126,6 +128,10 @@ describe('jsxLoader.js', function() {
         it('should have jsxLoader.compiler.pragmaFrag', function() {
             var expected = (window.preact === undefined ? 'React.Fragment' : 'preact.Fragment');
             expect(jsxLoader.compiler).to.have.property('pragmaFrag', expected);
+        });
+
+        it('should have jsxLoader.compiler.addUseStrict', function() {
+            expect(jsxLoader.compiler).to.have.property('addUseStrict', true);
         });
 
         it('should have jsxLoader.hasPendingScripts() === false', function() {
@@ -563,28 +569,28 @@ describe('jsxLoader.js', function() {
             resetIfUsingPreact();
             var jsx = '<div></div>';
             var js = jsxLoader.compiler.compile(jsx);
-            expect(js).to.equal("React.createElement(\"div\", null)");
+            expect(js).to.equal('"use strict";\nReact.createElement("div", null)');
         });
 
         it('should compile simple element with 1 child', function() {
             resetIfUsingPreact();
             var jsx = '<Test>Hello</Test>';
             var js = jsxLoader.compiler.compile(jsx);
-            expect(js).to.equal("React.createElement(Test, null, \"Hello\")");
+            expect(js).to.equal('"use strict";\nReact.createElement(Test, null, "Hello")');
         });
 
         it('should compile simple element with 2 children', function() {
             resetIfUsingPreact();
             var jsx = '<div>Hello {this.props.name}</div>';
             var js = jsxLoader.compiler.compile(jsx);
-            expect(js).to.equal("React.createElement(\"div\", null, \"Hello \", this.props.name)");
+            expect(js).to.equal('"use strict";\nReact.createElement("div", null, "Hello ", this.props.name)');
         });
 
         it('should compile nested elements', function() {
             resetIfUsingPreact();
             var jsx = '<div><div>Hello {this.props.name}</div></div>';
             var js = jsxLoader.compiler.compile(jsx);
-            expect(js).to.equal("React.createElement(\"div\", null, \n            React.createElement(\"div\", null, \"Hello \", this.props.name))");
+            expect(js).to.equal('"use strict";\nReact.createElement("div", null, \n            React.createElement("div", null, "Hello ", this.props.name))');
         });
 
         it('should compile simple element with props', function() {
@@ -593,14 +599,14 @@ describe('jsxLoader.js', function() {
             var js = jsxLoader.compiler.compile(jsx);
             console.log(js);
             console.log(JSON.stringify(js));
-            expect(js).to.equal('React.createElement(Test, {message: "test", value: 123}, "Hello")');
+            expect(js).to.equal('"use strict";\nReact.createElement(Test, {message: "test", value: 123}, "Hello")');
         });
 
         it('should have correct child whitespace nodes', function() {
             resetIfUsingPreact();
             var jsx = '<div><strong className={this.props.cssClass}>Test:</strong> {this.props.name} <section>Test [{this.props.name}] <span className="test">Test2</span></section></div>';
             var js = jsxLoader.compiler.compile(jsx);
-            expect(js).to.equal('React.createElement(\"div\", null, \n            React.createElement(\"strong\", {className: this.props.cssClass}, \"Test:\"), \" \", this.props.name, \" \",  React.createElement(\"section\", null, \"Test [\", this.props.name, \"] \", \n                React.createElement(\"span\", {className: \"test\"}, \"Test2\")))');
+            expect(js).to.equal('"use strict";\nReact.createElement("div", null, \n            React.createElement("strong", {className: this.props.cssClass}, "Test:"), " ", this.props.name, " ",  React.createElement("section", null, "Test [", this.props.name, "] ", \n                React.createElement("span", {className: "test"}, "Test2")))');
         });
 
         it('should have a helpful error message for different closing element', function() {
@@ -613,6 +619,12 @@ describe('jsxLoader.js', function() {
             resetIfUsingPreact();
             var error = getCompilerError('\n\n<div><span></div>');
             expect(error).to.equal('Error: Found closing element [div] that does not match opening element [span] from Token # 3 at Line #: 3, Column #: 15, Line: <div><span></div');
+        });
+
+        it('should have a helpful error message for unmatched element', function() {
+            resetIfUsingPreact();
+            var error = getCompilerError('<div><div>');
+            expect(error).to.equal('Error: The number of opening elements (for example: "<div>") does not match the number closing elements ("</div>").');
         });
 
         it('should error in the tokenizer for recursive calls', function() {
@@ -639,27 +651,36 @@ describe('jsxLoader.js', function() {
 
         it('should work with a spaced js `for` loop', function() {
             // Similar to the above but spaces are used so the code compiles correctly.
-            var jsx = 'for (let n = 0; n < m; n++) {console.log(n);} <div></div>';
+            var jsx = "'use strict';\nfor (let n = 0; n < m; n++) {console.log(n);} <div></div>";
             var js = jsxLoader.compiler.compile(jsx);
-            expect(js).to.equal('for (let n = 0; n < m; n++) {console.log(n);} React.createElement("div", null)');
+            expect(js).to.equal('\'use strict\';\nfor (let n = 0; n < m; n++) {console.log(n);} React.createElement("div", null)');
         });
 
-        it('should support @jsx code hint on single line comment', function() {
+        it('should support @jsx code hints on single line comment', function() {
             var jsx = '// @jsx Vue.h\n// @jsxFrag Vue.Fragment\n<><div></div></>';
             var js = jsxLoader.compiler.compile(jsx);
-            expect(js).to.equal('             \n                        \nVue.h(Vue.Fragment, null, \n            Vue.h("div", null))');
+            expect(js).to.equal('"use strict";\n             \n                        \nVue.h(Vue.Fragment, null, \n            Vue.h("div", null))');
         });
 
-        it('should support @jsx code hint on multline line comment', function() {
-            var jsx = '/* @jsx Rax.createElement */<div></div>';
+        it('should support @jsx code hints on multline line comment', function() {
+            var jsx = '/* @jsx Rax.createElement */ /* @jsxFrag Rax.Fragment */ <><div></div></>';
             var js = jsxLoader.compiler.compile(jsx);
-            expect(js).to.equal("                            Rax.createElement(\"div\", null)");
+            expect(js).to.equal('"use strict";\n                                                         Rax.createElement(Rax.Fragment, null, \n            Rax.createElement("div", null))');
         });
 
-        it('should support @jsx code hint on JSDoc comment', function() {
-            var jsx = '/**\n\t@jsx h */<div></div>';
+        it('should support @jsx code hints on JSDoc comment', function() {
+            var jsx = '/**\n\t@jsx h */ /**\n\t@jsxFrag Framgent */ <><div></div></>';
             var js = jsxLoader.compiler.compile(jsx);
-            expect(js).to.equal("   \n          h(\"div\", null)");
+            expect(js).to.equal('"use strict";\n   \n              \n                      h(Framgent, null, \n            h("div", null))');
+        });
+
+        it('should allow non-strict mode', function() {
+            resetIfUsingPreact();
+            var jsx = '<div></div>';
+            jsxLoader.compiler.addUseStrict = false;
+            var js = jsxLoader.compiler.compile(jsx);
+            jsxLoader.compiler.addUseStrict = true;
+            expect(js).to.equal('React.createElement("div", null)');
         });
     });
 });
@@ -685,7 +706,7 @@ describe('DataFormsJS React Components', function() {
         it('should have <I18n>', function() {
             var error = null;
             try {
-                var obj = new I18n;
+                new I18n;
             } catch (e) {
                 error = e.toString();
             }

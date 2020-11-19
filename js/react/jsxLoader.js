@@ -93,6 +93,7 @@
      *     jsxLoader.addBabelPolyfills = function() { '...'; }
      *     jsxLoader.compiler.pragma = 'Vue.h';
      *     jsxLoader.compiler.pragmaFrag = 'Vue.Fragment';
+     *     jsxLoader.compiler.addUseStrict = false;
      * </script>
      */
     var jsxLoader = {
@@ -104,7 +105,7 @@
         /**
          * Babel URL and options used for older browsers.
          */
-        babelUrl: 'https://unpkg.com/@babel/standalone@7.10.4/babel.js',
+        babelUrl: 'https://unpkg.com/@babel/standalone@7.12.6/babel.js',
         babelOptions: { presets: ['es2015', 'react'] },
 
         /**
@@ -480,6 +481,7 @@
             pragma: 'React.createElement',
             pragmaFrag: 'React.Fragment',
             maxRecursiveCalls: 1000,
+            addUseStrict: true,
 
             /**
              * Compile JSX to JS
@@ -1194,7 +1196,9 @@
                     callCount = 0,
                     tokenCount = tokens.length,
                     maxRecursiveCalls = this.maxRecursiveCalls,
-                    pragmaFrag = this.pragmaFrag;
+                    pragmaFrag = this.pragmaFrag,
+                    e_start_count = 0,
+                    e_end_count = 0;
 
                 // Default to use `React.Fragment`, however if a code hint for
                 // Babel is found such as `// @jsxFrag Vue.Fragment` then use
@@ -1231,6 +1235,7 @@
                     }
 
                     if (token.type === tokenTypes.e_start) {
+                        e_start_count++;
                         var elName = token.value.replace('<', '').replace('/', '').replace('>', '');
                         if (elName === '') {
                             elName = pragmaFrag;
@@ -1319,6 +1324,7 @@
                                         throw new Error('Found closing element [' + endName + '] that does not match opening element [' + node.name + '] from Token # ' + token.index + jsxLoader.compiler.getTextPosition(input, token.pos));
                                     }
                                     breakLoop = true;
+                                    e_end_count++;
                                     break;
                                 case tokenTypes.e_start:
                                     // Handle nested elements here with a recusive call to walk()
@@ -1352,6 +1358,14 @@
                 while (current < tokenCount) {
                     ast.body.push(walk(0));
                 }
+
+                // Checking opening and closing tag count.
+                // Because jsxLoader is a minimal JSX compiler and not a full JS compiler
+                // it is unable to determine the error location in code for this type of error.
+                // To avoid this develop using a IDE such as VS Code that highlights errors in code.
+                if (e_start_count !== e_end_count) {
+                    throw new Error('The number of opening elements (for example: "<div>") does not match the number closing elements ("</div>").');
+                }
                 return ast;
             },
 
@@ -1372,6 +1386,8 @@
              * @return {string}
              */
             codeGenerator: function(ast, input) {
+                var addUseStrict = this.addUseStrict;
+
                 // Default to use `React.createElement`, however if a code hint for
                 // Babel is found such as `// @jsx preact.createElement` then use
                 // the `createElement()` function from the code hint.
@@ -1387,7 +1403,13 @@
                 function generateCode(node, skipIndent) {
                     switch (node.type) {
                         case astTypes.program:
-                            return node.body.map(generateCode).join('');
+                            var generatedJs = node.body.map(generateCode).join('');
+                            // By default if 'use strict' is not found then add it to the start of the generated code.
+                            // This can be turned off by setting `jsxLoader.compiler.addUseStrict = false`;
+                            if (addUseStrict && generatedJs.indexOf('"use strict"') === -1 && generatedJs.indexOf("'use strict'") === -1) {
+                                return '"use strict";\n' + generatedJs;
+                            }
+                            return generatedJs;
                         case astTypes.js:
                             return node.value;
                         case astTypes.createElement:

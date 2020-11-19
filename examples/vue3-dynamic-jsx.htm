@@ -206,7 +206,8 @@
 
         <!-- DataFormsJS jsxLoader -->
         <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@4.8.0/js/react/jsxLoader.min.js"></script> -->
-        <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/react/jsxLoader.min.js"></script>
+        <!-- <script src="https://dataformsjs.s3-us-west-1.amazonaws.com/js/pre-release/5.0.0/react/jsxLoader.min.js"></script> -->
+        <script src="/js/react/jsxLoader.js"></script>
 
         <!--
             Warning for IE 11 and Old Mobile Devices because the tested build of Vue 3.0.0
@@ -320,7 +321,9 @@
                         //    jsxLoader.compiler.pragma = 'Vue.h'
                         //    jsxLoader.compiler.pragmaFrag = 'Vue.Fragment'
                         //
-                        jsx = '// @jsx Vue.h\n' + jsx;
+                        if (!isJsxLoader5) {
+                            jsx = '// @jsx Vue.h\n' + jsx;
+                        }
                         jsx += '\n Vue.render(<App />, document.getElementById("' + target.id + '"));';
 
                         // Hide previous error if any
@@ -342,7 +345,13 @@
                             // most recent versions of Chrome and Firefox:
                             //
                             // eval(js);
-                            new Function('"use strict";' + js)();
+                            if (isJsxLoader5) {
+                                // Starting with version 5.0.0 "use strict" is automatically added.
+                                // It can be turned off using `jsxLoader.compiler.addUseStrict = false`
+                                new Function(js)();
+                            } else {
+                                new Function('"use strict";' + js)();
+                            }
 
                             // Check for Runtime error. This can happen if using the
                             // production version of Vue. When using the Dev build of Vue
