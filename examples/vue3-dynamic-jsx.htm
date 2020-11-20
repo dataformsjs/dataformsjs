@@ -186,17 +186,25 @@
                             required: true,
                         },
                     },
+                    data() {
+                        return {
+                            userContent: this.content
+                        }
+                    },
                     methods: {
-                        renderMarkdown(e) {
-                            // NOTE - this works but it does not update the
-                            // original [content] prop passed to the component.
-                            this.$refs.markdown.innerHTML = md.render(e.target.value);
+                        handleInput(e) {
+                            this.userContent = e.target.value;
+                        }
+                    },
+                    computed: {
+                        renderedMarkdown() {
+                            return md.render(this.userContent);
                         }
                     },
                     render() {
                         return <div className="markdown-editor">
-                                <textarea rows="4" cols="40" value={this.content} onInput={this.renderMarkdown} />
-                                <div className="markdown-content" ref="markdown" innerHTML={md.render(this.content)}></div>
+                                <textarea rows="4" cols="40" value={this.userContent} onInput={this.handleInput} />
+                                <div className="markdown-content" innerHTML={this.renderedMarkdown}></div>
                             </div>
                     }
                 }
