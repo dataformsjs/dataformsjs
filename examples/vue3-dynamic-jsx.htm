@@ -166,6 +166,46 @@
         </script>
 
         <section class="container example-code">
+            <button>Render Markdown using Imported Library</button>
+            <div class="target"></div>
+            <script type="text/babel">
+                import md from 'markdown-it'
+
+                // TODO - Render markdown to HTML
+                //
+                // Currently this shows the rendered HTML text but doesn't set HTML
+                // Current research links:
+                //  https://v3.vuejs.org/api/global-api.html#createapp
+                //  https://github.com/vuejs/babel-plugin-transform-vue-jsx
+                //
+                // These attempts do not work:
+                //  dangerouslySetInnerHTML={md.render(this.content)}
+                //  domPropsInnerHTML, v-html, vHtml
+                // 
+                const Markdown = {
+                    props: {
+                        content: {
+                            type: String,
+                            required: true,
+                        },
+                    },
+                    render() {
+                        return (
+                            <div>{md.render(this.content)}</div>
+                        )
+                    }
+                }
+
+                function App() {
+                    return <>
+                            <Markdown content="**Hello World from <Markdown>**" />
+                            <Markdown content="_Hello World from <Markdown>_" />
+                        </>
+                }
+            </script>
+        </section>
+
+        <section class="container example-code">
             <button>Compile Error</button>
             <div class="target"></div>
             <script type="text/babel">
@@ -206,6 +246,12 @@
 
         <!-- DataFormsJS jsxLoader -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.1/js/react/jsxLoader.min.js"></script>
+
+
+        <!--
+            https://github.com/markdown-it/markdown-it
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/markdown-it@12.0.2/dist/markdown-it.min.js"></script>
 
         <!--
             Warning for IE 11 and Old Mobile Devices because the tested build of Vue 3.0.0
@@ -265,6 +311,9 @@
                             target.id = 'target-' + new Date().getTime();
                         }
 
+                        // Hide previous error if any
+                        target.classList.remove('error');
+
                         // Get template
                         let jsx = template.innerHTML;
 
@@ -279,17 +328,26 @@
                             const importStatement = match[0];
                             const componentName = match[1];
                             const componentImport = match[3];
-                            let componentJsx = document.querySelector('[data-vue-component="' + componentImport + '"]');
-                            if (componentJsx) {
-                                componentJsx = componentJsx.innerHTML;
-                                componentJsx = componentJsx.replace('export default ', 'const ' + componentName + ' = ');
+                            let componentJsx;
+                            switch (componentImport) {
+                                case 'markdown-it':
+                                    componentJsx = `const ${componentName} = window.markdownit()`;
+                                    break;
+                                default:
+                                    componentJsx = document.querySelector(`[data-vue-component="${componentImport}"]`);
+                                    if (componentJsx) {
+                                        componentJsx = componentJsx.innerHTML;
+                                        componentJsx = componentJsx.replace('export default ', `const ${componentName} = `);
+                                    } else {
+                                        target.innerHTML = '';
+                                        target.textContent = `Error - Unable to import component: ${componentImport}`;
+                                        target.classList.add('error');
+                                        return;
+                                    }
                             }
                             jsx = jsx.replace(importStatement, componentJsx);
                         }
                         jsx += '\n Vue.render(<App />, document.getElementById("' + target.id + '"));';
-
-                        // Hide previous error if any
-                        target.classList.remove('error');
 
                         // Compile/Transform JSX to JS and evaluate
                         try {

@@ -22,6 +22,12 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+**) Issues to fix after 5.0.1 release
+    - <nav is="spa-links">
+        Broken on Safari - need to fix
+    - Search for "content mobile-message"
+        The i18n text does not populate this on the main site (playground page on narrow screen or mobile)
+
 **) Steps after 5.0.0 release (Thursday, November 19, 2020)
     - After @latest is updated on jsdelivr (likely Friday) confirm the following line of code:
         dataformsjs/js/web-components/polyfill.js
