@@ -22,14 +22,6 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Steps after 5.0.0 release (Thursday, November 19, 2020)
-    - After @latest is updated on jsdelivr (likely Friday) confirm the following line of code:
-        dataformsjs/js/web-components/polyfill.js
-        function findRootUrl() {
-            rootUrl = 'https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/';
-        Also verify readme snippet, currently it requires specific version for polyfill:
-            <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.1/js/web-components/polyfill.min.js"></script>
-
 **) Near future updates (November and December 2020)
     - Add Web Component API examples to quick ref section of the main site
         'app:contentReady', etc

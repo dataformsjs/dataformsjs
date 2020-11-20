@@ -186,11 +186,6 @@
                             required: true,
                         },
                     },
-                    mounted() {
-                        // Both lines work:
-                        // this.$el.querySelector('.markdown-content').innerHTML = md.render(this.content);
-                        this.$refs.markdown.innerHTML = md.render(this.content);
-                    },
                     methods: {
                         renderMarkdown(e) {
                             // NOTE - this works but it does not update the
@@ -199,26 +194,9 @@
                         }
                     },
                     render() {
-                        // Ideally something like the commented code would be used but
-                        // currently [vModel] and [vHtml] are not working at the time of
-                        // development when using the CDN version of Vue.
-                        //
-                        // With Babel there are presets that transform the directives.
-                        // For more see the main link at the top of the file and source
-                        // of [@vue/babel-plugin-jsx]: https://github.com/vuejs/jsx-next                        
-                        //
-                        // When testing code from the link it uses [withDirectives()]
-                        // and results in different syntax than standard Babel.
-                        //
-                        /*
-                            <textarea rows="4" cols="40" vModel={this.content} />
-                            <div className="markdown-content" vHtml={md.render(this.content)}></div>
-                            # or something like this:
-                            <div className="markdown-content" vHtml={this.computedFunction}></div>
-                        */
                         return <div className="markdown-editor">
                                 <textarea rows="4" cols="40" value={this.content} onInput={this.renderMarkdown} />
-                                <div className="markdown-content" ref="markdown"></div>
+                                <div className="markdown-content" ref="markdown" innerHTML={md.render(this.content)}></div>
                             </div>
                     }
                 }
