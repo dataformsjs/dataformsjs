@@ -1,8 +1,4 @@
 <!doctype html>
-<!--
-    NOTE - this page is in active development related to:
-    https://github.com/dataformsjs/dataformsjs/issues/16
--->
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -45,6 +41,18 @@
                 color: white;
                 background-color: red;
                 border: 1px solid darkred;
+            }
+
+            .markdown-editor {
+                border: 1px solid black;
+                margin: 1em;
+                padding: 1em;
+            }
+            .markdown-editor textarea {
+                padding: 1em;
+            }
+            .markdown-content {
+                margin-top: 1em;
             }
         </style>
     </head>
@@ -171,17 +179,6 @@
             <script type="text/babel">
                 import md from 'markdown-it'
 
-                // TODO - Render markdown to HTML
-                //
-                // Currently this shows the rendered HTML text but doesn't set HTML
-                // Current research links:
-                //  https://v3.vuejs.org/api/global-api.html#createapp
-                //  https://github.com/vuejs/babel-plugin-transform-vue-jsx
-                //
-                // These attempts do not work:
-                //  dangerouslySetInnerHTML={md.render(this.content)}
-                //  domPropsInnerHTML, v-html, vHtml
-                // 
                 const Markdown = {
                     props: {
                         content: {
@@ -189,17 +186,47 @@
                             required: true,
                         },
                     },
+                    mounted() {
+                        // Both lines work:
+                        // this.$el.querySelector('.markdown-content').innerHTML = md.render(this.content);
+                        this.$refs.markdown.innerHTML = md.render(this.content);
+                    },
+                    methods: {
+                        renderMarkdown(e) {
+                            // NOTE - this works but it does not update the
+                            // original [content] prop passed to the component.
+                            this.$refs.markdown.innerHTML = md.render(e.target.value);
+                        }
+                    },
                     render() {
-                        return (
-                            <div>{md.render(this.content)}</div>
-                        )
+                        // Ideally something like the commented code would be used but
+                        // currently [vModel] and [vHtml] are not working at the time of
+                        // development when using the CDN version of Vue.
+                        //
+                        // With Babel there are presets that transform the directives.
+                        // For more see the main link at the top of the file and source
+                        // of [@vue/babel-plugin-jsx]: https://github.com/vuejs/jsx-next                        
+                        //
+                        // When testing code from the link it uses [withDirectives()]
+                        // and results in different syntax than standard Babel.
+                        //
+                        /*
+                            <textarea rows="4" cols="40" vModel={this.content} />
+                            <div className="markdown-content" vHtml={md.render(this.content)}></div>
+                            # or something like this:
+                            <div className="markdown-content" vHtml={this.computedFunction}></div>
+                        */
+                        return <div className="markdown-editor">
+                                <textarea rows="4" cols="40" value={this.content} onInput={this.renderMarkdown} />
+                                <div className="markdown-content" ref="markdown"></div>
+                            </div>
                     }
                 }
 
                 function App() {
                     return <>
-                            <Markdown content="**Hello World from <Markdown>**" />
-                            <Markdown content="_Hello World from <Markdown>_" />
+                            <Markdown content="# **Hello World from <Markdown>**" />
+                            <Markdown content="## _Hello World from <Markdown>_" />
                         </>
                 }
             </script>

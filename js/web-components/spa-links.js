@@ -52,21 +52,18 @@ class SpaLinks extends HTMLElement {
         }
     }
 
-    get itemSelector() {
-        const value = this.getAttribute('item-selector')
-        return (value === null ? 'a' : value);
-    }
-
-    get activeClass() {
-        const value = this.getAttribute('active-class');
-        return (value === null ? 'active' : value);
-    }
-
     updateLinks() {
+        // Get settings from HTML Attributes
+        let itemSelector = this.getAttribute('item-selector');
+        itemSelector = (itemSelector === null ? 'a' : itemSelector);
+
+        let activeClass = this.getAttribute('active-class');
+        activeClass = (activeClass === null ? 'active' : activeClass);
+
         // Remove existing 'active' classes
-        let elements = this.querySelectorAll(this.itemSelector + '.' + this.activeClass);
+        let elements = this.querySelectorAll(itemSelector + '.' + activeClass);
         for (const el of elements) {
-            el.classList.remove(this.activeClass);
+            el.classList.remove(activeClass);
         }
 
         // Get URL path
@@ -81,11 +78,11 @@ class SpaLinks extends HTMLElement {
         // Set active on matching links. If the `itemSelector` is looking for a element
         // other than <a>; for example 'nav li' then this code will find <a> elements under
         // it and set the 'active' class if the item from the selector is the parent node.
-        elements = this.querySelectorAll(this.itemSelector);
+        elements = this.querySelectorAll(itemSelector);
         for (const el of elements) {
             const link = (el.nodeName === 'A' ? el : el.querySelector('a'));
             if (link && link.getAttribute('href') === path && (link === el || link.parentNode === el)) {
-                el.classList.add(this.activeClass);
+                el.classList.add(activeClass);
             }
         }
     }
