@@ -21,8 +21,6 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint no-console: ["error", { allow: ["log", "warn", "error"] }] */
 
-// TODO - new file - mostly complete, however additional testing is needed
-
 (function() {
     'use strict';
 

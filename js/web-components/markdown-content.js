@@ -37,14 +37,6 @@
 /* eslint-disable no-console */
 /* jshint esversion:8 */
 
-/*
-TODO - new file - features needed:
-*) Create example page for each markdown lib
-*) Need to also test error messages
-*) Test [data-bind] from <json-data>, this should work because the `value` property is defined
-    Both this file and framework version need to handle it
-*/
-
 import { showError } from './utils.js';
 
 /**
