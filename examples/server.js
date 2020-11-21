@@ -34,6 +34,7 @@
 
 const app = require('./../server/app.js');
 const path = require('path');
+const url = require('url');
 const fs = require('fs');
 const util = require('util');
 const readdir = util.promisify(fs.readdir);
@@ -41,13 +42,16 @@ const readFile = util.promisify(fs.readFile);
 
 const port = 8080;
 
-async function getFiles(path) {
+async function getFiles(path, type, keepExt = false) {
     return await readdir(path)
     .then(files => {
-        return files.filter(f => f.endsWith('.htm') && !f.startsWith('_'));
+        return files.filter(f => f.endsWith(type) && !f.startsWith('_'));
     })
     .then(files => {
-        return files.map(f => f.replace('.htm', ''));
+        if (keepExt) {
+            return files;
+        }
+        return files.map(f => f.replace(type, ''));
     })
     .catch(err => {
         throw err;
@@ -55,86 +59,79 @@ async function getFiles(path) {
 }
 
 app.get('/', async (req, res) => {
-    const listItems = [];
-
-    // Get Hello World Examples
-    let files = await getFiles(path.join(__dirname, 'hello-world'));
-    files.forEach(file => {
-        const label = 'hello world ' + file.replace(/-/g, ' ');
-        listItems.push(`<li><a href="/examples/hello-world/en/${file}.htm">${label}</a></li>`);
-    });
-
-    // Get all Examples from this dir
-    files = await getFiles(__dirname);
-    files.push('https://awesome-web-react.js.org/');
-    files.forEach(file => {
-        const label = (file.startsWith('https://') ? file : file.replace(/-/g, ' '));
-        listItems.push(`<li><a href="${file}">${label}</a></li>`);
-    });
-
-    // Return as list in a basic HTML page
-    const html = `
-        <!doctype html>
-        <html lang="en">
-            <head>
-                <meta charset="utf-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1">
-                <title>DataFormsJS Examples</title>
-                <style>
-                    * { padding:0; margin:0; }
-                    html { min-height:100vh; }
-                    body {
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        font-family: arial;
-                        background-image: linear-gradient(180deg, hsla(0, 0%, 100%, .6) 1%, hsla(0, 0%, 100%, .5) 30%,#fff), linear-gradient(25deg, #ffdbe7, #a9d9ff 32%,#f3eba6);
-                        padding: 40px;
-                    }
-                    h1 { text-align:center; }
-                    input {
-                        padding: 1em 1.5em;
-                        width: 100%;
-                        max-width: 400px;
-                        margin: 4em;
-                        box-shadow: 0 1px 2px rgba(0,0,0,.5);
-                        border-radius: 2em;
-                        border: none;
-                        -webkit-appearance: none;
-                        outline: none;
-                    }
-                    ul {
-                        list-style-type: none;
-                        display: flex;
-                        flex-wrap: wrap;
-                        max-width: 100%;
-                        justify-content: center;
-                    }
-                    li {
-                        padding:.5em 1em;
-                        margin:.5em;
-                        box-shadow:0 1px 2px 1px rgba(0,0,0,.3);
-                        background-color:white;
-                        border-radius: 1em;
-                    }
-                    a { text-decoration: none; }
-                </style>
-            </head>
-            <body>
-                <h1>DataFormsJS Examples</h1>
-                <input is="input-filter" filter-selector="ul li" filter-results-selector="h1" filter-results-text-all="Showing all {totalCount} DataFormsJS Examples" filter-results-text-filtered="Showing {displayCount} of {totalCount} DataFormsJS Examples" placeholder="Enter filter, example 'web', 'react', 'vue', or 'hbs'">
-                <ul>${listItems.join('')}</ul>
-            </body>
-            <script type="module" src="/js/web-components/input-filter.js"></script>
-            <script nomodule src="/js/web-components/polyfill.js"></script>
-        </html>
-    `;
+    const filePath = path.join(__dirname, `html/npm-start-page.htm`);
+    let html = await readFile(filePath, 'utf8');
     res.html(html);
 });
 
-// Make sure the `favicon.ico` is sent before the '/:file' route is called
+// Make sure the `favicon.ico` and other basic URL's are handled before the '/:file' route
 app.get('/favicon.ico', (req, res) => {
     const filePath = path.join(__dirname, 'favicon.ico');
+    res.file(filePath);
+});
+
+app.get('/LICENSE', async (req, res) => {
+    const filePath = path.join(__dirname, '..', 'LICENSE');
+    const text = await readFile(filePath, 'utf8');
+    res.text(text);
+});
+
+app.get('/examples', async (req, res) => {
+    const examples = [];
+
+    // Get Hello World Examples
+    let files = await getFiles(path.join(__dirname, 'hello-world'), '.htm');
+    files.forEach(file => {
+        const label = 'hello world ' + file.replace(/-/g, ' ');
+        examples.push({
+            url: `/examples/hello-world/en/${file}.htm`,
+            label: label,
+        })
+    });
+
+    // Get all Examples from this dir
+    files = await getFiles(__dirname, '.htm');
+    files.push('https://awesome-web-react.js.org/');
+    files.forEach(file => {
+        const label = (file.startsWith('https://') ? file : file.replace(/-/g, ' '));
+        examples.push({
+            url: file,
+            label: label,
+        })
+    });
+
+    // Send response
+    res.json({ examples });
+});
+
+app.get('/docs', async (req, res) => {
+    const rootDir = path.join(__dirname, '..');
+    const dirs = [
+        { path: rootDir, type: '.md' },
+        { path: path.join(rootDir, 'docs'), type: '.md' },
+        { path: path.join(rootDir, 'docs'), type: '.txt' },
+        { path: path.join(rootDir, 'docs', 'i18n-readme'), type: '.md' },
+    ];
+    const docs = [];
+    
+    for (const item of dirs) {
+        const dirPath = item.path;
+        const files = await getFiles(dirPath, item.type, true);
+        files.forEach(file => {
+            docs.push({
+                file: file,
+                dir: dirPath.replace(rootDir, ''),
+            });
+        });
+    }
+
+    // Send response
+    res.json({ docs });
+});
+
+app.get('/doc', (req, res) => {
+    const qs = url.parse(req.url, true).query;
+    const filePath = path.join(__dirname, `..`, qs.dir, qs.file);
     res.file(filePath);
 });
 

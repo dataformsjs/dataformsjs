@@ -65,7 +65,7 @@
         'json-data[data-control]:not(:defined), is-loading:not(:defined), has-error:not(:defined), is-loaded:not(:defined) { display:block; }',
         // Older Webkit Browsers (UC Browser, Old Safari) need additional updates
         // for non-JS-control components otherwise margin/padding can appear slightly off.
-        'image-gallery { display: block; }',
+        'image-gallery, markdown-content { display: block; }',
     ].join('\n');
 
     // Module Level Variables
@@ -145,6 +145,9 @@
                 element.setAttribute('data-bind-attr', bindAttr.join(', '));
             }
         },
+        markdownContent: function(element) {
+            updateElements.dataAttributes(element, ['url', 'show-source', 'loading-selector']);
+        },
         navLinks: function() {
             // This assumes only one <nav is="spa-links"> exists on the page. If a site
             // uses multiple nav formats then it will likely need to make additional updates
@@ -162,7 +165,7 @@
             if (activeClass) {
                 app.plugins.navLinks.activeClass = activeClass;
             }
-        }
+        },
     };
 
     /**
@@ -260,6 +263,7 @@
 
         // Reload specific controls and content after
         // data was downloaded from JSON service.
+        var markdownIsLoaded = false;
         app.activeJsControls.forEach(function(control) {
             switch (control.control) {
                 case 'data-table':
@@ -274,8 +278,28 @@
                     updateElements.dataView(control.element);
                     app.loadJsControl(control);
                     break;
+                case 'markdown-content':
+                    updateElements.markdownContent(control.element);
+                    app.loadJsControl(control);
+                    markdownIsLoaded = true;
+                    break;
             }
         });
+
+        // TODO - testing new [markdown-content], once this works properly consider using
+        // this for other controls so they don't all have to be download on page start.
+        if (!markdownIsLoaded) {
+            var markdownElements = document.querySelectorAll('markdown-content');
+            if (markdownElements.length > 0) {
+                var markdownUrl = rootUrl + 'controls/markdown-content' + (useMinFiles ? '.min' : '') + '.js';
+                app.loadScripts(markdownUrl).then(function() {
+                    Array.prototype.forEach.call(markdownElements, function(md) {
+                        updateElements.markdownContent(md);
+                        app.loadJsControl(md);
+                    });
+                });
+            }
+        }
 
         // Make sure [data-bind] values are handled before other plugins run
         var firstElement = document.querySelector('[data-bind]');

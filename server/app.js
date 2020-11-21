@@ -44,6 +44,7 @@ const app = {
         html: 'text/html; charset=UTF-8',
         css: 'text/css',
         txt: 'text/plain',
+        md: 'text/markdown',
         js: 'application/javascript',
         jsx: 'application/jsx',
         json: 'application/json',

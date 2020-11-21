@@ -22,6 +22,11 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+**) Active development for next release:
+    - dataformsjs\js\web-components\markdown-content.js
+    - dataformsjs\js\controls\markdown-content.js
+    - Search `TODO` comments for remaining items
+
 **) Near future updates (November and December 2020)
     - Add Web Component API examples to quick ref section of the main site
         'app:contentReady', etc

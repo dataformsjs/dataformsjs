@@ -54,14 +54,11 @@
             var control = this;
             var html = [];
 
-            function addError(error, element) {
-                if (element === undefined) {
-                    element = 'div';
-                }
+            function addError(error) {
                 if (control.errorClass) {
-                    html.push('<' + element + ' class="' + app.escapeHtml(control.errorClass) + '">' + app.escapeHtml(error) + '</' + element + '>');
+                    html.push('<div class="' + app.escapeHtml(control.errorClass) + '">' + app.escapeHtml(error) + '</div>');
                 } else {
-                    html.push('<' + element + ' style="color:white; background-color:red; padding:0.5rem 1rem; margin:.5rem;">' + app.escapeHtml(error) + '</' + element + '>');
+                    html.push('<div style="color:white; background-color:red; padding:0.5rem 1rem; margin:.5rem;">' + app.escapeHtml(error) + '</div>');
                 }
             }
 
@@ -71,8 +68,8 @@
                 }
             }
 
-            function showError(error, element) {
-                addError(error, element);
+            function showError(error) {
+                addError(error);
                 closeElement();
                 return html.join('');
             }
