@@ -9,7 +9,7 @@
             section { border:1px solid black; padding:20px; margin:20px; }
             .home-page { max-width:700px; margin:auto; }
             .home-page h1 { margin-bottom: 20px; }
-            .home-page p { padding:.5em; text-align:left; }
+            .home-page p { padding:.5em; text-align:left; line-height:1.4em; }
             .population { margin:10px auto; }
             .image-gallery { display:flex; flex-wrap:wrap; justify-content:center; }
             image-gallery { margin:20px; }
@@ -39,9 +39,9 @@
         <template data-route="/">
             <section class="home-page">
                 <h1>Hello World</h1>
-                <p>This page is used to manually test DataFormsJS Web Components with the DataFormsJS Framework.</p>
-                <p>All Web Component and page features should work in all browsers.</p>
-                <p>This works but it is not generally recommended. The DataFormsJS Framework allows for easy setup of routing definitions in HTML and less HTML than the &lt;url-router&gt; component however it requires more JavaScript than when using &lt;url-router&gt;.</p>
+                <p>This page is used to show how DataFormsJS Web Components (and Web Components in general) can be used with the DataFormsJS Framework.</p>
+                <p>All Web Component and all page features are expected to work in virtually all browsers.</p>
+                <p>This works but it is not generally recommended because the intended use is to use either Web Components or the Framework. The Web Components use the Framework as a polyfill. The DataFormsJS Framework allows for easy setup of routing definitions in HTML and less HTML than the &lt;url-router&gt; component however it requires a slightly larger JavaScript size than when using &lt;url-router&gt; and the Web Components.</p>
             </section>
         </template>
 
@@ -143,7 +143,7 @@
             <url-router>, <i18n-service>, and <nav is="spa-links"> are excluded from
             this page because the framework already handles routing.
         -->
-        <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/json-data.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/json-data.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/data-list.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/data-table.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/data-view.min.js"></script>
@@ -153,8 +153,8 @@
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/html-import-service.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/leaflet-map.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/spa-links.min.js"></script>
-        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/polyfill.min.js"></script> -->
-        <script src="../js/web-components/polyfill.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/polyfill.min.js"></script>
+        <!-- <script src="../js/web-components/polyfill.js"></script> -->
 
         <!-- https://leafletjs.com/ -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css">

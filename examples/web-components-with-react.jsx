@@ -8,8 +8,8 @@ function HomePage() {
         <React.Fragment>
             <section className="home-page">
                 <h1>Hello World</h1>
-                <p>This page is used to manually test DataFormsJS Web Components with React and React Router.</p>
-                <p>All Web Component and page features should work in all browsers.</p>
+                <p>This page is used to show how DataFormsJS Web Components (and Web Components in general) can be used with React and React Router.</p>
+                <p>All Web Component and all page features are expected to work in virtually all browsers.</p>
             </section>
         </React.Fragment>
     );

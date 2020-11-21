@@ -26,10 +26,6 @@ TODO List
     - dataformsjs\js\web-components\markdown-content.js
     - dataformsjs\js\controls\markdown-content.js
     - Search `TODO` comments for remaining items
-    - Most Web Component examples currently point to local polyfill build
-        After for IE and UC Browser perform find for the following and change all examples back
-            <script src="/js/web-components/polyfill.min.js"></script>
-            <script src="../js/web-components/polyfill.js"></script>
 
 **) Near future updates (November and December 2020)
     - Add Web Component API examples to quick ref section of the main site

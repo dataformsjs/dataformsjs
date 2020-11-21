@@ -112,10 +112,10 @@
             DataFormsJS Web Components
             https://www.dataformsjs.com
         -->
-        <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/url-router.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/url-router.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/spa-links.min.js"></script>
-        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/polyfill.min.js"></script> -->
-        <script src="../js/web-components/polyfill.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/polyfill.min.js"></script>
+        <!-- <script src="../js/web-components/polyfill.js"></script> -->
         <script>
             window.lazyLoad = {
                 json_data: { module: 'https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/json-data.min.js' },
@@ -147,7 +147,7 @@
         -->
         <script type="module">
             import { render } from 'https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/utils.min.js';
-                        
+
             /**
              * Shadow DOM for Custom Elements
              */
@@ -159,7 +159,7 @@
                 </style>
                 <slot></slot>
             `;
-            
+
             /**
              * Define class for the <hello-world> element
              */
@@ -173,17 +173,17 @@
                         color: 'red',
                     };
                 }
-            
+
                 connectedCallback() {
                     this.render();
                 }
-            
+
                 // [observedAttributes] and [attributeChangedCallback] are used
                 // to handle HTML attribute changes.
                 static get observedAttributes() {
                     return ['name', 'color'];
                 }
-            
+
                 attributeChangedCallback(attrName, oldValue, newValue) {
                     switch (attrName) {
                         case 'color':
@@ -193,7 +193,7 @@
                             break;
                     }
                 }
-            
+
                 // Define [name] and [color] properties for JavaScript
                 // Example usage:
                 //   document.querySelector('hello-world').name = 'John Doe';
@@ -201,21 +201,21 @@
                 get name() {
                     return this.state.name;
                 }
-            
+
                 set name(newValue) {
                     this.state.name = newValue;
                     this.render();
                 }
-            
+
                 get color() {
                     return this.state.color;
                 }
-            
+
                 set color(newValue) {
                     this.state.color = newValue;
                     this.render();
                 }
-            
+
                 // Update the element contents
                 render() {
                     const name = (this.state.name ? this.state.name : 'World');
@@ -226,7 +226,7 @@
                     this.innerHTML = html;
                 }
             }
-            
+
             /**
              * Add <hello-world> element to the page
              */
