@@ -177,22 +177,22 @@
             -->
             <url-route path="/:lang/regions/:country" src="html/regions-web.htm" onload="showMessage('Viewing Regions Page')"></url-route>
             <url-route path="/:lang/cities/:country/:region" src="html/cities-web.htm"></url-route>
-            <url-route path="/:lang/city/:id" src="html/place-web.htm" lazy-load="leafletCss, leafletJs, leafletWeb, leafletPlugin, data_list"></url-route>
+            <url-route path="/:lang/city/:id" src="html/place-web.htm" lazy-load="leafletCss, leafletJs, leaflet, data_list"></url-route>
             <url-route path="/:lang/info" src="html/places-info-web.htm" lazy-load="html_import_service"></url-route>
             <url-route path="/:lang/search" src="html/search-places-web.htm" lazy-load="data_list, keydownAction"></url-route>
         </url-router>
 
         <!-- DataFormsJS Web Components -->
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/url-router.min.js"></script>
+        <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/url-router.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/json-data.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/data-table.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/input-filter.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/sortable-table.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/i18n-service.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/show-errors-service.min.js"></script>
-        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/polyfill.min.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/polyfill.min.js"></script> -->
 
-        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/polyfill.js"></script> -->
+        <script src="../js/web-components/polyfill.js"></script>
 
         <!--
             Many different HTML files use <json-data> with the same Root URL
@@ -237,15 +237,17 @@
             // the previous item is loaded. However, this example currently does not include
             // an array. See [places-demo-vue.htm] for a similar version with an array.
             //
-            // [leafletPlugin] listed below is not required as [polyfill.js] would dynamically
+            // [leaflet.nomodule] listed below is not required as [polyfill.js] would dynamically
             // download the script on first use, however it is included here to show how
             // the `nomodule` option can be used.
             //
             window.lazyLoad = {
                 leafletCss: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.css',
                 leafletJs: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.js',
-                leafletWeb: { module: 'https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/leaflet-map.min.js' },
-                leafletPlugin: { nomodule: 'https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/plugins/leaflet.min.js' },
+                leaflet: {
+                    module: 'https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/leaflet-map.min.js',
+                    nomodule: 'https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/plugins/leaflet.min.js'
+                },
                 data_list: { module: 'https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/data-list.min.js' },
                 keydownAction: { module: 'https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/keydown-action-service.min.js' },
                 html_import_service: { module: 'https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/html-import-service.min.js' },

@@ -4,6 +4,17 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## Next Release (Changes on Github Master Branch)
+
+* Changes will likely be published to NPM this weekend (November 21 or 22 of 2020)
+* Add Web Component and Framework JavaScript Control for viewing Markdown:
+  * `js/web-components/markdown-content.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/markdown-content.js
+  * `js/controls/markdown-content.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/controls/markdown-content.js
+  * The `<markdown-content>` components use one of 3 widely used Markdown Libraries: [marked](https://github.com/markedjs/marked), [markdown-it](https://github.com/markdown-it/markdown-it), and [remarkable](https://github.com/jonschlinkert/remarkable)
+  * Additionally if [highlight.js](https://github.com/highlightjs/highlight.js) is included on the page it will be used for Syntax Highlighting.
+  * Options are preset, however the Web Component and related JS Control are small in size and easy to modify if you have a site with different markdown needs.
+* Optimizations for `js/web-components/polyfill.js` so that it downloads fewer files on page load and has improved flexibility for adding addition Web Components in the future.
+
 ## 5.0.2 (November 20, 2020)
 
 * Fixed Web Component `<nav is="spa-links">` so that it works on Safari.
@@ -13,13 +24,6 @@ Overall the core Framework files and API are expected to remain stable however t
 * Added attribute `data-filter-search-text` to `js/web-components/input-filter.js` based on Framework version from `js/plugins/filter.js`.
 
 ## 5.0.0 (November 19, 2020)
-
-### Current Development
-
-* The next release will contain breaking changes so it will be published as `5.0.0`
-* See comments at the top of the file: https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt
-* Many updates are being made and in active development (November 2020)
-* The next release will likely be published sometime in November of 2020
 
 ### Credits / Thanks!
 

@@ -21,6 +21,8 @@
 /* eslint spaced-comment: ["error", "always"] */
 /* eslint no-console: ["error", { allow: ["log", "warn", "error"] }] */
 
+// TODO - new file - mostly complete, however additional testing is needed
+
 (function() {
     'use strict';
 
@@ -68,21 +70,67 @@
          * @this markdownContent.data
          * @param {object} element
          */
-        onLoad: function(element) {
-            // TODO - get bind value and test
+        onLoad: function(element, model) {
+            // Modify the element the first time it is loaded so that it has an API
+            // that matches with the Web Components Version for common API calls.
+            if (Object.getOwnPropertyDescriptor(element, 'url') === undefined) {
+                Object.defineProperty(element, 'url', {
+                    get: function() {
+                        return this.getAttribute('data-url');
+                    },
+                    set: function(newValue) {
+                        var existingValue = this.url;
+                        if (existingValue !== newValue) {
+                            this.setAttribute('data-url', newValue);
+                            app.loadJsControl(this);
+                        }
+                    }
+                });
 
-            // Set content from souce if defined on initial load
+                Object.defineProperty(element, 'showSource', {
+                    get: function() {
+                        return this.hasAttribute('data-show-source');
+                    },
+                    set: function(newValue) {
+                        var existingValue = this.showSource;
+                        if (existingValue !== newValue) {
+                            if (newValue) {
+                                this.setAttribute('data-show-source', '');
+                            } else {
+                                this.removeAttribute('data-show-source');
+                            }
+                            app.loadJsControl(this);
+                        }
+                    }
+                });
+
+                element.clearContent = function() {
+                    element.innerHTML = '';
+                    markdownContent.dispatchRendered(element);
+                };
+            }
+
+            // Download Markdown if using [data-url] attribute
+            if (this.url) {
+                markdownContent.fetch.call(this, element);
+                return;
+            }
+
+            // Set content from source if defined on initial load
             var sourceEl = element.querySelector('script[type="text/markdown"]');
             if (sourceEl) {
                 this.content = sourceEl.innerHTML;
+            } else if (this.bind) {
+                // Get Table from Active Model or passed Model Object. If using format of "object.prop"
+                // then the [dataBind] plugin (if available) will used to get the data.
+                this.content = (model && model[this.bind] ? model[this.bind] : null);
+                if (this.content === null && app.plugins.dataBind !== undefined && typeof app.plugins.dataBind.getBindValue === 'function') {
+                    this.content = app.plugins.dataBind.getBindValue(this.bind, model);
+                }
             }
 
-            // Download or Render Markdown
-            if (this.url) {
-                markdownContent.fetch.call(this, element);
-            } else {
-                markdownContent.render.call(this, element);
-            }
+            // Render markdown
+            markdownContent.render.call(this, element);
         },
 
         dispatchRendered: function(element) {
@@ -133,7 +181,7 @@
             if (sourceEl) {
                 sourceEl.parentNode.removeChild(sourceEl);
             }
-            
+
             // Shows as text rather than rendering source
             if (this.showSource) {
                 element.innerHTML = '<pre></pre>';
@@ -183,6 +231,12 @@
             element.innerHTML = html;
             if (sourceEl) {
                 element.appendChild(sourceEl);
+            }
+            if (window.hljs !== undefined) {
+                var codeBlocks = document.querySelectorAll('code[class*="language-"]');
+                Array.prototype.forEach.call(codeBlocks, function(code) {
+                    code.classList.add('hljs');
+                });
             }
             markdownContent.dispatchRendered(element);
         },

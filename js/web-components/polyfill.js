@@ -259,98 +259,89 @@
      * or after the page is ready once the route has been set.
      */
     function updateContent(rootElement) {
-        var pluginsToLoad = [];
-
-        // Reload specific controls and content after
-        // data was downloaded from JSON service.
-        var markdownIsLoaded = false;
-        app.activeJsControls.forEach(function(control) {
-            switch (control.control) {
-                case 'data-table':
-                    updateElements.dataTable(control.element);
-                    app.loadJsControl(control);
-                    break;
-                case 'data-list':
-                    updateElements.dataList(control.element);
-                    app.loadJsControl(control);
-                    break;
-                case 'data-view':
-                    updateElements.dataView(control.element);
-                    app.loadJsControl(control);
-                    break;
-                case 'markdown-content':
-                    updateElements.markdownContent(control.element);
-                    app.loadJsControl(control);
-                    markdownIsLoaded = true;
-                    break;
-            }
-        });
-
-        // TODO - testing new [markdown-content], once this works properly consider using
-        // this for other controls so they don't all have to be download on page start.
-        if (!markdownIsLoaded) {
-            var markdownElements = document.querySelectorAll('markdown-content');
-            if (markdownElements.length > 0) {
-                var markdownUrl = rootUrl + 'controls/markdown-content' + (useMinFiles ? '.min' : '') + '.js';
-                app.loadScripts(markdownUrl).then(function() {
-                    Array.prototype.forEach.call(markdownElements, function(md) {
-                        updateElements.markdownContent(md);
-                        app.loadJsControl(md);
-                    });
-                });
-            }
-        }
-
-        // Make sure [data-bind] values are handled before other plugins run
-        var firstElement = document.querySelector('[data-bind]');
-        if (firstElement) {
-            app.plugins.dataBind.reload();
-        }
-
-        // Look for elements that would trigger a plugin and add to list
-        var search = [
-            { selector: '.click-to-highlight', plugin: 'clickToHighlight' },
-            { selector: '[data-sort]', plugin: 'sort' },
-            { selector: '[is="spa-links"]', plugin: 'navLinks', after: updateElements.navLinks },
-            { selector: '[is="input-filter"]', plugin: 'filter', update: updateElements.inputFilter },
-            { selector: '[is="leaflet-map"]', plugin: 'leaflet', update: updateElements.leafletMap },
-            { selector: 'image-gallery', plugin: 'imageGallery', update: updateElements.imageGallery },
-            { selector: '[data-enter-key-click-selector]', plugin: 'keydownAction' },
-            { selector: 'prism-service', plugin: 'prism' },
+        // Load Framework JavaScript Controls based on known Web Components.
+        // For example: <data-list>, <data-table>, etc. This excludes <json-data>
+        // which completes prior to this function being called.
+        var promises = [];
+        var controls = [
+            { name:'data-list', transform: updateElements.dataList },
+            { name:'data-table', transform: updateElements.dataTable },
+            { name:'data-view', transform: updateElements.dataView },
+            { name:'markdown-content', transform: updateElements.markdownContent },
         ];
-        search.forEach(function(item) {
-            var element = document.querySelector(item.selector);
-            if (element) {
-                // Add plugin to download list
-                if (typeof item.after === undefined) {
-                    pluginsToLoad.push(item.plugin);
-                } else {
-                    pluginsToLoad.push({ name: item.plugin, callback: item.after });
+        controls.forEach(function(control) {
+            promises.push(new Promise(function(resolve) {
+                var elements = rootElement.querySelectorAll(control.name);
+                if (elements.length === 0) {
+                    resolve();
+                    return;
                 }
-                // Update all elements for specific plugins
-                if (item.update !== undefined) {
-                    var elements = document.querySelectorAll(item.selector);
+                var url = rootUrl + 'controls/' + control.name + (useMinFiles ? '.min' : '') + '.js';
+                app.loadScripts(url).then(function() {
                     Array.prototype.forEach.call(elements, function(el) {
-                        item.update(el);
+                        control.transform(el);
+                        app.loadJsControl(el);
                     });
+                    resolve();
+                });
+            }));
+        });
+
+        // After all JS Controls are loaded then plugins can be loaded.
+        // This matches the Framework behavior when `app.updateView()` is called.
+        Promise.all(promises).finally(function () {
+            // Make sure [data-bind] values are handled before other plugins run
+            var firstElement = document.querySelector('[data-bind]');
+            if (firstElement) {
+                app.plugins.dataBind.reload();
+            }
+
+            // Look for elements that would trigger a plugin and add to list
+            var pluginsToLoad = [];
+            var search = [
+                { selector: '.click-to-highlight', plugin: 'clickToHighlight' },
+                { selector: '[data-sort]', plugin: 'sort' },
+                { selector: '[is="spa-links"]', plugin: 'navLinks', after: updateElements.navLinks },
+                { selector: '[is="input-filter"]', plugin: 'filter', update: updateElements.inputFilter },
+                { selector: '[is="leaflet-map"]', plugin: 'leaflet', update: updateElements.leafletMap },
+                { selector: 'image-gallery', plugin: 'imageGallery', update: updateElements.imageGallery },
+                { selector: '[data-enter-key-click-selector]', plugin: 'keydownAction' },
+                { selector: 'prism-service', plugin: 'prism' },
+            ];
+            search.forEach(function(item) {
+                var element = document.querySelector(item.selector);
+                if (element) {
+                    // Add plugin to download list
+                    if (typeof item.after === undefined) {
+                        pluginsToLoad.push(item.plugin);
+                    } else {
+                        pluginsToLoad.push({ name: item.plugin, callback: item.after });
+                    }
+                    // Update all elements for specific plugins
+                    if (item.update !== undefined) {
+                        var elements = document.querySelectorAll(item.selector);
+                        Array.prototype.forEach.call(elements, function(el) {
+                            item.update(el);
+                        });
+                    }
                 }
+            });
+
+            // Load Plugins
+            pluginsToLoad.forEach(function(plugin) {
+                if (typeof plugin === 'string') {
+                    loadPlugin(plugin);
+                } else {
+                    loadPlugin(plugin.name, plugin.callback);
+                }
+            });
+
+            // App Events
+            dispatchEvent(rootElement, 'app:contentReady');
+            if (rootElement !== document && rootElement.getAttribute('data-control') === 'json-data') {
+                evalElementJs(rootElement.getAttribute('onready'), 'json-data', 'onready');
             }
         });
-
-        // Load Plugins
-        pluginsToLoad.forEach(function(plugin) {
-            if (typeof plugin === 'string') {
-                loadPlugin(plugin);
-            } else {
-                loadPlugin(plugin.name, plugin.callback);
-            }
-        });
-
-        // App Event
-        dispatchEvent(rootElement, 'app:contentReady');
-        if (rootElement !== document && rootElement.getAttribute('data-control') === 'json-data') {
-            evalElementJs(rootElement.getAttribute('onready'), 'json-data', 'onready');
-        }
     }
 
     /**
@@ -706,15 +697,13 @@
      */
     function loadPagePlugins() {
         // A number of additional scripts are downloaded that may or may not be used,
-        // however in general the files are small - "*.min.js" version of all files
-        // is around 20 kb before gzipping. It's likely most sites using this will
-        // use [json-data], [dataBind] and at least one of [data-list, data-table, data-view].
-        // Additional scripts such as [js/plugins/filter.js] are downloaded later only if they
-        // are used by the app. All scripts here are downloaded asynchronously so it's very quick.
+        // however in general the files are small. The "*.min.js" version of these files
+        // is around 5 to 10 kB of size depending on gzip settings from the server.
+        // It's likely most sites using this will use [json-data], [dataBind]. Additional
+        // scripts such as [js/plugins/data-list.js, js/plugins/filter.js] are downloaded
+        // later only if they are used by the app. All scripts here are downloaded
+        // asynchronously so it's very quick.
         var promises = [
-            app.loadScripts(rootUrl + 'controls/data-list' + (useMinFiles ? '.min' : '') + '.js'),
-            app.loadScripts(rootUrl + 'controls/data-table' + (useMinFiles ? '.min' : '') + '.js'),
-            app.loadScripts(rootUrl + 'controls/data-view' + (useMinFiles ? '.min' : '') + '.js'),
             app.loadScripts(rootUrl + 'controls/json-data' + (useMinFiles ? '.min' : '') + '.js'),
             app.loadScripts(rootUrl + 'extensions/format' + (useMinFiles ? '.min' : '') + '.js'),
             app.loadScripts(rootUrl + 'extensions/jsTemplate' + (useMinFiles ? '.min' : '') + '.js'),

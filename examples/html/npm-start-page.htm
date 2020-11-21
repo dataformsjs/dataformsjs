@@ -154,9 +154,9 @@
     <body>
         <header>
             <nav is="spa-links">
-                <a class="active" href="#/">Examples</a>
-                <a href="#/docs">Documentation</a>
-                <a href="https://www.dataformsjs.com/" target="_blank" rel="noopener">https://www.dataformsjs.com/</a>
+                <a href="#/">🖥️ &nbsp; Examples</a>
+                <a href="#/docs">📄&nbsp; Documentation</a>
+                <a href="https://www.dataformsjs.com/" target="_blank" rel="noopener">🌐&nbsp; https://www.dataformsjs.com/</a>
             </nav>
         </header>
 
@@ -254,21 +254,34 @@
 
     </body>
 
-    <script type="module" src="/js/web-components/url-router.js"></script>
+    <!-- <script type="module" src="/js/web-components/url-router.js"></script>
     <script type="module" src="/js/web-components/json-data.js"></script>
     <script type="module" src="/js/web-components/data-list.js"></script>
     <script type="module" src="/js/web-components/spa-links.js"></script>
     <script type="module" src="/js/web-components/input-filter.js"></script>
-    <script nomodule src="/js/web-components/polyfill.js"></script>
+    <script nomodule src="/js/web-components/polyfill.js"></script> -->
 
-    <!-- Comment above scripts and un-comment this version test Polyfill in Modern Browers -->
-    <!-- <script src="/js/web-components/polyfill.js"></script> -->
+    <!-- Comment above scripts and un-comment this version test Polyfill in Modern Browsers -->
+    <script src="/js/web-components/polyfill.js"></script>
 
     <script>
         window.lazyLoad = {
-            markdown: { module: '/js/web-components/markdown-content.js' },
-            highlightCss: 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/styles/default.min.css',
+            // In the example below [nomodule] can be used, however since <markdown-content>
+            // is a built in control it's handled automatically by [polyfill.js].
+            markdown: {
+                module: '/js/web-components/markdown-content.js',
+                // nomodule: '/js/controls/markdown-content.js',
+            },
+
+            // Themes can easily be changed for [highlight.js] simply be using a different CSS file:
+            //
+            // highlightCss: 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/styles/default.min.css',
+            // highlightCss: 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/styles/vs.min.css',
+            highlightCss: 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/styles/atom-one-dark.min.css',
             highlightJs: 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js',
+
+            // With this page [markdown-it] is used by default, however if "marked" or "remarkable"
+            // were used instead with [lazy-load] then they would be used for rendering markdown.
             marked: 'https://cdn.jsdelivr.net/npm/marked/marked.min.js',
             remarkable: 'https://cdn.jsdelivr.net/npm/remarkable@2.0.1/dist/remarkable.min.js',
             markdown_it: 'https://cdn.jsdelivr.net/npm/markdown-it@12.0.2/dist/markdown-it.min.js',
@@ -297,24 +310,11 @@
                     link.style.fontWeight = 'bold';
 
                     // Download and Render Markdown
-                    // TODO - this is working but polyfill API is not friendl and full
-                    // API is still being decided on
+                    // TODO - still testing changes and deciding on new API
                     const md = document.querySelector('markdown-content');
-                    if (window.usingWebComponentsPolyfill) {
-                        md.setAttribute('data-url', url);
-                        if (file.endsWith('.txt')) {
-                            md.setAttribute('data-show-source', '');
-                        } else {
-                            md.removeAttribute('data-show-source');
-                        }
-                        if (app.controls['markdown-content'] !== undefined) {
-                            app.loadJsControl(md);
-                        }
-                    } else {
-                        md.clearContent();
-                        md.showSource = file.endsWith('.txt');
-                        md.url = url;
-                    }
+                    md.clearContent();
+                    md.showSource = file.endsWith('.txt');
+                    md.url = url;
                 };
             });
 

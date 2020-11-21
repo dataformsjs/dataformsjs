@@ -5,7 +5,7 @@
  * Markdown Libraries (marked, markdown-it, and remarkable).
  *
  * This Web Component does not include a Markdown Library rather one needs to be included
- * on the page before this Component is used. Additionaly if [highlight.js] is included
+ * on the page before this Component is used. Additionally if [highlight.js] is included
  * on the page it will be used for Syntax Highlighting.
  *
  * Options are preset, however this Web Component is small in size and easy to modify
@@ -39,9 +39,8 @@
 
 /*
 TODO - new file - features needed:
-*) Polyfill
 *) Create example page for each markdown lib
-*) Need to also test error page
+*) Need to also test error messages
 *) Test [data-bind] from <json-data>, this should work because the `value` property is defined
     Both this file and framework version need to handle it
 */

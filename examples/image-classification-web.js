@@ -73,19 +73,8 @@ function resultClass(probability) {
  */
 function refreshImageList() {
     if (window.usingWebComponentsPolyfill) {
-        // DataFormsJS Framework using [polyfill.js]
-        // Refresh the <data-list> JavaScript Control.
-        var control = app.activeJsControls.find(function(control) {
-            return control.control === 'data-list';
-        });
-        app.loadJsControl(control);
-
-        // This will also work but if the layout of the HTML changed
-        // then the code could break:
-        //
-        // app.loadJsControl(app.activeJsControls[1]);
+        app.loadJsControl(document.querySelector('data-list'));
     } else {
-        // Update the Web Component by calling the custom `renderList()` function.
         document.querySelector('data-list').renderList();
     }
 }

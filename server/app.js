@@ -203,7 +203,7 @@ function setupResponse(req, res) {
     // Send a 404 Page as an HTML Response
     res.pageNotFound = () => {
         res.statusCode = 404;
-        res.html('<h1>Page not found</h1>');
+        res.html('<h1>Page not found</h1><p><a href="/">Home</a>');
     };
 
     // Log error to console and send error in a 500 page as an HTML Response

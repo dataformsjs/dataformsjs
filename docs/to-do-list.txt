@@ -26,6 +26,10 @@ TODO List
     - dataformsjs\js\web-components\markdown-content.js
     - dataformsjs\js\controls\markdown-content.js
     - Search `TODO` comments for remaining items
+    - Most Web Component examples currently point to local polyfill build
+        After for IE and UC Browser perform find for the following and change all examples back
+            <script src="/js/web-components/polyfill.min.js"></script>
+            <script src="../js/web-components/polyfill.js"></script>
 
 **) Near future updates (November and December 2020)
     - Add Web Component API examples to quick ref section of the main site
@@ -54,12 +58,6 @@ TODO List
             # Web Components
             import 'dataformsjs/js/web-components/json-data'
             import 'dataformsjs/js/web-components/data-table'
-    - Update `npm start` home page to include docs
-        - Likely use <url-router> and list all markdown docs [jsxLoader, readme, future docs] on another page
-        - Possibly move the HTML template code to an HTML file so it can be modified
-            without having to restart the node server.
-        - Also showing a page for docs  would be good as well
-        - This will require a new markdown component and plugin which has been planned for the future.
     - Create a markdown overview doc using Web Components
         - Will cover overview and details - similar to the JSX Loader doc:
             https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
@@ -88,6 +86,9 @@ TODO List
                     [*.min.js] Framework files will be downloaded
                 <script src="../js/web-components/polyfill.js"></script>
                     Full [*.js] Framework files will be downloaded
+        - Once a Web Component and Framework doc are created then both those docs
+            along with jsxLoader and Readme could be added as a new "Documentation"
+            page on the main site using the new <markdown-content> component
 
 **) Playground Site
     - Need to add support for JSON file/resource type

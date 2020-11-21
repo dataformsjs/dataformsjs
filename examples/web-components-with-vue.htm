@@ -48,6 +48,7 @@
                 <p>When using Vue 2 built-in Custom Elements such as &lt;input is="input-filter"&gt; are not supported so the needed elements are swapped after Vue is mounted.</p>
                 <p>When using the most recently tested version of Vue 3 the page has to be reloaded after each routing change otherwise the [url] attribute ends up missing from &lt;json-data&gt;. A work-around is in place to manually add back the [url] on the mounted event.</p>
                 <p>For more details on using Vue with Custom Elements see the link below:</p>
+                <p>For older browsers (IE 11, Old Safari) this page only partially works becuase the custom JavaScript on the page is not designed to currently handle old browsers.</p>
                 <p><a href="https://v3.vuejs.org/guide/migration/custom-elements-interop.html" target="_blank">https://v3.vuejs.org/guide/migration/custom-elements-interop.html</a></p>
             </section>
         </template>
@@ -177,7 +178,7 @@
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/old-browser-warning.min.js"></script>
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/polyfill.min.js"></script>
 
-        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.0.2/js/web-components/polyfill.min.js"></script> -->
+        <!-- <script src="../js/web-components/polyfill.js"></script> -->
 
         <!-- https://leafletjs.com/ -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css">
@@ -214,7 +215,7 @@
                                 });
                             } else {
                                 // Vue 3
-                                // [url] disapears when clicking from page to page, however it will show when
+                                // [url] disappears when clicking from page to page, however it will show when
                                 // doing a full refresh on the page and not navigating using Vue Router.
                                 // This simply adds it back, however a console warning still shows.
                                 var jsonData = document.querySelector('json-data');
@@ -225,7 +226,7 @@
                             }
 
                             // If [polyfill.js] is being used then update the view on all page views.
-                            // This works when using Vue 3 with Chrome (partialy when using Vue 2 with Chrome)
+                            // This works when using Vue 3 with Chrome (partially when using Vue 2 with Chrome)
                             // but does not work when using IE 11.
                             if (window.usingWebComponentsPolyfill) {
                                 DataFormsJS.updateView();

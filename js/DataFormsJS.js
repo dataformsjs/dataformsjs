@@ -2225,7 +2225,7 @@
             // Validate HTML Element
             if (!(element instanceof HTMLElement)) {
                 // If the app is manually updating an already loaded control `app.activeJsControls(control)`
-                // then get the control otherwise show an erorr. Updating already loaded controls is not common
+                // then get the control otherwise show an error. Updating already loaded controls is not common
                 // but can be used in very specific scenarios. For example the Web Components Polyfill uses it.
                 if (typeof element === 'object') {
                     existingControl = app.activeJsControls.find(function(control) {
