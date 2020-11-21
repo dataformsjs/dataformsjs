@@ -108,7 +108,7 @@ This example uses Vue for templating. If you save it with a text editor you can 
             data-route="/data"
             data-page="jsonData"
             data-url="https://www.dataformsjs.com/data/geonames/countries"
-            data-load-only-once="true"
+            data-load-only-once
             data-lazy-load="jsonData, flags"
             data-countries>
 

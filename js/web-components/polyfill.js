@@ -290,6 +290,12 @@
         // After all JS Controls are loaded then plugins can be loaded.
         // This matches the Framework behavior when `app.updateView()` is called.
         Promise.all(promises).finally(function () {
+            // Make one final call to load an nested controls. For complex
+            // sites that use a <json-data> within a <json-data> they cannot
+            // be polyfilled, however for simple pages such as <markdown-content>
+            // using [data-bind] under a <data-list> this will work.
+            app.loadAllJsControls();
+
             // Make sure [data-bind] values are handled before other plugins run
             var firstElement = document.querySelector('[data-bind]');
             if (firstElement) {

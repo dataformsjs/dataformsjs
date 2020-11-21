@@ -22,12 +22,11 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Active development for next release:
-    - dataformsjs\js\web-components\markdown-content.js
-    - dataformsjs\js\controls\markdown-content.js
-    - Search `TODO` comments for remaining items
-
 **) Near future updates (November and December 2020)
+    - <markdown-content> was added (Nov 21, 2020)
+        - Finish adding demos
+        - Update react/web component demo page
+        - Should a separate react version be created?
     - Add Web Component API examples to quick ref section of the main site
         'app:contentReady', etc
     - Publish Web Components here:

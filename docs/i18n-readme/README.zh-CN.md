@@ -108,7 +108,7 @@ dataformsjs
             data-route="/data"
             data-page="jsonData"
             data-url="https://www.dataformsjs.com/data/geonames/countries"
-            data-load-only-once="true"
+            data-load-only-once
             data-lazy-load="jsonData, flags"
             data-countries>
 

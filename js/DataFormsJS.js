@@ -2156,7 +2156,7 @@
          * only need to be called manually if custom page logic adds new
          * HTML controls to a page. This function is safe to call twice as it
          * will not re-load already loaded controls. Custom controls have either
-         * the [data-control] Attibute or a Custom Element Tag that matches
+         * the [data-control] Attribute or a Custom Element Tag that matches
          * the JS Control added with [app.addControl()].
          *
          * @param {HTMLElement|undefined} element   Uses [document] if undefined

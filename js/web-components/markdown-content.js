@@ -57,7 +57,6 @@ shadowTmpl.innerHTML = `
         :host([hidden]) { display: none; }
     </style>
     <slot></slot>
-    <slot name="markdown"></slot>
 `;
 
 /**

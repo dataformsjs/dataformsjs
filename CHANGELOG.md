@@ -4,7 +4,7 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
-## Next Release (Changes on Github Master Branch)
+## 5.1.0 (November 21, 2020)
 
 * Changes will likely be published to NPM this weekend (November 21 or 22 of 2020)
 * Add Web Component and Framework JavaScript Control for viewing Markdown:
