@@ -5,16 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Web Component with Vue</title>
         <link rel="stylesheet" href="https://d2xbd92kui7v97.cloudfront.net/site/css/getting-started.css">
-        <style>
-            section { border:1px solid black; padding:20px; margin:20px; }
-            .home-page { max-width:700px; margin:auto; }
-            .home-page h1 { margin-bottom: 20px; }
-            .home-page p { padding:.5em; text-align:left; line-height:1.4em; }
-            .population { margin:10px auto; }
-            .image-gallery { display:flex; flex-wrap:wrap; justify-content:center; }
-            image-gallery { margin:20px; }
-            image-gallery img { max-width: 300px; }
-        </style>
+        <link rel="stylesheet" href="css/web-components-mixed.css">
     </head>
     <body>
         <div id="root">
@@ -24,6 +15,7 @@
                     <router-link to="/data" exact-active-class="active">Data Example</router-link>
                     <router-link to="/images" exact-active-class="active">Image Gallery</router-link>
                     <router-link to="/map" exact-active-class="active">Map and Services</router-link>
+                    <router-link to="/markdown" exact-active-class="active">Markdown Content</router-link>
                 </nav>
             </header>
             <html-import-service></html-import-service>
@@ -46,9 +38,9 @@
                 <p>This page is used to manually test DataFormsJS Web Components with Vue and Vue Router however there are some work-arounds in order for all elements to work properly.</p>
                 <p>Both Vue 2 and Vue 3 are supported. To try different versions uncomment and uncomment the desired version near the bottom of this file.</p>
                 <p>When using Vue 2 built-in Custom Elements such as &lt;input is="input-filter"&gt; are not supported so the needed elements are swapped after Vue is mounted.</p>
-                <p>When using the most recently tested version of Vue 3 the page has to be reloaded after each routing change otherwise the [url] attribute ends up missing from &lt;json-data&gt;. A work-around is in place to manually add back the [url] on the mounted event.</p>
+                <p>When using the most recently tested version of Vue 3 the page has to be reloaded after each routing change otherwise the [url] attribute ends up missing from &lt;json-data&gt;. A work-around which this page uses is in place to manually add back the [url] on the mounted event. See comments in the code for more.</p>
                 <p>For more details on using Vue with Custom Elements see the link below:</p>
-                <p>For older browsers (IE 11, Old Safari) this page only partially works becuase the custom JavaScript on the page is not designed to currently handle old browsers.</p>
+                <p>For older browsers (IE 11, Old Safari) this page only partially works because the custom JavaScript on this page is not designed to currently handle old browsers.</p>
                 <p><a href="https://v3.vuejs.org/guide/migration/custom-elements-interop.html" target="_blank">https://v3.vuejs.org/guide/migration/custom-elements-interop.html</a></p>
             </section>
         </template>
@@ -128,6 +120,12 @@
             </json-data>
         </template>
 
+        <template id="markdown-page">
+            <section class="fit-content">
+                <markdown-content url="https://raw.githubusercontent.com/dataformsjs/dataformsjs/master/README.md"></markdown-content>
+            </section>
+        </template>
+
         <!--
             Templates for <image-gallery> and <data-view>
             These cannot be included within Vue markup.
@@ -150,12 +148,12 @@
         -->
 
         <!-- Vue 2 -->
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vue-router@3.4.9/dist/vue-router.min.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-router@3.4.9/dist/vue-router.min.js"></script> -->
 
         <!-- Vue 3 -->
-        <!-- <script src="https://cdn.jsdelivr.net/npm/vue@3.0.2/dist/vue.global.prod.js"></script>
-        <script src="https://unpkg.com/vue-router@next"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/vue@3.0.2/dist/vue.global.prod.js"></script>
+        <script src="https://unpkg.com/vue-router@next"></script>
 
         <!--
             DataFormsJS Web Components
@@ -175,14 +173,23 @@
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/web-components/image-gallery.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/web-components/html-import-service.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/web-components/leaflet-map.min.js"></script>
-        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/web-components/old-browser-warning.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/web-components/markdown-content.min.js"></script>
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/web-components/polyfill.min.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/web-components/old-browser-warning.min.js"></script>
 
         <!-- <script src="../js/web-components/polyfill.js"></script> -->
 
         <!-- https://leafletjs.com/ -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css">
         <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+
+        <!--
+            https://marked.js.org/
+            https://highlightjs.org/
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/styles/atom-one-dark.min.css">
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
 
         <!-- App Code -->
         <script>
@@ -203,8 +210,8 @@
                                 // Vue 2
                                 // Custom built-in elements are not supported with Vue 2 so swap out known custom
                                 // elements with the built-in version otherwise the elements will not render.
-                                var swapElememts = document.querySelectorAll('input-filter, leaflet-map');
-                                Array.prototype.forEach.call(swapElememts, function(element) {
+                                var swapElements = document.querySelectorAll('input-filter, leaflet-map');
+                                Array.prototype.forEach.call(swapElements, function(element) {
                                     var customElement = element.tagName.toLowerCase();
                                     var type = (customElement === 'input-filter' ? 'input' : 'div');
                                     var newEl = document.createElement(type, { is: customElement });
@@ -239,12 +246,14 @@
                 const dataPage = createPage('data-page', 'https://www.dataformsjs.com/data/geonames/countries');
                 const imagesPage = createPage('images-page', 'https://dataformsjs.s3-us-west-1.amazonaws.com/img/example-images/index.json');
                 const mapPage = createPage('map-page', 'https://www.dataformsjs.com/data/geonames/place/5368361');
+                const markdownPage = createPage('markdown-page');
 
                 const routes = [
                     { path: '/', component: homePage },
                     { path: '/data', component: dataPage },
                     { path: '/images', component: imagesPage },
                     { path: '/map', component: mapPage },
+                    { path: '/markdown', component: markdownPage },
                     // The following line can be included if using Vue 2
                     // { path: '*', redirect: '/' },
                 ];

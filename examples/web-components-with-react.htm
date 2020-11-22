@@ -5,16 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Web Component with React</title>
         <link rel="stylesheet" href="https://d2xbd92kui7v97.cloudfront.net/site/css/getting-started.css">
-        <style>
-            section { border:1px solid black; padding:20px; margin:20px; }
-            .home-page { max-width:700px; margin:auto; }
-            .home-page h1 { margin-bottom: 20px; }
-            .home-page p { padding:.5em; text-align:left; line-height:1.4em; }
-            .population { margin:10px auto; }
-            .image-gallery { display:flex; flex-wrap:wrap; justify-content:center; }
-            image-gallery { margin:20px; }
-            image-gallery img { max-width: 300px; }
-        </style>
+        <link rel="stylesheet" href="css/web-components-mixed.css">
     </head>
     <body>
         <div id="root"></div>
@@ -100,6 +91,7 @@
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/web-components/image-gallery.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/web-components/html-import-service.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/web-components/leaflet-map.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/web-components/markdown-content.min.js"></script>
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/web-components/polyfill.min.js"></script>
 
         <!-- <script src="../js/web-components/polyfill.js"></script> -->
@@ -107,6 +99,14 @@
         <!-- https://leafletjs.com/ -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css">
         <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+
+        <!--
+            https://marked.js.org/
+            https://highlightjs.org/
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/styles/atom-one-dark.min.css">
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
 
         <!-- App Code -->
         <script type="text/babel" src="web-components-with-react.jsx"></script>

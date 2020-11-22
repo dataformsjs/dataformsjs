@@ -23,20 +23,31 @@ TODO List
 --------------------------------------------------------------------------
 
 **) Active Development for next release (likely before the end of November 2020)
-    - New React Component: dataformsjs/js/react/es6/MarkdownContent.js
-    - Updates needed for all versions of <markdown-content> and <MarkdownContent>
+    - Finish new React Component: dataformsjs/js/react/es6/Markdown.js
+    - Updates needed for all versions of <markdown-content> and <Markdown>
+        - Need to include support for DOMPurify if it exists on thee page or is
+            passed as a prop with React Versio
+            https://github.com/cure53/DOMPurify
         - Optional Caching (in-memory similar to JsonData)
         - Error Handling (URL Fetch fails)
         - Option to add [target="_blank", rel="noopener"] by default? Or should the apps handle this.
-            Currently in the `npm start` page the app handles it for [target="_blank"] through a
-            DOM Event from <markdown-content>
+            - Currently in the `npm start` page the app handles it for [target="_blank"] through a
+                DOM Event from <markdown-content>
+            - Example?:
+                - [link-target="_blank"]
+                - [link-rel="noopener"]
+        - Option for updating links with [root-url="{url}"]
+            - Example the DataFormsJS Readme links to [LICENSE]
+            - The actual file is this:
+                https://github.com/dataformsjs/dataformsjs/blob/master/LICENSE
+            - So if [root-url="https://github.com/dataformsjs/dataformsjs/blob/master/"]
+                can be added then the link will work properly
         - Finish adding demo pages (at least one per supported Markdown library and React/Web/Framework)
         - For Framework version custom headers could be supported by using `app.fetch()`
             Still need to decide on this for React Version.
             Web Components such as <json-data> currently do not support custom fetch headers
             but it's planned in the future.
         - Pass options to the React Component?
-    - The mixed React/Vue/Framework + Web Components Demos should have the Web Component added.
     - Update main [README.md] file with print screen of the new `npm start` page
 
 **) Near future updates (November and December 2020)
@@ -44,6 +55,8 @@ TODO List
         'app:contentReady', etc
     - Publish Web Components here:
         https://www.webcomponents.org/publish-collection
+        * Note - the site has errors publishing and is somewhat abandoned
+          so Web Components might not be published on it.
     - Update jsxLoader doc based on updates and findings from this issue:
         https://github.com/dataformsjs/dataformsjs/issues/16
     - Create a new repository showing how to use DataFormsJS
@@ -66,6 +79,9 @@ TODO List
             # Web Components
             import 'dataformsjs/js/web-components/json-data'
             import 'dataformsjs/js/web-components/data-table'
+        - Also likely another repository [create-dataformsjs-app] using
+            [create-react-app] as a starter to show how to use DataFormsJS
+            with [create-react-app].
     - Create a markdown overview doc using Web Components
         - Will cover overview and details - similar to the JSX Loader doc:
             https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md

@@ -6,13 +6,13 @@ Overall the core Framework files and API are expected to remain stable however t
 
 ## Next Release for NPM (Changes on Master Branch)
 
-* Add React Component `<MarkdownContent>`
+* Add React Component `<Markdown>`
   * Based on DataFormsJS Web Component `<markdown-content>`
-  * The DataFormsJS `<MarkdownContent>` React Component makes it easy to display markdown content from a web service or URL:
+  * The DataFormsJS `<Markdown>` React Component makes it easy to display markdown content from a web service or URL:
   ~~~jsx
   const url = "https://raw.githubusercontent.com/dataformsjs/dataformsjs/master/README.md"
-  <MarkdownContent url={url} />
-  <MarkdownContent url={url} isLoading={<IsLoading />} className="markdown" />
+  <Markdown url={url} />
+  <Markdown url={url} isLoading={<IsLoading />} className="markdown" />
   ~~~
 * Fix `js/web-components/markdown-content.js` so that it shows it shows the correct background color and full CSS styles for Code Syntax when using `highlight.js`. With previous releases this worked with the Framework version `js/controls/markdown-content.js`
 * Fix for both Framework and Web Component `<markdown-content>` where there were running `highlight.js` against the document rather than only elements under `<markdown-content>`.

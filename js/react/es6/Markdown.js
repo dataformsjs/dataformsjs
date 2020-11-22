@@ -1,15 +1,16 @@
 /**
- * DataFormsJS React Component <MarkdownContent>
+ * DataFormsJS React Component <Markdown>
  *
  * This Component can be used to download and render Markdown from a web service or URL
  * using one of 3 widely used Markdown Libraries (marked, markdown-it, and remarkable).
  * Additionally if [highlight.js] is included on the page (or passed as a prop) it will
  * be used for Syntax Highlighting.
  *
- * Many existing React Markdown Libraries exist, however they generally have the Markdown
- * content passed in a prop. This Component was created so that Markdown can be either passed
- * as a prop or download dynamically by the Component itself in a similar manner to the
- * DataFormsJS <markdown-content> Web Component and Framework Control.
+ * Many existing React Markdown Libraries and code examples exist, however they generally
+ * have the Markdown content passed in a prop. This Component was created so that Markdown
+ * can be either passed as a prop or download dynamically by the Component itself with
+ * similar behavior to the DataFormsJS <markdown-content> Web Component and Framework Control.
+ * Additionally this Component can be loaded from CDN without requiring a build process.
  *
  * This Component is relatively small in size and designed in a manner so that it is easy
  * to copy and modify the code if needed for a project that has similar but different needs.
@@ -19,7 +20,7 @@
  *   # Download and show Markdown from a URL.
  *   # This assumes the markdown rendering library to use is already included on the page.
  *   const url = "https://raw.githubusercontent.com/dataformsjs/dataformsjs/master/README.md"
- *   <MarkdownContent url={url} />
+ *   <Markdown url={url} />
  *
  *   # Additional supported props and examples:
  *   className="markdown"  - Add a [className] to the root <div> that markdown gets rendered under
@@ -33,17 +34,17 @@
  *   import marked from 'marked';
  *   import hljs from 'highlight.js';
  *   import 'highlight.js/styles/atom-one-dark.css';
- *   <MarkdownContent url="https..." marked={marked} hljs={hljs} />
+ *   <Markdown url="https..." marked={marked} hljs={hljs} />
  *
  *   # For [markdown-it] or [remarkable] use one of the following if using webpack.
  *   # [markdown-it-emoji] is optional when using [markdown-it].
  *   import markdownit from 'markdown-it';
  *   import markdownitEmoji from 'markdown-it-emoji'
  *   import { Remarkable } from 'remarkable'
- *   <MarkdownContent url="" markdownit={markdownit} markdownitEmoji={markdownitEmoji} />
- *   <MarkdownContent url="" Remarkable={Remarkable} />
+ *   <Markdown url="..." markdownit={markdownit} markdownitEmoji={markdownitEmoji} />
+ *   <Markdown url="..." Remarkable={Remarkable} />
  *
- * Popular and widely used React Markdown Component:
+ * Popular and widely used React Markdown Component (requires node or webpack):
  * @link https://github.com/remarkjs/react-markdown
  *
  * Libraries used by this Component:
@@ -65,7 +66,7 @@
 
 import React from 'react';
 
-export default class MarkdownContent extends React.Component {
+export default class Markdown extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

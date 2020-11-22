@@ -5,16 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Web Component with Framework</title>
         <link rel="stylesheet" href="https://d2xbd92kui7v97.cloudfront.net/site/css/getting-started.css">
-        <style>
-            section { border:1px solid black; padding:20px; margin:20px; }
-            .home-page { max-width:700px; margin:auto; }
-            .home-page h1 { margin-bottom: 20px; }
-            .home-page p { padding:.5em; text-align:left; line-height:1.4em; }
-            .population { margin:10px auto; }
-            .image-gallery { display:flex; flex-wrap:wrap; justify-content:center; }
-            image-gallery { margin:20px; }
-            image-gallery img { max-width: 300px; }
-        </style>
+        <link rel="stylesheet" href="css/web-components-mixed.css">
     </head>
     <body>
         <header>
@@ -23,6 +14,7 @@
                 <a href="#/data">Data Example</a>
                 <a href="#/images">Image Gallery</a>
                 <a href="#/map">Map and Services</a>
+                <a href="#/markdown">Markdown Content</a>
             </nav>
         </header>
         <html-import-service></html-import-service>
@@ -41,7 +33,7 @@
                 <h1>Hello World</h1>
                 <p>This page is used to show how DataFormsJS Web Components (and Web Components in general) can be used with the DataFormsJS Framework.</p>
                 <p>All Web Component and all page features are expected to work in virtually all browsers.</p>
-                <p>This works but it is not generally recommended because the intended use is to use either Web Components or the Framework. The Web Components use the Framework as a polyfill. The DataFormsJS Framework allows for easy setup of routing definitions in HTML and less HTML than the &lt;url-router&gt; component however it requires a slightly larger JavaScript size than when using &lt;url-router&gt; and the Web Components.</p>
+                <p>This works but it is not generally recommended because the intended use is to use either Web Components or the Framework. The Web Components will use the Framework as a polyfill for legacy browsers. The DataFormsJS Framework allows for easy setup of routing definitions in HTML and less HTML than the &lt;url-router&gt; component however it requires a slightly larger JavaScript size than when using &lt;url-router&gt; and the Web Components.</p>
             </section>
         </template>
 
@@ -129,6 +121,12 @@
             </json-data>
         </template>
 
+        <template data-route="/markdown">
+            <section class="fit-content">
+                <markdown-content url="https://raw.githubusercontent.com/dataformsjs/dataformsjs/master/README.md"></markdown-content>
+            </section>
+        </template>
+
         <!--
             DataFormsJS Framework and [navLinks] Plugin.
             The framework will create SPA routes based on
@@ -153,11 +151,20 @@
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/web-components/html-import-service.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/web-components/leaflet-map.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/web-components/spa-links.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/web-components/markdown-content.min.js"></script>
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/web-components/polyfill.min.js"></script>
         <!-- <script src="../js/web-components/polyfill.js"></script> -->
 
         <!-- https://leafletjs.com/ -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css">
         <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+
+        <!--
+            https://marked.js.org/
+            https://highlightjs.org/
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/styles/atom-one-dark.min.css">
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
     </body>
 </html>
