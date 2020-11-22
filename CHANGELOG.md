@@ -4,6 +4,10 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## Next Release for NPM (Changes on Master Branch)
+
+* Fix `js/web-components/markdown-content.js` so that it shows it shows the correct background color and full CSS styles for Code Syntax when using [highlight.js](https://github.com/highlightjs/highlight.js). With previous releases this worked with the Framework version `js/controls/markdown-content.js`
+
 ## 5.1.1 (November 21, 2020)
 
 * Several of the `*.min.js` files were built showing `version 5.0.2` in the header comments. Package has been republished to show correct version.
