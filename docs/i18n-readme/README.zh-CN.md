@@ -2,7 +2,7 @@
 	<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/logo/DataFormsJS-144px.png">
 </p>
 
-# :star2: 欢迎来到 DataFormsJS!
+# 🌟 欢迎来到 DataFormsJS!
 
 **非常感谢您的访问!** 🌠👍
 
@@ -10,7 +10,7 @@ DataFormsJS是一个新的JavaScript框架独立于React和Web组件。DataForms
 
 该项目包含DataFormsJS的框架、示例页面和单元测试。主网站代码位于 dataformsjs/websie。
 
-## :dizzy: 为什么选择 DataFormsJS?
+## 💫 为什么选择 DataFormsJS?
 
 |<img src="https://www.dataformsjs.com/img/icons/fast.svg" alt="Faster Development" width="60">|<img src="https://www.dataformsjs.com/img/icons/small-size.svg" alt="Small Size" width="60">|<img src="https://www.dataformsjs.com/img/icons/light-switch.svg" alt="Easy to Learn" width="60">|
 |---|---|---|
@@ -26,7 +26,7 @@ DataFormsJS是一个新的JavaScript框架独立于React和Web组件。DataForms
 |Learn something new!|<div><img src="https://www.dataformsjs.com/img/icons/web-components.svg" alt="Web Components" width="64"></div><div>Web Components</div>|
 |---|---|
 
-## :rocket: 开始入门
+## 🚀 开始入门
 
 **入门 DataFormsJS 非常简单.**
 
@@ -72,7 +72,7 @@ dataformsjs
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Getting Started Templates" width="800">
 </p>
 
-## :page_facing_up: 示例代码
+## 📄 示例代码
 
 本例使用Vue作为模板。如果使用文本编辑器保存，则可以在浏览器中本地查看。此外，主站点还包含许多模板和示例。DataFormsJS可与Vue 2和Vue 3一起使用。
 
@@ -302,7 +302,7 @@ This example uses DataFormsJS Web Components. Web Components are well defined st
 </html>
 ```
 
-## :handshake: Contributing
+## 🤝 Contributing
 
 **All contributions are welcome.** 对于重大更改，包括中断对现有代码的更改或更新现有图形和文件，请先打开一个问题，讨论您想要更改的内容。要贡献的项目的一些示例:
 
@@ -315,7 +315,7 @@ This example uses DataFormsJS Web Components. Web Components are well defined st
 
 [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt) 你可以在这个文件里找到目录清单，便于展开工作.
 
-## :question: FAQ
+## ❓ FAQ
 
 **为什么要创建DataFormsJS?**
 
@@ -363,6 +363,6 @@ DataFormsJS将长期存在，并将无限期地开发新的功能、组件、示
 
 DataFormsJS将继续以允许基于Web的开发的方式进行开发(例如，代码在线运行站点)，并将保持较小的大小，仅在需要时加载脚本。
 
-## :memo: 许可
+## 📝 许可
 
 本项目基于 **MIT License** - 详细内容参考 [LICENSE](LICENSE) .

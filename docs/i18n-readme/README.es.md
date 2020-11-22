@@ -3,7 +3,7 @@
 	<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/logo/DataFormsJS-144px.png">
 </p>
 
-# :star2: ¡Bienvenido a DataFormsJS!
+# 🌟 ¡Bienvenido a DataFormsJS!
 
 **¡Gracias por su visita!** 🌠👍
 
@@ -11,7 +11,7 @@ DataFormsJS es un nuevo marco de JavaScript y componentes independientes de reac
 
 Este repositorio contiene el Marco de DataFormsJS, Páginas de ejemplo y Pruebas unitarias. El sitio web principal existe en otro repositorio.
 
-## :dizzy: ¿Por qué usar DataFormsJS?
+## 💫 ¿Por qué usar DataFormsJS?
 
 |<img src="https://www.dataformsjs.com/img/icons/fast.svg" alt="Desarrollo mas rapido" width="60">|<img src="https://www.dataformsjs.com/img/icons/small-size.svg" alt="Talla pequeña" width="60">|<img src="https://www.dataformsjs.com/img/icons/light-switch.svg" alt="Fácil de aprender" width="60">|
 |---|---|---|
@@ -27,7 +27,7 @@ Este repositorio contiene el Marco de DataFormsJS, Páginas de ejemplo y Pruebas
 |¡Aprende algo nuevo!|<div><img src="https://www.dataformsjs.com/img/icons/web-components.svg" alt="Web Components" width="64"></div><div>Web Components</div>|
 |---|---|
 
-## :rocket: Empezando
+## 🚀 Empezando
 
 **Comenzar con DataFormsJS es extremadamente fácil.**
 
@@ -73,7 +73,7 @@ dataformsjs
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Plantillas de inicio" width="800">
 </p>
 
-## :page_facing_up: Example Code
+## 📄 Example Code
 
 Este ejemplo usa Vue para crear plantillas. Si lo guarda con un editor de texto, puede verlo localmente en su navegador. Además, el sitio principal contiene muchas plantillas y ejemplos. DataFormsJS funciona con Vue 2 y Vue 3.
 
@@ -303,7 +303,7 @@ This example uses DataFormsJS Web Components. Web Components are well defined st
 </html>
 ```
 
-## :handshake: Contribuyendo
+## 🤝 Contribuyendo
 
 **Todas las contribuciones son bienvenidas.** Para cambios importantes, incluidos los cambios de última hora en el código existente o la actualización de gráficos y archivos existentes, abra primero un problema para analizar qué le gustaría cambiar. Algunos ejemplos de artículos para contribuir:
 
@@ -316,7 +316,7 @@ This example uses DataFormsJS Web Components. Web Components are well defined st
 
 El archivo [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt) contiene la lista completa de elementos que están actualmente pendientes y es un buen lugar para comenzar.
 
-## :question: Preguntas más frecuentes
+## ❓ Preguntas más frecuentes
 
 **¿Por qué se creó DataFormsJS?**
 
@@ -364,6 +364,6 @@ DataFormsJS está aquí a largo plazo y se desarrollará indefinidamente con nue
 
 DataFormsJS continuará desarrollándose de una manera que permita el desarrollo basado en la web (por ejemplo: el sitio de juegos) y se mantendrá en tamaño pequeño cargando scripts solo cuando sea necesario.
 
-## :memo: Licencia
+## 📝 Licencia
 
 Este proyecto está licenciado bajo la **MIT License** - vea el archivo [LICENSE](LICENSE) para más detalles.

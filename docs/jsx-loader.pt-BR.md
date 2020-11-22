@@ -8,7 +8,7 @@
 <table>
 	<tbody>
 		<tr align="center"><td colspan="2">
-<g-emoji class="g-emoji" alias="globe_with_meridians" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f310.png"><img class="emoji" alt="globe_with_meridians" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f310.png"></g-emoji> <g-emoji class="g-emoji" alias="earth_americas" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f30e.png"><img class="emoji" alt="earth_americas" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f30e.png"></g-emoji> <g-emoji class="g-emoji" alias="earth_asia" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f30f.png"><img class="emoji" alt="earth_asia" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f30f.png"></g-emoji> <g-emoji class="g-emoji" alias="earth_africa" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f30d.png"><img class="emoji" alt="earth_africa" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f30d.png"></g-emoji>
+            🌐 &nbsp; 🌎 &nbsp; 🌏 &nbsp; 🌍
 		</td></tr>
         <tr>
 			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md">English</a>
@@ -19,7 +19,7 @@
 	</tbody>
 </table>
 
-## O que é isso? :tada:
+## O que é isso? 🎉
 
 Um único arquivo JavaScript `jsxLoader.js` que compila / [transcompila](https://en.wikipedia.org/wiki/Source-to-source_compiler) JSX para JS para navegadores modernos e para navegadores antigos baixará e utilizará Polyfills e Babel Standalone.
 
@@ -27,7 +27,7 @@ Um único arquivo JavaScript `jsxLoader.js` que compila / [transcompila](https:/
 
 **Demo:** https://www.dataformsjs.com/examples/hello-world/pt-BR/react.htm
 
-## Por quê :question:
+## Por quê ❓
 
 O script `jsxLoader.js` foi criado para fornecer um método rápido para incluir React com JSX em página web e apps web sem processo de compilação, ferramentas CLI, ou grandes dependências necessárias; simplesmente utilize React com JSX em uma webpage ou site e inclua os CDN ou arquivos JavaScript necessários.
 
@@ -43,7 +43,7 @@ O desempenhoé ótimo porque o jsxLoader compila o código para JS e navegadores
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/React-speed-and-memory-with-jsxLoader.png" alt="React com jsxLoader">
 
-## Isso pode ser utilizado em apps e sites em produção? :rocket:
+## Isso pode ser utilizado em apps e sites em produção? 🚀
 
 **Sim**, isso criado por esta razão.
 
@@ -65,7 +65,7 @@ Além do React, ele também funciona e está testado com a biblioteca alternativ
 
 O script `jsxLoader.js` é muito pequeno para baixar (5.7 kB - min e em gzip) e compila código muito rapidamente (geralmente em milisegundos para cada script JSX).
 
-## Como utilizar? :star2:
+## Como utilizar? 🌟
 
 ```html
 <!-- Inclua o React na página -->
@@ -102,7 +102,7 @@ O script `jsxLoader.js` é muito pequeno para baixar (5.7 kB - min e em gzip) e 
 </script>
 ```
 
-## Demos :globe_with_meridians:
+## Demos 🌐
 
 ### React <img src="https://www.dataformsjs.com/img/logos/react.svg" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/pt-BR/react.htm
@@ -127,13 +127,13 @@ O script `jsxLoader.js` é muito pequeno para baixar (5.7 kB - min e em gzip) e 
 ### Rax <img src="https://www.dataformsjs.com/img/logos/rax.png" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/pt-BR/rax.htm
 
-## Teste-o online no Code Playground :rocket:
+## Teste-o online no Code Playground 🚀
 
 <a href="https://www.dataformsjs.com/pt-BR/playground">https://www.dataformsjs.com/pt-BR/playground</a>
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground-React.png" alt="Code Playground do React">
 
-## Funcionará para todos os sites e apps? :dizzy:
+## Funcionará para todos os sites e apps? 💫
 
 O script é destinado para lidar com a maioria, mas não toda sintaxse JSX. Um objetivo geral é que a maioria de JSX deve funcionar com uma trivial atualização, se necessária, em casos extremos.
 
@@ -241,7 +241,7 @@ class App extends React.Component {
 
 Isto também inclui a sintaxe de propagação JavaScriptque somente tem suporte parcial para navegadores modernos. Por exemplo `...numbers` funcionará com Chrome, Firefox, etc, mas não funcionará com todas versões do Edge ou o UC Browser que é amplamente utilizado em países Asiáticos. Se você utilizar a sintaxe the propagação em sua app, veja anotações adicionais na seção [Utilização Avançada] deste documento.
 
-## Divisão de Código :scissors:
+## Divisão de Código ✂️
 
 Um component separado DataFormsJS React `<LazyLoad>` existe e permite que apps baseadas em navegadores carreguem dinamicamente scripts `*.js`, `*.css` e `*.jsx` na primeira vez que eles são utilizados por um componenete.
 
@@ -333,7 +333,7 @@ In general using `<LazyLoad>` is recommended when all JSX is linked from multipl
 </script>
 ```
 
-## Uso Avançado e Interno :microscope:
+## Uso Avançado e Interno 🔬
 
 Você pode [visualizar o código aqui](https://github.com/dataformsjs/dataformsjs/blob/master/js/react/jsxLoader.js)! Todo código é um arquivo único e inclui muito comentários úteis para permitir melhor entendimento de como isso funciona.
 
@@ -457,7 +457,7 @@ Se um navegador moderno estiver sendo testado e não suportar essa sintaxe de pr
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-testing-uc-browser.png" alt="Teste de Unidade com UC Browser">
 
-## Problemas Conhecidos :warning:
+## Problemas Conhecidos ⚠️
 
 * Em geral, se um problema conhecido requer muito código, ele provavelmente não será suportado porque este script pretende ser um pequeno e rápido parser/compilador JSX e não um parser/compilador completo de JavaScript.
 * Mensgens de erro podem não ser muito amigáveis para alguns erros de sintaxes inesperados, então, utilizando linting em um Editor de Código é recomendado durante o desenvolvimento para evitar erros do `jsxLoader.js`. Se você desenvolve com o Visual Studio Code ou outro editor popular, isso ocorrerá automaticamente. Se você tiver erros de sitaxe com o código gerado e não for claro porque, então, utilizar as DevTools do Chrome é recomendado (ou Edge compilado à partir do Chromium). Porque JavaScript gerado é adicionado de volta em elementos dinâmicos, a maioria dos Navegadores mostrarão a localização errado do erro, mas as versões mais recentes do Chrome e Edge mostrarão freqüentemente no local correto.

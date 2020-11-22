@@ -8,7 +8,7 @@
 <table>
 	<tbody>
 		<tr align="center"><td colspan="2">
-<g-emoji class="g-emoji" alias="globe_with_meridians" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f310.png"><img class="emoji" alt="globe_with_meridians" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f310.png"></g-emoji> <g-emoji class="g-emoji" alias="earth_americas" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f30e.png"><img class="emoji" alt="earth_americas" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f30e.png"></g-emoji> <g-emoji class="g-emoji" alias="earth_asia" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f30f.png"><img class="emoji" alt="earth_asia" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f30f.png"></g-emoji> <g-emoji class="g-emoji" alias="earth_africa" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f30d.png"><img class="emoji" alt="earth_africa" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f30d.png"></g-emoji>
+            🌐 &nbsp; 🌎 &nbsp; 🌏 &nbsp; 🌍
 		</td></tr>
         <tr>
 			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md">English / 英语</a>
@@ -19,7 +19,7 @@
 	</tbody>
 </table>
 
-## 这是什么? :tada:
+## 这是什么? 🎉
 
 这是一个单独的JavaScript文件`jsxLoader.js`,用来为新浏览器和旧浏览器编译/ [transpiles](https://en.wikipedia.org/wiki/Source-to-source_compiler)(传输)JSX到JS,它将下载和使用Polyfills and Babel Standalone.
 
@@ -27,7 +27,7 @@
 
 **演示:** https://www.dataformsjs.com/examples/hello-world/zh-CN/react.htm
 
-## 为什么 :question:
+## 为什么 ❓
 
 `jsxLoader.js`脚本的创建是为了提供一种快速在web页面和web应用程序中加入React和JSX的方法,而无需构建过程，CLI工具或大型依赖,只需在网页或站点中使用React和JSX,并加入所需的CDN或JavaScript文件.
 
@@ -43,7 +43,7 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/React-speed-and-memory-with-jsxLoader.png" alt="React with jsxLoader">
 
-## 它可以用于生产应用和网站吗? :rocket:
+## 它可以用于生产应用和网站吗? 🚀
 
 **是的**,它就是为此而创建的.
 
@@ -65,7 +65,7 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
 
 `jsxLoader.js`脚本的下载量很小(5.7 kB - min and gzip),并且编译速度非常快(每个JSX脚本通常以毫秒为单位).
 
-## 如何使用? :star2:
+## 如何使用? 🌟
 
 ```html
 <!-- Include React on the Page -->
@@ -102,7 +102,7 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
 </script>
 ```
 
-## 演示 :globe_with_meridians:
+## 演示 🌐
 
 ### React <img src="https://www.dataformsjs.com/img/logos/react.svg" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/zh-CN/react.htm
@@ -127,13 +127,13 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
 ### Rax <img src="https://www.dataformsjs.com/img/logos/rax.png" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/zh-CN/rax.htm
 
-## 在线代码编辑器上尝试 :rocket:
+## 在线代码编辑器上尝试 🚀
 
 <a href="https://www.dataformsjs.com/zh-CN/playground">https://www.dataformsjs.com/zh-CN/playground</a>
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground-React.png" alt="React Code Playground">
 
-## 它是否适用于所有的网站和应用? :dizzy:
+## 它是否适用于所有的网站和应用? 💫
 
 改脚本旨在处理大多数(但不是全部)JSX语法.总体目标是，如果需要在极端情况下使用,大多数JSx只需要进行少量更新.
 
@@ -240,7 +240,7 @@ class App extends React.Component {
 
 这还包括JavaScript扩展语法,它只对新版浏览器提供部分支持.例如`...numbers`在Chrome, Firefox等浏览器中工作,但不适用于所有版本的Edge或在亚洲国家/地区广泛使用的UC浏览器.如果您在应用中使用扩展语法,请参阅本文档的[Advanced Usage]中的附加说明.
 
-## 代码分割 :scissors:
+## 代码分割 ✂️
 
 一个单独的DataFormsJS React组件`<LazyLoad>`它允许基于浏览器的应用程序在组件首次使用它们时动态加载 `*.js`, `*.css`, 和 `*.jsx`脚本.
 
@@ -332,7 +332,7 @@ In general using `<LazyLoad>` is recommended when all JSX is linked from multipl
 </script>
 ```
 
-## 高级用法和内部机制 :microscope:
+## 高级用法和内部机制 🔬
 
 你可以[在这里查看代码](https://github.com/dataformsjs/dataformsjs/blob/master/js/react/jsxLoader.js)! 所有代码都在一个文件中，并包含许多有用的注释，以便理解它是如何工作的.
 
@@ -455,7 +455,7 @@ https://www.dataformsjs.com/unit-testing/
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-testing-uc-browser.png" alt="Unit Testing with UC Browser">
 
-## 已知问题 :warning:
+## 已知问题 ⚠️
 
 * 一般来说,如果一个已知的问题需要大量的代码,它很可能不被支持,因为此脚本旨在用作小型而快速的JSX解析器/编译器,而不是功能齐全的JavaScript解析器/编译器.
 * 对于某些意外的语法错误,错误消息可能不太友好,因此在开发期间建议在代码编辑器中使用linting,以避免来自`jsxLoader.js`的错误.如果使用Visual Studio代码或其他流行的编辑器进行开发,则应自动执行此操作.如果生成的代码有语法错误,并且不清楚为什么建议使用Chrome DevTools(或Chromium构建的Edge).由于生成的JavaScript重新添加到动态元素中,因此大多数浏览器将显示错误的位置,但最新版本的Chrome和Edge经常将其显示在正确的位置.

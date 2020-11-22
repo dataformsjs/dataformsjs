@@ -8,7 +8,7 @@
 <table>
 	<tbody>
 		<tr align="center"><td colspan="2">
-<g-emoji class="g-emoji" alias="globe_with_meridians" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f310.png"><img class="emoji" alt="globe_with_meridians" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f310.png"></g-emoji> <g-emoji class="g-emoji" alias="earth_americas" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f30e.png"><img class="emoji" alt="earth_americas" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f30e.png"></g-emoji> <g-emoji class="g-emoji" alias="earth_asia" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f30f.png"><img class="emoji" alt="earth_asia" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f30f.png"></g-emoji> <g-emoji class="g-emoji" alias="earth_africa" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f30d.png"><img class="emoji" alt="earth_africa" height="20" width="20" src="https://github.githubassets.com/images/icons/emoji/unicode/1f30d.png"></g-emoji>
+            🌐 &nbsp; 🌎 &nbsp; 🌏 &nbsp; 🌍
 		</td></tr>
     	<tr>
 			<td><a href="https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.pt-BR.md">Português (Brasil)</a>
@@ -19,7 +19,7 @@
 	</tbody>
 </table>
 
-## What is it? :tada:
+## What is it? 🎉
 
 A single JavaScript file `jsxLoader.js` that compiles / [transpiles](https://en.wikipedia.org/wiki/Source-to-source_compiler) JSX to JS for modern browsers and for old browsers it will download and use Polyfills and Babel Standalone.
 
@@ -27,7 +27,7 @@ A single JavaScript file `jsxLoader.js` that compiles / [transpiles](https://en.
 
 **Demo:** https://www.dataformsjs.com/examples/hello-world/en/react.htm
 
-## Why :question:
+## Why ❓
 
 The `jsxLoader.js` script was created to provide a fast method for including React with JSX on web pages and web apps with no build process, CLI tools, or large dependencies needed; simply use React with JSX in a webpage or site and include the needed CDN or JavaScript files.
 
@@ -43,7 +43,7 @@ Performance is great because jsxLoader compiles code to modern JS for modern bro
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/React-speed-and-memory-with-jsxLoader.png" alt="React with jsxLoader">
 
-## Can it be used for production apps and sites? :rocket:
+## Can it be used for production apps and sites? 🚀
 
 **Yes**, it was created for this reason.
 
@@ -65,7 +65,7 @@ In addition to React, it also works and is tested with the React alternative lib
 
 The `jsxLoader.js` script is very small to download (5.7 kB - min and gzip) and compiles code very fast (often in milliseconds for each JSX script).
 
-## How to use? :star2:
+## How to use? 🌟
 
 ```html
 <!-- Include React on the Page -->
@@ -102,7 +102,7 @@ The `jsxLoader.js` script is very small to download (5.7 kB - min and gzip) and 
 </script>
 ```
 
-## Demos :globe_with_meridians:
+## Demos 🌐
 
 ### React <img src="https://www.dataformsjs.com/img/logos/react.svg" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/en/react.htm
@@ -127,13 +127,13 @@ The `jsxLoader.js` script is very small to download (5.7 kB - min and gzip) and 
 ### Rax <img src="https://www.dataformsjs.com/img/logos/rax.png" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/en/rax.htm
 
-## Try it online in the Code Playground :rocket:
+## Try it online in the Code Playground 🚀
 
 <a href="https://www.dataformsjs.com/en/playground">https://www.dataformsjs.com/en/playground</a>
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground-React.png" alt="React Code Playground">
 
-## Will it work for all sites and apps? :dizzy:
+## Will it work for all sites and apps? 💫
 
 The script is intended to handle most but not all JSX Syntax. An overall goal is that most JSX should work with only a slight update if needed on edge cases.
 
@@ -240,7 +240,7 @@ class App extends React.Component {
 
 This also includes the JavaScript spread syntax which only has partial support for modern browsers. For example `...numbers` will work with Chrome, Firefox, etc but it will not work with all versions of Edge or the UC Browser which is widely used in Asian Countries. If you use the spread syntax in your app see additional notes in the [Advanced Usage] section of this document.
 
-## Code Splitting :scissors:
+## Code Splitting ✂️
 
 A separate DataFormsJS React Component `<LazyLoad>` exists and allows for browser based apps to dynamically load `*.js`, `*.css`, and `*.jsx` scripts the first time they are used by a component.
 
@@ -332,7 +332,7 @@ In general using `<LazyLoad>` is recommended when all JSX is linked from multipl
 </script>
 ```
 
-## Advanced Usage and Internals :microscope:
+## Advanced Usage and Internals 🔬
 
 You can [view the code here](https://github.com/dataformsjs/dataformsjs/blob/master/js/react/jsxLoader.js)! All code is in a single file and includes many helpfull comments to allow for understanding of how it works.
 
@@ -455,10 +455,10 @@ If a modern browser is being tested that doesn't support that spread syntax then
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-testing-uc-browser.png" alt="Unit Testing with UC Browser">
 
-## Known Issues :warning:
+## Known Issues ⚠️
 
 * In general if a known issue requires a lot of code it will likely not be supported because this script is intended as a small and fast JSX parser/compiler and not a full featured JavaScript parser/compiler.
-* Error messages may not be very friendly for some unexpected syntax errors so using linting in a Code Editor is recommened during development to avoid errors from `jsxLoader.js`. If you develop with Visual Studio Code or other popular editors this should happen automatically. If you have syntax errors with the generated code and it’s not clear why then using Chrome DevTools is recommended (or Edge built with Chromium). Because generated JavaScript is added back in dynamic elements most Browsers will display the wrong location of the error but latest versions of Chrome and Edge will often show it in the correct location.
+* Error messages may not be very friendly for some unexpected syntax errors so using linting in a Code Editor is recommended during development to avoid errors from `jsxLoader.js`. If you develop with Visual Studio Code or other popular editors this should happen automatically. If you have syntax errors with the generated code and it’s not clear why then using Chrome DevTools is recommended (or Edge built with Chromium). Because generated JavaScript is added back in dynamic elements most Browsers will display the wrong location of the error but latest versions of Chrome and Edge will often show it in the correct location.
     <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-debug-error-in-chrome.png" alt="Debug Errors with Chrome Dev Tools">
 * Minimized `for` loops may cause issues: `for(n=0;n<m;n++)` as the `<m;n++)` will likely be parsed as an element. However if a full file is minimized it will be processed as JavaScript which means minimized Components will generally work by default.
 * Sometimes extra child whitespace is generated in child nodes of `React.createElement('element', props, ...children)` compared to what would be created when using Babel. Generally this doesn’t happen often but it has been found in the [log demo page](https://www.dataformsjs.com/examples/log-table-react.htm). This issue has no visual effect on the page, no performance decrease, and doesn't happen often so it's considered acceptable.

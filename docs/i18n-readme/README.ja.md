@@ -2,7 +2,7 @@
 	<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/logo/DataFormsJS-144px.png">
 </p>
 
-# :star2: DataFormsJSへようこそ！
+# 🌟 DataFormsJSへようこそ！
 
 **訪問してくれてありがとう！** 🌠👍
 
@@ -10,7 +10,7 @@ DataFormsJSは、新しいJavaScriptフレームワークとスタンドアロ�
 
 このリポジトリには、DataFormsJSのフレームワーク、サンプルページ、ユニットテストが含まれています。 メインWebサイトは別のリポジトリに存在します。
 
-## :dizzy: Why use DataFormsJS?
+## 💫 Why use DataFormsJS?
 
 |<img src="https://github.com/dataformsjs/website/blob/master/public/img/icons/fast.svg" alt="Faster Development" width="60">|<img src="https://github.com/dataformsjs/website/blob/master/public/img/icons/small-size.svg" alt="Small Size" width="60">|<img src="https://github.com/dataformsjs/website/blob/master/public/img/icons/light-switch.svg" alt="Easy to Learn" width="60">|
 |---|---|---|
@@ -26,7 +26,7 @@ DataFormsJSは、新しいJavaScriptフレームワークとスタンドアロ�
 |Learn something new!|<div><img src="https://github.com/dataformsjs/website/blob/master/public/img/icons/web-components.svg" alt="Web Components" width="64"></div><div>Web Components</div>|
 |---|---|
 
-## :rocket: Getting Started
+## 🚀 Getting Started
 
 **Getting started with DataFormsJS is extremely easy.**
 
@@ -72,7 +72,7 @@ dataformsjs
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Getting Started Templates" width="800">
 </p>
 
-## :page_facing_up: Example Code
+## 📄 Example Code
 
 This example uses Vue for templating. If you save it with a text editor you can view it locally in your browser. Additionally the main site contains many templates and examples. DataFormsJS works with both Vue 2 and Vue 3.
 
@@ -302,7 +302,7 @@ This example uses DataFormsJS Web Components. Web Components are well defined st
 </html>
 ```
 
-## :handshake: Contributing
+## 🤝 Contributing
 
 **All contributions are welcome.** For major changes including breaking changes to existing code or updating existing graphics and files, please open an issue first to discuss what you would like to change. Some examples of items to contribute:
 
@@ -315,7 +315,7 @@ This example uses DataFormsJS Web Components. Web Components are well defined st
 
 The [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master/docs/to-do-list.txt) file contains the full list of items that are currently pending and is good place to start.
 
-## :question: FAQ
+## ❓ FAQ
 
 **Why was DataFormsJS Created?**
 
@@ -363,6 +363,6 @@ DataFormsJS is here for the long run and will be developed indefinitely with new
 
 DataFormsJS will continue to be developed in a manner that allows for web based development (for example: the playground site) and will be kept small in size loading scripts only when needed.
 
-## :memo: License
+## 📝 License
 
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
