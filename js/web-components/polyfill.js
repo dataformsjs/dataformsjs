@@ -73,7 +73,9 @@
     var useMinFiles = null;
 
     /**
-     * Update specific Web Components to use DataFormsJS Framework Plugins, Controls, etc
+     * Update specific Web Components to use DataFormsJS Framework Plugins, Controls, etc.
+     * In many cases the Web Components use HTML Attributes without a "data-" prefix,
+     * while the Framework Plugins and Controls typically use or require a "data-" prefix.
      */
     var updateElements = {
         dataAttributes: function(element, attributes) {
@@ -351,7 +353,7 @@
     }
 
     /**
-     * Used to execute code from <url-route>[onload] and <json-data>[onready]
+     * Used to execute code from <url-route>[onload|onunload] and <json-data>[onready]
      *
      * @param {string} js
      * @param {string} name
