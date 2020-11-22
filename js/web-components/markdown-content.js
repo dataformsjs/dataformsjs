@@ -239,7 +239,7 @@ class MarkdownContent extends HTMLElement {
         // Set Content
         this.innerHTML = html;
         if (window.hljs !== undefined) {
-            const codeBlocks = document.querySelectorAll('code[class*="language-"]');
+            const codeBlocks = this.querySelectorAll('code[class*="language-"]');
             for (let code of codeBlocks) {
                 code.classList.add('hljs');
             }

@@ -191,6 +191,7 @@ app.get('/:file', (req, res, file) => {
         'https://dataformsjs.s3-us-west-1.amazonaws.com',
         'https://d2xbd92kui7v97.cloudfront.net',
         'http://localhost:3000',
+        'https://raw.githubusercontent.com',
     ];
     const imageSrc = [
         'https:',

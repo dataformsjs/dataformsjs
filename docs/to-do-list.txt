@@ -22,11 +22,24 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+**) Active Development for next release (likely before the end of November 2020)
+    - New React Component: dataformsjs/js/react/es6/MarkdownContent.js
+    - Updates needed for all versions of <markdown-content> and <MarkdownContent>
+        - Optional Caching (in-memory similar to JsonData)
+        - Error Handling (URL Fetch fails)
+        - Option to add [target="_blank", rel="noopener"] by default? Or should the apps handle this.
+            Currently in the `npm start` page the app handles it for [target="_blank"] through a
+            DOM Event from <markdown-content>
+        - Finish adding demo pages (at least one per support Markdown library and React/Web/Framework)
+        - For Framework version custom headers could be supported by using `app.fetch()`
+            Still need to decide on this for React Version.
+            Web Components such as <json-data> currently do not support custom fetch headers
+            but it's planned in the future.
+        - Pass options to the React Component?
+    - The mixed React/Vue/Framework + Web Components Demos should have the Web Component added.
+    - Update main [README.md] file with print screen of the new `npm start` page
+
 **) Near future updates (November and December 2020)
-    - <markdown-content> was added (Nov 21, 2020)
-        - Finish adding demos
-        - Update react/web component demo page
-        - Should a separate react version be created?
     - Add Web Component API examples to quick ref section of the main site
         'app:contentReady', etc
     - Publish Web Components here:

@@ -238,7 +238,7 @@ export default class JsonData extends React.Component {
     constructor(props) {
         super(props);
         this._isFetching = false;
-        this._isMounted = false; 
+        this._isMounted = false;
         this.fetchData = this.fetchData.bind(this);
         this.handleChange = this.handleChange.bind(this);
 

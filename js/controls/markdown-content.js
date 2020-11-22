@@ -231,7 +231,7 @@
                 element.appendChild(sourceEl);
             }
             if (window.hljs !== undefined) {
-                var codeBlocks = document.querySelectorAll('code[class*="language-"]');
+                var codeBlocks = element.querySelectorAll('code[class*="language-"]');
                 Array.prototype.forEach.call(codeBlocks, function(code) {
                     code.classList.add('hljs');
                 });
