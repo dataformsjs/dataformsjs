@@ -403,7 +403,7 @@ jsxLoader.evalCode = 'const { id, ...other } = { id:123, test:456 };';
 
 ### 从[jsxLoader.js]构建[jsxLoader.min.js]
 
-DataFormsJS中的所有`*.min.js`文件都是使用依赖于`uglify-js`, `uglify-es`和`Babel`的构建脚本从同名的完整文件版本构建的.`jsxLoader.min.js`只能使用`uglify-js`来构建.
+DataFormsJS中的所有`*.min.js`文件都是使用依赖于`uglify-js`, `terser`和`Babel`的构建脚本从同名的完整文件版本构建的.`jsxLoader.min.js`只能使用`uglify-js`来构建.
 
 ```bash
 # From project root

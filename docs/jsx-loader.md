@@ -403,7 +403,7 @@ Typically the minimized version `jsxLoader.min.js` will be used for production w
 
 ### Building [jsxLoader.min.js] from [jsxLoader.js]
 
-All `*.min.js` files in DataFormsJS are built from the full file version of the same name using a build script that depends on `uglify-js`, `uglify-es`, and `Babel`. The `jsxLoader.min.js` can be built using only `uglify-js`.
+All `*.min.js` files in DataFormsJS are built from the full file version of the same name using a build script that depends on `uglify-js`, `terser`, and `Babel`. The `jsxLoader.min.js` can be built using only `uglify-js`.
 
 ```bash
 # From project root

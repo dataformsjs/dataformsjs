@@ -405,7 +405,7 @@ Tipicamente, a versão minimizada `jsxLoader.min.js` será utilizada para produ�
 
 ### Gerando [jsxLoader.min.js] à partir do [jsxLoader.js]
 
-Todos os arquivos `*.min.js` no DataFormsJS são gerados à partir de versões completas dos arquivos de mesmo nome utililizando um script de geração que depende de `uglify-js`, `uglify-es` e `Babel`. O `jsxLoader.min.js` pode ser gerado utilizando somente `uglify-js`.
+Todos os arquivos `*.min.js` no DataFormsJS são gerados à partir de versões completas dos arquivos de mesmo nome utililizando um script de geração que depende de `uglify-js`, `terser` e `Babel`. O `jsxLoader.min.js` pode ser gerado utilizando somente `uglify-js`.
 
 ```bash
 # Da raiz do projeto
