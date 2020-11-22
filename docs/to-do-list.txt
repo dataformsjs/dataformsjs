@@ -30,7 +30,7 @@ TODO List
         - Option to add [target="_blank", rel="noopener"] by default? Or should the apps handle this.
             Currently in the `npm start` page the app handles it for [target="_blank"] through a
             DOM Event from <markdown-content>
-        - Finish adding demo pages (at least one per support Markdown library and React/Web/Framework)
+        - Finish adding demo pages (at least one per supported Markdown library and React/Web/Framework)
         - For Framework version custom headers could be supported by using `app.fetch()`
             Still need to decide on this for React Version.
             Web Components such as <json-data> currently do not support custom fetch headers
