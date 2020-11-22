@@ -141,7 +141,7 @@ app.get('/:file', (req, res, file) => {
     const filePath = path.join(__dirname, fileName);
 
     // Example of using CSP (Content Security Policy) with DataFormsJS.
-    // All examples shoud work with the following settings on modern browsers.
+    // All examples should work with the following settings on modern browsers.
     // CSP is specified as a Response Header on the root HTML file.
     //
     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
