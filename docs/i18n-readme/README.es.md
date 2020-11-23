@@ -41,6 +41,12 @@ npm install dataformsjs
 npm start
 ```
 
+The start screen allows you to quickly filter and view many different examples and resources.
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/dataformsjs-start-page.png" alt="DataFormsJS npm start page">
+</p>
+
 Los archivos JavaScript para el Framework y React y Web Components independientes existen en el directorio `js`. Estructura completa del directorio:
 
 ```
@@ -64,13 +70,13 @@ dataformsjs
 **Desarrolle en línea** utilizando el código de juegos: https://www.dataformsjs.com/es/playground
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground.png" alt="Code Playground" width="800">
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground.png" alt="Code Playground">
 </p>
 
 **Descargar un archivo de plantilla** Descargue un archivo de plantilla usando scripts de un CDN: https://www.dataformsjs.com/es/getting-started
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Plantillas de inicio" width="800">
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Plantillas de inicio">
 </p>
 
 ## 📄 Example Code

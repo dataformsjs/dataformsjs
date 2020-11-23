@@ -15,7 +15,12 @@ Overall the core Framework files and API are expected to remain stable however t
   <Markdown url={url} isLoading={<IsLoading />} className="markdown" />
   ~~~
 * Fix `js/web-components/markdown-content.js` so that it shows it shows the correct background color and full CSS styles for Code Syntax when using `highlight.js`. With previous releases this worked with the Framework version `js/controls/markdown-content.js`
-* Fix for both Framework and Web Component `<markdown-content>` where there were running `highlight.js` against the document rather than only elements under `<markdown-content>`.
+* Updates for both Framework and Web Component `<markdown-content>`
+  * Fix issue where there were running `highlight.js` against the document rather than only elements under `<markdown-content>`
+  * Added default use of `remarkable.linkify` plugin when using Remarkable
+  * Added error handling to display an error through `showError()` or `app.showError()` for Markdown fetch errors. For example if a 404 occurs.
+* Framework Control now makes requests through `app.fetch()` so that custom security or other app defined Request Headers will be included.
+* `<nav is="spa-links">` Web Component - Set links on initial `connectedCallback()` event. Previously it was first called based on router events however this caused a timing issue depending on when the file was loaded in related to the `<url-router>`.
 
 ## 5.1.1 (November 21, 2020)
 

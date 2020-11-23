@@ -40,6 +40,12 @@ npm install dataformsjs
 npm start
 ```
 
+The start screen allows you to quickly filter and view many different examples and resources.
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/dataformsjs-start-page.png" alt="DataFormsJS npm start page">
+</p>
+
 框架和独立React和Web组件的JavaScript文件位于js目录下。 完整目录结构：
 
 ```
@@ -63,13 +69,13 @@ dataformsjs
 **在线演示** 可以在线上直接运行代码: https://www.dataformsjs.com/en/playground
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground.png" alt="Code Playground" width="800">
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground.png" alt="Code Playground">
 </p>
 
 **下载一个模板** 使用CDN: https://www.dataformsjs.com/en/getting-started
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Getting Started Templates" width="800">
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Getting Started Templates">
 </p>
 
 ## 📄 示例代码

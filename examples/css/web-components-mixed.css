@@ -44,15 +44,3 @@ markdown-content code:not([class*="language-"]) {
     display: inline-block;
     border-radius: 0.5em;
 }
-/* markdown-content table {
-    border-collapse: collapse;
-    border: 1px solid var(--border-color);
-}
-markdown-content table tbody tr:nth-child(odd) {
-    background-color: var(--light-bg-color);
-}
-markdown-content table th,
-markdown-content table td {
-    padding: .5em 1em;
-    border: 1px solid var(--border-color);
-} */

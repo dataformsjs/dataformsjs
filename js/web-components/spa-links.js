@@ -36,6 +36,7 @@ class SpaLinks extends HTMLElement {
 
     connectedCallback() {
         document.addEventListener('app:routeChanged', this.updateLinks);
+        this.updateLinks();
     }
 
     disconnectedCallback() {

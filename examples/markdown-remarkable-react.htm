@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>DataFormsJS React Markdown with [Remarkable]</title>
+        <link rel="stylesheet" href="https://d2xbd92kui7v97.cloudfront.net/site/css/getting-started.css">
+        <link rel="stylesheet" href="css/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/styles/atom-one-dark.min.css">
+    </head>
+    <body>
+        <div id="root"></div>
+
+        <!-- React -->
+        <script src="https://unpkg.com/react@17.0.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/react-dom@17.0.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+        <!--
+            React Router
+            https://reacttraining.com/react-router/
+            https://github.com/ReactTraining/react-router
+        -->
+        <script src="https://unpkg.com/react-router@5.2.0/umd/react-router.min.js"></script>
+        <script src="https://unpkg.com/react-router-dom@5.2.0/umd/react-router-dom.min.js"></script>
+
+        <!--
+            DataFormsJS React Components
+        -->
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/react/es6/DataFormsJS.min.js"></script>
+        <script type="module" src="../js/react/es6/Markdown.min.js"></script>
+
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/react/es5/DataFormsJS.min.js"></script>
+        <script nomodule src="../js/react/es5/Markdown.min.js"></script>
+
+        <!-- DataFormsJS JSX Loader -->
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.1.1/js/react/jsxLoader.js"></script>
+        <script>
+            // Set to `true` to see compiler details
+            jsxLoader.logCompileTime = false;
+            jsxLoader.logCompileDetails = false;
+        </script>
+
+        <!--
+            https://github.com/jonschlinkert/remarkable
+            https://highlightjs.org/
+            CSS for highlight.js is at the top of this file
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/remarkable@2.0.1/dist/remarkable.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+
+        <!-- App Code -->
+        <script type="text/babel" src="markdown-react.jsx"></script>
+    </body>
+</html>

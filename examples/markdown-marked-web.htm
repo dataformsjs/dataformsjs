@@ -5,43 +5,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>DataFormsJS Markdown with [marked]</title>
         <link rel="stylesheet" href="https://d2xbd92kui7v97.cloudfront.net/site/css/getting-started.css">
+        <link rel="stylesheet" href="css/markdown.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/styles/atom-one-dark.min.css">
-        <style>
-            /* Prevent custom web components from appearing during rendering include the following CSS */
-            json-data:not(:defined),
-            is-loading:not(:defined),
-            has-error:not(:defined),
-            is-loaded:not(:defined) { display:none; }
-
-            markdown-content {
-                padding:1em;
-                margin:1em;
-                border:1px solid black;
-                text-align: left;
-                max-width: 800px;
-            }
-            markdown-content[data-control] {
-                padding:1em;
-                margin:1em;
-            }
-            markdown-content ul { padding-left:1em; }
-        </style>
     </head>
     <body>
         <header>
             <nav is="spa-links">
                 <a href="#/">Home</a>
-                <a href="#/data">Markdown</a>
+                <a href="#/data">Markdown using Data Binding</a>
+                <a href="#/404-content">Markdown Fetch Error</a>
             </nav>
         </header>
 
         <main id="view" class="container"></main>
 
-        <!--
-            TODO - this file is in early development and will go through many updates
-            to look better. Version need to be created for React and Framework Control
-            as well as each supported Markdown Library.
-        -->
         <url-router view-selector="#view">
             <url-route path="/">
                 <template>
@@ -76,6 +53,12 @@
                     </json-data>
                 </template>
             </url-route>
+
+            <url-route path="/404-content">
+                <template>
+                    <markdown-content url="/404"></markdown-content>
+                </template>
+            </url-route>
         </url-router>
 
         <!--
@@ -87,14 +70,15 @@
         <script type="module" src="../js/web-components/markdown-content.js"></script>
         <script nomodule src="../js/web-components/polyfill.js"></script>
 
+        <!-- <script src="../js/web-components/polyfill.js"></script> -->
+
         <!--
             https://marked.js.org/
             https://highlightjs.org/
+            CSS for highlight.js is at the top of this file
         -->
         <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
         <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
-
-        <!-- <script src="../js/web-components/polyfill.js"></script> -->
 
         <script>
             window.lazyLoad = {

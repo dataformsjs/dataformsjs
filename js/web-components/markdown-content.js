@@ -90,6 +90,7 @@ class MarkdownContent extends HTMLElement {
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
         this.content = null;
+        this.errorMessage = null;
     }
 
     connectedCallback() {
@@ -175,9 +176,23 @@ class MarkdownContent extends HTMLElement {
 
         // Fetch content
         fetch(url)
+        .then(res => {
+            const status = res.status;
+            if ((status >= 200 && status < 300) || status === 304) {
+                return Promise.resolve(res);
+            } else {
+                const error = `Error loading markdown content from [${url}]. Server Response Code: ${status}, Response Text: ${res.statusText}`;
+                return Promise.reject(error);
+            }
+        })
         .then(res => { return res.text(); })
         .then(text => {
             this.content = text;
+            this.errorMessage = null;
+            this.render();
+        })
+        .catch(error => {
+            this.errorMessage = error;
             this.render();
         });
     }
@@ -187,6 +202,13 @@ class MarkdownContent extends HTMLElement {
     }
 
     render() {
+        // Error message (for example a failed fetch)
+        if (this.errorMessage) {
+            showError(this, this.errorMessage);
+            this.dispatchRendered();
+            return;
+        }
+
         // Nothing to show
         if (this.content === null) {
             this.innerHTML = '';
@@ -228,7 +250,7 @@ class MarkdownContent extends HTMLElement {
                 html: true,
                 typographer: true,
                 highlight: highlight
-            });
+            }).use(remarkable.linkify);
             html = (md).render(this.content);
         } else {
             showError(this, 'Error - Unable to show Markdown content because a Markdown JavaScript library was not found on the page.');

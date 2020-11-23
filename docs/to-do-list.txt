@@ -23,13 +23,12 @@ TODO List
 --------------------------------------------------------------------------
 
 **) Active Development for next release (likely before the end of November 2020)
-    - Finish new React Component: dataformsjs/js/react/es6/Markdown.js
-    - Updates needed for all versions of <markdown-content> and <Markdown>
-        - Need to include support for DOMPurify if it exists on thee page or is
-            passed as a prop with React Versio
+    - Updates needed for all versions of <markdown-content> and React <Markdown>
+        - Finish adding demo pages (at least one per supported Markdown library and React/Web/Framework)
+        - Need to include support for DOMPurify if it exists on the page or is
+            passed as a prop with React Version
             https://github.com/cure53/DOMPurify
         - Optional Caching (in-memory similar to JsonData)
-        - Error Handling (URL Fetch fails)
         - Option to add [target="_blank", rel="noopener"] by default? Or should the apps handle this.
             - Currently in the `npm start` page the app handles it for [target="_blank"] through a
                 DOM Event from <markdown-content>
@@ -42,17 +41,12 @@ TODO List
                 https://github.com/dataformsjs/dataformsjs/blob/master/LICENSE
             - So if [root-url="https://github.com/dataformsjs/dataformsjs/blob/master/"]
                 can be added then the link will work properly
-        - Finish adding demo pages (at least one per supported Markdown library and React/Web/Framework)
-        - For Framework version custom headers could be supported by using `app.fetch()`
-            Still need to decide on this for React Version.
-            Web Components such as <json-data> currently do not support custom fetch headers
-            but it's planned in the future.
-        - Pass options to the React Component?
-    - Update main [README.md] file with print screen of the new `npm start` page
 
 **) Near future updates (November and December 2020)
     - Add Web Component API examples to quick ref section of the main site
         'app:contentReady', etc
+    - Publish a nice looking version and more useful of markdown
+        demos in the examples section of the main site.
     - Publish Web Components here:
         https://www.webcomponents.org/publish-collection
         * Note - the site has errors publishing and is somewhat abandoned
@@ -158,6 +152,9 @@ TODO List
                 window.requestHeadersByHostName = {}
             And then the Framework [app.getRequestHeaders] and related code can be used as a starting point
             If using this option it will be easy to work with the the framework when using [polyfill.js]
+        - If adding `window.requestHeaders` and `window.requestHeadersByHostName` then any Web Component
+            that uses fetch such as <markdown-content> should also use the headers - just like the Framework
+            versions of the code.
     - Create a new <form is="entry-form"> Component
         - A Framework JavaScript control could be created as the Polyfill. Ideally the new control
             would use functions from the main entryForm page object so it doesn't have to be duplicated.

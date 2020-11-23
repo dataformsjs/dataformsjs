@@ -13,6 +13,7 @@
  */
 
 /* Validates with both [jshint] and [eslint] */
+/* global hljs, marked, markdownit, markdownitEmoji, remarkable  */
 /* global app */
 /* jshint strict: true */
 /* eslint-env browser */
@@ -60,6 +61,7 @@
             url: null,
             loadingSelector: null,
             showSource: false,
+            errorMessage: null,
         },
 
         /**
@@ -155,17 +157,29 @@
 
             // Fetch content
             var control = this;
-            fetch(this.url)
-            .then(function(res) {
-                return res.text();
-            })
+            var url = this.url;
+            app
+            .fetch(url, null, 'text/plain')
             .then(function(text) {
                 control.content = text;
+                control.errorMessage = null;
+                markdownContent.render.call(control, element);
+            })
+            .catch(function(error) {
+                var errorMessage = 'Error loading markdown content from [' + url + ']. Error: ' + error;
+                control.errorMessage = errorMessage;
                 markdownContent.render.call(control, element);
             });
         },
 
         render: function (element) {
+            // Error message (for example a failed fetch)
+            if (this.errorMessage) {
+                app.showError(element, this.errorMessage);
+                markdownContent.dispatchRendered(element);
+                return;
+            }
+
             // Nothing to show
             if (this.content === null) {
                 element.innerHTML = '';
@@ -217,7 +231,7 @@
                     html: true,
                     typographer: true,
                     highlight: highlight
-                });
+                }).use(remarkable.linkify);
                 html = (md).render(this.content);
             } else {
                 app.showError(element, 'Error - Unable to show Markdown content because a Markdown JavaScript library was not found on the page.');

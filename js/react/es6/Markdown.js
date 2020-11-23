@@ -26,6 +26,12 @@
  *   className="markdown"  - Add a [className] to the root <div> that markdown gets rendered under
  *   showSource={true}   - If including this only markdown source in a <pre> will be displayed
  *   isLoading=(<IsLoading />)   - Loading Component that appears during Markdown fetch
+ *   errorStyle={{ backgroundColor:'red', color:'#fff' }}
+ *   fetchOptions={{
+ *       mode: 'cors',
+ *       credentials: 'same-origin',
+ *       headers: { 'Content-Type': 'text/markdown' }
+ *   }}
  *
  *   # When using from [create-react-app] or [webpack] the markdown library and optional
  *   # [highlight.js] need to be passed to the Component:
@@ -37,12 +43,14 @@
  *   <Markdown url="https..." marked={marked} hljs={hljs} />
  *
  *   # For [markdown-it] or [remarkable] use one of the following if using webpack.
- *   # [markdown-it-emoji] is optional when using [markdown-it].
+ *   # [markdown-it-emoji] is optional when using [markdown-it] and [linkify] is
+ *   # optional when using [Remarkable].
  *   import markdownit from 'markdown-it';
  *   import markdownitEmoji from 'markdown-it-emoji'
  *   import { Remarkable } from 'remarkable'
+ *   import { linkify } from 'remarkable/linkify';
  *   <Markdown url="..." markdownit={markdownit} markdownitEmoji={markdownitEmoji} />
- *   <Markdown url="..." Remarkable={Remarkable} />
+ *   <Markdown url="..." Remarkable={Remarkable} linkify={linkify} />
  *
  * Popular and widely used React Markdown Component (requires node or webpack):
  * @link https://github.com/remarkjs/react-markdown
@@ -71,6 +79,7 @@ export default class Markdown extends React.Component {
         super(props);
         this.state = {
             content: (typeof props.content !== 'string' ? null : props.content),
+            errorMessage: null,
             isLoaded: false,
         };
         this._isMounted = false;
@@ -103,14 +112,29 @@ export default class Markdown extends React.Component {
     }
 
     fetchContent() {
-        fetch(this.props.url)
+        fetch(this.props.url, this.props.fetchOptions)
+        .then(res => {
+            const status = res.status;
+            if ((status >= 200 && status < 300) || status === 304) {
+                return Promise.resolve(res);
+            } else {
+                const error = `Error loading markdown content from [${this.props.url}]. Server Response Code: ${status}, Response Text: ${res.statusText}`;
+                return Promise.reject(error);
+            }
+        })
         .then(res => { return res.text(); })
         .then(text => {
             if (this._isMounted) {
                 this.setState({
                     content: text,
+                    errorMessage: null,
                     isLoaded: true,
                 });
+            }
+        })
+        .catch(error => {
+            if (this._isMounted) {
+                this.setState({ errorMessage: error });
             }
         });
     }
@@ -164,6 +188,27 @@ export default class Markdown extends React.Component {
     }
 
     render() {
+        // Error message (for example a failed fetch)
+        if (this.state.errorMessage) {
+            const className = (this.props.className ? this.props.className : '') + ' error';
+            const errorStyle = (typeof this.props.errorStyle === 'object' ? this.props.errorStyle : {
+                backgroundColor: 'red',
+                color: '#fff',
+                fontWeight: 'bold',
+                border: '1px solid darkred',
+                padding: '1em',
+            });
+            return React.createElement(
+                'div',
+                {
+                    className: className,
+                    ref: this.markdownEl,
+                    style: errorStyle,
+                },
+                this.state.errorMessage
+            );
+        }
+
         // If still loading content from URL return child node from
         // [isLoading] prop if defined otherwise return null.
         if (this.props.url && !this.state.isLoaded) {
@@ -221,6 +266,10 @@ export default class Markdown extends React.Component {
                 typographer: true,
                 highlight: this.highlight
             });
+            const linkify = (this.props.linkify || window.remarkable.linkify);
+            if (linkify) {
+                md.use(linkify);
+            }
             html = (md).render(this.state.content);
         } else {
             throw new Error('Error - Unable to show Markdown content because a Markdown JavaScript library was not found on the page.');
