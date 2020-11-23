@@ -41,6 +41,7 @@ TODO List
                 https://github.com/dataformsjs/dataformsjs/blob/master/LICENSE
             - So if [root-url="https://github.com/dataformsjs/dataformsjs/blob/master/"]
                 can be added then the link will work properly
+        - After all updates point markdown files from [src="../] to CDN
 
 **) Near future updates (November and December 2020)
     - Add Web Component API examples to quick ref section of the main site
