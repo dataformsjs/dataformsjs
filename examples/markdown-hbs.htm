@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>DataFormsJS Markdown using Handlebars</title>
+        <link rel="stylesheet" href="https://d2xbd92kui7v97.cloudfront.net/site/css/getting-started.css">
+        <link rel="stylesheet" href="css/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/styles/atom-one-dark.min.css">
+    </head>
+    <body>
+        <header>
+            <nav is="spa-links">
+                <a href="#/">Home</a>
+                <a href="#/data">Markdown using Data Binding</a>
+                <a href="#/404-content">Markdown Fetch Error</a>
+            </nav>
+        </header>
+
+        <main id="view" class="container"></main>
+
+        <template data-route="/">
+            <h1>DataFormsJS Framework &lt;markdown-content&gt; Control<br> with [<span id="selected-library"></span>] Markdown Library and Handlebars</h1>
+            <markdown-content data-url="https://raw.githubusercontent.com/dataformsjs/dataformsjs/master/README.md"></markdown-content>
+        </template>
+
+        <script
+            type="text/x-template"
+            data-engine="handlebars"
+            data-route="/data"
+            data-page="jsonData"
+            data-url="https://www.dataformsjs.com/data/random/markdown">
+
+            {{#if isLoading}}<span class="loading">Loading...</span>{{/if}}
+            {{#if hasError}}<span class="error" data-bind="errorMessage"></span>{{/if}}
+            {{#if isLoaded}}
+                <!--
+                    When using [data-bind] the <markdown-content> control will
+                    load and render markdown based on `app.activeModel`.
+                -->
+                <markdown-content data-bind="content"></markdown-content>
+
+                <!--
+                    When using the <markdown-content> Control markdown text
+                    can be passed to the control using [data-content].
+                -->
+                {{#each list}}
+                    <markdown-content data-content="{{content}}"></markdown-content>
+                {{/each}}
+            {{/if}}
+        </script>
+
+        <template data-route="/404-content">
+            <markdown-content data-url="/404"></markdown-content>
+        </template>
+
+        <!--
+            Handlebars
+            https://handlebarsjs.com
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.6/dist/handlebars.min.js"></script>
+
+        <!--
+            DataFormsJS
+            https://www.dataformsjs.com
+        -->
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.2.0/js/DataFormsJS.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.2.0/js/plugins/navLinks.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.2.0/js/pages/jsonData.min.js"></script>
+        <script src="../js/controls/markdown-content.js"></script>
+
+        <!--
+            Pick a Markdown Library:
+            https://marked.js.org/
+            https://markdown-it.github.io/
+            https://github.com/jonschlinkert/remarkable
+
+            Optional:
+            https://highlightjs.org/
+            https://github.com/cure53/DOMPurify
+            https://github.com/markdown-it/markdown-it-emoji
+            CSS for highlight.js is at the top of this file
+        -->
+
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+        <!-- <script src="https://cdn.jsdelivr.net/npm/markdown-it@12.0.2/dist/markdown-it.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/markdown-it-emoji@2.0.0/dist/markdown-it-emoji.min.js"></script> -->
+
+        <!-- <script src="https://cdn.jsdelivr.net/npm/remarkable@2.0.1/dist/remarkable.min.js"></script> -->
+
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dompurify@2.2.2/dist/purify.min.js"></script>
+
+        <script>
+            // Add a plugin to show which Library is selected on the main page
+            (function() {
+                'use strict';
+                app.addPlugin('showMarkdownLib', function() {
+                    var selectedLibrary = document.getElementById('selected-library');
+                    if (!selectedLibrary) {
+                        return;
+                    }
+                    var library = 'None';
+                    if (window.marked) {
+                        library = 'marked';
+                    } else if (window.markdownit) {
+                        library = 'markdown-it';
+                    } else if (window.remarkable) {
+                        library = 'Remarkable';
+                    }
+                    selectedLibrary.textContent = library;
+                });
+            })();
+        </script>
+    </body>
+</html>

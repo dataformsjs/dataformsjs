@@ -2,11 +2,12 @@
  * DataFormsJS <markdown-content> Web Component
  *
  * This Web Component can be used to render Markdown to HTML using one of 3 widely used
- * Markdown Libraries (marked, markdown-it, and remarkable).
+ * Markdown Libraries [marked, markdown-it, and remarkable].
  *
  * This Web Component does not include a Markdown Library rather one needs to be included
  * on the page before this Component is used. Additionally if [highlight.js] is included
- * on the page it will be used for Syntax Highlighting.
+ * on the page it will be used for Syntax Highlighting and if [DOMPurify] is included
+ * the rendered HTML will be sanitized for security.
  *
  * Options are preset, however this Web Component is small in size and easy to modify
  * if you have a site with different markdown needs.
@@ -27,6 +28,7 @@
  * @link https://github.com/markdown-it/markdown-it-emoji
  * @link https://github.com/jonschlinkert/remarkable
  * @link https://github.com/highlightjs/highlight.js
+ * @link https://github.com/cure53/DOMPurify
  */
 
 /* Validates with both [eslint] and [jshint] */
@@ -256,6 +258,11 @@ class MarkdownContent extends HTMLElement {
             showError(this, 'Error - Unable to show Markdown content because a Markdown JavaScript library was not found on the page.');
             this.dispatchRendered();
             return;
+        }
+
+        // Clean/Sanitize the HTML for Security if DOMPurify is loaded
+        if (window.DOMPurify !== undefined) {
+            html = DOMPurify.sanitize(html);
         }
 
         // Set Content

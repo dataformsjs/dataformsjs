@@ -24,10 +24,6 @@ TODO List
 
 **) Active Development for next release (likely before the end of November 2020)
     - Updates needed for all versions of <markdown-content> and React <Markdown>
-        - Finish adding demo pages (at least one per supported Markdown library and React/Web/Framework)
-        - Need to include support for DOMPurify if it exists on the page or is
-            passed as a prop with React Version
-            https://github.com/cure53/DOMPurify
         - Optional Caching (in-memory similar to JsonData)
         - Option to add [target="_blank", rel="noopener"] by default? Or should the apps handle this.
             - Currently in the `npm start` page the app handles it for [target="_blank"] through a
@@ -42,9 +38,9 @@ TODO List
             - So if [root-url="https://github.com/dataformsjs/dataformsjs/blob/master/"]
                 can be added then the link will work properly
         - After all updates point markdown files from [src="../] to CDN
-        - Add Markdown and related docs to Quick Ref Section
-
-**) Near future updates (November and December 2020)
+        
+**) Near future updates for documentation (Likely to be completed by the of December 2020)
+    - Add Markdown and related docs to Quick Ref Section
     - Add Web Component API examples to quick ref section of the main site
         'app:contentReady', etc
     - Publish a nice looking version and more useful of markdown

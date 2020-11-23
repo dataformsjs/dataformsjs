@@ -15,6 +15,7 @@ markdown-content,
     max-width: 800px;
 }
 markdown-content[data-control] {
+    display:block;
     padding:2em;
     margin:1em auto;
 }

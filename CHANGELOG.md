@@ -4,6 +4,16 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## Next Release (changes on master branch and not yet published to npm)
+
+* Updates for DataFormsJS Markdown Components
+  * All 3 versions updated:
+    * Web Component `<markdown-content>`
+    * Framework Control `<markdown-content>`
+    * React Component `<Markdown>`
+  * See code examples for full details, more detailed documentation will be published in the near future.
+  * Added option to sanitize the HTML for security if DOMPurify is loaded: https://github.com/cure53/DOMPurify
+
 ## 5.2.0 (November 23, 2020)
 
 * Add React Component `<Markdown>`

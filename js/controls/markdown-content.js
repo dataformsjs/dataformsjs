@@ -239,6 +239,11 @@
                 return;
             }
 
+            // Clean/Sanitize the HTML for Security if DOMPurify is loaded
+            if (window.DOMPurify !== undefined) {
+                html = DOMPurify.sanitize(html);
+            }
+
             // Set Content
             element.innerHTML = html;
             if (sourceEl) {
@@ -255,7 +260,9 @@
     };
 
     /**
-     * Add control to app
+     * Add control to app and add basic CSS to doc to prevent layout issues
      */
-    app.addControl('markdown-content', markdownContent);
+    app
+        .addControl('markdown-content', markdownContent)
+        .loadCss('dataformsjs-control-markdown-content', 'markdown-content[data-control] { display:block; }');
 })();

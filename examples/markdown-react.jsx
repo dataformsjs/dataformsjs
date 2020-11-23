@@ -3,22 +3,21 @@ const Route = window.ReactRouterDOM.Route;
 const NavLink = window.ReactRouterDOM.NavLink;
 
 function ShowLoading() {
-    return <div>Loading...</div>;
+    return <div className="loading">Loading...</div>;
 }
 
 function ShowError(props) {
-    return <div>{props.error}</div>;
+    return <div className="error">{props.error}</div>;
 }
 
 function HomePage() {
-    let library = (window.marked !== undefined ? 'marked' : null);
-    if (!library) {
-        library = (window.markdownit !== undefined ? 'markdown-it' : null);
-    }
-    if (!library) {
-        library = (window.remarkable !== undefined ? 'Remarkable' : null);
-    } else {
-        'None';
+    let library = 'None';
+    if (window.marked) {
+        library = 'marked';
+    } else if (window.markdownit) {
+        library = 'markdown-it';
+    } else if (window.remarkable) {
+        library = 'Remarkable';
     }
     return (
         <>

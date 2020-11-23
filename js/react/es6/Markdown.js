@@ -2,9 +2,11 @@
  * DataFormsJS React Component <Markdown>
  *
  * This Component can be used to download and render Markdown from a web service or URL
- * using one of 3 widely used Markdown Libraries (marked, markdown-it, and remarkable).
+ * using one of 3 widely used Markdown Libraries [marked, markdown-it, and remarkable].
+ *
  * Additionally if [highlight.js] is included on the page (or passed as a prop) it will
- * be used for Syntax Highlighting.
+ * be used for Syntax Highlighting and if [DOMPurify] is included the rendered HTML will
+ * be sanitized for security.
  *
  * Many existing React Markdown Libraries and code examples exist, however they generally
  * have the Markdown content passed in a prop. This Component was created so that Markdown
@@ -34,13 +36,15 @@
  *   }}
  *
  *   # When using from [create-react-app] or [webpack] the markdown library and optional
- *   # [highlight.js] need to be passed to the Component:
+ *   # [highlight.js, dompurify] needs to be passed to the Component:
  *   npm install marked
  *   npm install highlight.js
+ *   npm install dompurify
  *   import marked from 'marked';
  *   import hljs from 'highlight.js';
  *   import 'highlight.js/styles/atom-one-dark.css';
- *   <Markdown url="https..." marked={marked} hljs={hljs} />
+ *   import DOMPurify from 'dompurify';
+ *   <Markdown url="https..." marked={marked} hljs={hljs} DOMPurify={DOMPurify} />
  *
  *   # For [markdown-it] or [remarkable] use one of the following if using webpack.
  *   # [markdown-it-emoji] is optional when using [markdown-it] and [linkify] is
@@ -61,6 +65,7 @@
  * @link https://github.com/markdown-it/markdown-it-emoji
  * @link https://github.com/jonschlinkert/remarkable
  * @link https://github.com/highlightjs/highlight.js
+ * @link https://github.com/cure53/DOMPurify
  */
 
 /* Validates with both [eslint] and [jshint] */
@@ -273,6 +278,12 @@ export default class Markdown extends React.Component {
             html = (md).render(this.state.content);
         } else {
             throw new Error('Error - Unable to show Markdown content because a Markdown JavaScript library was not found on the page.');
+        }
+
+        // Clean/Sanitize the HTML for Security if DOMPurify is loaded
+        const DOMPurify = (this.props.DOMPurify || window.DOMPurify);
+        if (DOMPurify !== undefined) {
+            html = DOMPurify.sanitize(html);
         }
 
         // Return <div> with the rendered HTML
