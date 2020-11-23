@@ -17,11 +17,33 @@
             </nav>
         </header>
 
-        <main id="view" class="container"></main>
+        <main id="view"></main>
+
+        <template id="loading-screen">
+            <div>Loading...</div>
+        </template>
 
         <template data-route="/">
             <h1>DataFormsJS Framework &lt;markdown-content&gt; Control<br> with [<span id="selected-library"></span>] Markdown Library and Vue</h1>
             <markdown-content data-url="https://raw.githubusercontent.com/dataformsjs/dataformsjs/master/README.md"></markdown-content>
+
+            <!--
+                To display markdown from a web service or site only [data-url] needs to be included:
+                    <markdown-content data-url="..."></markdown-content>
+
+                The example below shows additional options to show a loading screen while
+                content is being fetched and to update links after the markdown has been rendered.
+
+                These attributes make it easy to show content that links to other sites correctly
+                and for the current page not to be changed when the user clicks a link.
+            -->
+            <markdown-content
+                data-url="https://raw.githubusercontent.com/dataformsjs/dataformsjs/master/README.md"
+                data-loading-selector="#loading-screen"
+                data-link-target="_blank"
+                data-link-rel="noopener"
+                data-link-root-url="https://github.com/dataformsjs/dataformsjs/blob/master/">
+            </markdown-content>
         </template>
 
         <script

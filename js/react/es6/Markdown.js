@@ -34,6 +34,9 @@
  *       credentials: 'same-origin',
  *       headers: { 'Content-Type': 'text/markdown' }
  *   }}
+ *   linkTarget="_blank"
+ *   linkRel="noopener"
+ *   linkRootUrl="https..."
  *
  *   # When using from [create-react-app] or [webpack] the markdown library and optional
  *   # [highlight.js, dompurify] needs to be passed to the Component:
@@ -58,6 +61,10 @@
  *
  * Popular and widely used React Markdown Component (requires node or webpack):
  * @link https://github.com/remarkjs/react-markdown
+ * 
+ * Example:
+ * @link https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-react.htm
+ * @link https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-react.jsx
  *
  * Libraries used by this Component:
  * @link https://github.com/markedjs/marked
@@ -91,7 +98,7 @@ export default class Markdown extends React.Component {
         this._returnCode = false;
         this.fetchContent = this.fetchContent.bind(this);
         this.highlight = this.highlight.bind(this);
-        this.updateCodeBlocks = this.updateCodeBlocks.bind(this);
+        this.updateContent = this.updateContent.bind(this);
         this.markdownEl = React.createRef();
     }
 
@@ -100,7 +107,7 @@ export default class Markdown extends React.Component {
         if (this.props.url && this.state.content === null) {
             this.fetchContent();
         } else {
-            this.updateCodeBlocks();
+            this.updateContent();
         }
     }
 
@@ -112,7 +119,7 @@ export default class Markdown extends React.Component {
         if (this.props.url && prevProps.url !== this.props.url) {
             this.fetchContent();
         } else {
-            this.updateCodeBlocks();
+            this.updateContent();
         }
     }
 
@@ -175,20 +182,45 @@ export default class Markdown extends React.Component {
     }
 
     /**
-     * If using [highlight.js] then add class "hljs" to the code blocks so
-     * CSS styles take effect. This runs after the Component is mounted
-     * to DOM and after rendering updates.
+     * Make optional updates to the DOM after the Component has mounted.
      */
-    updateCodeBlocks() {
+    updateContent() {
         if (!this._isMounted || !this.markdownEl.current) {
             return;
         }
+
+        // Update code blocks so they highlight with the
+        // correct theme if using [highlight.js].
         const hljs = (this.props.hljs || window.hljs);
         if (hljs !== undefined) {
             const codeBlocks = this.markdownEl.current.querySelectorAll('code[class*="language-"]');
             for (let n = 0, m = codeBlocks.length; n < m; n++) {
                 codeBlocks[n].classList.add('hljs');
             }
+        }
+
+        // Update all [a.target] and [a.rel] attributes if sepecified
+        const linkTarget = this.props.linkTarget;
+        const linkRel = this.props.linkRel;
+        if (linkTarget || linkRel) {
+            const links = this.markdownEl.current.querySelectorAll('a');
+            Array.prototype.forEach.call(links, function(link) {
+                link.target = (linkTarget ? linkTarget : link.target);
+                link.rel = (linkRel ? linkRel : link.rel);
+            });
+        }
+
+        // Update all local links if specified.
+        // For example Github readme docs would often point to links in the local repository.
+        // This feature can be used to specify the root URL so that all links work correctly.
+        const rootUrl = this.props.linkRootUrl;
+        if (rootUrl) {
+            const links = this.markdownEl.current.querySelectorAll('a:not([href^="http:"]):not([href^="https:"])');
+            Array.prototype.forEach.call(links, function(link) {
+                const href = link.getAttribute('href');
+                link.setAttribute('data-original-href', href);
+                link.setAttribute('href', rootUrl + href);
+            });
         }
     }
 

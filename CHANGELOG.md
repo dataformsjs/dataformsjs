@@ -11,8 +11,14 @@ Overall the core Framework files and API are expected to remain stable however t
     * Web Component `<markdown-content>`
     * Framework Control `<markdown-content>`
     * React Component `<Markdown>`
-  * See code examples for full details, more detailed documentation will be published in the near future.
   * Added option to sanitize the HTML for security if DOMPurify is loaded: https://github.com/cure53/DOMPurify
+  * Added new attributes and props that allow links to be updated after the content has rendered. These attributes make it easy to show content that links to other sites correctly and for the current page not to be changed when the user clicks a link.
+  * See code examples for full details, more detailed documentation will be published in the near future.
+    * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-react.htm
+    * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-react.jsx
+    * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-web.htm
+    * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-vue.htm
+    * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-hbs.htm
 
 ## 5.2.0 (November 23, 2020)
 

@@ -25,19 +25,7 @@ TODO List
 **) Active Development for next release (likely before the end of November 2020)
     - Updates needed for all versions of <markdown-content> and React <Markdown>
         - Optional Caching (in-memory similar to JsonData)
-        - Option to add [target="_blank", rel="noopener"] by default? Or should the apps handle this.
-            - Currently in the `npm start` page the app handles it for [target="_blank"] through a
-                DOM Event from <markdown-content>
-            - Example?:
-                - [link-target="_blank"]
-                - [link-rel="noopener"]
-        - Option for updating links with [root-url="{url}"]
-            - Example the DataFormsJS Readme links to [LICENSE]
-            - The actual file is this:
-                https://github.com/dataformsjs/dataformsjs/blob/master/LICENSE
-            - So if [root-url="https://github.com/dataformsjs/dataformsjs/blob/master/"]
-                can be added then the link will work properly
-        - After all updates point markdown files from [src="../] to CDN
+        - After all updates point markdown files from [src="../] to CDN (after npm release)
         
 **) Near future updates for documentation (Likely to be completed by the of December 2020)
     - Add Markdown and related docs to Quick Ref Section

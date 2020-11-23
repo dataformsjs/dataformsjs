@@ -22,9 +22,26 @@ function HomePage() {
     return (
         <>
             <h1>DataFormsJS React &lt;Markdown&gt; Component<br /> with [{library}] Markdown Library</h1>
+
+            {/*
+                To display markdown from a web service or site only [url] needs to be included:
+                    <Markdown url="..." />
+
+                The example below shows additional options to show a loading screen while
+                content is being fetched, define a root class, and to update links after
+                the markdown has been rendered.
+
+                These attributes make it easy to show content that links to other sites correctly
+                and for the current page not to be changed when the user clicks a link.
+            */}
             <Markdown
                 url="https://raw.githubusercontent.com/dataformsjs/dataformsjs/master/README.md"
-                className="markdown-content" />
+                className="markdown-content"
+                isLoading={<ShowLoading />}
+                linkTarget="_blank"
+                linkRel="noopener"
+                linkRootUrl="https://github.com/dataformsjs/dataformsjs/blob/master/"
+            />
         </>
     )
 }

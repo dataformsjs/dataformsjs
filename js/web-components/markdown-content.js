@@ -22,7 +22,15 @@
  *     *) Empty element with source set form JavaScript
  *        <markdown-content></markdown-content>
  *        document.querySelector('markdown-content').value = '# Hello World'
+ *     *) Additional Attributes:
+ *        link-target="_blank"
+ *        link-rel="noopener"
+ *        link-root-url="https..."
  *
+ * Example:
+ * @link https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-web.htm
+ *
+ * Libraries used by this Component:
  * @link https://github.com/markedjs/marked
  * @link https://github.com/markdown-it/markdown-it
  * @link https://github.com/markdown-it/markdown-it-emoji
@@ -32,7 +40,7 @@
  */
 
 /* Validates with both [eslint] and [jshint] */
-/* global hljs, marked, markdownit, markdownitEmoji, remarkable  */
+/* global hljs, marked, markdownit, markdownitEmoji, remarkable, DOMPurify  */
 /* eslint-env browser, es6 */
 /* eslint quotes: ["error", "single", { "avoidEscape": true }] */
 /* eslint spaced-comment: ["error", "always"] */
@@ -214,7 +222,6 @@ class MarkdownContent extends HTMLElement {
         // Nothing to show
         if (this.content === null) {
             this.innerHTML = '';
-            this.dispatchRendered();
             return;
         }
 
@@ -267,12 +274,42 @@ class MarkdownContent extends HTMLElement {
 
         // Set Content
         this.innerHTML = html;
+
+        // Update code blocks so they highlight with the
+        // correct theme if using [highlight.js].
         if (window.hljs !== undefined) {
             const codeBlocks = this.querySelectorAll('code[class*="language-"]');
             for (let code of codeBlocks) {
                 code.classList.add('hljs');
             }
         }
+
+        // Update all [a.target] and [a.rel] attributes if sepecified.
+        // Example: [link-target="_blank"] and [link-rel="noopener"]
+        const linkTarget = this.getAttribute('link-target');
+        const linkRel = this.getAttribute('link-rel');
+        if (linkTarget || linkRel) {
+            const links = this.querySelectorAll('a');
+            for (const link of links) {
+                link.target = (linkTarget ? linkTarget : link.target);
+                link.rel = (linkRel ? linkRel : link.rel);
+            }
+        }
+
+        // Update all local links if [link-root-urll] is specified.
+        // For example Github readme docs would often point to links in the local repository.
+        // This feature can be used to specify the root URL so that all links work correctly.
+        const rootUrl = this.getAttribute('link-root-url');
+        if (rootUrl) {
+            const links = this.querySelectorAll('a:not([href^="http:"]):not([href^="https:"])');
+            for (const link of links) {
+                const href = link.getAttribute('href');
+                link.setAttribute('data-original-href', href);
+                link.setAttribute('href', rootUrl + href);
+            }
+        }
+
+        // Run event to let app know content has been rendered
         this.dispatchRendered();
     }
 }

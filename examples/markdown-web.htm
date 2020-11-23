@@ -17,13 +17,34 @@
             </nav>
         </header>
 
-        <main id="view" class="container"></main>
+        <main id="view"></main>
+
+        <template id="loading-screen">
+            <div>Loading...</div>
+        </template>
 
         <url-router view-selector="#view">
             <url-route path="/" onload="showSelectedLibrary()">
                 <template>
                     <h1>DataFormsJS &lt;markdown-content&gt; Web Component<br> with [<span id="selected-library"></span>] Markdown Library</h1>
-                    <markdown-content url="https://raw.githubusercontent.com/dataformsjs/dataformsjs/master/README.md"></markdown-content>
+
+                    <!--
+                        To display markdown from a web service or site only [url] needs to be included:
+                            <markdown-content url="..."></markdown-content>
+
+                        The example below shows additional options to show a loading screen while
+                        content is being fetched and to update links after the markdown has been rendered.
+
+                        These attributes make it easy to show content that links to other sites correctly
+                        and for the current page not to be changed when the user clicks a link.
+                    -->
+                    <markdown-content
+                        url="https://raw.githubusercontent.com/dataformsjs/dataformsjs/master/README.md"
+                        loading-selector="#loading-screen"
+                        link-target="_blank"
+                        link-rel="noopener"
+                        link-root-url="https://github.com/dataformsjs/dataformsjs/blob/master/">
+                    </markdown-content>
                 </template>
             </url-route>
 
@@ -61,10 +82,10 @@
             DataFormsJS Web Components
             https://www.dataformsjs.com
         -->
-        <script type="module" src="../js/web-components/url-router.js"></script>
+        <!-- <script type="module" src="../js/web-components/url-router.js"></script>
         <script type="module" src="../js/web-components/spa-links.js"></script>
         <script type="module" src="../js/web-components/markdown-content.js"></script>
-        <script nomodule src="../js/web-components/polyfill.js"></script>
+        <script nomodule src="../js/web-components/polyfill.js"></script> -->
         <script>
             window.lazyLoad = {
                 json_data: { module: '../js/web-components/json-data.js' },
@@ -84,7 +105,7 @@
             }
         </script>
 
-        <!-- <script src="../js/web-components/polyfill.js"></script> -->
+        <script src="../js/web-components/polyfill.js"></script>
 
         <!--
             Pick a Markdown Library:
@@ -108,5 +129,17 @@
 
         <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dompurify@2.2.2/dist/purify.min.js"></script>
+
+        <!--
+            API that allows apps to handle <markdown-content> after the content has rendered.
+        -->
+        <script>
+            'use strict';
+            document.addEventListener('app:markdownRendered', function(e) {
+                console.log(e.target);
+                // const html = e.target.innerHTML;
+                // console.log('Rendered <markdown-content> [' + html.substr(0, 20) + '...] - Total Length: ' + html.length);
+            });
+        </script>
     </body>
 </html>

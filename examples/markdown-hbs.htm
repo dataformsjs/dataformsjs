@@ -17,11 +17,20 @@
             </nav>
         </header>
 
-        <main id="view" class="container"></main>
+        <main id="view"></main>
 
         <template data-route="/">
             <h1>DataFormsJS Framework &lt;markdown-content&gt; Control<br> with [<span id="selected-library"></span>] Markdown Library and Handlebars</h1>
-            <markdown-content data-url="https://raw.githubusercontent.com/dataformsjs/dataformsjs/master/README.md"></markdown-content>
+            <!--
+                For info on attributes below see the Vue demo.
+            -->
+            <markdown-content
+                data-url="https://raw.githubusercontent.com/dataformsjs/dataformsjs/master/README.md"
+                data-loading-selector="#loading-screen"
+                data-link-target="_blank"
+                data-link-rel="noopener"
+                data-link-root-url="https://github.com/dataformsjs/dataformsjs/blob/master/">
+            </markdown-content>
         </template>
 
         <script

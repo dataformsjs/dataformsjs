@@ -52,7 +52,7 @@ var Markdown = function (_React$Component) {
     _this._returnCode = false;
     _this.fetchContent = _this.fetchContent.bind(_assertThisInitialized(_this));
     _this.highlight = _this.highlight.bind(_assertThisInitialized(_this));
-    _this.updateCodeBlocks = _this.updateCodeBlocks.bind(_assertThisInitialized(_this));
+    _this.updateContent = _this.updateContent.bind(_assertThisInitialized(_this));
     _this.markdownEl = React.createRef();
     return _this;
   }
@@ -65,7 +65,7 @@ var Markdown = function (_React$Component) {
       if (this.props.url && this.state.content === null) {
         this.fetchContent();
       } else {
-        this.updateCodeBlocks();
+        this.updateContent();
       }
     }
   }, {
@@ -79,7 +79,7 @@ var Markdown = function (_React$Component) {
       if (this.props.url && prevProps.url !== this.props.url) {
         this.fetchContent();
       } else {
-        this.updateCodeBlocks();
+        this.updateContent();
       }
     }
   }, {
@@ -140,8 +140,8 @@ var Markdown = function (_React$Component) {
       return this._returnCode ? code : '';
     }
   }, {
-    key: "updateCodeBlocks",
-    value: function updateCodeBlocks() {
+    key: "updateContent",
+    value: function updateContent() {
       if (!this._isMounted || !this.markdownEl.current) {
         return;
       }
@@ -154,6 +154,29 @@ var Markdown = function (_React$Component) {
         for (var n = 0, m = codeBlocks.length; n < m; n++) {
           codeBlocks[n].classList.add('hljs');
         }
+      }
+
+      var linkTarget = this.props.linkTarget;
+      var linkRel = this.props.linkRel;
+
+      if (linkTarget || linkRel) {
+        var links = this.markdownEl.current.querySelectorAll('a');
+        Array.prototype.forEach.call(links, function (link) {
+          link.target = linkTarget ? linkTarget : link.target;
+          link.rel = linkRel ? linkRel : link.rel;
+        });
+      }
+
+      var rootUrl = this.props.linkRootUrl;
+
+      if (rootUrl) {
+        var _links = this.markdownEl.current.querySelectorAll('a:not([href^="http:"]):not([href^="https:"])');
+
+        Array.prototype.forEach.call(_links, function (link) {
+          var href = link.getAttribute('href');
+          link.setAttribute('data-original-href', href);
+          link.setAttribute('href', rootUrl + href);
+        });
       }
     }
   }, {
@@ -236,6 +259,12 @@ var Markdown = function (_React$Component) {
         html = md.render(this.state.content);
       } else {
         throw new Error('Error - Unable to show Markdown content because a Markdown JavaScript library was not found on the page.');
+      }
+
+      var DOMPurify = this.props.DOMPurify || window.DOMPurify;
+
+      if (DOMPurify !== undefined) {
+        html = DOMPurify.sanitize(html);
       }
 
       return React.createElement('div', {

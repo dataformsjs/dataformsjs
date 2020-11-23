@@ -237,13 +237,18 @@
                                 <li data-dir="${dir}" data-file="${file}">${file}</li>
                             </template>
 
-                            <markdown-content loading-selector="#loading-screen"></markdown-content>
-
                             <!--
-                                This works to load automatically on page start, however for
-                                this page JavaScript is used to `click()` the main element.
+                                The commented code below works to load automatically on page start, however
+                                for this page JavaScript `click()` is used to load the main document.
                             -->
                             <!-- <markdown-content url="doc?dir=&file=README.md"></markdown-content> -->
+
+                            <markdown-content
+                                loading-selector="#loading-screen"
+                                link-target="_blank"
+                                link-rel="noopener"
+                                link-root-url="https://github.com/dataformsjs/dataformsjs/blob/master/">
+                            </markdown-content>
                         </is-loaded>
                     </json-data>
                 </template>
@@ -322,12 +327,5 @@
             const mainLink = document.querySelector('ul.links.docs li[data-dir=""][data-file="README.md"]');
             mainLink.click();
         }
-
-        document.addEventListener('app:markdownRendered', function(e) {
-            const links = e.target.querySelectorAll('a:not([target])');
-            Array.prototype.forEach.call(links, function(link) {
-                link.target = '_blank';
-            });
-        });
     </script>
 </html>

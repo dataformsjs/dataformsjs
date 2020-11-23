@@ -13,7 +13,7 @@
  */
 
 /* Validates with both [jshint] and [eslint] */
-/* global hljs, marked, markdownit, markdownitEmoji, remarkable  */
+/* global hljs, marked, markdownit, markdownitEmoji, remarkable, DOMPurify  */
 /* global app */
 /* jshint strict: true */
 /* eslint-env browser */
@@ -62,6 +62,9 @@
             loadingSelector: null,
             showSource: false,
             errorMessage: null,
+            linkTarget: null,
+            linkRel: null,
+            linkRootUrl: null,
         },
 
         /**
@@ -183,7 +186,6 @@
             // Nothing to show
             if (this.content === null) {
                 element.innerHTML = '';
-                markdownContent.dispatchRendered(element);
                 return;
             }
 
@@ -244,17 +246,48 @@
                 html = DOMPurify.sanitize(html);
             }
 
-            // Set Content
+            // Set Content and add back <script type="text/markdown">
+            // if one was used for the source.
             element.innerHTML = html;
             if (sourceEl) {
                 element.appendChild(sourceEl);
             }
+
+            // Update code blocks so they highlight with the
+            // correct theme if using [highlight.js].
             if (window.hljs !== undefined) {
                 var codeBlocks = element.querySelectorAll('code[class*="language-"]');
                 Array.prototype.forEach.call(codeBlocks, function(code) {
                     code.classList.add('hljs');
                 });
             }
+
+            // Update all [a.target] and [a.rel] attributes if sepecified.
+            // Example: [data-link-target="_blank"] and [data-link-rel="noopener"]
+            var linkTarget = this.linkTarget;
+            var linkRel = this.linkRel;
+            if (linkTarget || linkRel) {
+                var links = element.querySelectorAll('a');
+                Array.prototype.forEach.call(links, function(link) {
+                    link.target = (linkTarget ? linkTarget : link.target);
+                    link.rel = (linkRel ? linkRel : link.rel);
+                });
+            }
+
+            // Update all local links if [data-link-root-urll] is specified.
+            // For example Github readme docs would often point to links in the local repository.
+            // This feature can be used to specify the root URL so that all links work correctly.
+            var rootUrl = this.linkRootUrl;
+            if (rootUrl) {
+                var localLinks = element.querySelectorAll('a:not([href^="http:"]):not([href^="https:"])');
+                Array.prototype.forEach.call(localLinks, function(link) {
+                    var href = link.getAttribute('href');
+                    link.setAttribute('data-original-href', href);
+                    link.setAttribute('href', rootUrl + href);
+                });
+            }
+
+            // Run event to let app know content has been rendered
             markdownContent.dispatchRendered(element);
         },
     };
