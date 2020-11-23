@@ -42,6 +42,7 @@ TODO List
             - So if [root-url="https://github.com/dataformsjs/dataformsjs/blob/master/"]
                 can be added then the link will work properly
         - After all updates point markdown files from [src="../] to CDN
+        - Add Markdown and related docs to Quick Ref Section
 
 **) Near future updates (November and December 2020)
     - Add Web Component API examples to quick ref section of the main site
