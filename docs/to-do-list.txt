@@ -23,10 +23,10 @@ TODO List
 --------------------------------------------------------------------------
 
 **) Active Development for next release (likely before the end of November 2020)
-    - Updates needed for all versions of <markdown-content> and React <Markdown>
-        - Optional Caching (in-memory similar to JsonData)
-        - After all updates point markdown files from [src="../] to CDN (after npm release)
-        
+    - After all updates point markdown files from [src="../] to CDN (after npm release)
+    - Improve readme based on this advice:
+        https://github.com/dataformsjs/dataformsjs/issues/17
+
 **) Near future updates for documentation (Likely to be completed by the of December 2020)
     - Add Markdown and related docs to Quick Ref Section
     - Add Web Component API examples to quick ref section of the main site

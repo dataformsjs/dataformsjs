@@ -32,6 +32,37 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+var markdownCache = [];
+var maxCacheSize = 100;
+
+function saveMarkdownToCache(url, content, errorMessage) {
+  if (markdownCache.length > maxCacheSize) {
+    markdownCache.length = 0;
+  }
+
+  for (var n = 0, m = markdownCache.length; n < m; n++) {
+    if (url === markdownCache[n].url) {
+      return;
+    }
+  }
+
+  markdownCache.push({
+    url: url,
+    content: content,
+    errorMessage: errorMessage
+  });
+}
+
+function getMarkdownFromCache(url) {
+  for (var n = 0, m = markdownCache.length; n < m; n++) {
+    if (url === markdownCache[n].url) {
+      return markdownCache[n];
+    }
+  }
+
+  return null;
+}
+
 var Markdown = function (_React$Component) {
   _inherits(Markdown, _React$Component);
 
@@ -43,8 +74,10 @@ var Markdown = function (_React$Component) {
     _classCallCheck(this, Markdown);
 
     _this = _super.call(this, props);
+    var hasContent = props !== undefined && typeof props.content === 'string';
     _this.state = {
-      content: typeof props.content !== 'string' ? null : props.content,
+      content: hasContent ? props.content : null,
+      html: hasContent ? _this.generateHtml(props.content) : null,
       errorMessage: null,
       isLoaded: false
     };
@@ -53,6 +86,7 @@ var Markdown = function (_React$Component) {
     _this.fetchContent = _this.fetchContent.bind(_assertThisInitialized(_this));
     _this.highlight = _this.highlight.bind(_assertThisInitialized(_this));
     _this.updateContent = _this.updateContent.bind(_assertThisInitialized(_this));
+    _this.generateHtml = _this.generateHtml.bind(_assertThisInitialized(_this));
     _this.markdownEl = React.createRef();
     return _this;
   }
@@ -87,6 +121,23 @@ var Markdown = function (_React$Component) {
     value: function fetchContent() {
       var _this2 = this;
 
+      if (this.props.loadOnlyOnce) {
+        var cache = getMarkdownFromCache(this.props.url);
+
+        if (cache) {
+          if (this._isMounted) {
+            this.setState({
+              content: cache.content,
+              html: this.generateHtml(cache.content),
+              errorMessage: cache.errorMessage,
+              isLoaded: true
+            });
+          }
+
+          return;
+        }
+      }
+
       fetch(this.props.url, this.props.fetchOptions).then(function (res) {
         var status = res.status;
 
@@ -99,14 +150,23 @@ var Markdown = function (_React$Component) {
       }).then(function (res) {
         return res.text();
       }).then(function (text) {
+        if (_this2.props.loadOnlyOnce) {
+          saveMarkdownToCache(_this2.props.url, text, null);
+        }
+
         if (_this2._isMounted) {
           _this2.setState({
             content: text,
+            html: _this2.generateHtml(text),
             errorMessage: null,
             isLoaded: true
           });
         }
       }).catch(function (error) {
+        if (_this2.props.loadOnlyOnce) {
+          saveMarkdownToCache(_this2.props.url, null, error);
+        }
+
         if (_this2._isMounted) {
           _this2.setState({
             errorMessage: error
@@ -180,6 +240,61 @@ var Markdown = function (_React$Component) {
       }
     }
   }, {
+    key: "generateHtml",
+    value: function generateHtml(content) {
+      var html;
+      var md;
+      this._returnCode = false;
+
+      if (this.props.marked || window.marked) {
+        this._returnCode = true;
+        var marked = this.props.marked || window.marked;
+        marked.setOptions({
+          highlight: this.highlight
+        });
+        html = marked(content);
+      } else if (this.props.markdownit || window.markdownit) {
+        var markdownit = this.props.markdownit || window.markdownit;
+        md = markdownit({
+          html: true,
+          linkify: true,
+          typographer: true,
+          highlight: this.highlight
+        });
+
+        if (this.props.markdownitEmoji || window.markdownitEmoji) {
+          var markdownitEmoji = this.props.markdownitEmoji || window.markdownitEmoji;
+          md.use(markdownitEmoji);
+        }
+
+        html = md.render(content);
+      } else if (this.props.Remarkable || window.remarkable) {
+        var Remarkable = this.props.Remarkable || window.remarkable.Remarkable;
+        md = new Remarkable({
+          html: true,
+          typographer: true,
+          highlight: this.highlight
+        });
+        var linkify = this.props.linkify || window.remarkable.linkify;
+
+        if (linkify) {
+          md.use(linkify);
+        }
+
+        html = md.render(content);
+      } else {
+        throw new Error('Error - Unable to show Markdown content because a Markdown JavaScript library was not found on the page.');
+      }
+
+      var DOMPurify = this.props.DOMPurify || window.DOMPurify;
+
+      if (DOMPurify !== undefined) {
+        html = DOMPurify.sanitize(html);
+      }
+
+      return html;
+    }
+  }, {
     key: "render",
     value: function render() {
       if (this.state.errorMessage) {
@@ -217,60 +332,10 @@ var Markdown = function (_React$Component) {
         }, React.createElement('pre', null, this.state.content));
       }
 
-      var html;
-      var md;
-      this._returnCode = false;
-
-      if (this.props.marked || window.marked) {
-        this._returnCode = true;
-        var marked = this.props.marked || window.marked;
-        marked.setOptions({
-          highlight: this.highlight
-        });
-        html = marked(this.state.content);
-      } else if (this.props.markdownit || window.markdownit) {
-        var markdownit = this.props.markdownit || window.markdownit;
-        md = markdownit({
-          html: true,
-          linkify: true,
-          typographer: true,
-          highlight: this.highlight
-        });
-
-        if (this.props.markdownitEmoji || window.markdownitEmoji) {
-          var markdownitEmoji = this.props.markdownitEmoji || window.markdownitEmoji;
-          md.use(markdownitEmoji);
-        }
-
-        html = md.render(this.state.content);
-      } else if (this.props.Remarkable || window.remarkable) {
-        var Remarkable = this.props.Remarkable || window.remarkable.Remarkable;
-        md = new Remarkable({
-          html: true,
-          typographer: true,
-          highlight: this.highlight
-        });
-        var linkify = this.props.linkify || window.remarkable.linkify;
-
-        if (linkify) {
-          md.use(linkify);
-        }
-
-        html = md.render(this.state.content);
-      } else {
-        throw new Error('Error - Unable to show Markdown content because a Markdown JavaScript library was not found on the page.');
-      }
-
-      var DOMPurify = this.props.DOMPurify || window.DOMPurify;
-
-      if (DOMPurify !== undefined) {
-        html = DOMPurify.sanitize(html);
-      }
-
       return React.createElement('div', {
         className: this.props.className,
         dangerouslySetInnerHTML: {
-          __html: html
+          __html: this.state.html
         },
         ref: this.markdownEl
       });

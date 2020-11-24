@@ -206,7 +206,7 @@
                 markdown_it, markdown_it_emoji
                 markdown_it_emoji
             -->
-            <url-route path="/docs" lazy-load="markdown, highlightCss, highlightJs, markdown_it, markdown_it_emoji">
+            <url-route path="/docs" lazy-load="markdown, highlightCss, highlightJs, marked">
                 <template>
                     <json-data url="docs" onready="setupDocLinks()">
                         <is-loading>
@@ -244,6 +244,7 @@
                             <!-- <markdown-content url="doc?dir=&file=README.md"></markdown-content> -->
 
                             <markdown-content
+                                load-only-once
                                 loading-selector="#loading-screen"
                                 link-target="_blank"
                                 link-rel="noopener"

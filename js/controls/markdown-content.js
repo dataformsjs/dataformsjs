@@ -49,6 +49,33 @@
     }
 
     /**
+     * Markdown Caching for when [load-only-once] is used.
+     */
+    var markdownCache = [];
+    var maxCacheSize = 100;
+
+    function saveMarkdownToCache(url, content, errorMessage) {
+        if (markdownCache.length > maxCacheSize) {
+            markdownCache.length = 0; // Clear array
+        }
+        for (var n = 0, m = markdownCache.length; n < m; n++) {
+            if (url === markdownCache[n].url) {
+                return; // Already saved
+            }
+        }
+        markdownCache.push({ url:url, content:content, errorMessage:errorMessage });
+    }
+
+    function getMarkdownFromCache(url) {
+        for (var n = 0, m = markdownCache.length; n < m; n++) {
+            if (url === markdownCache[n].url) {
+                return markdownCache[n];
+            }
+        }
+        return null;
+    }
+
+    /**
      * DataFormsJS <markdown-content> Control
      */
     var markdownContent = {
@@ -65,6 +92,7 @@
             linkTarget: null,
             linkRel: null,
             linkRootUrl: null,
+            loadOnlyOnce: false,
         },
 
         /**
@@ -148,6 +176,17 @@
         },
 
         fetch: function (element) {
+            // Option to load markdown from cache rather than fetching each time.
+            if (this.loadOnlyOnce) {
+                var cache = getMarkdownFromCache(this.url);
+                if (cache) {
+                    this.content = cache.content;
+                    this.errorMessage = cache.errorMessage;
+                    markdownContent.render.call(this, element);
+                    return;
+                }
+            }
+
             // Show loading screen
             if (this.loadingSelector) {
                 var loading = document.querySelector(this.loadingSelector);
@@ -172,6 +211,11 @@
                 var errorMessage = 'Error loading markdown content from [' + url + ']. Error: ' + error;
                 control.errorMessage = errorMessage;
                 markdownContent.render.call(control, element);
+            })
+            .finally(function() {
+                if (control.loadOnlyOnce) {
+                    saveMarkdownToCache(url, control.content, control.errorMessage);
+                }
             });
         },
 

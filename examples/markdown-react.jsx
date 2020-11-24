@@ -37,6 +37,7 @@ function HomePage() {
             <Markdown
                 url="https://raw.githubusercontent.com/dataformsjs/dataformsjs/master/README.md"
                 className="markdown-content"
+                loadOnlyOnce
                 isLoading={<ShowLoading />}
                 linkTarget="_blank"
                 linkRel="noopener"

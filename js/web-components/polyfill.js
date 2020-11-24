@@ -148,7 +148,7 @@
             }
         },
         markdownContent: function(element) {
-            updateElements.dataAttributes(element, ['url', 'show-source', 'loading-selector', 'link-target', 'link-rel', 'link-root-url']);
+            updateElements.dataAttributes(element, ['url', 'show-source', 'loading-selector', 'link-target', 'link-rel', 'link-root-url', 'load-only-once']);
         },
         navLinks: function() {
             // This assumes only one <nav is="spa-links"> exists on the page. If a site

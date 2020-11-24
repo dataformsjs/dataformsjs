@@ -61,7 +61,7 @@
  *
  * Popular and widely used React Markdown Component (requires node or webpack):
  * @link https://github.com/remarkjs/react-markdown
- * 
+ *
  * Example:
  * @link https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-react.htm
  * @link https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-react.jsx
@@ -86,11 +86,45 @@
 
 import React from 'react';
 
+/**
+ * Markdown Caching for when [load-only-once] is used.
+ *
+ * Content is cached in memory only while the user has the page open.
+ * To prevent the cache from taking up to much memory in the event of
+ * a bot clicking on every page, topic, etc in a site the cache will
+ * be reset if it reaches the max size.
+ */
+const markdownCache = [];
+const maxCacheSize = 100;
+
+function saveMarkdownToCache(url, content, errorMessage) {
+    if (markdownCache.length > maxCacheSize) {
+        markdownCache.length = 0; // Clear array
+    }
+    for (let n = 0, m = markdownCache.length; n < m; n++) {
+        if (url === markdownCache[n].url) {
+            return; // Already saved
+        }
+    }
+    markdownCache.push({ url, content, errorMessage });
+}
+
+function getMarkdownFromCache(url) {
+    for (let n = 0, m = markdownCache.length; n < m; n++) {
+        if (url === markdownCache[n].url) {
+            return markdownCache[n];
+        }
+    }
+    return null;
+}
+
 export default class Markdown extends React.Component {
     constructor(props) {
         super(props);
+        const hasContent = (props !== undefined && typeof props.content === 'string');
         this.state = {
-            content: (typeof props.content !== 'string' ? null : props.content),
+            content: (hasContent ? props.content : null),
+            html: (hasContent ? this.generateHtml(props.content) : null),
             errorMessage: null,
             isLoaded: false,
         };
@@ -99,6 +133,7 @@ export default class Markdown extends React.Component {
         this.fetchContent = this.fetchContent.bind(this);
         this.highlight = this.highlight.bind(this);
         this.updateContent = this.updateContent.bind(this);
+        this.generateHtml = this.generateHtml.bind(this);
         this.markdownEl = React.createRef();
     }
 
@@ -124,6 +159,25 @@ export default class Markdown extends React.Component {
     }
 
     fetchContent() {
+        // Option to load markdown from cache rather than fetching each time.
+        // Good for use with SPA's where content does not change often and the user
+        // might view same page serveral times.
+        if (this.props.loadOnlyOnce) {
+            const cache = getMarkdownFromCache(this.props.url);
+            if (cache) {
+                if (this._isMounted) {
+                    this.setState({
+                        content: cache.content,
+                        html: this.generateHtml(cache.content),
+                        errorMessage: cache.errorMessage,
+                        isLoaded: true,
+                    });
+                }
+                return;
+            }
+        }
+
+        // Download Content
         fetch(this.props.url, this.props.fetchOptions)
         .then(res => {
             const status = res.status;
@@ -136,15 +190,22 @@ export default class Markdown extends React.Component {
         })
         .then(res => { return res.text(); })
         .then(text => {
+            if (this.props.loadOnlyOnce) {
+                saveMarkdownToCache(this.props.url, text, null);
+            }
             if (this._isMounted) {
                 this.setState({
                     content: text,
+                    html: this.generateHtml(text),
                     errorMessage: null,
                     isLoaded: true,
                 });
             }
         })
         .catch(error => {
+            if (this.props.loadOnlyOnce) {
+                saveMarkdownToCache(this.props.url, null, error);
+            }
             if (this._isMounted) {
                 this.setState({ errorMessage: error });
             }
@@ -224,6 +285,58 @@ export default class Markdown extends React.Component {
         }
     }
 
+    generateHtml(content) {
+        // Render Markdown to HTML using one of 3 libraries.
+        // This is called outside of `render()` for improved performance
+        // on apps that trigger many calls to `render()`.
+        let html;
+        let md;
+        this._returnCode = false;
+        if (this.props.marked || window.marked) {
+            this._returnCode = true;
+            const marked = this.props.marked || window.marked;
+            marked.setOptions({
+                highlight: this.highlight
+            });
+            html = marked(content);
+        } else if (this.props.markdownit || window.markdownit) {
+            const markdownit = this.props.markdownit || window.markdownit;
+            md = markdownit({
+                html: true,
+                linkify: true,
+                typographer: true,
+                highlight: this.highlight
+            });
+            if (this.props.markdownitEmoji || window.markdownitEmoji) {
+                const markdownitEmoji = this.props.markdownitEmoji || window.markdownitEmoji;
+                md.use(markdownitEmoji);
+            }
+            html = md.render(content);
+        } else if (this.props.Remarkable || window.remarkable) {
+            const Remarkable = this.props.Remarkable || window.remarkable.Remarkable;
+            md = new Remarkable({
+                html: true,
+                typographer: true,
+                highlight: this.highlight
+            });
+            const linkify = (this.props.linkify || window.remarkable.linkify);
+            if (linkify) {
+                md.use(linkify);
+            }
+            html = (md).render(content);
+        } else {
+            throw new Error('Error - Unable to show Markdown content because a Markdown JavaScript library was not found on the page.');
+        }
+
+        // Clean/Sanitize the HTML for Security if DOMPurify is loaded
+        const DOMPurify = (this.props.DOMPurify || window.DOMPurify);
+        if (DOMPurify !== undefined) {
+            html = DOMPurify.sanitize(html);
+        }
+
+        return html;
+    }
+
     render() {
         // Error message (for example a failed fetch)
         if (this.state.errorMessage) {
@@ -272,56 +385,10 @@ export default class Markdown extends React.Component {
             );
         }
 
-        // Render Markdown to HTML using one of 3 libraries
-        let html;
-        let md;
-        this._returnCode = false;
-        if (this.props.marked || window.marked) {
-            this._returnCode = true;
-            const marked = this.props.marked || window.marked;
-            marked.setOptions({
-                highlight: this.highlight
-            });
-            html = marked(this.state.content);
-        } else if (this.props.markdownit || window.markdownit) {
-            const markdownit = this.props.markdownit || window.markdownit;
-            md = markdownit({
-                html: true,
-                linkify: true,
-                typographer: true,
-                highlight: this.highlight
-            });
-            if (this.props.markdownitEmoji || window.markdownitEmoji) {
-                const markdownitEmoji = this.props.markdownitEmoji || window.markdownitEmoji;
-                md.use(markdownitEmoji);
-            }
-            html = md.render(this.state.content);
-        } else if (this.props.Remarkable || window.remarkable) {
-            const Remarkable = this.props.Remarkable || window.remarkable.Remarkable;
-            md = new Remarkable({
-                html: true,
-                typographer: true,
-                highlight: this.highlight
-            });
-            const linkify = (this.props.linkify || window.remarkable.linkify);
-            if (linkify) {
-                md.use(linkify);
-            }
-            html = (md).render(this.state.content);
-        } else {
-            throw new Error('Error - Unable to show Markdown content because a Markdown JavaScript library was not found on the page.');
-        }
-
-        // Clean/Sanitize the HTML for Security if DOMPurify is loaded
-        const DOMPurify = (this.props.DOMPurify || window.DOMPurify);
-        if (DOMPurify !== undefined) {
-            html = DOMPurify.sanitize(html);
-        }
-
         // Return <div> with the rendered HTML
         return React.createElement('div', {
             className: this.props.className,
-            dangerouslySetInnerHTML: { __html: html },
+            dangerouslySetInnerHTML: { __html: this.state.html },
             ref: this.markdownEl,
         });
     }

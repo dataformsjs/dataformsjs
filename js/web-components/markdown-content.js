@@ -26,6 +26,7 @@
  *        link-target="_blank"
  *        link-rel="noopener"
  *        link-root-url="https..."
+ *        load-only-once
  *
  * Example:
  * @link https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-web.htm
@@ -48,6 +49,38 @@
 /* jshint esversion:8 */
 
 import { showError } from './utils.js';
+
+/**
+ * Markdown Caching for when [load-only-once] is used.
+ *
+ * Content is cached in memory only while the user has the page open.
+ * To prevent the cache from taking up to much memory in the event of
+ * a bot clicking on every page, topic, etc in a site the cache will
+ * be reset if it reaches the max size.
+ */
+const markdownCache = [];
+const maxCacheSize = 100;
+
+function saveMarkdownToCache(url, content, errorMessage) {
+    if (markdownCache.length > maxCacheSize) {
+        markdownCache.length = 0; // Clear array
+    }
+    for (let n = 0, m = markdownCache.length; n < m; n++) {
+        if (url === markdownCache[n].url) {
+            return; // Already saved
+        }
+    }
+    markdownCache.push({ url, content, errorMessage });
+}
+
+function getMarkdownFromCache(url) {
+    for (let n = 0, m = markdownCache.length; n < m; n++) {
+        if (url === markdownCache[n].url) {
+            return markdownCache[n];
+        }
+    }
+    return null;
+}
 
 /**
  * Shadow DOM for Custom Elements
@@ -155,6 +188,19 @@ class MarkdownContent extends HTMLElement {
         }
     }
 
+    get loadOnlyOnce() {
+        return this.hasAttribute('load-only-once');
+    }
+
+    set loadOnlyOnce(newValue) {
+        if (newValue) {
+            this.setAttribute('load-only-once', '');
+        } else {
+            this.removeAttribute('load-only-once');
+        }
+    }
+
+
     get value() {
         return this.content;
     }
@@ -170,6 +216,19 @@ class MarkdownContent extends HTMLElement {
             showError(this, 'Error - Unable to show Markdown content because [url] is not set.');
             this.dispatchRendered();
             return;
+        }
+
+        // Option to load markdown from cache rather than fetching each time.
+        // Good for use with SPA's where content does not change often and the user
+        // might view same page serveral times.
+        if (this.loadOnlyOnce) {
+            const cache = getMarkdownFromCache(url);
+            if (cache) {
+                this.content = cache.content;
+                this.errorMessage = cache.errorMessage;
+                this.render();
+                return;
+            }
         }
 
         // Show loading screen
@@ -204,6 +263,11 @@ class MarkdownContent extends HTMLElement {
         .catch(error => {
             this.errorMessage = error;
             this.render();
+        })
+        .finally(() => {
+            if (this.loadOnlyOnce) {
+                saveMarkdownToCache(url, this.content, this.errorMessage);
+            }
         });
     }
 

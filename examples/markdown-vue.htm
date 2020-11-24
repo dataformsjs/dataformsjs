@@ -25,7 +25,6 @@
 
         <template data-route="/">
             <h1>DataFormsJS Framework &lt;markdown-content&gt; Control<br> with [<span id="selected-library"></span>] Markdown Library and Vue</h1>
-            <markdown-content data-url="https://raw.githubusercontent.com/dataformsjs/dataformsjs/master/README.md"></markdown-content>
 
             <!--
                 To display markdown from a web service or site only [data-url] needs to be included:
@@ -39,6 +38,7 @@
             -->
             <markdown-content
                 data-url="https://raw.githubusercontent.com/dataformsjs/dataformsjs/master/README.md"
+                data-load-only-once
                 data-loading-selector="#loading-screen"
                 data-link-target="_blank"
                 data-link-rel="noopener"

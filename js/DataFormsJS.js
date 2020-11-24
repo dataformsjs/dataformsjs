@@ -2211,7 +2211,7 @@
          * only need to be called manually if custom page logic adds new
          * HTML controls to a page.
          *
-         * @param {HTMLElement} element
+         * @param {HTMLElement|object} element
          * @param {object|undefined} model   Uses [app.activeModel] if undefined
          */
         loadJsControl: function (element, model) {
@@ -2237,6 +2237,12 @@
                 } else {
                     element = existingControl.element;
                 }
+            } else if (element.hasAttribute('data-control-loaded')) {
+                // If a control has already been loaded then app logic called this
+                // using the element so find and use the existing control.
+                existingControl = app.activeJsControls.find(function(control) {
+                    return (control.element === element);
+                });
             }
 
             // Get control from element tag name and then assign it to the [data-control] attribute
