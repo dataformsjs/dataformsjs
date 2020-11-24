@@ -221,6 +221,52 @@ This example uses React with the `jsxLoader.min.js` script for converting JSX to
 </html>
 ```
 
+When working with node or webpack you will typically import Libraries using an `import` statement:
+
+```js
+// Use React Hooks
+import React, { useState, useReducer } from 'react';
+
+// Use React Router
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  NavLink
+} from "react-router-dom";
+
+// Use Redux
+import { createStore } from 'redux'
+import { Provider, connect } from 'react-redux';
+```
+
+When working with the `jsxLoader` and compiling JSX directly in a browser the recommend method for importing is to simply reference the global classes or functions of the libraries that you need for your app:
+
+```js
+// Use React Hooks
+const useState = React.useState;
+const useReducer = React.useReducer;
+
+// Use React Router
+const Router = ReactRouterDOM.HashRouter;
+const Route = ReactRouterDOM.Route;
+const NavLink = ReactRouterDOM.NavLink;
+const Link = ReactRouterDOM.Link;
+
+// Use Redux
+const Provider = ReactRedux.Provider;
+const connect = ReactRedux.connect;
+const createStore = Redux.createStore;
+```
+
+Many examples exist for popular React Libraries using `jsxLoader` at the following site:
+
+https://awesome-web-react.js.org/
+
+<p align="center">
+	<a href="https://awesome-web-react.js.org/"><img width="312" height="350" src="https://raw.githubusercontent.com/dataformsjs/awesome-web-react/master/img/awesome-web-react.svg" alt="Awesome Web React"></a>
+</p>
+
 This example uses DataFormsJS Web Components. Web Components are well defined standard and provide for functionally similar to JavaScript Frameworks while using less JavaScript code.
 
 ```html
