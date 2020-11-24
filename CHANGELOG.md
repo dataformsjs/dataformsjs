@@ -20,11 +20,17 @@ Overall the core Framework files and API are expected to remain stable however t
   * Performance update for React Component so that Markdown is rendered to HTML outside of the React Component `render()` function.
   * Added ability to optionally cache up to 100 markdown fetched downloads in memory if using related HTML Attributes or Component Props. The component can easily be customized to allow a larger number or fewer items.
   * See code examples for full details, more detailed documentation will be published in the near future.
-    * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-react.htm
-    * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-react.jsx
-    * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-web.htm
-    * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-vue.htm
-    * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-hbs.htm
+    * Source:
+      * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-react.htm
+      * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-react.jsx
+      * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-web.htm
+      * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-vue.htm
+      * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-hbs.htm
+    * Online Examples:
+      * https://www.dataformsjs.com/examples/markdown-react.htm#/
+      * https://www.dataformsjs.com/examples/markdown-web.htm
+      * https://www.dataformsjs.com/examples/markdown-vue.htm
+      * https://www.dataformsjs.com/examples/markdown-hbs.htm
 * Memory and API improvements for the DataFormsJS Framework core function so if `app.loadJsControl(element)` is called and the control is already loaded on screen it will be re-used rather than have multiple references in memory. Use of the specific API was not needed in the past outside of internal Framework calls however with the new Web Components Polyfill it now has practical use for apps.
 
 ## 5.2.0 (November 23, 2020)
@@ -223,7 +229,7 @@ Overall the core Framework files and API are expected to remain stable however t
 
 For the standard Framework most breaking changes are minor and only expected to affect internal API's and examples. Several Framework "JavaScript Controls" were updated to match behavior of the Web Components in order to provide more features and so they can be used with the new Web Components Polyfill. If you developed a site or app with any of the breaking changes they are quick to update and if you need help please open an issue.
 
-For React Components one component `LeafletMap` and one class `I18n` that would not be commonly used in most apps have been droped from the core ES5 build file `js/react/es5/DataFormsJS.js`. However new options exist so they (along with all other components and classes) have improved options for loading.
+For React Components one component `LeafletMap` and one class `I18n` that would not be commonly used in most apps have been dropped from the core ES5 build file `js/react/es5/DataFormsJS.js`. However new options exist so they (along with all other components and classes) have improved options for loading.
 ~~~html
 <!-- Previous Release included [I18n, LeafletMap] and was ES5 sytnax only for CDN -->
 <script src="../js/react/es5/DataFormsJS.min.js"></script>
