@@ -6,6 +6,14 @@ is-loaded:not(:defined) { display:none; }
 
 h1 { padding-bottom: 1em; }
 
+section.description {
+    text-align: left;
+    max-width: 800px;
+    line-height: 1.4em;
+    margin: auto;
+}
+section.description p { margin:1em; }
+
 markdown-content,
 .markdown-content {
     padding:2em;
@@ -53,3 +61,6 @@ markdown-content code:not([class*="language-"]),
     border-radius: 0.5em;
 }
 
+.hljs {
+    font-size: 15px;
+}

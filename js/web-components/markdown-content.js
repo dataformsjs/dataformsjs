@@ -9,8 +9,8 @@
  * on the page it will be used for Syntax Highlighting and if [DOMPurify] is included
  * the rendered HTML will be sanitized for security.
  *
- * Options are preset, however this Web Component is small in size and easy to modify
- * if you have a site with different markdown needs.
+ * Options are preset, however this Web Component is small in size using simple logic
+ * so and designed to be easy to modify if you have a site with different markdown needs.
  *
  * Example usage:
  *     *) Load Markdown from URL
@@ -27,6 +27,7 @@
  *        link-rel="noopener"
  *        link-root-url="https..."
  *        load-only-once
+ *        use-root-url="false"
  *
  * Example:
  * @link https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-web.htm
@@ -348,7 +349,7 @@ class MarkdownContent extends HTMLElement {
             }
         }
 
-        // Update all [a.target] and [a.rel] attributes if sepecified.
+        // Update all [a.target] and [a.rel] attributes if specified.
         // Example: [link-target="_blank"] and [link-rel="noopener"]
         const linkTarget = this.getAttribute('link-target');
         const linkRel = this.getAttribute('link-rel');
@@ -360,16 +361,38 @@ class MarkdownContent extends HTMLElement {
             }
         }
 
-        // Update all local links if [link-root-urll] is specified.
-        // For example Github readme docs would often point to links in the local repository.
-        // This feature can be used to specify the root URL so that all links work correctly.
-        const rootUrl = this.getAttribute('link-root-url');
-        if (rootUrl) {
-            const links = this.querySelectorAll('a:not([href^="http:"]):not([href^="https:"])');
-            for (const link of links) {
-                const href = link.getAttribute('href');
-                link.setAttribute('data-original-href', href);
-                link.setAttribute('href', rootUrl + href);
+        // Handle relative links and images by default
+        const useRootUrl = this.getAttribute('use-root-url');
+        if (useRootUrl !== 'false') {
+            // Get the root URL of the document if using URL
+            const url = this.url;
+            let rootUrl;
+            if (url) {
+                const parts = url.split('/');
+                rootUrl = url.substr(0, url.length - parts[parts.length - 1].length);
+            }
+
+            // Update all local links if [link-root-url] is specified or if [url] is used.
+            // For example Github readme docs would often point to links in the local repository.
+            // This feature can be used to specify the root URL so that all links work correctly,
+            // and link to the main source display page and not raw content.
+            let linkRootUrl = this.getAttribute('link-root-url');
+            linkRootUrl = (linkRootUrl ? linkRootUrl : rootUrl);
+            if (linkRootUrl) {
+                const links = this.querySelectorAll('a:not([href^="http:"]):not([href^="https:"])');
+                for (const link of links) {
+                    const href = link.getAttribute('href');
+                    link.setAttribute('data-original-href', href);
+                    link.setAttribute('href', linkRootUrl + href);
+                }
+            }
+
+            // Update Images that use a relative URL based on the document
+            const images = this.querySelectorAll('img:not([src^="http:"]):not([src^="https:"])');
+            for (const img of images) {
+                const src = img.getAttribute('src');
+                img.setAttribute('data-original-src', src);
+                img.setAttribute('src', rootUrl + src);
             }
         }
 

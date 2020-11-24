@@ -93,6 +93,7 @@
             linkRel: null,
             linkRootUrl: null,
             loadOnlyOnce: false,
+            useRootUrl: true,
         },
 
         /**
@@ -306,7 +307,7 @@
                 });
             }
 
-            // Update all [a.target] and [a.rel] attributes if sepecified.
+            // Update all [a.target] and [a.rel] attributes if specified.
             // Example: [data-link-target="_blank"] and [data-link-rel="noopener"]
             var linkTarget = this.linkTarget;
             var linkRel = this.linkRel;
@@ -318,16 +319,37 @@
                 });
             }
 
-            // Update all local links if [data-link-root-urll] is specified.
-            // For example Github readme docs would often point to links in the local repository.
-            // This feature can be used to specify the root URL so that all links work correctly.
-            var rootUrl = this.linkRootUrl;
-            if (rootUrl) {
-                var localLinks = element.querySelectorAll('a:not([href^="http:"]):not([href^="https:"])');
-                Array.prototype.forEach.call(localLinks, function(link) {
-                    var href = link.getAttribute('href');
-                    link.setAttribute('data-original-href', href);
-                    link.setAttribute('href', rootUrl + href);
+            // Handle relative links and images by default
+            if (this.useRootUrl !== false) {
+                // Get the root URL of the document if using URL
+                var url = this.url;
+                var rootUrl;
+                if (url) {
+                    var parts = url.split('/');
+                    rootUrl = url.substr(0, url.length - parts[parts.length - 1].length);
+                }
+
+                // Update all local links if [data-link-root-url] is specified.
+                // For example Github readme docs would often point to links in the local repository.
+                // This feature can be used to specify the root URL so that all links work correctly,
+                // and link to the main source display page and not raw content.
+                var linkRootUrl = this.linkRootUrl;
+                linkRootUrl = (linkRootUrl ? linkRootUrl : rootUrl);
+                if (linkRootUrl) {
+                    var localLinks = element.querySelectorAll('a:not([href^="http:"]):not([href^="https:"])');
+                    Array.prototype.forEach.call(localLinks, function(link) {
+                        var href = link.getAttribute('href');
+                        link.setAttribute('data-original-href', href);
+                        link.setAttribute('href', linkRootUrl + href);
+                    });
+                }
+
+                // Update Images that use a relative URL based on the document
+                var images = element.querySelectorAll('img:not([src^="http:"]):not([src^="https:"])');
+                Array.prototype.forEach.call(images, function(img) {
+                    var src = img.getAttribute('src');
+                    img.setAttribute('data-original-src', src);
+                    img.setAttribute('src', rootUrl + src);
                 });
             }
 

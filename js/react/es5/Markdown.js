@@ -227,15 +227,33 @@ var Markdown = function (_React$Component) {
         });
       }
 
-      var rootUrl = this.props.linkRootUrl;
+      if (this.props.useRootUrl !== false) {
+        var url = this.props.url;
+        var rootUrl;
 
-      if (rootUrl) {
-        var _links = this.markdownEl.current.querySelectorAll('a:not([href^="http:"]):not([href^="https:"])');
+        if (url) {
+          var parts = url.split('/');
+          rootUrl = url.substr(0, url.length - parts[parts.length - 1].length);
+        }
 
-        Array.prototype.forEach.call(_links, function (link) {
-          var href = link.getAttribute('href');
-          link.setAttribute('data-original-href', href);
-          link.setAttribute('href', rootUrl + href);
+        var linkRootUrl = this.props.linkRootUrl;
+        linkRootUrl = linkRootUrl ? linkRootUrl : rootUrl;
+
+        if (linkRootUrl) {
+          var _links = this.markdownEl.current.querySelectorAll('a:not([href^="http:"]):not([href^="https:"])');
+
+          Array.prototype.forEach.call(_links, function (link) {
+            var href = link.getAttribute('href');
+            link.setAttribute('data-original-href', href);
+            link.setAttribute('href', linkRootUrl + href);
+          });
+        }
+
+        var images = this.markdownEl.current.querySelectorAll('img:not([src^="http:"]):not([src^="https:"])');
+        Array.prototype.forEach.call(images, function (img) {
+          var src = img.getAttribute('src');
+          img.setAttribute('data-original-src', src);
+          img.setAttribute('src', rootUrl + src);
         });
       }
     }

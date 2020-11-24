@@ -47,6 +47,27 @@ function HomePage() {
     )
 }
 
+{/*
+    To see the image error add the prop:
+        useRootUrl={false}
+    To <Markdown>
+*/}
+function LocalPage() {
+    return (
+        <>
+            <section className="description">
+                <p>By default unless [useRootUrl=false] is used content that points to relative URL's will automatically be handled based on the path of the Markdown Document.</p>
+                <p><a href="https://github.com/mark-anders/relative-image-url" target="_blank" rel="noopener">https://github.com/mark-anders/relative-image-url</a></p>
+            </section>
+            <Markdown
+                url="https://raw.githubusercontent.com/mark-anders/relative-image-url/master/README.md"
+                className="markdown-content"
+                loadOnlyOnce
+                isLoading={<ShowLoading />} />
+        </>
+    )
+}
+
 function DataPage() {
     return (
         <JsonData
@@ -79,12 +100,14 @@ function App() {
                 <header>
                     <nav>
                         <NavLink exact to="/">Home</NavLink>
+                        <NavLink exact to="/local">Local Content</NavLink>
                         <NavLink to="/data">Markdown using Content</NavLink>
                         <NavLink to="/404-content">Markdown Fetch Error</NavLink>
                     </nav>
                 </header>
                 <main id="view">
                     <Route exact path="/" component={HomePage} />
+                    <Route exact path="/local" component={LocalPage} />
                     <Route exact path="/data" component={DataPage} />
                     <Route exact path="/404-content" component={ErrorPage} />
                 </main>

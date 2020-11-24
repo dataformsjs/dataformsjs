@@ -37,6 +37,7 @@
  *   linkTarget="_blank"
  *   linkRel="noopener"
  *   linkRootUrl="https..."
+ *   useRootUrl={false}
  *
  *   # When using from [create-react-app] or [webpack] the markdown library and optional
  *   # [highlight.js, dompurify] needs to be passed to the Component:
@@ -260,7 +261,7 @@ export default class Markdown extends React.Component {
             }
         }
 
-        // Update all [a.target] and [a.rel] attributes if sepecified
+        // Update all [a.target] and [a.rel] attributes if specified
         const linkTarget = this.props.linkTarget;
         const linkRel = this.props.linkRel;
         if (linkTarget || linkRel) {
@@ -271,16 +272,37 @@ export default class Markdown extends React.Component {
             });
         }
 
-        // Update all local links if specified.
-        // For example Github readme docs would often point to links in the local repository.
-        // This feature can be used to specify the root URL so that all links work correctly.
-        const rootUrl = this.props.linkRootUrl;
-        if (rootUrl) {
-            const links = this.markdownEl.current.querySelectorAll('a:not([href^="http:"]):not([href^="https:"])');
-            Array.prototype.forEach.call(links, function(link) {
-                const href = link.getAttribute('href');
-                link.setAttribute('data-original-href', href);
-                link.setAttribute('href', rootUrl + href);
+        // Handle relative links and images by default
+        if (this.props.useRootUrl !== false) {
+            // Get the root URL of the document if using URL
+            const url = this.props.url;
+            let rootUrl;
+            if (url) {
+                const parts = url.split('/');
+                rootUrl = url.substr(0, url.length - parts[parts.length - 1].length);
+            }
+
+            // Update all local links if specified.
+            // For example Github readme docs would often point to links in the local repository.
+            // This feature can be used to specify the root URL so that all links work correctly,
+            // and link to the main source display page and not raw content.
+            let linkRootUrl = this.props.linkRootUrl;
+            linkRootUrl = (linkRootUrl ? linkRootUrl : rootUrl);
+            if (linkRootUrl) {
+                const links = this.markdownEl.current.querySelectorAll('a:not([href^="http:"]):not([href^="https:"])');
+                Array.prototype.forEach.call(links, function(link) {
+                    const href = link.getAttribute('href');
+                    link.setAttribute('data-original-href', href);
+                    link.setAttribute('href', linkRootUrl + href);
+                });
+            }
+
+            // Update Images that use a relative URL based on the document
+            const images = this.markdownEl.current.querySelectorAll('img:not([src^="http:"]):not([src^="https:"])');
+            Array.prototype.forEach.call(images, function(img) {
+                const src = img.getAttribute('src');
+                img.setAttribute('data-original-src', src);
+                img.setAttribute('src', rootUrl + src);
             });
         }
     }

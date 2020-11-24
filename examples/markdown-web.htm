@@ -12,6 +12,7 @@
         <header>
             <nav is="spa-links">
                 <a href="#/">Home</a>
+                <a href="#/local">Local Content</a>
                 <a href="#/data">Markdown using Data Binding</a>
                 <a href="#/404-content">Markdown Fetch Error</a>
             </nav>
@@ -37,6 +38,9 @@
 
                         These attributes make it easy to show content that links to other sites correctly
                         and for the current page not to be changed when the user clicks a link.
+
+                        By default if [link-root-url] is not used the local links would update based
+                        on the path of the main [url] attribute.
                     -->
                     <markdown-content
                         url="https://raw.githubusercontent.com/dataformsjs/dataformsjs/master/README.md"
@@ -45,6 +49,25 @@
                         link-target="_blank"
                         link-rel="noopener"
                         link-root-url="https://github.com/dataformsjs/dataformsjs/blob/master/">
+                    </markdown-content>
+                </template>
+            </url-route>
+
+            <url-route path="/local">
+                <template>
+                    <section class="description">
+                        <p>By default unless [use-root-url="false"] is used content that points to relative URL's will automatically be handled based on the path of the Markdown Document.</p>
+                        <p><a href="https://github.com/mark-anders/relative-image-url" target="_blank" rel="noopener">https://github.com/mark-anders/relative-image-url</a></p>
+                    </section>
+
+                    <!--
+                        To see an image error add:
+                            use-root-url="false"
+                    -->
+                    <markdown-content
+                        url="https://raw.githubusercontent.com/mark-anders/relative-image-url/master/README.md"
+                        load-only-once
+                        loading-selector="#loading-screen">
                     </markdown-content>
                 </template>
             </url-route>
@@ -83,10 +106,13 @@
             DataFormsJS Web Components
             https://www.dataformsjs.com
         -->
-        <!-- <script type="module" src="../js/web-components/url-router.js"></script>
+        <script type="module" src="../js/web-components/url-router.js"></script>
         <script type="module" src="../js/web-components/spa-links.js"></script>
         <script type="module" src="../js/web-components/markdown-content.js"></script>
-        <script nomodule src="../js/web-components/polyfill.js"></script> -->
+        <script nomodule src="../js/web-components/polyfill.js"></script>
+
+        <!-- <script src="../js/web-components/polyfill.js"></script> -->
+
         <script>
             window.lazyLoad = {
                 json_data: { module: '../js/web-components/json-data.js' },
@@ -105,8 +131,6 @@
                 document.getElementById('selected-library').textContent = library;
             }
         </script>
-
-        <script src="../js/web-components/polyfill.js"></script>
 
         <!--
             Pick a Markdown Library:
@@ -137,7 +161,11 @@
         <script>
             'use strict';
             document.addEventListener('app:markdownRendered', function(e) {
-                console.log(e.target);
+                // The event 'app:markdownRendered' gets called once markdown is rendered or after an
+                // error from fetch. Uncomment code below to see how it works.
+
+                // console.log(e.target);
+
                 // const html = e.target.innerHTML;
                 // console.log('Rendered <markdown-content> [' + html.substr(0, 20) + '...] - Total Length: ' + html.length);
             });

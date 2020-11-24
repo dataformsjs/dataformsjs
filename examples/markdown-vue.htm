@@ -12,6 +12,7 @@
         <header>
             <nav is="spa-links">
                 <a href="#/">Home</a>
+                <a href="#/local">Local Content</a>
                 <a href="#/data">Markdown using Data Binding</a>
                 <a href="#/404-content">Markdown Fetch Error</a>
             </nav>
@@ -43,6 +44,23 @@
                 data-link-target="_blank"
                 data-link-rel="noopener"
                 data-link-root-url="https://github.com/dataformsjs/dataformsjs/blob/master/">
+            </markdown-content>
+        </template>
+
+        <template data-route="/local">
+            <section class="description">
+                <p>By default unless [data-use-root-url="false"] is used content that points to relative URL's will automatically be handled based on the path of the Markdown Document.</p>
+                <p><a href="https://github.com/mark-anders/relative-image-url" target="_blank" rel="noopener">https://github.com/mark-anders/relative-image-url</a></p>
+            </section>
+
+            <!--
+                To see an image error add:
+                    data-use-root-url="false"
+            -->
+            <markdown-content
+                data-url="https://raw.githubusercontent.com/mark-anders/relative-image-url/master/README.md"
+                data-load-only-once
+                data-loading-selector="#loading-screen">
             </markdown-content>
         </template>
 

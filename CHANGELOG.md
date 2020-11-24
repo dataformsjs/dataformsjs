@@ -13,15 +13,16 @@ Overall the core Framework files and API are expected to remain stable however t
     * React Component `<Markdown>`
   * Added option to sanitize the HTML for security if DOMPurify is loaded: https://github.com/cure53/DOMPurify
   * Added new attributes and props that allow links to be updated after the content has rendered. These attributes make it easy to show content that links to other sites correctly and for the current page not to be changed when the user clicks a link.
+  * Added default option that updates relative links and images based on the path of the Markdown Document. The option can be turned off through HTML Attributes or a React Prop.
   * Performance update for React Component so that Markdown is rendered to HTML outside of the React Component `render()` function.
-  * Added ability to optionally cache up to 100 markdown fetched downloads in memory if using related HTML Attributes or Component Props.
+  * Added ability to optionally cache up to 100 markdown fetched downloads in memory if using related HTML Attributes or Component Props. The component can easily be customized to allow a larger number or fewer items.
   * See code examples for full details, more detailed documentation will be published in the near future.
     * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-react.htm
     * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-react.jsx
     * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-web.htm
     * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-vue.htm
     * https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-hbs.htm
-* Memory and API improvements for the DataFormsJS Framework core function so if `app.loadJsControl(element)` is called and the control is aleady loaded on screen it will be re-used rather than have mulitple references in memory. Use of the specific API was not needed in the past however with the new Web Components Polyfill it now has practical use.
+* Memory and API improvements for the DataFormsJS Framework core function so if `app.loadJsControl(element)` is called and the control is already loaded on screen it will be re-used rather than have multiple references in memory. Use of the specific API was not needed in the past outside of internal Framework calls however with the new Web Components Polyfill it now has practical use for apps.
 
 ## 5.2.0 (November 23, 2020)
 

@@ -22,12 +22,7 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Active Development for next release (likely before the end of November 2020)
-    - After all updates point markdown files from [src="../] to CDN (after npm release)
-    - Improve readme based on this advice:
-        https://github.com/dataformsjs/dataformsjs/issues/17
-
-**) Near future updates for documentation (Likely to be completed by the of December 2020)
+**) Near future updates for documentation (Planned for December 2020 or early 2021)
     - Add Markdown and related docs to Quick Ref Section
     - Add Web Component API examples to quick ref section of the main site
         'app:contentReady', etc
