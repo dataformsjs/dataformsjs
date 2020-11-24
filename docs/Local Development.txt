@@ -14,21 +14,26 @@ and also when running a local build of the main site [Website\index.php]
     Replace the root dir all JS/JSX CDN Links with "../js/"
 
     Example Before:
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.2.0/js/DataFormsJS.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.3.0/js/DataFormsJS.min.js"></script>
     After:
         <script type="text/babel" src="../js/DataFormsJS.min.js"></script>
 
     This applies to the import statements on Web Component HTML examples as well:
     Before:
-        import { componentsAreSetup } from 'https://cdn.jsdelivr.net/npm/dataformsjs@5.2.0/js/web-components/utils.min.js';
+        import { componentsAreSetup } from 'https://cdn.jsdelivr.net/npm/dataformsjs@5.3.0/js/web-components/utils.min.js';
     After:
         import { componentsAreSetup } from '../js/web-components/utils.min.js';
-            
+
     For Hello World examples under [DataFormsJS\examples\hello-world]
 
     Go up to levels to the root folder:
     <script src="../../js/DataFormsJS.js"></script>
 
+    Also for testing the Web Component Polyfill in Modern Browsers use:
+        <script src="../js/web-components/polyfill.js"></script>
+    In general a combination of [module="type"] and [nomodule] is used to handle
+    different browsers, however the [polyfill.js] runs in all browsers and is easiest
+    to develop with modern browsers.
 
 *) Vendor Directory - If using Vue, React, Handlebars, etc locally then create a [DataFormsJS\vendor] Directory
    and place vendor scripts directly in it. Then in the examples update relevant code:
