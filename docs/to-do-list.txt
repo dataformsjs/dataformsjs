@@ -23,6 +23,13 @@ TODO List
 --------------------------------------------------------------------------
 
 **) Near future updates for documentation (Planned for December 2020 or early 2021)
+    - Web Component <input is="input-filter"> runs too soon on slow web
+        services. It only waits one second in the function `setupFilter()`
+        - Likely make an update so it checks for a parent <json-data>
+            and then waits while `jsonDataEl.isLoading === true`.
+        - Related code to testing from Dev Tools:
+            document.querySelector('json-data').isLoading
+            document.querySelector('input[is="input-filter"]').filter()
     - Add Markdown and related docs to Quick Ref Section
     - Add Web Component API examples to quick ref section of the main site
         'app:contentReady', etc
