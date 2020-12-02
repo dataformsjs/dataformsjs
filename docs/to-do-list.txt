@@ -22,7 +22,7 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Near future updates for documentation (Planned for December 2020 or early 2021)
+**) Updates planned for early December 2020
     - Web Component <input is="input-filter"> runs too soon on slow web
         services. It only waits one second in the function `setupFilter()`
         - Likely make an update so it checks for a parent <json-data>
@@ -30,17 +30,76 @@ TODO List
         - Related code to testing from Dev Tools:
             document.querySelector('json-data').isLoading
             document.querySelector('input[is="input-filter"]').filter()
+    - Framework Markdown Control needs the following code for compatibility with
+        the Web Components API:
+
+        if (Object.getOwnPropertyDescriptor(output, 'value') === undefined) {
+            Object.defineProperty(output, 'value', {
+                get: function() {
+                    return this.getAttribute('data-content');
+                },
+                set: function(newValue) {
+                    var existingValue = this.value;
+                    if (existingValue !== newValue) {
+                        if (newValue === '') {
+                            this.removeAttribute('data-content');
+                        } else {
+                            this.setAttribute('data-content', newValue);
+                        }
+                        app.loadJsControl(this);
+                    }
+                }
+            });
+        }
+    - Consider adding similar code for other Framework Controls <data-list>, etc
+        to fully match common API of the Web Components Version.
+        - Example:
+            var dataList = document.querySelector('data-list');
+            dataList.value = calculator.results;
+            dataList.renderList();
+        - For <data-list>, <data-table>, and <data-value> the `value` property
+            would likely have to set internal [data-bind] with a random property
+            to the `app.activeModel`. Might not be worth the effort though.
+
+**) Combine Main Server and AI/ML Server into one.
+    - Servers:
+        https://www.dataformsjs.com/
+        https://ai-ml.dataformsjs.com/
+    - This site doesn't get enough traffic to need separate servers
+    - Planned to use nginx for PHP, Node/GraphQL, Python/Flask on the same server
+    - Related setup docs for current setup:
+        https://github.com/dataformsjs/website/blob/master/docs/Main%20Site%20Server%20Setup.txt
+        https://github.com/dataformsjs/website/blob/master/docs/Python%20Webserver%20Setup%20for%20AI_ML%20Functions.txt
+    - This will likely be documented in a new markdown doc
+    - Possibly include the playground server:
+        https://playground.dataformsjs.com/
+    - Playground code would likely be moved to the main website repository from:
+        https://github.com/dataformsjs/playground
+    - To handle that the [index.php] would check host 'playground.dataformsjs.com'
+        or a new Request Header 'X-Playground' to determine which file to include [app.php]
+        or migrated [playground.php]
+    - A main issue to handle is how to setup HTTPS with https://letsencrypt.org/
+        when the host is already being used by another static IP.
+        More time to research and test this is needed.
+    - Use HTTP/2 instead of http/1.1
+        This can be done if migrating servers to nginx instead of Apache
+
+**) Priority for additional Documentation and Examples
     - Add Markdown and related docs to Quick Ref Section
     - Add Web Component API examples to quick ref section of the main site
         'app:contentReady', etc
+        - Currently the places demo and other demos provide good examples
+          when viewing source code of the demo.
     - Publish a nice looking version and more useful of markdown
         demos in the examples section of the main site.
-    - Publish Web Components here:
-        https://www.webcomponents.org/publish-collection
-        * Note - the site has errors publishing and is somewhat abandoned
-          so Web Components might not be published on it.
+        - Current Demos used for Development:
+            https://www.dataformsjs.com/examples/markdown-web.htm
+            https://www.dataformsjs.com/examples/markdown-react.htm#/
+            https://www.dataformsjs.com/examples/markdown-vue.htm
+            https://www.dataformsjs.com/examples/markdown-hbs.htm
     - Update jsxLoader doc based on updates and findings from this issue:
         https://github.com/dataformsjs/dataformsjs/issues/16
+        * How to use with node and webpack
     - Create a new repository showing how to use DataFormsJS
             with webpack: https://webpack.js.org/
         - The DataFormsJS React Components have been developed and tested
@@ -105,29 +164,6 @@ TODO List
     - When adding update the JS page code to load jshint and a linter for JSX only if the
         user is actually going to create a site. It can be downloaded in the background
         while the site is being created.
-
-**) Combine Main Server and AI/ML Server into one.
-    - Servers:
-        https://www.dataformsjs.com/
-        https://ai-ml.dataformsjs.com/
-    - This site doesn't get enough traffic to need separate servers
-    - Planned to use nginx for PHP, Node/GraphQL, Python/Flask on the same server
-    - Related setup docs for current setup:
-        https://github.com/dataformsjs/website/blob/master/docs/Main%20Site%20Server%20Setup.txt
-        https://github.com/dataformsjs/website/blob/master/docs/Python%20Webserver%20Setup%20for%20AI_ML%20Functions.txt
-    - This will likely be documented in a new markdown doc
-    - Possibly include the playground server:
-        https://playground.dataformsjs.com/
-    - Playground code would likely be moved to the main website repository from:
-        https://github.com/dataformsjs/playground
-    - To handle that the [index.php] would check host 'playground.dataformsjs.com'
-        or a new Request Header 'X-Playground' to determine which file to include [app.php]
-        or migrated [playground.php]
-    - A main issue to handle is how to setup HTTPS with https://letsencrypt.org/
-        when the host is already being used by another static IP.
-        More time to research and test this is needed.
-    - Use HTTP/2 instead of http/1.1
-        This can be done if migrating servers to nginx instead of Apache
 
 *) Web Components Updates
     - <json-data>
@@ -199,7 +235,7 @@ TODO List
         https://github.com/dataformsjs/website/blob/master/public/js/page-home-page.js
         - See code related to `code.setAttribute('data-template-url', page);`
 
-*) Markdown Docs to Create
+*) Additional Markdown Docs to Create
     - Build Process
     - How Unit Testing Works
         See additional notes in this doc related to Unit Testing
