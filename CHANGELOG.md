@@ -4,6 +4,12 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 5.3.1 (December 2, 2020)
+
+* Web Component `<input is="input-filter">` could previously run too soon for long running web services when the content was waiting on data downloaded from `<json-data>`. The result was `0 Records Found` message depending on the app. This has now been fixed.
+* Web Component Polyfill File now sets `window.usingWebComponentsPolyfill = true` as soon as the file will be used. This allows for apps to handle logic much quicker when `DOMContentLoaded` is handled.
+* Framework Control `<markdown-content>` has an added `value` property to match the API of the related Web Component.
+
 ## 5.3.0 (November 24, 2020)
 
 * **Thanks crazy4groovy** for helping with ideas to help improve the documentation related to `jsxLoader` updates with this release!

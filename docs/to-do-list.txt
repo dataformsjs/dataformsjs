@@ -22,45 +22,6 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Updates planned for early December 2020
-    - Web Component <input is="input-filter"> runs too soon on slow web
-        services. It only waits one second in the function `setupFilter()`
-        - Likely make an update so it checks for a parent <json-data>
-            and then waits while `jsonDataEl.isLoading === true`.
-        - Related code to testing from Dev Tools:
-            document.querySelector('json-data').isLoading
-            document.querySelector('input[is="input-filter"]').filter()
-    - Framework Markdown Control needs the following code for compatibility with
-        the Web Components API:
-
-        if (Object.getOwnPropertyDescriptor(output, 'value') === undefined) {
-            Object.defineProperty(output, 'value', {
-                get: function() {
-                    return this.getAttribute('data-content');
-                },
-                set: function(newValue) {
-                    var existingValue = this.value;
-                    if (existingValue !== newValue) {
-                        if (newValue === '') {
-                            this.removeAttribute('data-content');
-                        } else {
-                            this.setAttribute('data-content', newValue);
-                        }
-                        app.loadJsControl(this);
-                    }
-                }
-            });
-        }
-    - Consider adding similar code for other Framework Controls <data-list>, etc
-        to fully match common API of the Web Components Version.
-        - Example:
-            var dataList = document.querySelector('data-list');
-            dataList.value = calculator.results;
-            dataList.renderList();
-        - For <data-list>, <data-table>, and <data-value> the `value` property
-            would likely have to set internal [data-bind] with a random property
-            to the `app.activeModel`. Might not be worth the effort though.
-
 **) Combine Main Server and AI/ML Server into one.
     - Servers:
         https://www.dataformsjs.com/

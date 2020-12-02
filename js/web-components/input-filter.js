@@ -26,32 +26,54 @@ class InputFilter extends HTMLInputElement {
     constructor() {
         super();
         this.addEventListener('input', this.filter);
+        this.interval = null;
     }
 
     connectedCallback() {
         this.setupFilter();
     }
 
+    disconnectedCallback() {
+        if (this.interval !== null) {
+            window.clearInterval(this.interval);
+        }
+    }
+
     setupFilter() {
-        // Filter content immediately if there is not result text to display
+        // Filter content immediately if there is no result text to display.
+        // As long as the input is empty this will have no visual effect to the user.
         if (!this.hasAttribute('filter-results-selector')) {
             this.filter();
             return;
         }
 
+        // Check if this <input is="input-filter"> exists under a <json-data>.
+        let jsonData = this.parentElement;
+        while (jsonData && jsonData.nodeName !== 'JSON-DATA') {
+            jsonData = jsonData.parentElement;
+        }
+
         // When showing a related label (example: "Showing all X Records / Showing x of x records"),
         // the element to filter must be first populated otherwise the result will show text such as
         // "Showing 0 of x records...". Often this element will be used with <data-table>, <data-list>
-        // etc which are populated after this element loads. In most cases this happens quickly so
-        // only 1 second is given (10 tries - one every 1/10th of a second) for the data to populate.
+        // etc which are populated after this element loads.
         let counter = 0;
-        const interval = window.setInterval(() => {
+        this.interval = window.setInterval(() => {
+            // Wait if element is under <json-data> that is still loading.
+            // In the event the user leaves the page while this is still running
+            // the timer will be cancelled in `disconnectedCallback()`.
+            if (jsonData && jsonData.isLoading === true) {
+                return;
+            }
+            // In most cases this happens quickly so only 1 second is given
+            // (10 tries - one every 1/10th of a second) for the data to populate.
             const { elements } = this.getElementsToFilter();
             if (elements.length === 0 && counter < 10) {
                 counter++;
                 return;
             }
-            window.clearInterval(interval);
+            window.clearInterval(this.interval);
+            this.interval = null;
             if (isAttachedToDom(this)) {
                 this.filter();
             }

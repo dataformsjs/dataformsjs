@@ -136,6 +136,23 @@
                     }
                 });
 
+                Object.defineProperty(element, 'value', {
+                    get: function() {
+                        return this.getAttribute('data-content');
+                    },
+                    set: function(newValue) {
+                        var existingValue = this.value;
+                        if (existingValue !== newValue) {
+                            if (newValue === '') {
+                                this.removeAttribute('data-content');
+                            } else {
+                                this.setAttribute('data-content', newValue);
+                            }
+                            app.loadJsControl(this);
+                        }
+                    }
+                });
+
                 element.clearContent = function() {
                     element.innerHTML = '';
                     markdownContent.dispatchRendered(element);

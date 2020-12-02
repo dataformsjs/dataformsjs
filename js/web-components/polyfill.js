@@ -772,9 +772,6 @@
 
         // After all scripts have been loaded the setup the app
         Promise.all(promises).finally(function () {
-            // Define a global variable so apps can check if this file is being used.
-            window.usingWebComponentsPolyfill = true;
-
             // Setup DataFormsJS
             defineCustomEvents();
             app.addPlugin('oldBrowserWarning', oldBrowserWarning);
@@ -818,6 +815,9 @@
             console.warn('It appears that both DataFormsJS Web Components and [polyfill.js] are loaded. Because of this [polyfill.js] will not run.');
             return;
         }
+
+        // Define a global variable so apps can check if this file is being used.
+        window.usingWebComponentsPolyfill = true;
 
         // Handle already loaded plugins from [jsPlugins.js] and if defined
         // remove the exiting `window.app` object. An example of this exists
