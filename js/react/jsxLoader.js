@@ -105,7 +105,7 @@
         /**
          * Babel URL and options used for older browsers.
          */
-        babelUrl: 'https://unpkg.com/@babel/standalone@7.12.6/babel.js',
+        babelUrl: 'https://unpkg.com/@babel/standalone@7.12.9/babel.js',
         babelOptions: { presets: ['es2015', 'react'] },
 
         /**

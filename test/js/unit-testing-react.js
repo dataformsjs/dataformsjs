@@ -50,7 +50,7 @@ describe('jsxLoader.js', function() {
         });
 
         it('should have jsxLoader.babelUrl', function() {
-            expect(jsxLoader).to.have.property('babelUrl', 'https://unpkg.com/@babel/standalone@7.12.6/babel.js');
+            expect(jsxLoader).to.have.property('babelUrl', 'https://unpkg.com/@babel/standalone@7.12.9/babel.js');
         });
 
         it('should have jsxLoader.babelOptions', function() {

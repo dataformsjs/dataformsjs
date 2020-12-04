@@ -1,6 +1,6 @@
 {
   "name": "dataformsjs",
-  "version": "5.3.1",
+  "version": "5.4.0",
   "homepage": "https://www.dataformsjs.com/",
   "description": "A minimal JavaScript Framework and standalone React and Web Components for rapid development of high quality websites and single page applications.",
   "browser": "js/DataFormsJS.min.js",
@@ -41,9 +41,9 @@
     "url": "https://github.com/dataformsjs/dataformsjs.git"
   },
   "devDependencies": {
-    "@babel/standalone": "^7.12.6",
-    "eslint": "^7.13.0",
-    "uglify-js": "^3.11.6",
-    "terser": "^5.4.0"
+    "@babel/standalone": "^7.12.9",
+    "eslint": "^7.14.0",
+    "terser": "^5.5.1",
+    "uglify-js": "^3.12.1"
   }
 }

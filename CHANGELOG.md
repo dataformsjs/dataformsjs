@@ -4,6 +4,14 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 5.4.0 (December 4, 2020)
+
+* React jsxLoader
+  * Added support for `data-type="module"` on scripts. This feature was added on Babel Standalone `7.10.0`
+    * See Babel Standalone Docs: https://babeljs.io/docs/en/babel-standalone
+  * Updated Babel Standalone CDN Version used for old browsers from `7.12.6` to the latest version `7.12.9`.
+* Updated all NPM Dev Dependencies to use latest version for Build and Minification
+
 ## 5.3.1 (December 2, 2020)
 
 * Web Component `<input is="input-filter">` could previously run too soon for long running web services when the content was waiting on data downloaded from `<json-data>`. The result was `0 Records Found` message depending on the app. This has now been fixed.
