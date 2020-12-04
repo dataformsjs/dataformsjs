@@ -175,6 +175,11 @@ TODO List
     - Add Unit Testing
         - Currently only the main Framework and the React [jsxLoader.js] have Unit Testing
 
+*) Add TypeScript Declarations
+    https://docs.skypack.dev/package-authors/package-checks#types
+    https://humanwhocodes.com/snippets/2020/10/create-typescript-declarations-from-javascript-jsdoc/
+    https://www.typescriptlang.org/docs/handbook/declaration-files/by-example.html
+
 *) New plugin or features to handle content preloading?
     - For example routes could have a [data-preload] attribute and then a new plugin would
         download and cache all content in memory when the first page is opened.
