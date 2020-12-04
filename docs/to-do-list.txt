@@ -61,6 +61,8 @@ TODO List
     - Update jsxLoader doc based on updates and findings from this issue:
         https://github.com/dataformsjs/dataformsjs/issues/16
         * How to use with node and webpack
+        * Also add new `data-type="module"` to doc.
+            * Added for release `5.4.0`
     - Create a new repository showing how to use DataFormsJS
             with webpack: https://webpack.js.org/
         - The DataFormsJS React Components have been developed and tested
