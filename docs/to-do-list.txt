@@ -273,16 +273,6 @@ TODO List
         http://127.0.0.1:5000/unit-testing-react
         http://127.0.0.1:5000/unit-testing-preact
     - It's possible that every line it tested but it's not yet known for sure
-    - Add new [data-type="module"] option from Babel v7.10.0?
-        <script type="text/babel" data-type="module">
-        https://babeljs.io/docs/en/babel-standalone
-        - Other new options exist such as: data-presets="env,stage-3"
-        - Currently none of the examples need to use modules or different presets
-            so this can be added in the future if it comes up
-        - Currently with jsxLoader the presets can be changed from:
-            jsxLoader.babelOptions.presets = ['es2015', 'react']
-        - The main reason this would be needed is if JSX code should include
-            imports directly within the browser - example `import { object } from 'https...'`
     - Possible new functions to support JavaScript version by year for new Syntax, example:
         jsxLoader.requireES2018 = function() {
             this.evalCode = '"use strict"; const { id, ...other } = { id:123, test:456 };';

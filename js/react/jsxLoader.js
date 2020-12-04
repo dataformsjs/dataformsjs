@@ -342,13 +342,16 @@
                 // Add compiled JS ad a new <script> on the page.
                 // If the JSX compiles correctly but there is a JavaScript error then
                 // it will not be caught here and the calling app would have to use
-                // global error handling `window.onerror` to catch the error. Becauese
+                // global error handling `window.onerror` to catch the error. Because
                 // it is not caught [data-error] will not appear on the <script> element.
                 var script = document.createElement('script');
                 if (src) {
                     script.setAttribute('data-src', src);
                 }
                 script.setAttribute('data-compiler', compilerType);
+                if (element.getAttribute('data-type') === 'module') {
+                    script.type = 'module';
+                }
                 script.innerHTML = js;
                 document.head.appendChild(script);
                 callback();
