@@ -184,6 +184,11 @@ TODO List
     https://humanwhocodes.com/snippets/2020/10/create-typescript-declarations-from-javascript-jsdoc/
     https://www.typescriptlang.org/docs/handbook/declaration-files/by-example.html
 
+*) Adds support for LiquidJS as a Framework View Engine
+    - https://liquidjs.com/
+    - The latest build of liquid is smaller than both Handlebars and Nunjucks,
+        has been optimized recently (as of 2020), and now has wider usage.
+
 *) New plugin or features to handle content preloading?
     - For example routes could have a [data-preload] attribute and then a new plugin would
         download and cache all content in memory when the first page is opened.
