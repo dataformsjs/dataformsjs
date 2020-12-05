@@ -22,28 +22,6 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Getting Started Page [View Template] button is not always working correctly
-    with the most recent builds of Chrome (December 2020). Often it shows a blank
-    page on the first view but will then show the page after trying again.
-    - https://www.dataformsjs.com/en/getting-started
-    - HTML and JavaScript Source:
-        https://github.com/dataformsjs/website/blob/master/public/html/getting-started.htm
-        https://github.com/dataformsjs/website/blob/master/public/js/page-getting-started.js
-        https://github.com/dataformsjs/website/blob/master/public/html/getting-started/template-react.htm
-        * Other Template exist int the above [getting-started] directory
-    - A Hack is used to make this work (see comments in the JS file):
-        <iframe> with "data:" url
-    - The reason for the hack is that client-side JavaScript is used to build each Template by combining
-        i18n text with the HTML source.
-    - One solution (and likely to be used) is to still keep using the existing JS code (for performance)
-        but add a new PHP Route that builds the same HTML file server side so that it can simply
-        be linked to in another tab.
-    - Also on the Getting Started page the Web Component Template JS Code under <script type="module">
-        is not highlighting as JS. The reason is because a custom build of Prism is used to prevent
-        <script type="text/x-template"> from being highlighted as JS. Additional updates are needed
-        for support of [type="module"] but not [type="text/*"]. See details in:
-        https://github.com/dataformsjs/website/blob/master/public/js/prism-1.17.1/Prism%20Customization.txt
-
 **) Combine Main Server and AI/ML Server into one.
     - Servers:
         https://www.dataformsjs.com/
@@ -54,9 +32,9 @@ TODO List
         https://github.com/dataformsjs/website/blob/master/docs/Main%20Site%20Server%20Setup.txt
         https://github.com/dataformsjs/website/blob/master/docs/Python%20Webserver%20Setup%20for%20AI_ML%20Functions.txt
     - This will likely be documented in a new markdown doc
-    - Possibly include the playground server:
+    - Likely include the playground server:
         https://playground.dataformsjs.com/
-    - Playground code would likely be moved to the main website repository from:
+    - Playground code could be moved to the main website repository from:
         https://github.com/dataformsjs/playground
     - Or to avoid any changes if possible the bash script could be updated to merge the two
         repositories when it syncs the server.
