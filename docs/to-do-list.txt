@@ -22,6 +22,23 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+**) Getting Started Page [View Template] button is not always working correctly
+    with the most recent builds of Chrome (December 2020). Often it shows a blank
+    page on the first view but will then show the page after trying again.
+    - https://www.dataformsjs.com/en/getting-started
+    - HTML and JavaScript Source:
+        https://github.com/dataformsjs/website/blob/master/public/html/getting-started.htm
+        https://github.com/dataformsjs/website/blob/master/public/js/page-getting-started.js
+        https://github.com/dataformsjs/website/blob/master/public/html/getting-started/template-react.htm
+        * Other Template exist int the above [getting-started] directory
+    - A Hack is used to make this work (see comments in the JS file):
+        <iframe> with "data:" url
+    - The reason for the hack is that client-side JavaScript is used to build each Template by combining
+        i18n text with the HTML source.
+    - One solution (and likely to be used) is to still keep using the existing JS code (for performance)
+        but add a new PHP Route that builds the same HTML file server side so that it can simply
+        be linked to in another tab.
+
 **) Combine Main Server and AI/ML Server into one.
     - Servers:
         https://www.dataformsjs.com/
@@ -36,6 +53,8 @@ TODO List
         https://playground.dataformsjs.com/
     - Playground code would likely be moved to the main website repository from:
         https://github.com/dataformsjs/playground
+    - Or to avoid any changes if possible the bash script could be updated to merge the two
+        repositories when it syncs the server.
     - To handle that the [index.php] would check host 'playground.dataformsjs.com'
         or a new Request Header 'X-Playground' to determine which file to include [app.php]
         or migrated [playground.php]
