@@ -31,6 +31,9 @@ TODO List
     - Related setup docs for current setup:
         https://github.com/dataformsjs/website/blob/master/docs/Main%20Site%20Server%20Setup.txt
         https://github.com/dataformsjs/website/blob/master/docs/Python%20Webserver%20Setup%20for%20AI_ML%20Functions.txt
+        * Quick test in December of 2020 shows the commands needed have changed from the original install
+          as it was using specific older versions of TensorFlow and Keras. Also the install for Gunicorn
+          has changed because `sudo apt-get install gunicorn3` no longer works on latest version of Ubuntu.
     - This will likely be documented in a new markdown doc
     - Likely include the playground server:
         https://playground.dataformsjs.com/
@@ -44,6 +47,10 @@ TODO List
     - A main issue to handle is how to setup HTTPS with https://letsencrypt.org/
         when the host is already being used by another static IP.
         More time to research and test this is needed.
+        - Related links:
+            https://serverfault.com/a/932037
+            https://ivanderevianko.com/2019/03/migrate-letsencrypt-certificates-certbot-to-new-server
+            https://medium.com/@blomsmail/how-to-reuse-a-lets-encrypt-certificate-on-a-new-server-19e7224e4d81
     - Use HTTP/2 instead of http/1.1
         This can be done if migrating servers to nginx instead of Apache
 
@@ -96,7 +103,7 @@ TODO List
             - Using to download JSON Data and bind to other elements on screen
             - How data binding works
             - Web Component "Services" Concept
-                Need to add template for this in quick ref section on main site
+                Add a template for this in quick ref section on main site
             - How the polyfill works and reason it was created over other options
             - How to test the polyfill with modern browsers:
                 Just use:
@@ -120,16 +127,6 @@ TODO List
             along with jsxLoader and Readme could be added as a new "Documentation"
             page on the main site using the new <markdown-content> component
 
-**) Playground Site
-    - Need to add support for JSON file/resource type
-    - Add linting for React/JSX, Babel recently started doing this online in the REPL:
-        https://babeljs.io/repl
-    - Currently JS is linted using jshint on the Playground, to lint JSX babel standalone will
-        likely be used with a custom Code Mirror Plugin
-    - When adding update the JS page code to load jshint and a linter for JSX only if the
-        user is actually going to create a site. It can be downloaded in the background
-        while the site is being created.
-
 *) Web Components Updates
     - <json-data>
         - Add support for custom Request Headers.
@@ -144,6 +141,10 @@ TODO List
         - If adding `window.requestHeaders` and `window.requestHeadersByHostName` then any Web Component
             that uses fetch such as <markdown-content> should also use the headers - just like the Framework
             versions of the code.
+    - Add a <graphql-data> component based on <json-data>
+        - Or should it be added as a feature of <json-data>?
+        - First likely try as a feature because the main Framework and React Components
+            add it as a feature so it can allow the polyfill to use existing Framework code.
     - Create a new <form is="entry-form"> Component
         - A Framework JavaScript control could be created as the Polyfill. Ideally the new control
             would use functions from the main entryForm page object so it doesn't have to be duplicated.
@@ -184,10 +185,20 @@ TODO List
     https://humanwhocodes.com/snippets/2020/10/create-typescript-declarations-from-javascript-jsdoc/
     https://www.typescriptlang.org/docs/handbook/declaration-files/by-example.html
 
-*) Adds support for LiquidJS as a Framework View Engine
+*) Considering adding support for LiquidJS as a Framework View Engine
     - https://liquidjs.com/
     - The latest build of liquid is smaller than both Handlebars and Nunjucks,
         has been optimized recently (as of 2020), and now has wider usage.
+
+*) Playground Site
+    - Add support for JSON file/resource type
+    - Add linting for React/JSX, Babel recently started doing this online in the REPL:
+        https://babeljs.io/repl
+    - Currently JS is linted using jshint on the Playground, to lint JSX babel standalone will
+        likely be used with a custom Code Mirror Plugin
+    - When adding update the JS page code to load jshint and a linter for JSX only if the
+        user is actually going to create a site. It can be downloaded in the background
+        while the site is being created.
 
 *) New plugin or features to handle content preloading?
     - For example routes could have a [data-preload] attribute and then a new plugin would
@@ -325,7 +336,7 @@ TODO List
         examples page. Also create a similar [vue-directives.htm] file.
         - For cleanup likely add a new plugin [refreshOnTimer] to refresh the page
           on a defined interval from the HTML controller.
-        - Need to demonstrate all Handlebars Helpers such as {{#ifJS}}
+        - Demo page with all Handlebars Helpers such as {{#ifJS}}
     - Framework Event Order (note - Vue varies slightly)
         ====================================================
         Page Event Order when a URL Changes:
@@ -392,7 +403,7 @@ TODO List
         That file can be a starting point to see code for how to build custom controls.
         In the future there should also be one or more [DataFormsJS\js\templates\*.js] files
         for custom controls.
-    - Need demos for Handlebar Helpers, Vue Directives and React Format class
+    - Demos for Handlebar Helpers, Vue Directives and React Format class
     - All Parameters for I18N Files and Classes, example for React:
         const defaultLocale = 'en';
         const supportedLocales = ['en', 'ja'];
@@ -490,7 +501,7 @@ TODO List
 
 *) DataFormsJS\js\Plugins\highlighter.js
     - Allow users to define text results such as "{count} Records matched [{value}]"
-    - Need ability to handle multiple languages
+    - Add ability to handle multiple languages
 
 *) dataformsjs\js\plugins\codemirror.js
     - Create a demo page (both Vue and Handlebars)
@@ -512,14 +523,6 @@ TODO List
             <div id="moment-02">{{moment dateTime "YYYY.MM.DD, h:mm:ss A"}}</div>
             { id: "moment-01", value: (new Date()).getFullYear(), type: "contains" },
             { id: "moment-02", value: "2015.01.31, 1:23:45 PM" },
-
-*) Chosen Plugin, need examples or docs showing how callbacks from [app.events.on] are used
-
-*) Log Demo [log-table-hbs.htm], [log-table-vue.htm], etc
-    - move <h1>, and <nav> outside of the render section so that they do not flash
-        when cleared from each screen. Would need to make sure the [clear filter]
-        button doesn't get set multiple times.
-        Also possibly do this for the <input filter> control.
 
 *) GraphQL
     - Add GraphQL support on [pages/entryForm.js]
@@ -664,7 +667,7 @@ TODO List
     *) More HTML defaults for things such as [app.settings.defaultRoute]?
         document.documentElement.getAttribute('data-show-errors')
     *) app.routeMatches() should not match "/" to [data-route="/:count"]
-    *) Need a redirect function, currently using this in one of the demos:
+    *) Add a redirect function, currently using this in one of the demos:
         app.addController({ path:"/", onBeforeRender:function() {
             window.location.hash = "#/20";
         }});
