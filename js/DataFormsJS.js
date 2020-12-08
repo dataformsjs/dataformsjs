@@ -246,7 +246,7 @@
                 templateUrl = null;
             }
 
-            // Validate Propeties. The only way that these error can happen is if the controller is
+            // Validate Properties. The only way that these error can happen is if the controller is
             // modified manually after calling addController() so these error would not be common.
             if (templateId !== null && templateUrl !== null) {
                 errorMessage = 'A controller must have either [viewId] or [viewUrl] defined but not both properties. This error is not possible when calling the [addController()] so one or more of the properties were modified by JavaScript code after the controller was already added.';
@@ -421,7 +421,7 @@
                 return;
             }
 
-            // No error, render the template based on the sepecified template engine
+            // No error, render the template based on the specified template engine
             switch (template.type) {
                 case ViewEngines.Handlebars:
                 case ViewEngines.Underscore:
@@ -478,8 +478,8 @@
         // that use a lot of custom JavaScript and the route’s web services (or resources)
         // are loading slowly and the user is clicking from page to page very fast.
         // This is not unit tested, rather uncomment the [console.log] statements
-        // and for slow resources. For example, using code in 'website\app\app.php'
-        // [$app->get('/*' ...] and running this script with the local site.
+        // and for slow resources. For example, modify code in 'website\app\app.php'
+        // [$app->get('/*' ...] adding a timer and test with a local build of the main site.
         if (routeLoadingCount > 200) {
             app.showErrorAlert(app.settings.errors.pageLoading);
             routeLoadingCount = 0;
@@ -1191,7 +1191,7 @@
          * uses <html data-routing-mode="history"> when it is first loaded.
          *
          * 'hash' routing uses the [hashchange] API while 'history' uses
-         * the HTML5 History API. Hash routing works with any page and does't
+         * the HTML5 History API. Hash routing works with any page and doesn't
          * require server side code however History routing typically requires
          * server-side changes and additional JS code which is why 'hash' is
          * the default.
@@ -1224,7 +1224,7 @@
         },
 
         /**
-         * Use this function to setup manual HTML5 pushstate links. Be default
+         * Use this function to setup manual HTML5 pushState links. Be default
          * links that match <a href="/..."> are handled by DataFormsJS, however
          * if you are using the HTML5 History API for routing and setup custom
          * links on this page this function can be used for click events:
@@ -3014,7 +3014,7 @@
             ];
             var engine;
 
-            // First check based on scripts embeded in the page
+            // First check based on scripts embedded in the page
             for (engine in engines) {
                 if (document.querySelector('script[type="text/x-template"][data-engine="' + engines[engine].type + '"]') !== null) {
                     viewEngine = engines[engine].label;
