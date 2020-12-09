@@ -821,7 +821,7 @@
                         });
                     }
 
-                    // Tokenize the current React element. This loop inside the recusive function
+                    // Tokenize the current React element. This loop inside the recursive function
                     // provides core logic to process characters one at a time. The loop from the main
                     // calling function is used to find JSX elements.
                     current = startPosition + 1;
@@ -1194,7 +1194,7 @@
              * Compiler Step 3 (Syntactic Analysis) - Convert Tokens to an Abstract Syntax Tree (AST)
              *
              * @param {array} tokens
-             * @param {string} input Original input is passed to allow for helpfull error messages
+             * @param {string} input Original input is passed to allow for helpful error messages
              * @return {object}
              */
             parser: function(tokens, input) {
