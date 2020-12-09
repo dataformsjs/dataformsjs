@@ -56,7 +56,7 @@ export default class InputFilter extends React.Component {
         let cssOdd = null;
         let cssEven = null;
 
-        // Get elements to filter. If a table is being filtred
+        // Get elements to filter. If a table is being filtered
         // then get rows under <tbody>.
         let elements = document.querySelectorAll(this.props['filter-selector']);
         if (elements.length === 1 && elements[0].tagName === 'TABLE' &&

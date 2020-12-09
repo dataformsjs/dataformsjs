@@ -100,7 +100,7 @@
  * the demo page [DataFormsJS\examples\image-classification-react.htm]; in the demo
  * if [loadOnlyOnce] is not {true} then images would reset during page changes but
  * because it is set to {true} the images are kept and the state remains valid even
- * if clicking to another page in the SPA while images are sitll being classified
+ * if clicking to another page in the SPA while images are still being classified
  * from the web service.
  *
  * [onViewUpdated] is an optional callback that can be used to handle custom DOM

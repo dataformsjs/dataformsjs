@@ -47,7 +47,7 @@ export default class LazyLoad extends React.Component {
      * can also be called manually if creating an instance of this class in code.
      *
      * @param {string|array} urls Single URL's can use a string
-     * @param {undefind|bool} loadScriptsInOrder  When `true` scripts will be loaded in sequential order
+     * @param {undefined|bool} loadScriptsInOrder  When `true` scripts will be loaded in sequential order
      * @return {Promise}
      */
     loadScripts(urls, loadScriptsInOrder) {
@@ -168,7 +168,7 @@ export default class LazyLoad extends React.Component {
 
         // The option [loadScriptsInOrder] was not specified or set to `true` so
         // download all scripts asynchronously without waiting for scripts to complete.
-        // The Promise will resovle once all scripts are downloaded (or have a download error).
+        // The Promise will resolve once all scripts are downloaded (or have a download error).
         return new Promise(function(resolve) {
             const promises = [];
             for (let n = 0, m = urls.length; n < m; n++) {
