@@ -1338,7 +1338,7 @@
                                     e_end_count++;
                                     break;
                                 case tokenTypes.e_start:
-                                    // Handle nested elements here with a recusive call to walk()
+                                    // Handle nested elements here with a recursive call to walk()
                                     current--;
                                     node.children.push({
                                         type: tokenTypes.e_start,
