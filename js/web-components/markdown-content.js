@@ -28,6 +28,10 @@
  *        link-root-url="https..."
  *        load-only-once
  *        use-root-url="false"
+ *        show-source
+ *     *) When the attribute [show-source] is included the raw text is displayed in a <pre>
+ *        element so when using this component can be used to show text or other files
+ *        without having to include an additional markdown library.
  *
  * Example:
  * @link https://github.com/dataformsjs/dataformsjs/blob/master/examples/markdown-web.htm
@@ -221,7 +225,7 @@ class MarkdownContent extends HTMLElement {
 
         // Option to load markdown from cache rather than fetching each time.
         // Good for use with SPA's where content does not change often and the user
-        // might view same page serveral times.
+        // might view same page several times.
         if (this.loadOnlyOnce) {
             const cache = getMarkdownFromCache(url);
             if (cache) {
