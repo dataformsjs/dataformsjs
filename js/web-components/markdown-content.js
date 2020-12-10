@@ -139,6 +139,7 @@ class MarkdownContent extends HTMLElement {
         shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
         this.content = null;
         this.errorMessage = null;
+        this.isFetching = false;
     }
 
     connectedCallback() {
@@ -205,7 +206,6 @@ class MarkdownContent extends HTMLElement {
         }
     }
 
-
     get value() {
         return this.content;
     }
@@ -249,6 +249,7 @@ class MarkdownContent extends HTMLElement {
         }
 
         // Fetch content
+        this.isFetching = true;
         fetch(url)
         .then(res => {
             const status = res.status;
@@ -263,10 +264,12 @@ class MarkdownContent extends HTMLElement {
         .then(text => {
             this.content = text;
             this.errorMessage = null;
+            this.isFetching = false;
             this.render();
         })
         .catch(error => {
             this.errorMessage = error;
+            this.isFetching = false;
             this.render();
         })
         .finally(() => {
@@ -281,6 +284,13 @@ class MarkdownContent extends HTMLElement {
     }
 
     render() {
+        // Still loading, this can happen while `fetch` is running
+        // and [show-source] is being set by the DOM and [loading-selector]
+        // is set to show an exiting loading screen.
+        if (this.isFetching) {
+            return;
+        }
+
         // Error message (for example a failed fetch)
         if (this.errorMessage) {
             showError(this, this.errorMessage);

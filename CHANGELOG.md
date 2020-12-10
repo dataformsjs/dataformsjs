@@ -4,6 +4,20 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 5.4.1 (December 9, 2020)
+
+* Web Component `<markdown-content>`
+  * Fix so that loading screen shows when using `url, show-source, loading-selector` attributes together.
+  * DOM event order would trigger the loading screen to clear when using `show-source` while content from `url` was still being downloaded.
+  * Example:
+  ```html
+  <markdown-content
+		url="https://raw.githubusercontent.com/dataformsjs/dataformsjs/master/README.md"
+		show-source
+    loading-selector="#loading-screen">
+  </markdown-content>
+  ```
+
 ## 5.4.0 (December 4, 2020)
 
 * React jsxLoader
