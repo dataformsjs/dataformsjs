@@ -9,14 +9,16 @@ Overall the core Framework files and API are expected to remain stable however t
 * Web Component `<markdown-content>`
   * Fix so that loading screen shows when using `url, show-source, loading-selector` attributes together.
   * DOM event order would trigger the loading screen to clear when using `show-source` while content from `url` was still being downloaded.
-  * Example:
+  * Example Code:
   ```html
   <markdown-content
-		url="https://raw.githubusercontent.com/dataformsjs/dataformsjs/master/README.md"
-		show-source
+    url="https://raw.githubusercontent.com/dataformsjs/dataformsjs/master/README.md"
+    show-source
     loading-selector="#loading-screen">
   </markdown-content>
   ```
+  * Online basic example:
+    * https://dataformsjs.com/examples/markdown-web.htm
 
 ## 5.4.0 (December 4, 2020)
 
