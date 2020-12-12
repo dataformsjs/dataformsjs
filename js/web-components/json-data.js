@@ -212,8 +212,20 @@ class JsonData extends HTMLElement {
         return this.getAttribute('url');
     }
 
+    set url(newValue) {
+        return this.setAttribute('url', newValue);
+    }
+
     get urlParams() {
         return this.getAttribute('url-params');
+    }
+
+    set urlParams(newValue) {
+        if (typeof newValue !== 'object') {
+            this.showError(`When setting [urlParams] of <json-data> the value must be an object but was instead a type of [${typeof newValue}].`);
+            return;
+        }
+        return this.setAttribute('url-params', JSON.stringify(newValue));
     }
 
     get loadOnlyOnce() {
