@@ -20,8 +20,8 @@ DataFormsJSは、新しいJavaScriptフレームワークとスタンドアロ�
 |---|---|---|
 |**Stability** Designed for long term use; a site developed with DataFormsJS today will work great and be easy to maintain decades from now.|**Flexibility** Works well with other code and the API is designed for flexibility and custom features. If you can think it, you can build it with DataFormsJS.|**Better Sites** DataFormsJS is designed to be a great experience for both developers and end users allowing you to create better sites.|
 
-|Works with|<img src="https://www.dataformsjs.com/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://www.dataformsjs.com/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://www.dataformsjs.com/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://www.dataformsjs.com/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|and more!|
-|---|---|---|---|---|---|
+|Works with|<img src="https://www.dataformsjs.com/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://www.dataformsjs.com/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://www.dataformsjs.com/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://www.dataformsjs.com/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|<img src="https://www.dataformsjs.com/img/logos/preact.svg" alt="Preact" width="64"><div>Preact</div>|and more!|
+|---|---|---|---|---|---|---|
 
 |Learn something new!|<div><img src="https://www.dataformsjs.com/img/icons/web-components.svg" alt="Web Components" width="64"></div><div>Web Components</div>|
 |---|---|
@@ -150,7 +150,7 @@ This example uses Vue for templating. If you save it with a text editor you can 
 </html>
 ```
 
-This example uses React with the `jsxLoader.min.js` script for converting JSX to JS directly it the browser and it includes DataFormsJS React Components from `DataFormsJS.min.js`. If you copy the contents of this code it will also work in a browser.
+This example uses React with the `jsxLoader.min.js` script for converting JSX to JS directly it the browser and it includes DataFormsJS React Components from `DataFormsJS.min.js`. If you copy the contents of this code it will also work in a browser. All React Components are also compatible with Preact when using jsxLoader.
 
 ```html
 <!doctype html>
@@ -373,7 +373,7 @@ The [docs/to-do-list.txt](https://github.com/dataformsjs/dataformsjs/blob/master
 
 Initial development and use of DataFormsJS occurred privately in 2013 to allow for rapid development of high quality and bug free Single Page Applications (SPA). DataFormsJS was designed to have a small size, great performance, and to be much faster for development compared to other Frameworks. A few of the reasons for fast development include displaying JSON services using only Markup and Templating (Handlebars, Underscore, etc.) and defining App and Site features using HTML attributes and small JavaScript Plugins.
 
-Early versions of DataFormsJS were used a number of companies in many different types of apps. 
+Early versions of DataFormsJS were used a number of companies in many different types of apps.
 
 Now that both React and Vue have become very popular separate React Components have been developed to help with React Development and the Framework has been expanded to support Vue. Additionally separate Web Components have been developed to allow for similar functionality in modern browsers without using a JavaScript framework.
 

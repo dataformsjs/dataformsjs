@@ -20,8 +20,8 @@ Este repositório contém o framework DataFormsJS, páginas exemplo e testes de 
 |---|---|---|
 |**Estabilidade** Desenvolvido para uso de longo prazo; um site desenvolvido com DataFormsJS hoje funcionará e será de fácil manutenção por décadas.|**Flexibilidade** Funciona bem com outros códigos e a API é desenvolvida para flexibilidade e características personalizadas. Se você consegue imaginar, você consegue desenvolvê-lo com o DataFormsJS.|**Sites Melhores** O DataFormsJS é desenvolvido para ser uma grande experiência para desenvolvedores e usuários finais permitindo que você crie sites melhores.|
 
-|Funciona com|<img src="https://www.dataformsjs.com/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://www.dataformsjs.com/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://www.dataformsjs.com/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://www.dataformsjs.com/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|e mais!|
-|---|---|---|---|---|---|
+|Funciona com|<img src="https://www.dataformsjs.com/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://www.dataformsjs.com/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://www.dataformsjs.com/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://www.dataformsjs.com/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|<img src="https://www.dataformsjs.com/img/logos/preact.svg" alt="Preact" width="64"><div>Preact</div>|e mais!|
+|---|---|---|---|---|---|---|
 
 |Aprenda uma coisa nova!|<div><img src="https://www.dataformsjs.com/img/icons/web-components.svg" alt="Web Components" width="64"></div><div>Web Components</div>|
 |---|---|
@@ -150,7 +150,7 @@ Este exemplo usa Vue para modelos. Se você salvar isso com um editor de texto p
 </html>
 ```
 
-Este exemplo utiliza React com o script `jsxLoader.min.js` para converter JSX para JS diretamente no navegador e isto inclui o DataFormsJS React Components do `DataFormsJS.min.js`. Se você copiar o conteúdo deste código, isso funcionará também em um navegador.
+Este exemplo utiliza React com o script `jsxLoader.min.js` para converter JSX para JS diretamente no navegador e isto inclui o DataFormsJS React Components do `DataFormsJS.min.js`. Se você copiar o conteúdo deste código, isso funcionará também em um navegador. All React Components are also compatible with Preact when using jsxLoader.
 
 ```html
 <!doctype html>
