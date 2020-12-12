@@ -6,22 +6,17 @@
     that if the Unit Tests pass then all demos will work but to be on the safe side they should
     also be tested.
 
-    Run `npm start` at the root directory to start the server for demo pages then view
-    them using URL's below. Additionally each page would have to be changed to use the
+    Run `npm start` at the root directory to start the server then filter for "react" and
+    "preact" demos. Additionally each page would have to be changed to use the
     local version instead of the server version.
 
     For most updates simply doing regression testing after publishing a new release
-    and updating the CDN version if HTML files is ok.
+    and updating the CDN version if HTML files is ok. If this Unit Tests pass all
+    demos and related pages are expected to test ok.
 
-    http://127.0.0.1:8080/places-demo-react
-    http://127.0.0.1:8080/image-classification-react
-    http://127.0.0.1:8080/log-table-react
-    http://127.0.0.1:8080/countries-no-spa-react
-    http://127.0.0.1:8080/countries-no-spa-preact
-    http://127.0.0.1:8080/hacker-news-react
-    http://127.0.0.1:8080/examples/hello-world/en/react.htm
-    http://127.0.0.1:8080/examples/hello-world/en/preact.htm
-    http://127.0.0.1:8080/examples/hello-world/en/rax.htm
+    If major changes to the compiler occur also regression test all pages that use
+    jsxLoader from the following link after the update:
+    https://awesome-web-react.js.org/
 */
 
 /* global jsxLoader, chai, describe, it, I18n */
@@ -55,6 +50,14 @@ describe('jsxLoader.js', function() {
 
         it('should have jsxLoader.babelOptions', function() {
             expect(jsxLoader.babelOptions).to.deep.equal({ presets: ['es2015', 'react'] });
+        });
+
+        it('should have jsxLoader.fetchOptions', function() {
+            expect(jsxLoader.fetchOptions).to.deep.equal({
+                mode: 'cors',
+                cache: 'no-store',
+                credentials: 'same-origin',
+            });
         });
 
         it('should have jsxLoader.logCompileTime', function() {

@@ -11,6 +11,22 @@ Overall the core Framework files and API are expected to remain stable however t
   * With this release DataFormsJS Web Components now work with Preact in addition to React
   * Demo:
     * https://www.dataformsjs.com/examples/web-components-with-preact.htm
+* JSX Loader
+  * Added default fetch options for fetching JSX Templates
+  * To use different options set this as soon as the script is loaded and before the document `DOMContentLoaded` event runs.
+  * The default options provide for flexibility with 'cors', prevention of caching issues with 'no-store', and security by using 'same-origin' for `credentials`.
+  ```js
+  // New default options
+  jsxLoader.fetchOptions = {
+    mode: 'cors',
+    cache: 'no-store',
+    credentials: 'same-origin',
+  };
+
+  // Previously `null` was used for `fetch(url, null)` so the
+  // following can be used to use browser fetch defaults:
+  jsxLoader.fetchOptions = null;
+  ```
 
 ## 5.4.1 (December 9, 2020)
 

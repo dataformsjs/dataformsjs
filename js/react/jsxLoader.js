@@ -109,6 +109,19 @@
         babelOptions: { presets: ['es2015', 'react'] },
 
         /**
+         * Default options for fetching JSX Templates. To use different options
+         * set this as soon as the script is loaded and before the document
+         * 'DOMContentLoaded' event runs. The default options provide for
+         * flexibility with 'cors', prevention of caching issues with 'no-store',
+         * and security by using 'same-origin' for `credentials`.
+         */
+        fetchOptions: {
+            mode: 'cors',
+            cache: 'no-store',
+            credentials: 'same-origin',
+        },
+
+        /**
          * Print compile start, end, and time taken to console.
          */
         logCompileTime: false,
@@ -366,7 +379,7 @@
                 }
 
                 // Download JSX Source based on <script src="{url}">
-                fetch(element.src, null, 'text/plain')
+                fetch(element.src, jsxLoader.fetchOptions)
                 .then(function(res) {
                     var status = res.status;
                     if ((status >= 200 && status < 300) || status === 304) {
