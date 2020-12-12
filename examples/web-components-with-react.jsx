@@ -8,13 +8,14 @@ function HomePage() {
         <section className="home-page">
             <h1>Hello World</h1>
             <p>This page is used to show how DataFormsJS Web Components (and Web Components in general) can be used with React and React Router.</p>
-            <p>All Web Component and all page features are expected to work in virtually all browsers.</p>
+            <p>All Web Component and all page features are expected to work in virtually all browsers when using React.</p>
+            <p>The JSX is shared with both React and Preact demos and currently when using Preact not all pages work.</p>
         </section>
     );
 }
 
 function DataPage() {
-return (
+    return (
         <json-data url="https://www.dataformsjs.com/data/geonames/countries" load-only-once>
             <is-loading template-selector="#loading-screen"></is-loading>
             <has-error template-selector="#error-screen"></has-error>

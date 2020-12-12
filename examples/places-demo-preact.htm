@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title data-i18n="Countries Demo | Preact"></title>
+        <link rel="stylesheet" href="css/countries.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css">
+        <link rel="canonical" href="https://www.dataformsjs.com/examples/places-demo-hbs.htm">
+    </head>
+    <body>
+        <div id="root" dir="auto"></div>
+
+        <!--
+            Almost all code is the same on this file is the same as the React
+            version except that [jsxLoader.usePreact()] is called on the page
+            to support Preact and this page specifically uses several Preact
+            functions. All code in separate JSX files is shared between the
+            React version and this demo and works for both.
+        -->
+
+        <!--
+            Preact
+            https://preactjs.com
+        -->
+        <script src="https://unpkg.com/preact@10.5.7/dist/preact.min.js"></script>
+
+        <!--
+            For testing with Preact DevTools include the following:
+            https://preactjs.github.io/preact-devtools/
+        -->
+        <script src="https://unpkg.com/preact@10.5.7/debug/dist/debug.umd.js"></script>
+        <script src="https://unpkg.com/preact@10.5.7/devtools/dist/devtools.umd.js"></script>
+
+        <!-- DataFormsJS JSX Loader -->
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.4.1/js/react/jsxLoader.js"></script>
+        <script>
+            // Including [jsxLoader] and calling [usePreact()] prior to loading
+            // React Router and other React Components allows for compatibility with Preact.
+            jsxLoader.usePreact();
+        </script>
+
+        <!--
+            React Router
+            https://reacttraining.com/react-router/
+            https://github.com/ReactTraining/react-router
+        -->
+        <script src="https://unpkg.com/react-router@5.2.0/umd/react-router.min.js"></script>
+        <script src="https://unpkg.com/react-router-dom@5.2.0/umd/react-router-dom.min.js"></script>
+
+        <!--
+            DataFormsJS React Components
+            
+            The Core file includes commonly used React Components for data apps:
+            [ErrorBoundary, InputFilter, JsonData, LazyLoad, SortableTable]
+            and JavaScript Classes [Cache, Format]. All React Components are also
+            compatible with Preact when using jsxLoader.
+
+            Additional components and classes [LeafletMap, I18n] are loaded individually.
+
+            The [es6] scripts will be loaded for modern browsers because [type="module"] is used.
+            and [es5] scripts will be loaded for legacy browsers because [nomodule] is used.
+        -->
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.4.1/js/react/es6/DataFormsJS.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.4.1/js/react/es6/I18n.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.4.1/js/react/es6/LeafletMap.min.js"></script>
+
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.4.1/js/react/es5/DataFormsJS.min.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.4.1/js/react/es5/I18n.min.js"></script>
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5.4.1/js/react/es5/LeafletMap.min.js"></script>
+
+        <!--
+            Un-minimized Components would need to use [type="text/babel"] because
+                import React from 'react';
+            is used on most source files which is not compatible with web browsers.
+        -->
+        <!--
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.4.1/js/react/es6/ErrorBoundary.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.4.1/js/react/es6/LazyLoad.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.4.1/js/react/es6/JsonData.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.4.1/js/react/es6/InputFilter.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.4.1/js/react/es6/SortableTable.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.4.1/js/react/es6/I18n.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.4.1/js/react/es6/Format.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.4.1/js/react/es6/LeafletMap.js"></script>
+        <script type="text/babel" src="https://cdn.jsdelivr.net/npm/dataformsjs@5.4.1/js/react/es6/Cache.js"></script>
+        -->
+
+        <!--
+            JSX Templates for this App
+            Additionally [place-react.jsx] is loaded dynamically from <LazyLoad>
+        -->
+        <script type="text/babel" src="./html/regions-react.jsx"></script>
+        <script type="text/babel" src="./html/cities-react.jsx"></script>
+        <script type="text/babel" src="./html/places-info-react.jsx"></script>
+        <script type="text/babel" src="./html/search-places-react.jsx"></script>
+
+        <script type="text/babel">
+            const Router = window.ReactRouterDOM.HashRouter;
+            const Route = window.ReactRouterDOM.Route;
+            const Redirect = window.ReactRouterDOM.Redirect;
+            const Link = window.ReactRouterDOM.Link;
+
+            const defaultLocale = 'en';
+            const supportedLocales = ['en', 'ja', 'es', 'pt-BR', 'ar', 'fr'];
+            const fileName = 'countries';
+            const i18n = new I18n(defaultLocale, supportedLocales, fileName);
+            const defaultLang = i18n.getUserDefaultLang;
+            const format = new Format();
+
+            // Basic function to allow row onClick events to highlight the selected row.
+            // This allows a user to easily see where they are on wide rows or mobile devices.
+            // Based on DataFormJS [clickToHighlight] Plugin: [js/plugins/clickToHighlight.js]
+            function toggleHighlight(e) {
+                if (e.target.nodeName === 'A') {
+                    return;
+                }
+                e.currentTarget.classList.toggle('highlight');
+            }
+
+            function ShowLoading() {
+                return <h3>{i18n.text('Loading...')}</h3>;
+            }
+
+            function ShowError(props) {
+                return <p>{props.error}</p>;
+            }
+
+            function ShowCountries(props) {
+                return (
+                    <>
+                        <h1>{i18n.text('Countries')}</h1>
+
+                        <nav>
+                            <Link to={'/' + props.params.lang + '/search'}>{i18n.text('Search')}</Link>
+                            <Link to={'/' + props.params.lang + '/info'}>{i18n.text('Info')}</Link>
+                        </nav>
+
+                        <InputFilter
+                            filter-selector="table"
+                            filter-results-selector="h1"
+                            filter-results-text-all={i18n.text('{totalCount} Countries')}
+                            filter-results-text-filtered={i18n.text('Showing {displayCount} of {totalCount} Countries')}
+                            placeholder={i18n.text("Enter filter, example 'North America'")} />
+
+                        <div className="responsive-table">
+                            <SortableTable
+                                data-sort-class-odd="row-odd"
+                                data-sort-class-even="row-even">
+                                <thead>
+                                    <tr>
+                                        <th>{i18n.text('Code')}</th>
+                                        <th>{i18n.text('Name')}</th>
+                                        <th>{i18n.text('Size (KM)')}</th>
+                                        <th>{i18n.text('Population')}</th>
+                                        <th>{i18n.text('Continent')}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {props.data && props.data.countries && props.data.countries.map(country => {
+                                        return (
+                                            <tr key={country.iso} onClick={toggleHighlight} className="pointer">
+                                                <td><Link to={'/' + props.params.lang + '/regions/' + country.iso}>{country.iso}</Link></td>
+                                                <td>
+                                                    <i className={country.iso.toLowerCase() + ' flag'}></i>
+                                                    <span>{country.country}</span>
+                                                </td>
+                                                <td className="align-right" data-value={country.area_km}>{format.number(country.area_km)}</td>
+                                                <td className="align-right" data-value={country.population}>{format.number(country.population)}</td>
+                                                <td>{country.continent}</td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </SortableTable>
+                        </div>
+                    </>
+                )
+            }
+
+            // Download Data for the Main Page and show once ready
+            function PageCountries({match}) {
+                // NOTE - this can be updated to change which web service runs.
+                // Both options are included as examples.
+                const useGraphQL = true;
+
+                // JSON Web Service
+                if (useGraphQL === false) {
+                    return (
+                        <JsonData
+                            url="https://www.dataformsjs.com/data/geonames/countries"
+                            lang={match.params.lang}
+                            isLoading={<ShowLoading />}
+                            hasError={<ShowError />}
+                            isLoaded={<ShowCountries />}
+                            loadOnlyOnce={true} />
+                    );
+                }
+
+                // GraphQL Service
+                // In this example the prop [variables] is used so language
+                // can be passed as a param to <ShowCountries> however it is
+                // not needed or used for the GraphQL service.
+                return (
+                    <JsonData
+                        url="https://www.dataformsjs.com/graphql"
+                        graphQL={true}
+                        query={`
+                            {
+                                countries {
+                                    iso
+                                    country
+                                    area_km
+                                    population
+                                    continent
+                                }
+                            }
+                        `}
+                        variables={{
+                            lang: match.params.lang,
+                        }}
+                        isLoading={<ShowLoading />}
+                        hasError={<ShowError />}
+                        isLoaded={<ShowCountries />}
+                        loadOnlyOnce={true} />
+                );
+            }
+
+            // Download leaflet (Maps) and [place-react.jsx] when the city page
+            // is first accessed. These scripts will not be downloaded unless the
+            // page is accessed. Once loaded `ShowCity` from [place-react.jsx]
+            // will be dynamically called.
+            function LoadMapAndPage(props) {
+                return (
+                    <LazyLoad
+                        scripts={[
+                            // https://leafletjs.com
+                            'https://unpkg.com/leaflet@1.5.1/dist/leaflet.css',
+                            'https://unpkg.com/leaflet@1.5.1/dist/leaflet.js',
+                            './html/place-react.jsx',
+                        ]}
+                        isLoading={<ShowLoading />}
+                        isLoaded="ShowCity"
+                        data={props.data}
+                        params={props.params} />
+                );
+            }
+
+            function PageCity({match}) {
+                return (
+                    <JsonData
+                        url="https://www.dataformsjs.com/data/geonames/place/:id"
+                        lang={match.params.lang}
+                        id={match.params.id}
+                        isLoading={<ShowLoading />}
+                        hasError={<ShowError />}
+                        isLoaded={<LoadMapAndPage />}
+                        loadOnlyOnce={true} />
+                );
+            }
+
+            class App extends preact.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = {
+                        langLoaded: null,
+                    };
+                }
+
+                componentDidMount() {
+                    i18n.onLangStart(() => { this.setState({ langLoaded:false }); });
+                    i18n.onLangLoaded(() => { this.setState({ langLoaded:true }); });
+                }
+
+                render() {
+                    if (!this.state.langLoaded) {
+                        return <ShowLoading />;
+                    }
+                    return (
+                        <ErrorBoundary>
+                            <Router>
+                                <React.Fragment>
+                                    <Route exact path="/" render={() => (
+                                        <Redirect to={'/' + defaultLang + '/'} />
+                                    )}/>
+                                    <Route exact path="/:lang/" component={PageCountries} />
+                                    <Route path="/:lang/regions/:country" component={PageRegions} />
+                                    <Route path="/:lang/cities/:country/:region" component={PageCities} />
+                                    <Route path="/:lang/city/:id" component={PageCity} />
+                                    <Route path="/:lang/search" component={PageSearch} />
+                                    <Route path="/:lang/info" component={PageInfo} />
+                                </React.Fragment>
+                            </Router>
+                        </ErrorBoundary>
+                    )
+                }
+            }
+
+            preact.render(
+                <App />,
+                document.getElementById('root')
+            );
+        </script>
+    </body>
+</html>

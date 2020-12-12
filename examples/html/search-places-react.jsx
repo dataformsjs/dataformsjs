@@ -1,6 +1,10 @@
 
 // This demo can use either [jQuery] and [chosen] or [React Select] depending on the value of `useChosen`.
-const useChosen = false;
+// Currently using [React Select] for the React Demo and [chosen] for the Preact Demo.
+// Chosen works with both but React Select only works with React.
+//
+// const useChosen = true;
+const useChosen = (window.preact === undefined ? false : true);
 
 // jQuery / chosen:
 //    https://harvesthq.github.io/chosen/
@@ -111,12 +115,19 @@ class ShowSearchPage extends React.Component {
             this.setState({
                 country: '',
                 waitToSearch: true,
+            }, () => {
+                // Reset the <h1> tag as it will show the previous search results
+                // from <InputFilter /> using DOM methods rather than React VDom.
+                // This is by design.
+                document.querySelector('h1').textContent = i18n.text('Search');
             });
             return;
         }
         this.setState({
             country: (event.target !== undefined ? event.target.value : event.value),
             waitToSearch: true,
+        }, () => {
+            document.querySelector('h1').textContent = i18n.text('Search');
         });
     }
 
@@ -124,6 +135,9 @@ class ShowSearchPage extends React.Component {
         this.setState({
             city: event.target.value,
             waitToSearch: true,
+        }, () => {
+            // See comments in above `handleCountryChange()` function
+            document.querySelector('h1').textContent = i18n.text('Search');
         });
     }
 
@@ -292,6 +306,12 @@ class Chosen extends React.Component {
     }
 
     handleChange(e) {
+        // Preact will convert `onChange` to `onInput`
+        // https://preactjs.com/guide/v10/differences-to-react#use-oninput-instead-of-onchange
+        if (window.preact && typeof this.props.onInput === 'function') {
+            this.props.onInput(e);
+            return;
+        }
         this.props.onChange(e);
     }
 

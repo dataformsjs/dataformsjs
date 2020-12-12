@@ -22,6 +22,15 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+**) Look into why DataFormsJS Web Components are not working with Preact.
+    They work with React in all tested browsers (including the polyfill with IE).
+    Source:
+        examples/web-components-with-preact.htm
+    React Version:
+        https://www.dataformsjs.com/examples/web-components-with-react.htm
+    Preact Version:
+        https://www.dataformsjs.com/examples/web-components-with-preact.htm
+
 **) Combine Main Server and AI/ML Server into one.
     - Servers:
         https://www.dataformsjs.com/
