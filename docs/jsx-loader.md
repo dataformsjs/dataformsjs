@@ -122,6 +122,7 @@ The `jsxLoader.js` script is very small to download (5.7 kB - min and gzip) and 
 * https://www.dataformsjs.com/examples/places-demo-preact.htm
 * https://www.dataformsjs.com/examples/countries-no-spa-preact.htm
 * https://www.dataformsjs.com/examples/image-gallery-preact.htm
+* https://www.dataformsjs.com/examples/web-components-with-preact.htm
 * https://www.dataformsjs.com/getting-started/en/template-preact.htm
 * https://www.dataformsjs.com/getting-started/en/template-preact-router.htm
 * https://www.dataformsjs.com/getting-started/en/template-preact-graphql.htm
