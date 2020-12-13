@@ -22,9 +22,16 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Regression test the following page using the next release (likely Saturday 12/12/2020 or tomorrow)
-    A fix was added for this page.
+**) The following two demos share the same JSX (one for React and one for Preact)
+    https://www.dataformsjs.com/examples/web-components-with-react.htm#/
     https://www.dataformsjs.com/examples/web-components-with-preact.htm#/
+    - The React page works in all browsers including IE 11 because [polyfill.js]
+        handles the Web Components for IE
+    - The Preact version works with Modern Browsers, however it sometimes errors
+        on pages when using IE and the Markdown tab always errors with IE.
+    - For some of the Preact errors it appears to be a timing issue because
+        <json-data>[url] does not get converted to [data-url] at the correct
+        time however after several tries and refreshing the page it worked.
 
 **) Combine Main Server and AI/ML Server into one.
     - Servers:
