@@ -376,7 +376,7 @@ TODO List
         plugins.onBeforeRender()
         -- HTML Template Rendered --
         -- HTML Controls Rendered --   Elements with [data-template-id] or [data-template-url]
-        -- JS Controled Loaded -- Custom JS Controls defined by [js/controls]
+        -- JS Controller Loaded -- Custom JS Controls defined by [js/controls]
         plugins.onRendered()
         controller.onRendered(model as this)
         app.onUpdateViewComplete()  # Global event - typically for Unit Testing only
@@ -389,7 +389,7 @@ TODO List
             translations so server-side code would help here
     - If using Vue then document and show examples of which controller functions are called
         by which Vue events - search [DataForms.js] for "new Vue".
-        - Example [Controlller.onRouteLoad] is called by [Vue.mounted]
+        - Example [Controller.onRouteLoad] is called by [Vue.mounted]
     - Vue - [app.activeVueModel] can be used but not on the first [onRendered], apps should use [this]
     - How to use custom events for <url-router> and <json-data>
       See comments in JS code at bottom of:
@@ -477,15 +477,6 @@ TODO List
         --
     - How to delay a loading screen for a specific time through CSS, see example in:
         Website\public\html\getting-started\getting-started.css
-    - MNIST Keras/TensorFlow demo with JS Plugin to allow user to draw number
-    - How to replicate embedded page links using hash URL:
-        Normally <a href="#target"> would work to link to:
-            <div id="target">
-        However because SPA hash routing is used App would redirect to another page
-        Example work-around:
-            <a href="javascript:document.getElementById('target').scrollIntoView();window.scrollTo(0, window.pageYOffset-100);">
-        In the future this could be make into a generic plugin. The [window.scrollTo()] is used above to handle
-        a fixed header in a specific app.
     - Show difference between jQuery, Object.assign() and app.deepClone() in a doc
         jQuery adds to an array rather than replace it
 			var data = { a:[ {o1:1}, {o2:2}, {o3:3}, {o4:4} ] }
@@ -515,11 +506,7 @@ TODO List
         At the time of writing GraphQL is not a built-in mode for CodeMirror:
             https://codemirror.net/mode/index.html
         Instead Facebook uses their own custom mode and it requires a custom build process and not CDN, see:
-            https://github.com/graphql/graphiql/tree/master/packages/codemirror-graphql
-
-*) DataFormsJS\js\React\jsPlugins.js
-    How to handle [Plugin.onRouteUnload()]? Not yet needed with common framework plugins but needed
-    for future plugins that use [window.setInterval] or [window.setTimeout]
+            https://github.com/graphql/graphiql/tree/main/packages/codemirror-graphql
 
 *) DataFormsJS\js\Plugins\highlighter.js
     - Allow users to define text results such as "{count} Records matched [{value}]"

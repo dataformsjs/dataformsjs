@@ -1,11 +1,16 @@
 /**
  * This file provides a minimal API for loading DataFormsJS standard framework plugins
  * and running them from React code. Common plugins such as [sort.js], [filter.js]
- * will work however not all plugins will work.
- * 
+ * will work however not all plugins will work. If a plugin uses the `onRouteUnload()`
+ * event then it currently will not be handled here.
+ *
  * Using JavaScript plugins has "side effects" that run after the React Virtual DOM renders
  * so carefully testing your site is recommended when using this file and related plugins
  * on a page with data that changes from React components after it is initially loaded.
+ *
+ * For example usage, see the file [examples/log-table-react.htm]
+ *
+ * @link https://www.dataformsjs.com/examples/log-table-react.htm
  */
 
 /* Validates with both [jshint] and [eslint] */
@@ -23,8 +28,8 @@
     // updates from running out of order.
     var isUpdating = false;
 
-    // Run a plugin function. Logic for plugins when using React works 
-    // differently than the standard DataFormsJS Framework. Bascially all
+    // Run a plugin function. Logic for plugins when using React works
+    // differently than the standard DataFormsJS Framework. Basically all
     // Plugin functions run at the same time in the expected order. When
     // using the standard DataFormsJS Framework plugins run at specific
     // times related to url changes and view rendering.
@@ -56,7 +61,7 @@
      * Define the [app] Object. This allows for the framework standard API call
      * [app.addPlugin(name, object)] to be used and allows for code from a React
      * app to call [app.refreshPlugins()] to run the plugins.
-     * 
+     *
      * Additionally several common functions and properties such as [showErrorAlert()]
      * are copied from the standard DataFormsJS framework so they can be used here
      * and by React code.
@@ -112,15 +117,15 @@
             'background-image:linear-gradient(#c00,#a00);',
             'border-radius:5px;',
             '}',
-        ].join(''),        
-    
+        ].join(''),
+
         /**
          * Add a Plugin object. This version is minimal and does not include
          * validation from the standard Framework so plugins should be correctly
          * defined.
-         * 
-         * @param {string} name 
-         * @param {object} plugin 
+         *
+         * @param {string} name
+         * @param {object} plugin
          */
         addPlugin: function(name, plugin) {
             if (typeof plugin === 'function') {
@@ -130,7 +135,7 @@
             }
             return this;
         },
-    
+
         /**
          * Call this to run all loaded plugins. Example usage:
          *     <JsonData onViewUpdated={window.app.refreshPlugins}>
@@ -141,7 +146,7 @@
                 return;
             }
             isUpdating = true;
-    
+
             // Make sure that HTML Elements are ready by calling [setTimeout()]
             // with no timeout and [window.requestAnimationFrame()]. If plugin code
             // were called immediately from either [componentDidMount] or [componentDidUpdate]
@@ -182,16 +187,16 @@
 
         /**
          * Show an error alert message above other elements.
-         * A close [x] buttton is provided for the user to close the alert.
-         * 
-         * @param {string} message 
+         * A close [x] button is provided for the user to close the alert.
+         *
+         * @param {string} message
          */
         showErrorAlert: function(message) {
             app.loadCss(app.errorStyleId, app.errorCss);
             if (typeof message === 'string' && message.toLowerCase().indexOf('error') === -1) {
                 message = 'Error: ' + message;
             }
-            
+
             var div = document.createElement('div');
             div.textContent = message;
             div.className = app.fatalErrorClass;
@@ -200,7 +205,7 @@
             closeButton.onclick = function () {
                 document.body.removeChild(div);
             };
-            
+
             div.insertBefore(closeButton, div.firstChild);
             document.body.appendChild(div);
             console.error(message);
