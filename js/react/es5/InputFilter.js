@@ -1,16 +1,11 @@
+(function () {
 "use strict";
+
+var React = (window.React === undefined && window.preact !== undefined ? window.preact : window.React);
 
 function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return !!right[Symbol.hasInstance](left); } else { return left instanceof right; } }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-if (window.exports === undefined) { window.exports = window; }
-if (window.React === undefined && window.preact !== undefined) { var React = window.preact; }
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
 
 function _classCallCheck(instance, Constructor) { if (!_instanceof(instance, Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -170,4 +165,5 @@ var InputFilter = function (_React$Component) {
   return InputFilter;
 }(React.Component);
 
-exports.default = InputFilter;
+window.InputFilter = InputFilter;
+})();

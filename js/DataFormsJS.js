@@ -3179,6 +3179,10 @@
         }
     };
 
+    // Add Build Version
+    // For new releases this gets updated automatically by [scripts/build.js].
+    Object.defineProperty(app, 'version', { value: '5.5.0' });
+
     // Assign [DataFormsJS] and [app] to the global variable space
     window.DataFormsJS = app;
     if (window.app === undefined) {

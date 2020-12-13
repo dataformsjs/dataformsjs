@@ -1613,6 +1613,12 @@
     };
 
     /**
+     * Add Build Version
+     * For new releases this gets updated automatically by [scripts/build.js].
+     */
+    Object.defineProperty(jsxLoader, 'version', { value: '5.5.0' });
+
+    /**
      * Optional Node Support. Additionally if using webpack or a bundler is being used
      * and only compiling is needed lower-level API settings can be used to prevent
      * this script from checking if it needs to download polyfills or babel.

@@ -1,14 +1,9 @@
+(function () {
 "use strict";
 
+var React = (window.React === undefined && window.preact !== undefined ? window.preact : window.React);
+
 function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return !!right[Symbol.hasInstance](left); } else { return left instanceof right; } }
-
-if (window.exports === undefined) { window.exports = window; }
-if (window.React === undefined && window.preact !== undefined) { var React = window.preact; }
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -245,4 +240,5 @@ var SortableTable = function (_React$Component) {
   return SortableTable;
 }(React.Component);
 
-exports.default = SortableTable;
+window.SortableTable = SortableTable;
+})();

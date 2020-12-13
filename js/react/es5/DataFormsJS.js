@@ -1,16 +1,11 @@
 // @link https://www.dataformsjs.com
-// @version 5.4.1
+// @version 5.5.0
 // @author Conrad Sollitt (https://conradsollitt.com)
 // @license MIT
+(function () {
 "use strict";
 
-if (window.exports === undefined) { window.exports = window; }
-if (window.React === undefined && window.preact !== undefined) { var React = window.preact; }
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.DataFormsJS = exports.SortableTable = exports.LazyLoad = exports.JsonData = exports.InputFilter = exports.Format = exports.ErrorBoundary = exports.Cache = void 0;
+var React = (window.React === undefined && window.preact !== undefined ? window.preact : window.React);
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -62,7 +57,7 @@ var Cache = function () {
   return Cache;
 }();
 
-exports.Cache = Cache;
+window.Cache = Cache;
 
 var ErrorBoundary = function (_React$Component) {
   _inherits(ErrorBoundary, _React$Component);
@@ -119,7 +114,7 @@ var ErrorBoundary = function (_React$Component) {
   return ErrorBoundary;
 }(React.Component);
 
-exports.ErrorBoundary = ErrorBoundary;
+window.ErrorBoundary = ErrorBoundary;
 
 var Format = function () {
   function Format() {
@@ -280,7 +275,7 @@ var Format = function () {
   return Format;
 }();
 
-exports.Format = Format;
+window.Format = Format;
 
 var InputFilter = function (_React$Component2) {
   _inherits(InputFilter, _React$Component2);
@@ -420,7 +415,7 @@ var InputFilter = function (_React$Component2) {
   return InputFilter;
 }(React.Component);
 
-exports.InputFilter = InputFilter;
+window.InputFilter = InputFilter;
 var jsonDataCache = [];
 var graphQL_Cache = {};
 
@@ -784,7 +779,7 @@ var JsonData = function (_React$Component3) {
   return JsonData;
 }(React.Component);
 
-exports.JsonData = JsonData;
+window.JsonData = JsonData;
 
 var LazyLoad = function (_React$Component4) {
   _inherits(LazyLoad, _React$Component4);
@@ -1023,7 +1018,7 @@ var LazyLoad = function (_React$Component4) {
   return LazyLoad;
 }(React.Component);
 
-exports.LazyLoad = LazyLoad;
+window.LazyLoad = LazyLoad;
 
 var SortableTable = function (_React$Component5) {
   _inherits(SortableTable, _React$Component5);
@@ -1238,7 +1233,7 @@ var SortableTable = function (_React$Component5) {
   return SortableTable;
 }(React.Component);
 
-exports.SortableTable = SortableTable;
+window.SortableTable = SortableTable;
 
 var DataFormsJS = function () {
   function DataFormsJS() {
@@ -1285,5 +1280,5 @@ var DataFormsJS = function () {
   return DataFormsJS;
 }();
 
-exports.DataFormsJS = DataFormsJS;
-;
+window.DataFormsJS = DataFormsJS;
+})();

@@ -4,13 +4,25 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
-## Next Release (changes on master branch and not published to npm)
+## Next Release 5.5.0 (changes on master branch and not published to npm)
 
 * Web Component `<json-data>`
   * Added setter properties for `url` and `urlParams`. Previously only getters were defined and this resulted in the Component not working with Preact.
   * With this release DataFormsJS Web Components now work with Preact in addition to React
   * Demo:
     * https://www.dataformsjs.com/examples/web-components-with-preact.htm
+* Started including `version` property for two files:
+  * Main `DataFormsJS.js` file
+  * React `jsxLoader.js` file
+  * The version property is updated automatically from `scripts/build.js` using the value from `package.json` when the version changes. Version is included in the full source `DataFormsJS.js, jsxLoader.js` and in the `*.min.js` files.
+  ```js
+  // Framework
+  DataFormsJS.version === '5.5.0'
+  app.version === '5.5.0'
+
+  // JSX Loader
+  jsxLoader.version === '5.5.0'
+  ```
 * JSX Loader
   * Added default fetch options for fetching JSX Templates
   * To use different options set this as soon as the script is loaded and before the document `DOMContentLoaded` event runs.
@@ -23,10 +35,14 @@ Overall the core Framework files and API are expected to remain stable however t
     credentials: 'same-origin',
   };
 
-  // Previously `null` was used for `fetch(url, null)` so the
-  // following can be used to use browser fetch defaults:
+  // Previously `null` was used for `fetch(url, null)` so the following
+  // can be used if needed or `fetchOptions` can be customized for apps
+  // that need to use security to fetch JSX Templates:
   jsxLoader.fetchOptions = null;
   ```
+* React Components
+  * Updated the ES5 build for all React Components so that the compiled code from Babel is enclosed in Immediately Invoked Function Expressions (IIFE) and only needed Component and Classes are assigned to the global `window` object.
+  * The resulting code is slightly smaller for each Component and variables intended for private module scope are no longer made available globally.
 
 ## 5.4.1 (December 9, 2020)
 

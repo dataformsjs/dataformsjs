@@ -40,6 +40,10 @@ describe('jsxLoader.js', function() {
             expect(window.jsxLoader).to.be.instanceof(Object);
         });
 
+        it('should have jsxLoader.version with major version = 5', function() {
+            expect(jsxLoader.version).to.match(/^5.\d+.\d+$/);
+        });
+
         it('should have jsxLoader.polyfillUrl', function() {
             expect(jsxLoader).to.have.property('polyfillUrl', 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Array.prototype.find,Array.prototype.findIndex,Object.assign,Object.keys,Object.values,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat,WeakSet,Symbol,Number.isInteger,String.prototype.codePointAt,String.fromCodePoint');
         });

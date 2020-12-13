@@ -7,7 +7,7 @@
  *
  * This script requires the following npm packages:
  *     https://www.npmjs.com/package/uglify-js
- *     https://www.npmjs.com/package/uglify-es
+ *     https://www.npmjs.com/package/terser
  *     https://www.npmjs.com/package/@babel/standalone
  *
  * To install dependencies download this repository and then run:
@@ -62,7 +62,7 @@ const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'InputFilter', 'JsonDa
     const version = JSON.parse(package).version;
 
     // Small copyright header to core files. Only a few files are updated.
-    // Bascially one file for the Framework, one file for React,
+    // Basically one file for the Framework, one file for React,
     // and two files for Web Components.
     let copyright = `// @link https://www.dataformsjs.com\n// @version ${version}\n// @author Conrad Sollitt (https://conradsollitt.com)\n// @license MIT\n`;
     if (isWindows) {
@@ -99,7 +99,7 @@ const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'InputFilter', 'JsonDa
         console.log(`${title} (${files.length}):`);
         for (const file of files) {
             // Read contents of the full uncompressed file
-            const code = await readFile(file, 'utf8');
+            let code = await readFile(file, 'utf8');
             filesChecked++;
 
             // Read existing [*.min.js] file if it exists
@@ -117,6 +117,28 @@ const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'InputFilter', 'JsonDa
                 reactCoreMinCode = minCode;
                 reactCoreOutFile = outFile;
                 continue;
+            }
+
+            // Update [version] property in the main [DataFormsJS.js] and in [jsxLoader.js]
+            const addVersion = (
+                (file.endsWith('DataFormsJS.js') && !file.includes('react')) ||
+                file.endsWith('jsxLoader.js')
+            );
+            if (addVersion) {
+                const regex = /{ value: '((\d+.\d+.\d+)' }/;
+                const match = code.match(regex);
+                if (match === null) {
+                    console.error(`[version] property was not found as expected in file: ${file}`);
+                    process.exit(1);
+                }
+                const fileVersion = match[1];
+                if (version !== fileVersion) {
+                    console.log(`Updating [version] from [${fileVersion}] to [${version}] in file: ${file}`)
+                    code = code.replace(regex, function(str, p1) {
+                        return str.replace(p1, version);
+                    });
+                    await writeFile(file, code);
+                }
             }
 
             // Minify in-memory
@@ -143,7 +165,7 @@ const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'InputFilter', 'JsonDa
             // Add copyright
             let addCopyright;
             if (!es6) {
-                addCopyright = (file.endsWith('DataFormsJS.js') || file.endsWith('DataFormsJS.React.js') || file.endsWith('jsxLoader.js'));
+                addCopyright = (file.endsWith('DataFormsJS.js') || file.endsWith('jsxLoader.js'));
             } else {
                 addCopyright = (file.endsWith('json-data.js') || file.endsWith('url-router.js'));
             }
@@ -207,7 +229,7 @@ const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'InputFilter', 'JsonDa
     console.log('-'.repeat(40));
     console.log(`** Using version number ${version} in minimized source code.`);
     console.log('This MUST match the release published to NPM.');
-    console.log('If code is accidently published with wrong release number then publish a new patch release with correct version.');
+    console.log('If code is accidentally published with wrong release number then publish a new patch release with correct version.');
 })();
 
 /**
@@ -236,7 +258,11 @@ async function buildReactFiles(copyright) {
     // Read and process files one at a time
     let filesChecked = 0;
     let filesUpdated = 0;
-    const defineExports = 'if (window.exports === undefined) { window.exports = window; }\nif (window.React === undefined && window.preact !== undefined) { var React = window.preact; }';
+    const reactES5_Start_1 = '(function () {\n"use strict";\n\nvar React = (window.React === undefined && window.preact !== undefined ? window.preact : window.React);';
+    const reactES5_Start_2 = '(function () {\n"use strict";';
+    const reactES5_End = '\n})();';
+    const regexModule = /\nObject\.defineProperty\(exports, "__esModule", {\n  value: true\n}\);\n/;
+    const regexExports = /\nexports\..+;/;
     const allComponents = [];
     for (const component of components) {
         // Read both ES6 Class File and existing ES5 file
@@ -255,10 +281,18 @@ async function buildReactFiles(copyright) {
         codeES6 = codeES6.replace("import React from 'react';", '');
         codeES6 = codeES6.replace('@license', ''); // Required for all comments to be deleted
         let codeES5_New = Babel.transform(codeES6, options).code;
+        if (!codeES5_New.startsWith('"use strict";') || codeES5_New.match(regexModule) === null || codeES5_New.match(regexExports) === null) {
+            console.error(`Error unexpected output from Babel for file: ${file}`);
+            process.exit(1);
+        }
+        codeES5_New = codeES5_New.replace(regexModule, '');
+        codeES5_New = codeES5_New.replace(regexExports, '');
+        codeES5_New = codeES5_New.replace(/\nexports\.default/, '\nwindow.' + component);
+        let reactES5_Start = (codeES5_New.includes('React.') ? reactES5_Start_1 : reactES5_Start_2);
+        codeES5_New = reactES5_Start + codeES5_New.substr('"use strict";'.length) + reactES5_End;
         if (isWindows) {
             codeES5_New = codeES5_New.replace(/\n/g, '\r\n');
         }
-        codeES5_New = codeES5_New.replace('Object.defineProperty(exports', defineExports + '\n\nObject.defineProperty(exports');
 
         // Compare - only update file if different
         if (codeES5_Old !== codeES5_New) {
@@ -282,11 +316,18 @@ async function buildReactFiles(copyright) {
             ${components.filter(name => buildClasses.includes(name)).map(name => {
                 return 'static get ' + name + '() { return ' + name + '; }';
             }).join('\n')}
-        };
+        }
     `);
     let js = Babel.transform(allComponents.join('\n'), options).code;
+    if (!js.startsWith('"use strict";') || js.match(regexModule) === null || js.match(regexExports) === null) {
+        console.error(`Error unexpected output from Babel for the main React DataFormsJS file`);
+        process.exit(1);
+    }
+    js = reactES5_Start_1 + js.substr('"use strict";'.length) + reactES5_End;
+    js = js.replace(regexModule, '');
+    js = js.replace(regexExports, '');
+    js = js.replace(/\nexports\./g, '\nwindow.');
     js = copyright + js;
-    js = js.replace('Object.defineProperty(exports', defineExports + '\n\nObject.defineProperty(exports');
 
     // Compare with existing [DataFormsJS.js] File.
     // When comparing convert CRLF -> LF to avoid issues.

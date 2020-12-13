@@ -1,12 +1,5 @@
+(function () {
 "use strict";
-
-if (window.exports === undefined) { window.exports = window; }
-if (window.React === undefined && window.preact !== undefined) { var React = window.preact; }
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
 
 function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return !!right[Symbol.hasInstance](left); } else { return left instanceof right; } }
 
@@ -175,4 +168,5 @@ var Format = function () {
   return Format;
 }();
 
-exports.default = Format;
+window.Format = Format;
+})();
