@@ -4,7 +4,7 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
-## Next Release 5.5.0 (changes on master branch and not published to npm)
+## 5.5.0 (December 13, 2020)
 
 * Web Component `<json-data>`
   * Added setter properties for `url` and `urlParams`. Previously only getters were defined and this resulted in the Component not working with Preact.
