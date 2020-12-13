@@ -33,6 +33,17 @@ TODO List
         <json-data>[url] does not get converted to [data-url] at the correct
         time however after several tries and refreshing the page it worked.
 
+**) Next release
+    - Use `enumerable: true` for [DataFormsJS.js] and [jsxLoader.js]
+    - This will require a minor update in the build script.
+    - Example:
+        Object.defineProperty(app, 'version', { value: '5.5.0', enumerable: true });
+    - Instead of:
+        Object.defineProperty(app, 'version', { value: '5.5.0' });
+    - The reason is so that if a developer types one of the following objects in DevTools
+        to see all properties, functions, etc then the [version] will show by default:
+        - `DataFormsJS, app, jsxLoader`
+
 **) Combine Main Server and AI/ML Server into one.
     - Servers:
         https://www.dataformsjs.com/
