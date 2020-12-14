@@ -35,11 +35,10 @@
         <template id="home-page">
             <section class="home-page">
                 <h1>Hello World</h1>
-                <p>This page is used to manually test DataFormsJS Web Components with Vue and Vue Router however there are some work-arounds in order for all elements to work properly.</p>
-                <p>Both Vue 2 and Vue 3 are supported. To try different versions uncomment and uncomment the desired version near the bottom of this file.</p>
-                <p>When using Vue 2 built-in Custom Elements such as &lt;input is="input-filter"&gt; are not supported so the needed elements are swapped after Vue is mounted.</p>
-                <p>When using the most recently tested version of Vue 3 the page has to be reloaded after each routing change otherwise the [url] attribute ends up missing from &lt;json-data&gt;. A work-around which this page uses is in place to manually add back the [url] on the mounted event. See comments in the code for more.</p>
-                <p>For more details on using Vue with Custom Elements see the link below:</p>
+                <p>This page is used to manually test DataFormsJS Web Components with Vue and Vue Router.</p>
+                <p>Both Vue 2 and Vue 3 are supported for Modern Browsers. To try different versions uncomment and uncomment the desired version near the bottom of this file.</p>
+                <p>When using Vue 2 built-in Custom Elements such as &lt;input is="input-filter"&gt; are not supported so the needed elements are swapped after Vue is mounted using a work around that is shown in the source of this page.</p>
+                <p>For more details on using Vue with Custom Elements see the link below.</p>
                 <p>For older browsers (IE 11, Old Safari) this page only partially works because the custom JavaScript on this page is not designed to currently handle old browsers.</p>
                 <p><a href="https://v3.vuejs.org/guide/migration/custom-elements-interop.html" target="_blank">https://v3.vuejs.org/guide/migration/custom-elements-interop.html</a></p>
             </section>
@@ -153,7 +152,7 @@
 
         <!-- Vue 3 -->
         <script src="https://cdn.jsdelivr.net/npm/vue@3.0.2/dist/vue.global.prod.js"></script>
-        <script src="https://unpkg.com/vue-router@next"></script>
+        <script src="https://unpkg.com/vue-router@4.0.1/dist/vue-router.global.prod.js"></script>
 
         <!--
             DataFormsJS Web Components
@@ -203,11 +202,10 @@
                             }
                         },
                         mounted: function () {
-                            // Handle work-arounds
+                            // Work around for Vue 2
+                            // Custom built-in elements are not supported with Vue 2 so swap out known custom
+                            // elements with the built-in version otherwise the elements will not render.
                             if (Vue.createApp === undefined) {
-                                // Vue 2
-                                // Custom built-in elements are not supported with Vue 2 so swap out known custom
-                                // elements with the built-in version otherwise the elements will not render.
                                 var swapElements = document.querySelectorAll('input-filter, leaflet-map');
                                 Array.prototype.forEach.call(swapElements, function(element) {
                                     var customElement = element.tagName.toLowerCase();
@@ -218,16 +216,6 @@
                                     }
                                     element.parentNode.replaceChild(newEl, element);
                                 });
-                            } else {
-                                // Vue 3
-                                // [url] disappears when clicking from page to page, however it will show when
-                                // doing a full refresh on the page and not navigating using Vue Router.
-                                // This simply adds it back, however a console warning still shows.
-                                var jsonData = document.querySelector('json-data');
-                                if (this.url && !jsonData.hasAttribute('url')) {
-                                    jsonData.setAttribute('url', this.url);
-                                    jsonData.fetch();
-                                }
                             }
 
                             // If [polyfill.js] is being used then update the view on all page views.
@@ -259,9 +247,6 @@
                 var router, app;
                 if (Vue.createApp === undefined) {
                     // Vue 2
-
-                    // Vue.config.ignoredElements = ['json-data'];
-
                     router = new VueRouter({
                         routes: routes,
                     });
@@ -277,9 +262,6 @@
                     });
 
                     app = Vue.createApp({});
-                    // app.config.isCustomElement = function(tag) {
-                    //     return tag === 'json-data';
-                    // };
                     app.use(router).mount('#root');
                 }
             })();

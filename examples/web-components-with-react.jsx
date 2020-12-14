@@ -8,7 +8,7 @@ function HomePage() {
         <section className="home-page">
             <h1>Hello World</h1>
             <p>This page is used to show how DataFormsJS Web Components (and Web Components in general) can be used with React (or Preact) and React Router.</p>
-            <p>All Web Component and all page features are expected to work in virtually all browsers when using React.</p>
+            <p>All Web Component and all page features are expected to work in virtually all browsers when using either React or Preact.</p>
             <p>The JSX is shared with both React and Preact demos.</p>
         </section>
     );
@@ -147,9 +147,18 @@ ReactDOM.render(
  * quickly flash on screen while loading but it's not important because it still
  * works and browsers that actually use the polyfill (IE 11, etc) don't work on many
  * sites so having a site work is usually enough for user's of older browsers.
+ *
+ * The reason for this is because [polyfill.js] uses the DataFormsJS Framework
+ * to process the Web Components rather than actual Web Component Polyfills.
+ * DataFormsJS Web Components are not transpiled to support older browsers.
  */
 window.addEventListener('hashchange', function() {
     if (window.usingWebComponentsPolyfill) {
-        app.updateView();
+        if (window.preact === undefined) {
+            app.updateView();
+        } else {
+            // Slight delay is needed if using Preact
+            window.setTimeout(app.updateView, 100);
+        }
     }
 });
