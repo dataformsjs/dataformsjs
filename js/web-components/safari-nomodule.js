@@ -15,7 +15,7 @@
  * [old-browser-warning.js] as the user can still close the warning and as of
  * late 2020 the target browser of this script [Safari 10.1] has very little usage.
  * 
- * Additionally [pollyfill.js] for Web Components has been designed to exit with
+ * Additionally [polyfill.js] for Web Components has been designed to exit with
  * a warning if it is being loaded at the same time with the Web Components.
  */
 
