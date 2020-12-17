@@ -6,13 +6,13 @@
  * This script is intended for use with both Modern Browsers and Legacy Browsers
  * (IE, old Safari, etc) with recently added JavaScript standard functions.
  *
- * To polyfill common featuers such as [fetch(), Promise, etc] use https://polyfill.io/v3/
+ * To polyfill common features such as [fetch(), Promise, etc] use https://polyfill.io/v3/
  *
  * For example usage of using the Polyfill server see code related to `polyfillUrl` in:
  *     js\DataFormsJS.js
  *     js\react\jsxLoader.js
  *
- * Functions defined here are not yet avaiable with the `polyfill.io` service
+ * Functions defined here are not yet available with the `polyfill.io` service
  */
 (function() {
     'use strict';
