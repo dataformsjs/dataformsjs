@@ -15,7 +15,7 @@
  *
  * Another "safe" alternative for working with cookies would be using the [SameSite] Attribute
  * on the cookie from the server. That would not work in this case though because the
- * API is made avaialble to any site including localhost.
+ * API is made available to any site including localhost.
  *
  * Additionally Content Security Policy (CSP) can be used from the server to make sure
  * that third-party scripts cannot access the DOM.
