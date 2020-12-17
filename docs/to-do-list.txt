@@ -33,6 +33,19 @@ TODO List
         to see all properties, functions, etc then the [version] will show by default:
         - `DataFormsJS, app, jsxLoader`
 
+**) Look into error when using Web Component Version of the main site from IE 11
+    - Issue is either with [polyfill.js] or the main site
+    - This showed up from `app.showErrorAlert()` on the playground page after clicking quickly between many pages
+        Error from function <url-route onload="setupPlayground()">: Unable to get property 'removeChild' of undefined or null reference
+    - Additionally (most important) if clicking between the pages over and over the site becomes slow
+        to handle page changes. This does not happen when using the Framework Version of the main site or when
+        using Web Components on modern browsers. Additionally when using [polyfill.js] with Modern Browsers it doesn't
+        seem to happen so actual testing with IE is needed.
+    - To switch main site from the standard Framework update search for "$page" in file and follow instructions
+        - website\app\app.php
+        - https://github.com/dataformsjs/website/blob/master/app/app.php
+
+
 **) Combine Main Server and AI/ML Server into one.
     - Servers:
         https://www.dataformsjs.com/
