@@ -152,6 +152,12 @@ TODO List
             page on the main site using the new <markdown-content> component
 
 *) Web Components Updates
+    - Create a [custom-elements.json]
+        - This format is not finalized so creating the file can wait till later
+        https://runem.github.io/web-component-analyzer/
+        https://github.com/runem/web-component-analyzer
+        https://github.com/webcomponents/custom-elements-manifest
+        https://github.com/WICG/webcomponents/issues/776
     - <json-data>
         - Add support for custom Request Headers.
         - For how the standard Framework handles this see code related to [app.settings.requestHeaders].
