@@ -169,7 +169,7 @@ export function setElementText(element, value) {
     // Set the value based on node type
     const nodeName = element.nodeName.toLowerCase();
     switch (nodeName) {
-        case 'INPUT':
+        case 'input':
             if (element.type === 'checkbox') {
                 const lowerValue = String(value).toLowerCase();
                 element.checked = (lowerValue === 'true' || lowerValue === '1' || lowerValue === 'yes' || lowerValue === 'y');
@@ -177,8 +177,8 @@ export function setElementText(element, value) {
                 element.value = (value === null ? '' : String(value));
             }
             break;
-        case 'SELECT':
-        case 'TEXTAREA':
+        case 'select':
+        case 'textarea':
             element.value = (value === null ? '' : String(value));
             break;
         default:

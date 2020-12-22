@@ -4,6 +4,13 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## Next Release (changes on master branch and not yet npm)
+
+* Web Components
+  * Fix for function `setElementText()` from file `js/web-components/utils.js`
+  * Elements `input, select, textarea` were having the `innerText` set rather than the `value` property to to a string compare error
+  * Affected `<json-data>` for `[data-bind]` and `<url-router>` for `[url-param]`
+
 ## 5.5.0 (December 13, 2020)
 
 * Web Component `<json-data>`
