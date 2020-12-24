@@ -82,8 +82,12 @@ class SpaLinks extends HTMLElement {
         elements = this.querySelectorAll(itemSelector);
         for (const el of elements) {
             const link = (el.nodeName === 'A' ? el : el.querySelector('a'));
-            if (link && link.getAttribute('href') === path && (link === el || link.parentNode === el)) {
-                el.classList.add(activeClass);
+            const navMatch = el.getAttribute('data-nav-match');
+            if (link) {
+                const href = link.getAttribute('href');
+                if ((href === path || (navMatch === 'start' && path.startsWith(href))) && (link === el || link.parentNode === el)) {
+                    el.classList.add(activeClass);
+                }
             }
         }
     }

@@ -51,8 +51,12 @@
         elements = rootElement.querySelectorAll(navLinks.itemSelector);
         Array.prototype.slice.call(elements).forEach(function (el) {
             var link = (el.nodeName === 'A' ? el : el.querySelector('a'));
-            if (link && link.getAttribute('href') === path && (link === el || link.parentNode === el)) {
-                el.classList.add(navLinks.activeClass);
+            var navMatch = el.getAttribute('data-nav-match');
+            if (link) {
+                var href = link.getAttribute('href');
+                if ((href === path || (navMatch === 'start' && path.startsWith(href))) && (link === el || link.parentNode === el)) {
+                    el.classList.add(activeClass);
+                }
             }
         });
     }

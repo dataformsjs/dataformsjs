@@ -28,7 +28,7 @@
         // was created this plugin can end up being called multiple times per page view.
         // If that happens it can cause a long delay if prism re-runs on already
         // highlighted code. To avoid that all elements are checked on the page
-        // and only those that have not yet been highlighed are processed.
+        // and only those that have not yet been highlighted are processed.
         // The selector comes directly from `Prism.highlightAllUnder()`.
         
         // if (rootElement === undefined) {

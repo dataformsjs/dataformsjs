@@ -7,9 +7,14 @@ Overall the core Framework files and API are expected to remain stable however t
 ## Next Release (changes on master branch and not yet npm)
 
 * Web Components
-  * Fix for function `setElementText()` from file `js/web-components/utils.js`
-  * Elements `input, select, textarea` were having the `innerText` set rather than the `value` property to to a string compare error
-  * Affected `<json-data>` for `[data-bind]` and `<url-router>` for `[url-param]`
+  * Added new `<export-to-csv-service>` based on Framework Plugin `js/plugins/exportToCsv.js`
+  * Updated `<nav is="spa-links">` to include new option `[data-nav-match="start"]`
+  * Bug Fix for function `setElementText()` from file `js/web-components/utils.js`
+    * Elements `input, select, textarea` were having the `innerText` set rather than the `value` property to to a string compare error
+    * Affected `<json-data>` for `[data-bind]` and `<url-router>` for `[url-param]`
+* Framework Updates
+  * `js/plugins/exportToCsv.js` - Added support to export using `[data-value]` attributes if they exist. `data-value` is used for Sorting and if used contains the expected number or date format needed for exporting.
+  * Updated `js/plugins/navLinks.js` to include new option `[data-nav-match="start"]`
 
 ## 5.5.0 (December 13, 2020)
 

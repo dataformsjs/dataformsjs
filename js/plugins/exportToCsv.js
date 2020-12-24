@@ -6,7 +6,7 @@
  *     data-export-csv-selector
  *     data-export-file-name
  *
- * Exports happen directly in the broswer through JavaScript and no server-side calls
+ * Exports happen directly in the browser through JavaScript and no server-side calls
  * are made which makes the export/download appear almost instantly to the user.
  *
  * [Report.csv] is optional and if not defined then the report will
@@ -59,7 +59,9 @@
                 csv,
                 blob,
                 link,
-                url;
+                url,
+                cell,
+                value;
 
             // Set default value if not specified
             exportFileName = exportFileName || 'Report.csv';
@@ -77,7 +79,12 @@
                 row = [];
                 rowEl = tableRows[x];
                 for (n = 0, m = rowEl.cells.length; n < m; n++) {
-                    row.push(csvEscape(rowEl.cells[n].textContent));
+                    cell = rowEl.cells[n];
+                    value = cell.getAttribute('data-value');
+                    if (value === null) {
+                        value = cell.textContent;
+                    }
+                    row.push(csvEscape(value));
                 }
                 rows.push(row.join(','));
             }
@@ -108,7 +115,7 @@
 
         /**
          * Once the Form Renders find any elements that have attribute
-         * [data-export-csv-selector] and assing an onclick event to it.
+         * [data-export-csv-selector] and assigning an onclick event to it.
          */
         onRendered: function () {
             // Find Elements
@@ -127,7 +134,7 @@
             // Update the Elements
             Array.prototype.forEach.call(actionElements, function (element) {
                 // If supported then setup and if not supported then hide the button
-                // (Example, this doens't work on an iPhone).
+                // (Example, this doesn't work on older iPhones).
                 if (isSupported) {
                     var selector = element.getAttribute('data-export-csv-selector');
                     var fileName = element.getAttribute('data-export-file-name');

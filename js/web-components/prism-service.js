@@ -37,7 +37,7 @@ window.customElements.define('prism-service', class PrismService extends WebComp
         // on a single page load depending <json-data>, <html-import-service>, etc.
         // If that happens it can cause a long delay if prism re-runs on already
         // highlighted code. To avoid that all elements are checked on the page
-        // and only those that have not yet been highlighed are processed.
+        // and only those that have not yet been highlighted are processed.
         // The selector comes directly from `Prism.highlightAllUnder()`
         const selector = 'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code';
         const elements = rootElement.querySelectorAll(selector);
