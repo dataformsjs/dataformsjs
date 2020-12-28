@@ -33,7 +33,7 @@
     var highlighter = {
         /**
          * Check for required elements and if found highlight
-         * related elements based on the highligher options.
+         * related elements based on the highlighter options.
          */
         onRendered: function () {
             // Does the container element exist? Example:

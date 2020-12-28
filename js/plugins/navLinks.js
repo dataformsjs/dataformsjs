@@ -55,7 +55,7 @@
             if (link) {
                 var href = link.getAttribute('href');
                 if ((href === path || (navMatch === 'start' && path.startsWith(href))) && (link === el || link.parentNode === el)) {
-                    el.classList.add(activeClass);
+                    el.classList.add(navLinks.activeClass);
                 }
             }
         });

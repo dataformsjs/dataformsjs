@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Log Table Demo | Web Components</title>
+        <link rel="stylesheet" href="css/log-table.css">
+        <link rel="canonical" href="https://www.dataformsjs.com/examples/log-table-hbs.htm">
+    </head>
+    <body>
+        <div id="view" class="pt10"></div>
+
+        <!--
+            TODO - new - This demo uses only Standard Web Components and not Framework
+                (except when using [polyfill.js] for older browsers)
+            - After this file is completed add a new [Info] tab on all log demos with
+                helpful text on what the demo shows.
+            - This be linked from the existing Web Components version on the main site
+                from the new [Info] tab and this page would also link back to that version.
+            - In order for this to work the [is="input-filter"] will likely need additional features
+                to match [js/plugins/filter.js] and a new <click-filter> or <click-to-filter>
+                Web Component needs to be added.
+            - Also something needed for [js/plugins/highlighter.js]
+            - [polyfill.js] needs to be updated with any new features for the next release.
+                For Example once a Component is created for [js/plugins/highlighter.js]
+                then highlighter also needs to be added to [polyfill.js].
+            - Consider adding something to allow for loading of [css-vars-ponyfill] using less code.
+                - For example - should this run from the main DataFormsJS app object which would
+                  then allow support from [polyfill.js]?
+                - One option would be to add a new attribute to the style sheets that should opt-in
+                  for the polyfill. Example:
+                    <link rel="stylesheet" href="css/log-table.css" data-polyfill-css-vars>
+                - Search source code for "cssVars(" to see where and how it is used
+        -->
+
+        <show-errors-service></show-errors-service>
+        <export-to-csv-service></export-to-csv-service>
+
+        <url-router view-selector="#view">
+            <url-route path="/" redirect="/10"></url-route>
+            <url-route path="/:count">
+                <template>
+                    <json-data url="https://www.dataformsjs.com/data/example/log-table/:count?format=list" url-params>
+                        <is-loading>
+                            <h3 class="loading">Loading...</h3>
+                        </is-loading>
+                        <has-error>
+                            <h3 class="error" data-bind="errorMessage"></h3>
+                        </has-error>
+                        <is-loaded>
+                            <div class="flex pt10">
+                                <h2></h2>
+                                <button data-filter-clear-all>Clear Filter</button>
+                            </div>
+
+                            <nav is="spa-links">
+                                <a href="#/10">10 Records</a>
+                                <a href="#/100">100 Records</a>
+                                <a href="#/200">200 Records</a>
+                                <a href="#/error">Error Example</a>
+                            </nav>
+
+                            <div>
+                                <input is="input-filter" type="text" class="large form-control medium-margin-right"
+                                    filter-selector="table"
+                                    filter-results-selector="h2"
+                                    filter-results-text-all="{totalCount} Log Example Records"
+                                    filter-results-text-filtered="Showing {displayCount} of {totalCount} Log Example Records"
+                                    data-filter-class-odd="row-odd"
+                                    data-filter-class-even="row-even"
+                                    placeholder="Enter Filter">
+
+                                <button type="button" data-export-csv-selector="table" data-export-file-name="Log-Report.csv">Export to CSV</button>
+                            </div>
+
+                            <div class="highlighter" style="display:none;">
+                                <ul>
+                                    <li class="info">Click or Tap to Filter</li>
+                                    <li class="log-error"
+                                        data-highlight-selector="table tbody tr td:nth-child(1)"
+                                        data-highlight-value="ERROR"
+                                        data-highlight-operator="==="
+                                        data-highlight-class="log-error"
+                                        data-filter-selector="table"
+                                        data-filter-column="Log Level"
+                                        data-filter-operator="==="
+                                        data-filter-value="ERROR"></li>
+                                    <li class="log-warning"
+                                        data-highlight-selector="table tbody tr td:nth-child(1)"
+                                        data-highlight-value="WARNING"
+                                        data-highlight-operator="==="
+                                        data-highlight-class="log-warning"
+                                        data-filter-selector="table"
+                                        data-filter-column="Log Level"
+                                        data-filter-operator="==="
+                                        data-filter-value="WARNING"></li>
+                                </ul>
+                            </div>
+                            <data-table
+                                data-bind="records"
+                                highlight-class="highlight"
+                                table-attr="is=sortable-table,
+                                            data-sort-class-odd=row-odd,
+                                            data-sort-class-even=row-even">
+                            </data-table>
+                        </is-loaded>
+                    </json-data>
+                </template>
+            </url-route>
+        </url-router>
+
+        <!-- DataFormsJS Web Components -->
+        <script type="module" src="../js/web-components/url-router.js"></script>
+        <script type="module" src="../js/web-components/json-data.js"></script>
+        <script type="module" src="../js/web-components/data-table.js"></script>
+        <script type="module" src="../js/web-components/spa-links.js"></script>
+        <script type="module" src="../js/web-components/input-filter.js"></script>
+        <script type="module" src="../js/web-components/sortable-table.js"></script>
+        <script type="module" src="../js/web-components/show-errors-service.js"></script>
+        <script type="module" src="../js/web-components/export-to-csv-service.js"></script>
+        <script nomodule src="../js/web-components/polyfill.js"></script>
+
+        <!--
+            Old Browsers (IE, old Safari, etc) will use <script nomodule>
+            and check if a polyfill is needed for CSS Variables.
+        -->
+        <script nomodule>
+            (function() {
+                'use strict';
+
+                // Add CSS Variable Support to IE and older Browsers (only call this once)
+                var checkedPolyfill = false;
+                function addCssPolyfill() {
+                    if (checkedPolyfill) {
+                        return;
+                    }
+                    checkedPolyfill = true;
+                    var supportsCssVars = (window.CSS && window.CSS.supports && window.CSS.supports('(--a: 0)'));
+                    var polyfillUrl = 'https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2.1.1/dist/css-vars-ponyfill.min.js';
+                    app.loadScript(supportsCssVars, polyfillUrl, function() {
+                        if (window.cssVars) {
+                            cssVars({ include:'link[rel="stylesheet"]' });
+                        }
+                    });
+                }
+
+                // Refresh Plugins after page content is ready (each URL #hash change and JSON data download)
+                document.addEventListener('app:contentReady', function() {
+                    addCssPolyfill();
+                });
+            })();
+        </script>
+    </body>
+</html>

@@ -315,6 +315,7 @@
                 { selector: 'image-gallery', plugin: 'imageGallery', update: updateElements.imageGallery },
                 { selector: '[data-enter-key-click-selector]', plugin: 'keydownAction' },
                 { selector: 'prism-service', plugin: 'prism' },
+                { selector: '[data-export-csv-selector]', plugin: 'exportToCsv' },
             ];
             search.forEach(function(item) {
                 var element = document.querySelector(item.selector);

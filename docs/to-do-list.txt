@@ -22,6 +22,10 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+**) Finish new demo [examples\log-table-web-services.htm]
+    - This contains features being updated for the next release (likely in early January 2021)
+    - See comments near the top of the file for active development
+
 **) Next release
     - Use `enumerable: true` for [DataFormsJS.js] and [jsxLoader.js]
     - This will require a minor update in the build script.
@@ -44,7 +48,6 @@ TODO List
     - To switch main site from the standard Framework update search for "$page" in file and follow instructions
         - website\app\app.php
         - https://github.com/dataformsjs/website/blob/master/app/app.php
-
 
 **) Combine Main Server and AI/ML Server into one.
     - Servers:
