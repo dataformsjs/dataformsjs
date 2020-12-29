@@ -39,6 +39,8 @@ TODO List
 
 **) Look into error when using Web Component Version of the main site from IE 11
     - Issue is either with [polyfill.js] or the main site
+        * Latest Update - Possibly just with DevTools because the site seems to work fast
+          for switching between pages when IE DevTools is not open.
     - This showed up from `app.showErrorAlert()` on the playground page after clicking quickly between many pages
         Error from function <url-route onload="setupPlayground()">: Unable to get property 'removeChild' of undefined or null reference
     - Additionally (most important) if clicking between the pages over and over the site becomes slow
@@ -48,6 +50,8 @@ TODO List
     - To switch main site from the standard Framework update search for "$page" in file and follow instructions
         - website\app\app.php
         - https://github.com/dataformsjs/website/blob/master/app/app.php
+        ** As of 12/28/2021 the site is being switched to the Web Component Version for testing
+           It may be switched back later
 
 **) Combine Main Server and AI/ML Server into one.
     - Servers:

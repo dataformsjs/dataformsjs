@@ -18,9 +18,9 @@
             - This be linked from the existing Web Components version on the main site
                 from the new [Info] tab and this page would also link back to that version.
             - In order for this to work the [is="input-filter"] will likely need additional features
-                to match [js/plugins/filter.js] and a new <click-filter> or <click-to-filter>
-                Web Component needs to be added.
-            - Also something needed for [js/plugins/highlighter.js]
+                to match [js/plugins/filter.js] and a new <click-filter>, <click-to-filter>, or
+                <filter-service> Web Component needs to be added.
+            - Also something needed for [js/plugins/highlighter.js] - likely <highlighter-service>
             - [polyfill.js] needs to be updated with any new features for the next release.
                 For Example once a Component is created for [js/plugins/highlighter.js]
                 then highlighter also needs to be added to [polyfill.js].
@@ -31,6 +31,7 @@
                   for the polyfill. Example:
                     <link rel="stylesheet" href="css/log-table.css" data-polyfill-css-vars>
                 - Search source code for "cssVars(" to see where and how it is used
+            - Does [data-filter-class-odd] code still need to be kept?
         -->
 
         <show-errors-service></show-errors-service>
