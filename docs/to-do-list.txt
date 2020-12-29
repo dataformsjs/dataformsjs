@@ -43,6 +43,8 @@ TODO List
           for switching between pages when IE DevTools is not open.
     - This showed up from `app.showErrorAlert()` on the playground page after clicking quickly between many pages
         Error from function <url-route onload="setupPlayground()">: Unable to get property 'removeChild' of undefined or null reference
+        * Update has been made for this (12/28/2021) - site is going through additional testing
+          Once update is confirmed this comment will be deleted
     - Additionally (most important) if clicking between the pages over and over the site becomes slow
         to handle page changes. This does not happen when using the Framework Version of the main site or when
         using Web Components on modern browsers. Additionally when using [polyfill.js] with Modern Browsers it doesn't
