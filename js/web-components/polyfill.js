@@ -651,6 +651,7 @@
             polyfillPage.onRendered();
         };
         app.updateView();
+        app.cssVarsPonyfill();
     }
 
     /**

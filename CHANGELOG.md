@@ -4,6 +4,10 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 5.6.1 (January 4, 2021)
+
+* Fix to load CSS Variable Polyfill/Ponyfill from Web Components `polyfill.js` for basic Web Pages when not SPA
+
 ## 5.6.0 (January 4, 2021)
 
 * Web Components
