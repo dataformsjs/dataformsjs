@@ -4,38 +4,22 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Log Table Demo | Web Components</title>
-        <link rel="stylesheet" href="css/log-table.css">
+        <link rel="stylesheet" href="css/log-table.css" data-css-vars-ponyfill>
         <link rel="canonical" href="https://www.dataformsjs.com/examples/log-table-hbs.htm">
     </head>
     <body>
         <div id="view" class="pt10"></div>
 
         <!--
-            TODO - new - This demo uses only Standard Web Components and not Framework
-                (except when using [polyfill.js] for older browsers)
-            - After this file is completed add a new [Info] tab on all log demos with
-                helpful text on what the demo shows.
-            - This be linked from the existing Web Components version on the main site
-                from the new [Info] tab and this page would also link back to that version.
-            - In order for this to work the [is="input-filter"] will likely need additional features
-                to match [js/plugins/filter.js] and a new <click-filter>, <click-to-filter>, or
-                <filter-service> Web Component needs to be added.
-            - Also something needed for [js/plugins/highlighter.js] - likely <highlighter-service>
-            - [polyfill.js] needs to be updated with any new features for the next release.
-                For Example once a Component is created for [js/plugins/highlighter.js]
-                then highlighter also needs to be added to [polyfill.js].
-            - Consider adding something to allow for loading of [css-vars-ponyfill] using less code.
-                - For example - should this run from the main DataFormsJS app object which would
-                  then allow support from [polyfill.js]?
-                - One option would be to add a new attribute to the style sheets that should opt-in
-                  for the polyfill. Example:
-                    <link rel="stylesheet" href="css/log-table.css" data-polyfill-css-vars>
-                - Search source code for "cssVars(" to see where and how it is used
-            - Does [data-filter-class-odd] code still need to be kept?
+            This file is based on [log-table-web.htm] however instead of using Framework
+            Plugins with [js/web-components/jsPlugins.js] all needed functionality is
+            handled through DataFormsJS Web Components.
         -->
 
         <show-errors-service></show-errors-service>
         <export-to-csv-service></export-to-csv-service>
+        <highlighter-service></highlighter-service>
+        <filter-service></filter-service>
 
         <url-router view-selector="#view">
             <url-route path="/" redirect="/10"></url-route>
@@ -62,11 +46,11 @@
                             </nav>
 
                             <div>
-                                <input is="input-filter" type="text" class="large form-control medium-margin-right"
-                                    filter-selector="table"
-                                    filter-results-selector="h2"
-                                    filter-results-text-all="{totalCount} Log Example Records"
-                                    filter-results-text-filtered="Showing {displayCount} of {totalCount} Log Example Records"
+                                <input type="text" class="large form-control medium-margin-right"
+                                    data-filter-selector="table"
+                                    data-filter-results-text-selector="h2"
+                                    data-filter-results-text-all="{totalCount} Log Example Records"
+                                    data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Log Example Records"
                                     data-filter-class-odd="row-odd"
                                     data-filter-class-even="row-even"
                                     placeholder="Enter Filter">
@@ -111,45 +95,15 @@
         </url-router>
 
         <!-- DataFormsJS Web Components -->
-        <script type="module" src="../js/web-components/url-router.js"></script>
-        <script type="module" src="../js/web-components/json-data.js"></script>
-        <script type="module" src="../js/web-components/data-table.js"></script>
-        <script type="module" src="../js/web-components/spa-links.js"></script>
-        <script type="module" src="../js/web-components/input-filter.js"></script>
-        <script type="module" src="../js/web-components/sortable-table.js"></script>
-        <script type="module" src="../js/web-components/show-errors-service.js"></script>
-        <script type="module" src="../js/web-components/export-to-csv-service.js"></script>
-        <script nomodule src="../js/web-components/polyfill.js"></script>
-
-        <!--
-            Old Browsers (IE, old Safari, etc) will use <script nomodule>
-            and check if a polyfill is needed for CSS Variables.
-        -->
-        <script nomodule>
-            (function() {
-                'use strict';
-
-                // Add CSS Variable Support to IE and older Browsers (only call this once)
-                var checkedPolyfill = false;
-                function addCssPolyfill() {
-                    if (checkedPolyfill) {
-                        return;
-                    }
-                    checkedPolyfill = true;
-                    var supportsCssVars = (window.CSS && window.CSS.supports && window.CSS.supports('(--a: 0)'));
-                    var polyfillUrl = 'https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2.1.1/dist/css-vars-ponyfill.min.js';
-                    app.loadScript(supportsCssVars, polyfillUrl, function() {
-                        if (window.cssVars) {
-                            cssVars({ include:'link[rel="stylesheet"]' });
-                        }
-                    });
-                }
-
-                // Refresh Plugins after page content is ready (each URL #hash change and JSON data download)
-                document.addEventListener('app:contentReady', function() {
-                    addCssPolyfill();
-                });
-            })();
-        </script>
+        <script type="module" src="../js/web-components/url-router.min.js"></script>
+        <script type="module" src="../js/web-components/json-data.min.js"></script>
+        <script type="module" src="../js/web-components/data-table.min.js"></script>
+        <script type="module" src="../js/web-components/spa-links.min.js"></script>
+        <script type="module" src="../js/web-components/filter-service.min.js"></script>
+        <script type="module" src="../js/web-components/sortable-table.min.js"></script>
+        <script type="module" src="../js/web-components/show-errors-service.min.js"></script>
+        <script type="module" src="../js/web-components/export-to-csv-service.min.js"></script>
+        <script type="module" src="../js/web-components/highlighter-service.min.js"></script>
+        <script nomodule src="../js/web-components/polyfill.min.js"></script>
     </body>
 </html>

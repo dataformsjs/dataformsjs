@@ -163,7 +163,7 @@
             }
         } else {
             // Filtering a single table?
-            // If so and it is setup to use CSS from the Sorting Pluing then use those settings.
+            // If so and it is setup to use CSS from the Sorting Plugin then use those settings.
             if (settings.items.length === 1 && settings.items[0].tagName === 'TABLE') {
                 table = settings.items[0];
                 switch (table.tBodies.length) {
@@ -192,7 +192,7 @@
     var filter = {
         /**
          * Get settings for all matching filter elements
-         * @param {HTMLElement} element
+         * @param {HTMLElement|undefined} element
          */
         getSettings: function (element) {
             // Get all filter elements
@@ -307,7 +307,7 @@
                         }
                         break;
                     case 'excludes_list':
-                        // Check an exatch match in the filter, if the value
+                        // Check an exact match in the filter, if the value
                         // equals one of the list items then hide it.
                         hideElement = false;
                         for (n = 0, m = settings.filterWords.length; n < m; n++) {
@@ -689,8 +689,8 @@
             // so on page changes the [setup] attributes would be kept in memory while the actual
             // DOM events [click, input] will not be kept. To see where this happens in Vue 3
             // search the source code for `const cached = compileCache[key];` then inspect the `Scopes`
-            // variables under the `cached` object as it will have Virutal DOM elements setup.
-            // This issue applys only to [filter.js] and not similar code in [sort.js].
+            // variables under the `cached` object as it will have Virtual DOM elements setup.
+            // This issue applies only to [filter.js] and not similar code in [sort.js].
             // The reason is because most filter elements are not based on data that changes from
             // page state so the elements are kept in virtual DOM as they are last updated while
             // sort and similar plugins update elements that change based on changes to the records.

@@ -316,6 +316,8 @@
                 { selector: '[data-enter-key-click-selector]', plugin: 'keydownAction' },
                 { selector: 'prism-service', plugin: 'prism' },
                 { selector: '[data-export-csv-selector]', plugin: 'exportToCsv' },
+                { selector: 'highlighter-service', plugin: 'highlighter' },
+                { selector: 'filter-service', plugin: 'filter' },
             ];
             search.forEach(function(item) {
                 var element = document.querySelector(item.selector);

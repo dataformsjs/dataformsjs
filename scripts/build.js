@@ -125,7 +125,7 @@ const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'InputFilter', 'JsonDa
                 file.endsWith('jsxLoader.js')
             );
             if (addVersion) {
-                const regex = /{ value: '(\d+.\d+.\d+)' }/;
+                const regex = /{ value: '(\d+.\d+.\d+)', enumerable: true }/;
                 const match = code.match(regex);
                 if (match === null) {
                     console.error(`[version] property was not found as expected in file: ${file}`);

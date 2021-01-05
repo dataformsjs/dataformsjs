@@ -52,7 +52,7 @@
             assert.deepEqual(app.settings.requestHeaders, {}, 'Default Settings for app.settings.requestHeaders: ' + JSON.stringify(app.settings.requestHeaders));
             assert.deepEqual(app.settings.requestHeadersByHostName, {}, 'Default Settings for app.settings.requestHeadersByHostName: ' + JSON.stringify(app.settings.requestHeadersByHostName));
             assert.equal(app.settings.errors.pageLoading, 'Error loading the current page because the previous page is still loading and is taking a long time. Please refresh the page and try again.', 'Default settings for app.settings.errors.pageLoading: ' + app.settings.errors.pageLoading);
-            assert.equal(Object.keys(app.settings).length, 11, 'Number of properties in app.settings');
+            assert.equal(Object.keys(app.settings).length, 12, 'Number of properties in app.settings');
             var version = app.version.match(/^5.\d+.\d+$/);
             assert.ok(version !== null, 'app.version is major version 5, full version: ' + version);
 

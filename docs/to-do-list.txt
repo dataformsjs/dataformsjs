@@ -22,38 +22,14 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Finish new demo [examples\log-table-web-services.htm]
-    - This contains features being updated for the next release (likely in early January 2021)
-    - See comments near the top of the file for active development
+**) After next npm release
+    - Update main site and all examples for [data-css-vars-ponyfill]
+    - Example [dataformsjs\examples\log-table-web-services.htm]
+        - <link rel="stylesheet" href="css/log-table.css" data-css-vars-ponyfill>
+    - Search source code for "cssVars(" to find other pages that need a similar update
 
-**) Next release
-    - Use `enumerable: true` for [DataFormsJS.js] and [jsxLoader.js]
-    - This will require a minor update in the build script.
-    - Example:
-        Object.defineProperty(app, 'version', { value: '5.5.0', enumerable: true });
-    - Instead of:
-        Object.defineProperty(app, 'version', { value: '5.5.0' });
-    - The reason is so that if a developer types one of the following objects in DevTools
-        to see all properties, functions, etc then the [version] will show by default:
-        - `DataFormsJS, app, jsxLoader`
-
-**) Look into error when using Web Component Version of the main site from IE 11
-    - Issue is either with [polyfill.js] or the main site
-        * Latest Update - Possibly just with DevTools because the site seems to work fast
-          for switching between pages when IE DevTools is not open.
-    - This showed up from `app.showErrorAlert()` on the playground page after clicking quickly between many pages
-        Error from function <url-route onload="setupPlayground()">: Unable to get property 'removeChild' of undefined or null reference
-        * Update has been made for this (12/28/2021) - site is going through additional testing
-          Once update is confirmed this comment will be deleted
-    - Additionally (most important) if clicking between the pages over and over the site becomes slow
-        to handle page changes. This does not happen when using the Framework Version of the main site or when
-        using Web Components on modern browsers. Additionally when using [polyfill.js] with Modern Browsers it doesn't
-        seem to happen so actual testing with IE is needed.
-    - To switch main site from the standard Framework update search for "$page" in file and follow instructions
-        - website\app\app.php
-        - https://github.com/dataformsjs/website/blob/master/app/app.php
-        ** As of 12/28/2021 the site is being switched to the Web Component Version for testing
-           It may be switched back later
+**) Log Demos show include a new [Info] tab with helpful text on what the demo shows.
+    - The new [log-table-web-services.htm] should also link to [log-table-web.htm] and vice-versa
 
 **) Combine Main Server and AI/ML Server into one.
     - Servers:

@@ -4,17 +4,34 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
-## Next Release (changes on master branch and not yet npm)
+## 5.6.0 (January 4, 2021)
 
 * Web Components
-  * Added new `<export-to-csv-service>` based on Framework Plugin `js/plugins/exportToCsv.js`
+  * Added new Web Components based on Framework Plugins
+    * `<export-to-csv-service>` based on `js/plugins/exportToCsv.js`
+    * `<highlighter-service>` based on `js/plugins/highlighter.js`
+    * `<filter-service>` based on `js/plugins/filter.js`. This service Web Component would be used instead of `<input is="input-filter">` for apps that use clickable elements to filter and other advanced functionality not included in the smaller `input-filter` Component.
+    * Example for all new Components is provided in `http://127.0.0.1:8080/log-table-web-services#/10`
   * Updated `<nav is="spa-links">` to include new option `[data-nav-match="start"]`
   * Bug Fix for function `setElementText()` from file `js/web-components/utils.js`
     * Elements `input, select, textarea` were having the `innerText` set rather than the `value` property to to a string compare error
     * Affected `<json-data>` for `[data-bind]` and `<url-router>` for `[url-param]`
 * Framework Updates
+  * Added ability to define CSS Variable Polyfill/Ponyfill automatically for older browsers.
+    * Previously the main site and a number of examples had custom code included directly on each page to make this happen.
+    * Now a `[data-css-vars-ponyfill]` attribute simply needs to be included on the style sheet, example:
+    ~~~html
+    <link rel="stylesheet" href="css/site.css" data-css-vars-ponyfill>
+    ~~~
+    * When used this automatically downloads and runs `css-vars-ponyfill` one time when the page is first loaded. 
+    * https://github.com/jhildenbiddle/css-vars-ponyfill
+    * As of 2021 this will mostly used on sites that support IE 11. Unless a very old version of Mobile Safari or Android Device is used they will typically support CSS Variables.
+    * This feature includes new a function `app.cssVarsPonyfill()` and a new property `app.settings.cssPonyfillUrl`
   * `js/plugins/exportToCsv.js` - Added support to export using `[data-value]` attributes if they exist. `data-value` is used for Sorting and if used contains the expected number or date format needed for exporting.
   * Updated `js/plugins/navLinks.js` to include new option `[data-nav-match="start"]`
+* Set `enumerable: true` for the `version` property. Affects two files:
+  * Main `DataFormsJS.js` file
+  * React `jsxLoader.js` file
 
 ## 5.5.0 (December 13, 2020)
 

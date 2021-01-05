@@ -72,6 +72,7 @@
     var vueWatcherDepPrevLen = 0;
     var isIE = (navigator.userAgent.indexOf('Trident/') !== -1);
     var routingMode = null;
+    var checkedForCssVarPolyfill = false;
 
     function validateTypeOf(value, typeName, propName, callingFunction) {
         if (typeof value !== typeName) {
@@ -973,6 +974,7 @@
                 credentials: 'same-origin',
             },
             polyfillUrl: 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Array.prototype.find,Object.assign,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat',
+            cssPonyfillUrl: 'https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2.4.2/dist/css-vars-ponyfill.min.js',
             graphqlUrl: null,
             errors: {
                 pageLoading: 'Error loading the current page because the previous page is still loading and is taking a long time. Please refresh the page and try again.',
@@ -2999,6 +3001,29 @@
         },
 
         /**
+         * Ponyfill (Polyfill) CSS Variables for Older Browsers. As of 2021 this will
+         * mostly be IE 11. Unless a very old version of Mobile Safari or Android Device
+         * is used they will typically support CSS Variables.
+         *
+         * This function is called automatically only one time when the page is first loaded.
+         * By default this uses a CDN link to the npm project [css-vars-ponyfill].
+         *
+         * @link https://github.com/jhildenbiddle/css-vars-ponyfill
+         */
+        cssVarsPonyfill: function () {
+            var selector = 'link[rel="stylesheet"][data-css-vars-ponyfill]';
+            if (document.querySelector(selector) === null) {
+                return;
+            }
+            var supportsCssVars = (window.CSS && window.CSS.supports && window.CSS.supports('(--a: 0)'));
+            app.loadScript(supportsCssVars, app.settings.cssPonyfillUrl, function() {
+                if (window.cssVars) {
+                    window.cssVars({ include:selector });
+                }
+            });
+        },
+
+        /**
          * Call to setup the App, initial routes should be defined before calling this function
          */
         setup: function () {
@@ -3176,12 +3201,18 @@
                 window.addEventListener('popstate', handleRouteChange);
             }
             handleRouteChange();
+
+            // Ponyfill/Polyfill CSS Variables
+            if (!checkedForCssVarPolyfill) {
+                app.cssVarsPonyfill();
+                checkedForCssVarPolyfill = true;
+            }
         }
     };
 
     // Add Build Version
     // For new releases this gets updated automatically by [scripts/build.js].
-    Object.defineProperty(app, 'version', { value: '5.5.0' });
+    Object.defineProperty(app, 'version', { value: '5.6.0', enumerable: true });
 
     // Assign [DataFormsJS] and [app] to the global variable space
     window.DataFormsJS = app;

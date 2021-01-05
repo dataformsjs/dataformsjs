@@ -1616,7 +1616,7 @@
      * Add Build Version
      * For new releases this gets updated automatically by [scripts/build.js].
      */
-    Object.defineProperty(jsxLoader, 'version', { value: '5.5.0' });
+    Object.defineProperty(jsxLoader, 'version', { value: '5.6.0', enumerable: true });
 
     /**
      * Optional Node Support. Additionally if using webpack or a bundler is being used
