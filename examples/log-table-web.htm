@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Log Table Demo | Web Components</title>
-        <link rel="stylesheet" href="css/log-table.css">
+        <link rel="stylesheet" href="css/log-table.css" data-css-vars-ponyfill>
         <link rel="canonical" href="https://www.dataformsjs.com/examples/log-table-hbs.htm">
     </head>
     <body>
@@ -102,45 +102,12 @@
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5.6.0/js/plugins/navLinks.min.js"></script>
 
         <!--
-            Modern Browsers
             Refresh Plugins after page content is ready (each URL #hash change)
         -->
-        <script type="module">
-           document.addEventListener('app:contentReady', () => {
+        <script>
+           document.addEventListener('app:contentReady', function() {
                app.refreshPlugins();
            });
        </script>
-
-        <!--
-            Old Browsers (IE, old Safari, etc) will use <script nomodule>
-            and check if a polyfill is needed for CSS Variables.
-        -->
-        <script nomodule>
-            (function() {
-                'use strict';
-
-                // Add CSS Variable Support to IE and older Browsers (only call this once)
-                var checkedPolyfill = false;
-                function addCssPolyfill() {
-                    if (checkedPolyfill) {
-                        return;
-                    }
-                    checkedPolyfill = true;
-                    var supportsCssVars = (window.CSS && window.CSS.supports && window.CSS.supports('(--a: 0)'));
-                    var polyfillUrl = 'https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2.1.1/dist/css-vars-ponyfill.min.js';
-                    app.loadScript(supportsCssVars, polyfillUrl, function() {
-                        if (window.cssVars) {
-                            cssVars({ include:'link[rel="stylesheet"]' });
-                        }
-                    });
-                }
-
-                // Refresh Plugins after page content is ready (each URL #hash change and JSON data download)
-                document.addEventListener('app:contentReady', function() {
-                    addCssPolyfill();
-                    app.refreshPlugins();
-                });
-            })();
-        </script>
     </body>
 </html>

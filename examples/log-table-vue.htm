@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Log Table Demo | Vue</title>
-        <link rel="stylesheet" href="css/log-table.css">
+        <link rel="stylesheet" href="css/log-table.css" data-css-vars-ponyfill>
         <link rel="canonical" href="https://www.dataformsjs.com/examples/log-table-hbs.htm">
     </head>
     <body>
@@ -119,20 +119,6 @@
             app.addController({ path:"/", onBeforeRender: function() {
                 window.location.hash = "#/10";
             }});
-        </script>
-
-        <script>
-            // Add CSS Variable Support to IE and older Browsers
-            (function() {
-                'use strict';
-                var supportsCssVars = (window.CSS && window.CSS.supports && window.CSS.supports('(--a: 0)'));
-                var polyfillUrl = 'https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2.1.1/dist/css-vars-ponyfill.min.js';
-                app.loadScript(supportsCssVars, polyfillUrl, function() {
-                    if (window.cssVars) {
-                        cssVars({ include:'link[rel="stylesheet"]' });
-                    }
-                });
-            })();
         </script>
     </body>
 </html>

@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Image Gallery Demo | Handlebars</title>
         <link href="https://www.dataformsjs.com/js/prism-1.22.0/prism.css" rel="stylesheet">
-        <link rel="stylesheet" href="css/image-gallery.css">
+        <link rel="stylesheet" href="css/image-gallery.css" data-css-vars-ponyfill>
     </head>
     <body>
         <section class="page-title">
@@ -132,19 +132,5 @@ own style sheet before the plugin runs using id `image-gallery-css`.
             https://prismjs.com/
         -->
         <script src="https://www.dataformsjs.com/js/prism-1.22.0/prism.modified.min.js"></script>
-
-        <script>
-            // Add CSS Variable Support to IE and older Browsers
-            (function() {
-                'use strict';
-                var supportsCssVars = (window.CSS && window.CSS.supports && window.CSS.supports('(--a: 0)'));
-                var polyfillUrl = 'https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2.1.1/dist/css-vars-ponyfill.min.js';
-                app.loadScript(supportsCssVars, polyfillUrl, function() {
-                    if (window.cssVars) {
-                        cssVars({ include:'link[rel="stylesheet"][href="css/image-gallery.css"]' });
-                    }
-                });
-            })();
-        </script>
     </body>
 </html>

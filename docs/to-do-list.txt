@@ -22,15 +22,6 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) After next npm release
-    - Update main site and all examples for [data-css-vars-ponyfill]
-    - Example [dataformsjs\examples\log-table-web-services.htm]
-        - <link rel="stylesheet" href="css/log-table.css" data-css-vars-ponyfill>
-    - Search source code for "cssVars(" to find other pages that need a similar update
-
-**) Log Demos show include a new [Info] tab with helpful text on what the demo shows.
-    - The new [log-table-web-services.htm] should also link to [log-table-web.htm] and vice-versa
-
 **) Combine Main Server and AI/ML Server into one.
     - Servers:
         https://www.dataformsjs.com/
@@ -135,6 +126,11 @@ TODO List
         - Once a Web Component and Framework doc are created then both those docs
             along with jsxLoader and Readme could be added as a new "Documentation"
             page on the main site using the new <markdown-content> component
+    - Log Demos:
+        - https://www.dataformsjs.com/examples/log-table-vue.htm#/10
+            * And other similar files
+        - Log Demos should include a new [Info] tab with helpful text on what the demo shows.
+        - The new [log-table-web-services.htm] should also link to [log-table-web.htm] and vice-versa.
 
 *) Web Components Updates
     - Create a [custom-elements.json]
