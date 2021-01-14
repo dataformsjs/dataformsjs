@@ -448,7 +448,7 @@ DataFormsJS will continue to be developed in a manner that allows for web based 
 <table>
 	<tbody>
         <tr>
-            <td width="64"><img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/DataFormsJS.svg" alt="DataFormsJS" width="64" height="64"></td>
+            <td width="100"><img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/DataFormsJS.svg" alt="DataFormsJS" width="64" height="64"></td>
             <td>The main DataFormsJS logo is a drawing of a hash symbol in a URL and it uses colors from the main DataFormsJS website. The logo was chosen because the DataFormsJS Framework was originally created for Single Page Applications (SPA).</td>
         </tr>
         <tr>

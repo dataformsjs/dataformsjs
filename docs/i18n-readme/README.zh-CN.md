@@ -415,6 +415,27 @@ DataFormsJS将长期存在，并将无限期地开发新的功能、组件、示
 
 DataFormsJS将继续以允许基于Web的开发的方式进行开发(例如，代码在线运行站点)，并将保持较小的大小，仅在需要时加载脚本。
 
+**What does the logo represent and where is the source?**
+
+<table>
+	<tbody>
+        <tr>
+            <td width="100"><img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/DataFormsJS.svg" alt="DataFormsJS" width="64" height="64"></td>
+            <td>The main DataFormsJS logo is a drawing of a hash symbol in a URL and it uses colors from the main DataFormsJS website. The logo was chosen because the DataFormsJS Framework was originally created for Single Page Applications (SPA).</td>
+        </tr>
+        <tr>
+            <td><img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/icons/web-components.svg" alt="Web Components" width="64" height="64"></td>
+            <td>The logo for Web Components used on the main DataFormsJS Website and examples is a generic gear logo.</td>
+        </tr>
+    </tbody>
+</table>
+
+* DataFormsJS SVG: https://github.com/dataformsjs/website/blob/master/public/img/DataFormsJS.svg
+* Web Components SVG: https://github.com/dataformsjs/website/blob/master/public/img/icons/web-components.svg
+* DataFormsJS Logo Various Sites and Formats: https://github.com/dataformsjs/static-files/tree/master/img/logo
+* These logos are dual licensed under both **MIT License** and <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" style="font-weight:bold;">Creative Commons Attribution 4.0 International License</a>.
+* Feel free to copy these logos as needed if publishing anything that references DataFormsJS (or if you need a generic Web Components logo).
+
 ## 📝 许可
 
 本项目基于 **MIT License** - 详细内容参考 [LICENSE](LICENSE) .
