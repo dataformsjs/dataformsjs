@@ -4,6 +4,11 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## Next Release (Changes on Master branch and not yet npm)
+
+* React `<JsonData>` Component
+  * Added new property `childProps` which can be used to pass props from a higher level component to the child components in the `isLoaded` property. This can be used to pass hook functions and data needed by the child component that doesn't come from the Web Service.
+
 ## 5.6.1 (January 4, 2021)
 
 * Fix to load CSS Variable Polyfill/Ponyfill from Web Components `polyfill.js` for basic Web Pages when not SPA

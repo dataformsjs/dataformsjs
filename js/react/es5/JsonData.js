@@ -103,7 +103,8 @@ function IsLoaded(props) {
   return React.cloneElement(props.children, {
     data: props.data,
     params: props.params,
-    handleChange: props.handleChange
+    handleChange: props.handleChange,
+    childProps: props.childProps
   });
 }
 
@@ -382,7 +383,8 @@ var JsonData = function (_React$Component) {
         fetchState: this.state.fetchState,
         data: this.state.data,
         params: this.state.params,
-        handleChange: this.handleChange
+        handleChange: this.handleChange,
+        childProps: this.props.childProps
       }, this.props.isLoaded));
     }
   }]);

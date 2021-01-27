@@ -22,6 +22,11 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+**) Publish New Build
+    - Will be published soon to wait another week or so if more features should be added 
+        as changes are very minor. Last commented 2021-01-26
+    - Added: React <JsonData> childProps
+
 **) Combine Main Server and AI/ML Server into one.
     - Servers:
         https://www.dataformsjs.com/

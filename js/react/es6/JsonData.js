@@ -89,7 +89,8 @@
  *         loadOnlyOnce={true}
  *         onViewUpdated={callback}
  *         fetchOptions={{}}
- *         fetchHeaders={{}}>
+ *         fetchHeaders={{}}
+ *         childProps={{}}>
  *     </JsonData>
  *
  * [loadOnlyOnce] defaults to undefined/{false} so data and state are always reloaded
@@ -116,6 +117,11 @@
  *         cache: 'no-store',
  *         credentials: 'same-origin',
  *     }
+ *
+ * [childProps] can be used to pass props from a higher level component through
+ * <JsonData> to the child components in [isLoaded]. This can be used to pass
+ * hook functions and data needed by the child component that doesn't come
+ * from the Web Service.
  *
  * @link     https://www.dataformsjs.com
  * @author   Conrad Sollitt (https://conradsollitt.com)
@@ -225,6 +231,7 @@ function IsLoaded(props) {
         data: props.data,
         params: props.params,
         handleChange: props.handleChange,
+        childProps: props.childProps,
     });
 }
 
@@ -512,7 +519,8 @@ export default class JsonData extends React.Component {
         //             fetchState={this.state.fetchState}
         //             data={this.state.data}
         //             params={this.state.params}
-        //             handleChange={this.handleChange}>
+        //             handleChange={this.handleChange}
+        //             childProps={this.props.childProps}>
         //             {this.props.isLoaded}
         //         </IsLoaded>
         //     </React.Fragment>
@@ -540,6 +548,7 @@ export default class JsonData extends React.Component {
                     data: this.state.data,
                     params: this.state.params,
                     handleChange: this.handleChange,
+                    childProps: this.props.childProps,
                 },
                 this.props.isLoaded
             )
