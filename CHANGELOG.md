@@ -4,7 +4,7 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
-## Next Release (Changes on Master branch and not yet npm)
+## 5.7.0 (February 3, 2021)
 
 * Added Features to `<data-table>` Web Component and Framework Control
   * https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/data-table.js
@@ -16,7 +16,7 @@ Overall the core Framework files and API are expected to remain stable however t
     * `min('field')`
     * `max('field')`
     * `avg('field')`
-  * See demo `http://127.0.0.1:8080/web-components-data-table` and source `examples/web-components-data-table.htm`
+  * Try demo `http://127.0.0.1:8080/web-components-data-table` and view source https://github.com/dataformsjs/dataformsjs/blob/master/examples/web-components-data-table.htm
 * Added `format.round(number, decimalPlaces)`, function added for Web Components, Framework, and React Class:
   * https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/utils-format.js
   * https://github.com/dataformsjs/dataformsjs/blob/master/js/extensions/format.js

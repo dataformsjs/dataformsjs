@@ -1,5 +1,5 @@
 // @link https://www.dataformsjs.com
-// @version 5.6.1
+// @version 5.7.0
 // @author Conrad Sollitt (https://conradsollitt.com)
 // @license MIT
 (function () {
