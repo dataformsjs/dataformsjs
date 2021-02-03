@@ -106,7 +106,7 @@ dataformsjs
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Getting-Started-Templates.png" alt="Getting Started Templates">
 </p>
 
-## 📄 Example Code
+## 📄 Example Code - Vue with DataFormsJS Framework
 
 This example uses Vue for templating. If you save it with a text editor you can view it locally in your browser. Additionally the main site contains many templates and examples. DataFormsJS works with both Vue 2 and Vue 3.
 
@@ -177,6 +177,8 @@ This example uses Vue for templating. If you save it with a text editor you can 
     </body>
 </html>
 ```
+
+## 📄 Example Code - React
 
 This example uses React with the `jsxLoader.min.js` script for converting JSX to JS directly in the browser and it includes DataFormsJS React Components from `DataFormsJS.min.js`. If you copy the contents of this code it will also work in a browser. All React Components are also compatible with Preact when using jsxLoader.
 
@@ -294,6 +296,8 @@ https://awesome-web-react.js.org/
 <p align="center">
 	<a href="https://awesome-web-react.js.org/"><img width="312" height="350" src="https://raw.githubusercontent.com/dataformsjs/awesome-web-react/master/img/awesome-web-react.svg" alt="Awesome Web React"></a>
 </p>
+
+## 📄 Example Code - Web Components
 
 This example uses DataFormsJS Web Components. Web Components are well defined standard and provide for functionally similar to JavaScript Frameworks while using less JavaScript code.
 
