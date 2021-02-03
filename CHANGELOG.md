@@ -6,8 +6,27 @@ Overall the core Framework files and API are expected to remain stable however t
 
 ## Next Release (Changes on Master branch and not yet npm)
 
+* Added Features to `<data-table>` Web Component and Framework Control
+  * https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/data-table.js
+  * https://github.com/dataformsjs/dataformsjs/blob/master/js/controls/data-table.js
+  * Added support for Footer templates when using new attribute `data-footer` with either `<template data-footer>` or `<script type="text/x-template" data-footer>`
+  * A `<tfoot>` element will be rendered and it allows for summary functions to report off of table details:
+    * `count()`
+    * `sum('field')`
+    * `min('field')`
+    * `max('field')`
+    * `avg('field')`
+  * See demo `http://127.0.0.1:8080/web-components-data-table` and source `examples/web-components-data-table.htm`
+* Added `format.round(number, decimalPlaces)`, function added for Web Components, Framework, and React Class:
+  * https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/utils-format.js
+  * https://github.com/dataformsjs/dataformsjs/blob/master/js/extensions/format.js
+  * https://github.com/dataformsjs/dataformsjs/blob/master/js/react/es6/Format.js
 * React `<JsonData>` Component
   * Added new property `childProps` which can be used to pass props from a higher level component to the child components in the `isLoaded` property. This can be used to pass hook functions and data needed by the child component that doesn't come from the Web Service.
+  * https://github.com/dataformsjs/dataformsjs/blob/master/js/react/es6/JsonData.js
+* Updated `app.jsTemplate.compile()` to support an array for the first parameter.
+  * This was added for new features related to `<data-table>`
+  * https://github.com/dataformsjs/dataformsjs/blob/master/js/extensions/jsTemplate.js
 
 ## 5.6.1 (January 4, 2021)
 

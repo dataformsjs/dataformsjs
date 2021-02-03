@@ -10,6 +10,7 @@
  *
  * API:
  *     format.number(value)
+ *     format.round(value, decimalPlaces?)
  *     format.currency(value, currencyCode)
  *     format.percent(value, decimalPlaces?)
  *         format.percent(0.2767) = '28%'
@@ -31,6 +32,15 @@
 export default class Format {
     number(value) {
         return this.formatNumber(value, {});
+    }
+
+    round(value, decimalPlaces=0) {
+        const intlOptions = {
+            style: 'decimal',
+            maximumFractionDigits: decimalPlaces,
+            minimumFractionDigits: decimalPlaces,
+        };
+        return this.formatNumber(value, intlOptions);
     }
 
     currency(value, currencyCode) {

@@ -4,6 +4,7 @@
  *
  * Functions added:
  *     app.format.number(value)
+ *     app.format.round(value, decimalPlaces)
  *     app.format.currency(value, currencyCode)
  *     app.format.percent(value, decimalPlaces)
  *     app.format.date(value)
@@ -37,6 +38,18 @@
     var format = {
         number: function(value) {
             return this.formatNumber(value, {});
+        },
+
+        round: function(value, decimalPlaces) {
+            if (decimalPlaces === undefined) {
+                decimalPlaces = 0;
+            }
+            var intlOptions = {
+                style: 'decimal',
+                maximumFractionDigits: decimalPlaces,
+                minimumFractionDigits: decimalPlaces,
+            };
+            return this.formatNumber(value, intlOptions);
         },
 
         currency: function(value, currencyCode) {

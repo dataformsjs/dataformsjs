@@ -97,17 +97,24 @@ class DataTable extends HTMLElement {
     }
 
     getTemplate() {
-        let template = this.querySelector('template');
+        let template = this.querySelector('template:not([data-footer])');
         if (template === null) {
-            template = this.querySelector('script[type="text/x-template"]');
+            template = this.querySelector('script[type="text/x-template"]:not([data-footer])');
+        }
+        return template;
+    }
+
+    getFooterTemplate() {
+        let template = this.querySelector('template[data-footer]');
+        if (template === null) {
+            template = this.querySelector('script[type="text/x-template"][data-footer]');
         }
         return template;
     }
 
     removeTable() {
         // If there is no template than it's safe to clear all content
-        const template = this.getTemplate();
-        if (template === null) {
+        if (this.getTemplate() === null && this.getFooterTemplate() === null) {
             this.innerHTML = '';
             return;
         }
@@ -132,10 +139,11 @@ class DataTable extends HTMLElement {
 
         // Is there a template to use for each row?
         const template = this.getTemplate();
+        const footerTemplate = this.getFooterTemplate();
 
         // Private functions in this scope to add the table and show errors
         const addTable = (html) => {
-            if (template === null) {
+            if (template === null && footerTemplate === null) {
                 this.innerHTML = html;
             } else {
                 this.removeTable();
@@ -303,6 +311,60 @@ class DataTable extends HTMLElement {
                 row.push('</tr>');
                 html.push(row.join(''));
             }
+        }
+        // Footer Template
+        if (footerTemplate) {
+            html.push('<tfoot>');
+            const numValues = (field) => {
+                const values = [];
+                for (const item of list) {
+                    let value = item[field];
+                    switch (typeof value) {
+                        case 'number':
+                            values.push(value);
+                            break;
+                        case 'string':
+                            value = parseFloat(value);
+                            if (!isNaN(value)) {
+                                values.push(value);
+                            }
+                    }
+                }
+                return values;
+            };
+            const sum = (field) => {
+                return numValues(field).reduce((a, b) => a + b, 0);
+            };
+            const avg = (field) => {
+                const values = numValues(field);
+                return values.reduce((a, b) => a + b, 0) / values.length;
+            };
+            const max = (field) => {
+                return Math.max.apply(null, numValues(field));
+            };
+            const min = (field) => {
+                return Math.min.apply(null, numValues(field));
+            };
+            const count = () => { return list.length; };
+            try {
+                const tmpl = new Function('render', 'format', 'sum', 'avg', 'max', 'min', 'count', 'return render`' + footerTemplate.innerHTML + '`');
+                const format = new Format();
+                try {
+                    html.push(tmpl(render, format, sum, avg, max, min, count));
+                } catch (e) {
+                    const errorClass = this.errorClass;
+                    if (errorClass) {
+                        html.push(render`<tr class="${this.errorClass}">`);
+                    } else {
+                        html.push(render`<tr style="${this.defaultErrorStyle}">`);
+                    }
+                    html.push(render`<td colspan="${columns.length}">Footer Error - ${e.message}</td></tr>`);
+                }
+            } catch (e) {
+                showError('Error Rendering Footer Template - ' + e.message);
+                return;
+            }
+            html.push('</tfoot>');
         }
         html.push('</tbody></table>');
         addTable(html.join(''));

@@ -51,10 +51,10 @@
     app.jsTemplate = {
         /**
          * Compile the template and return the function for rendering
-         * 
-         * @param {string|null} itemName 
+         *
+         * @param {string|array|null} itemName
          * @param {boolean} returnsHtml
-         * @param {string} tmplHtml 
+         * @param {string} tmplHtml
          * @return {function}
          */
         compile: function(itemName, returnsHtml, tmplHtml) {
@@ -113,7 +113,11 @@
             try {
                 var fn;
                 if (itemName) {
-                    fn = new Function(itemName, 'index', 'escapeHtml', 'format', 'return ' + tmplJs.join(' + '));
+                    if (Array.isArray(itemName)) {
+                        fn = new Function(itemName, 'escapeHtml', 'format', 'return ' + tmplJs.join(' + '));
+                    } else {
+                        fn = new Function(itemName, 'index', 'escapeHtml', 'format', 'return ' + tmplJs.join(' + '));
+                    }
                 } else {
                     fn = new Function('item', 'index', 'escapeHtml', 'format', 'with(item){return ' + tmplJs.join(' + ') + '}');
                 }

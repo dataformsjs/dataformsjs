@@ -23,9 +23,9 @@ TODO List
 --------------------------------------------------------------------------
 
 **) Publish New Build
-    - Will be published soon to wait another week or so if more features should be added 
-        as changes are very minor. Last commented 2021-01-26
+    - Will be published later this week (likely tomorrow) - status update 2021-02-02
     - Added: React <JsonData> childProps
+    - New features for <data-table>
 
 **) Combine Main Server and AI/ML Server into one.
     - Servers:

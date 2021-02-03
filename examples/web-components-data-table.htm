@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Web Component Data Table Footer Demo</title>
+        <style>
+            body { padding:50px; }
+            table { border-collapse: collapse; margin-bottom:50px; }
+            thead, tfoot { background-color: lightgray; }
+            th, td { padding: .5em 1em; border: 1px solid black; }
+            .text-left { text-align:left; }
+            .text-right { text-align:right; }
+        </style>
+    </head>
+    <body>
+        <!--
+            For this demo [data-bind] is not required when using [js/web-components/data-table.js]
+            however it's needed for [js/web-components/polyfill.js] because [polyfill.js] uses the
+            standard Framework which does not support setting manually setting the `value` property.
+            See JS code for more info.
+
+            Typically <data-table> is used to show data from a <json-data> service,
+            however this demo does not include a JSON backend service.
+        -->
+        <data-table
+            labels="Id, Name, Value, Cost"
+            col-class="Name=text-left, Value=text-right, Cost=text-right"
+            data-bind="records">
+            <script type="text/x-template">
+                <tr>
+                    <td>${id}</td>
+                    <td>${name}</td>
+                    <td class="text-right">${value}</td>
+                    <td class="text-right" data-value="${cost}">${format.round(cost, 4)}</td>
+                </tr>
+            </script>
+            <script type="text/x-template" data-footer>
+                <tr>
+                    <td colspan="2">${count()} Records</td>
+                    <td class="text-right">
+                        <div><strong>Sum:</strong> ${sum('value')}</div>
+                        <div><strong>Avg:</strong> ${avg('value')}</div>
+                        <div><strong>Min:</strong> ${min('value')}</div>
+                        <div><strong>Max:</strong> ${max('value')}</div>
+                    </td>
+                    <td class="text-right">
+                        <div><strong>Sum:</strong> ${format.round(sum('cost'), 4)}</div>
+                        <div><strong>Avg:</strong> ${format.round(avg('cost'), 4)}</div>
+                        <div><strong>Min:</strong> ${format.round(min('cost'), 4)}</div>
+                        <div><strong>Max:</strong> ${format.round(max('cost'), 4)}</div>
+                    </td>
+                </tr>
+            </script>
+        </data-table>
+        <p>This demo shows how to use &lt;data-table&gt; with the [data-footer] template.</p>
+        <p>The resulting formula values match Excel if entering the same data.</p>
+        <p>For additional usages of &lt;data-table&gt; view code for the <a href="places-demo-web">Places Web Component Demo</a>.</p>
+
+        <script type="module" src="../js/web-components/data-table.min.js"></script>
+        <script nomodule src="../js/web-components/polyfill.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var records = [
+                    { id: 1, name:'Test Item 1', value: 123, cost:50.2222, },
+                    { id: 2, name:'Record # 2', value: '456.7', cost:200.4444, },
+                    { id: 3, name:'Record Three', value: 'Not a Number', cost:5000.8888 },
+                ];
+
+                if (window.usingWebComponentsPolyfill) {
+                    // Hack when using [polyfill.js] for Legacy Browsers.
+                    // The DataFormsJS Framework Control <data-table> does not support
+                    // setting `value` and instead uses data binding to `app.activeModel`.
+                    // For most apps this code would not be needed because <data-table>
+                    // would be used to show data from <json-service> or another component.
+                    var interval = window.setInterval(function() {
+                        // Wait till content is ready
+                        if (window.app === undefined || app.activeModel === null || app.controls['data-table'] === undefined) {
+                            return;
+                        }
+                        window.clearInterval(interval);
+                        interval = null;
+
+                        // Update Model and View
+                        app.activeModel.records = records;
+                        app.updateView();
+                    }, 100);
+                } else {
+                    // <data-table> Web Component
+                    document.querySelector('data-table').value = records;
+                }
+            });
+        </script>
+    </body>
+</html>

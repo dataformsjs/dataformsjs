@@ -20,6 +20,17 @@ var Format = function () {
       return this.formatNumber(value, {});
     }
   }, {
+    key: "round",
+    value: function round(value) {
+      var decimalPlaces = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      var intlOptions = {
+        style: 'decimal',
+        maximumFractionDigits: decimalPlaces,
+        minimumFractionDigits: decimalPlaces
+      };
+      return this.formatNumber(value, intlOptions);
+    }
+  }, {
     key: "currency",
     value: function currency(value, currencyCode) {
       var intlOptions = {

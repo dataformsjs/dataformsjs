@@ -69,15 +69,20 @@
                 name,
                 value;
 
-            var template = element.querySelector('template');
+            var template = element.querySelector('template:not([data-footer])');
             if (template === null) {
                 // If IE is supported <script> tags need to be used instead of <template>
-                template = element.querySelector('script[type="text/x-template"]');
+                template = element.querySelector('script[type="text/x-template"]:not([data-footer])');
+            }
+
+            var footerTemplate = element.querySelector('template[data-footer]');
+            if (footerTemplate === null) {
+                footerTemplate = element.querySelector('script[type="text/x-template"][data-footer]');
             }
 
             // Define private functions in this scope
             function addTable(html) {
-                if (template === null) {
+                if (template === null && footerTemplate === null) {
                     element.innerHTML = html;
                 } else {
                     removeTable();
@@ -95,7 +100,7 @@
 
             function removeTable() {
                 // If there is no template than it's safe to clear all content
-                if (template === null) {
+                if (template === null && footerTemplate === null) {
                     element.innerHTML = '';
                     return;
                 }
@@ -138,7 +143,7 @@
             }
             if (!isValid) {
                 showError(this.errorInvalidData, this.errorClass, this.defaultErrorStyle);
-                return
+                return;
             }
 
             // Get Columns - Either User Defined or from the first Record
@@ -239,7 +244,7 @@
                             } else {
                                 html.push('<tr style="' + this.defaultErrorStyle + '">');
                             }
-                            html.push('<td colspan="' + columns.length + '">Item Error - ' + e.message + '}</td></tr>');
+                            html.push('<td colspan="' + columns.length + '">Item Error - ' + e.message + '</td></tr>');
                         }
                     }
                 } catch (e) {
@@ -277,6 +282,61 @@
                     row.push('</tr>');
                     html.push(row.join(''));
                 }
+            }
+            // Footer Template
+            if (footerTemplate) {
+                html.push('<tfoot>');
+                var numValues = function(field) {
+                    var values = [];
+                    for (var n = 0, m = list.length; n < m; n++) {
+                        var value = list[n][field];
+                        switch (typeof value) {
+                            case 'number':
+                                values.push(value);
+                                break;
+                            case 'string':
+                                value = parseFloat(value);
+                                if (!isNaN(value)) {
+                                    values.push(value);
+                                }
+                        }
+                    }
+                    return values;
+                };
+                var sum = function(field) {
+                    return numValues(field).reduce(function(a, b) { return a + b; }, 0);
+                };
+                var avg = function(field) {
+                    var values = numValues(field);
+                    return values.reduce(function(a, b) { return a + b; }, 0) / values.length;
+                };
+                var max = function(field) {
+                    return Math.max.apply(null, numValues(field));
+                };
+                var min = function(field) {
+                    return Math.min.apply(null, numValues(field));
+                };
+                var itemCount = function() { return list.length; }; // For `count()` in the template
+                try {
+                    if (app.jsTemplate === undefined) {
+                        throw Error('Error - When using <data-table> with a template the script [js/extensions/jsTemplate.js] is required.');
+                    }
+                    var renderFooter = app.jsTemplate.compile(['sum', 'avg', 'max', 'min', 'count'], false, footerTemplate.innerHTML);
+                    try {
+                        html.push(renderFooter(sum, avg, max, min, itemCount, app.escapeHtml, app.format));
+                    } catch (e) {
+                        if (this.errorClass) {
+                            html.push('<tr class="' + this.errorClass + '">');
+                        } else {
+                            html.push('<tr style="' + this.defaultErrorStyle + '">');
+                        }
+                        html.push('<td colspan="' + columns.length + '">Footer Error - ' + e.message + '</td></tr>');
+                    }
+                } catch (e) {
+                    showError('Error Rendering Footer Template - ' + e.message, this.errorClass, this.defaultErrorStyle);
+                    return;
+                }
+                html.push('</tfoot>');
             }
             html.push('</tbody>');
             addTable(html.join(''));

@@ -17,6 +17,15 @@ export class Format {
         return this.formatNumber(value, {});
     }
 
+    round(value, decimalPlaces=0) {
+        const intlOptions = {
+            style: 'decimal',
+            maximumFractionDigits: decimalPlaces,
+            minimumFractionDigits: decimalPlaces,
+        };
+        return this.formatNumber(value, intlOptions);
+    }
+
     currency(value, currencyCode) {
         const intlOptions = { style: 'currency', currency: currencyCode, maximumFractionDigits: 2 };
         return this.formatNumber(value, intlOptions);
