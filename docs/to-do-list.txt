@@ -5,10 +5,10 @@ TODO List
 |
 |   In General:
 |
+|   *) More Documentation and Getting Started Templates
+|   *) More Examples (for all or most scripts and features)
 |   *) Translations
 |      https://github.com/dataformsjs/dataformsjs/blob/master/docs/i18n-translations.md
-|   *) More Examples (for all or most scripts and features)
-|   *) More Documentation
 |   *) More Unit Testing
 |   *) Additional Scripts and Features
 |
@@ -60,6 +60,43 @@ TODO List
         'app:contentReady', etc
         - Currently the places demo and other demos provide good examples
           when viewing source code of the demo.
+    - Create a markdown overview doc using Web Components
+        - Will cover overview and details - similar to the JSX Loader doc:
+            https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
+        - Topics to cover:
+            - SPA Routing
+            - Using to download JSON Data and bind to other elements on screen
+            - How data binding works
+            - Web Component "Services" Concept
+                Add a template for this in quick ref section on main site
+            - How the polyfill works and reason it was created over other options
+            - How to test the polyfill with modern browsers:
+                Just use:
+                    <script src="../js/web-components/polyfill.js"></script>
+                Instead of:
+                    <script nomodule src="../js/web-components/polyfill.js"></script>
+        - Provide examples of how [polyfill.js].[getRootUrl()] works for documentation.
+            - Or add a markdown doc for it
+            - Here is an example of an defining a custom URL from the app:
+                <script>
+                    window.dataformsjsUrl = 'http://127.0.0.1:8080/js/';
+                    window.dataformsjsMinFiles = false; // Optional (defaults to `true`)
+                </script>
+                <script nomodule src="../js/web-components/polyfill.js"></script>
+            - By default the path will be determined from where [/web-components/polyfill.js] is defined:
+                <script src="../js/web-components/polyfill.min.js"></script>
+                    [*.min.js] Framework files will be downloaded
+                <script src="../js/web-components/polyfill.js"></script>
+                    Full [*.js] Framework files will be downloaded
+        - Once a Web Component and Framework doc are created then both those docs
+            along with jsxLoader and Readme could be added as a new "Documentation"
+            page on the main site using the new <markdown-content> component
+    - Create a Markdown Doc for the Main Framework
+    - Instead of the current getting started templates consider having many rather than just a few
+        with the current language translations. For example the current versions can be built and then
+        new templates added as it makes sense. Have many more templates would make it much easier to
+        use DataFormsJS.
+        https://www.dataformsjs.com/en/getting-started
     - Publish a nice looking version and more useful of markdown
         demos in the examples section of the main site.
         - Current Demos used for Development:
@@ -95,37 +132,6 @@ TODO List
         - Also likely another repository [create-dataformsjs-app] using
             [create-react-app] as a starter to show how to use DataFormsJS
             with [create-react-app].
-    - Create a markdown overview doc using Web Components
-        - Will cover overview and details - similar to the JSX Loader doc:
-            https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
-        - Topics to cover:
-            - SPA Routing
-            - Using to download JSON Data and bind to other elements on screen
-            - How data binding works
-            - Web Component "Services" Concept
-                Add a template for this in quick ref section on main site
-            - How the polyfill works and reason it was created over other options
-            - How to test the polyfill with modern browsers:
-                Just use:
-                    <script src="../js/web-components/polyfill.js"></script>
-                Instead of:
-                    <script nomodule src="../js/web-components/polyfill.js"></script>
-        - Provide examples of how [polyfill.js].[getRootUrl()] works for documentation.
-            - Or add a markdown doc for it
-            - Here is an example of an defining a custom URL from the app:
-                <script>
-                    window.dataformsjsUrl = 'http://127.0.0.1:8080/js/';
-                    window.dataformsjsMinFiles = false; // Optional (defaults to `true`)
-                </script>
-                <script nomodule src="../js/web-components/polyfill.js"></script>
-            - By default the path will be determined from where [/web-components/polyfill.js] is defined:
-                <script src="../js/web-components/polyfill.min.js"></script>
-                    [*.min.js] Framework files will be downloaded
-                <script src="../js/web-components/polyfill.js"></script>
-                    Full [*.js] Framework files will be downloaded
-        - Once a Web Component and Framework doc are created then both those docs
-            along with jsxLoader and Readme could be added as a new "Documentation"
-            page on the main site using the new <markdown-content> component
     - Log Demos:
         - https://www.dataformsjs.com/examples/log-table-vue.htm#/10
             * And other similar files
@@ -133,6 +139,38 @@ TODO List
         - The new [log-table-web-services.htm] should also link to [log-table-web.htm] and vice-versa.
 
 *) Web Components Updates
+    - <data-list> and <data-table>
+        - Include <url-router>.currentUrlParams in template rendering as `urlParams`
+        - This would simply code below that uses `document.querySelector(...)` within the <template>
+            <url-route path=":name">
+                <template>
+                    <h1 url-param="name"></h1>
+                    <json-data
+                        url="/api/files/image-folder/:name" url-params>
+                        <is-loading>
+                            <span class="loading">Loading...</span>
+                        </is-loading>
+                        <has-error>
+                            <span class="error" data-bind="errorMessage"></span>
+                        </has-error>
+                        <is-loaded>
+                            <data-list
+                                data-bind="images"
+                                template-selector="#image"
+                                root-element="ul"
+                                list-item-name="image">
+                            </data-list>
+                        </is-loaded>
+                    </json-data>
+                </template>
+            </url-route>
+            <template id="image">
+                <li>
+                    <image-gallery image="/images/${document.querySelector('url-router').currentUrlParams.name}/${image}">
+                        <img src="/images/${document.querySelector('url-router').currentUrlParams.folder}/${image}" alt="${image}">
+                    <image-gallery>
+                </li>
+            </template>
     - Create a [custom-elements.json]
         - This format is not finalized so creating the file can wait till later
         https://runem.github.io/web-component-analyzer/
