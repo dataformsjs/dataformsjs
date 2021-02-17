@@ -140,7 +140,8 @@ table tbody tr.highlight { background-color: yellow; }
 
 /* Table Sticky Header and First Column */
 table { position: relative; }
-th { position: sticky; top:0; background-color: hsla(210, 29%, 93%, 1); z-index:2; }
+th { position: sticky; top:-1px; background-color: hsla(210, 29%, 93%, 1); z-index:2; }
+table thead tr th:first-child { z-index: 3; left: 0; }
 table tbody tr td:first-child { position: sticky; left:0; z-index:1; }
 table tbody tr:nth-child(odd) td:first-child { background-color: white; }
 table tbody tr:nth-child(even) td:first-child { background-color: #f6f8fa; }

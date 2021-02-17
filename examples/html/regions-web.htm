@@ -50,7 +50,7 @@
                         <i class="${country.country_code.toLowerCase()} flag"></i>
                         <a href="#/${i18n_Locale}/cities/${country.country_code}/${country.admin1_code}">${country.admin1_code}</a>
                     </td>
-                    <td>${name}</td>
+                    <td>${country.name}</td>
                     <td class="align-right" data-value="${country.population}">${format.number(country.population)}</td>
                     <td>${country.timezone}</td>
                     <td class="align-right">${format.date(country.modification_date)}</td>
