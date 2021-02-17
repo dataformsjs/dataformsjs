@@ -102,69 +102,67 @@
                                 placeholder="Enter filter, example 'North America'"
                                 data-i18n-attr="filter-results-text-all, filter-results-text-filtered, placeholder">
 
-                            <div class="responsive-table">
-                                <!--
-                                    This version of the <data-table> uses a custom <template> to
-                                    define how each table row item will be defined. This is used
-                                    here to allow for display of the flag icon and number formatting.
+                            <!--
+                                This version of the <data-table> uses a custom <template> to
+                                define how each table row item will be defined. This is used
+                                here to allow for display of the flag icon and number formatting.
 
-                                    The template format is HTML using JavaScript template literals
-                                    (template strings). All values in `${value}` are safely escaped for HTML.
+                                The template format is HTML using JavaScript template literals
+                                (template strings). All values in `${value}` are safely escaped for HTML.
 
-                                    See another commented option for <data-table> below this version.
+                                See another commented option for <data-table> below this version.
 
-                                    Either <template> or <script type="text/x-template"> can be used.
-                                        - <template> will work with all modern browsers
-                                        - <script type="text/x-template"> is required if supporting IE with [polyfill.js]
-                                          because IE will automatically parse <tr> and replace it as HTML if using <template>
-                                -->
-                                <data-table
-                                    data-bind="countries"
-                                    highlight-class="highlight"
-                                    labels="Code, Name, Size (KM), Population, Continent"
-                                    data-i18n-attr="labels"
-                                    col-class="2=align-right, 3=align-right"
-                                    table-attr="is=sortable-table,
-                                                data-sort-class-odd=row-odd,
-                                                data-sort-class-even=row-even">
-                                    <script type="text/x-template">
-                                        <tr>
-                                            <td><a href="#/${i18n_Locale}/regions/${iso}">${iso}</a></td>
-                                            <td>
-                                                <i class="${iso.toLowerCase()} flag"></i>
-                                                ${country}
-                                            </td>
-                                            <td class="align-right" data-value="${area_km}">${format.number(area_km)}</td>
-                                            <td class="align-right" data-value="${population}">${format.number(population)}</td>
-                                            <td>${continent}</td>
-                                        </tr>
-                                    </script>
-                                </data-table>
+                                Either <template> or <script type="text/x-template"> can be used.
+                                    - <template> will work with all modern browsers
+                                    - <script type="text/x-template"> is required if supporting IE with [polyfill.js]
+                                        because IE will automatically parse <tr> and replace it as HTML if using <template>
+                            -->
+                            <data-table
+                                data-bind="countries"
+                                highlight-class="highlight"
+                                labels="Code, Name, Size (KM), Population, Continent"
+                                data-i18n-attr="labels"
+                                col-class="2=align-right, 3=align-right"
+                                table-attr="is=sortable-table,
+                                            data-sort-class-odd=row-odd,
+                                            data-sort-class-even=row-even">
+                                <script type="text/x-template">
+                                    <tr>
+                                        <td>
+                                            <i class="${iso.toLowerCase()} flag"></i>
+                                            <a href="#/${i18n_Locale}/regions/${iso}">${iso}</a>
+                                        </td>
+                                        <td>${country}</td>
+                                        <td class="align-right" data-value="${area_km}">${format.number(area_km)}</td>
+                                        <td class="align-right" data-value="${population}">${format.number(population)}</td>
+                                        <td>${continent}</td>
+                                    </tr>
+                                </script>
+                            </data-table>
 
-                                <!--
-                                    For a basic table a <template> is not required. This version still
-                                    contains links by using the [col-link-template] attribute however
-                                    it will not show the flag icons or format numbers or use the selected
-                                    i18n Locale.
+                            <!--
+                                For a basic table a <template> is not required. This version still
+                                contains links by using the [col-link-template] attribute however
+                                it will not show the flag icons or format numbers or use the selected
+                                i18n Locale.
 
-                                    When using [col-link-template] multiple fields can be linked using
-                                    [col-link-fields] as shown below. By default links will be added to
-                                    the first column. The values for [col-link-fields] need to be the
-                                    field/property name and not the label.
-                                -->
-                                <!--
-                                <data-table
-                                    data-bind="countries"
-                                    highlight-class="highlight"
-                                    col-link-template="#/en/regions/:iso"
-                                    col-link-fields="iso, country"
-                                    labels="Code, Name, Size (KM), Population, Continent"
-                                    table-attr="is=sortable-table,
-                                                data-sort-class-odd=row-odd,
-                                                data-sort-class-even=row-even">
-                                </data-table>
-                                -->
-                            </div>
+                                When using [col-link-template] multiple fields can be linked using
+                                [col-link-fields] as shown below. By default links will be added to
+                                the first column. The values for [col-link-fields] need to be the
+                                field/property name and not the label.
+                            -->
+                            <!--
+                            <data-table
+                                data-bind="countries"
+                                highlight-class="highlight"
+                                col-link-template="#/en/regions/:iso"
+                                col-link-fields="iso, country"
+                                labels="Code, Name, Size (KM), Population, Continent"
+                                table-attr="is=sortable-table,
+                                            data-sort-class-odd=row-odd,
+                                            data-sort-class-even=row-even">
+                            </data-table>
+                            -->
                         </is-loaded>
                     </json-data>
                 </template>

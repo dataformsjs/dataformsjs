@@ -37,49 +37,47 @@
 
                 <p>Click on a column to sort rows based on column values.</p>
 
-                <div class="responsive-table">
-                    <!--
-                        Either <template> or <script type="text/x-template"> can be used.
-                            <template> will work with all modern browsers
-                            <script type="text/x-template"> is required if supporting IE with [polyfill.js]
-                    -->
-                    <data-table
-                        data-bind="countries"
-                        highlight-class="highlight"
-                        labels="Code, Name, Size (KM), Population, Continent"
-                        col-class="Size (KM)=align-right, Population=align-right"
-                        table-attr="is=sortable-table,
-                                    data-sort-class-odd=row-odd,
-                                    data-sort-class-even=row-even">
-                        <script type="text/x-template">
-                            <tr>
-                                <td>${iso}</td>
-                                <td>
-                                    <i class="${iso.toLowerCase()} flag"></i>
-                                    ${country}
-                                </td>
-                                <td class="align-right" data-value="${area_km}">${format.number(area_km)}</td>
-                                <td class="align-right" data-value="${population}">${format.number(population)}</td>
-                                <td>${continent}</td>
-                            </tr>
-                        </script>
-                    </data-table>
+                <!--
+                    Either <template> or <script type="text/x-template"> can be used.
+                        <template> will work with all modern browsers
+                        <script type="text/x-template"> is required if supporting IE with [polyfill.js]
+                -->
+                <data-table
+                    data-bind="countries"
+                    highlight-class="highlight"
+                    labels="Code, Name, Size (KM), Population, Continent"
+                    col-class="Size (KM)=align-right, Population=align-right"
+                    table-attr="is=sortable-table,
+                                data-sort-class-odd=row-odd,
+                                data-sort-class-even=row-even">
+                    <script type="text/x-template">
+                        <tr>
+                            <td>
+                                <i class="${iso.toLowerCase()} flag"></i>
+                                ${iso}
+                            </td>
+                            <td>${country}</td>
+                            <td class="align-right" data-value="${area_km}">${format.number(area_km)}</td>
+                            <td class="align-right" data-value="${population}">${format.number(population)}</td>
+                            <td>${continent}</td>
+                        </tr>
+                    </script>
+                </data-table>
 
-                    <!--
-                        For a basic table a <template> is not required. This version shows
-                        the data but does not include flag icons or number formatting.
-                    -->
-                    <!--
-                    <data-table
-                        data-bind="countries"
-                        highlight-class="highlight"
-                        labels="Code, Name, Size (KM), Population, Continent"
-                        table-attr="is=sortable-table,
-                                    data-sort-class-odd=row-odd,
-                                    data-sort-class-even=row-even">
-                    </data-table>
-                    -->
-                </div>
+                <!--
+                    For a basic table a <template> is not required. This version shows
+                    the data but does not include flag icons or number formatting.
+                -->
+                <!--
+                <data-table
+                    data-bind="countries"
+                    highlight-class="highlight"
+                    labels="Code, Name, Size (KM), Population, Continent"
+                    table-attr="is=sortable-table,
+                                data-sort-class-odd=row-odd,
+                                data-sort-class-even=row-even">
+                </data-table>
+                -->
             </is-loaded>
         </json-data>
     </div>

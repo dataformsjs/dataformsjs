@@ -15,47 +15,45 @@
             placeholder="Enter filter"
             data-i18n-attr="placeholder">
 
-        <div class="responsive-table">
-            <!--
-                Two version of the <data-table> are shown below. The one used for this
-                app includes a template for displaying flag icons and formatting values.
+        <!--
+            Two version of the <data-table> are shown below. The one used for this
+            app includes a template for displaying flag icons and formatting values.
 
-                Another commented version below uses [col-link-template] and [columns]
-                to specify which data to show and the link.
-            -->
-            <data-table
-                data-bind="cities"
-                highlight-class="highlight"
-                labels="Name, Population, Elevation, Timezone, Date Last Modified"
-                data-i18n-attr="labels"
-                table-attr="is=sortable-table,
-                    data-sort-class-odd=row-odd,
-                    data-sort-class-even=row-even">
-                <script type="text/x-template">
-                    <tr>
-                        <td>
-                            <i class="${country_code.toLowerCase()} flag"></i>
-                            <a href="#/${i18n_Locale}/city/${geonames_id}">${name}</a></a>
-                        </td>
-                        <td class="align-right" data-value="${population}">${format.number(population)}</td>
-                        <td class="align-right" data-value="${elevation}">${formatElevation(elevation)}</td>
-                        <td>${timezone}</td>
-                        <td class="align-right">${format.date(modification_date)}</td>
-                    </tr>
-                </script>
-            </data-table>
-            <!--
-            <data-table
-                data-bind="cities"
-                highlight-class="highlight"
-                col-link-template="#/city/:geonames_id"
-                columns="name, population, elevation, timezone, modification_date"
-                labels="Name, Population, Elevation, Timezone, Date Last Modified"
-                table-attr="is=sortable-table,
-                    data-sort-class-odd=row-odd,
-                    data-sort-class-even=row-even">
-            </data-table>
-            -->
-        </div>
+            Another commented version below uses [col-link-template] and [columns]
+            to specify which data to show and the link.
+        -->
+        <data-table
+            data-bind="cities"
+            highlight-class="highlight"
+            labels="Name, Population, Elevation, Timezone, Date Last Modified"
+            data-i18n-attr="labels"
+            table-attr="is=sortable-table,
+                data-sort-class-odd=row-odd,
+                data-sort-class-even=row-even">
+            <script type="text/x-template">
+                <tr>
+                    <td>
+                        <i class="${country_code.toLowerCase()} flag"></i>
+                        <a href="#/${i18n_Locale}/city/${geonames_id}">${name}</a></a>
+                    </td>
+                    <td class="align-right" data-value="${population}">${format.number(population)}</td>
+                    <td class="align-right" data-value="${elevation}">${formatElevation(elevation)}</td>
+                    <td>${timezone}</td>
+                    <td class="align-right">${format.date(modification_date)}</td>
+                </tr>
+            </script>
+        </data-table>
+        <!--
+        <data-table
+            data-bind="cities"
+            highlight-class="highlight"
+            col-link-template="#/city/:geonames_id"
+            columns="name, population, elevation, timezone, modification_date"
+            labels="Name, Population, Elevation, Timezone, Date Last Modified"
+            table-attr="is=sortable-table,
+                data-sort-class-odd=row-odd,
+                data-sort-class-even=row-even">
+        </data-table>
+        -->
     </is-loaded>
 </json-data>

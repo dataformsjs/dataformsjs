@@ -22,6 +22,14 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+**) Finish testing sticky table header and first column for the places demo
+    - Demo that is updated:
+        https://www.dataformsjs.com/examples/places-demo-web.htm#/en/
+    - Other versions (React, Vue, JS, Handlebars, etc) are not yet updated
+        https://www.dataformsjs.com/examples/places-demo-react.htm#/en/
+    - A variety of devices and browsers needs additional testing
+    - Added 2021-02-16, testing will be complete soon
+
 **) Combine Main Server and AI/ML Server into one.
     - Servers:
         https://www.dataformsjs.com/
