@@ -22,14 +22,6 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Finish testing sticky table header and first column for the places demo
-    - Demo that is updated:
-        https://www.dataformsjs.com/examples/places-demo-web.htm#/en/
-    - Other versions (React, Vue, JS, Handlebars, etc) are not yet updated
-        https://www.dataformsjs.com/examples/places-demo-react.htm#/en/
-    - A variety of devices and browsers needs additional testing
-    - Added 2021-02-16, testing will be complete soon
-
 **) Combine Main Server and AI/ML Server into one.
     - Servers:
         https://www.dataformsjs.com/
@@ -100,6 +92,7 @@ TODO List
             along with jsxLoader and Readme could be added as a new "Documentation"
             page on the main site using the new <markdown-content> component
     - Create a Markdown Doc for the Main Framework
+    - Create a Markdown Doc for the React Components
     - Instead of the current getting started templates consider having many rather than just a few
         with the current language translations. For example the current versions can be built and then
         new templates added as it makes sense. Have many more templates would make it much easier to
