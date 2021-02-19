@@ -22,6 +22,12 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+**) Update the Getting Started CSS Template used here:
+        https://www.dataformsjs.com/en/getting-started
+    So that it looks similar to the places demo and can be used for apps as decent starting template
+    Source for template is:
+        website\public\html\getting-started\getting-started.css
+
 **) Combine Main Server and AI/ML Server into one.
     - Servers:
         https://www.dataformsjs.com/
