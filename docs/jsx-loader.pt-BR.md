@@ -104,7 +104,7 @@ O script `jsxLoader.js` é muito pequeno para baixar (5.7 kB - min e em gzip) e 
 
 ## Demos 🌐
 
-### React <img src="https://www.dataformsjs.com/img/logos/react.svg" width="32" height="32">
+### React <img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/react.svg" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/pt-BR/react.htm
 * https://www.dataformsjs.com/examples/places-demo-react.htm
 * https://www.dataformsjs.com/examples/image-classification-react.htm
@@ -117,7 +117,7 @@ O script `jsxLoader.js` é muito pequeno para baixar (5.7 kB - min e em gzip) e 
 * https://www.dataformsjs.com/getting-started/en/template-react.htm
 * https://www.dataformsjs.com/getting-started/en/template-react-graphql.htm
 
-### Preact <img src="https://www.dataformsjs.com/img/logos/preact.svg" width="32" height="32">
+### Preact <img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/preact.svg" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/pt-BR/preact.htm
 * https://www.dataformsjs.com/examples/places-demo-preact.htm
 * https://www.dataformsjs.com/examples/countries-no-spa-preact.htm
@@ -127,11 +127,11 @@ O script `jsxLoader.js` é muito pequeno para baixar (5.7 kB - min e em gzip) e 
 * https://www.dataformsjs.com/getting-started/en/template-preact-router.htm
 * https://www.dataformsjs.com/getting-started/en/template-preact-graphql.htm
 
-### Vue 3 <img src="https://www.dataformsjs.com/img/logos/vue.svg" width="32" height="32">
+### Vue 3 <img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/vue.svg" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/en/vue3-with-jsx.htm
 * https://www.dataformsjs.com/examples/vue3-dynamic-jsx.htm
 
-### Rax <img src="https://www.dataformsjs.com/img/logos/rax.png" width="32" height="32">
+### Rax <img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/rax.png" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/pt-BR/rax.htm
 
 ## Teste-o online no Code Playground 🚀
