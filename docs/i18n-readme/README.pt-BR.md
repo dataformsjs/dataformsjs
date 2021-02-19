@@ -12,18 +12,18 @@ Este repositório contém o framework DataFormsJS, páginas exemplo e testes de 
 
 ## 💫 Por que utilizar o DataFormsJS?
 
-|<img src="https://www.dataformsjs.com/img/icons/fast.svg" alt="Desenvolvimento Rápido" width="60">|<img src="https://www.dataformsjs.com/img/icons/small-size.svg" alt="Pequeno em Tamanho" width="60">|<img src="https://www.dataformsjs.com/img/icons/light-switch.svg" alt="Fácil de Aprender" width="60">|
+|<img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/icons/fast.svg" alt="Desenvolvimento Rápido" width="60">|<img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/icons/small-size.svg" alt="Pequeno em Tamanho" width="60">|<img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/icons/light-switch.svg" alt="Fácil de Aprender" width="60">|
 |---|---|---|
 |**Desenvolvimento Rápido** Mostre dados dos Web Services e GraphQL usando marcação HTML e define as características do App e Site utilizando atributos HTML.|**Tamanho Pequeno** Todos os arquivo são pequenos e baixados somente quando usados permitindo melhor desempenho e um site menor.|**Fácil de Aprender** O DataFormsJS é desenvolvido em torno de HTML, CSS, JavaScript, Modelos e tem uma API minima de JavaScript and HTML para que você possa iniciar imediatamente.|
 
-|<img src="https://www.dataformsjs.com/img/icons/column.svg" alt="Estabilidade" width="60">|<img src="https://www.dataformsjs.com/img/icons/water.svg" alt="Flexibilidade" width="60">|<img src="https://www.dataformsjs.com/img/icons/star.svg" alt="Sites Melhores" width="60">|
+|<img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/icons/column.svg" alt="Estabilidade" width="60">|<img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/icons/water.svg" alt="Flexibilidade" width="60">|<img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/icons/star.svg" alt="Sites Melhores" width="60">|
 |---|---|---|
 |**Estabilidade** Desenvolvido para uso de longo prazo; um site desenvolvido com DataFormsJS hoje funcionará e será de fácil manutenção por décadas.|**Flexibilidade** Funciona bem com outros códigos e a API é desenvolvida para flexibilidade e características personalizadas. Se você consegue imaginar, você consegue desenvolvê-lo com o DataFormsJS.|**Sites Melhores** O DataFormsJS é desenvolvido para ser uma grande experiência para desenvolvedores e usuários finais permitindo que você crie sites melhores.|
 
-|Funciona com|<img src="https://www.dataformsjs.com/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://www.dataformsjs.com/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://www.dataformsjs.com/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://www.dataformsjs.com/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|<img src="https://www.dataformsjs.com/img/logos/preact.svg" alt="Preact" width="64"><div>Preact</div>|e mais!|
+|Funciona com|<img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/react.svg" alt="React" width="64"><div>React</div>|<img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/vue.svg" alt="Vue" width="64"><div>Vue</div>|<img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/handlebars.png" alt="Handlebars" width="64"><div>Handlebars</div>|<img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/graphql.svg" alt="GraphQL" width="64"><div>GraphQL</div>|<img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/preact.svg" alt="Preact" width="64"><div>Preact</div>|e mais!|
 |---|---|---|---|---|---|---|
 
-|Aprenda uma coisa nova!|<div><img src="https://www.dataformsjs.com/img/icons/web-components.svg" alt="Web Components" width="64"></div><div>Web Components</div>|
+|Aprenda uma coisa nova!|<div><img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/web-components.svg" alt="Web Components" width="64"></div><div>Web Components</div>|
 |---|---|
 
 ## 🚀 Começando
@@ -416,24 +416,14 @@ O DataFormsJS continuará a ser desenvolvido de forma que seja possível desenvo
 
 **What does the logo represent and where is the source?**
 
-<table>
-	<tbody>
-        <tr>
-            <td width="100"><img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/DataFormsJS.svg" alt="DataFormsJS" width="64" height="64"></td>
-            <td>The main DataFormsJS logo is a drawing of a hash symbol in a URL and it uses colors from the main DataFormsJS website. The logo was chosen because the DataFormsJS Framework was originally created for Single Page Applications (SPA).</td>
-        </tr>
-        <tr>
-            <td><img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/icons/web-components.svg" alt="Web Components" width="64" height="64"></td>
-            <td>The logo for Web Components used on the main DataFormsJS Website and examples is a generic gear logo.</td>
-        </tr>
-    </tbody>
-</table>
+<img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/DataFormsJS.svg" alt="DataFormsJS" width="64" height="64">
+
+The main DataFormsJS logo is a drawing of a hash symbol in a URL and it uses colors from the main DataFormsJS website. The logo was chosen because the DataFormsJS Framework was originally created for Single Page Applications (SPA).
 
 * DataFormsJS SVG: https://github.com/dataformsjs/website/blob/master/public/img/DataFormsJS.svg
-* Web Components SVG: https://github.com/dataformsjs/website/blob/master/public/img/icons/web-components.svg
 * DataFormsJS Logo Various Sites and Formats: https://github.com/dataformsjs/static-files/tree/master/img/logo
-* These logos are dual licensed under both **MIT License** and <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" style="font-weight:bold;">Creative Commons Attribution 4.0 International License</a>.
-* Feel free to copy these logos as needed if publishing anything that references DataFormsJS (or if you need a generic Web Components logo).
+* The DataFormsJS logos is dual licensed under both **MIT License** and <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" style="font-weight:bold;">Creative Commons Attribution 4.0 International License</a>.
+* Feel free to copy the logo as needed if publishing anything that references DataFormsJS.
 
 ## 📝 Licença
 
