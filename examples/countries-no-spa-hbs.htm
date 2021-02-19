@@ -32,30 +32,28 @@
 
             <p>Click on a column to sort rows based on column values.</p>
 
-            <div class="responsive-table">
-                <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even" class="click-to-highlight">
-                    <thead>
-                        <tr>
-                            <th>Code</th>
-                            <th>Name</th>
-                            <th>Size (KM)</th>
-                            <th>Population</th>
-                            <th>Continent</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{#each countries}}
-                        <tr>
-                            <td>{{iso}}</td>
-                            <td><i class="{{lowerCase iso}} flag"></i>{{country}}</td>
-                            <td class="align-right" data-value="{{area_km}}">{{formatNumber area_km}}</td>
-                            <td class="align-right" data-value="{{population}}">{{formatNumber population}}</td>
-                            <td>{{continent}}</td>
-                        </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
-            </div>
+            <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even" class="click-to-highlight">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Size (KM)</th>
+                        <th>Population</th>
+                        <th>Continent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each countries}}
+                    <tr>
+                        <td><i class="{{lowerCase iso}} flag"></i>{{iso}}</td>
+                        <td>{{country}}</td>
+                        <td class="align-right" data-value="{{area_km}}">{{formatNumber area_km}}</td>
+                        <td class="align-right" data-value="{{population}}">{{formatNumber population}}</td>
+                        <td>{{continent}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
         {{/if}}
     </script>
 

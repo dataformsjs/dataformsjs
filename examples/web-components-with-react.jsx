@@ -30,16 +30,14 @@ function DataPage() {
                     filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
                     placeholder="Enter filter, example 'North America'" />
 
-                <div class="responsive-table">
-                    <data-table
-                        data-bind="countries"
-                        highlight-class="highlight"
-                        labels="Code, Name, Size (KM), Population, Continent"
-                        table-attr="is=sortable-table,
-                                    data-sort-class-odd=row-odd,
-                                    data-sort-class-even=row-even">
-                    </data-table>
-                </div>
+                <data-table
+                    data-bind="countries"
+                    highlight-class="highlight"
+                    labels="Code, Name, Size (KM), Population, Continent"
+                    table-attr="is=sortable-table,
+                                data-sort-class-odd=row-odd,
+                                data-sort-class-even=row-even">
+                </data-table>
             </is-loaded>
         </json-data>
     );

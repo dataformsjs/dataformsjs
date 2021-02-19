@@ -54,31 +54,29 @@
                     placeholder="Enter filter, example 'North America'"
                     v-i18n-attr="'data-filter-results-text-all, data-filter-results-text-filtered, placeholder'">
 
-                <div class="responsive-table">
-                    <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even" class="click-to-highlight">
-                        <thead>
-                            <tr>
-                                <th v-i18n="'Code'"></th>
-                                <th v-i18n="'Name'"></th>
-                                <th v-i18n="'Size (KM)'"></th>
-                                <th v-i18n="'Population'"></th>
-                                <th v-i18n="'Continent'"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="country in countries">
-                                <td><a v-bind:href="'#/' + i18n_Locale + '/regions/' + country.iso">{{ country.iso }}</a></td>
-                                <td>
-                                    <i v-bind:class="country.iso.toLowerCase() + ' flag'"></i>
-                                    <span>{{ country.country }}<span>
-                                </td>
-                                <td class="align-right" v-bind:data-value="country.area_km" v-format-number="country.area_km"></td>
-                                <td class="align-right" v-bind:data-value="country.population" v-format-number="country.population"></td>
-                                <td>{{ country.continent }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even" class="click-to-highlight">
+                    <thead>
+                        <tr>
+                            <th v-i18n="'Code'"></th>
+                            <th v-i18n="'Name'"></th>
+                            <th v-i18n="'Size (KM)'"></th>
+                            <th v-i18n="'Population'"></th>
+                            <th v-i18n="'Continent'"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="country in countries">
+                            <td>
+                                <i v-bind:class="country.iso.toLowerCase() + ' flag'"></i>
+                                <a v-bind:href="'#/' + i18n_Locale + '/regions/' + country.iso">{{ country.iso }}</a>
+                            </td>
+                            <td>{{ country.country }}</td>
+                            <td class="align-right" v-bind:data-value="country.area_km" v-format-number="country.area_km"></td>
+                            <td class="align-right" v-bind:data-value="country.population" v-format-number="country.population"></td>
+                            <td>{{ country.continent }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </script>
 

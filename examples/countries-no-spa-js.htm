@@ -31,29 +31,27 @@
 
             <p>Click on a column to sort rows based on column values.</p>
 
-            <div class="responsive-table">
-                <data-table
-                    data-bind="countries"
-                    data-labels="Code, Name, Size (KM), Population, Continent"
-                    data-table-attr="
-                        class=click-to-highlight,
-                        data-sort
-                        data-sort-class-odd=row-odd,
-                        data-sort-class-even=row-even">
-                    <script type="text/x-template">
-                        <tr>
-                            <td>${iso}</td>
-                            <td>
-                                <i class="${iso.toLowerCase()} flag"></i>
-                                ${country}
-                            </td>
-                            <td class="align-right" data-value="${area_km}">${format.number(area_km)}</td>
-                            <td class="align-right" data-value="${population}">${format.number(population)}</td>
-                            <td>${continent}</td>
-                        </tr>
-                    </script>
-                </data-table>
-            </div>
+            <data-table
+                data-bind="countries"
+                data-labels="Code, Name, Size (KM), Population, Continent"
+                data-table-attr="
+                    class=click-to-highlight,
+                    data-sort
+                    data-sort-class-odd=row-odd,
+                    data-sort-class-even=row-even">
+                <script type="text/x-template">
+                    <tr>
+                        <td>
+                            <i class="${iso.toLowerCase()} flag"></i>
+                            ${iso}
+                        </td>
+                        <td>${country}</td>
+                        <td class="align-right" data-value="${area_km}">${format.number(area_km)}</td>
+                        <td class="align-right" data-value="${population}">${format.number(population)}</td>
+                        <td>${continent}</td>
+                    </tr>
+                </script>
+            </data-table>
         </div>
     </template>
 

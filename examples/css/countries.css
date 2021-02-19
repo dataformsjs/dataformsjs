@@ -93,10 +93,13 @@ form.search {
     }
 }
 /*
-    When the following is used:
+    Originally the the following is used in HTML:
         <div class="responsive-table"><table>...
-    The `position: sticky` code for headers and first column will
-    not work because of the overflow being defined.
+    Now `position: sticky` is being used for headers and first column.
+    When sticky position is used it will not work if "responsive-table" if used
+    because because of the overflow being defined. The "responsive-table" code is
+    being kept for reference in case this CSS is copied and used as a starting point
+    for one of your apps and you prefer responsive tables.  
 
     [responsive-table] provides a nice visual layout because it allows the
     table to fully fit with-in the page. The user can easily swipe to view
@@ -139,7 +142,7 @@ table tbody tr.row-even { background-color: #f6f8fa; }
 table tbody tr.highlight { background-color: yellow; }
 
 /* Table Sticky Header and First Column */
-table { position: relative; }
+table { position: relative; margin:20px 0; }
 th { position: sticky; top:-1px; background-color: hsla(210, 29%, 93%, 1); z-index:2; }
 table thead tr th:first-child { z-index: 3; left: 0; }
 table tbody tr td:first-child { position: sticky; left:0; z-index:1; }
@@ -148,9 +151,8 @@ table tbody tr:nth-child(even) td:first-child { background-color: #f6f8fa; }
 table tbody tr.highlight td:first-child {background-color: yellow; }
 
 /*
-    In Firefox the sticky cells function but do not look good so
-    sticky first column is turned off. For options to work-around
-    this issue see:
+    In Firefox the sticky cells function but do not look good so the sticky
+    first column is turned off. For options to work-around this issue see:
     https://stackoverflow.com/questions/57166162/table-headers-positionsticky-and-border-issue/57170489
 */
 @-moz-document url-prefix() {

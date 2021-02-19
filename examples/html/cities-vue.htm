@@ -10,26 +10,24 @@
 
     <input data-filter-selector="table" placeholder="Enter filter" v-i18n-attr="'placeholder'">
 
-    <div class="responsive-table">
-        <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even" class="click-to-highlight">
-            <thead>
-                <tr>
-                    <th v-i18n="'Name'"></th>
-                    <th v-i18n="'Population'"></th>
-                    <th v-i18n="'Elevation'"></th>
-                    <th v-i18n="'Timezone'"></th>
-                    <th v-i18n="'Date Last Modified'"></th>                            
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="city in cities">
-                    <td><i v-bind:class="country.toLowerCase() + ' flag'"></i><a v-bind:href="'#/' + i18n_Locale + '/city/' + city.geonames_id">{{ city.name }}</a></td>
-                    <td class="align-right" v-bind:data-value="city.population" v-format-number="city.population"></td>
-                    <td class="align-right" v-bind:data-value="city.elevation" v-format-number="city.elevation"></td>
-                    <td>{{ city.timezone }}</td>
-                    <td class="align-right" v-format-date="city.modification_date"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even" class="click-to-highlight">
+        <thead>
+            <tr>
+                <th v-i18n="'Name'"></th>
+                <th v-i18n="'Population'"></th>
+                <th v-i18n="'Elevation'"></th>
+                <th v-i18n="'Timezone'"></th>
+                <th v-i18n="'Date Last Modified'"></th>                            
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="city in cities">
+                <td><i v-bind:class="country.toLowerCase() + ' flag'"></i><a v-bind:href="'#/' + i18n_Locale + '/city/' + city.geonames_id">{{ city.name }}</a></td>
+                <td class="align-right" v-bind:data-value="city.population" v-format-number="city.population"></td>
+                <td class="align-right" v-bind:data-value="city.elevation" v-format-number="city.elevation"></td>
+                <td>{{ city.timezone }}</td>
+                <td class="align-right" v-format-date="city.modification_date"></td>
+            </tr>
+        </tbody>
+    </table>
 </div>

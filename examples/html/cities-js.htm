@@ -10,28 +10,26 @@
 
     <input data-filter-selector="table" placeholder="Enter filter" data-i18n-attr="placeholder">
 
-    <div class="responsive-table">
-        <data-table
-            data-bind="cities"
-            data-labels="Name, Population, Elevation, Timezone, Date Last Modified"
-            data-i18n-attr="data-labels"
-            data-table-attr="
-                class=click-to-highlight,
-                data-sort
-                data-sort-class-odd=row-odd,
-                data-sort-class-even=row-even">
-            <script type="text/x-template">
-                <tr>
-                    <td>
-                        <i class="${country_code.toLowerCase()} flag"></i>
-                        <a href="#/${app.activeModel.i18n_Locale}/city/${geonames_id}">${name}</a></a>
-                    </td>
-                    <td class="align-right" data-value="${population}">${format.number(population)}</td>
-                    <td class="align-right" data-value="${elevation}">${formatElevation(elevation)}</td>
-                    <td>${timezone}</td>
-                    <td class="align-right">${format.date(modification_date)}</td>
-                </tr>
-            </script>
-        </data-table>
-    </div>
+    <data-table
+        data-bind="cities"
+        data-labels="Name, Population, Elevation, Timezone, Date Last Modified"
+        data-i18n-attr="data-labels"
+        data-table-attr="
+            class=click-to-highlight,
+            data-sort
+            data-sort-class-odd=row-odd,
+            data-sort-class-even=row-even">
+        <script type="text/x-template">
+            <tr>
+                <td>
+                    <i class="${country_code.toLowerCase()} flag"></i>
+                    <a href="#/${app.activeModel.i18n_Locale}/city/${geonames_id}">${name}</a></a>
+                </td>
+                <td class="align-right" data-value="${population}">${format.number(population)}</td>
+                <td class="align-right" data-value="${elevation}">${formatElevation(elevation)}</td>
+                <td>${timezone}</td>
+                <td class="align-right">${format.date(modification_date)}</td>
+            </tr>
+        </script>
+    </data-table>
 </div>

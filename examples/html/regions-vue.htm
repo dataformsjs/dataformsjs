@@ -14,29 +14,27 @@
         placeholder="Enter filter"
         v-i18n-attr="'placeholder, data-filter-results-text-all, data-filter-results-text-filtered'">
 
-    <div class="responsive-table">
-        <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even" class="click-to-highlight">
-            <thead>
-                <tr>
-                    <th v-i18n="'Code'"></th>
-                    <th v-i18n="'Name'"></th>
-                    <th v-i18n="'Population'"></th>
-                    <th v-i18n="'Timezone'"></th>
-                    <th v-i18n="'Date Last Modified'"></th>                               
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="region in regions">
-                    <td><a v-bind:href="'#/' + i18n_Locale + '/cities/' + country + '/' + region.admin1_code">{{ region.admin1_code }}</a></td>
-                    <td>
-                        <i v-bind:class="country.toLowerCase() + ' flag'"></i>
-                        <span>{{ region.name }}</span>
-                    </td>
-                    <td class="align-right" v-bind:data-value="region.population" v-format-number="region.population"></td>
-                    <td>{{ region.timezone }}</td>
-                    <td class="align-right" v-format-date="region.modification_date"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even" class="click-to-highlight">
+        <thead>
+            <tr>
+                <th v-i18n="'Code'"></th>
+                <th v-i18n="'Name'"></th>
+                <th v-i18n="'Population'"></th>
+                <th v-i18n="'Timezone'"></th>
+                <th v-i18n="'Date Last Modified'"></th>                               
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="region in regions">
+                <td>
+                    <i v-bind:class="country.toLowerCase() + ' flag'"></i>
+                    <a v-bind:href="'#/' + i18n_Locale + '/cities/' + country + '/' + region.admin1_code">{{ region.admin1_code }}</a>
+                </td>
+                <td>{{ region.name }}</td>
+                <td class="align-right" v-bind:data-value="region.population" v-format-number="region.population"></td>
+                <td>{{ region.timezone }}</td>
+                <td class="align-right" v-format-date="region.modification_date"></td>
+            </tr>
+        </tbody>
+    </table>
 </div>

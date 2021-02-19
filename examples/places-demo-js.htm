@@ -55,55 +55,53 @@
                     placeholder="Enter filter, example 'North America'"
                     data-i18n-attr="data-filter-results-text-all, data-filter-results-text-filtered, placeholder">
 
-                <div class="responsive-table">
-                    <!--
-                        Either <template> or <script type="text/x-template"> can be used.
-                            <template> will work with all modern browsers
-                            <script type="text/x-template"> is required if supporting IE
-                    -->
-                    <data-table
-                        data-bind="countries"
-                        data-labels="Code, Name, Size (KM), Population, Continent"
-                        data-i18n-attr="data-labels"
-                        data-table-attr="
-                            class=click-to-highlight,
-                            data-sort
-                            data-sort-class-odd=row-odd,
-                            data-sort-class-even=row-even">
-                        <script type="text/x-template">
-                            <tr>
-                                <td><a href="#/${app.activeModel.i18n_Locale}/regions/${iso}">${iso}</a></td>
-                                <td>
-                                    <i class="${iso.toLowerCase()} flag"></i>
-                                    ${country}
-                                </td>
-                                <td class="align-right" data-value="${area_km}">${format.number(area_km)}</td>
-                                <td class="align-right" data-value="${population}">${format.number(population)}</td>
-                                <td>${continent}</td>
-                            </tr>
-                        </script>
-                    </data-table>
+                <!--
+                    Either <template> or <script type="text/x-template"> can be used.
+                        <template> will work with all modern browsers
+                        <script type="text/x-template"> is required if supporting IE
+                -->
+                <data-table
+                    data-bind="countries"
+                    data-labels="Code, Name, Size (KM), Population, Continent"
+                    data-i18n-attr="data-labels"
+                    data-table-attr="
+                        class=click-to-highlight,
+                        data-sort
+                        data-sort-class-odd=row-odd,
+                        data-sort-class-even=row-even">
+                    <script type="text/x-template">
+                        <tr>
+                            <td>
+                                <i class="${iso.toLowerCase()} flag"></i>
+                                <a href="#/${app.activeModel.i18n_Locale}/regions/${iso}">${iso}</a>
+                            </td>
+                            <td>${country}</td>
+                            <td class="align-right" data-value="${area_km}">${format.number(area_km)}</td>
+                            <td class="align-right" data-value="${population}">${format.number(population)}</td>
+                            <td>${continent}</td>
+                        </tr>
+                    </script>
+                </data-table>
 
-                    <!--
-                        For a basic table a <template> is not required. This version still
-                        contains links by using the [data-col-link-template] attribute however
-                        it will not show the flag icons or format numbers or use the selected
-                        i18n Locale.
-                    -->
-                    <!--
-                    <data-table
-                        data-bind="countries"
-                        data-col-link-template="#/en/regions/:iso"
-                        data-labels="Code, Name, Size (KM), Population, Continent"
-                        data-i18n-attr="data-labels"
-                        data-table-attr="
-                            class=countries click-to-highlight,
-                            data-sort
-                            data-sort-class-odd=row-odd,
-                            data-sort-class-even=row-even">
-                    </data-table>
-                    -->
-                </div>
+                <!--
+                    For a basic table a <template> is not required. This version still
+                    contains links by using the [data-col-link-template] attribute however
+                    it will not show the flag icons or format numbers or use the selected
+                    i18n Locale.
+                -->
+                <!--
+                <data-table
+                    data-bind="countries"
+                    data-col-link-template="#/en/regions/:iso"
+                    data-labels="Code, Name, Size (KM), Population, Continent"
+                    data-i18n-attr="data-labels"
+                    data-table-attr="
+                        class=countries click-to-highlight,
+                        data-sort
+                        data-sort-class-odd=row-odd,
+                        data-sort-class-even=row-even">
+                </data-table>
+                -->
             </div>
         </template>
 

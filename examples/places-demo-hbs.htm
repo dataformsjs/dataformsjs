@@ -71,33 +71,31 @@
                     data-filter-results-text-filtered="{{i18n 'Showing {displayCount} of {totalCount} Countries'}}"
                     placeholder="{{i18n 'Enter filter, example \'North America\''}}">
 
-                <div class="responsive-table">
-                    <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even" class="click-to-highlight">
-                        <thead>
-                            <tr>
-                                <th>{{i18n 'Code'}}</th>
-                                <th>{{i18n 'Name'}}</th>
-                                <th>{{i18n 'Size (KM)'}}</th>
-                                <th>{{i18n 'Population'}}</th>
-                                <th>{{i18n 'Continent'}}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{#each countries}}
-                            <tr>
-                                <td><a href="#/{{../i18n_Locale}}/regions/{{iso}}">{{iso}}</a></td>
-                                <td>
-                                    <i class="{{lowerCase iso}} flag"></i>
-                                    {{country}}
-                                </td>
-                                <td class="align-right" data-value="{{area_km}}">{{formatNumber area_km}}</td>
-                                <td class="align-right" data-value="{{population}}">{{formatNumber population}}</td>
-                                <td>{{continent}}</td>
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
-                </div>
+                <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even" class="click-to-highlight">
+                    <thead>
+                        <tr>
+                            <th>{{i18n 'Code'}}</th>
+                            <th>{{i18n 'Name'}}</th>
+                            <th>{{i18n 'Size (KM)'}}</th>
+                            <th>{{i18n 'Population'}}</th>
+                            <th>{{i18n 'Continent'}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each countries}}
+                        <tr>
+                            <td>
+                                <i class="{{lowerCase iso}} flag"></i>
+                                <a href="#/{{../i18n_Locale}}/regions/{{iso}}">{{iso}}</a>
+                            </td>
+                            <td>{{country}}</td>
+                            <td class="align-right" data-value="{{area_km}}">{{formatNumber area_km}}</td>
+                            <td class="align-right" data-value="{{population}}">{{formatNumber population}}</td>
+                            <td>{{continent}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
             {{/if}}
         </script>
 

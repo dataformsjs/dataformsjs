@@ -14,28 +14,29 @@
         data-filter-results-text-filtered="{{i18n 'Showing {displayCount} of {totalCount} Regions for Country Code {country}'}}"
         placeholder="{{i18n 'Enter filter'}}">
 
-    <div class="responsive-table">
-        <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even" class="click-to-highlight">
-            <thead>
-                <tr>
-                    <th>{{i18n 'Code'}}</th>
-                    <th>{{i18n 'Name'}}</th>
-                    <th>{{i18n 'Population'}}</th>
-                    <th>{{i18n 'Timezone'}}</th>
-                    <th>{{i18n 'Date Last Modified'}}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each regions}}
-                <tr>
-                    <td><a href="#/{{../i18n_Locale}}/cities/{{../country}}/{{admin1_code}}">{{admin1_code}}</a></td>
-                    <td><i class="{{lowerCase ../country}} flag"></i>{{name}}</td>
-                    <td class="align-right" data-value="{{population}}">{{formatNumber population}}</td>
-                    <td>{{timezone}}</td>
-                    <td class="align-right">{{formatDate modification_date}}</td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-    </div>
+    <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even" class="click-to-highlight">
+        <thead>
+            <tr>
+                <th>{{i18n 'Code'}}</th>
+                <th>{{i18n 'Name'}}</th>
+                <th>{{i18n 'Population'}}</th>
+                <th>{{i18n 'Timezone'}}</th>
+                <th>{{i18n 'Date Last Modified'}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each regions}}
+            <tr>
+                <td>
+                    <i class="{{lowerCase ../country}} flag"></i>
+                    <a href="#/{{../i18n_Locale}}/cities/{{../country}}/{{admin1_code}}">{{admin1_code}}</a>
+                </td>
+                <td>{{name}}</td>
+                <td class="align-right" data-value="{{population}}">{{formatNumber population}}</td>
+                <td>{{timezone}}</td>
+                <td class="align-right">{{formatDate modification_date}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 {{/if}}

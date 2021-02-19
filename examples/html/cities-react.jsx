@@ -60,37 +60,35 @@ export function ShowCities(props) {
                 filter-selector="table"
                 placeholder={i18n.text('Enter filter')} />
 
-            <div className="responsive-table">
-                <SortableTable
-                    data-sort-class-odd="row-odd"
-                    data-sort-class-even="row-even">
-                    <thead>
-                        <tr>
-                            <th>{i18n.text('Name')}</th>
-                            <th>{i18n.text('Population')}</th>
-                            <th>{i18n.text('Elevation')}</th>
-                            <th>{i18n.text('Timezone')}</th>
-                            <th>{i18n.text('Date Last Modified')}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {props.data.cities.map(city => {
-                            return (
-                                <tr key={city.geonames_id} onClick={toggleHighlight} className="pointer">
-                                    <td>
-                                        <i className={props.params.country.toLowerCase() + ' flag'}></i>
-                                        <Link to={'/' + props.params.lang + '/city/' + city.geonames_id}>{city.name}</Link>
-                                    </td>
-                                    <td className="align-right" data-value={city.population}>{format.number(city.population)}</td>
-                                    <td className="align-right" data-value={city.elevation}>{format.number(city.elevation)}</td>
-                                    <td>{city.timezone}</td>
-                                    <td className="align-right">{format.date(city.modification_date)}</td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </SortableTable>
-            </div>
+            <SortableTable
+                data-sort-class-odd="row-odd"
+                data-sort-class-even="row-even">
+                <thead>
+                    <tr>
+                        <th>{i18n.text('Name')}</th>
+                        <th>{i18n.text('Population')}</th>
+                        <th>{i18n.text('Elevation')}</th>
+                        <th>{i18n.text('Timezone')}</th>
+                        <th>{i18n.text('Date Last Modified')}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {props.data.cities.map(city => {
+                        return (
+                            <tr key={city.geonames_id} onClick={toggleHighlight} className="pointer">
+                                <td>
+                                    <i className={props.params.country.toLowerCase() + ' flag'}></i>
+                                    <Link to={'/' + props.params.lang + '/city/' + city.geonames_id}>{city.name}</Link>
+                                </td>
+                                <td className="align-right" data-value={city.population}>{format.number(city.population)}</td>
+                                <td className="align-right" data-value={city.elevation}>{format.number(city.elevation)}</td>
+                                <td>{city.timezone}</td>
+                                <td className="align-right">{format.date(city.modification_date)}</td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </SortableTable>
         </React.Fragment>
     )
 }
