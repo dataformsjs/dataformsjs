@@ -247,14 +247,15 @@ TODO List
         has been optimized recently (as of 2020), and now has wider usage.
 
 *) Playground Site
-    - Add support for JSON file/resource type
-    - Add linting for React/JSX, Babel recently started doing this online in the REPL:
-        https://babeljs.io/repl
-    - Currently JS is linted using jshint on the Playground, to lint JSX babel standalone will
-        likely be used with a custom Code Mirror Plugin
-    - When adding update the JS page code to load jshint and a linter for JSX only if the
-        user is actually going to create a site. It can be downloaded in the background
-        while the site is being created.
+    - Switch to Monaco Editor from CodeMirror for users that view the site from a laptop
+        or desktop computer. Mobile users (determined by UserAgent) will still receive
+        CodeMirror.
+    - Monaco Editor is the editor used by VS Code and provides built-in JSX validation
+        along with better formatting and performance compared to CodeMirror.
+    - A React Demo of the playground that uses the Monaco editor can be used as a
+        starting point on the needed Monaco API's that would be required.
+    - https://github.com/dataformsjs/dataformsjs/blob/master/examples/code-playground-react.htm
+    - https://www.dataformsjs.com/examples/code-playground-react.htm
 
 *) New plugin or features to handle content preloading?
     - For example routes could have a [data-preload] attribute and then a new plugin would
