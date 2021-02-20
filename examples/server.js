@@ -201,6 +201,10 @@ app.get('/:file', (req, res, file) => {
     ];
     const fontSrc = [
         'https://fonts.gstatic.com/',
+        'https://cdn.jsdelivr.net',
+    ];
+    const workerSrc = [
+        'blob:',
     ];
     const csp = [
         "default-src 'self'",
@@ -209,6 +213,7 @@ app.get('/:file', (req, res, file) => {
         `img-src 'self' ${imageSrc.join(' ')}`,
         `connect-src 'self' ${connectSrc.join(' ')}`,
         `font-src 'self' ${fontSrc.join(' ')}`,
+        `worker-src 'self' ${workerSrc.join(' ')}`,
     ].join('; ');
     res.setHeader('Content-Security-Policy', csp);
 

@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Code Playground</title>
+    <style>
+        /* Reset */
+        * { margin:0; padding:0; box-sizing: border-box; }
+        html { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
+        html,
+        body {
+            overflow: hidden;
+        }
+
+        /* CSS Variables */
+        :root {
+            --file-list-width: 280px;
+            --border: 1px solid #eee;
+            --button-border: 1px solid #bbb;
+            --button-hover-color: #eee;
+            --button-disabled-color: #b3b3b3;
+            --bg-color: #fff;
+            --font-color: #000;
+        }
+
+        /* Main elements */
+        body {
+            background-color:rgb(245, 247, 250);
+            padding: 20px;
+            color: var(--font-color);
+        }
+
+        #root {
+            display: flex;
+            height:calc(100vh - 40px);
+            width:calc(100vw - 40px);
+        }
+
+        .file-list {
+            width: var(--file-list-width);
+            height: calc(100vh - 40px);
+            overflow: hidden;
+            background-color: var(--bg-color);
+            border: var(--border);
+            margin-right: 20px;
+            padding: 20px;
+        }
+        .file-list input,
+        .file-list p {
+            width: 100%;
+            padding: 10px;
+        }
+        .file-list p {
+            color: #888;
+        }
+        .file-list ul {
+            list-style-type: none;
+            height: calc(100% - 62px);
+            overflow: auto;
+        }
+        .file-list li {
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .file-list li.active {
+            background-color: #efefef;
+            border-radius: 4px;
+        }
+        .file-list li::before {
+            margin-right: 10px;
+            padding: 0 8px 2px;
+            color: white;
+            width: 32px;
+            display: inline-block;
+            text-align: center;
+            border-radius: 2em;
+        }
+        .file-list li[data-file$=".htm"]::before { content:'< >'; background-color:#e54c21; }
+        .file-list li[data-file$=".js"]::before { content:'JS'; background-color:#f7df1e; }
+        .file-list li[data-file$=".jsx"]::before { content:'JSX'; background-color:#61dafb; }
+        .file-list li[data-file$=".css"]::before { content:'{ }'; background-color:#214ce5; }
+        .file-list li[data-file$=".svg"]::before { content:'○'; background-color:#ff9a00; }
+        .file-list li[data-file$=".graphql"]::before { content:'GQL'; background-color:rgb(225, 0, 152); }
+
+        .flex { display:flex; }
+
+        .code-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .code-controls {
+            display: flex;
+            justify-content: space-between;
+            border: var(--border);
+            background-color: var(--bg-color);
+            border-bottom: none;
+            padding: 1em;
+            align-items: center;
+        }
+
+        .code-controls .file-info {
+            display: flex;
+            width: 100%;
+            max-width: 450px;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .code-controls .buttons {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .code-controls .msg {
+            color: var(--button-disabled-color);
+            margin-left: 20px;
+        }
+        .code-controls .error {
+            color: darkred;
+            border: 1px solid red;
+            padding: .25em 1em;
+            border-radius: 4px;
+        }
+
+        input,
+        select,
+        .btn {
+            border: var(--button-border);
+            border-radius: 4px;
+        }
+        input:not([type="checkbox"]) {
+            padding: 0.5em 1em;
+            width: 100%;
+            max-width: 300px;
+        }
+        input[type="checkbox"] {
+            height: 18px;
+            width: 18px;
+        }
+        label,
+        input[type="checkbox"] {
+            margin-left: 20px;
+        }
+        .btn {
+            margin-left: 1em;
+            padding: 0.25em 1em;
+        }
+        a.btn {
+            text-decoration: none;
+            color: var(--font-color);
+        }
+        .btn.disabled {
+            color: var(--button-disabled-color);
+        }
+        .btn:not(.disabled) {
+            cursor: pointer;
+        }
+        .btn:hover:not(.disabled) {
+            background-color: var(--button-hover-color);
+        }
+        select { padding:.5em 1em; }
+
+        .editor-container {
+            width: calc(100vw - var(--file-list-width) - 60px);
+            height: calc(100vh - 40px);
+            border: var(--border);
+            background-color: var(--bg-color);
+        }
+        @media (max-width: 800px) {
+            .editor-container {
+                width: calc(100vw - var(--file-list-width) - 20px);
+            }
+        }
+
+        .editor-container.error {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+        .editor-container.error div,
+        .file-list.error div  {
+            margin: 1em;
+            padding: 1em 2em;
+            color: white;
+            background-color: red;
+            border: 1px solid darkred;
+        }
+
+        .overlay {
+            position: absolute;
+            z-index: 10000;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0,0,0,0.1);
+        }
+
+        .overlay .form {
+            background-color: white;
+            border: var(--border);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 700px;
+        }
+
+        .overlay input,
+        .overlay select,
+        .overlay button,
+        .overlay div {
+            margin: 10px;
+        }
+        .overlay ul {
+            padding: 1em 0;
+            margin-left: 1em;
+        }
+        .overlay button,
+        .overlay li {
+            padding: .5em 1em;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <!--
+    React
+    https://reactjs.org/
+    -->
+    <script src="https://unpkg.com/react@17.0.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@17.0.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+
+    <!--
+    DataFormsJS JSX Loader and <ErrorBoundary> Component
+    https://www.dataformsjs.com/
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/react/jsxLoader.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/react/es6/ErrorBoundary.min.js"></script>
+
+    <!-- Show a warning for Older browsers (IE, Older Mobile Devices, etc) -->
+    <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/old-browser-warning.min.js"></script>
+
+    <!--
+	Monaco Editor / Editor used for VS Code
+	https://microsoft.github.io/monaco-editor/
+
+    To update Monaco Version only the URL here needs to be changed. The JSX Code will dynamically
+    load additional scripts based on this URL. Using a specific version `#.#.#` should be done
+    rather than using `@latest` or `@major` since additional scripts are loaded.
+	-->
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.22.3/min/vs/loader.js"></script>
+
+    <!-- App Code -->
+    <script type="text/babel">
+        const useReducer = React.useReducer;
+        const useEffect = React.useEffect;
+
+        // NOTE - unlike the main app at: https://www.dataformsjs.com/en/playground
+        // this version does not allow a site to be deleted. After 1 hour or if browser
+        // local storage is cleared then a new site will be generated.
+        const urls = {
+            createSite: 'https://playground.dataformsjs.com/en/create-site',
+            downloadSite: 'https://playground.dataformsjs.com/download-site',
+            getFile: 'https://playground.dataformsjs.com/get-file',
+            saveFile: 'https://playground.dataformsjs.com/save-file',
+            renameFile: 'https://playground.dataformsjs.com/rename-file',
+            deleteFile: 'https://playground.dataformsjs.com/delete-file',
+            // deleteSite: 'https://playground.dataformsjs.com/delete-site',
+            viewFile: 'https://playground.dataformsjs.com/sites/{siteString}/{file}',
+        };
+
+        // Name of main file cannot be changed and it cannot be deleted
+        const mainFile = 'app.htm';
+
+        const initialState = {
+            siteKey: null,
+            siteString: null,
+            files: [],
+            filter: null,
+            filteredFiles: [],
+            filesError: null,
+            selectedFile: null,
+            currentName: null,
+            currentActive: null,
+            currentCode: null,
+            file: {
+                type: null,
+                content: null,
+            },
+            hasChanges: false,
+            hasNameChanges: false,
+            fileAlreadyExists: false,
+            isSubmitting: false,
+            showSubmitted: false,
+            submittingMessage: null,
+            fileError: null,
+            showNewDialog: false,
+            newName: null,
+            newFileType: 'htm',
+            newNameAlreadyExists: false,
+            showInfo: false,
+        };
+
+        const EVENT_SET_SITE_KEY = 'set-site-key';
+        const EVENT_DOWNLOAD_FILES = 'download-files';
+        const EVENT_SET_FILTER = 'set-filter';
+        const EVENT_SELECT_FILE = 'select-file';
+        const EVENT_SET_FILE_CONTENT = 'set-file-content';
+        const EVENT_UPDATE_SAVED_FILE = 'update-saved-file';
+        const EVENT_FILE_DELETED = 'file-deleted';
+        const EVENT_CHANGE_FILE_NAME = 'change-file-name';
+        const EVENT_EDIT_CODE = 'edit-code';
+        const EVENT_CHECK_FORM_STATE = 'check-form-state';
+        const EVENT_UPDATE_SUBMITTING_STATE = 'update-submitting-state';
+        const EVENT_SET_FILE_ERROR = 'set-file-error';
+        const EVENT_TOGGLE_NEW_DIALOG = 'toggle-new-dialog';
+        const EVENT_CHANGE_NEW_NAME = 'change-new-name';
+        const EVENT_CHANGE_NEW_FILE_TYPE = 'change-new-mime-type';
+        const EVENT_PAGE_CREATED = 'page-created';
+        const EVENT_TOGGLE_SHOW_INFO = 'toggle-show-info';
+
+        function reducer(state, action) {
+            switch (action.type) {
+                case EVENT_SET_SITE_KEY:
+                    return {
+                        ...state,
+                        siteKey: action.siteKey,
+                        siteString: action.siteString,
+                    };
+                case EVENT_DOWNLOAD_FILES:
+                    return {
+                        ...state,
+                        files: action.files,
+                        filteredFiles: action.files,
+                        filesError: action.filesError,
+                    };
+                case EVENT_SET_FILTER:
+                    const lowerCaseFilter = (action.filter === null ? '' : action.filter).trim().toLowerCase();
+                    return {
+                        ...state,
+                        filter: action.filter,
+                        filteredFiles: state.files.filter(file => file.toLowerCase().includes(lowerCaseFilter)),
+                    };
+                case EVENT_SELECT_FILE:
+                    return {
+                        ...state,
+                        selectedFile: action.selectedFile,
+                        currentName: action.selectedFile.substr(0, action.selectedFile.indexOf('.')),
+                        file: {
+                            type: null,
+                            content: null,
+                        },
+                        hasChanges: false,
+                        hasNameChanges: false,
+                        fileAlreadyExists: false,
+                        fileError: null,
+                        isSubmitting: false,
+                        showSubmitted: false,
+                    };
+                case EVENT_SET_FILE_CONTENT:
+                    return {
+                        ...state,
+                        file: {
+                            type: action.fileType,
+                            content: action.content,
+                        },
+                        currentCode: action.content,
+                        hasChanges: false,
+                    };
+                case EVENT_UPDATE_SAVED_FILE:
+                    if (action.renamed) {
+                        state.files.splice(state.files.indexOf(state.selectedFile), 1);
+                    }
+                    const savedName = state.currentName + '.' + state.file.type;
+                    const files = (state.files.includes(savedName) ? state.files : state.files.concat([savedName]).sort());
+                    return {
+                        ...state,
+                        files: files,
+                        selectedFile: savedName,
+                        file: {
+                            type: state.file.type,
+                            content: state.currentCode,
+                        },
+                        hasChanges: false,
+                        hasNameChanges: false,
+                        isSubmitting: false,
+                        showSubmitted: true,
+                        submittingMessage: 'Page Saved',
+                    };
+                case EVENT_FILE_DELETED:
+                    state.files.splice(state.files.indexOf(state.selectedFile), 1);
+                    return {
+                        ...state,
+                        files: state.files,
+                        selectedFile: null,
+                        file: {
+                            type: null,
+                            content: null,
+                        },
+                        currentCode: null,
+                        hasChanges: false,
+                        hasNameChanges: false,
+                        isSubmitting: false,
+                        showSubmitted: true,
+                        submittingMessage: 'Page Deleted',
+                    };
+                case EVENT_CHANGE_FILE_NAME:
+                    const currentName = action.currentName.replace(/[^-_a-zA-Z0-9]+/g, ''); // Regex strips characters not allowed
+                    const fullName = currentName + '.' + state.file.type;
+                    return {
+                        ...state,
+                        currentName: currentName,
+                        hasNameChanges: (state.selectedFile !== fullName),
+                        fileAlreadyExists: state.files.map(s => s.toLowerCase()).includes(fullName.toLowerCase()),
+                    };
+                case EVENT_EDIT_CODE:
+                    return {
+                        ...state,
+                        currentCode: action.code,
+                    };
+                case EVENT_CHECK_FORM_STATE:
+                    return {
+                        ...state,
+                        hasChanges: state.file.content !== state.currentCode,
+                    };
+                case EVENT_UPDATE_SUBMITTING_STATE:
+                    return {
+                        ...state,
+                        isSubmitting: action.isSubmitting,
+                        showSubmitted: action.showSubmitted,
+                        submittingMessage: action.message,
+                        fileError: null,
+                    };
+                case EVENT_SET_FILE_ERROR:
+                    return {
+                        ...state,
+                        isSubmitting: false,
+                        showSubmitted: false,
+                        submittingMessage: null,
+                        fileError: String(action.error),
+                    };
+                case EVENT_TOGGLE_NEW_DIALOG:
+                    return {
+                        ...state,
+                        showNewDialog: !state.showNewDialog,
+                    };
+                case EVENT_CHANGE_NEW_NAME:
+                    const newName = action.newName.replace(/[^-_a-zA-Z0-9]+/g, ''); // Regex strips characters not allowed
+                    const fullNewName = newName + '.' + state.newFileType;
+                    return {
+                        ...state,
+                        newName: newName,
+                        newNameAlreadyExists: state.files.map(s => s.toLowerCase()).includes(fullNewName.toLowerCase()),
+                    };
+                case EVENT_CHANGE_NEW_FILE_TYPE:
+                    return {
+                        ...state,
+                        newFileType: action.newFileType,
+                    };
+                case EVENT_PAGE_CREATED:
+                    return {
+                        ...state,
+                        files: state.files.concat([action.file]).sort(),
+                        hasNameChanges: false,
+                        newName: null,
+                        newNameAlreadyExists: false,
+                        showNewDialog: false,
+                    };
+                case EVENT_TOGGLE_SHOW_INFO:
+                    return {
+                        ...state,
+                        showInfo: !state.showInfo,
+                    };
+                default:
+                    throw new Error('Unknown Reducer Action: ' + action.type);
+            }
+        }
+
+        function FileList(props) {
+            const { files, filteredFiles, filter, selectedFile, filesError } = props.state;
+            const totalCount = files.length;
+            const displayCount = filteredFiles.length;
+            if (filesError) {
+                return <div className="file-list error"><div>{'Error downloading files: ' + filesError}</div></div>
+            }
+            if (totalCount === 0) {
+                return <div className="file-list"></div>
+            }
+            return (
+                <div className="file-list">
+                    <div className="flex">
+                        <input placeholder="Enter Filter" value={filter} onChange={props.handleFilterChange} />
+                        <span className="btn" onClick={props.toggleNewDialog}>New</span>
+                    </div>
+                    <p>{totalCount === displayCount ? `Showing all ${totalCount} Files` : `Showing ${displayCount} of ${totalCount} Files`}</p>
+                    <ul>
+                        {filteredFiles.map(file => {
+                            return <FileItem key={file} file={file} active={selectedFile === file} handleFileSelect={props.handleFileSelect} />
+                        })}
+                    </ul>
+                </div>
+            )
+        }
+
+        function FileItem(props) {
+            const onClick = () => { props.handleFileSelect(props.file); }
+            return <li className={props.active ? 'active' : ''} data-file={props.file} onClick={onClick}>{props.file}</li>
+        }
+
+        function CodeControls(props) {
+            if (props.state.selectedFile === null) {
+                return null;
+            }
+
+            const {
+                currentName,
+                currentActive,
+                selectedFile,
+                fileAlreadyExists,
+                hasChanges,
+                hasNameChanges,
+                isSubmitting,
+                showSubmitted,
+                fileError,
+                submittingMessage,
+                siteString,
+            } = props.state;
+
+            const showFileAlreadyExists = (hasNameChanges && fileAlreadyExists);
+            const saveIsEnabled = !showFileAlreadyExists && !isSubmitting && ((hasChanges || hasNameChanges) && currentName !== '');
+            const renameIsEnabled = !showFileAlreadyExists && !isSubmitting && (hasNameChanges && currentName !== '');
+            const showRenameAndSave = !showFileAlreadyExists && (hasChanges && hasNameChanges);
+
+            const viewUrl = urls.viewFile.replace('{siteString}', siteString).replace('{file}', encodeURIComponent(selectedFile));
+            const isMainFile = (selectedFile === mainFile);
+
+            return (
+                <div className="code-controls">
+                    <div className="file-info">
+                        <input value={currentName} disabled={isMainFile} onChange={props.handleNameChange} />
+                    </div>
+                    <div className="buttons">
+                        {fileError && <span className="error">{fileError}</span>}
+                        {isSubmitting && <span className="msg">{submittingMessage}</span>}
+                        {showSubmitted && <span className="msg">{submittingMessage}</span>}
+                        <a className="btn" href={viewUrl} target="_blank">View</a>
+                        {showFileAlreadyExists
+                            ? <span className="msg">File already exists</span>
+                            : <span className={'save btn' + (saveIsEnabled ? '' : ' disabled')} onClick={props.handleSave}>{(hasNameChanges ? 'Save As' : 'Save')}</span>}
+                        {showFileAlreadyExists
+                            ? null
+                            : <span className={'btn' + (renameIsEnabled ? '' : ' disabled')} onClick={props.handleRename}>{(showRenameAndSave ? 'Rename and Save' : 'Rename')}</span>}
+                        <span className={'btn' + (isMainFile ? ' disabled' : '')} onClick={(isMainFile ? null : props.handleDelete)}>Delete</span>
+                        <span className="btn" onClick={props.toggleShowInfo}>Info</span>
+                    </div>
+                </div>
+            )
+        }
+
+        function NewDialog(props) {
+            if (!props.state.showNewDialog) {
+                return null;
+            }
+            const newNameAlreadyExists = props.state.newNameAlreadyExists;
+            const disabled = (newNameAlreadyExists || props.state.newName === null || props.state.newName === '');
+            return (
+                <div className="overlay" onClick={props.toggleNewDialog}>
+                    <div className="form" onClick={(e) => { e.stopPropagation(); }}>
+                        <select value={props.state.newFileType} onChange={props.handleNewFileTypeChange}>
+                            <option value="htm">HTML</option>
+                            <option value="js">JavaScript</option>
+                            <option value="jsx">JavaScript (JSX)</option>
+                            <option value="css">CSS</option>
+                            <option value="graphql">GraphQL</option>
+                            <option value="svg">SVG</option>
+                        </select>
+                        <input value={props.state.newName} onChange={props.handleNewNameChange} onKeyDown={props.handleNewNameKeyDown} placeholder="Enter File Name" />
+                        <button onClick={props.handleCreatePage} disabled={disabled}>Create File</button>
+                        {newNameAlreadyExists && <div>File already exists</div>}
+                    </div>
+                </div>
+            );
+        }
+
+        function ShowInfo(props) {
+            if (!props.showInfo) {
+                return null;
+            }
+            return (
+                <div className="overlay" onClick={props.toggleShowInfo}>
+                    <div className="form" onClick={(e) => { e.stopPropagation(); }}>
+                        <h2>Code Playground Info</h2>
+                        <ul>
+                            <li>This app creates a temporary Playground Site that will be available for 1 hour.</li>
+                            <li>The main version of this app exits at <a href="https://www.dataformsjs.com/en/playground" target="_blank">https://www.dataformsjs.com/en/playground</a></li>
+                            <li>This is a fully functional version of the playground, however unlike the main site there is no warning when a site is about to expire and layout of this app does not provide mobile support.</li>
+                            <li>With this playground app sites are created automatically when the page is first opened.</li>
+                            <li>This app was created to demonstrate a React version of the Playground and to provide a good file that can be used as a starting point if you would like to develop a custom online content editor that has similar behavior.</li>
+                        </ul>
+                    </div>
+                </div>
+            );
+        }
+
+        // This Component is optimized and tightly integrated with this app.
+        // For a more generic Monaco Editor Component see:
+        // https://github.com/react-monaco-editor/react-monaco-editor
+        // https://github.com/suren-atoyan/monaco-react
+        //
+        // Additionally this Component could be organized into separate components
+        // such as <CodeDownloadService>, <MonacoEditor>, etc if the app were
+        // to include multiple references to a Code Editor. For this app only
+        // one component is needed
+        class CodeEditor extends React.Component {
+            constructor(props) {
+                super(props);
+                this.props = props;
+                this.editorRef = React.createRef();
+                this.editor = null;
+                this.editorIsReady = false;
+            }
+
+            componentDidMount() {
+                this.loadEditor();
+            }
+
+            componentWillUnmount() {
+                this.disposeEditor();
+            }
+
+            componentDidUpdate(prevProps, prevState) {
+                // Only update the editor when the a new file is selected.
+                // NOTE - After file is renamed or saved as a new file it
+                // trigger a full update and download from server.
+                if (prevProps.state.selectedFile === this.props.state.selectedFile) {
+                    return;
+                }
+                if (this.editorIsReady) {
+                    this.showFile();
+                }
+            }
+
+            loadEditor() {
+                // Dynamically determine the path based on the URL for the loader.
+                // The value passed for 'vs' looks like this 'https://cdn.jsdelivr.net/npm/monaco-editor@0.22.3/min/vs'
+                // but since the version can change using the code below allows version
+                // to be specified in only in the HTML rather than HTML and here.
+                const selector = 'script[src*="monaco-editor@"][src$="/vs/loader.js"]';
+                const path = document.querySelector(selector).src.replace('/loader.js', '');
+                require.config({ paths: { 'vs': path }});
+                require(['vs/editor/editor.main'], () => {
+                    this.editorIsReady = true;
+                    this.showFile();
+                });
+            }
+
+            disposeEditor() {
+                if (this.editor) {
+                    if (this.editor.getModel()) {
+                        this.editor.getModel().dispose();
+                    }
+                    this.editor.dispose();
+                    this.editor = null;
+                }
+            }
+
+            showFile() {
+                const selectedFile = this.props.state.selectedFile;
+                if (selectedFile === null) {
+                    this.disposeEditor();
+                    return;
+                }
+
+                const options = {
+                    method: 'POST',
+                    cache: 'no-store',
+                    mode: 'cors',
+                    credentials: 'include',
+                    headers: {
+                        Authorization: 'Bearer ' + this.props.state.siteKey,
+                        'X-File': selectedFile,
+                    },
+                };
+                fetchJson(urls.getFile, options)
+                .then(data => {
+                    // To see all languages uncomment:
+                    // console.log(monaco.languages.getLanguages());
+
+                    let selectedLang = 'plaintext';
+                    switch (data.type) {
+                        case 'htm':
+                            selectedLang = 'html';
+                            break;
+                        case 'js':
+                        case 'jsx':
+                            selectedLang = 'javascript';
+                            break;
+                        case 'css':
+                        case 'graphql':
+                            selectedLang = data.type;
+                            break;
+                        case 'svg':
+                            selectedLang = 'xml';
+                            break;
+                    }
+
+                    // Create Editor on first use
+                    // For Monaco Editor usage view both API Docs and Source of the main site
+                    // As of Early 2021 to examples on the main site use jQuery with Code
+                    // on the main HTML page.
+                    // https://microsoft.github.io/monaco-editor/
+                    if (this.editor === null) {
+                        // Reset in case previous result was an error
+                        this.editorRef.current.innerHTML = '';
+                        this.editorRef.current.className = 'editor-container';
+                        // Create Editor
+                        this.editor = monaco.editor.create(this.editorRef.current, {
+                            model: null,
+                            automaticLayout: true, // Allows editor to resize if the window is resized
+                        });
+                        this.editor.onDidChangeModelContent(() => {
+                            this.props.handleCodeEdit(this.editor.getModel().getValue());
+                        });
+                    }
+
+                    // Show downloaded file and cleanup previous file
+                    var oldModel = this.editor.getModel();
+                    var newModel = monaco.editor.createModel(data.content, selectedLang);
+                    this.editor.setModel(newModel);
+                    if (oldModel) {
+                        oldModel.dispose();
+                    }
+
+                    // Save original content to state
+                    this.props.dispatch({
+                        type: EVENT_SET_FILE_CONTENT,
+                        fileType: data.type,
+                        content: data.content,
+                    });
+                })
+                .catch(error => {
+                    this.disposeEditor();
+                    this.editorRef.current.classList.add('error');
+                    const div = document.createElement('div');
+                    div.textContent = error;
+                    div.insertAdjacentElement('afterbegin', document.createElement('br'));
+                    div.insertAdjacentText('afterbegin', `Error Loading File [${selectedFile}]`);
+                    this.editorRef.current.appendChild(div);
+                });
+            }
+
+            render() {
+                return <div className="editor-container" ref={this.editorRef}></div>
+            }
+        }
+
+        function parseSiteKey(siteKey) {
+            let siteString = null;
+            let siteExpires = null;
+
+            // Read site and expires time from the site key. String Format:
+            // https://www.fastsitephp.com/en/api/Security_Crypto_SignedData
+            var regex = /^([a-zA-Z0-9_-]{2,}).s.(\d+).[a-zA-Z0-9_-]{2,}$/;
+            var result = siteKey.match(regex);
+            if (result) {
+                siteString = decodeBase64UrlSafe(result[1]);
+                siteExpires = parseInt(result[2], 10);
+            }
+            return { siteString, siteExpires };
+        }
+
+        function decodeBase64UrlSafe(base64url) {
+            let padding = base64url.length % 4;
+            if (padding !== 0) {
+                padding = 4 - padding;
+            }
+            const base64 = base64url.replace(/_/g, '/').replace(/-/g, '+') + '='.repeat(padding);
+            return atob(base64);
+        }
+
+        function createSite(dispatch) {
+            const storeKey = 'playground_site';
+            const siteKey = localStorage.getItem(storeKey);
+            if (siteKey) {
+                const { siteString, siteExpires } = parseSiteKey(siteKey);
+                if (Date.now() < (new Date(siteExpires))) {
+                    dispatch({ type: EVENT_SET_SITE_KEY, siteKey: siteKey, siteString: siteString });
+                    downloadSite(siteKey, dispatch);
+                    return;
+                } else {
+                    console.warn('Previous site has expired, generating a new site');
+                }
+            }
+
+            fetchJson(urls.createSite, {
+                method: 'POST',
+                cache: 'no-store',
+            })
+            .then(data => {
+                const siteKey = data.site;
+                localStorage.setItem(storeKey, siteKey);
+                const { siteString, siteExpires } = parseSiteKey(siteKey);
+                dispatch({ type: EVENT_SET_SITE_KEY, siteKey: siteKey, siteString: siteString });
+                downloadSite(siteKey, dispatch);
+            })
+            .catch(error => {
+                dispatch({ type: EVENT_DOWNLOAD_FILES, files: [], filesError: error });
+            });
+        }
+
+        function downloadSite(siteKey, dispatch) {
+            const options = {
+                method: 'POST',
+                cache: 'no-store',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    Authorization: 'Bearer ' + siteKey,
+                },
+            };
+            fetchJson(urls.downloadSite, options)
+            .then(data => {
+                dispatch({ type: EVENT_DOWNLOAD_FILES, files: data.files, filesError: null });
+            })
+            .catch(error => {
+                dispatch({ type: EVENT_DOWNLOAD_FILES, files: [], filesError: error });
+            });
+        }
+
+        function fetchJson(url, options) {
+            return fetch(url, options)
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                return data;
+            });
+        }
+
+        function saveFile(state, dispatch, newPage) {
+            dispatch({ type: EVENT_UPDATE_SUBMITTING_STATE, isSubmitting: true, showSubmitted: false, message: 'Saving File...' });
+            const file = (
+                newPage ?
+                state.newName + '.' + state.newFileType :
+                state.currentName + '.' + state.file.type
+            );
+            fetchJson(urls.saveFile, {
+                method: 'POST',
+                cache: 'no-store',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    Authorization: 'Bearer ' + state.siteKey,
+                    'X-File': file,
+                    'Content-Type': 'text/plain',
+                },
+                body: (newPage ? '' : state.currentCode),
+            })
+            .then(data => {
+                if (newPage) {
+                    dispatch({ type: EVENT_PAGE_CREATED, file: file });
+                    dispatch({ type: EVENT_SELECT_FILE, selectedFile: file });
+                    dispatch({ type: EVENT_SET_FILTER, filter: state.filter });
+                } else {
+                    dispatch({ type: EVENT_UPDATE_SAVED_FILE });
+                    dispatch({ type: EVENT_SET_FILTER, filter: state.filter });
+                    window.setTimeout(() => {
+                        dispatch({ type: EVENT_UPDATE_SUBMITTING_STATE, isSubmitting: false, showSubmitted: false, message: null });
+                    }, 1000);
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                dispatch({ type: EVENT_SET_FILE_ERROR, error: error })
+            });
+        }
+
+        function renameFile(state, dispatch) {
+            dispatch({ type: EVENT_UPDATE_SUBMITTING_STATE, isSubmitting: true, showSubmitted: false, message: 'Renaming File...' });
+            const file = state.selectedFile;
+            const newFile = state.currentName + '.' + state.file.type;
+            fetchJson(urls.renameFile, {
+                method: 'POST',
+                cache: 'no-store',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    Authorization: 'Bearer ' + state.siteKey,
+                    'X-File': file,
+                    'X-Rename': newFile,
+                    'Content-Type': 'text/plain',
+                },
+                body: state.currentCode,
+            })
+            .then(data => {
+                dispatch({ type: EVENT_UPDATE_SAVED_FILE, renamed: true });
+                dispatch({ type: EVENT_SET_FILTER, filter: state.filter });
+                window.setTimeout(() => {
+                    dispatch({ type: EVENT_UPDATE_SUBMITTING_STATE, isSubmitting: false, showSubmitted: false, message: null });
+                }, 1000);
+            })
+            .catch(error => {
+                console.error(error);
+                dispatch({ type: EVENT_SET_FILE_ERROR, error: error })
+            });
+        }
+
+        function deleteFile(state, dispatch) {
+            dispatch({ type: EVENT_UPDATE_SUBMITTING_STATE, isSubmitting: true, showSubmitted: false, message: 'Deleting File...' });
+            const file = state.selectedFile;
+            fetchJson(urls.deleteFile, {
+                method: 'POST',
+                cache: 'no-store',
+                mode: 'cors',
+                credentials: 'include',
+                headers: {
+                    Authorization: 'Bearer ' + state.siteKey,
+                    'X-File': file,
+                },
+            })
+            .then(data => {
+                dispatch({ type: EVENT_FILE_DELETED });
+                dispatch({ type: EVENT_SET_FILTER, filter: state.filter });
+                window.setTimeout(() => {
+                    dispatch({ type: EVENT_UPDATE_SUBMITTING_STATE, isSubmitting: false, showSubmitted: false, message: null });
+                }, 1000);
+            })
+            .catch(error => {
+                console.error(error);
+                dispatch({ type: EVENT_SET_FILE_ERROR, error: error })
+            });
+        }
+
+        function App() {
+            // Create App State and functions for updating state
+            const [state, dispatch] = useReducer(reducer, initialState);
+            const handleFileSelect = (file) => { dispatch({ type: EVENT_SELECT_FILE, selectedFile: file }) };
+            const handleNameChange = (e) => { dispatch({ type: EVENT_CHANGE_FILE_NAME, currentName: e.target.value }) };
+            const handleFilterChange = (e) => { dispatch({ type: EVENT_SET_FILTER, filter: e.target.value }) };
+            const handleNewNameChange = (e) => { dispatch({ type: EVENT_CHANGE_NEW_NAME, newName: e.target.value }) };
+            const handleNewNameKeyDown = (e) => {
+                if (e.key !== 'Enter') {
+                    return;
+                }
+                if (state.newName && !state.newNameAlreadyExists) {
+                    saveFile(state, dispatch, true);
+                }
+            };
+            const handleNewFileTypeChange = (e) => { dispatch({ type: EVENT_CHANGE_NEW_FILE_TYPE, newFileType: e.target.value }) };
+            const handleCodeEdit = (code) => {
+                dispatch({ type: EVENT_EDIT_CODE, code: code });
+                dispatch({ type: EVENT_CHECK_FORM_STATE });
+            };
+            const handleSave = () => { saveFile(state, dispatch) };
+            const handleCreatePage = () => { saveFile(state, dispatch, true) };
+            const handleDelete = () => { deleteFile(state, dispatch) };
+            const handleRename = () => { renameFile(state, dispatch) };
+            const toggleNewDialog = () => { dispatch({ type: EVENT_TOGGLE_NEW_DIALOG }) };
+            const toggleShowInfo = () => { dispatch({ type: EVENT_TOGGLE_SHOW_INFO }) };
+
+            // Create Site on first load
+            useEffect(() => {
+                createSite(dispatch);
+            }, []);
+
+            // Handle both [Ctrl-S] and [Command-S] for saving.
+            // Windows uses [Ctrl-S] while Mac uses [Command-S].
+            useEffect(() => {
+                function onkeydown(e) {
+                    if ((e.ctrlKey || e.metaKey) && e.keyCode === 83) {
+                        // Uses DOM because `state` will equal `initialState` if attempting to use it here
+                        const saveBtn = document.querySelector('.save.btn');
+                        if (saveBtn && !saveBtn.classList.contains('disabled')) {
+                            saveBtn.click();
+                        }
+                        e.preventDefault();
+                        return;
+                    }
+                };
+                document.addEventListener('keydown', onkeydown);
+                return () => {
+                    document.removeEventListener('keydown', onkeydown)
+                };
+            }, []);
+
+            // Render the app
+            return (
+                <ErrorBoundary>
+                    <section className="flex">
+                        <NewDialog
+                            state={state}
+                            toggleNewDialog={toggleNewDialog}
+                            handleNewNameChange={handleNewNameChange}
+                            handleNewFileTypeChange={handleNewFileTypeChange}
+                            handleCreatePage={handleCreatePage}
+                            handleNewNameKeyDown={handleNewNameKeyDown} />
+
+                        <ShowInfo
+                            showInfo={state.showInfo}
+                            toggleShowInfo={toggleShowInfo} />
+
+                        <FileList
+                            state={state}
+                            handleFileSelect={handleFileSelect}
+                            handleFilterChange={handleFilterChange}
+                            toggleNewDialog={toggleNewDialog} />
+
+                        <div className="code-section">
+                            <CodeControls
+                                state={state}
+                                handleNameChange={handleNameChange}
+                                handleSave={handleSave}
+                                handleDelete={handleDelete}
+                                handleRename={handleRename}
+                                toggleShowInfo={toggleShowInfo} />
+
+                            <CodeEditor state={state} dispatch={dispatch} handleCodeEdit={handleCodeEdit} />
+                        </div>
+                    </section>
+                </ErrorBoundary>
+            )
+        }
+
+        ReactDOM.render(
+            <App />,
+            document.getElementById('root')
+        );
+    </script>
+</body>
+</html>
