@@ -414,7 +414,7 @@
                         submittingMessage: 'Page Deleted',
                     };
                 case EVENT_CHANGE_FILE_NAME:
-                    const currentName = action.currentName.replace(/[^-_a-zA-Z0-9]+/g, ''); // Regex strips characters not allowed
+                    const currentName = action.currentName.replace(/[^\-_a-zA-Z0-9]+/g, ''); // Regex strips characters not allowed
                     const fullName = currentName + '.' + state.file.type;
                     return {
                         ...state,
@@ -454,7 +454,7 @@
                         showNewDialog: !state.showNewDialog,
                     };
                 case EVENT_CHANGE_NEW_NAME:
-                    const newName = action.newName.replace(/[^-_a-zA-Z0-9]+/g, ''); // Regex strips characters not allowed
+                    const newName = action.newName.replace(/[^\-_a-zA-Z0-9]+/g, ''); // Regex strips characters not allowed
                     const fullNewName = newName + '.' + state.newFileType;
                     return {
                         ...state,
