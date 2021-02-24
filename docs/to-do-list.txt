@@ -22,6 +22,11 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+**) JSX Syntax Update needed for jsxLoader
+    - Not working: <hr/>
+    - Work-around: <hr />
+    - Babel handles `<hr/>` so jsxLoader needs to be updated
+
 **) Update the Getting Started CSS Template used here:
         https://www.dataformsjs.com/en/getting-started
     So that it looks similar to the places demo and can be used for apps as decent starting template
