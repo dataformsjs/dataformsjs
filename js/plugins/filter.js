@@ -148,6 +148,12 @@
             table = document.querySelector(settings.itemsSelector);
             settings.items = table.tBodies[0].rows;
 
+            // Use odd/even CSS settings from [sort.js] plugin if used
+            if (settings.cssOdd === null && settings.cssEven === null) {
+                settings.cssOdd = table.getAttribute('data-sort-class-odd');
+                settings.cssEven = table.getAttribute('data-sort-class-even');
+            }
+
             // Find the column index using the last row of the table header
             rowIndex = table.tHead.rows.length - 1;
             for (n = 0, m = table.tHead.rows[rowIndex].cells.length; n < m; n++) {

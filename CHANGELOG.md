@@ -4,6 +4,10 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 5.7.1 (March 6, 2021)
+
+* Updated Framework `filter.js` Plugin to handle `sort.js` classes `data-sort-class-odd` and `data-sort-class-even` when using table column filters (typically for a click to filter event). Previously the classes were handled for general table filters.
+
 ## 5.7.0 (February 3, 2021)
 
 * Added Features to `<data-table>` Web Component and Framework Control
