@@ -10,6 +10,13 @@
  *     https://www.npmjs.com/package/terser
  *     https://www.npmjs.com/package/@babel/standalone
  *
+ * Reason for the different packages:
+ *     [uglify-js] Used to minimized ES5 Files (DataFormsJS Framework)
+ *     [terser] Used to minimized React and Web Components for ES6
+ *     [@babel] DataFormsJS React Components are published as both ES6
+ *          and ES5 Version so Babel is used to compile from the ES6 Version
+ *          to ES5 Version prior to minification.
+ *
  * To install dependencies download this repository and then run:
  *     npm install
  *
@@ -90,7 +97,7 @@ const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'InputFilter', 'JsonDa
     let fileErrors = 0;
 
     // Process all JavaScript files using [uglify-js]
-    // Process all React and Web Component files using [uglify-es]
+    // Process all React and Web Component files using [terser]
     const reactCoreComponents = [];
     let reactCoreMinCode = null;
     let reactCoreOutFile = null;
@@ -240,8 +247,9 @@ const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'InputFilter', 'JsonDa
 async function buildReactFiles(copyright) {
     // Get all components and classes for React except [DataFormsJS.js].
     // [DataFormsJS.js] is excluded because it is only intended for local development
-    // with [create-react-app] and similar projects. It is re-created in this function
-    // for ES4 based on the classes found in the folder.
+    // with [create-react-app] and similar projects. The resulting browser version
+    // of the [DataFormsJS] namespace is re-created by combining components/classes
+    // in this function.
     const rootDir = __dirname + '/../js/react';
     const components = await readdir(rootDir + '/es6')
         .then(files => { return files.filter(f => f.endsWith('.js') && !f.endsWith('.min.js') && f !== 'DataFormsJS.js'); })
@@ -352,7 +360,7 @@ async function buildReactFiles(copyright) {
 
 /**
  * Return an array of files for [uglify-js] and another array
- * of files for [uglify-es].
+ * of files for [terser].
  *
  * @returns {object}
  */
@@ -373,7 +381,7 @@ async function getAllFiles() {
     const reactFilesES5 = await getJsFiles(rootDir + reactES5);
     jsFiles = jsFiles.concat(reactFilesES5);
 
-    // Get all JavaScript React and Web Component files for [uglify-es]
+    // Get all JavaScript React and Web Component files for [terser]
     let webFiles = await getJsFiles(rootDir + webDir);
     const reactFilesES6 = await getJsFiles(rootDir + reactES6);
     webFiles = webFiles.concat(reactFilesES6);
