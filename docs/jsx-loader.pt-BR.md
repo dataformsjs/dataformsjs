@@ -116,6 +116,8 @@ O script `jsxLoader.js` é muito pequeno para baixar (6.2 kB - min e em gzip) e 
 * https://www.dataformsjs.com/examples/web-components-with-react.htm
 * https://www.dataformsjs.com/getting-started/en/template-react.htm
 * https://www.dataformsjs.com/getting-started/en/template-react-graphql.htm
+* https://dataformsjs.com/examples/code-playground-react.htm
+* https://awesome-web-react.js.org/
 
 ### Preact <img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/preact.svg" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/pt-BR/preact.htm

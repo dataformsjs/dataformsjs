@@ -25,7 +25,7 @@ A single JavaScript file `jsxLoader.js` that compiles / [transpiles](https://en.
 
 **Source:** https://github.com/dataformsjs/dataformsjs/blob/master/js/react/jsxLoader.js
 
-**Demo:** https://www.dataformsjs.com/examples/hello-world/en/react.htm
+**Demo:** https://dataformsjs.com/examples/hello-world/en/react.htm
 
 ## Why ❓
 
@@ -105,38 +105,40 @@ The `jsxLoader.js` script is very small to download (6.2 kB - min and gzip) and 
 ## Demos 🌐
 
 ### React <img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/react.svg" width="32" height="32">
-* https://www.dataformsjs.com/examples/hello-world/en/react.htm
-* https://www.dataformsjs.com/examples/places-demo-react.htm
-* https://www.dataformsjs.com/examples/image-classification-react.htm
-* https://www.dataformsjs.com/examples/image-gallery-react.htm
-* https://www.dataformsjs.com/examples/log-table-react.htm
-* https://www.dataformsjs.com/examples/countries-no-spa-react.htm
-* https://www.dataformsjs.com/examples/countries-no-spa-graphql.htm
-* https://www.dataformsjs.com/examples/hacker-news-react.htm
-* https://www.dataformsjs.com/examples/web-components-with-react.htm
-* https://www.dataformsjs.com/getting-started/en/template-react.htm
-* https://www.dataformsjs.com/getting-started/en/template-react-graphql.htm
+* https://dataformsjs.com/examples/hello-world/en/react.htm
+* https://dataformsjs.com/examples/places-demo-react.htm
+* https://dataformsjs.com/examples/image-classification-react.htm
+* https://dataformsjs.com/examples/image-gallery-react.htm
+* https://dataformsjs.com/examples/log-table-react.htm
+* https://dataformsjs.com/examples/countries-no-spa-react.htm
+* https://dataformsjs.com/examples/countries-no-spa-graphql.htm
+* https://dataformsjs.com/examples/hacker-news-react.htm
+* https://dataformsjs.com/examples/web-components-with-react.htm
+* https://dataformsjs.com/getting-started/en/template-react.htm
+* https://dataformsjs.com/getting-started/en/template-react-graphql.htm
+* https://dataformsjs.com/examples/code-playground-react.htm
+* https://awesome-web-react.js.org/
 
 ### Preact <img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/preact.svg" width="32" height="32">
-* https://www.dataformsjs.com/examples/hello-world/en/preact.htm
-* https://www.dataformsjs.com/examples/places-demo-preact.htm
-* https://www.dataformsjs.com/examples/countries-no-spa-preact.htm
-* https://www.dataformsjs.com/examples/image-gallery-preact.htm
-* https://www.dataformsjs.com/examples/web-components-with-preact.htm
-* https://www.dataformsjs.com/getting-started/en/template-preact.htm
-* https://www.dataformsjs.com/getting-started/en/template-preact-router.htm
-* https://www.dataformsjs.com/getting-started/en/template-preact-graphql.htm
+* https://dataformsjs.com/examples/hello-world/en/preact.htm
+* https://dataformsjs.com/examples/places-demo-preact.htm
+* https://dataformsjs.com/examples/countries-no-spa-preact.htm
+* https://dataformsjs.com/examples/image-gallery-preact.htm
+* https://dataformsjs.com/examples/web-components-with-preact.htm
+* https://dataformsjs.com/getting-started/en/template-preact.htm
+* https://dataformsjs.com/getting-started/en/template-preact-router.htm
+* https://dataformsjs.com/getting-started/en/template-preact-graphql.htm
 
 ### Vue 3 <img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/vue.svg" width="32" height="32">
-* https://www.dataformsjs.com/examples/hello-world/en/vue3-with-jsx.htm
-* https://www.dataformsjs.com/examples/vue3-dynamic-jsx.htm
+* https://dataformsjs.com/examples/hello-world/en/vue3-with-jsx.htm
+* https://dataformsjs.com/examples/vue3-dynamic-jsx.htm
 
 ### Rax <img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/rax.png" width="32" height="32">
-* https://www.dataformsjs.com/examples/hello-world/en/rax.htm
+* https://dataformsjs.com/examples/hello-world/en/rax.htm
 
 ## Try it online in the Code Playground 🚀
 
-<a href="https://www.dataformsjs.com/en/playground">https://www.dataformsjs.com/en/playground</a>
+<a href="https://dataformsjs.com/en/playground">https://dataformsjs.com/en/playground</a>
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground-React.png" alt="React Code Playground">
 
@@ -350,7 +352,7 @@ jsxLoader.logCompileTime = true;
 // View the generated code for each script in DevTools console
 jsxLoader.logCompileDetails = true;
 
-// Call this if using Preact instead of React. Additionaly if your Preact
+// Call this if using Preact instead of React. Additionally if your Preact
 // app has unexpected errors when using it you can easily copy, modify, and
 // use a custom version of the function so that it works with your app.
 jsxLoader.usePreact();
@@ -433,7 +435,7 @@ node server.js
 
 Or try Unit Tests directly on the main web server:
 
-https://www.dataformsjs.com/unit-testing/
+https://dataformsjs.com/unit-testing/
 
 The image below shows what the Unit Test page looks like. When testing with a modern browser `jsxLoader` will appear in the upper-left-hand corner of the screen.
 
@@ -449,7 +451,7 @@ When testing with a legacy browser such as IE 11 `Babel` will be shown along wit
 * Error messages may not be very friendly for some unexpected syntax errors so using linting in a Code Editor is recommended during development to avoid errors from `jsxLoader.js`. If you develop with Visual Studio Code or other popular editors this should happen automatically. If you have syntax errors with the generated code and it’s not clear why then using Chrome DevTools is recommended (or Edge built with Chromium). Because generated JavaScript is added back in dynamic elements most Browsers will display the wrong location of the error but latest versions of Chrome and Edge will often show it in the correct location.
     <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-debug-error-in-chrome.png" alt="Debug Errors with Chrome Dev Tools">
 * Minimized `for` loops may cause issues: `for(n=0;n<m;n++)` as the `<m;n++)` will likely be parsed as an element. However if a full file is minimized it will be processed as JavaScript which means minimized Components will generally work by default.
-* Sometimes extra child whitespace is generated in child nodes of `React.createElement('element', props, ...children)` compared to what would be created when using Babel. Generally this doesn’t happen often but it has been found in the [log demo page](https://www.dataformsjs.com/examples/log-table-react.htm). This issue has no visual effect on the page, no performance decrease, and doesn't happen often so it's considered acceptable.
+* Sometimes extra child whitespace is generated in child nodes of `React.createElement('element', props, ...children)` compared to what would be created when using Babel. Generally this doesn’t happen often but it has been found in the [log demo page](https://dataformsjs.com/examples/log-table-react.htm). This issue has no visual effect on the page, no performance decrease, and doesn't happen often so it's considered acceptable.
 *  Text that looks like elements inside of complex nested template literals (template strings) may cause parsing errors or unexpected results:
 
     Example parsed correctly:

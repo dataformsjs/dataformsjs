@@ -25,7 +25,7 @@
 
 **源代码:** https://github.com/dataformsjs/dataformsjs/blob/master/js/react/jsxLoader.js
 
-**演示:** https://www.dataformsjs.com/examples/hello-world/zh-CN/react.htm
+**演示:** https://dataformsjs.com/examples/hello-world/zh-CN/react.htm
 
 ## 为什么 ❓
 
@@ -105,38 +105,40 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
 ## 演示 🌐
 
 ### React <img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/react.svg" width="32" height="32">
-* https://www.dataformsjs.com/examples/hello-world/zh-CN/react.htm
-* https://www.dataformsjs.com/examples/places-demo-react.htm
-* https://www.dataformsjs.com/examples/image-classification-react.htm
-* https://www.dataformsjs.com/examples/image-gallery-react.htm
-* https://www.dataformsjs.com/examples/log-table-react.htm
-* https://www.dataformsjs.com/examples/countries-no-spa-react.htm
-* https://www.dataformsjs.com/examples/countries-no-spa-graphql.htm
-* https://www.dataformsjs.com/examples/hacker-news-react.htm
-* https://www.dataformsjs.com/examples/web-components-with-react.htm
-* https://www.dataformsjs.com/getting-started/en/template-react.htm
-* https://www.dataformsjs.com/getting-started/en/template-react-graphql.htm
+* https://dataformsjs.com/examples/hello-world/zh-CN/react.htm
+* https://dataformsjs.com/examples/places-demo-react.htm
+* https://dataformsjs.com/examples/image-classification-react.htm
+* https://dataformsjs.com/examples/image-gallery-react.htm
+* https://dataformsjs.com/examples/log-table-react.htm
+* https://dataformsjs.com/examples/countries-no-spa-react.htm
+* https://dataformsjs.com/examples/countries-no-spa-graphql.htm
+* https://dataformsjs.com/examples/hacker-news-react.htm
+* https://dataformsjs.com/examples/web-components-with-react.htm
+* https://dataformsjs.com/getting-started/en/template-react.htm
+* https://dataformsjs.com/getting-started/en/template-react-graphql.htm
+* https://dataformsjs.com/examples/code-playground-react.htm
+* https://awesome-web-react.js.org/
 
 ### Preact <img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/preact.svg" width="32" height="32">
-* https://www.dataformsjs.com/examples/hello-world/zh-CN/preact.htm
-* https://www.dataformsjs.com/examples/places-demo-preact.htm
-* https://www.dataformsjs.com/examples/countries-no-spa-preact.htm
-* https://www.dataformsjs.com/examples/image-gallery-preact.htm
-* https://www.dataformsjs.com/examples/web-components-with-preact.htm
-* https://www.dataformsjs.com/getting-started/en/template-preact.htm
-* https://www.dataformsjs.com/getting-started/en/template-preact-router.htm
-* https://www.dataformsjs.com/getting-started/en/template-preact-graphql.htm
+* https://dataformsjs.com/examples/hello-world/zh-CN/preact.htm
+* https://dataformsjs.com/examples/places-demo-preact.htm
+* https://dataformsjs.com/examples/countries-no-spa-preact.htm
+* https://dataformsjs.com/examples/image-gallery-preact.htm
+* https://dataformsjs.com/examples/web-components-with-preact.htm
+* https://dataformsjs.com/getting-started/en/template-preact.htm
+* https://dataformsjs.com/getting-started/en/template-preact-router.htm
+* https://dataformsjs.com/getting-started/en/template-preact-graphql.htm
 
 ### Vue 3 <img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/vue.svg" width="32" height="32">
-* https://www.dataformsjs.com/examples/hello-world/en/vue3-with-jsx.htm
-* https://www.dataformsjs.com/examples/vue3-dynamic-jsx.htm
+* https://dataformsjs.com/examples/hello-world/en/vue3-with-jsx.htm
+* https://dataformsjs.com/examples/vue3-dynamic-jsx.htm
 
 ### Rax <img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/rax.png" width="32" height="32">
-* https://www.dataformsjs.com/examples/hello-world/zh-CN/rax.htm
+* https://dataformsjs.com/examples/hello-world/zh-CN/rax.htm
 
 ## 在线代码编辑器上尝试 🚀
 
-<a href="https://www.dataformsjs.com/zh-CN/playground">https://www.dataformsjs.com/zh-CN/playground</a>
+<a href="https://dataformsjs.com/zh-CN/playground">https://dataformsjs.com/zh-CN/playground</a>
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground-React.png" alt="React Code Playground">
 
@@ -433,7 +435,7 @@ node server.js
 
 或直接在主Web服务器上尝试单元测试：
 
-https://www.dataformsjs.com/unit-testing/
+https://dataformsjs.com/unit-testing/
 
 下图显示了“单元测试”页面的外观.当使用现代浏览器进行测试时`jsxLoader`将出现在屏幕的左上角.
 
@@ -449,7 +451,7 @@ https://www.dataformsjs.com/unit-testing/
 * 对于某些意外的语法错误,错误消息可能不太友好,因此在开发期间建议在代码编辑器中使用linting,以避免来自`jsxLoader.js`的错误.如果使用Visual Studio代码或其他流行的编辑器进行开发,则应自动执行此操作.如果生成的代码有语法错误,并且不清楚为什么建议使用Chrome DevTools(或Chromium构建的Edge).由于生成的JavaScript重新添加到动态元素中,因此大多数浏览器将显示错误的位置,但最新版本的Chrome和Edge经常将其显示在正确的位置.
     <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-debug-error-in-chrome.png" alt="Debug Errors with Chrome Dev Tools">
 * 最小化的`for`循环可能会引起问题: `for(n=0;n<m;n++)` as the `<m;n++)`可能被解析为元素.但是,如果一个完整的文件被最小化,它将被作为JavaScript处理,这意味着最小化的组件通常在默认情况下工作.
-* 与使用Babel时会创建的子节点相比,有时在('element', props, ...children)`的子节点中会生成额外的子空白.通常,这种情况很少发生,但可以在[log demo page](https://www.dataformsjs.com/examples/log-table-react.htm)中找到.这个问题对页面没有视觉影响,性能也不会下降,并且不会经常发生,因此被认为是可以接受的.
+* 与使用Babel时会创建的子节点相比,有时在('element', props, ...children)`的子节点中会生成额外的子空白.通常,这种情况很少发生,但可以在[log demo page](https://dataformsjs.com/examples/log-table-react.htm)中找到.这个问题对页面没有视觉影响,性能也不会下降,并且不会经常发生,因此被认为是可以接受的.
 * 看起来像复杂嵌套模板文本(模板字符串)中的元素的文本,可能导致分析错误或意外结果:
 
     Example parsed correctly:
