@@ -245,8 +245,6 @@ class App extends React.Component {
 }
 ```
 
-这还包括JavaScript扩展语法,它只对新版浏览器提供部分支持.例如`...numbers`在Chrome, Firefox等浏览器中工作,但不适用于所有版本的Edge或在亚洲国家/地区广泛使用的UC浏览器.如果您在应用中使用扩展语法,请参阅本文档的[Advanced Usage]中的附加说明.
-
 ## 代码分割 ✂️
 
 一个单独的DataFormsJS React组件`<LazyLoad>`它允许基于浏览器的应用程序在组件首次使用它们时动态加载 `*.js`, `*.css`, 和 `*.jsx`脚本.
@@ -383,19 +381,6 @@ jsxLoader.jsUpdates.push({
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-loader-log-compile-details.png" alt="Log Compile Details to DevTools Console">
 
-### 将Babel用于包含扩展语法的应用程序
-
-如果您的网站使用的是类似`<Greeting {...props} />`的代码,则JSX Loader会将其转换为适用于新版浏览器的`React.createElement(Greeting, ...props)`，但并不是所有新版浏览器都支持此语法.如果使用UC浏览器的亚洲国家的用户(截至2020)或使用Edge的用户(Windows 10默认浏览器)查看您的网站,这一点尤为重要.
-
-有几种选择:
-
-1) 避免使用扩展语法
-2) 使用代码如下面的代码片段所示,因此Babel将用于不支持扩展语法的浏览器
-
-```js
-jsxLoader.evalCode = 'const { id, ...other } = { id:123, test:456 };';
-```
-
 ### 如何将JS代码添加到页面
 
 `jsxLoader.js`脚本在`DOMContentLoaded`时间上运行,首先检查环境以确定是否需要使用polyfills,以及是否使用Bable.然后,它下载JSX Code (or reads inline JSX code),将其编译为常规JavaScript,然后将其作为JavaScript添加到页面的`<head>`元素中.
@@ -457,10 +442,6 @@ https://www.dataformsjs.com/unit-testing/
 当使用IE 11这样的传统浏览器进行测试时,`Babel`将与`(Polyfill Downloaded)`一起显示.
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-testing-ie-11.png" alt="Unit Testing with IE 11">
-
-如果正在测试不支持该扩展语法的现代浏览器,则会显示一条有用的警告,因为它会导致某些测试失败.另外,对于需要下载Polyfills(通常是缺少`Promise.prototype.finally`)的新版浏览器,会出现`(Polyfill Downloaded)`.
-
-<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-testing-uc-browser.png" alt="Unit Testing with UC Browser">
 
 ## 已知问题 ⚠️
 

@@ -193,7 +193,7 @@ var LazyLoad = function (_React$Component) {
   }, {
     key: "loadPolyfill",
     value: function loadPolyfill(condition, url) {
-      function dowloadScript(success, error) {
+      function downloadScript(success, error) {
         var script = document.createElement('script');
 
         script.onload = function () {
@@ -211,7 +211,7 @@ var LazyLoad = function (_React$Component) {
 
       if (condition === false || condition === undefined) {
         return new Promise(function (resolve, reject) {
-          dowloadScript(resolve, reject);
+          downloadScript(resolve, reject);
         });
       } else {
         return new Promise(function (resolve) {

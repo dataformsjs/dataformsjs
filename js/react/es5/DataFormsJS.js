@@ -1,5 +1,5 @@
 // @link https://www.dataformsjs.com
-// @version 5.7.1
+// @version 5.8.0
 // @author Conrad Sollitt (https://conradsollitt.com)
 // @license MIT
 (function () {
@@ -58,6 +58,42 @@ var Cache = function () {
 }();
 
 window.Cache = Cache;
+
+var CssVars = function () {
+  function CssVars() {
+    _classCallCheck(this, CssVars);
+  }
+
+  _createClass(CssVars, null, [{
+    key: "ponyfill",
+    value: function ponyfill() {
+      var selector = 'link[rel="stylesheet"][data-css-vars-ponyfill]:not([data-css-vars-setup]),style[data-css-vars-ponyfill]:not([data-css-vars-setup])';
+      var styleSheets = document.querySelectorAll(selector);
+
+      if (styleSheets.length === 0) {
+        return;
+      }
+
+      var lazy = new LazyLoad();
+      var supportsCssVars = window.CSS && window.CSS.supports && window.CSS.supports('(--a: 0)');
+      var polyfillUrl = 'https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2.4.3/dist/css-vars-ponyfill.min.js';
+      lazy.loadPolyfill(supportsCssVars, polyfillUrl).then(function () {
+        if (window.cssVars) {
+          cssVars({
+            include: selector
+          });
+          Array.prototype.forEach.call(styleSheets, function (styleSheet) {
+            styleSheet.setAttribute('data-css-vars-setup', '');
+          });
+        }
+      });
+    }
+  }]);
+
+  return CssVars;
+}();
+
+window.CssVars = CssVars;
 
 var ErrorBoundary = function (_React$Component) {
   _inherits(ErrorBoundary, _React$Component);
@@ -960,7 +996,7 @@ var LazyLoad = function (_React$Component4) {
   }, {
     key: "loadPolyfill",
     value: function loadPolyfill(condition, url) {
-      function dowloadScript(success, error) {
+      function downloadScript(success, error) {
         var script = document.createElement('script');
 
         script.onload = function () {
@@ -978,7 +1014,7 @@ var LazyLoad = function (_React$Component4) {
 
       if (condition === false || condition === undefined) {
         return new Promise(function (resolve, reject) {
-          dowloadScript(resolve, reject);
+          downloadScript(resolve, reject);
         });
       } else {
         return new Promise(function (resolve) {
@@ -1257,6 +1293,11 @@ var DataFormsJS = function () {
     key: "Cache",
     get: function get() {
       return Cache;
+    }
+  }, {
+    key: "CssVars",
+    get: function get() {
+      return CssVars;
     }
   }, {
     key: "ErrorBoundary",

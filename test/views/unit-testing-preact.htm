@@ -13,14 +13,6 @@
             }
             .nav div { margin-top:10px; }
             .error { background-color:red; color:white; padding:2em; font-size:2em; }
-            .browser-warnings { text-align: center; }
-            .browser-warnings > div { 
-                padding: 1em;
-                display: inline-flex;
-                margin: auto;
-                border: 1px solid red;
-                color: red;
-            }
             #root,
             .test-content {
                 padding: 50px;
@@ -41,9 +33,6 @@
             <div id="polyfill-status" style="display: none;">(Polyfill Downloaded)</div>
         </div>
 
-        <div class="browser-warnings">
-            <div class="spread-syntax" style="display: none;"></div>
-        </div>
         <div id="mocha"></div>
         <div id="root"></div>
         <section class="test-content json-data"></section>
@@ -159,10 +148,6 @@
             The inline babel scripts are dependant on each other in the order
             defined and both must be loaded after [unit-testing.jsx]. This is
             done to verify that [jsxLoader.js] adds scripts in the correct order.
-
-            [unit-testing-spread.jsx] does not depend on any other files but
-            it is seperated from other code because it will not work with all
-            commonly used modern browsers (as of early 2020).
         -->
         <script type="text/babel">
             class App extends React.Component {
@@ -190,7 +175,6 @@
         <script type="text/babel" src="js/404.jsx"></script>
         <script type="text/babel" src="js/error.jsx"></script>
         <script type="text/babel" src="js/unit-testing.jsx"></script>
-        <script type="text/babel" src="js/unit-testing-spread.jsx"></script>
 
         <!--
             This will be loaded by a Unit Test. Only scripts with [type="text/babel"]

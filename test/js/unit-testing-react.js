@@ -26,9 +26,9 @@ var expect = chai.expect;
 // Babel script count is based on DataFormsJS React Components are loaded in [unit-testing-react.htm]
 var componentScripts = document.querySelectorAll('script[type="text/babel"][src*="src/react/es6"]').length;
 var expectedScriptCount = {
-    addedToPage: 6 + componentScripts,
-    compiler: 5 + componentScripts,
-    compilerAndSrc: 2 + componentScripts,
+    addedToPage: 5 + componentScripts,
+    compiler: 4 + componentScripts,
+    compilerAndSrc: 1 + componentScripts,
 };
 
 // Get starting value because by the time Tests run this will be updated
@@ -49,11 +49,14 @@ describe('jsxLoader.js', function() {
         });
 
         it('should have jsxLoader.babelUrl', function() {
-            expect(jsxLoader).to.have.property('babelUrl', 'https://unpkg.com/@babel/standalone@7.12.9/babel.js');
+            expect(jsxLoader).to.have.property('babelUrl', 'https://unpkg.com/@babel/standalone@7.12.12/babel.js');
         });
 
         it('should have jsxLoader.babelOptions', function() {
-            expect(jsxLoader.babelOptions).to.deep.equal({ presets: ['es2015', 'react'] });
+            expect(jsxLoader.babelOptions).to.deep.equal({
+                presets: ['es2015', 'react'],
+                plugins: ['proposal-object-rest-spread'],
+            });
         });
 
         it('should have jsxLoader.fetchOptions', function() {
@@ -73,7 +76,7 @@ describe('jsxLoader.js', function() {
         });
 
         it('should have jsxLoader.evalCode', function() {
-            expect(jsxLoader).to.have.property('evalCode', 'class foo {}; let result = 1 + 1;');
+            expect(jsxLoader).to.have.property('evalCode', '"use strict"; class foo {}; const { id, ...other } = { id:123, test:456 };');
         });
 
         it('should have jsxLoader.jsUpdates', function() {
@@ -201,7 +204,7 @@ describe('jsxLoader.js', function() {
             expect(html).does.not.equal('');
         });
 
-        // The result number for this and a few tested depending on how <JsonData> is added to the calling page.\
+        // The result number for this and a few tested depending on how <JsonData> is added to the calling page.
         // When added as <script type="text/babel" src="src/react/es6/JsonData.js"></script> it will be processed
         // by the [jsxLoader.js] before being added as JavaScript on the page.
         it('should have correct number of babel scripts with [data-added-to-page]', function() {
@@ -552,6 +555,11 @@ describe('jsxLoader.js', function() {
         it('should have 2nd shorthand fragment element', function() {
             var el = document.querySelector('.shorthand-fragment2');
             expect(el.textContent).to.equal('Shorthand Fragment Check 2');
+        });
+
+        it('should have 3 <hr /> elements', function() {
+            var length = document.querySelectorAll('hr').length;
+            expect(length).to.equal(3);
         });
     });
 

@@ -202,7 +202,7 @@ export default class LazyLoad extends React.Component {
      * @return {Promise}
      */
     loadPolyfill(condition, url) {
-        function dowloadScript(success, error) {
+        function downloadScript(success, error) {
             var script = document.createElement('script');
             script.onload = function() { success(); };
             script.onerror = function() {
@@ -215,7 +215,7 @@ export default class LazyLoad extends React.Component {
 
         if (condition === false || condition === undefined) {
             return new Promise(function(resolve, reject) {
-                dowloadScript(resolve, reject);
+                downloadScript(resolve, reject);
             });
         } else {
             return new Promise(function(resolve) { resolve(); });

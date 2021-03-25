@@ -4,6 +4,28 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 5.8.0 (March 24, 2021)
+
+* JSX Loader Updates
+  * Improvements for Legacy Browsers (IE, UC Browser, Legacy Edge, etc)
+    * Add default support for destructuring assignment using spread operator, previously this was available but required extra config. This is commonly used with reducers (both Redux and native React Hooks).
+    * Updated version of `@babel/standalone` from `7.12.9` to `7.12.12`. At the time of release Babel is update to version `7.13.12` however builds starting at `7.12.13` have a broken regex for IE
+  * Add support for `<hr/>`. With previous releases `<hr/>` caused a compiler error while including the space `<hr />` worked.
+* DataFormsJS Framework `app`
+  * Updated CDN Version for `css-vars-ponyfill` from `2.4.2` to `2.4.3` and added support for CSS Ponyfill/Polyfill on inline `<style>` elements that include the attribute `data-css-vars-ponyfill`
+* Added Class `CssVars` for React
+  * Allows for ability to define CSS Variable Polyfill/Ponyfill automatically for older browsers.
+  * Previously some of the examples had custom code included directly on each page to make this happen.
+  * Now a `[data-css-vars-ponyfill]` attribute simply needs to be included on the style sheet, example:
+  ~~~html
+  <link rel="stylesheet" href="css/site.css" data-css-vars-ponyfill>
+  ~~~
+  * Then call `CssVars.ponyfill()` from JavaScript
+  * This class is available in the root DataFormsJS React Namespace
+  * When used this automatically downloads and runs `css-vars-ponyfill` one time when the page is first loaded.
+  * https://github.com/jhildenbiddle/css-vars-ponyfill
+  * As of 2021 this will mostly used on sites that support IE 11. Unless a very old version of Mobile Safari or Android Device is used they will typically support CSS Variables.
+
 ## 5.7.1 (March 6, 2021)
 
 * Updated Framework `filter.js` Plugin to handle `sort.js` classes `data-sort-class-odd` and `data-sort-class-even` when using table column filters (typically for a click to filter event). Previously the classes were handled for general table filters.
@@ -55,7 +77,7 @@ Overall the core Framework files and API are expected to remain stable however t
     ~~~html
     <link rel="stylesheet" href="css/site.css" data-css-vars-ponyfill>
     ~~~
-    * When used this automatically downloads and runs `css-vars-ponyfill` one time when the page is first loaded. 
+    * When used this automatically downloads and runs `css-vars-ponyfill` one time when the page is first loaded.
     * https://github.com/jhildenbiddle/css-vars-ponyfill
     * As of 2021 this will mostly used on sites that support IE 11. Unless a very old version of Mobile Safari or Android Device is used they will typically support CSS Variables.
     * This feature includes new a function `app.cssVarsPonyfill()` and a new property `app.settings.cssPonyfillUrl`

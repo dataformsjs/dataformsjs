@@ -29,19 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('polyfill-status').style.display = '';
         }
 
-        // If `jsxLoader` is being used check if the spread syntax is support
-        // because not all modern browsers support it. If not supported show
-        // a helpful warning to the user.
-        if (jsxLoader.isSupportedBrowser) {
-            try {
-                new Function('"use strict"; const { id, ...other } = { id:123, test:456 };')();
-            } catch (e) {
-                var warningSpreadSyntax = document.querySelector('.browser-warnings .spread-syntax');
-                warningSpreadSyntax.textContent = 'This browser does not support the spread syntax [...props] so 5 tests are expected to fail.';
-                warningSpreadSyntax.style.display = '';
-            }
-        }
-
         // Run Tests
         mocha.run();
     }, 100);

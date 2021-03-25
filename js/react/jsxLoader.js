@@ -105,8 +105,11 @@
         /**
          * Babel URL and options used for older browsers.
          */
-        babelUrl: 'https://unpkg.com/@babel/standalone@7.12.9/babel.js',
-        babelOptions: { presets: ['es2015', 'react'] },
+        babelUrl: 'https://unpkg.com/@babel/standalone@7.12.12/babel.js',
+        babelOptions: {
+            presets: ['es2015', 'react'],
+            plugins: ['proposal-object-rest-spread'],
+        },
 
         /**
          * Default options for fetching JSX Templates. To use different options
@@ -145,15 +148,8 @@
          *     window.jsxLoader.evalCode = "if (!navigator.userAgent.includes('Chrome/79')) throw 'Test';";
          *     window.jsxLoader.evalCode = "throw 'Test';";   // Use Babel for all Browsers
          *
-         * This example (`class` check only) would allow jsxLoader to be used over Babel in old Safari
-         * (example: iOS 9, iPad 2, iPhone 6 without upgrades, etc) however all JSX code would have to
-         * use `var` instead of `const|let` and could not uses `=>` arrow functions.
-         *
-         *     window.jsxLoader.evalCode = 'class foo {}';
-         *
-         * For additional options and uses see the documentation (link near top of this file).
          */
-        evalCode: 'class foo {}; let result = 1 + 1;',
+        evalCode: '"use strict"; class foo {}; const { id, ...other } = { id:123, test:456 };',
 
         /**
          * Condition to check for if the browser needs a Polyfill or not
@@ -1036,6 +1032,11 @@
                                         state.closeElement = true;
                                         state.inElement = false;
                                         state.addElementEnd = true;
+                                    } else if (peekNext() === '>') {
+                                        state.closeElement = true;
+                                        state.hasElementName = true;
+                                        char = '';
+                                        current--;
                                     } else {
                                         state.fatalError = true;
                                         state.errorMessage = 'Error found a "/" character in element [' + state.value + '] but not closing "/>"' + jsxLoader.compiler.getTextPosition(input, current);
@@ -1616,7 +1617,7 @@
      * Add Build Version
      * For new releases this gets updated automatically by [scripts/build.js].
      */
-    Object.defineProperty(jsxLoader, 'version', { value: '5.7.1', enumerable: true });
+    Object.defineProperty(jsxLoader, 'version', { value: '5.8.0', enumerable: true });
 
     /**
      * Optional Node Support. Additionally if using webpack or a bundler is being used

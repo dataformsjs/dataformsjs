@@ -246,8 +246,6 @@ class App extends React.Component {
 }
 ```
 
-Isto também inclui a sintaxe de propagação JavaScriptque somente tem suporte parcial para navegadores modernos. Por exemplo `...numbers` funcionará com Chrome, Firefox, etc, mas não funcionará com todas versões do Edge ou o UC Browser que é amplamente utilizado em países Asiáticos. Se você utilizar a sintaxe the propagação em sua app, veja anotações adicionais na seção [Utilização Avançada] deste documento.
-
 ## Divisão de Código ✂️
 
 Um component separado DataFormsJS React `<LazyLoad>` existe e permite que apps baseadas em navegadores carreguem dinamicamente scripts `*.js`, `*.css` e `*.jsx` na primeira vez que eles são utilizados por um componenete.
@@ -385,19 +383,6 @@ Ao utilizar `jsxLoader.logCompileDetails` passo detalhados e completos do compil
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-loader-log-compile-details.png" alt="Registrar Detalhes de Compilação no Console DevTools">
 
-### Utilize Babel para Apps que incluem a Sintaxe de Propagação
-
-Se você tiver um site que utiliza código como esse `<Greeting {...props} />`, o JSX Loader converterá-lo para `React.createElement(Greeting, ...props)` para navegadores modernos, no entanto, nem todos os navegadores modernos suportam essa sintaxe. Isto é particularmente importante se seu site é visualiza por usuários em Países Asiáticos que utilizam o UC Browser (à partir de 2020) ou visualizado por usuários que utilizam Edge (Navegador padrão no Windows 10).
-
-Há diversas opções:
-
-1) Evite utilizar a sintaxe de propagação
-2) Utiliz o código mostrado no trecho abaixo para que Babel seja utilizado por navegadores que tem suporte à sintaxe de propagação
-
-```js
-jsxLoader.evalCode = 'const { id, ...other } = { id:123, test:456 };';
-```
-
 ### Como Código JS é adicionado a página
 
 O script `jsxLoader.js` roda no evento de Documento `DOMContentLoaded` e primeiramente verifica o ambiente para determinar se polyfills são necessários e se Babel deve ser utilizado. Ele, então, baixa o Código JSX (ou lê código JSX inline), compila-o para JavaScript normal e adiciona-o de volta à página como JavaScript no elemento `<head>`.
@@ -459,10 +444,6 @@ A imagem abaixo mostra como a página de Teste de Unidade é. Ao testar com um n
 Ao testar um browser legado como o IE 11, `Babel` será mostrado juntamente com `(Polyfill Downloaded)`.
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-testing-ie-11.png" alt="Teste de Unidade com o IE 11">
-
-Se um navegador moderno estiver sendo testado e não suportar essa sintaxe de propagação,então, um alerta útil será exibido porque isso causará falhas em alguns testes. Além disso `(Polyfill Downloaded)` aparecerá para navegadores modernos que precisam baixar Polyfills (geralmente se `Promise.prototype.finally` estiver faltando).
-
-<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-testing-uc-browser.png" alt="Teste de Unidade com UC Browser">
 
 ## Problemas Conhecidos ⚠️
 

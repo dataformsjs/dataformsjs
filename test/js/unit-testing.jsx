@@ -147,6 +147,19 @@ function ShorthandFragment2() {
     );
 }
 
+function Greeting(props) {
+    return <div className="greeting">{props.firstName} {props.lastName}</div>
+}
+
+function DisplayProps(props) {
+    const { id, ...other } = props;
+    other.message += ' test';
+    return <React.Fragment>
+            <div {...other} id="display-prop-test">{id + ' test'}</div>
+            <div {...props} >{id}</div>
+        </React.Fragment>;
+}
+
 function ShowLinks() {
     return <ul className="links2">
                 <li>Test</li>
@@ -163,6 +176,7 @@ class UnitTestPage extends React.Component {
             { id:2, name:"User2" },
         ];
 
+        const user = {firstName: 'First', lastName: 'Last'};
         const div10 = (123 <= 456 ? 'true' : 'false');
 
         return (
@@ -187,6 +201,10 @@ class UnitTestPage extends React.Component {
                 <div id="div-11">{(123 <= 456 ? 'true' : 'false')}</div>
                 <ShowProps id="div-12"></ShowProps>
                 <ShowProps id="div-13" test></ShowProps>
+
+                <hr />
+                <hr></hr>
+                <hr/>
 
                 <ul className="links">
                     {links.map(link => {
@@ -284,6 +302,9 @@ class UnitTestPage extends React.Component {
                 <DisplayUsers2 users={users} />
                 <ShorthandFragment />
                 <ShorthandFragment2 />
+
+                <Greeting {...user} />
+                <DisplayProps id="display-prop-1" message="Hello World"></DisplayProps>
             </React.Fragment>
         );
     }
@@ -306,12 +327,12 @@ function ShowProps(props) {
 }
 
 function ShowData(props) {
-    return <React.Fragment>
+    return <>
             <span>{props.data && props.data.serverMessage ? props.data.serverMessage : null}</span>
             {props.data && props.data.serverMessage ?
                 <ShowMessage serverMessage={props.data.serverMessage} />
                 : null}
-        </React.Fragment>
+        </>
 }
 
 function onViewUpdated() {

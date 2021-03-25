@@ -974,7 +974,7 @@
                 credentials: 'same-origin',
             },
             polyfillUrl: 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Array.prototype.find,Object.assign,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat',
-            cssPonyfillUrl: 'https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2.4.2/dist/css-vars-ponyfill.min.js',
+            cssPonyfillUrl: 'https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2.4.3/dist/css-vars-ponyfill.min.js',
             graphqlUrl: null,
             errors: {
                 pageLoading: 'Error loading the current page because the previous page is still loading and is taking a long time. Please refresh the page and try again.',
@@ -3011,7 +3011,7 @@
          * @link https://github.com/jhildenbiddle/css-vars-ponyfill
          */
         cssVarsPonyfill: function () {
-            var selector = 'link[rel="stylesheet"][data-css-vars-ponyfill]';
+            var selector = 'link[rel="stylesheet"][data-css-vars-ponyfill],style[data-css-vars-ponyfill]';
             if (document.querySelector(selector) === null) {
                 return;
             }
@@ -3212,7 +3212,7 @@
 
     // Add Build Version
     // For new releases this gets updated automatically by [scripts/build.js].
-    Object.defineProperty(app, 'version', { value: '5.7.1', enumerable: true });
+    Object.defineProperty(app, 'version', { value: '5.8.0', enumerable: true });
 
     // Assign [DataFormsJS] and [app] to the global variable space
     window.DataFormsJS = app;

@@ -57,7 +57,7 @@ const isWindows = (process.platform === 'win32');
 // Include only specific components for the main React build file [DataFormsJS.js].
 // This excludes components/classes such as [<ImageGallery>, <LeafletMap>, I18n]
 // that would not be used with most apps.
-const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'InputFilter', 'JsonData', 'LazyLoad', 'SortableTable'];
+const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'InputFilter', 'JsonData', 'LazyLoad', 'SortableTable', 'CssVars'];
 
 /**
  * Main function
@@ -198,7 +198,8 @@ const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'InputFilter', 'JsonDa
             if (isReactComponent) {
                 newCode = newCode
                     .replace('export default class', `window.${componentName} = class`)
-                    .replace('import React from"react";', '');
+                    .replace('import React from"react";', '')
+                    .replace('import LazyLoad from"./LazyLoad.js";', '');
 
                 if (buildClasses.includes(componentName)) {
                     reactCoreComponents.push(newCode + ';');
@@ -287,6 +288,7 @@ async function buildReactFiles(copyright) {
         // custom `require` function and allows it to use the global `React` class
         // which is already required by any custom `require` function.
         codeES6 = codeES6.replace("import React from 'react';", '');
+        codeES6 = codeES6.replace("import LazyLoad from './LazyLoad.js';", ''); // Used by CssVars
         codeES6 = codeES6.replace('@license', ''); // Required for all comments to be deleted
         let codeES5_New = Babel.transform(codeES6, options).code;
         if (!codeES5_New.startsWith('"use strict";') || codeES5_New.match(regexModule) === null || codeES5_New.match(regexExports) === null) {

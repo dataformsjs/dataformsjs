@@ -245,8 +245,6 @@ class App extends React.Component {
 }
 ```
 
-This also includes the JavaScript spread syntax which only has partial support for modern browsers. For example `...numbers` will work with Chrome, Firefox, etc but it will not work with all versions of Edge or the UC Browser which is widely used in Asian Countries. If you use the spread syntax in your app see additional notes in the [Advanced Usage] section of this document.
-
 ## Code Splitting ✂️
 
 A separate DataFormsJS React Component `<LazyLoad>` exists and allows for browser based apps to dynamically load `*.js`, `*.css`, and `*.jsx` scripts the first time they are used by a component.
@@ -383,19 +381,6 @@ When using `jsxLoader.logCompileDetails` full details of the main compiler steps
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-loader-log-compile-details.png" alt="Log Compile Details to DevTools Console">
 
-### Use Babel for Apps that include the Spread Syntax
-
-If you have a site that uses code like this `<Greeting {...props} />` the JSX Loader will convert it to `React.createElement(Greeting, ...props)` for modern browsers however not all modern browsers support this syntax. This is particularly important if your site is viewed by users in Asian Countries that use the UC Browser (as of 2020) or viewed by users who use Edge (Default Browser in Windows 10).
-
-There are several options:
-
-1) Avoid using the spread syntax
-2) Use code shown in the snippet below so that Babel will be used for Browsers which do no support the spread syntax
-
-```js
-jsxLoader.evalCode = 'const { id, ...other } = { id:123, test:456 };';
-```
-
 ### How JS Code is added to the Page
 
 The `jsxLoader.js` script runs on the Document `DOMContentLoaded` event and first checks the environment to determine if polyfills are needed and if Babel should be used. It then downloads JSX Code (or reads inline JSX code), compiles it to regular JavaScript, and adds it back to the page as JavaScript in the `<head>` element.
@@ -457,10 +442,6 @@ The image below shows what the Unit Test page looks like. When testing with a mo
 When testing with a legacy browser such as IE 11 `Babel` will be shown along with `(Polyfill Downloaded)`.
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-testing-ie-11.png" alt="Unit Testing with IE 11">
-
-If a modern browser is being tested that doesn't support that spread syntax then a helpful warning will be displayed because it will cause some tests to fail. Additionally `(Polyfill Downloaded)` will appear for modern browsers that need to download Polyfills (typically if `Promise.prototype.finally` is missing).
-
-<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-testing-uc-browser.png" alt="Unit Testing with UC Browser">
 
 ## Known Issues ⚠️
 

@@ -36,6 +36,7 @@ import LazyLoad from './LazyLoad.js';
 import Cache from './Cache.js';
 import ImageGallery from './ImageGallery.js';
 import Markdown from './Markdown.js';
+import CssVars from './CssVars.js';
 
 /**
  * Create and export all Components under the default DataFormsJS namespace
@@ -52,6 +53,7 @@ const DataFormsJS = {
     Cache: Cache,
     ImageGallery: ImageGallery,
     Markdown: Markdown,
+    CssVars: CssVars,
 };
 export default DataFormsJS;
 
@@ -70,4 +72,5 @@ export {
     Cache,
     ImageGallery,
     Markdown,
+    CssVars,
 };

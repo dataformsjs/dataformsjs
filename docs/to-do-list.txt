@@ -22,8 +22,11 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) JSX Syntax Update needed for jsxLoader
-    - Not working: <hr/>
+**) Regression Test jsxLoader on all React and Preact Demos to confirm the 
+    following update once jsDelivr returns the new version.
+    * Make sure nothing is broken (not expected because Unit testing is extensive)
+    * Test will likely happen by March 26, 2021
+    - Not working: <hr/>  ** Fixed for version 5.8.0
     - Work-around: <hr />
     - Babel handles `<hr/>` so jsxLoader needs to be updated
 
