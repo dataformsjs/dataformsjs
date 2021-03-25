@@ -80,7 +80,7 @@ function ShowImages(props) {
                     </ImageGallery>
 
                 4) Specify a Different Loading Message and Timeout.
-                   Defaults to "Loading..." and 2000 millseconds.
+                   Defaults to "Loading..." and 2000 milliseconds.
                     <ImageGallery
                         images={props.data.images}
                         loadingText="Carregando..."
@@ -108,11 +108,4 @@ ReactDOM.render(
 );
 
 // Add CSS Variable Support to IE and older Browsers
-const lazy = new LazyLoad();
-const supportsCssVars = (window.CSS && window.CSS.supports && window.CSS.supports('(--a: 0)'));
-const polyfillUrl = 'https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2.1.1/dist/css-vars-ponyfill.min.js';
-lazy.loadPolyfill(supportsCssVars, polyfillUrl).then(function() {
-    if (window.cssVars) {
-        cssVars({ include:'link[rel="stylesheet"][href="css/image-gallery.css"]' });
-    }
-});
+CssVars.ponyfill();
