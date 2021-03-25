@@ -22,13 +22,11 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-
 **) Update the Getting Started CSS Template used here:
         https://www.dataformsjs.com/en/getting-started
     So that it looks similar to the places demo and can be used for apps as decent starting template
     Source for template is:
         website\public\html\getting-started\getting-started.css
-
 
 **) Combine Multiple Servers into one
     - The DataFormsJS author has two main open source projects with 5 totals servers
@@ -53,6 +51,17 @@ TODO List
         in helping with the Docker portion feel free to open an issue and I can share the existing setup
         scripts and related docs.
 
+**) Playground Site
+    - Switch to Monaco Editor from CodeMirror for users that view the site from a laptop
+        or desktop computer. Mobile users (determined by UserAgent) will still receive
+        CodeMirror.
+    - Monaco Editor is the editor used by VS Code and provides built-in JSX validation
+        along with better formatting and performance compared to CodeMirror.
+        With CodeMirror it's hard to indent both JSX code and Templates (Vue, Handlebars)
+    - A React Demo of the playground that uses the Monaco editor can be used as a
+        starting point on the needed Monaco API's that would be required.
+    - https://github.com/dataformsjs/dataformsjs/blob/master/examples/code-playground-react.htm
+    - https://www.dataformsjs.com/examples/code-playground-react.htm
 
 **) Priority for additional Documentation and Examples
     - Add Markdown and related docs to Quick Ref Section
@@ -244,17 +253,6 @@ TODO List
     - https://liquidjs.com/
     - The latest build of liquid is smaller than both Handlebars and Nunjucks,
         has been optimized recently (as of 2020), and now has wider usage.
-
-*) Playground Site
-    - Switch to Monaco Editor from CodeMirror for users that view the site from a laptop
-        or desktop computer. Mobile users (determined by UserAgent) will still receive
-        CodeMirror.
-    - Monaco Editor is the editor used by VS Code and provides built-in JSX validation
-        along with better formatting and performance compared to CodeMirror.
-    - A React Demo of the playground that uses the Monaco editor can be used as a
-        starting point on the needed Monaco API's that would be required.
-    - https://github.com/dataformsjs/dataformsjs/blob/master/examples/code-playground-react.htm
-    - https://www.dataformsjs.com/examples/code-playground-react.htm
 
 *) New plugin or features to handle content preloading?
     - For example routes could have a [data-preload] attribute and then a new plugin would
