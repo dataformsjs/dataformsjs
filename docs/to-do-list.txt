@@ -32,7 +32,7 @@ TODO List
 
 **) Combine Multiple Servers into one
     - The DataFormsJS author has two main open source projects with 5 totals servers
-        but none of the sites gets enough traffic to need 5 servers so they will be 
+        but none of the sites gets enough traffic to need 5 servers so they will be
         consolidated into one.
     - Servers:
         https://www.dataformsjs.com/
@@ -105,6 +105,11 @@ TODO List
             https://www.dataformsjs.com/examples/markdown-react.htm#/
             https://www.dataformsjs.com/examples/markdown-vue.htm
             https://www.dataformsjs.com/examples/markdown-hbs.htm
+    - Hacker News Demos can be published on the main site once a standard Framework version is created.
+        - Currently React and Web Component Versions exist
+            https://www.dataformsjs.com/examples/hacker-news-web.htm
+            https://www.dataformsjs.com/examples/hacker-news-react.htm
+        - This would use a custom page object and JavaScript rather than nested JSON controls
     - Update jsxLoader doc based on updates and findings from this issue:
         https://github.com/dataformsjs/dataformsjs/issues/16
         * How to use with node and webpack
@@ -288,10 +293,6 @@ TODO List
         - https://www.dataformsjs.com/examples/binary-classification-vue.htm#/en/
         - One option is to use https://react-hook-form.com/
         - A new <EntryForm> and related components might be created in the future as well (not yet decided on though)
-    - Create standard framework demo for Hacker News Demo:
-        dataformsjs\examples\hacker-news-react.htm
-        dataformsjs\examples\hacker-news-web.htm
-        - This would use a custom page object and JavaScript rather than nested JSON controls
     - One Page Site Demos are functional but very ugly:
         [examples/one-page-site-hbs.htm]
         [examples/one-page-and-spa-hbs.htm]
