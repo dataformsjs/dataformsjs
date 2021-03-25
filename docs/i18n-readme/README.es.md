@@ -390,8 +390,8 @@ _Todos los tamaños se basan en scripts minificados y compresión gzip del servi
 * Los archivos adicionales (controladores, complementos, etc.) suelen tener solo 1-3 kB cada uno.
 * En general, cuando use el Framework, espere aproximadamente 15 kB para la carga inicial de la página, y luego varios kB para páginas adicionales que carguen complementos, páginas, controladores, etc.
 
-* **React JSX Loader – 5.7 kB** (85 kB versión completa sin comprimir)
-* **React (todos los componentes en JavaScript) – 5.1 kB**
+* **React JSX Loader – 6.2 kB** (86 kB versión completa sin comprimir)
+* **React (todos los componentes en JavaScript) – 5.7 kB**
 * Los componentes de reacción individuales tienen entre 3 y 12 kB cuando no están comprimidos e incluyen comentarios.
 * Los componentes web generalmente tienen entre 1 y 3 kB cada uno, por lo general, utilizará una serie de componentes, por lo que en las aplicaciones de ejemplo, esto suma aproximadamente 15 kB para cada aplicación.
 
