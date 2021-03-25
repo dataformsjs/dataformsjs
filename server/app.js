@@ -29,7 +29,7 @@
 'use strict';
 
 const http = require('http');
-const url = require('url');
+const { URL } = require('url');
 const fs = require('fs');
 const path = require('path');
 
@@ -123,7 +123,7 @@ const app = {
 
                 // Match the requested path to a defined route
                 const reqMethod = req.method;
-                const reqPath = url.parse(req.url).pathname;
+                const reqPath = new URL(req.url, `http://${req.headers.host}`).pathname;
                 for (let n = 0, m = this.routes.length; n < m; n++) {
                     // First check method [GET|POST|HEAD]
                     const method = this.routes[n].method;
