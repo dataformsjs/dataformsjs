@@ -22,13 +22,6 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Regression Test jsxLoader on all React and Preact Demos to confirm the 
-    following update once jsDelivr returns the new version.
-    * Make sure nothing is broken (not expected because Unit testing is extensive)
-    * Test will likely happen by March 26, 2021
-    - Not working: <hr/>  ** Fixed for version 5.8.0
-    - Work-around: <hr />
-    - Babel handles `<hr/>` so jsxLoader needs to be updated
 
 **) Update the Getting Started CSS Template used here:
         https://www.dataformsjs.com/en/getting-started
@@ -36,37 +29,30 @@ TODO List
     Source for template is:
         website\public\html\getting-started\getting-started.css
 
-**) Combine Main Server and AI/ML Server into one.
+
+**) Combine Multiple Servers into one
+    - The DataFormsJS author has two main open source projects with 5 totals servers
+        but none of the sites gets enough traffic to need 5 servers so they will be 
+        consolidated into one.
     - Servers:
         https://www.dataformsjs.com/
         https://ai-ml.dataformsjs.com/
-    - This site doesn't get enough traffic to need separate servers
-    - Planned to use nginx for PHP, Node/GraphQL, Python/Flask on the same server
+        https://playground.dataformsjs.com/
+        https://www.fastsitephp.com/en/
+        https://playground.fastsitephp.com/
     - Related setup docs for current setup:
         https://github.com/dataformsjs/website/blob/master/docs/Main%20Site%20Server%20Setup.txt
         https://github.com/dataformsjs/website/blob/master/docs/Python%20Webserver%20Setup%20for%20AI_ML%20Functions.txt
-        * Quick test in December of 2020 shows the commands needed have changed from the original install
-          as it was using specific older versions of TensorFlow and Keras. Also the install for Gunicorn
-          has changed because `sudo apt-get install gunicorn3` no longer works on latest version of Ubuntu.
-    - This will likely be documented in a new markdown doc
-    - Likely include the playground server:
-        https://playground.dataformsjs.com/
-    - Playground code could be moved to the main website repository from:
-        https://github.com/dataformsjs/playground
-    - Or to avoid any changes if possible the bash script could be updated to merge the two
-        repositories when it syncs the server.
-    - To handle that the [index.php] would check host 'playground.dataformsjs.com'
-        or a new Request Header 'X-Playground' to determine which file to include [app.php]
-        or migrated [playground.php]
-    - A main issue to handle is how to setup HTTPS with https://letsencrypt.org/
-        when the host is already being used by another static IP.
-        More time to research and test this is needed.
-        - Related links:
-            https://serverfault.com/a/932037
-            https://ivanderevianko.com/2019/03/migrate-letsencrypt-certificates-certbot-to-new-server
-            https://medium.com/@blomsmail/how-to-reuse-a-lets-encrypt-certificate-on-a-new-server-19e7224e4d81
-    - Use HTTP/2 instead of http/1.1
-        This can be done if migrating servers to nginx instead of Apache
+        https://github.com/dataformsjs/playground/blob/master/docs/Playground%20Server%20Setup.txt
+        https://github.com/fastsitephp/fastsitephp/blob/master/docs/Main%20Site%20Server%20Setup.txt
+        https://github.com/fastsitephp/playground/blob/master/docs/Playground%20Server%20Setup.txt
+    - This is currently in development and the servers will likely be migrated in the first half of 2021.
+        Currently the main thing to figure out is how to setup the FastSitePHP Playground site in Docker.
+        This is due to the Playground site using a custom build of PHP and very specific apache needs.
+        All other servers will use nginx and that part has mostly been developed. If anyone is interested
+        in helping with the Docker portion feel free to open an issue and I can share the existing setup
+        scripts and related docs.
+
 
 **) Priority for additional Documentation and Examples
     - Add Markdown and related docs to Quick Ref Section
@@ -357,35 +343,6 @@ TODO List
     - Other API's to start:
         https://api.github.com/emojis
     - Once completed the page can be added to the examples section on the main site
-
-*) jsxLoader.js
-    - More unit testing (every line of code needs to be verified), unit tests run from:
-        http://127.0.0.1:5000/unit-testing-react
-        http://127.0.0.1:5000/unit-testing-preact
-    - It's possible that every line it tested but it's not yet known for sure
-    - Possible new functions to support JavaScript version by year for new Syntax, example:
-        jsxLoader.requireES2018 = function() {
-            this.evalCode = '"use strict"; const { id, ...other } = { id:123, test:456 };';
-        };
-        For example if the app uses spread sytax and calls `jsxLoader.requireES2018()` then
-        browsers that don't support it (UC Browser, Edge) would use Babel. Currently this
-        feature requires the developer of the app to to update `evalCode`.
-        This issue is documented in the main JSX doc:
-            https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
-    - Development Tips for working with the Parser:
-        - Make sure to set the following on the calling page:
-            jsxLoader.logCompileTime = true;
-            jsxLoader.logCompileDetails = true;
-        - Once possible location of error has been found add code similar to the below item,
-            search for 'debug here' in DevTools and then add a breakpoint:
-                if (state.value === " render") {
-                    console.log('debug here');
-                    console.log(node);
-                    console.log(tokens);
-                }
-    - This demo does not fully work so it's in code but not linked from the main site.
-      Seems like it may be an issue due to Rax and not the jsxLoader. See comments in the HTML file.
-        http://127.0.0.1:8080/countries-no-spa-rax.htm
 
 *) Many Docs need to be created along with API page(s)
     - API needs a quick search/filter feature to look up any attribute/class/function/etc
