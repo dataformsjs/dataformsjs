@@ -213,8 +213,8 @@ This example uses React with the `jsxLoader.min.js` script for converting JSX to
             );
         </script>
 
-        <script crossorigin="anonymous" src="https://unpkg.com/react@17.0.1/umd/react.production.min.js"></script>
-        <script crossorigin="anonymous" src="https://unpkg.com/react-dom@17.0.1/umd/react-dom.production.min.js"></script>
+        <script crossorigin="anonymous" src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+        <script crossorigin="anonymous" src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/react/jsxLoader.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/react/es6/DataFormsJS.min.js"></script>
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@latest/js/react/es5/DataFormsJS.min.js"></script>

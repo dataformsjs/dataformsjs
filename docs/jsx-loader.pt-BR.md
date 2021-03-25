@@ -69,8 +69,8 @@ O script `jsxLoader.js` é muito pequeno para baixar (5.7 kB - min e em gzip) e 
 
 ```html
 <!-- Inclua o React na página -->
-<script src="https://unpkg.com/react@17.0.1/umd/react.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@17.0.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 
 <!--
     Inclua o DataFormsJS JSX Loader.
