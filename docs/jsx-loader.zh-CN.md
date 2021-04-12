@@ -138,7 +138,8 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
 
 ## 在线代码编辑器上尝试 🚀
 
-<a href="https://dataformsjs.com/zh-CN/playground">https://dataformsjs.com/zh-CN/playground</a>
+* https://dataformsjs.com/zh-CN/playground _Main site playground uses CodeMirror_
+* https://dataformsjs.com/examples/code-playground-react.htm _Demo built with React using Monaco Editor from VS code_
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground-React.png" alt="React Code Playground">
 
@@ -254,6 +255,9 @@ class App extends React.Component {
 Places演示应用程序中的示例:
 * https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-react.htm
 * https://github.com/dataformsjs/dataformsjs/blob/master/examples/html/search-places-react.jsx
+
+Source code for `<LazyLoad>`
+* https://github.com/dataformsjs/dataformsjs/blob/master/js/react/es6/LazyLoad.js
 
 在下面的例子中,所有三个文件都将在安装`LoadMapAndPage`后下载.在加载脚本时,将显示组件`<ShowLoading>` ,并且所有脚本下载完成后,将动态创建组件`<ShowCity>`.在此示例中,将字符串值用于`ShowCity` ,因为在下载文件`place-react.jsx`之前,该组件将不存在.
 

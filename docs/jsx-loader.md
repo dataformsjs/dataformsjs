@@ -138,7 +138,8 @@ The `jsxLoader.js` script is very small to download (6.2 kB - min and gzip) and 
 
 ## Try it online in the Code Playground 🚀
 
-<a href="https://dataformsjs.com/en/playground">https://dataformsjs.com/en/playground</a>
+* https://dataformsjs.com/en/playground _Main site playground uses CodeMirror_
+* https://dataformsjs.com/examples/code-playground-react.htm _Demo built with React using Monaco Editor from VS code_
 
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/Playground-React.png" alt="React Code Playground">
 
@@ -254,6 +255,9 @@ A separate DataFormsJS React Component `<LazyLoad>` exists and allows for browse
 Examples from the Places Demo App:
 * https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-react.htm
 * https://github.com/dataformsjs/dataformsjs/blob/master/examples/html/search-places-react.jsx
+
+Source code for `<LazyLoad>`
+* https://github.com/dataformsjs/dataformsjs/blob/master/js/react/es6/LazyLoad.js
 
 In the below example all 3 files will be downloaded when the Component `LoadMapAndPage` is mounted. While the scripts are being loaded a Component `<ShowLoading>` will be displayed and once all scripts are finished downloading then the Component `<ShowCity>` will be dynamically created. In this example a string value is used for `ShowCity` because the Component will not exist until the file `place-react.jsx` is downloaded.
 
