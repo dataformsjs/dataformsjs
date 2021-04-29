@@ -85,6 +85,11 @@ export default class Format {
             return dateTime;
         }
 
+        // Make sure a value exists
+        if (dateTime === null || dateTime === '') {
+            return null;
+        }
+
         // Return formatted date/time in the user's local language
         try {
             if (dateTime instanceof Date) {

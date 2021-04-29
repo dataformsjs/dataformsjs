@@ -9,6 +9,14 @@ Overall the core Framework files and API are expected to remain stable however t
 * Update `<data-list>` Web Component to clear `innerHTML` when an empty list is passed to the `value` property.
   * This matches the intended behavior for applications and matches the Framework JavaScript `<data-list>` Control
   * An example of when this would happen is on a search screen. If the previous search returned data and the next search returns an error then both error and past data would show. This fixes the issue.
+* Update functions `format.date()`, `format.dateTime()`, `format.time()` to handle null or empty strings
+  * Update affects related code for all version:
+    * Web Components: `js/web-components/utils-format.js`
+    * React Class: `js/react/es6/Format.js`
+    * Framework: `js/extensions/format.js`
+  * Example of the issue
+    * If Web Component `<data-table>` or other templating code called `<td>${format.date(startDate)}</td>` and `startDate` was null then the value `12/31/1969` would be displayed because it's the starting Unix time.
+    * The previous work-around was to use logic in the templating code like this: `<td>${startDate === null ? '' : format.date(startDate)}</td>`
 
 ## 5.8.0 (March 24, 2021)
 

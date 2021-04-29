@@ -28,15 +28,6 @@ TODO List
     Source for template is:
         website\public\html\getting-started\getting-started.css
 
-**) Future Release - Minor fix:
-    - Web Components, <data-table>, <data-list>, etc
-    - Issue `format.date()` does not handle nulls, example if `startDate === null` then
-            <td>${format.date(startDate)}</td>
-        Shows: "12/31/1969" because it's starting Unix time
-        Current work-around:
-            <td>${startDate === null ? '' : format.date(startDate)}</td>
-    - This issue may affect Standard Framework and React Components as well
-
 **) Combine Multiple Servers into one
     - The DataFormsJS author has two main open source projects with 5 totals servers
         but none of the sites gets enough traffic to need 5 servers so they will be

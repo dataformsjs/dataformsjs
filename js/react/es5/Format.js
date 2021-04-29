@@ -91,6 +91,10 @@ var Format = function () {
         return dateTime;
       }
 
+      if (dateTime === null || dateTime === '') {
+        return null;
+      }
+
       try {
         if (_instanceof(dateTime, Date)) {
           return new Intl.DateTimeFormat(navigator.language, options).format(dateTime);
