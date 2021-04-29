@@ -68,8 +68,9 @@ class DataList extends HTMLElement {
             return;
         }
 
-        // Show no-data if empty
+        // No data to show
         if (Array.isArray(list) && list.length === 0) {
+            this.innerHTML = '';
             return;
         }
 

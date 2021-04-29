@@ -4,6 +4,12 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 5.8.1 (April 29, 2021)
+
+* Update `<data-list>` Web Component to clear `innerHTML` when an empty list is passed to the `value` property.
+  * This matches the intended behavior for applications and matches the Framework JavaScript `<data-list>` Control
+  * An example of when this would happen is on a search screen. If the previous search returned data and the next search returns an error then both error and past data would show. This fixes the issue.
+
 ## 5.8.0 (March 24, 2021)
 
 * JSX Loader Updates
