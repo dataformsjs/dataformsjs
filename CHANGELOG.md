@@ -8,6 +8,7 @@ Overall the core Framework files and API are expected to remain stable however t
 
 * Added a Generic base `Component` class for Web Components that extends `HTMLElement`
   * `js/web-components/Component.js`
+  * https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/Component.js
   * This class can be used to speed development of custom Web Components by reducing the amount of code needed to create components.
 
 ## 5.8.1 (April 29, 2021)
