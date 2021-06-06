@@ -145,84 +145,33 @@
             Create a custom <hello-world> Web Component for this page
         -->
         <script type="module">
-            import { render } from 'https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/utils.min.js';
-
-            /**
-             * Shadow DOM for Custom Elements
-             */
-            const shadowTmpl = document.createElement('template');
-            shadowTmpl.innerHTML = `
-                <style>
-                    :host { display: block; }
-                    :host([hidden]) { display: none; }
-                </style>
-                <slot></slot>
-            `;
+            import { Component, html } from 'https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/Component.min.js';
 
             /**
              * Define class for the <hello-world> element
              */
-            class HelloWorld extends HTMLElement {
-                constructor() {
-                    super();
-                    const shadowRoot = this.attachShadow({mode: 'open'});
-                    shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
-                    this.state = {
-                        name: null,
+             class HelloWorld extends Component {
+                static get css() {
+                    return ':host { padding:.5em; }';
+                }
+
+                // Props end up being assigned to both HTML observable attributes
+                // and JavaScript properties. Example usage:
+                //    document.querySelector('hello-world').name = 'Name';
+                //    document.querySelector('hello-world').setAttribute('color', '#888');
+                static get props() {
+                    return {
+                        name: 'World',
                         color: 'red',
-                    };
-                }
-
-                connectedCallback() {
-                    this.render();
-                }
-
-                // [observedAttributes] and [attributeChangedCallback] are used
-                // to handle HTML attribute changes.
-                static get observedAttributes() {
-                    return ['name', 'color'];
-                }
-
-                attributeChangedCallback(attrName, oldValue, newValue) {
-                    switch (attrName) {
-                        case 'color':
-                        case 'name':
-                            this.state[attrName] = newValue;
-                            this.render();
-                            break;
                     }
                 }
 
-                // Define [name] and [color] properties for JavaScript
-                // Example usage:
-                //   document.querySelector('hello-world').name = 'John Doe';
-                //   document.querySelector('hello-world').color = '#ff0';
-                get name() {
-                    return this.state.name;
-                }
-
-                set name(newValue) {
-                    this.state.name = newValue;
-                    this.render();
-                }
-
-                get color() {
-                    return this.state.color;
-                }
-
-                set color(newValue) {
-                    this.state.color = newValue;
-                    this.render();
-                }
-
-                // Update the element contents
                 render() {
-                    const name = (this.state.name ? this.state.name : 'World');
-                    const html = render`
-                        <div style="color:${this.state.color};">
-                            Hello ${name}!
-                        <div>`;
-                    this.innerHTML = html;
+                    return html`
+                        <div style="color:${this.color};">
+                            Hello ${this.name}!
+                        </div>
+                    `;
                 }
             }
 
