@@ -10,6 +10,7 @@ Overall the core Framework files and API are expected to remain stable however t
   * `js/web-components/Component.js`
   * https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/Component.js
   * This class can be used to speed development of custom Web Components by reducing the amount of code needed to create components.
+  * https://www.dataformsjs.com/examples/custom-web-components.htm
 
 ## 5.8.1 (April 29, 2021)
 
