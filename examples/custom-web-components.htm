@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Custom Web Components</title>
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 40px;
+            }
+            p { max-width: 700px; }
+        </style>
+    </head>
+    <body>
+        <h1>Custom Web Components</h1>
+        <p>This page includes examples showing how to use the generic base `Component` class for Web Components. The `Component` class extends `HTMLElement`.</p>
+        <p>If you are building an app that uses Web Components this class can be used to speed up development because it reduces the amount of code needed and automatically provides and API based on `props`.</p>
+        <p>View the page source for examples.</p>
+
+        <hello-world></hello-world>
+        <hello-world name="Mars" color="blue"></hello-world>
+        <hello-world name="Moon" color="gray"></hello-world>
+
+        <my-counter></my-counter>
+
+        <my-counter count="10"></my-counter>
+
+        <script type="module">
+            import { Component, html } from './js/web-components/Component.js';
+
+            /**
+             * Define class for the <hello-world> element
+             */
+            class HelloWorld extends Component {
+                static get css() {
+                    return ':host { padding:.5em; }';
+                }
+
+                // Props end up being assigned to both HTML observable attributes
+                // and JavaScript properties. Example usage:
+                //    document.querySelector('hello-world').name = 'Name';
+                //    document.querySelector('hello-world').setAttribute('color', '#888');
+                static get props() {
+                    return {
+                        name: 'World',
+                        color: 'red',
+                    }
+                }
+
+                render() {
+                    return html`
+                        <div style="color:${this.color};">
+                            Hello ${this.name}!
+                        </div>
+                    `;
+                }
+            }
+
+            /**
+             * Alternative version that shows needed API using the standard `HTMLElement` class.
+             */
+             class HelloWorld2 extends HTMLElement {
+                constructor() {
+                    super();
+                    const shadowRoot = this.attachShadow({mode: 'open'});
+                    const shadowTmpl = document.createElement('template');
+                    shadowTmpl.innerHTML = `
+                        <style>
+                            :host { display: block; padding: 0.5em; }
+                            :host([hidden]) { display: none; }
+                        </style>
+                        <slot></slot>
+                    `;
+                    shadowRoot.appendChild(shadowTmpl.content.cloneNode(true));
+                    this.state = {
+                        name: null,
+                        color: 'red',
+                    };
+                }
+
+                connectedCallback() {
+                    this.render();
+                }
+
+                static get observedAttributes() {
+                    return ['name', 'color'];
+                }
+
+                attributeChangedCallback(attrName, oldValue, newValue) {
+                    switch (attrName) {
+                        case 'color':
+                        case 'name':
+                            this.state[attrName] = newValue;
+                            this.render();
+                            break;
+                    }
+                }
+
+                get name() {
+                    return this.state.name;
+                }
+
+                set name(newValue) {
+                    this.state.name = newValue;
+                    this.render();
+                }
+
+                get color() {
+                    return this.state.color;
+                }
+
+                set color(newValue) {
+                    this.state.color = newValue;
+                    this.render();
+                }
+
+                // Update the element contents.
+                // NOTE - this is not safe because it does not escape user input for HTML.
+                render() {
+                    const name = (this.state.name ? this.state.name : 'World');
+                    const html = `
+                        <div style="color:${this.state.color};">
+                            Hello ${name}!
+                        <div>`;
+                    this.innerHTML = html;
+                }
+            }
+
+            /**
+             * Add <hello-world> element to the page
+             */
+            window.customElements.define('hello-world', HelloWorld);
+            // window.customElements.define('hello-world', HelloWorld2);
+
+            /**
+             * Define class and add <my-counter> element to the page.
+             * HTML returned from `render()` goes inside of a <slot> element
+             * so using `::slotted()` is needed when working with CSS.
+             *
+             * This component is based on https://webcomponents.dev/
+             */
+            window.customElements.define('my-counter', class MyCounter extends Component {
+                static get css() {
+                    return `
+                        :host { padding-top:1em; }
+                        ::slotted(*) {
+                            font-size: 200%;
+                        }
+                        ::slotted(span) {
+                            width: 4rem;
+                            display: inline-block;
+                            text-align: center;
+                        }
+                        ::slotted(button) {
+                            width: 64px;
+                            height: 64px;
+                            border: none;
+                            border-radius: 10px;
+                            background-color: seagreen;
+                            color: white;
+                        }
+                    `;
+                }
+
+                static get props() {
+                    return { count: 0 };
+                }
+
+                render() {
+                    return html`
+                        <button>-</button>
+                        <span>${this.count}</span>
+                        <button>+</button>
+                    `;
+                }
+
+                onRendered() {
+                    const buttons = this.querySelectorAll('button');
+                    buttons[0].onclick = () => { this.count--; };
+                    buttons[1].onclick = () => { this.count++; };
+                }
+            });
+        </script>
+    </body>
+</html>

@@ -4,6 +4,12 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 5.9.0
+
+* Added a Generic base `Component` class for Web Components that extends `HTMLElement`
+  * `js/web-components/Component.js`
+  * This class can be used to speed development of custom Web Components by reducing the amount of code needed to create components.
+
 ## 5.8.1 (April 29, 2021)
 
 * Update `<data-list>` Web Component to clear `innerHTML` when an empty list is passed to the `value` property.
