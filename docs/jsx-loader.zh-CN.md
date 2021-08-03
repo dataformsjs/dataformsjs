@@ -136,6 +136,9 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
 ### Rax <img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/rax.png" width="32" height="32">
 * https://dataformsjs.com/examples/hello-world/zh-CN/rax.htm
 
+### Node <img src="https://nodejs.org/static/images/favicons/favicon-32x32.png" width="32" height="32">
+* https://github.com/dataformsjs/dataformsjs/blob/master/scripts/jsx-loader-node-demo.js
+
 ## 在线代码编辑器上尝试 🚀
 
 * https://dataformsjs.com/zh-CN/playground _Main site playground uses CodeMirror_

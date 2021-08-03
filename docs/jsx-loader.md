@@ -136,6 +136,9 @@ The `jsxLoader.js` script is very small to download (6.2 kB - min and gzip) and 
 ### Rax <img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/rax.png" width="32" height="32">
 * https://dataformsjs.com/examples/hello-world/en/rax.htm
 
+### Node <img src="https://nodejs.org/static/images/favicons/favicon-32x32.png" width="32" height="32">
+* https://github.com/dataformsjs/dataformsjs/blob/master/scripts/jsx-loader-node-demo.js
+
 ## Try it online in the Code Playground 🚀
 
 * https://dataformsjs.com/en/playground _Main site playground uses CodeMirror_
