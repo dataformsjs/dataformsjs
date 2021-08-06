@@ -3212,7 +3212,7 @@
 
     // Add Build Version
     // For new releases this gets updated automatically by [scripts/build.js].
-    Object.defineProperty(app, 'version', { value: '5.9.0', enumerable: true });
+    Object.defineProperty(app, 'version', { value: '5.9.1', enumerable: true });
 
     // Assign [DataFormsJS] and [app] to the global variable space
     window.DataFormsJS = app;
