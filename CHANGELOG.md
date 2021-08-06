@@ -4,7 +4,18 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
-## 5.9.0
+## 5.9.1 (August 6, 2021)
+
+* Web Component `<json-data>`
+  * Updated logic related to the HTML `onready` event attribute to only run JavaScript code if the `<json-data>` is still connected to the page when the web service completes.
+  * For SPA if the user clicks of the page on a long running task then fetch will still be running but the element will not longer be connected.
+  * This would result in an error being shown to the user if an expected element or other item is missing from the page.
+  * In the example below if the user clicked of the page quickly an error alert would be displayed by default, this update prevents the code from running so the end user has a better and expected experience.
+  ```html
+    <json-data onready="() => { document.getElementById('element1').textContent = document.getElementById('element2').textContent; }"
+  ```
+
+## 5.9.0 (June 5, 2021)
 
 * Added a Generic base `Component` class for Web Components that extends `HTMLElement`
   * `js/web-components/Component.js`

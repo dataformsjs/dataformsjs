@@ -213,7 +213,7 @@ class JsonData extends HTMLElement {
     }
 
     set url(newValue) {
-        return this.setAttribute('url', newValue);
+        this.setAttribute('url', newValue);
     }
 
     get urlParams() {
@@ -225,7 +225,7 @@ class JsonData extends HTMLElement {
             this.showError(`When setting [urlParams] of <json-data> the value must be an object but was instead a type of [${typeof newValue}].`);
             return;
         }
-        return this.setAttribute('url-params', JSON.stringify(newValue));
+        this.setAttribute('url-params', JSON.stringify(newValue));
     }
 
     get loadOnlyOnce() {
@@ -279,6 +279,14 @@ class JsonData extends HTMLElement {
         const js = this.getAttribute('onready');
         if (js) {
             try {
+                if (!this.isConnected) {
+                    // Only call user code if the element is still connected to the DOM.
+                    // For SPA if the user clicks of the page on a long running task then
+                    // fetch will still be running but the element will not longer be connected.
+                    // This would result in an error being shown to the user if an expected
+                    // element or other item is missing from the page.
+                    return;
+                }
                 const fn = new Function('return ' + js);
                 const result = fn();
                 if (typeof result === 'function') {
