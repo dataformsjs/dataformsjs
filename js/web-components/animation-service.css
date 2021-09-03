@@ -1,0 +1,86 @@
+/*
+    This file is part of DataFormsJS and is intended as a working demo and
+    template for the <animation-service> Web Component and [animation] plugin.
+
+    <animation-service> and the [animation] plugin use a small amount of
+    JavaScript code while the animations are defined in CSS.
+
+    TODO - this is a new file and will be used with a new demos for the
+    next release (Sept 3rd 2021) - Next release will happen later today
+    or very soon. Need to finish this file and create demos
+    (both Web Components and Framework).
+*/
+
+:root {
+    --duration: .6s;
+    --delay: .2s;
+}
+
+[data-animate^="show-with-delay"] { opacity: 0; }
+[data-animate="show-with-delay"].show-with-delay {
+    animation: show var(--duration) ease-in-out var(--delay) 1 forwards;
+}
+[data-animate="show-with-delay-2"].show-with-delay {
+    animation: show var(--duration) ease-in-out calc(var(--delay) * 2) 1 forwards;
+}
+[data-animate="show-with-delay-3"].show-with-delay {
+    animation: show var(--duration) ease-in-out calc(var(--delay) * 3) 1 forwards;
+}
+[data-animate="show-with-delay-4"].show-with-delay {
+    animation: show var(--duration) ease-in-out calc(var(--delay) * 4) 1 forwards;
+}
+
+@keyframes show {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scale {
+    from { transform: scale(.5); }
+    to { transform: scale(1); }
+}
+
+@keyframes show-from-right {
+    from { opacity: 0; transform: translateX(100px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes show-from-bottom {
+    from { opacity: 0; transform: translateY(100px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes show-from-left {
+    from { opacity: 0; transform: translateX(-100px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+[data-animate="move-from-left"] { transform: translateX(-100px); }
+[data-animate="move-from-left"].move-from-left {
+    animation: move-from-left var(--duration) ease-in-out forwards;
+}
+
+@keyframes move-from-right {
+    from { transform: translateX(100px); }
+    to { transform: translateX(0); }
+}
+
+[data-animate="move-from-right"] { transform: translateX(100px); }
+[data-animate="move-from-right"].move-from-right {
+    animation: move-from-right var(--duration) ease-in-out forwards;
+}
+
+@keyframes move-from-left {
+    from { transform: translateX(-100px); }
+    to { transform: translateX(0); }
+}
+
+[data-animate="move-from-bottom"] { transform: translateY(50px); }
+[data-animate="move-from-bottom"].move-from-bottom {
+    animation: move-from-bottom var(--duration) ease-in-out forwards;
+}
+
+@keyframes move-from-bottom {
+    from { transform: translateY(50px); }
+    to { transform: translateX(0); }
+}

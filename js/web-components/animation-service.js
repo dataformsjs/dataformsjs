@@ -1,12 +1,14 @@
 /**
  * DataFormsJS <animation-service> Web Component
  *
- * This component allows for animation with the built-in IntersectionObserver
- * object. This class does not provide built-in animations rather it is used
- * with CSS defined in the app for animation.
- * 
- * Usage:
+ * This component allows for animation with the browsers Intersection Observer API.
+ * This class does not provide built-in animations from JavaScript; rather it is
+ * used with CSS defined in the app for animation. An example/starting-template
+ * is available from the file [animation-service.css] in this directory.
  *
+ * ---------
+ *   Usage
+ * ---------
  * Define this Web Component on the page
  *     <animation-service></animation-service>
  *
@@ -22,10 +24,19 @@
  *          to { opacity: 1; transform: scale(1); }
  *      }
  *
+ * ----------------
+ *   How it works
+ * ----------------
  * IntersectionObserver is used to detect when the element is visible
  * to the user and then it will add the class from the [data-animate] attribute
  * to the element:
  *      <div class="show-and-scale" data-animate="show-and-scale">...</div>
+ *
+ * When used with CSS this allows for high performance and efficient animations.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Using_CSS_animations
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes
  */
 
 /* Validates with both [eslint] and [jshint] */
