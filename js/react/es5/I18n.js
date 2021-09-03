@@ -48,6 +48,24 @@ var I18n = function () {
       this.state.loadedCallback = callback;
     }
   }, {
+    key: "currentLocale",
+    get: function get() {
+      return this.state.currentLocale;
+    }
+  }, {
+    key: "getUserDefaultLang",
+    get: function get() {
+      if (navigator.languages && navigator.languages.length && this.state.supportedLocales && this.state.supportedLocales.length) {
+        for (var n = 0, m = navigator.languages.length; n < m; n++) {
+          if (this.state.supportedLocales.indexOf(navigator.languages[n]) !== -1) {
+            return navigator.languages[n];
+          }
+        }
+      }
+
+      return this.state.defaultLocale;
+    }
+  }, {
     key: "onHashChange",
     value: function onHashChange() {
       var i18n = this;
@@ -132,24 +150,6 @@ var I18n = function () {
     key: "text",
     value: function text(key) {
       return this.state.langText && this.state.langText[key] ? this.state.langText[key] : key;
-    }
-  }, {
-    key: "currentLocale",
-    get: function get() {
-      return this.state.currentLocale;
-    }
-  }, {
-    key: "getUserDefaultLang",
-    get: function get() {
-      if (navigator.languages && navigator.languages.length && this.state.supportedLocales && this.state.supportedLocales.length) {
-        for (var n = 0, m = navigator.languages.length; n < m; n++) {
-          if (this.state.supportedLocales.indexOf(navigator.languages[n]) !== -1) {
-            return navigator.languages[n];
-          }
-        }
-      }
-
-      return this.state.defaultLocale;
     }
   }]);
 
