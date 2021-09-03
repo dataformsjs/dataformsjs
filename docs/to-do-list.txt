@@ -25,12 +25,14 @@ TODO List
 **) Current Updates (Planned for release in early September 2021)
     - Updates include:
         New: dataformsjs\js\web-components\animation-service.js
+        New: dataformsjs\js\web-components\animation-service.css (NEED to finish)
         New: dataformsjs\js\plugins\animation.js
         Update: dataformsjs\js\react\jsxLoader.js
             New property: sourceMaps
     - website\public\js\page-home-page.js
         Compile new version after update
-    - Update jsxLoader docs and readme
+    - Update jsxLoader docs and readme, also update Unit Tests for the new property
+        Test to see if this works with Preact...
     - Update the following pages to point back to the main CDN
         website\app\Views\index.htm
         website\app\Views\index-hbs.htm

@@ -1,7 +1,9 @@
 /**
  * DataFormsJS Animation Plugin.
  *
- * For usage see [js/web-components/animation-service.js]
+ * For usage see [js/web-components/animation-service.js]. Usage is the same
+ * but <animation-service> is not needed. This plugin dynamically downloads
+ * needed polyfills for IE and older browsers.
  */
 
 /* Validates with both [jshint] and [eslint] */
