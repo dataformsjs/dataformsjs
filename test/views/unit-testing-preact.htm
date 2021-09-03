@@ -60,6 +60,13 @@
             // View content from console if needed:
             jsxLoader.logCompileTime = true;
             jsxLoader.logCompileDetails = false;
+
+            // Uncomment to use Babel Standalone with source maps enabled which
+            // allows for full debugging with Browser DevTools (Chrome, Firefox, Safari).
+            // This will cause two tests to fail.
+            //
+            // jsxLoader.isSupportedBrowser = false;
+            // jsxLoader.sourceMaps = true;
         </script>
 
         <!--

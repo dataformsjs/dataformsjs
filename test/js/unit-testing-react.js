@@ -128,6 +128,10 @@ describe('jsxLoader.js', function() {
             expect(typeof jsxLoader.isSupportedBrowser).to.equal('boolean');
         });
 
+        it('should have jsxLoader.sourceMaps', function() {
+            expect(typeof jsxLoader.logCompileDetails).to.equal('boolean');
+        });
+
         it('should have jsxLoader.needsPolyfill set to a boolean', function() {
             expect(typeof jsxLoader.needsPolyfill).to.equal('boolean');
         });
