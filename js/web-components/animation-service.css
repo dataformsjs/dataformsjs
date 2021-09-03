@@ -1,19 +1,44 @@
 /*
-    This file is part of DataFormsJS and is intended as a working demo and
-    template for the <animation-service> Web Component and [animation] plugin.
+This file is part of DataFormsJS and is intended as a working demo and starting
+template for the <animation-service> Web Component and [animation] plugin.
 
-    <animation-service> and the [animation] plugin use a small amount of
-    JavaScript code while the animations are defined in CSS.
+<animation-service> and the [animation] plugin use a small amount of JavaScript
+code while the animations are defined in CSS.
 
-    TODO - this is a new file and will be used with a new demos for the
-    next release (Sept 3rd 2021) - Next release will happen later today
-    or very soon. Need to finish this file and create demos
-    (both Web Components and Framework).
+This file can be linked directly if you want to use the existing animations
+without change and it provides a good starting point if you would like to
+copy and modify the animations for your site.
+
+How the CSS in this file is defined:
+
+# Animations are defined using keyframes
+    @keyframes scale { from, to }
+
+# The initial value is matched to the [data-attribute] rule
+    [data-animate="{name}"] { ...initial state... }
+
+# JavaScript will set the class name to the rule. Once set the CSS
+# will be triggered running the animation. By default `forwards` is
+# used so the animation only runs once.
+    [data-animate="{name}"].{name} {
+         animation: {name} var(--duration) ease-in-out forwards;
+     }
+
+------------------------------------------------------------------------
+TODO - this is a new file and will be used with a new demos for the
+next release (Sept 3rd 2021) - Next release will happen later today
+or very soon. Need to finish testing this file and create demos
+(both Web Components and Framework).
 */
 
 :root {
     --duration: .6s;
     --delay: .2s;
+}
+
+[data-animate="show"] { opacity: 0; }
+[data-animate="show"].show {
+    animation: show var(--duration) ease-in-out forwards;
 }
 
 [data-animate^="show-with-delay"] { opacity: 0; }
@@ -35,9 +60,19 @@
     to { opacity: 1; }
 }
 
+[data-animate="scale"] { transform: scale(.5); }
+[data-animate="scale"].scale {
+    animation: scale var(--duration) ease-in-out forwards;
+}
+
 @keyframes scale {
     from { transform: scale(.5); }
     to { transform: scale(1); }
+}
+
+[data-animate="show-from-right"] { transform: translateX(100px); }
+[data-animate="show-from-right"].show-from-right {
+    animation: show-from-right var(--duration) ease-in-out forwards;
 }
 
 @keyframes show-from-right {
@@ -45,9 +80,19 @@
     to { opacity: 1; transform: translateX(0); }
 }
 
+[data-animate="show-from-bottom"] { transform: translateY(100px); }
+[data-animate="show-from-bottom"].show-from-bottom {
+    animation: show-from-bottom var(--duration) ease-in-out forwards;
+}
+
 @keyframes show-from-bottom {
     from { opacity: 0; transform: translateY(100px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+[data-animate="show-from-left"] { transform: translateX(100px); }
+[data-animate="show-from-left"].show-from-left {
+    animation: show-from-left var(--duration) ease-in-out forwards;
 }
 
 @keyframes show-from-left {
@@ -55,9 +100,9 @@
     to { opacity: 1; transform: translateX(0); }
 }
 
-[data-animate="move-from-left"] { transform: translateX(-100px); }
-[data-animate="move-from-left"].move-from-left {
-    animation: move-from-left var(--duration) ease-in-out forwards;
+[data-animate="move-from-right"] { transform: translateX(100px); }
+[data-animate="move-from-right"].move-from-right {
+    animation: move-from-right var(--duration) ease-in-out forwards;
 }
 
 @keyframes move-from-right {
@@ -65,9 +110,9 @@
     to { transform: translateX(0); }
 }
 
-[data-animate="move-from-right"] { transform: translateX(100px); }
-[data-animate="move-from-right"].move-from-right {
-    animation: move-from-right var(--duration) ease-in-out forwards;
+[data-animate="move-from-left"] { transform: translateX(-100px); }
+[data-animate="move-from-left"].move-from-left {
+    animation: move-from-left var(--duration) ease-in-out forwards;
 }
 
 @keyframes move-from-left {
