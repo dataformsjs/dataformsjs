@@ -4,7 +4,7 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
-## 5.10.0 (To be published September 2021)
+## 5.10.0 (September 3, 2021)
 
 * **Changes are in master branch and not yet npm**
 * Added new `sourceMaps` property to `jsxLoader`
@@ -15,6 +15,8 @@ Overall the core Framework files and API are expected to remain stable however t
   jsxLoader.isSupportedBrowser = false;
   jsxLoader.sourceMaps = true;
   ```
+  * This is related to issue https://github.com/dataformsjs/dataformsjs/issues/18
+  * **Special Thanks to Yang Zhao for opening this issue** https://github.com/yangzhaox This issue helped improved how debugging works with the JSX Loader
 * Added Animation Plugin and Web Component
   * `js/plugins/animation.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/animation.js
   * `js/web-components/animation-service.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/animation-service.js

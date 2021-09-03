@@ -370,6 +370,12 @@ jsxLoader.jsUpdates.push({
     replace: 'var useState = React.useState;'
 });
 
+// Debug using with DevTools using Babel Standalone configured with source maps.
+// Additionally adding `debugger;` lines to the generated code allows for stepping
+// through the generated code.
+jsxLoader.isSupportedBrowser = false;
+jsxLoader.sourceMaps = true;
+
 // Additional properties and options exist and can be viewed
 // in the source of the [jsxLoader.js] file.
 ```
