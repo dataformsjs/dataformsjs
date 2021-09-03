@@ -23,17 +23,15 @@ How the CSS in this file is defined:
     [data-animate="{name}"].{name} {
          animation: {name} var(--duration) ease-in-out forwards;
      }
-
-------------------------------------------------------------------------
-TODO - this is a new file and will be used with a new demos for the
-next release (Sept 3rd 2021) - Next release will happen later today
-or very soon. Need to finish testing this file and create demos
-(both Web Components and Framework).
 */
 
 :root {
-    --duration: .6s;
-    --delay: .2s;
+    --duration: .5s;
+    --duration-slow: 1.5s;
+    --delay: .5s;
+    --move-right: translateX(100px);
+    --move-left: translateX(-100px);
+    --move-bottom: translateY(200px);
 }
 
 [data-animate="show"] { opacity: 0; }
@@ -45,13 +43,16 @@ or very soon. Need to finish testing this file and create demos
 [data-animate="show-with-delay"].show-with-delay {
     animation: show var(--duration) ease-in-out var(--delay) 1 forwards;
 }
-[data-animate="show-with-delay-2"].show-with-delay {
+[data-animate="show-with-delay-2"].show-with-delay-2 {
+    animation: show var(--duration) ease-in-out 1s 1 forwards; /* This line is for IE */
     animation: show var(--duration) ease-in-out calc(var(--delay) * 2) 1 forwards;
 }
-[data-animate="show-with-delay-3"].show-with-delay {
+[data-animate="show-with-delay-3"].show-with-delay-3 {
+    animation: show var(--duration) ease-in-out 1.5s 1 forwards;
     animation: show var(--duration) ease-in-out calc(var(--delay) * 3) 1 forwards;
 }
-[data-animate="show-with-delay-4"].show-with-delay {
+[data-animate="show-with-delay-4"].show-with-delay-4 {
+    animation: show var(--duration) ease-in-out 2.5s 1 forwards;
     animation: show var(--duration) ease-in-out calc(var(--delay) * 4) 1 forwards;
 }
 
@@ -62,70 +63,40 @@ or very soon. Need to finish testing this file and create demos
 
 [data-animate="scale"] { transform: scale(.5); }
 [data-animate="scale"].scale {
-    animation: scale var(--duration) ease-in-out forwards;
+    animation: scale var(--duration-slow) ease-in-out forwards;
 }
 
 @keyframes scale {
-    from { transform: scale(.5); }
+    from { transform: scale(.2); }
     to { transform: scale(1); }
 }
 
-[data-animate="show-from-right"] { transform: translateX(100px); }
-[data-animate="show-from-right"].show-from-right {
-    animation: show-from-right var(--duration) ease-in-out forwards;
-}
-
-@keyframes show-from-right {
-    from { opacity: 0; transform: translateX(100px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-[data-animate="show-from-bottom"] { transform: translateY(100px); }
-[data-animate="show-from-bottom"].show-from-bottom {
-    animation: show-from-bottom var(--duration) ease-in-out forwards;
-}
-
-@keyframes show-from-bottom {
-    from { opacity: 0; transform: translateY(100px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-[data-animate="show-from-left"] { transform: translateX(100px); }
-[data-animate="show-from-left"].show-from-left {
-    animation: show-from-left var(--duration) ease-in-out forwards;
-}
-
-@keyframes show-from-left {
-    from { opacity: 0; transform: translateX(-100px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-[data-animate="move-from-right"] { transform: translateX(100px); }
+[data-animate="move-from-right"] { transform: var(--move-right); }
 [data-animate="move-from-right"].move-from-right {
     animation: move-from-right var(--duration) ease-in-out forwards;
 }
 
 @keyframes move-from-right {
-    from { transform: translateX(100px); }
+    from { transform: var(--move-right); }
     to { transform: translateX(0); }
 }
 
-[data-animate="move-from-left"] { transform: translateX(-100px); }
+[data-animate="move-from-left"] { transform: var(--move-left); }
 [data-animate="move-from-left"].move-from-left {
     animation: move-from-left var(--duration) ease-in-out forwards;
 }
 
 @keyframes move-from-left {
-    from { transform: translateX(-100px); }
+    from { transform: var(--move-left); }
     to { transform: translateX(0); }
 }
 
-[data-animate="move-from-bottom"] { transform: translateY(50px); }
+[data-animate="move-from-bottom"] { transform: var(--move-bottom); }
 [data-animate="move-from-bottom"].move-from-bottom {
     animation: move-from-bottom var(--duration) ease-in-out forwards;
 }
 
 @keyframes move-from-bottom {
-    from { transform: translateY(50px); }
+    from { transform: var(--move-bottom); }
     to { transform: translateX(0); }
 }

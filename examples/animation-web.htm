@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>DataFormsJS Animation Web Components Demo</title>
+        <link href="css/animation.css" rel="stylesheet" />
+        <link href="../js/web-components/animation-service.css" rel="stylesheet" data-css-vars-ponyfill />
+    </head>
+    <body>
+        <section>
+            <div data-animate="show-with-delay" class="border-blue">
+                <div data-animate="show-with-delay-2" class="border-green">
+                    <div data-animate="show-with-delay-3" class="border-red">
+                        <div data-animate="show-with-delay-4" class="border-yellow">
+                            <h1>DataFormsJS Animation Web Component</h1>
+                            <p>
+                                This page provides a demo of using the DataFormsJS &lt;animation-service&gt; Web Component.
+                                The component allows for animation with the browsers Intersection Observer API.
+                                The component does not provide built-in animations from JavaScript; rather it is
+                                used with CSS defined in the app for animation. The page shows animations from the
+                                [animation-service.css] file that can be used as a starting point for animations
+                                and provides good examples for learning.
+                            </p>
+                            <p>
+                                The Intersection Observer API allows for minimal JavaScript code and 
+                                when used with CSS it allows for high performance and efficient animations.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div data-animate="scale" class="large">
+                <h2>Scale Demo</h2>
+            </div>
+        </section>
+
+        <section>
+            <div data-animate="move-from-left"><h2>Move from Left</h2></div>
+            <div data-animate="move-from-bottom"><h2>Move from Bottom</h2></div>
+            <div data-animate="move-from-right"><h2>Move from Right</h2></div>
+        </section>
+
+        <animation-service></animation-service>
+        <script type="module" src="../js/web-components/animation-service.min.js"></script>
+        <script nomodule src="../js/web-components/polyfill.min.js"></script>
+    </body>
+</html>
