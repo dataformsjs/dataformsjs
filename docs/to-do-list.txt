@@ -30,6 +30,8 @@ TODO List
         website\app\Views\index.htm
         website\app\Views\index-hbs.htm
         website\app\Views\index-web.htm
+    - Update the new Animation Demos to use latest CDN version once ready
+    - Update the main server with latest updates
 
 **) Update the Getting Started CSS Template used here:
         https://www.dataformsjs.com/en/getting-started
