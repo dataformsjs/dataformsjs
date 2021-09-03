@@ -8,8 +8,8 @@ Overall the core Framework files and API are expected to remain stable however t
 
 * **Changes are in master branch and not yet npm**
 * Added new `sourceMaps` property to `jsxLoader`
-  * This allows for easier debugging from Browser DevTools
-  * Requires `isSupportedBrowser` set to `false` so that Babel Standalone is used as the compiler
+  * This allows for easier debugging from Browser DevTools. This has been tested and confirmed to work with recent versions of Chrome/Edge, Firefox, and Safari.
+  * Requires `isSupportedBrowser` set to `false` so that Babel Standalone is used as the compiler.
   * Example usage:
   ```js
   jsxLoader.isSupportedBrowser = false;
