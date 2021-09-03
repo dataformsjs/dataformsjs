@@ -136,6 +136,12 @@
         logCompileDetails: false,
 
         /**
+         * Allow for debugging with Babel Standalone. To use this
+         * also set `jsxLoader.isSupportedBrowser` to `false`.
+         */
+        sourceMaps: false,
+
+        /**
          * Code here is evaluated when the [DOMContentLoaded()] event is triggered on
          * page load. If the code does not error then the internal compiler will be
          * used to convert JSX to JS, however if there is an error then Polyfills
@@ -306,6 +312,21 @@
                     console.log('='.repeat(80));
                     console.log(element.src);
                     console.log('Start time: ' + startTime.getTime());
+                }
+
+                // If using sourceMaps then set babel options to allow debugging
+                if (jsxLoader.sourceMaps) {
+                    if (jsxLoader.babelOptions.sourceMaps === undefined) {
+                        jsxLoader.babelOptions.sourceMaps = 'both';
+                        jsxLoader.babelOptions.generatorOpts = { sourceMaps: 'both' };
+                    }
+                    var file = src;
+                    if (file === undefined) {
+                        var selector = 'script[data-compiler="Babel"]:not([data-src])';
+                        var inlineCount = document.querySelectorAll(selector).length;
+                        file = 'Inline Babel script' + (inlineCount === 0 ? '' : ' (' + (inlineCount+1) + ')');
+                    }
+                    jsxLoader.babelOptions.filename = file;
                 }
 
                 // Compile the React/JSX Code to JavaScript
