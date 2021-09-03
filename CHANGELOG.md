@@ -6,7 +6,6 @@ Overall the core Framework files and API are expected to remain stable however t
 
 ## 5.10.0 (September 3, 2021)
 
-* **Changes are in master branch and not yet npm**
 * Added new `sourceMaps` property to `jsxLoader`
   * This allows for easier debugging from Browser DevTools. This has been tested and confirmed to work with recent versions of Chrome/Edge, Firefox, and Safari.
   * Requires `isSupportedBrowser` set to `false` so that Babel Standalone is used as the compiler.
