@@ -318,6 +318,7 @@
                 { selector: '[data-export-csv-selector]', plugin: 'exportToCsv' },
                 { selector: 'highlighter-service', plugin: 'highlighter' },
                 { selector: 'filter-service', plugin: 'filter' },
+                { selector: 'animation-service', plugin: 'animation' },
             ];
             search.forEach(function(item) {
                 var element = document.querySelector(item.selector);

@@ -22,6 +22,17 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+**) Current Updates (Planned for release in early September 2021)
+    - Updates include:
+        New: dataformsjs\js\web-components\animation-service.js
+        New: dataformsjs\js\plugins\animation.js
+    - website\public\js\page-home-page.js
+        Compile new version after update
+    - Update the following pages to point back to the main CDN
+        website\app\Views\index.htm
+        website\app\Views\index-hbs.htm
+        website\app\Views\index-web.htm
+
 **) Update the Getting Started CSS Template used here:
         https://www.dataformsjs.com/en/getting-started
     So that it looks similar to the places demo and can be used for apps as decent starting template
