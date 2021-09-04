@@ -12,6 +12,9 @@
  * Define this Web Component on the page
  *     <animation-service></animation-service>
  *
+ * Or optionally include a specific intersection ratio
+ *     <animation-service intersection-ratio="0.3"></animation-service>
+ *
  * Use [data-animate] on elements in the page
  *     <div data-animate="show-and-scale">...</div>
  *
@@ -54,6 +57,7 @@ import { WebComponentService } from './WebComponentService.js';
  */
 window.customElements.define('animation-service', class AnimationService extends WebComponentService {
     onLoad() {
+        // Find elements to animate that have not yet been animated
         let elements = document.querySelectorAll('[data-animate]');
         elements = Array.from(elements).filter(el => {
             return !el.classList.contains(el.getAttribute('data-animate'));
@@ -62,9 +66,22 @@ window.customElements.define('animation-service', class AnimationService extends
             return;
         }
 
+        // Get optional [intersection-ratio] attribute (value is a float, example: "0.3")
+        let intersectionRatio = this.getAttribute('intersection-ratio');
+        if (intersectionRatio !== null) {
+            intersectionRatio = parseFloat(intersectionRatio);
+            if (isNaN(intersectionRatio)) {
+                intersectionRatio = null;
+            }
+        }
+
+        // Use Intersection Observer to monitor when elements come into view
         const animationObserver = new IntersectionObserver((entries, observer) => {
             for (const entry of entries) {
                 if (entry.isIntersecting) {
+                    if (intersectionRatio !== null && entry.intersectionRatio < intersectionRatio) {
+                        return;
+                    }
                     const className = entry.target.getAttribute('data-animate');
                     entry.target.classList.add(className);
                     observer.unobserve(entry.target);

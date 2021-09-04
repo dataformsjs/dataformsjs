@@ -168,6 +168,16 @@
                 app.plugins.navLinks.activeClass = activeClass;
             }
         },
+        animation: function() {
+            var animationService = document.querySelector('animation-service');
+            if (!animationService) {
+                return;
+            }
+            var intersectionRatio = animationService.getAttribute('intersection-ratio');
+            if (intersectionRatio && !isNaN(parseFloat(intersectionRatio))) {
+                app.plugins.animation.intersectionRatio = parseFloat(intersectionRatio);
+            }
+        },
     };
 
     /**
@@ -318,7 +328,7 @@
                 { selector: '[data-export-csv-selector]', plugin: 'exportToCsv' },
                 { selector: 'highlighter-service', plugin: 'highlighter' },
                 { selector: 'filter-service', plugin: 'filter' },
-                { selector: 'animation-service', plugin: 'animation' },
+                { selector: 'animation-service', plugin: 'animation', after: updateElements.animation }, 
             ];
             search.forEach(function(item) {
                 var element = document.querySelector(item.selector);

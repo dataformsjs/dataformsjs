@@ -18,31 +18,42 @@
 (function () {
     'use strict';
 
-    app.addPlugin('animation', function (rootElement) {
-        rootElement = (rootElement === undefined ? document : rootElement);
-        var elements = rootElement.querySelectorAll('[data-animate]');
-        elements = Array.from(elements).filter(function(el) {
-            return !el.classList.contains(el.getAttribute('data-animate'));
-        });
-        if (elements.length === 0) {
-            return;
-        }
+    var animation = {
+        // Optional Float (example: 0.3)
+        intersectionRatio: null,
 
-        var hasObserver = (window.IntersectionObserver !== undefined);
-        var url = 'https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver';
-        app.loadScript(hasObserver, url, function() {
-            var animationObserver = new IntersectionObserver(function(entries, observer) {
-                entries.forEach(function(entry) {
-                    if (entry.isIntersecting) {
-                        var className = entry.target.getAttribute('data-animate');
-                        entry.target.classList.add(className);
-                        observer.unobserve(entry.target);
-                    }
+        onRendered: function (rootElement) {
+            rootElement = (rootElement === undefined ? document : rootElement);
+            var elements = rootElement.querySelectorAll('[data-animate]');
+            elements = Array.from(elements).filter(function(el) {
+                return !el.classList.contains(el.getAttribute('data-animate'));
+            });
+            if (elements.length === 0) {
+                return;
+            }
+
+            var hasObserver = (window.IntersectionObserver !== undefined);
+            var url = 'https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver';
+            app.loadScript(hasObserver, url, function() {
+                var animationObserver = new IntersectionObserver(function(entries, observer) {
+                    var intersectionRatio = app.plugins.animation.intersectionRatio;
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            if (intersectionRatio !== null && entry.intersectionRatio < intersectionRatio) {
+                                return;
+                            }
+                            var className = entry.target.getAttribute('data-animate');
+                            entry.target.classList.add(className);
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                });
+                Array.prototype.forEach.call(elements, function(element) {
+                    animationObserver.observe(element);
                 });
             });
-            Array.prototype.forEach.call(elements, function(element) {
-                animationObserver.observe(element);
-            });
-        });
-    });
+        },
+    };
+
+    app.addPlugin('animation', animation);
 })();
