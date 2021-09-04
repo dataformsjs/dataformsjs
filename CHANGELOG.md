@@ -33,6 +33,9 @@ Overall the core Framework files and API are expected to remain stable however t
   * `js/plugins/animation.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/animation.js
   * `js/web-components/animation-service.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/animation-service.js
   * `js/web-components/animation-service.css` https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/animation-service.css
+  * Demos:
+    * https://dataformsjs.com/examples/animation-web.htm
+    * https://dataformsjs.com/examples/animation-js.htm
 
 ## 5.9.1 (August 6, 2021)
 

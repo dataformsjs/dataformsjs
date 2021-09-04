@@ -22,19 +22,10 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Current Updates related to release 5.10.0 (These updates are planned for early September 2021)
-    - Likely there will be a `5.10.1` release for optional new attributes/properties:
-        <animation-service intersection-ratio="0.3"></animation-service>
-        app.plugins.animation.intersectionRatio = 0.3
+**) Current Updates related to release 5.10.0 and 5.10.1 (These updates are planned for early September 2021)
     - Update jsxLoader docs on how to use the new debugging property
         A brief comment was added for `jsxLoader.sourceMaps` in the English doc however it needs
         it's own section with screenshots and more details. Update all Translations as well.
-    - Update the following pages to point back to the main CDN (once changes take effect)
-        website\app\Views\index.htm
-        website\app\Views\index-hbs.htm
-        website\app\Views\index-web.htm
-    - Update the new Animation Demos to use latest CDN version once ready
-    - Update the main server with latest updates
 
 **) Update the Getting Started CSS Template used here:
         https://www.dataformsjs.com/en/getting-started
