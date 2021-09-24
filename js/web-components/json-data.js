@@ -135,7 +135,7 @@ class JsonData extends HTMLElement {
         switch (attr) {
             case 'url':
             case 'url-params':
-                if (oldVal !== null) {
+                if (oldVal !== null && !this.manualFetchMode) {
                     this.fetch();
                 }
                 break;
@@ -170,7 +170,9 @@ class JsonData extends HTMLElement {
         // element on the page this prevents the web service from being called
         // multiple times.
         if (this.state !== undefined && !this.state.isLoading && !this.state.hasError && !this.state.isLoaded) {
-            this.fetch();
+            if (!this.manualFetchMode) {
+                this.fetch();
+            }
         }
     }
 
@@ -232,8 +234,32 @@ class JsonData extends HTMLElement {
         return (this.getAttribute('load-only-once') !== null);
     }
 
+    set loadOnlyOnce(newValue) {
+        if (newValue === false) {
+            this.setAttribute('load-only-once', '');
+        } else {
+            this.removeAttribute('load-only-once');
+        }
+    }
+
     get clickSelector() {
         return this.getAttribute('click-selector');
+    }
+
+    set clickSelector(newValue) {
+        this.setAttribute('click-selector', newValue);
+    }
+
+    get manualFetchMode() {
+        return (this.getAttribute('manual-fetch-mode') !== null);
+    }
+
+    set manualFetchMode(newValue) {
+        if (newValue === false) {
+            this.setAttribute('manual-fetch-mode', '');            
+        } else {
+            this.removeAttribute('manual-fetch-mode');
+        }
     }
 
     get isLoading() {
