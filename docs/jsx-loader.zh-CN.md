@@ -31,7 +31,7 @@
 
 `jsxLoader.js`脚本的创建是为了提供一种快速在web页面和web应用程序中加入React和JSX的方法,而无需构建过程，CLI工具或大型依赖,只需在网页或站点中使用React和JSX,并加入所需的CDN或JavaScript文件.
 
-CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，但是他们并不适用于所有的站点,网页以及开发工作流程.`Babel Standalone`非常庞大,每个页面上都包含-gzip压缩后为320 kB和1.5 MB JavaScipt文件供浏览器处理.使用基于浏览器的JSX选项,您可以**轻松地在任何页面中使用React组件**而无需使用React或JSX构建整个网站.
+CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，但是他们并不适用于所有的站点,网页以及开发工作流程.`Babel Standalone`非常庞大,每个页面上都包含-gzip压缩后为320 kB和1.5 MB JavaScript文件供浏览器处理.使用基于浏览器的JSX选项,您可以**轻松地在任何页面中使用React组件**而无需使用React或JSX构建整个网站.
 
 对于大多数网站来说,旧的浏览器通常只占不到5%的用户,主要是IE和旧的IOS以及Safari.一般来说,如果有人在IE上浏览网页,他们习惯了缓慢的网页,如果有人在旧的iPhone或iPad上浏览,他们会遇到很多损坏的网站.所以，简单的有个运行的网站是不错的,即使它的速度很慢.这个脚本提供了一个很好的折中方案，对于使用新浏览器的用户来说，速度很快，并仍然能在旧的浏览器上工作.
 
@@ -99,6 +99,17 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
         document.getElementById('root')
     );
 
+</script>
+
+<!--
+    If a script uses `import` or requires other features on available with
+    JavaScript Modules you can specify [data-type="module"] so that the compiled
+    script will be added to the page as <script type="module">.
+
+    [data-type="module"] is also supported by Babel Standalone.
+-->
+<script type="text/babel" data-type="module">
+    import { object } from 'library'
 </script>
 ```
 
@@ -345,6 +356,40 @@ In general using `<LazyLoad>` is recommended when all JSX is linked from multipl
     }
 </script>
 ```
+
+## Debugging 🐛
+
+Since jsxLoader is browser based debugging is handled with your Browser's built-in DevTools. Two methods are recommended.
+
+### Debug the Compiled Code
+
+Add a `debugger;` line in the code. If DevTools is open, then it will stop on the code just like if a breakpoint were manually set and if DevTools is now open then there will be no effect.
+
+This will allow you to debug the compiled JavaScript rather than the original JSX Code.
+
+```js
+if (condition) {
+    debugger;
+}
+```
+
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/docs/jsx-debug-1-debugger.png" alt="Debug using debugger statement">
+
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/docs/jsx-debug-2-devtools.png" alt="Debug jsxLoader with DevTools">
+
+
+### Debug JSX
+
+You can debug the JSX directly in DevTools by forcing jsxLoader to use Babel Standalone configured with source maps.
+
+IMPORTANT - if using this option make sure to comment out or remove the settings after, otherwise your page would be downloading full Babel Standalone in production.
+
+```js
+jsxLoader.isSupportedBrowser = false;
+jsxLoader.sourceMaps = true;
+```
+
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/docs/jsx-debug-3-sourcemaps.png" alt="Debug with Babel Standalone">
 
 ## 高级用法和内部机制 🔬
 

@@ -31,7 +31,7 @@ A single JavaScript file `jsxLoader.js` that compiles / [transpiles](https://en.
 
 The `jsxLoader.js` script was created to provide a fast method for including React with JSX on web pages and web apps with no build process, CLI tools, or large dependencies needed; simply use React with JSX in a webpage or site and include the needed CDN or JavaScript files.
 
-CLI Development tools such as `webpack`, `babel`, and `create-react-app` are great but they do not make sense for all sites, web pages, and development workflows; and `Babel Standalone` is huge to include on each page - 320 kB when gzipped and 1.5 MB of JavaScipt for the Browser to process. With a browser based options for JSX you can **easily include React Components on any page** without having to build the entire site using React or JSX.
+CLI Development tools such as `webpack`, `babel`, and `create-react-app` are great but they do not make sense for all sites, web pages, and development workflows; and `Babel Standalone` is huge to include on each page - 320 kB when gzipped and 1.5 MB of JavaScript for the Browser to process. With a browser based options for JSX you can **easily include React Components on any page** without having to build the entire site using React or JSX.
 
 Old Browsers typically account for less than 5 % of users for most sites - mostly IE and old iOS/Safari. Generally if someone is browsing from IE they are used to slow pages and if someone is browsing from an old iPhone or iPad they end up with many broken sites so simply having a site working is good even if it's slow. This script provides a good trade-off - fast for most users with modern browsers and it still works on old browsers.
 
@@ -99,6 +99,17 @@ The `jsxLoader.js` script is very small to download (6.2 kB - min and gzip) and 
         document.getElementById('root')
     );
 
+</script>
+
+<!--
+    If a script uses `import` or requires other features on available with
+    JavaScript Modules you can specify [data-type="module"] so that the compiled
+    script will be added to the page as <script type="module">.
+
+    [data-type="module"] is also supported by Babel Standalone.
+-->
+<script type="text/babel" data-type="module">
+    import { object } from 'library'
 </script>
 ```
 
@@ -346,9 +357,43 @@ In general using `<LazyLoad>` is recommended when all JSX is linked from multipl
 </script>
 ```
 
+## Debugging 🐛
+
+Since jsxLoader is browser based debugging is handled with your Browser's built-in DevTools. Two methods are recommended.
+
+### Debug the Compiled Code
+
+Add a `debugger;` line in the code. If DevTools is open, then it will stop on the code just like if a breakpoint were manually set and if DevTools is now open then there will be no effect.
+
+This will allow you to debug the compiled JavaScript rather than the original JSX Code.
+
+```js
+if (condition) {
+    debugger;
+}
+```
+
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/docs/jsx-debug-1-debugger.png" alt="Debug using debugger statement">
+
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/docs/jsx-debug-2-devtools.png" alt="Debug jsxLoader with DevTools">
+
+
+### Debug JSX
+
+You can debug the JSX directly in DevTools by forcing jsxLoader to use Babel Standalone configured with source maps.
+
+IMPORTANT - if using this option make sure to comment out or remove the settings after, otherwise your page would be downloading full Babel Standalone in production.
+
+```js
+jsxLoader.isSupportedBrowser = false;
+jsxLoader.sourceMaps = true;
+```
+
+<img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/docs/jsx-debug-3-sourcemaps.png" alt="Debug with Babel Standalone">
+
 ## Advanced Usage and Internals 🔬
 
-You can [view the code here](https://github.com/dataformsjs/dataformsjs/blob/master/js/react/jsxLoader.js)! All code is in a single file and includes many helpfull comments to allow for understanding of how it works.
+You can [view the code here](https://github.com/dataformsjs/dataformsjs/blob/master/js/react/jsxLoader.js)! All code is in a single file and includes many helpful comments to allow for understanding of how it works.
 
 The jsxLoader script provides a number of properties and functions that can be used to customize how it runs. Below are the most common uses.
 
@@ -369,12 +414,6 @@ jsxLoader.jsUpdates.push({
     find: /import { useState } from 'react';/g,
     replace: 'var useState = React.useState;'
 });
-
-// Debug using with DevTools using Babel Standalone configured with source maps.
-// Additionally adding `debugger;` lines to the generated code allows for stepping
-// through the generated code.
-jsxLoader.isSupportedBrowser = false;
-jsxLoader.sourceMaps = true;
 
 // Additional properties and options exist and can be viewed
 // in the source of the [jsxLoader.js] file.
