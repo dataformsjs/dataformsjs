@@ -234,32 +234,12 @@ class JsonData extends HTMLElement {
         return (this.getAttribute('load-only-once') !== null);
     }
 
-    set loadOnlyOnce(newValue) {
-        if (newValue === false) {
-            this.setAttribute('load-only-once', '');
-        } else {
-            this.removeAttribute('load-only-once');
-        }
-    }
-
     get clickSelector() {
         return this.getAttribute('click-selector');
     }
 
-    set clickSelector(newValue) {
-        this.setAttribute('click-selector', newValue);
-    }
-
     get manualFetchMode() {
         return (this.getAttribute('manual-fetch-mode') !== null);
-    }
-
-    set manualFetchMode(newValue) {
-        if (newValue === false) {
-            this.setAttribute('manual-fetch-mode', '');            
-        } else {
-            this.removeAttribute('manual-fetch-mode');
-        }
     }
 
     get isLoading() {

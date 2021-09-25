@@ -22,12 +22,14 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Finish testing and publish updates for <json-data>[manual-fetch-mode]
-
-**) Current Updates related to release 5.10.0 and 5.10.1 (These updates are planned for early September 2021)
-    - Update jsxLoader docs on how to use the new debugging property
-        A brief comment was added for `jsxLoader.sourceMaps` in the English doc however it needs
-        it's own section with screenshots and more details. Update all Translations as well.
+**) Check and update Screenshots on jsxLoader docs for the new debugging topic (September 25, 2021)
+    https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
+    Screenshots are here:
+        https://github.com/dataformsjs/static-files/tree/master/img/docs
+    They were generated on Mac Retina and resolution was large.
+    Check multiple monitors to see how they look, first image has already be resized but
+    it might look better as a new image from Windows.
+    https://macissues.com/2014/03/29/adjust-retina-macbook-screenshots-to-be-actual-size/
 
 **) Update the Getting Started CSS Template used here:
         https://www.dataformsjs.com/en/getting-started

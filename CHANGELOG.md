@@ -4,6 +4,17 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 5.10.2 (September 25, 2021)
+
+* Updated `<json-data>` Web Component
+  * Added HTML Attribute `manual-fetch-mode`, that if defined on an element prevents the web service from running when the page first loads. This allows for scenarios where one user may need to see the data and another user may not based on permissions. When this attribute is defined the `fetch()` method can be used to download the data.
+  ```html
+  <json-data url="..." manual-fetch-mode>
+  ```
+  ```js
+  document.querySelector('json-data[manual-fetch-mode]').fetch()
+  ```
+
 ## 5.10.1 (September 3, 2021)
 
 * Updated the new Animation Service and Plugin to include an optional property for specifying `intersectionRatio`

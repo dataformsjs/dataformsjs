@@ -18,11 +18,15 @@ How the CSS in this file is defined:
     [data-animate="{name}"] { ...initial state... }
 
 # JavaScript will set the class name to the rule. Once set the CSS
-# will be triggered running the animation. By default `forwards` is
-# used so the animation only runs once.
+# will be triggered running the animation. In this file `forwards`
+# is used so the animation only runs once.
     [data-animate="{name}"].{name} {
          animation: {name} var(--duration) ease-in-out forwards;
      }
+
+# Examples:
+    https://dataformsjs.com/examples/animation-web.htm
+    https://dataformsjs.com/examples/animation-js.htm
 */
 
 :root {
