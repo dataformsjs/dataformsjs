@@ -22,14 +22,9 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Check and update Screenshots on jsxLoader docs for the new debugging topic (September 25, 2021)
-    https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md
-    Screenshots are here:
-        https://github.com/dataformsjs/static-files/tree/master/img/docs
-    They were generated on Mac Retina and resolution was large.
-    Check multiple monitors to see how they look, first image has already be resized but
-    it might look better as a new image from Windows.
-    https://macissues.com/2014/03/29/adjust-retina-macbook-screenshots-to-be-actual-size/
+**) Most recent npm publish accidentally included several Mac [.DS_Store] files.
+    They should be excluded on future releases or a script needs to first delete them
+    prior to npm submit.
 
 **) Update the Getting Started CSS Template used here:
         https://www.dataformsjs.com/en/getting-started
