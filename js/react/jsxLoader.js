@@ -104,6 +104,9 @@
 
         /**
          * Babel URL and options used for older browsers.
+         * The version of Babel Standalone used (published Dec 23, 2020) is the most
+         * recent build that works with IE 11 and older versions of Safari. Versions
+         * published after this have fatal errors and do not load on older browsers.
          */
         babelUrl: 'https://unpkg.com/@babel/standalone@7.12.12/babel.js',
         babelOptions: {
