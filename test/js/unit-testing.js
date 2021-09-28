@@ -6,7 +6,7 @@
  * Unit Testing runs in the Browser using QUnit.
  * See instructions in [../server.js].
  *
- * NOTE - Vue was added several years after this file was creatd
+ * NOTE - Vue was added several years after this file was created
  * and because the behavior of Vue is different from Templating (Handlebars, etc)
  * many tests and checks have to be skipped for Vue. Because many tests
  * are skipped it's important that demos be manually tested when
