@@ -565,6 +565,15 @@ describe('jsxLoader.js', function() {
             var length = document.querySelectorAll('hr').length;
             expect(length).to.equal(3);
         });
+
+        it('should support issue 19', function() {
+            // Using `innerText` over `textContent` so that this tests runs using IE
+            var el = document.getElementById('issue-19');
+            var text = el.innerText.split('\n');
+            text = text.map(function(item) { return item.trim(); });
+            text = text.filter(function(item) { return item !== ''; });
+            expect(text).to.deep.equal(['hello', 'zzzz']);
+        });
     });
 
     // NOTE - this section covers the compiler but in general all compiler logic should be handled by

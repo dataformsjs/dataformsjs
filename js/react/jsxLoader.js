@@ -1262,7 +1262,7 @@
                     return null;
                 }
 
-                function walk(stackCount) {
+                function walk(stackCount, startingToken) {
                     callCount++;
                     if (callCount > maxRecursiveCalls) {
                         throw new Error('Call count exceeded in parser. If you have a large JSX file that is valid you can increase them limit using the property `jsxLoader.compiler.maxRecursiveCalls`.');
@@ -1318,6 +1318,9 @@
                                             break;
                                         case tokenTypes.e_start:
                                             prop.value = walk(stackCount + 1);
+                                            break;
+                                        case tokenTypes.e_child_js_start:
+                                            prop.value = walk(stackCount + 1, tokenTypes.e_child_js_start);
                                             break;
                                     }
                                     if (prop.name.trim() !== '') {
@@ -1390,8 +1393,24 @@
                                 break;
                             }
                         }
-
                         return node;
+                    }  else if (token.type === tokenTypes.e_child_js_start && token.type === startingToken) {
+                        var nodes = [token];
+                        while (current < tokenCount) {
+                            token = tokens[current];
+                            current++;
+                            switch (token.type) {
+                                case tokenTypes.e_start:
+                                    current--;
+                                    nodes.push(walk(stackCount + 1));
+                                    break;
+                                case tokenTypes.e_child_js_end:
+                                    nodes.push(token);
+                                    return nodes;
+                                default:
+                                    throw new Error('Found unexpected token type in JS child prop: [' + token.type + '], Token #: ' + token.index + jsxLoader.compiler.getTextPosition(input, token.pos));
+                            }
+                        }
                     }
 
                     throw new Error('Tokens are out of order 2: [' + token.type + '], Token #: ' + token.index + jsxLoader.compiler.getTextPosition(input, token.pos));
@@ -1457,6 +1476,8 @@
                             }
                             return generatedJs;
                         case astTypes.js:
+                        case tokenTypes.e_child_js_start:
+                        case tokenTypes.e_child_js_end:
                             return node.value;
                         case astTypes.createElement:
                             // Start of Element
@@ -1481,7 +1502,15 @@
                                     if (propValue === null) {
                                         propValue = 'true';
                                     } else if (typeof propValue !== 'string') {
-                                        propValue = generateCode(propValue, true);
+                                        if (Array.isArray(propValue) && propValue.length > 0 && propValue[0].type === tokenTypes.e_child_js_start) {
+                                            var value2 = '';
+                                            while (propValue.length > 0) {
+                                                value2 += generateCode(propValue.shift(), true);
+                                            }
+                                            propValue = value2;
+                                        } else {
+                                            propValue = generateCode(propValue, true);
+                                        }
                                     }
                                     propName = node.props[n].name.trim();
                                     if (propName.indexOf('-') !== -1) {

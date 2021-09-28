@@ -169,6 +169,21 @@ function ShowLinks() {
             </ul>;
 }
 
+// https://github.com/dataformsjs/dataformsjs/issues/19
+const Issue19_Ob = (props) => {
+    return <div>{props.r()}</div>
+}
+
+const Issue19_App = () => {
+    return <div id="issue-19">
+        hello
+        <Issue19_Ob r={() => {
+            return <h1>zzzz</h1>
+        }}/>
+    </div>
+}
+  
+
 class UnitTestPage extends React.Component {
     render() {
         const users = [
@@ -305,6 +320,8 @@ class UnitTestPage extends React.Component {
 
                 <Greeting {...user} />
                 <DisplayProps id="display-prop-1" message="Hello World"></DisplayProps>
+
+                <Issue19_App />
             </React.Fragment>
         );
     }
