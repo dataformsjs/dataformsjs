@@ -7,7 +7,7 @@
 
 **¡Gracias por su visita!** 🌠👍
 
-DataFormsJS es un nuevo marco de JavaScript y componentes independientes de reacción y web. DataFormsJS es de tamaño pequeño, fácil de aprender, diseñado para un desarrollo rápido y para ofrecer una gran experiencia tanto para desarrolladores como para usuarios finales. Aunque es nuevo (publicado por primera vez en noviembre de 2019) DataFormsJS fue escrito y utilizado durante muchos años y es extremadamente estable y contiene una gran cantidad de pruebas unitarias.
+DataFormsJS es un nuevo marco de JavaScript y componentes independientes de reacción y web. A tiny browser-based [JSX Compiler](https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md) is also included as part of this Framework. DataFormsJS es de tamaño pequeño, fácil de aprender, diseñado para un desarrollo rápido y para ofrecer una gran experiencia tanto para desarrolladores como para usuarios finales. Aunque es nuevo (publicado por primera vez en noviembre de 2019) DataFormsJS fue escrito y utilizado durante muchos años y es extremadamente estable y contiene una gran cantidad de pruebas unitarias.
 
 Este repositorio contiene el Marco de DataFormsJS, Páginas de ejemplo y Pruebas unitarias. El sitio web principal existe en otro repositorio.
 

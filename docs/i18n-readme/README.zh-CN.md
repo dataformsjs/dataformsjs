@@ -6,7 +6,7 @@
 
 **非常感谢您的访问!** 🌠👍
 
-DataFormsJS是一个新的JavaScript框架独立于React和Web组件。DataFormsJS体积小，易于学习，设计用于快速开发，并为开发人员和最终用户带来极好的体验。虽然它是新的(2019年11月首次发布)，但DataFormsJS经过多年的编写和使用，非常稳定，包含了大量的单元测试。
+DataFormsJS是一个新的JavaScript框架独立于React和Web组件。A tiny browser-based [JSX Compiler](https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.zh-CN.md) is also included as part of this Framework. DataFormsJS体积小，易于学习，设计用于快速开发，并为开发人员和最终用户带来极好的体验。虽然它是新的(2019年11月首次发布)，但DataFormsJS经过多年的编写和使用，非常稳定，包含了大量的单元测试。
 
 该项目包含DataFormsJS的框架、示例页面和单元测试。主网站代码位于 dataformsjs/websie。
 
