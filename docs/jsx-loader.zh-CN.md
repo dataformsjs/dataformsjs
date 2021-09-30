@@ -63,7 +63,7 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
 
 此外,对React来说,它也可以工作,并已通过React的代替库Preact进行了测试.
 
-`jsxLoader.js`脚本的下载量很小(6.2 kB - min and gzip),并且编译速度非常快(每个JSX脚本通常以毫秒为单位).
+`jsxLoader.js`脚本的下载量很小(6.9 kB - min and gzip),并且编译速度非常快(每个JSX脚本通常以毫秒为单位).
 
 ## 如何使用? 🌟
 
