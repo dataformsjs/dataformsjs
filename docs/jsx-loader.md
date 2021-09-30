@@ -365,7 +365,7 @@ Since jsxLoader is browser based debugging is handled with your Browser's built-
 
 Add a `debugger;` line in the code. If DevTools is open, then it will stop on the code just like if a breakpoint were manually set and if DevTools is now open then there will be no effect.
 
-This will allow you to debug the compiled JavaScript rather than the original JSX Code.
+This will allow you to debug the compiled JavaScript rather than the original JSX Code. When using this method the code will appear in a JavaScript Virtual Machine "VM" file and you will likely not be able to select it from the file list.
 
 ```js
 if (condition) {
@@ -380,7 +380,7 @@ if (condition) {
 
 ### Debug JSX
 
-You can debug the JSX directly in DevTools by forcing jsxLoader to use Babel Standalone configured with source maps.
+You can debug the JSX directly in DevTools by forcing jsxLoader to use Babel Standalone configured with source maps. Because source maps are used the file name will appear in DevTools.
 
 IMPORTANT - if using this option make sure to comment out or remove the settings after, otherwise your page would be downloading full Babel Standalone in production.
 
