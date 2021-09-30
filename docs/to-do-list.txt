@@ -22,9 +22,6 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Most recent npm publish accidentally included several Mac [.DS_Store] files.
-    They should be excluded on future releases or a script needs to first delete them
-    prior to npm submit.
 
 **) Update the Getting Started CSS Template used here:
         https://www.dataformsjs.com/en/getting-started

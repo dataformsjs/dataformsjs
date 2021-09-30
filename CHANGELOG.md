@@ -4,6 +4,13 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 5.10.4 (September 30, 2021)
+
+* No code changes however two `.DS_Store` where accidentally published to npm so this release excludes them
+  * These are Mac system files created automatically by finder when viewing a folder
+  * They are excluded from Github using rules from `.gitignore`, however npm published them
+  * In general these files cause no issues but they are binary files so malicious authors can use them for attacks which is why they do not belong in npm or git
+
 ## 5.10.3 (September 27, 2021)
 
 * Updated jsxLoader to support functions that return JSX elements inside of props.
