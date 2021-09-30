@@ -385,11 +385,11 @@ The author of DataFormsJS had a number of busy jobs at the time and was also wor
 
 _All sizes are based on minified scripts and gzip compression from the web server._
 
-* **DataFormsJS Framework – 10.8 kB** (149 kB full version uncompressed)
+* **DataFormsJS Framework – 12.2 kB** (151 kB full version uncompressed)
 * Additional files (controllers, plugins, etc) are typically only 1-3 kB each.
 * In general when using the Framework expect about 15 kB for the intial page load, and then several kB for additional pages that load extra plugins, pages, controllers, etc.
 
-* **React JSX Loader – 6.9 kB** (86 kB full version uncompressed)
+* **React JSX Loader – 6.9 kB** (89 kB full version uncompressed)
 * **React (All Components in JavaScript) – 5.7 kB**
 * Individual React Components are between 3 and 12 KB when uncompressed and including comments.
 * Web Components are typically around 1 to 3 KB each, typically you will use a number of components so in the example apps this adds up to about 15 kB for each app.
