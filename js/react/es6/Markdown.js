@@ -320,7 +320,11 @@ export default class Markdown extends React.Component {
             marked.setOptions({
                 highlight: this.highlight
             });
-            html = marked(content);
+            if (marked.marked && marked.marked.parse) {
+                html = marked.marked.parse(content); // 4.#
+            } else {
+                html = marked(content); // 3.#
+            }
         } else if (this.props.markdownit || window.markdownit) {
             const markdownit = this.props.markdownit || window.markdownit;
             md = markdownit({

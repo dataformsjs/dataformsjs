@@ -4,6 +4,17 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 5.10.5 (November 12, 2021)
+
+* Updates for DataFormsJS Markdown Components
+  * All 3 versions updated:
+    * Web Component `<markdown-content>`
+    * Framework Control `<markdown-content>`
+    * React Component `<Markdown>`
+  * Add support for marked version `4.#` which was released earlier this month. Previously version 3 was supported.
+  * Both versions 3 and 4 are now supported.
+
+
 ## 5.10.4 (September 30, 2021)
 
 * No code changes however two `.DS_Store` where accidentally published to npm so this release excludes them

@@ -321,7 +321,11 @@ class MarkdownContent extends HTMLElement {
             marked.setOptions({
                 highlight: highlight
             });
-            html = marked(this.content);
+            if (marked.marked && marked.marked.parse) {
+                html = marked.marked.parse(this.content); // 4.#
+            } else {
+                html = marked(this.content); // 3.#
+            }
         } else if (window.markdownit) {
             md = markdownit({
                 html: true,
