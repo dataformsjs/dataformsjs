@@ -265,7 +265,12 @@ var Markdown = function (_React$Component) {
         marked.setOptions({
           highlight: this.highlight
         });
-        html = marked(content);
+
+        if (marked.marked && marked.marked.parse) {
+          html = marked.marked.parse(content);
+        } else {
+          html = marked(content);
+        }
       } else if (this.props.markdownit || window.markdownit) {
         var markdownit = this.props.markdownit || window.markdownit;
         md = markdownit({
