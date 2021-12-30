@@ -4,6 +4,16 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## Web Server Updates (December 30, 2021)
+
+* The main site, the playground site, and the ai-ml service (along with several other open source projects) where migrated to a new server (1 server instead of 5).
+  * The server code requires very little resources or memory so it didn't make sense to run 5 servers.
+  * See the new setup doc at: https://github.com/fastsitephp/fastsitephp/blob/master/docs/server-setup/server-setup.sh
+  * The GraphQL Service used by FastSitePHP now supports the GraphiQL IDE which allows developers to try it without having to install it locally. Link and example queries:
+    * https://www.dataformsjs.com/graphql
+    * https://www.dataformsjs.com/graphql?query=%7Bcountries%7Biso,country%7D%7D
+    * https://www.dataformsjs.com/graphql?query=query($country:String!)%7Bregions(country:$country)%7Bname%7D%7D&variables=%7B%22country%22:%22US%22%7D
+
 ## 5.10.5 (November 12, 2021)
 
 * Updates for DataFormsJS Markdown Components
