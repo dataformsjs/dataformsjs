@@ -29,29 +29,6 @@ TODO List
     Source for template is:
         website\public\html\getting-started\getting-started.css
 
-**) Combine Multiple Servers into one
-    - The DataFormsJS author has two main open source projects with 5 totals servers
-        but none of the sites gets enough traffic to need 5 servers so they will be
-        consolidated into one.
-    - Servers:
-        https://www.dataformsjs.com/
-        https://ai-ml.dataformsjs.com/
-        https://playground.dataformsjs.com/
-        https://www.fastsitephp.com/en/
-        https://playground.fastsitephp.com/
-    - Related setup docs for current setup:
-        https://github.com/dataformsjs/website/blob/master/docs/Main%20Site%20Server%20Setup.txt
-        https://github.com/dataformsjs/website/blob/master/docs/Python%20Webserver%20Setup%20for%20AI_ML%20Functions.txt
-        https://github.com/dataformsjs/playground/blob/master/docs/Playground%20Server%20Setup.txt
-        https://github.com/fastsitephp/fastsitephp/blob/master/docs/Main%20Site%20Server%20Setup.txt
-        https://github.com/fastsitephp/playground/blob/master/docs/Playground%20Server%20Setup.txt
-    - This is currently in development and the servers will likely be migrated in the first half of 2021.
-        Currently the main thing to figure out is how to setup the FastSitePHP Playground site in Docker.
-        This is due to the Playground site using a custom build of PHP and very specific apache needs.
-        All other servers will use nginx and that part has mostly been developed. If anyone is interested
-        in helping with the Docker portion feel free to open an issue and I can share the existing setup
-        scripts and related docs.
-
 **) Playground Site
     - Switch to Monaco Editor from CodeMirror for users that view the site from a laptop
         or desktop computer. Mobile users (determined by UserAgent) will still receive
