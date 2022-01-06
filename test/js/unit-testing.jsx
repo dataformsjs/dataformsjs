@@ -182,7 +182,30 @@ const Issue19_App = () => {
         }}/>
     </div>
 }
-  
+
+function Issue20() {
+    const n = 10;
+    const m = 1<n;
+    const text = (1<n ? 'true': 'false');
+    const text2 = (1<n || 1 ? 'true2': 'false2');
+    const text3 = (1<n && 1 ? 'true3': 'false3');
+    const text4 = ((1<n) ? 'true4': 'false4');
+    return (
+        <div id="issue-20">{m ? 'yes': 'no'} {text} {text2} {text3} {text4}</div>
+    );
+}
+
+function Issue21() {
+    const items = ['Item1', 'Item2', 'Item3']
+    return (
+        <div id="issue-21">
+            <select>
+                <option value=""></option>
+                {items.map(item => <option value={item}>{item}</option>)}
+            </select>
+        </div>
+    );
+}
 
 class UnitTestPage extends React.Component {
     render() {
@@ -322,6 +345,8 @@ class UnitTestPage extends React.Component {
                 <DisplayProps id="display-prop-1" message="Hello World"></DisplayProps>
 
                 <Issue19_App />
+                <Issue20 />
+                <Issue21 />
             </React.Fragment>
         );
     }

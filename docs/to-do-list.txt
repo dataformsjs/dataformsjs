@@ -22,6 +22,10 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+**) As of 2022-01-06 updates are being tested for the following issues:
+    https://github.com/dataformsjs/dataformsjs/issues/20
+    https://github.com/dataformsjs/dataformsjs/issues/21
+    This will likely be published later this week
 
 **) Update the Getting Started CSS Template used here:
         https://www.dataformsjs.com/en/getting-started

@@ -181,6 +181,7 @@
             { find: /export default class/g,        replace: 'class' },
             { find: /import React from 'react';/g,  replace: '' },
             { find: /import React from"react";/g,   replace: '' },
+            { find: /=>,/g,                         replace:'=>' }, // Work-around for edge-case JSX, Issue 21 on GitHub
         ],
 
         /**
@@ -589,6 +590,41 @@
             },
 
             /**
+             * Helper function that gets called when a '<' charater is
+             * found to determine if it's likely an element or not.
+             *
+             * @param {string} input
+             * @param {number} current
+             * @param {number} length
+             * @returns {bool}
+             */
+            isExpression: function(input, current, length) {
+                var pos = current + 2;
+                var foundName = false;
+                while (pos < length) {
+                    var nextChar = input[pos];
+                    pos++;
+                    if (/[a-zA-Z0-9_/]/.test(nextChar)) {
+                        if (foundName) {
+                            break;
+                        } else {
+                            continue;
+                        }
+                    } else if (nextChar === '>') {
+                        break;
+                    } else if (nextChar === ' ') {
+                        foundName = true;
+                        continue;
+                    } else if (nextChar === ')' || nextChar === '&' || nextChar === '|' || nextChar === '?' || nextChar === ';') {
+                        // This happens if an less than expression uses no spaces and the
+                        // right-hand side value is a variable. Issue #20 on GitHub.
+                        return true;
+                    }
+                }
+                return false;
+            },
+
+            /**
              * Compiler Step 1 - Remove Comments from the Code
              *
              * All Code Comments are simply replaced with whitespace. This keeps the
@@ -709,7 +745,7 @@
                                 break;
                             case '<':
                                 charNext = peekNext();
-                                if (/[a-zA-Z>]/.test(charNext)) {
+                                if (/[a-zA-Z>]/.test(charNext) && !this.isExpression(input, current, length)) {
                                     state.elementCount++;
                                 } else if (charNext === '/') {
                                     state.elementCount--;
@@ -785,7 +821,7 @@
                                     state.inStringMultiLine = true;
                                     break;
                                 case '<':
-                                    if (/[a-zA-Z>]/.test(input[c + 1])) {
+                                    if (/[a-zA-Z>]/.test(input[c + 1]) && !jsxLoader.compiler.isExpression(input, c, length)) {
                                         return c; // Start of Element found
                                     }
                                     break;
@@ -1103,7 +1139,7 @@
                                     }
                                     break;
                                 case '<':
-                                    if (/[a-zA-Z>/]/.test(peekNext())) {
+                                    if (/[a-zA-Z>/]/.test(peekNext()) && !jsxLoader.compiler.isExpression(input, current, length)) {
                                         state.addChild = true;
                                         state.inElement = true;
                                     }

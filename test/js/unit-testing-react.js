@@ -85,6 +85,7 @@ describe('jsxLoader.js', function() {
                 { find: /export default class/g,        replace: 'class' },
                 { find: /import React from 'react';/g,  replace: '' },
                 { find: /import React from"react";/g,   replace: '' },
+                { find: /=>,/g,                         replace:'=>' },
             ];
             if (window.preact !== undefined) {
                 list.push({ find: /ReactDOM\.render/g, replace: 'preact.render' });
@@ -574,6 +575,17 @@ describe('jsxLoader.js', function() {
             text = text.filter(function(item) { return item !== ''; });
             expect(text).to.deep.equal(['hello', 'zzzz']);
         });
+
+        it('should support issue 20', function() {
+            var el = document.getElementById('issue-20');
+            expect(el.textContent).to.equal('yes true true2 true3 true4');
+        });
+
+        it('should support issue 21', function() {
+            var options = Array.from(document.querySelectorAll('#issue-21 select option'));
+            var text = options.map(function(option) { return option.value }).join(',');
+            expect(text).to.equal(',Item1,Item2,Item3');
+        });
     });
 
     // NOTE - this section covers the compiler but in general all compiler logic should be handled by
@@ -675,12 +687,11 @@ describe('jsxLoader.js', function() {
             jsxLoader.compiler.maxRecursiveCalls = 1000; // Reset
         });
 
-        it('should error with a minimized js `for` loop', function() {
-            // The jsxLoader is not a full JavaScript parser so it currently doesn't handle minimized code like this.
-            // See also the next test.
-            var error = getCompilerError('for(let n=0;n<m;n++) {console.log(n);} <div></div>');
-            console.log(error);
-            expect(error).to.equal('Error: Unhandled character in element properties: ` <div` at Line #: 1, Column #: 43, Line: for(let n=0;n<m;n++) {console.log(n);} <div>');
+        it('should work with a minimized js `for` loop', function() {
+            // Originally this was not supported however it was fixed for GitHub Issue #20
+            var jsx = 'for(let n=0;n<m;n++) {console.log(n);} <div></div>';
+            var js = jsxLoader.compiler.compile(jsx);
+            expect(js).to.equal('"use strict";\nfor(let n=0;n<m;n++) {console.log(n);} React.createElement("div", null)');
         });
 
         it('should work with a spaced js `for` loop', function() {
