@@ -4,6 +4,13 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
 
+## 5.10.6 (January 6, 2022)
+
+* Updated jsxLoader to for additional JSX syntax from issues 20 and 21.
+  * jsxLoader: Less than operator assumed to be an open element - https://github.com/dataformsjs/dataformsjs/issues/20
+  * jsxLoader: Uncaught SyntaxError: Unexpected token ',' - https://github.com/dataformsjs/dataformsjs/issues/21
+  * **Special Thanks to Björgvin Ragnarsson (nifgraup) for opening these issues and providing great examples to show the error** https://github.com/nifgraup
+
 ## Web Server Updates (December 30, 2021)
 
 * The main site, the playground site, and the ai-ml service (along with several other open source projects) where migrated to a new server (1 server instead of 5).
@@ -36,7 +43,7 @@ Overall the core Framework files and API are expected to remain stable however t
 
 * Updated jsxLoader to support functions that return JSX elements inside of props.
   * This is related to https://github.com/dataformsjs/dataformsjs/issues/19
-  * **Special Thanks to ilovedesert001 for opening this issue and providing a great example and for helping with testing** https://github.com/ilovedesert001 
+  * **Special Thanks to ilovedesert001 for opening this issue and providing a great example and for helping with testing** https://github.com/ilovedesert001
 
 ## 5.10.2 (September 25, 2021)
 
