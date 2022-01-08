@@ -2,7 +2,7 @@
     <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/docs/jsx-loader.png" title="DataFormsJS JSX Loader">
 </h1>
 
-<p align="center">Um minúsculo (7.1 kB) e ultra rápido compilador baseado em navagador para JSX / React.</p>
+<p align="center">Um minúsculo (6.6 kB) e ultra rápido compilador baseado em navagador para JSX / React.</p>
 <hr>
 
 <table>
@@ -63,7 +63,7 @@ O script é testado com uma variedade de dispositivos e navegadores incluindo os
 
 Além do React, ele também funciona e está testado com a biblioteca alternativa à React, Preact.
 
-O script `jsxLoader.js` é muito pequeno para baixar (7.1 kB - min e em gzip) e compila código muito rapidamente (geralmente em milisegundos para cada script JSX).
+O script `jsxLoader.js` é muito pequeno para baixar (6.6 kB - min e em gzip) e compila código muito rapidamente (geralmente em milisegundos para cada script JSX).
 
 ## Como utilizar? 🌟
 
@@ -505,7 +505,6 @@ Ao testar um browser legado como o IE 11, `Babel` será mostrado juntamente com 
 * Em geral, se um problema conhecido requer muito código, ele provavelmente não será suportado porque este script pretende ser um pequeno e rápido parser/compilador JSX e não um parser/compilador completo de JavaScript.
 * Mensgens de erro podem não ser muito amigáveis para alguns erros de sintaxes inesperados, então, utilizando linting em um Editor de Código é recomendado durante o desenvolvimento para evitar erros do `jsxLoader.js`. Se você desenvolve com o Visual Studio Code ou outro editor popular, isso ocorrerá automaticamente. Se você tiver erros de sitaxe com o código gerado e não for claro porque, então, utilizar as DevTools do Chrome é recomendado (ou Edge compilado à partir do Chromium). Porque JavaScript gerado é adicionado de volta em elementos dinâmicos, a maioria dos Navegadores mostrarão a localização errado do erro, mas as versões mais recentes do Chrome e Edge mostrarão freqüentemente no local correto.
     <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-debug-error-in-chrome.png" alt="Depurar Erros com as Dev Tools do Chrome">
-* Loops `for` minificados podem causar problemas: `for(n=0;n<m;n++)` porque `<m;n++)` será provavelmente interpretado como um elemento. Contudo, se um arquivo completo for minificado, será processado como JavaScript, o que significa que Componentes minificados, em geral, funcionarão por padrão.
 * Algumas vezes espaço em branco filho é gerado nos nós filhos de `React.createElement('element', props, ...children)` comparado ao que seria craido ao utilizar Babel. Geralmente isso não acontece com freqüencia, mas isso foi encontrado no [pagina demonstração de registro](https://www.dataformsjs.com/examples/log-table-react.htm). Este problema não possui efeito visual na página, não causa queda de desempenho e não acontece com freqüencia, então é considerado aceitável.
 *  Texto que se parece com elementos dentro literais de um modelo aninhado complexo (strings modelo), pode causar erro de parsing ou resultados inesperados:
 

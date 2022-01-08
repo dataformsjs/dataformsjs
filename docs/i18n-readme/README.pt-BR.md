@@ -388,7 +388,7 @@ _Todos os tamanhos são baseados nas versões minificadas dos scripts e compress
 * Arquivos adicionais (controllers, plugins, etc) são tipicamente de 1 a 3 kB cada.
 * Em geral ao usar o framework espere algo em torno de 15 kB para o carregamento da página inicial e daí vários kB para páginas adicionais que carregam plugins extras, páginas, controllers etc.
 
-* **React JSX Loader – 7.1 kB** (91 kB da versão completa e descompactada)
+* **React JSX Loader – 6.6 kB** (91 kB da versão completa e descompactada)
 * **React (Todos so componentes em JavaScript) – 5.7 kB**
 * Components React individuais estão entre 3 e 12 kB ao descompactar e incluindo componentes.
 * Web Components são tipicamente em torno de 1 a 3 kB cada, você usará um conjunto de componentes então nos apps de exemplo isso adiciona em torno de 15 kB para cada app.

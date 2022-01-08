@@ -2,7 +2,7 @@
     <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/docs/jsx-loader.png" title="DataFormsJS JSX Loader">
 </h1>
 
-<p align="center">An ultra-fast and tiny (7.1 kB) browser based compiler for JSX / React.</p>
+<p align="center">An ultra-fast and tiny (6.6 kB) browser based compiler for JSX / React.</p>
 <hr>
 
 <table>
@@ -63,7 +63,7 @@ The script is tested with a variety of devices and browsers including the follow
 
 In addition to React, it also works and is tested with the React alternative library, Preact.
 
-The `jsxLoader.js` script is very small to download (7.1 kB - min and gzip) and compiles code very fast (often in milliseconds for each JSX script).
+The `jsxLoader.js` script is very small to download (6.6 kB - min and gzip) and compiles code very fast (often in milliseconds for each JSX script).
 
 ## How to use? 🌟
 
@@ -502,7 +502,6 @@ When testing with a legacy browser such as IE 11 `Babel` will be shown along wit
 * In general if a known issue requires a lot of code it will likely not be supported because this script is intended as a small and fast JSX parser/compiler and not a full featured JavaScript parser/compiler.
 * Error messages may not be very friendly for some unexpected syntax errors so using linting in a Code Editor is recommended during development to avoid errors from `jsxLoader.js`. If you develop with Visual Studio Code or other popular editors this should happen automatically. If you have syntax errors with the generated code and it’s not clear why then using Chrome DevTools is recommended (or Edge built with Chromium). Because generated JavaScript is added back in dynamic elements most Browsers will display the wrong location of the error but latest versions of Chrome and Edge will often show it in the correct location.
     <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-debug-error-in-chrome.png" alt="Debug Errors with Chrome Dev Tools">
-* Minimized `for` loops may cause issues: `for(n=0;n<m;n++)` as the `<m;n++)` will likely be parsed as an element. However if a full file is minimized it will be processed as JavaScript which means minimized Components will generally work by default.
 * Sometimes extra child whitespace is generated in child nodes of `React.createElement('element', props, ...children)` compared to what would be created when using Babel. Generally this doesn’t happen often but it has been found in the [log demo page](https://dataformsjs.com/examples/log-table-react.htm). This issue has no visual effect on the page, no performance decrease, and doesn't happen often so it's considered acceptable.
 *  Text that looks like elements inside of complex nested template literals (template strings) may cause parsing errors or unexpected results:
 

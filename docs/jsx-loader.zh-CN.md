@@ -63,7 +63,7 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
 
 此外,对React来说,它也可以工作,并已通过React的代替库Preact进行了测试.
 
-`jsxLoader.js`脚本的下载量很小(7.1 kB - min and gzip),并且编译速度非常快(每个JSX脚本通常以毫秒为单位).
+`jsxLoader.js`脚本的下载量很小(6.6 kB - min and gzip),并且编译速度非常快(每个JSX脚本通常以毫秒为单位).
 
 ## 如何使用? 🌟
 
@@ -502,7 +502,6 @@ https://dataformsjs.com/unit-testing/
 * 一般来说,如果一个已知的问题需要大量的代码,它很可能不被支持,因为此脚本旨在用作小型而快速的JSX解析器/编译器,而不是功能齐全的JavaScript解析器/编译器.
 * 对于某些意外的语法错误,错误消息可能不太友好,因此在开发期间建议在代码编辑器中使用linting,以避免来自`jsxLoader.js`的错误.如果使用Visual Studio代码或其他流行的编辑器进行开发,则应自动执行此操作.如果生成的代码有语法错误,并且不清楚为什么建议使用Chrome DevTools(或Chromium构建的Edge).由于生成的JavaScript重新添加到动态元素中,因此大多数浏览器将显示错误的位置,但最新版本的Chrome和Edge经常将其显示在正确的位置.
     <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/jsx-debug-error-in-chrome.png" alt="Debug Errors with Chrome Dev Tools">
-* 最小化的`for`循环可能会引起问题: `for(n=0;n<m;n++)` as the `<m;n++)`可能被解析为元素.但是,如果一个完整的文件被最小化,它将被作为JavaScript处理,这意味着最小化的组件通常在默认情况下工作.
 * 与使用Babel时会创建的子节点相比,有时在('element', props, ...children)`的子节点中会生成额外的子空白.通常,这种情况很少发生,但可以在[log demo page](https://dataformsjs.com/examples/log-table-react.htm)中找到.这个问题对页面没有视觉影响,性能也不会下降,并且不会经常发生,因此被认为是可以接受的.
 * 看起来像复杂嵌套模板文本(模板字符串)中的元素的文本,可能导致分析错误或意外结果:
 
