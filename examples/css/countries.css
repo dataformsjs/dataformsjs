@@ -148,6 +148,8 @@ table thead tr th:first-child { z-index: 3; left: 0; }
 table tbody tr td:first-child { position: sticky; left:0; z-index:1; }
 table tbody tr:nth-child(odd) td:first-child { background-color: white; }
 table tbody tr:nth-child(even) td:first-child { background-color: #f6f8fa; }
+table tbody tr.row-odd td:first-child { background-color: white; }
+table tbody tr.row-even td:first-child { background-color: #f6f8fa; }
 table tbody tr.highlight td:first-child {background-color: yellow; }
 
 /*
