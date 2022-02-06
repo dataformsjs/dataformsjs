@@ -498,7 +498,7 @@
             }
 
             try {
-                expectedMessage = '[page] was not defined as a object when the function app.addPage() was called';
+                expectedMessage = 'Page [Test] must be defined as an object or a class when the function app.addPage() is called';
                 app.addPage('Test');
                 assert.ok(false, 'Test should have failed');
             } catch (e) {

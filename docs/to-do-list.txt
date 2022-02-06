@@ -22,6 +22,29 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+**) Development updates are currently being made on the master branch
+    so that the Framework can support JavaScript classes when defining
+    pages `app.addPage(name, class Page {})` and other features for ES6.
+    - Initial version has been first published on 2022-02-06 and will likely
+        be completed and published to npm within a few weeks.
+    - The changes work well, are stable and more testing and demos will be created.
+    - No breaking changes are being made rather this update will is a minor update
+        for new features so that the DataFormsJS framework can use modern JS code.
+    - After CDN changes take effect for the next release the following examples
+        will need to be updated to point to it:
+        ~/examples/framework-classes-hbs.htm
+        ~/examples/framework-classes-vue.htm
+    - Pending updates
+        - Finish new examples
+        - Class support for `app.addPlugin()`
+            - Should `app.addControl()` or any other functions be updated?
+        - Add new class templates under [js/templates/*]
+        - New JsonData class or similar name to avoid conflict with existing [jsonData.js]
+            This is still under consideration
+        - More testing with more browsers and on different OS's
+        - New unit testing code that will load and check classes
+            It needs to handle IE and skip the class validation
+        - Update Quick Docs and Playground Code (after release and CDN refreshes)
 
 **) Update the Getting Started CSS Template used here:
         https://www.dataformsjs.com/en/getting-started

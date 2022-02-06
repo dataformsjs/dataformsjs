@@ -8,7 +8,8 @@
  * ES5 syntax so that it can work with all browsers including older
  * Mobile Devices and supported versions of IE. For older browsers and
  * devices functions [fetch, Promise, etc] will be loaded as polyfill
- * functions when the page is loaded.
+ * functions when the page is loaded. While the Framework is developed
+ * using ES5 custom code for apps that use it can use modern JS classes.
  *
  * View Engine Options:
  *     https://handlebarsjs.com
@@ -798,7 +799,7 @@
             var error = null;
             if (app.pages[controller.pageType] === undefined) {
                 error = 'The page [' + controller.pageType + '] has not been loaded for Controller[path=' + controller.path + '].';
-            } else if (typeof app.pages[controller.pageType].model !== 'object') {
+            } else if (typeof app.pages[controller.pageType] === 'object' && typeof app.pages[controller.pageType].model !== 'object') {
                 error = 'Error - The [model] property for page object [' + controller.pageType + '] must be a valid JavaScript Object.';
             }
             if (error !== null) {
@@ -809,11 +810,25 @@
                 return;
             }
 
-            // Update controller with all functions from the page object
+            // Update controller with all functions from the page object or class
             var page = app.pages[controller.pageType];
-            for (var prop in page) {
-                if (page.hasOwnProperty(prop) && typeof page[prop] === 'function') {
-                    controller[prop] = page[prop];
+            var prop;
+            if (typeof page === 'function') {
+                // JavaScript class
+                var props = Object.getOwnPropertyNames(page.prototype);
+                var include = ['onRouteLoad', 'onBeforeRender', 'onRendered', 'onRouteUnload'];
+                for (var n = 0; n < props.length; n++) {
+                    prop = props[n];
+                    if (typeof page.prototype[prop] === 'function' && include.includes(prop)) {
+                        controller[prop] = page.prototype[prop];
+                    }
+                }
+            } else {
+                // Copy from Object
+                for (prop in page) {
+                    if (page.hasOwnProperty(prop) && typeof page[prop] === 'function') {
+                        controller[prop] = page[prop];
+                    }
                 }
             }
 
@@ -836,7 +851,8 @@
     function loadModel(controller) {
         var model,
             modelName,
-            page;
+            page,
+            prop;
 
         // Set active model and exit if it already exists
         if (controller.modelName) {
@@ -854,22 +870,40 @@
                 if (controller.viewEngine === ViewEngines.Vue) {
                     model = {};
                     controller.methods = (controller.methods === undefined ? {} : controller.methods);
-                    for (var prop in page.model) {
-                        if (page.model.hasOwnProperty(prop)) {
-                            var propType = Object.prototype.toString.call(page.model[prop]);
-                            if (propType === '[object Function]') {
-                                controller.methods[prop] = page.model[prop];
-                            } else if (propType === '[object Object]') {
-                                model[prop] = app.deepClone({}, page.model[prop]);
-                            } else if (propType === '[object Array]') {
-                                model[prop] = app.deepClone([], page.model[prop]);
-                            } else {
-                                model[prop] = page.model[prop];
+                    if (typeof page === 'function') {
+                        // Page defined as a `class`
+                        model = new page();
+                        var props = Object.getOwnPropertyNames(page.prototype);
+                        var exclude = ['constructor', 'onRouteLoad', 'onBeforeRender', 'onRendered', 'onRouteUnload'];
+                        for (var n = 0; n < props.length; n++) {
+                            prop = props[n];
+                            if (typeof page.prototype[prop] === 'function' && !exclude.includes(prop)) {
+                                controller.methods[prop] = page.prototype[prop];
+                            }
+                        }
+                    } else {
+                        // Page defined as an object `{}`
+                        for (prop in page.model) {
+                            if (page.model.hasOwnProperty(prop)) {
+                                var propType = Object.prototype.toString.call(page.model[prop]);
+                                if (propType === '[object Function]') {
+                                    controller.methods[prop] = page.model[prop];
+                                } else if (propType === '[object Object]') {
+                                    model[prop] = app.deepClone({}, page.model[prop]);
+                                } else if (propType === '[object Array]') {
+                                    model[prop] = app.deepClone([], page.model[prop]);
+                                } else {
+                                    model[prop] = page.model[prop];
+                                }
                             }
                         }
                     }
                 } else {
-                    model = app.deepClone({}, page.model);
+                    if (typeof page === 'function') {
+                        model = new page(); // JS class
+                    } else {
+                        model = app.deepClone({}, page.model);
+                    }
                 }
             }
         }
@@ -1252,7 +1286,11 @@
         },
 
         /**
-         * Add a new unique named page and return the app object.
+         * Add a new unique named page and return the app object. A page object
+         * is used to define both a model and controller from a single file and
+         * is the recommended method when adding new routes/pages to an app using
+         * custom code. The script attribute [data-page] can be used to map a
+         * script to a page. For detailed usage see examples that use [data-page].
          *
          * Example:
          *   app.addPage(name:string, {
@@ -1262,6 +1300,18 @@
          *       onRendered:function,
          *       onRouteUnload:function,
          *   })
+         *
+         * Or using a class (modern browsers only):
+         *    app.addPage(name:string, class Page {
+         *        onRouteLoad() {}
+         *        onBeforeRender() {}
+         *        onRendered() {}
+         *        onRouteUnload() {}
+         *    })
+         *
+         * When using ES5 syntax and passing an object a `model` object is
+         * required and when using a `class` an instance of the class will
+         * be created and used as the model.
          *
          * @param {string} name
          * @param {object} page
@@ -1274,11 +1324,23 @@
             // Validate that the parameters are correct
             validateTypeOf(name, 'string', 'name', 'app.addPage()');
             validateStringWithValue(name, 'name', 'app.addPage()');
-            validateTypeOf(page, 'object', 'page', 'app.addPage()');
-            validateOptionalFunctions(page, name, 'page', func);
+            var obj;
+            var checkModel = false;
+            if (typeof page === 'object') {
+                obj = page;
+                checkModel = true;
+            } else if (typeof page === 'function' && page.prototype !== undefined) {
+                // JavaScript class is being used
+                obj = page.prototype;
+            } else {
+                throw new TypeError('Page [' + name + '] must be defined as an object or a class when the function app.addPage() is called');
+            }
+            validateOptionalFunctions(obj, name, 'page', func);
             func.pop(); // Remove 'onRouteUnload'
-            requireOneNamedProperty(page, name, 'page', func);
-            validateObjectExists(page.model, 'page.' + name + '.model', 'app.addPage()');
+            requireOneNamedProperty(obj, name, 'page', func);
+            if (checkModel) {
+                validateObjectExists(page.model, 'page.' + name + '.model', 'app.addPage()');
+            }
             requireUndefinedProperty(this.pages, 'app.pages', name);
 
             // Add the page and return the app object

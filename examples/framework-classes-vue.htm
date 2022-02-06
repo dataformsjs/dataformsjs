@@ -1,0 +1,90 @@
+<!doctype html>
+<html
+    lang="en"
+    data-show-errors>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Framework Classes and ES6 Examples - Vue</title>
+        <link rel="stylesheet" href="css/app-layout-1.css">
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a class="active" href="#/">Home</a>
+                <a href="#/calc">Calculator</a>
+            </nav>
+        </header>
+
+        <main id="view" class="container"></main>
+
+        <template id="loading-screen">
+            <h3 class="loading">Loading...</h3>
+        </template>
+
+        <script type="text/x-template" data-engine="vue" id="error-screen">
+            <h3 class="error">{{errorMessage}}</h3>
+        </script>
+
+        <template data-route="/">
+            <section class="max-width-500">
+                <h1>DataFormsJS Framework Demo using Vue with ES6 Code and JavaScript Classes</h1>
+            </section>
+        </template>
+
+        <script
+            type="text/x-template"
+            data-engine="vue"
+            data-route="/calc"
+            data-page="calculator"
+            data-lazy-load="Calculator, dataBind">
+
+            <section class="flex-col-600">
+                <input v-model="currentX" placeholder="Value X" size="7">
+                <select v-model="currentOp">
+                    <option value="+">Add (+)</option>
+                    <option value="-">Subtract (-)</option>
+                    <option value="*">Multiply (*)</option>
+                    <option value="/">Divide (/)</option>
+                </select>
+                <input v-model="currentY" placeholder="Value Y" size="7">
+                <button v-on:click="calculateResult">Calculate</button>
+            </section>
+            
+            <section class="calc-result" v-if="results.length">
+                <ul class="record-list">
+                    <li v-for="item in results" v-bind:class="item.hasError ? 'error' : ''">
+                        {{ item.x }} {{ item.op }} {{ item.y }} = {{ item.z }}
+                    </li>
+                </ul>
+            </section>
+        </script>
+
+        <!--
+            Vue
+            https://vuejs.org/
+
+            DataFormsJS works with both Vue 2 and Vue 3
+        -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/vue@3.0.0/dist/vue.global.prod.js"></script>
+
+        <!--
+            DataFormsJS
+            https://www.dataformsjs.com/
+        -->
+        <script src="../js/DataFormsJS.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/DataFormsJS.min.js"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/navLinks.min.js"></script>
+        <script>
+            app.lazyLoad = {
+                Calculator: 'framework-classes-calc-page.js',
+                dataBind: 'https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/dataBind.min.js',
+            };
+            app.settings.lazyTemplateSelector = '#loading-screen';
+        </script>
+
+        <!-- Show a warning for Older browsers (IE, Older Mobile Devices, etc) -->
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/old-browser-warning.min.js"></script>
+    </body>
+</html>

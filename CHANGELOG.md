@@ -2,7 +2,22 @@
 
 DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-versioning).
 
-Overall the core Framework files and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes Framework release history and new website features or major changes.
+Overall the core Framework files, React Components, and Web Components and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes all npm release history and new website features or major changes.
+
+## Next Release (planned for Feb 2022)
+
+* Updated DataFormsJS Framework to support JavaScript classes
+  * Originally the DataFormsJS Framework was designed and developed prior to ES6 being supported among Web Browsers. Because of this custom app code was designed around ES5. This update allows for custom app code (Page objects, etc) to use classes rather than objects which allows for modern style JavaScript development.
+  * Functions updated:
+    * `app.addPage()`
+  ```
+  app.addPage('name', class Page {
+      onRouteLoad() {}
+      onBeforeRender() {}
+      onRendered() {}
+      onRouteUnload() {}
+  })
+  ```
 
 ## 5.10.6 (January 6, 2022)
 
