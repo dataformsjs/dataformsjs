@@ -209,7 +209,7 @@
                 // If there are attributes [data-sort-class-odd] and [data-sort-class-even]
                 // defined then update the className so rows appear correctly
                 // (for example when using striped colors). When using [nth-child(odd), etc]
-                // rows will be added back by default using the color origionally assigned
+                // rows will be added back by default using the color originally assigned
                 // as Browsers do not re-calculate the CSS selector when adding back.
                 // Only update items that are not hidden because if they are filtered then
                 // some will be hidden.

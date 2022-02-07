@@ -72,7 +72,7 @@
             // Default error messages, these can be changed from the calling app or for specific routes.
             errorTextMissingUrl: 'Error, unable to fetch data. No URL [data-route | model.url | graphql] was specified for this current route.',
             errorTextFetchError: 'An error has occurred loading the data. Please refresh the page to try again and if the problem continues contact support.',
-            errorTextGraphQLErrors: '{count} GraphQL Errors occured. See [app.activeModel.errors] in console for full details.',
+            errorTextGraphQLErrors: '{count} GraphQL Errors occurred. See [app.activeModel.errors] in console for full details.',
 
             // Total event count for the model and fetch times of the last web service calls.
             // These are public properties however the calling app should not overwrite them.
@@ -190,7 +190,7 @@
                     model.fetchTimeComplete = new Date();
                     model.loadCount++;
 
-                    // Set initial props for a successfull json request
+                    // Set initial props for a successful json request
                     model.isLoading = false;
                     model.isLoaded = true;
                     model.hasError = false;
