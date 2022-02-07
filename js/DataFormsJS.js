@@ -18,6 +18,27 @@
  *     https://mozilla.github.io/nunjucks/
  *     https://underscorejs.org
  *
+ * Common API Functions for creating Single Page Apps (SPA):
+ *     # Pages and Plugins are the recommended method for
+ *     # creating most custom app logic.
+ *     app.addPage()
+ *     app.addPlugin()
+ *     app.addControl()
+ *
+ * Common API Properties for working with app data and for debugging with
+ * Browser DevTools:
+ *     app.activeController
+ *     app.activeModel
+ *     app.activeVueModel
+ *     app.activeParameterList
+ *     app.controllers
+ *     app.models
+ *
+ * Many more API functions exist and the demos provide many examples of how
+ * apps can be built with DataFormsJS. DataFormsJS is built to run directly
+ * in a browser without a build process; this allows for fast prototyping,
+ * development, and a clearly defined structure for apps built with DataFormsJS.
+ *
  * In addition to the standard DataFormsJS Framework standalone classes for
  * React and Web Components are available which provide similar functionality.
  *
@@ -1351,12 +1372,28 @@
         /**
          * Add a new unique named plugin and return the app object.
          *
+         * DataFormsJS plugins are used to commonly define features that can be shared
+         * between different pages. A good usage of plugins is to create them to handle
+         * custom attributes so that shared features can be quickly added to a page
+         * through HTML markup.
+         *
          * Example:
+         *   app.addPlugin(name:string, function)
+         *
+         * Or as an object:
          *   app.addPlugin(name:string, {
          *       onRouteLoad:function,
          *       onBeforeRender:function,
          *       onRendered:function,
          *       onRouteUnload:function,
+         *   })
+         *
+         * Or as a class:
+         *   app.addPlugin(name:string, class Plugin {
+         *       onRouteLoad() {},
+         *       onBeforeRender() {},
+         *       onRendered() {},
+         *       onRouteUnload() {},
          *   })
          *
          * @param {string} name
@@ -1383,6 +1420,11 @@
                     this.onRouteUnload();
                 }
                 this.onRendered();
+            }
+
+            // If a class was passed then create an instance
+            if (typeof plugin === 'function' && plugin.prototype !== undefined) {
+                plugin = new plugin();
             }
 
             // Accept either function or full object

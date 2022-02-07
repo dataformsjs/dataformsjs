@@ -7,11 +7,19 @@ Overall the core Framework files, React Components, and Web Components and API a
 ## Next Release (planned for Feb 2022)
 
 * Updated DataFormsJS Framework to support JavaScript classes
-  * Originally the DataFormsJS Framework was designed and developed prior to ES6 being supported among Web Browsers. Because of this custom app code was designed around ES5. This update allows for custom app code (Page objects, etc) to use classes rather than objects which allows for modern style JavaScript development.
+  * Originally the DataFormsJS Framework was designed and developed prior to ES6 being supported among Web Browsers. Because of this custom app code was designed around ES5. This update allows for custom app code (Pages and Plugins) to use classes rather than objects which allows for modern style JavaScript development.
   * Functions updated:
     * `app.addPage()`
+    * `app.addPlugin()`
   ```
   app.addPage('name', class Page {
+      onRouteLoad() {}
+      onBeforeRender() {}
+      onRendered() {}
+      onRouteUnload() {}
+  })
+
+  app.addPlugin('name', class Plugin {
       onRouteLoad() {}
       onBeforeRender() {}
       onRendered() {}

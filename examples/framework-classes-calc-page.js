@@ -53,7 +53,7 @@ class Calculator {
     // Button click event
     calculateResult() {
         // Calculate
-        var item = {
+        const item = {
             x: parseFloat(this.currentX),
             op: this.currentOp,
             y: parseFloat(this.currentY),

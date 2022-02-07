@@ -13,6 +13,7 @@
             <nav>
                 <a class="active" href="#/">Home</a>
                 <a href="#/calc">Calculator</a>
+                <a href="#/time">Time</a>
             </nav>
         </header>
 
@@ -27,8 +28,9 @@
         </script>
 
         <template data-route="/">
-            <section class="max-width-500">
+            <section class="max-width-500 flex-col">
                 <h1>DataFormsJS Framework Demo using Vue with ES6 Code and JavaScript Classes</h1>
+                <p>Originally the DataFormsJS Framework was designed and developed prior to ES6 being supported among Web Browsers. Because of this custom app code was designed around ES5. An update in early 2022 allows for custom app code (Pages and Plugins) to use classes rather than objects. This app is a demo of class-based code for the DataFormsJS Framework. View page source for details and JavaScript code.</p>
             </section>
         </template>
 
@@ -60,6 +62,15 @@
             </section>
         </script>
 
+        <template
+            data-route="/time"
+            data-lazy-load="time">
+            
+            <section data-time="en-US"></section>
+            <section data-time="zh"></section>
+            <section data-time="ar"></section>
+        </template>
+
         <!--
             Vue
             https://vuejs.org/
@@ -73,12 +84,13 @@
             DataFormsJS
             https://www.dataformsjs.com/
         -->
-        <script src="../js/DataFormsJS.js"></script>
+        <script src="../js/DataFormsJS.min.js"></script>
         <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/DataFormsJS.min.js"></script> -->
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/navLinks.min.js"></script>
         <script>
             app.lazyLoad = {
                 Calculator: 'framework-classes-calc-page.js',
+                time: 'framework-classes-time-plugin.js',
                 dataBind: 'https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/dataBind.min.js',
             };
             app.settings.lazyTemplateSelector = '#loading-screen';
