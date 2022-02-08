@@ -833,20 +833,19 @@
 
             // Update controller with all functions from the page object or class
             var page = app.pages[controller.pageType];
-            var prop;
             if (typeof page === 'function') {
                 // JavaScript class
-                var props = Object.getOwnPropertyNames(page.prototype);
-                var include = ['onRouteLoad', 'onBeforeRender', 'onRendered', 'onRouteUnload'];
-                for (var n = 0; n < props.length; n++) {
-                    prop = props[n];
-                    if (typeof page.prototype[prop] === 'function' && include.includes(prop)) {
-                        controller[prop] = page.prototype[prop];
+                var functions = app.getClassFunctionNames(page);
+                var includeFn = ['onRouteLoad', 'onBeforeRender', 'onRendered', 'onRouteUnload'];
+                for (var n = 0; n < functions.length; n++) {
+                    var fn = functions[n];
+                    if (includeFn.includes(fn)) {
+                        controller[fn] = page.prototype[fn];
                     }
                 }
             } else {
                 // Copy from Object
-                for (prop in page) {
+                for (var prop in page) {
                     if (page.hasOwnProperty(prop) && typeof page[prop] === 'function') {
                         controller[prop] = page[prop];
                     }
@@ -894,11 +893,11 @@
                     if (typeof page === 'function') {
                         // Page defined as a `class`
                         model = new page();
-                        var props = Object.getOwnPropertyNames(page.prototype);
-                        var exclude = ['constructor', 'onRouteLoad', 'onBeforeRender', 'onRendered', 'onRouteUnload'];
-                        for (var n = 0; n < props.length; n++) {
-                            prop = props[n];
-                            if (typeof page.prototype[prop] === 'function' && !exclude.includes(prop)) {
+                        var fn = app.getClassFunctionNames(page);
+                        var excludeFn = ['constructor', 'onRouteLoad', 'onBeforeRender', 'onRendered', 'onRouteUnload'];
+                        for (var n = 0; n < fn.length; n++) {
+                            prop = fn[n];
+                            if (!excludeFn.includes(prop)) {
                                 controller.methods[prop] = page.prototype[prop];
                             }
                         }
@@ -2564,6 +2563,34 @@
 
             // If code reaches here then it matches
             return { isMatch: true, args: args, namedArgs: namedArgs };
+        },
+
+        /**
+         * Return a list of function names for a JavaScript class.
+         * The built-in function `Object.getOwnPropertyNames(class.prototype)`
+         * handles this for functions and properties defined directly in the
+         * class however it does not include properties from the parent class.
+         * This function returns all functions in the main and parent classes
+         * `class Child extends Parent {...}` and rather than returning all
+         * properties it filters the result to return only functions.
+         *
+         * @param {class} cls
+         * @returns {array}
+         */
+        getClassFunctionNames: function(cls) {
+            var fn = [];
+            var obj = cls;
+            while (obj && obj.prototype && obj !== Object) {
+                var props = Object.getOwnPropertyNames(obj.prototype);
+                for (var n = 0; n < props.length; n++) {
+                    var prop = props[n];
+                    if (typeof obj.prototype[prop] === 'function' && !fn.includes(prop)) {
+                        fn.push(prop);
+                    }
+                }
+                obj = Object.getPrototypeOf(obj);
+            }
+            return fn;
         },
 
         /**

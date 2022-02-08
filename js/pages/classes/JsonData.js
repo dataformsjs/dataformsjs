@@ -6,10 +6,7 @@
  * file exists is so that an app can extend this class for custom page logic.
  * 
  * Example usage if extending:
- *   # Make sure define `onRouteLoad` and `onRouteUnload` functions
  *   class MyPage extends JsonData {
- *       onRouteLoad() { super.onRouteLoad() };
- *       onRouteUnload() { super.onRouteUnload() };
  *       onRendered() {
  *           console.log('MyPage.onRendered()')
  *       }
@@ -30,7 +27,7 @@
 /* eslint no-console: ["error", { allow: ["log", "warn", "error"] }] */
 
 /**
- * JsonData Page Cbject
+ * JsonData Page Class
  */
 class JsonData {
     constructor() {

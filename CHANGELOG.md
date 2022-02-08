@@ -8,10 +8,11 @@ Overall the core Framework files, React Components, and Web Components and API a
 
 * Updated DataFormsJS Framework to support JavaScript classes
   * Originally the DataFormsJS Framework was designed and developed prior to ES6 being supported among Web Browsers. Because of this custom app code was designed around ES5. This update allows for custom app code (Pages and Plugins) to use classes rather than objects which allows for modern style JavaScript development.
-  * Functions updated for the main App object:
+  * Functions updated and added for the main App object:
     * https://github.com/dataformsjs/dataformsjs/blob/master/js/DataFormsJS.js
     * `app.addPage()`
     * `app.addPlugin()`
+    * `app.getClassFunctionNames()` - New function
   * New class version of the core `jsonData` page object:
     * `js/pages/classes/JsonData.js`
     * All variables and functions from the original file exist in the new one. The purpose of the new file is so that an app can extend it for custom page logic when defining pages as ES6 classes rather than ES5 objects.
@@ -31,8 +32,6 @@ Overall the core Framework files, React Components, and Web Components and API a
   })
 
   class MyPage extends JsonData {
-      onRouteLoad() { super.onRouteLoad() };
-      onRouteUnload() { super.onRouteUnload() };
       onRendered() {
           console.log('MyPage.onRendered()')
       }

@@ -1,5 +1,5 @@
 /**
- * Page Template for a custom entry form based on [jsonData].
+ * Page Template for a custom page based on [jsonData].
  * 
  * Defining pages based on [jsonData] is the recommended starting point for most
  * sites that use the DataFormsJS Framework because it allows for quickly defining
@@ -39,7 +39,7 @@
      * and code that you do not use.
      */
     Object.assign(page.model, {
-        // Propeties
+        // Properties
         property1: 'Example Property',
         property2: null,
         property3: 123,
@@ -79,16 +79,12 @@
     /**
      * Define the Controller onRendered() function.
      * This gets called each time the view is redrawn.
-     * 
-     * If using Vue as the View Engine then this function will likely
-     * not be called and instead Vue will automatically render view 
-     * updates based on the downloaded data.
      */
     page.onRendered = function () {
         console.log('page.onRendered(isLoaded = ' + this.isLoaded + ')');
 
         // Only call custom functions for the view 
-        // once data has loaded from the web sevice.
+        // once data has loaded from the web service.
         if (this.isLoaded) {
             this.setupView();
         }

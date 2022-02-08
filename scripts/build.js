@@ -12,7 +12,7 @@
  *
  * Reason for the different packages:
  *     [uglify-js] Used to minimized ES5 Files (DataFormsJS Framework)
- *     [terser] Used to minimized React and Web Components for ES6
+ *     [terser] Used to minimized React, Web Components, and Framework Classes (ES6 code)
  *     [@babel] DataFormsJS React Components are published as both ES6
  *          and ES5 Version so Babel is used to compile from the ES6 Version
  *          to ES5 Version prior to minification.
@@ -41,6 +41,13 @@
  * number in several of the minimized files.
  */
 
+/* eslint-env node */
+/* eslint quotes: ["error", "single", { "avoidEscape": true }] */
+/* eslint strict: ["error", "global"] */
+/* eslint no-regex-spaces: "off" */
+/* eslint spaced-comment: ["error", "always"] */
+/* jshint esversion: 8, node: true */
+
 const fs = require('fs');
 const path = require('path');
 const util = require('util');
@@ -65,8 +72,8 @@ const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'InputFilter', 'JsonDa
 (async () => {
     // Get Version Number from [package.json]
     const packageJson = __dirname + '/../package.json';
-    const package = await readFile(packageJson, 'utf8');
-    const version = JSON.parse(package).version;
+    const packageFile = await readFile(packageJson, 'utf8');
+    const version = JSON.parse(packageFile).version;
 
     // Small copyright header to core files. Only a few files are updated.
     // Basically one file for the Framework, one file for React,
@@ -140,7 +147,7 @@ const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'InputFilter', 'JsonDa
                 }
                 const fileVersion = match[1];
                 if (version !== fileVersion) {
-                    console.log(`Updating [version] from [${fileVersion}] to [${version}] in file: ${file}`)
+                    console.log(`Updating [version] from [${fileVersion}] to [${version}] in file: ${file}`);
                     code = code.replace(regex, function(str, p1) {
                         return str.replace(p1, version);
                     });
@@ -292,7 +299,7 @@ async function buildReactFiles(copyright) {
         codeES6 = codeES6.replace('@license', ''); // Required for all comments to be deleted
         let codeES5_New = Babel.transform(codeES6, options).code;
         if (!codeES5_New.startsWith('"use strict";') || codeES5_New.match(regexModule) === null || codeES5_New.match(regexExports) === null) {
-            console.error(`Error unexpected output from Babel for file: ${file}`);
+            console.error(`Error unexpected output from Babel for file: ${outFile}`);
             process.exit(1);
         }
         codeES5_New = codeES5_New.replace(regexModule, '');
@@ -330,7 +337,7 @@ async function buildReactFiles(copyright) {
     `);
     let js = Babel.transform(allComponents.join('\n'), options).code;
     if (!js.startsWith('"use strict";') || js.match(regexModule) === null || js.match(regexExports) === null) {
-        console.error(`Error unexpected output from Babel for the main React DataFormsJS file`);
+        console.error('Error unexpected output from Babel for the main React DataFormsJS file');
         process.exit(1);
     }
     js = reactES5_Start_1 + js.substr('"use strict";'.length) + reactES5_End;
@@ -369,28 +376,37 @@ async function buildReactFiles(copyright) {
 async function getAllFiles() {
     const rootDir = __dirname + '/../js/';
     const jsDir = ['controls', 'extensions', 'pages', 'plugins', 'react', 'scripts'];
-    const webDir = ['web-components'];
+    const webDir = ['pages/classes', 'web-components'];
     const webJsFiles = ['jsPlugins.js', 'old-browser-warning.js', 'safari-nomodule.js'];
-    const reactES5 = ['react/es5'];
-    const reactES6 = ['react/es6'];
+    const reactES5 = 'react/es5';
+    const reactES6 = 'react/es6';
 
     // Get all JavaScript files for [uglify-js]
     let jsFiles = await getJsFiles(rootDir);
-    jsDir.forEach(async (dir) => {
+    for (const dir of jsDir) {
         const files = await getJsFiles(rootDir + dir);
         jsFiles = jsFiles.concat(files);
-    });
+    }
     const reactFilesES5 = await getJsFiles(rootDir + reactES5);
     jsFiles = jsFiles.concat(reactFilesES5);
 
     // Get all JavaScript React and Web Component files for [terser]
-    let webFiles = await getJsFiles(rootDir + webDir);
+    let webFiles = [];
+    for (const dir of webDir) {
+        const files = await getJsFiles(rootDir + dir);
+        webFiles = webFiles.concat(files);
+    }
     const reactFilesES6 = await getJsFiles(rootDir + reactES6);
     webFiles = webFiles.concat(reactFilesES6);
 
     // Move specific JavaScript files from Web Component list to JS list
     webJsFiles.forEach(file => {
-        const index = webFiles.findIndex(f => f.includes(file));
+        const index = webFiles.findIndex(f => f.endsWith(file));
+        if (index === -1) {
+            console.log('ERROR - ES5 File not found: ' + file);
+            console.log(webFiles);
+            process.exit(1);
+        }
         jsFiles.push(webFiles.splice(index, 1)[0]);
     });
 

@@ -22,14 +22,14 @@ class Page {
 
     /**
      * Controller function that is called once before the route
-     * will be loaded. This is usefull for calling web services
+     * will be loaded. This is useful for calling web services
      * before any rendering happens. For example, see usage on the
      * core [pages/jsonData.js] file.
      *
      * When using Vue this will be called from the Vue instance
      * [mounted()] function.
      */
-        onRouteLoad() {
+    onRouteLoad() {
         console.log('%cPage Loaded', 'font-weight:bold;');
         this.counter++;
         this.logFuncHash('onRouteLoad');

@@ -2842,7 +2842,6 @@
             });
         });
 
-        // TODO - new
         // This test is based on 'Route Change and Event Order'
         QUnit.test('JavaScript ES6 Classes', function (assert) {
             // Asynchronous test
@@ -2888,7 +2887,7 @@
                     // Compare Values
                     assert.equal(window.location.hash, hash, 'Event Order Hash Check');
                     tester.checkElementRemoveSpLb('view', expected, assert);
-                    assert.equal(model.triggeredIsUpdatingView, true, 'Tiggered app.isUpdatingView()');
+                    assert.equal(model.triggeredIsUpdatingView, true, 'Triggered app.isUpdatingView()');
 
                     // Reset Global App Functions
                     app.onUpdateViewComplete = null;
@@ -2935,7 +2934,7 @@
             // Applies to Vue 2 and not Vue 3.
             // Vue 3 is determined by `Vue.createApp()`
             if (window.Vue !== undefined && Vue.createApp === undefined) {
-                // Most browers will create 3 error elements while some versions
+                // Most browsers will create 3 error elements while some versions
                 // of old Safari on iOS will result in 2 being created.
                 var errors = document.querySelectorAll('.dataformsjs-fatal-error');
                 var elementCountIsValid = (errors.length === 3 || errors.length === 2);
