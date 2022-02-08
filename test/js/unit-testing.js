@@ -33,7 +33,7 @@
         // Default expected DataFormJS Settings based on the current page
         // Controllers and Plugins are variable which allows for different
         // builds to be tested. The required pages/plugins are checked at setup.
-        tester.controllersCount = 18;
+        tester.controllersCount = 19;
         tester.modelsCount = 5;
         tester.pagesCount = Object.keys(app.pages).length; // min=2
         tester.pluginsCount = Object.keys(app.plugins).length; // min=1
@@ -2840,6 +2840,88 @@
                 window.location.hash = hash;
                 tester.compiledTemplates++;
             });
+        });
+
+        // TODO - new
+        // This test is based on 'Route Change and Event Order'
+        QUnit.test('JavaScript ES6 Classes', function (assert) {
+            // Asynchronous test
+            var done = assert.async();
+            assert.equal(app.lazyLoad.classUnitTests, 'js/DataFormsJS-Classes-Unit-Test-Event-Order.js', 'Check [app.lazyLoad]');
+            if (isIE) {
+                // Only IE is checked but so test will break if running in
+                // very old version of iOS (example iOS 9, iPad2, etc)
+                assert.ok(true, 'Test Skipped for IE');
+                done();
+                return;
+            }
+            if (app.viewEngine() === 'Vue') {
+                assert.ok(true, 'Test Skipped for Vue');
+                done();
+                return;
+            }
+
+            // Define Test URL Hash
+            var hash = '#/class-page-event-order';
+
+            // Define a Global App Function to check the page after it is rendered
+            app.onUpdateViewComplete = function () {
+                // Compare to the initial expected result
+                var expected = '[class-event-order]pageClass:onRouteLoad,pageClass:onBeforeRender,pluginClass:onBeforeRender';
+                assert.equal(window.location.hash, hash, 'Event Order Hash Check');
+                tester.checkElementRemoveSpLb('view', expected, assert);
+
+                // Define another [onUpdateViewComplete] function to check the final result.
+                // The Page Object [unitTestEventOrder] calls [app.updateView()] while
+                // it is being rendered and sets several properties to make sure that events
+                // are being called in the correct order and that [updateView()] is safe
+                // to call while the view is being rendered.
+                app.onUpdateViewComplete = function () {
+                    // The Unit-Test Controller should have set [triggeredIsUpdatingView] set to true
+                    // if [app.isUpdatingView()] was true, this if confirming that [app.updateView()]
+                    // is safe to call while [app.updateView()] is still running.
+                    var model = app.activeModel;
+
+                    // Expected HTML Result
+                    var expected = '[class-event-order]pageClass:onRouteLoad,pageClass:onBeforeRender,pluginClass:onBeforeRender,pluginClass:onRendered,pageClass:onRendered,pageClass:onBeforeRender,pluginClass:onBeforeRender';
+
+                    // Compare Values
+                    assert.equal(window.location.hash, hash, 'Event Order Hash Check');
+                    tester.checkElementRemoveSpLb('view', expected, assert);
+                    assert.equal(model.triggeredIsUpdatingView, true, 'Tiggered app.isUpdatingView()');
+
+                    // Reset Global App Functions
+                    app.onUpdateViewComplete = null;
+
+                    // Define and run controller to check events
+                    // that happened after [app.onUpdateViewComplete()].
+                    var path = '/class-after-event-order';
+                    app.addController({
+                        path: path,
+                        onRendered: function() {
+                            // Check events
+                            var events = model.classEvents.join(',');
+                            var expected = 'pageClass:onRouteLoad,pageClass:onBeforeRender,pluginClass:onBeforeRender,pluginClass:onRendered,pageClass:onRendered,pageClass:onBeforeRender,pluginClass:onBeforeRender,pluginClass:onRendered,pageClass:onRendered,pluginClass:onAllowRouteChange(/class-after-event-order),pluginClass:onRouteUnload,pageClass:onRouteUnload';
+                            assert.equal(events, expected, 'Checking Event Order after route was unloaded: ' + events);
+
+                            // Redirect back to default URL
+                            window.location.hash = '#/';
+
+                            // Mark the test as complete
+                            done();
+                        },
+                    });
+                    tester.controllersCount++;
+                    window.location.hash = path;
+                };
+            };
+
+            // Change the view
+            window.location.hash = hash;
+            tester.compiledTemplates++;
+            tester.pagesCount++;
+            tester.pluginsCount++;
+            tester.modelsCount++;
         });
 
         // Check for the expected number of properties and objects

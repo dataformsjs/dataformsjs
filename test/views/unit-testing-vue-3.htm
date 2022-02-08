@@ -62,6 +62,11 @@
             <span v-for="event in events">{{ event }},</span>
         </script>
 
+        <script type="text/x-template" data-engine="vue" data-route="/class-page-event-order" data-lazy-load="classUnitTests" data-page="PageEventOrder">
+	        [class-event-order]
+            <span v-for="event in classEvents">{{ event }},</span>
+        </script>
+
         <script
 	        type="text/x-template" data-engine="vue"
 		    src="html/unit-test-control-vue.htm"
@@ -260,6 +265,13 @@
         <script src="js/DataFormsJS-Models-Unit-Testing.js"></script>
         <script src="js/DataFormsJS-Pages-Unit-Test-Event-Order.js"></script>
         <script src="js/DataFormsJS-Plugins-Unit-Test-Event-Order.js"></script>
+
+        <!-- Scripts for dynamic/lazy loading -->
+        <script>
+            app.lazyLoad = {
+                'classUnitTests': 'js/DataFormsJS-Classes-Unit-Test-Event-Order.js',
+            };
+        </script>
 
         <!-- Include Template Engines - specified after core DataFormsJS files to make sure that script load order doesn't mater -->
         <!--

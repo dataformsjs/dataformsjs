@@ -67,6 +67,13 @@
             {{/each}}
         </script>
 
+        <script type="text/x-template" data-engine="handlebars" data-route="/class-page-event-order" data-lazy-load="classUnitTests" data-page="PageEventOrder">
+	        [class-event-order]
+            {{#each classEvents}}
+                {{this}}{{#if @last}}{{else}},{{/if}}
+            {{/each}}
+        </script>
+
         <script
 	        type="text/x-template" data-engine="handlebars"
 		    src="html/unit-test-control-handlebars.htm"
@@ -306,6 +313,13 @@
         <script src="js/DataFormsJS-Models-Unit-Testing.js"></script>
         <script src="js/DataFormsJS-Pages-Unit-Test-Event-Order.js"></script>
         <script src="js/DataFormsJS-Plugins-Unit-Test-Event-Order.js"></script>
+
+        <!-- Scripts for dynamic/lazy loading -->
+        <script>
+            app.lazyLoad = {
+                'classUnitTests': 'js/DataFormsJS-Classes-Unit-Test-Event-Order.js',
+            };
+        </script>
 
         <!-- Include Template Engines - specified after core DataFormsJS files to make sure that script load order doesn't mater -->
         <!--

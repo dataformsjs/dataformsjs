@@ -61,7 +61,12 @@
 	        [event-order]
             <% for (var n = 0, m = events.length; n < m; n++) { %><%- events[n] + (n === (m-1) ? "" : ",") %><% }; %>
         </script>
-        
+
+        <script type="text/x-template" data-engine="underscore" data-route="/class-page-event-order" data-lazy-load="classUnitTests" data-page="PageEventOrder">
+	        [class-event-order]
+            <% for (var n = 0, m = classEvents.length; n < m; n++) { %><%- classEvents[n] + (n === (m-1) ? "" : ",") %><% }; %>
+        </script>
+
         <script 
 	        type="text/x-template" data-engine="underscore" 
 		    src="html/unit-test-control-underscore.htm" 
@@ -262,6 +267,13 @@
         <script src="js/DataFormsJS-Models-Unit-Testing.js"></script>
         <script src="js/DataFormsJS-Pages-Unit-Test-Event-Order.js"></script>
         <script src="js/DataFormsJS-Plugins-Unit-Test-Event-Order.js"></script>
+
+        <!-- Scripts for dynamic/lazy loading -->
+        <script>
+            app.lazyLoad = {
+                'classUnitTests': 'js/DataFormsJS-Classes-Unit-Test-Event-Order.js',
+            };
+        </script>
         
         <!-- Include Template Engines - specified after core DataFormsJS files to make sure that script load order doesn't mater -->
         <!--

@@ -36,9 +36,6 @@ TODO List
         ~/examples/framework-classes-vue.htm
     - Pending updates
         - Add new class templates under [js/templates/*]
-        - More testing with more browsers and on different OS's
-        - New unit testing code that will load and check classes
-            It needs to handle IE and skip the class validation
         - New JsonData class or similar name to avoid conflict with existing [jsonData.js]
             This is still under consideration
         - Update Quick Docs and Playground Code (after release and CDN refreshes)
