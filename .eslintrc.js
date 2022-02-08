@@ -1,11 +1,8 @@
 /* global module */
 module.exports = {
     // Running:
-    //     Windows:
-    //        "node_modules/.bin/eslint.cmd" js
-    //
-    //     If testing many changes output to a file using:
-    //        "node_modules/.bin/eslint.cmd" js > eslint_results.txt
+    //     https://eslint.org/docs/user-guide/command-line-interface
+    //     npx eslint js
     //
     // The root folder/directory under [js] and most directories under it is
     // intended for browser using ECMA Version 5. Key files such as
@@ -35,25 +32,20 @@ module.exports = {
     overrides: [
         // React and Web Components use modern module syntax
         {
-            files: ['**/js/web-components/*', '**/js/react/es6/*', '/scripts/build.js'],
+            files: [
+                '**/js/web-components/*',
+                '**/js/react/es6/*',
+                '**/scripts/build.js',
+                '**/js/pages/classes/*',
+                '**/js/templates/page-class.js',
+                '**/js/templates/page-from-JsonData-class.js',
+                '**/js/templates/plugin-class.js',
+            ],
             excludedFiles: ['jsPlugins.js', 'polyfill.js'],
             parserOptions: {
                 ecmaVersion: 11,
                 sourceType: 'module',
             },
-        },
-        {
-            files: ['*.jsx'],
-            parserOptions: {
-                ecmaVersion: 11,
-                sourceType: 'module',
-                ecmaFeatures: {
-                    jsx: true
-                }
-            },
-            plugins: [
-                'react'
-            ],
         },
     ]
 };
