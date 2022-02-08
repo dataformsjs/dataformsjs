@@ -273,6 +273,11 @@
     <!-- Comment above scripts and un-comment this version test Polyfill in Modern Browsers -->
     <!-- <script src="/js/web-components/polyfill.js"></script> -->
 
+    <!--
+        [marked] requires `trimRight` for IE
+    -->
+    <script nomodule src="/js/scripts/polyfills.js"></script>
+
     <script>
         window.lazyLoad = {
             // In the example below [nomodule] can be used, however since <markdown-content>

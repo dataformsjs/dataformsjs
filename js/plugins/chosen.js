@@ -1,9 +1,9 @@
 /**
  * DataFormsJS Plugin to setup jQuery Chosen elements
- * 
+ *
  * Example usage:
  *     <select class="chosen-select" data-chosen-options="{&quot;allow_single_deselect&quot;:true}">
- * 
+ *
  * @link https://harvesthq.github.io/chosen/
  */
 
@@ -45,7 +45,14 @@
                 // By default chosen blocks the standard 'change' and 'input' events.
                 // Make sure 'input' events run so other plugins or code such as
                 // [dataBind.js] behave as expected.
-                e.target.dispatchEvent(new Event('input'));
+                var event, eventName = 'input';
+                if (typeof(Event) === 'function') {
+                    event = new Event(eventName, { bubbles: true }); // Modern Browsers
+                } else {
+                    event = document.createEvent('Event'); // IE 11
+                    event.initEvent(eventName, true, false);
+                }
+                e.target.dispatchEvent(event);
             });
         });
     }
@@ -60,5 +67,5 @@
     }
 
     // Add Plugin to App
-    app.addPlugin('chosen', setupChosen); 
+    app.addPlugin('chosen', setupChosen);
 })();

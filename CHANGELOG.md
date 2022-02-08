@@ -13,6 +13,8 @@ Overall the core Framework files, React Components, and Web Components and API a
     * `app.addPage()`
     * `app.addPlugin()`
     * `app.getClassFunctionNames()` - New function
+  * Bug fix with Chosen Plugin for IE
+    * https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/chosen.js
   * New class version of the core `jsonData` page object:
     * `js/pages/classes/JsonData.js`
     * All variables and functions from the original file exist in the new one. The purpose of the new file is so that an app can extend it for custom page logic when defining pages as ES6 classes rather than ES5 objects.

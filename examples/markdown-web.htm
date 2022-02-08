@@ -106,10 +106,15 @@
             DataFormsJS Web Components
             https://www.dataformsjs.com
         -->
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/url-router.js"></script>
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/spa-links.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/url-router.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/spa-links.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/markdown-content.min.js"></script>
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/polyfill.min.js"></script>
+
+        <!--
+            [marked] requires `trimRight` for IE
+        -->
+        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/scripts/polyfills.min.js"></script>
 
         <script>
             window.lazyLoad = {
