@@ -51,7 +51,7 @@ class MyPlugin {
     onRouteUnload() {
         console.log('plugin.onRouteUnload');
     }
-};
+}
 
 /**
  * Add Plugin to DataFormsJS
