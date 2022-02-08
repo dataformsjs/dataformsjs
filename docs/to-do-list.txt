@@ -34,9 +34,14 @@ TODO List
         will need to be updated to point to it:
         ~/examples/framework-classes-hbs.htm
         ~/examples/framework-classes-vue.htm
+        ~/examples/template-files-hbs.htm
+        ~/examples/template-files-vue.htm        
     - Pending updates
+        - Need new build and re-test with new build
         - Update build for [js\pages\classes\JsonData.js]
-        - Add new class templates under [js/templates/*]
+        - Add new class templates under [js/templates/*] and related demos:
+            examples\template-files-hbs.htm
+            examples\template-files-vue.htm
         - Update Quick Docs and Playground Code (after release and CDN refreshes)
 
 **) Update the Getting Started CSS Template used here:

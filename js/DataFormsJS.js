@@ -1350,7 +1350,7 @@
             if (typeof page === 'object') {
                 obj = page;
                 checkModel = true;
-            } else if (typeof page === 'function' && page.prototype !== undefined) {
+            } else if (typeof page === 'function' && page.toString().substr(0, 5) === 'class') {
                 // JavaScript class is being used
                 obj = page.prototype;
             } else {
@@ -1423,7 +1423,7 @@
             }
 
             // If a class was passed then create an instance
-            if (typeof plugin === 'function' && plugin.prototype !== undefined) {
+            if (typeof plugin === 'function' && plugin.toString().substr(0, 5) === 'class') {
                 plugin = new plugin();
             }
 
