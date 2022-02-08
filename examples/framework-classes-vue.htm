@@ -14,6 +14,7 @@
                 <a class="active" href="#/">Home</a>
                 <a href="#/calc">Calculator</a>
                 <a href="#/time">Time</a>
+                <a href="#/data">Data</a>
             </nav>
         </header>
 
@@ -39,7 +40,7 @@
             data-engine="vue"
             data-route="/calc"
             data-page="calculator"
-            data-lazy-load="Calculator, dataBind">
+            data-lazy-load="calculator, dataBind">
 
             <section class="flex-col-600">
                 <input v-model="currentX" placeholder="Value X" size="7">
@@ -72,6 +73,63 @@
         </template>
 
         <!--
+            This page uses the `JsonData` page class instead of the `jsonData` page object.
+            Using "jsonData" for both [data-page] and [data-lazy-load] will cause the `jsonData`
+            version to be used. There is no difference in features. `JsonData` would be used
+            if an app is using classes for page development and needed to extend from `JsonData`.
+        -->
+        <script
+            type="text/x-template"
+            data-engine="vue"
+            data-route="/data"
+            data-page="JsonData"
+            data-url="https://www.dataformsjs.com/data/geonames/countries"
+            data-load-only-once
+            data-countries
+            data-lazy-load="JsonData, flags, filter, sort, clickToHighlight, vueDirectives">
+
+            <section v-if="isLoading">Loading</section>
+            <section v-if="hasError">{{ errorMessage }}</section>
+            <section v-if="isLoaded" class="flex-col">
+                <input
+                    class="max-width-300 mt-0"
+                    data-filter-selector="table"
+                    data-filter-results-text-selector="h1"
+                    data-filter-results-text-all="{totalCount} Countries"
+                    data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
+                    placeholder="Enter filter, example 'North America'">
+
+                <table
+                    class="mt-15"
+                    data-sort
+                    data-sort-class-odd="row-odd"
+                    data-sort-class-even="row-even">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th class="text-right">Size (KM)</th>
+                            <th class="text-right">Population</th>
+                            <th>Continent</th>
+                        </tr>
+                    </thead>
+                    <tbody class="click-to-highlight">
+                        <tr v-for="country in countries">
+                            <td>{{ country.iso }}</td>
+                            <td>
+                                <i v-bind:class="country.iso.toLowerCase() + ' flag'"></i>
+                                <span>{{ country.country }}<span>
+                            </td>
+                            <td class="text-right" v-bind:data-value="country.area_km" v-format-number="country.area_km"></td>
+                            <td class="text-right" v-bind:data-value="country.population" v-format-number="country.population"></td>
+                            <td>{{ country.continent }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </script>
+
+        <!--
             Vue
             https://vuejs.org/
 
@@ -89,9 +147,16 @@
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/navLinks.min.js"></script>
         <script>
             app.lazyLoad = {
-                Calculator: 'framework-classes-calc-page.js',
+                calculator: 'framework-classes-calc-page.js',
                 time: 'framework-classes-time-plugin.js',
                 dataBind: 'https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/dataBind.min.js',
+                jsonData: 'https://cdn.jsdelivr.net/npm/dataformsjs@5/js/pages/jsonData.min.js',
+                JsonData: '../js/pages/classes/JsonData.js',
+                flags: 'https://cdn.jsdelivr.net/npm/semantic-ui-flag@2.4.0/flag.min.css',
+                filter: 'https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/filter.min.js',
+                sort: 'https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/sort.min.js',
+                clickToHighlight: 'https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/clickToHighlight.min.js',
+                vueDirectives: 'https://cdn.jsdelivr.net/npm/dataformsjs@5/js/extensions/vue-directives.min.js',
             };
             app.settings.lazyTemplateSelector = '#loading-screen';
         </script>

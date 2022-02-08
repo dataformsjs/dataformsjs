@@ -5,6 +5,11 @@
  * most apps and sites. This page defines the model and controller that can
  * be used for generic JSON web services. Often when creating custom pages
  * for DataFormsJS they will be based on this file.
+ *
+ * A class-based version of this file exsits at [js/pages/classes/JsonData.js]
+ * and can be used if you are developing an app with pages defined as classes
+ * and need to extend from `JsonData`. If features are added to this file or
+ * code is change the related code must also be changed in the class file.
  */
 
 /* Validates with both [jshint] and [eslint] */

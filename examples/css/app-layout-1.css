@@ -1,5 +1,11 @@
 * { padding:0; margin:0; }
 
+:root {
+    --light-color: hsl(207deg 100% 93%);
+    --medium-color: hsl(207deg 100% 73%);
+    --border-color: hsl(207deg 100% 43%);
+}
+
 html {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     min-height:100vh;
@@ -52,7 +58,13 @@ select {
     margin: 16px;
 }
 
+.max-width-300 {
+    width: 100%;
+    max-width: 300px;
+}
+
 .max-width-500 {
+    width: 100%;
     max-width: 500px;
 }
 
@@ -61,15 +73,42 @@ ul.record-list {
 }
 
 ul.record-list li {
-    border: 1px solid hsl(207deg 100% 43%);
+    border: 1px solid var(--border-color);
     padding: 8px 16px;
     text-align: center;
     border-bottom: none;
 }
 ul.record-list li:last-child {
-    border-bottom: 1px solid hsl(207deg 100% 43%);
+    border-bottom: 1px solid var(--border-color);
 }
 
 ul.record-list li:nth-child(even) {
-    background-color: hsl(207deg 100% 93%);
+    background-color: var(--light-color);
 }
+
+table {
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid var(--border-color);
+    padding: 4px 8px;
+}
+
+thead tr {
+    background-color: var(--medium-color);
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--light-color);
+}
+
+tbody tr.row-odd { background-color: #fff; }
+tbody tr.row-even { background-color: var(--light-color); }
+tbody tr.highlight { background-color: yellow; }
+
+.text-right { text-align: right; }
+
+.mt-0 { margin-top:0; }
+.mt-15 { margin-top:15px; }
