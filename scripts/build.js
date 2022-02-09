@@ -170,9 +170,6 @@ const buildClasses = ['Cache', 'ErrorBoundary', 'Format', 'InputFilter', 'JsonDa
             }
             let newCode = result.code;
             if (isWindows) {
-                if (newCode === undefined) {
-                    console.log('test');
-                }
                 newCode = newCode.replace(/\n/g, '\r\n');
             }
 
