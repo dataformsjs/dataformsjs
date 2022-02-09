@@ -456,13 +456,13 @@
                     if (module.indexOf('-') !== -1) {
                         // Example: 'prop-types' => 'PropTypes'
                         name = module.split('-').map(function(s) {
-                            return s.substr(0, 1).toUpperCase() + s.substr(1);
+                            return s.substring(0, 1).toUpperCase() + s.substring(1);
                         }).join('');
 
                         // Example: 'react-transition-group' => 'reactTransitionGroup'
                         obj = window[name];
                         if (obj === undefined) {
-                            name = name.substr(0, 1).toLowerCase() + name.substr(1);
+                            name = name.substring(0, 1).toLowerCase() + name.substring(1);
                             obj = window[name];
                         }
                     }
@@ -568,7 +568,7 @@
              * @return {string}
              */
             getTextPosition: function(input, pos) {
-                var lines = input.substr(0, pos).split('\n');
+                var lines = input.substring(0, pos).split('\n');
                 var lineCount = lines.length;
                 var line = lines[lineCount - 1];
                 return ' at Line #: ' + lineCount + ', Column #: ' + (line.length - 1) + ', Line: ' + line.trim();
@@ -590,7 +590,7 @@
             },
 
             /**
-             * Helper function that gets called when a '<' charater is
+             * Helper function that gets called when a '<' character is
              * found to determine if it's likely an element or not.
              *
              * @param {string} input
@@ -1370,10 +1370,10 @@
                                     if (token.value.trim() !== '') {
                                         value = token.value.trim();
                                         if (value.indexOf('{') === 0) {
-                                            value = value.substr(1);
+                                            value = value.substring(1);
                                         }
-                                        if (value.substr(value.length - 1, 1) === '}') {
-                                            value = value.substr(0, value.length-1);
+                                        if (value.substring(value.length - 1, value.length) === '}') {
+                                            value = value.substring(0, value.length-1);
                                         }
                                         node.children.push({
                                             type: token.type,
@@ -1557,7 +1557,7 @@
                                     }
                                     if (propValue === 'true' && /{\.\.\.(.+)}/.test(propName)) {
                                         // Handle spread operators: `{...props}`
-                                        propJs.push(propName.substr(0, propName.length - 1).substr(1) + (n === propCount - 1 ? '' : ', '));
+                                        propJs.push(propName.substring(0, propName.length - 1).substring(1) + (n === propCount - 1 ? '' : ', '));
                                     } else {
                                         propJs.push(propName + ': ' + propValue + (n === propCount - 1 ? '' : ', '));
                                     }

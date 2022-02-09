@@ -387,7 +387,7 @@ class MarkdownContent extends HTMLElement {
             let rootUrl;
             if (url) {
                 const parts = url.split('/');
-                rootUrl = url.substr(0, url.length - parts[parts.length - 1].length);
+                rootUrl = url.substring(0, url.length - parts[parts.length - 1].length);
             }
 
             // Update all local links if [link-root-url] is specified or if [url] is used.

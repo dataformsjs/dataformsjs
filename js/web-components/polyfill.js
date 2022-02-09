@@ -703,7 +703,7 @@
             var src;
             if (script) {
                 src = script.getAttribute('src');
-                rootUrl = src.substr(0, src.length - files[n].length + 1);
+                rootUrl = src.substring(0, src.length - files[n].length + 1);
                 useMinFiles = (n === 0);
                 return;
             }

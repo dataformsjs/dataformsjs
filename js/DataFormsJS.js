@@ -533,7 +533,7 @@
 
         // Is # the first character? If yes remove it
         if (path.indexOf('#') === 0) {
-            path = path.substr(1);
+            path = path.substring(1);
         }
 
         // Define as root url ('/') if blank
@@ -1349,7 +1349,7 @@
             if (typeof page === 'object') {
                 obj = page;
                 checkModel = true;
-            } else if (typeof page === 'function' && page.toString().substr(0, 5) === 'class') {
+            } else if (typeof page === 'function' && page.toString().substring(0, 5) === 'class') {
                 // JavaScript class is being used
                 obj = page.prototype;
             } else {
@@ -1422,7 +1422,7 @@
             }
 
             // If a class was passed then create an instance
-            if (typeof plugin === 'function' && plugin.toString().substr(0, 5) === 'class') {
+            if (typeof plugin === 'function' && plugin.toString().substring(0, 5) === 'class') {
                 plugin = new plugin();
             }
 
@@ -2549,11 +2549,11 @@
                     if (value !== routeParts[n]) {
                         // If different then does the route path begin with ':'?
                         // If so it is a parameter and if not the route does not match.
-                        if (routeParts[n].substr(0, 1) === ':') {
+                        if (routeParts[n].substring(0, 1) === ':') {
                             // Add the value to the args[] array and as a property
                             // to the namedArgs{} object.
                             args.push(value);
-                            namedArgs[routeParts[n].substr(1)] = value;
+                            namedArgs[routeParts[n].substring(1)] = value;
                         } else {
                             return { isMatch: false };
                         }

@@ -92,8 +92,8 @@ class DataList extends HTMLElement {
             for (const attr of rootAttr) {
                 const pos = attr.indexOf('=');
                 if (pos > 1) {
-                    const name = attr.substr(0, pos).trim();
-                    const value = attr.substr(pos+1).trim();
+                    const name = attr.substring(0, pos).trim();
+                    const value = attr.substring(pos+1).trim();
                     rootAttrHtml += render` ${name}="${value}"`;
                 } else {
                     rootAttrHtml += render` ${attr}`;

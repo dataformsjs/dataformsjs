@@ -202,8 +202,8 @@ class DataTable extends HTMLElement {
             for (const attr of tableAttr) {
                 const pos = attr.indexOf('=');
                 if (pos > 1) {
-                    const name = attr.substr(0, pos).trim();
-                    const value = attr.substr(pos+1).trim();
+                    const name = attr.substring(0, pos).trim();
+                    const value = attr.substring(pos+1).trim();
                     tableHtml += render` ${name}="${value}"`;
                 } else {
                     tableHtml += render` ${attr}`;
@@ -219,8 +219,8 @@ class DataTable extends HTMLElement {
             for (const item of classList) {
                 const pos = item.indexOf('=');
                 if (pos > 0) {
-                    const col = item.substr(0, pos);
-                    const className = item.substr(pos+1);
+                    const col = item.substring(0, pos);
+                    const className = item.substring(pos+1);
                     classIndex[col] = className;
                 }
             }

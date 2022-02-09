@@ -87,8 +87,8 @@
                     var attr = rootAttr[n];
                     var pos = attr.indexOf('=');
                     if (pos > 1) {
-                        var name = attr.substr(0, pos).trim();
-                        var value = attr.substr(pos+1).trim();
+                        var name = attr.substring(0, pos).trim();
+                        var value = attr.substring(pos+1).trim();
                         html += ' ' + app.escapeHtml(name) + '="' + app.escapeHtml(value) + '"';
                     } else {
                         html += ' ' + app.escapeHtml(attr);

@@ -177,8 +177,8 @@
                     var attr = tableAttr[n];
                     var pos = attr.indexOf('=');
                     if (pos > 1) {
-                        name = attr.substr(0, pos).trim();
-                        value = attr.substr(pos+1).trim();
+                        name = attr.substring(0, pos).trim();
+                        value = attr.substring(pos+1).trim();
                         tableHtml += ' ' + app.escapeHtml(name) + '="' + app.escapeHtml(value) + '"';
                         // Add [data-sort] so that [app.plugins.sort] can handle
                         // the Web Component [is="sortable-table"].
@@ -198,8 +198,8 @@
                 classList.forEach(function(item) {
                     var pos = item.indexOf('=');
                     if (pos > 0) {
-                        var col = item.substr(0, pos);
-                        var className = item.substr(pos+1);
+                        var col = item.substring(0, pos);
+                        var className = item.substring(pos+1);
                         classIndex[col] = className;
                     }
                 });

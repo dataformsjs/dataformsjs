@@ -18,7 +18,11 @@ Overall the core Framework files, React Components, and Web Components and API a
   * New class version of the core `jsonData` page object:
     * `js/pages/classes/JsonData.js`
     * All variables and functions from the original file exist in the new one. The purpose of the new file is so that an app can extend it for custom page logic when defining pages as ES6 classes rather than ES5 objects.
-  ```
+  * Replaces all occurrences of `String.prototype.substr()` with `String.prototype.substring()`. IDE's such as VS Code show `substr()` as depreciated because it is a non-standard function.
+  * Updated `package.json` to use the latest and specific versions of `@babel/standalone`, `terser`, and `uglify-js` for the build process. This makes the build process work across systems as expected.
+  ```js
+  // Framework updates to support Classes
+
   app.addPage('name', class Page {
       onRouteLoad() {}
       onBeforeRender() {}

@@ -303,7 +303,7 @@ async function buildReactFiles(copyright) {
         codeES5_New = codeES5_New.replace(regexExports, '');
         codeES5_New = codeES5_New.replace(/\nexports\.default/, '\nwindow.' + component);
         let reactES5_Start = (codeES5_New.includes('React.') ? reactES5_Start_1 : reactES5_Start_2);
-        codeES5_New = reactES5_Start + codeES5_New.substr('"use strict";'.length) + reactES5_End;
+        codeES5_New = reactES5_Start + codeES5_New.substring('"use strict";'.length) + reactES5_End;
         if (isWindows) {
             codeES5_New = codeES5_New.replace(/\n/g, '\r\n');
         }
@@ -337,7 +337,7 @@ async function buildReactFiles(copyright) {
         console.error('Error unexpected output from Babel for the main React DataFormsJS file');
         process.exit(1);
     }
-    js = reactES5_Start_1 + js.substr('"use strict";'.length) + reactES5_End;
+    js = reactES5_Start_1 + js.substring('"use strict";'.length) + reactES5_End;
     js = js.replace(regexModule, '');
     js = js.replace(regexExports, '');
     js = js.replace(/\nexports\./g, '\nwindow.');

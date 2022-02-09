@@ -347,7 +347,7 @@
                 var rootUrl;
                 if (url) {
                     var parts = url.split('/');
-                    rootUrl = url.substr(0, url.length - parts[parts.length - 1].length);
+                    rootUrl = url.substring(0, url.length - parts[parts.length - 1].length);
                 }
 
                 // Update all local links if [data-link-root-url] is specified.

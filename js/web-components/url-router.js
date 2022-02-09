@@ -115,7 +115,7 @@ class UrlRouter extends HTMLElement {
         }
 
         // Get URL Path
-        let path = (this.useHistoryMode ? window.location.pathname : window.location.hash.substr(1));
+        let path = (this.useHistoryMode ? window.location.pathname : window.location.hash.substring(1));
         if (path === '') {
             path = '/';
         }
@@ -427,8 +427,8 @@ class UrlRouter extends HTMLElement {
                 if (value !== routeParts[n]) {
                     // If different then does the route path begin with ':'?
                     // If so it is a parameter and if not the route does not match.
-                    if (routeParts[n].substr(0, 1) === ':') {
-                        urlParams[routeParts[n].substr(1)] = value;
+                    if (routeParts[n].substring(0, 1) === ':') {
+                        urlParams[routeParts[n].substring(1)] = value;
                     } else {
                         return { isMatch: false };
                     }

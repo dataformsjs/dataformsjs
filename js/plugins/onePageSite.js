@@ -245,7 +245,7 @@
         scrollToHashElement: function () {
             var hash = window.location.hash;
             if (hash && hash[0] === '#') {
-                var el = document.getElementById(hash.substr(1));
+                var el = document.getElementById(hash.substring(1));
                 if (el) {
                     window.setTimeout(function() {
                         // Do nothing, route likely changed to
@@ -290,7 +290,7 @@
             onePageSite._targetElements = [];
             Array.prototype.forEach.call(onePageLinks, function(link) {
                 if (link.hash) {
-                    var el = document.getElementById(link.hash.substr(1));
+                    var el = document.getElementById(link.hash.substring(1));
                     if (el && onePageSite._targetElements.indexOf(el) === -1) {
                         onePageSite._targetElements.push(el);
                     }
@@ -324,7 +324,7 @@
         handleLinkClick: function(e) {
             var hash = this.hash;
             if (hash) {
-                var el = document.getElementById(hash.substr(1));
+                var el = document.getElementById(hash.substring(1));
                 if (el) {
                     // Cancel standard DOM click then scroll to element
                     e.preventDefault();

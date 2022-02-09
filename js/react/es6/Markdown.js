@@ -279,7 +279,7 @@ export default class Markdown extends React.Component {
             let rootUrl;
             if (url) {
                 const parts = url.split('/');
-                rootUrl = url.substr(0, url.length - parts[parts.length - 1].length);
+                rootUrl = url.substring(0, url.length - parts[parts.length - 1].length);
             }
 
             // Update all local links if specified.

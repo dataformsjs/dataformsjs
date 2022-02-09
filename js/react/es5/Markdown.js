@@ -228,7 +228,7 @@ var Markdown = function (_React$Component) {
 
         if (url) {
           var parts = url.split('/');
-          rootUrl = url.substr(0, url.length - parts[parts.length - 1].length);
+          rootUrl = url.substring(0, url.length - parts[parts.length - 1].length);
         }
 
         var linkRootUrl = this.props.linkRootUrl;

@@ -355,7 +355,7 @@
                     return {
                         ...state,
                         selectedFile: action.selectedFile,
-                        currentName: action.selectedFile.substr(0, action.selectedFile.indexOf('.')),
+                        currentName: action.selectedFile.substring(0, action.selectedFile.indexOf('.')),
                         file: {
                             type: null,
                             content: null,
