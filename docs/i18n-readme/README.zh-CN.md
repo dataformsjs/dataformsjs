@@ -383,9 +383,9 @@ DataFormsJS的作者当时有许多繁忙的工作，同时还在从事另一个
 
 **DataFormsJS有多大?**
 
-_所有大小都基于来自Web服务器的缩小脚本和gzip压缩._
+_所有大小都基于来自Web服务器的缩小脚本和gzip压缩. The file size can vary slightly between different browsers and CDNs - for example the Framework is 12.1 kB in Safari and 12.5 kB in Chrome._
 
-* **DataFormsJS 框架压缩后 – 12.2 kB** (157 kB 未压缩时)
+* **DataFormsJS 框架压缩后 – 12.5 kB** (157 kB 未压缩时)
 * 其他文件 诸如 (controllers, plugins, etc) 一般只有 1-3 kB 每个文件.
 * 通常，在使用框架时，初始页面加载大小约为15KB，然后加载额外插件、页面、控制器等的附加页面大小约为几KB.
 
