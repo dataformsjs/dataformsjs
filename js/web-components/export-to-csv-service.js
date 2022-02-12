@@ -12,7 +12,7 @@
  * The DataFormsJS Framework has a corresponding plugin: [js/plugins/exportToCsv.js].
  *
  * Example:
- *     <keydown-action-service></keydown-action-service>
+ *     <export-to-csv-service></export-to-csv-service>
  *     <button data-export-csv-selector="table" data-export-file-name="Data.csv">Export to CSV</button>
  */
 
