@@ -114,6 +114,9 @@
 
             // Get Table from Active Model. If using format of "object.prop"
             // then the [dataBind] plugin (if available) will used to get the data.
+            if (this.bind === null) {
+                return '';
+            }            
             var list = (model && model[this.bind] ? model[this.bind] : null);
             if (list === null && app.plugins.dataBind !== undefined && typeof app.plugins.dataBind.getBindValue === 'function') {
                 list = app.plugins.dataBind.getBindValue(this.bind, model);

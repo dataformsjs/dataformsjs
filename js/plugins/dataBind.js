@@ -98,7 +98,7 @@
             // Using bind requires an active model
             if (data === undefined) {
                 data = app.activeModel;
-            } else if (data === null) {
+            } else if (data === null && !key.startsWith('window.')) {
                 return null;
             } else if (key === null) {
                 throw new Error('Missing [data-bind] attribute.')
