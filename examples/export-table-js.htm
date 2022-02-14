@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Export Table Demo | Web Components</title>
+        <link rel="stylesheet" href="https://d2xbd92kui7v97.cloudfront.net/site/css/getting-started.css">
+        <style>
+            body { padding: 40px; }
+            button { padding: 0.5em 1em; margin: 10px; }
+            td { white-space: pre; vertical-align: top; }
+            input[type="radio"] {
+                width: initial;
+                margin-left: 20px;
+                border: initial;
+                box-shadow: initial;
+                width: 18px;
+                height: 18px;
+                margin-top: 0;
+            }
+            .form-controls {
+                margin-top: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            label { padding-left: 5px; }
+        </style>
+    </head>
+    <body>
+        <h1>Export Table Demo | DataFormsJS Framework</h1>
+
+        <section>
+            <input
+                data-filter-selector="table"
+                data-filter-results-text-selector="#record-count"
+                data-filter-results-text-all="Showing {totalCount} Total Records"
+                data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Records"
+                placeholder="Enter filter">
+
+            <div id="record-count" style="padding-top: 10px;"></div>
+
+            <div class="form-controls">
+                <button type="button"
+                    data-export-csv-selector="table"
+                    data-export-file-name="Log-Report.csv">Export to CSV</button>
+                <button type="button"
+                    data-export-excel-selector="table"
+                    data-export-file-name="Log-Report.xlsx"
+                    data-worksheet-name="Log Report">Export to Excel</button>
+            </div>
+
+            <div class="form-controls">
+                <input type="radio" name="export-all" id="export-visible" value="filtered" checked>
+                <label for="export-visible">Export Visible (Default)</label>
+                <input type="radio" name="export-all" id="export-all" value="all">
+                <label for="export-all">Export All</label>
+            </div>
+        </section>
+
+        <section>
+            <data-table
+                highlight-class="highlight"
+                table-attr="is=sortable-table,
+                            data-sort-class-odd=row-odd,
+                            data-sort-class-even=row-even">
+            </data-table>
+        </section>
+
+        <!-- DataFormsJS -->
+        <script src="../js/DataFormsJS.min.js"></script>
+        <script src="../js/controls/data-table.min.js"></script>
+        <script src="../js/plugins/dataBind.min.js"></script>
+        <script src="../js/plugins/filter.min.js"></script>
+        <script src="../js/plugins/sort.min.js"></script>
+        <script src="../js/plugins/clickToHighlight.min.js"></script>
+        <script src="../js/plugins/exportToCsv.min.js"></script>
+        <script src="../js/plugins/exportToExcel.min.js"></script>
+
+        <!-- Code for this Page -->
+        <script src="export-table-records.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Setup Export Options
+                function setExportAll(exportAll) {
+                    var csvExport = document.querySelector('[data-export-csv-selector]');
+                    var excelExport = document.querySelector('[data-export-excel-selector]');
+                    if (exportAll) {
+                        // Define HTML attribute
+                        csvExport.setAttribute('data-export-all', '');
+                        excelExport.setAttribute('data-export-all', '');
+                    } else {
+                        csvExport.removeAttribute('data-export-all');
+                        excelExport.removeAttribute('data-export-all');
+                    }
+                }
+                document.getElementById('export-visible').onchange = function() { setExportAll(false); };
+                document.getElementById('export-all').onchange = function() { setExportAll(true); };
+
+                // In most apps/sites using DataFormsJS the records for a <data-table>
+                // control would be passed from a JSON Service using [data-bind] attribute.
+                // This page manually creates and loads the data so DataFormsJS API
+                // along with standard DOM is needed to make it work.
+                // var dataTable = document.querySelector('data-table');
+                // app.activeModel.records = window.records;
+                // dataTable.setAttribute('data-bind', 'records');
+                // app.loadJsControl(dataTable);
+                document.querySelector('data-table').setAttribute('data-bind', 'window.records');
+                app.updateView();
+            });
+        </script>
+    </body>
+</html>
