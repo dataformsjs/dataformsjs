@@ -6,9 +6,17 @@ Overall the core Framework files, React Components, and Web Components and API a
 
 ## Next Release (changes on master branch and not yet npm)
 
-* Add Excel Export functionality
-  * Web Component: `~/js/web-components/export-to-excel-service.js`
-  * Framework Plugin: `~/js/plugins/exportToExcel.js` 
+* Add Excel Export functionality  
+  * Web Component:
+    * `~/js/web-components/export-to-excel-service.js`
+    * https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/export-to-excel-service.js
+  * Framework Plugin:
+    * `~/js/plugins/exportToExcel.js`
+    * https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/exportToExcel.js
+  * Both Web Component and Framework Plugin have the same behavior
+  * Exports happen directly in the browser through JavaScript and no server-side calls are made which makes the export/download appear almost instantly to the user.
+  * The script uses the external library ExcelJS and the first time the user exports an Excel file this service will download ExcelJS from a CDN. The generated Excel file contains a fixed header row using a gray and bold style and a filter set. The width of columns is based on the data. ExcelJS has many formatting options so if you need something similar or a custom version of this script then this file provides a good starting point for custom Excel Development.
+  * https://github.com/exceljs/exceljs/
 * Update CSV Export to export only visible rows by default
   * A new HTML attribute `[data-export-all]` was added to always export all rows regardless of filter.
 * Add and updated Examples for this:
@@ -17,7 +25,9 @@ Overall the core Framework files, React Components, and Web Components and API a
     * And all other Log demos
   * New Export Table Demos
     * `~/examples/export-table-web.htm`
+    * https://github.com/dataformsjs/dataformsjs/blob/master/examples/export-table-web.htm
     * `~/examples/export-table-js.htm`
+    * https://github.com/dataformsjs/dataformsjs/blob/master/examples/export-table-js.htm
 * Updated Framework `dataBind` plugin to bind global `window.*` variables for a basic webpage if not using SPA
 * Updated Framework Control `data-table` to not show an error when an empty table is displayed without `data-bind`
 
