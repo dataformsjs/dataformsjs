@@ -12,12 +12,13 @@
 
         <!--
             This file is based on [log-table-web.htm] however instead of using Framework
-            Plugins with [js/web-components/jsPlugins.js] all needed functionality is
+            Plugins with [js/web-components/jsPlugins.min.js] all needed functionality is
             handled through DataFormsJS Web Components.
         -->
 
         <show-errors-service></show-errors-service>
         <export-to-csv-service></export-to-csv-service>
+        <export-to-excel-service></export-to-excel-service>
         <highlighter-service></highlighter-service>
         <filter-service></filter-service>
 
@@ -55,7 +56,14 @@
                                     data-filter-class-even="row-even"
                                     placeholder="Enter Filter">
 
-                                <button type="button" data-export-csv-selector="table" data-export-file-name="Log-Report.csv">Export to CSV</button>
+                                <button type="button"
+                                    data-export-csv-selector="table"
+                                    data-export-file-name="Log-Report.csv">Export to CSV</button>
+
+                                <button type="button"
+                                    data-export-excel-selector="table"
+                                    data-export-file-name="Log-Report.xlsx"
+                                    data-worksheet-name="Log Report">Export to Excel</button>
                             </div>
 
                             <div class="highlighter" style="display:none;">
@@ -103,6 +111,7 @@
         <script type="module" src="../js/web-components/sortable-table.min.js"></script>
         <script type="module" src="../js/web-components/show-errors-service.min.js"></script>
         <script type="module" src="../js/web-components/export-to-csv-service.min.js"></script>
+        <script type="module" src="../js/web-components/export-to-excel-service.min.js"></script>
         <script type="module" src="../js/web-components/highlighter-service.min.js"></script>
         <script nomodule src="../js/web-components/polyfill.min.js"></script>
     </body>

@@ -42,7 +42,14 @@
                         data-filter-class-even="row-even"
                         placeholder="Enter Filter">
 
-                <button type="button" data-export-csv-selector="table" data-export-file-name="Log-Report.csv">Export to CSV</button>
+                    <button type="button"
+                        data-export-csv-selector="table"
+                        data-export-file-name="Log-Report.csv">Export to CSV</button>
+
+                    <button type="button"
+                        data-export-excel-selector="table"
+                        data-export-file-name="Log-Report.xlsx"
+                        data-worksheet-name="Log Report">Export to Excel</button>
             </div>
 
             <div class="highlighter" style="display:none;">
@@ -97,6 +104,7 @@
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/highlighter.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/clickToHighlight.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/exportToCsv.min.js"></script>
+        <script src="../js/plugins/exportToExcel.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/navLinks.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.6/dist/handlebars.min.js"></script>
 
