@@ -5,6 +5,12 @@
  * based on the attributes:
  *     data-export-csv-selector
  *     data-export-file-name
+ *     data-export-all
+ *
+ * [data-export-csv-selector] is required with a valid selector a <table>
+ * while [data-export-file-name] is optional and defaults to "Report.csv".
+ * By default only visible records are exported unless the attribute
+ * [data-export-all] is defined.
  *
  * Exports happen directly in the browser through JavaScript and no server-side calls
  * are made which makes the export/download appear almost instantly to the user.
@@ -45,8 +51,9 @@
          *
          * @param {string} selector
          * @param {string|undefined|null} exportFileName
+         * @param {boolean} exportAll
          */
-        exportTable: function (selector, exportFileName) {
+        exportTable: function (selector, exportFileName, exportAll) {
             var table = document.querySelector(selector),
                 rows = [],
                 row = [],
@@ -78,6 +85,9 @@
             for (x = 0, y = tableRows.length; x < y; x++) {
                 row = [];
                 rowEl = tableRows[x];
+                if (!exportAll && rowEl.style.display === 'none') {
+                    continue; // Exclude hidden rows
+                }
                 for (n = 0, m = rowEl.cells.length; n < m; n++) {
                     cell = rowEl.cells[n];
                     value = cell.getAttribute('data-value');
@@ -136,10 +146,11 @@
                 // If supported then setup and if not supported then hide the button
                 // (Example, this doesn't work on older iPhones).
                 if (isSupported) {
-                    var selector = element.getAttribute('data-export-csv-selector');
-                    var fileName = element.getAttribute('data-export-file-name');
                     element.onclick = function () {
-                        exportToCsv.exportTable(selector, fileName);
+                        var selector = element.getAttribute('data-export-csv-selector');
+                        var fileName = element.getAttribute('data-export-file-name');
+                        var exportAll = (element.getAttribute('data-export-all') !== null);    
+                        exportToCsv.exportTable(selector, fileName, exportAll);
                     };
                 } else {
                     element.style.display = 'none';

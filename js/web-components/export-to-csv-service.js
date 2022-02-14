@@ -5,7 +5,13 @@
  * based on the attributes:
  *     data-export-csv-selector
  *     data-export-file-name
+ *     data-export-all
  *
+ * [data-export-csv-selector] is required with a valid selector a <table>
+ * while [data-export-file-name] is optional and defaults to "Report.csv".
+ * By default only visible records are exported unless the attribute
+ * [data-export-all] is defined.
+ * 
  * Exports happen directly in the browser through JavaScript and no server-side calls
  * are made which makes the export/download appear almost instantly to the user.
  *
@@ -39,9 +45,8 @@ function exportTable(event) {
     // Get export settings
     let selector = event.target.getAttribute('data-export-csv-selector');
     let exportFileName = event.target.getAttribute('data-export-file-name');
-
-    // Set default value if not specified
-    exportFileName = exportFileName || 'Report.csv';
+    exportFileName = exportFileName || 'Report.csv'; // Default File Name
+    const exportAll = (event.target.getAttribute('data-export-all') !== null);
 
     // Table Header
     const table = document.querySelector(selector);
@@ -56,8 +61,11 @@ function exportTable(event) {
     // Table Body Rows
     const tableRows = table.tBodies[0].rows;
     for (let x = 0, y = tableRows.length; x < y; x++) {
-        row = [];
         rowEl = tableRows[x];
+        if (!exportAll && rowEl.style.display === 'none') {
+            continue; // Exclude hidden rows
+        }
+        row = [];
         for (let n = 0, m = rowEl.cells.length; n < m; n++) {
             const cell = rowEl.cells[n];
             let value = cell.getAttribute('data-value');
@@ -94,17 +102,11 @@ function exportTable(event) {
 }
 
 window.customElements.define('export-to-csv-service', class ExportToCsvService extends WebComponentService {
-    onLoad(rootElement) {
-        // Use `document` for routing changes and services
-        const nodeName = rootElement.nodeName;
-        if (nodeName === 'URL-ROUTE' || nodeName.includes('-SERVICE')) {
-            rootElement = document;
-        }
-
+    onLoad() {
         // Find Elements
         const actionElements = document.querySelectorAll('[data-export-csv-selector]');
 
-        // Are there any on the page?
+        // Check browser support
         let isSupported = false;
         if (actionElements.length > 0) {
             let firstLinkFound = document.querySelector('a');
