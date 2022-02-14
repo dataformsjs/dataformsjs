@@ -4,6 +4,23 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files, React Components, and Web Components and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes all npm release history and new website features or major changes.
 
+## Next Release (changes on master branch and not yet npm)
+
+* Add Excel Export functionality
+  * Web Component: `~/js/web-components/export-to-excel-service.js`
+  * Framework Plugin: `~/js/plugins/exportToExcel.js` 
+* Update CSV Export to export only visible rows by default
+  * A new HTML attribute `[data-export-all]` was added to always export all rows regardless of filter.
+* Add and updated Examples for this:
+  * Log Demos
+    * https://dataformsjs.com/examples/log-table-vue.htm#/10
+    * And all other Log demos
+  * New Export Table Demos
+    * `~/examples/export-table-web.htm`
+    * `~/examples/export-table-js.htm`
+* Updated Framework `dataBind` plugin to bind global `window.*` variables for a basic webpage if not using SPA
+* Updated Framework Control `data-table` to not show an error when an empty table is displayed without `data-bind`
+
 ## 5.11.0 (February 8, 2022)
 
 * Updated DataFormsJS Framework to support JavaScript classes

@@ -326,6 +326,7 @@
                 { selector: '[data-enter-key-click-selector]', plugin: 'keydownAction' },
                 { selector: 'prism-service', plugin: 'prism' },
                 { selector: '[data-export-csv-selector]', plugin: 'exportToCsv' },
+                { selector: '[data-export-excel-selector]', plugin: 'exportToExcel' },
                 { selector: 'highlighter-service', plugin: 'highlighter' },
                 { selector: 'filter-service', plugin: 'filter' },
                 { selector: 'animation-service', plugin: 'animation', after: updateElements.animation }, 

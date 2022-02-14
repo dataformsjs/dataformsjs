@@ -22,6 +22,12 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+**) Publish new changes
+    - Export to Excel, etc
+    - Finish testing with IE and more browsers
+    - First checked in 2022-02-13, expected to be published to NPM within days
+    - After release update demos to point to latest version of CDN
+
 **) Update the Getting Started CSS Template used here:
         https://www.dataformsjs.com/en/getting-started
     So that it looks similar to the places demo and can be used for apps as decent starting template
