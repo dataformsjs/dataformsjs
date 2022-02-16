@@ -193,7 +193,7 @@ function exportTable(event) {
                 let width = value.length;
                 value = excelValue(value);
                 if (value instanceof Date) {
-                    width = 10;
+                    width = 12;
                 } else if (typeof value === 'number') {
                     width = value.toString().length + 2;
                 }
