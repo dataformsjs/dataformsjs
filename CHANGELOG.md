@@ -4,9 +4,9 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files, React Components, and Web Components and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes all npm release history and new website features or major changes.
 
-## Next Release (changes on master branch and not yet npm)
+## 5.12.0 (February 16, 2022)
 
-* Add Excel Export functionality  
+* Add Excel Export functionality
   * Web Component:
     * `~/js/web-components/export-to-excel-service.js`
     * https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/export-to-excel-service.js
@@ -23,9 +23,12 @@ Overall the core Framework files, React Components, and Web Components and API a
   * Log Demos
     * https://dataformsjs.com/examples/log-table-vue.htm#/10
     * And all other Log demos
-  * New Export Table Demos
+  * New Export Table Demo - Web Components
+    * https://dataformsjs.com/examples/export-table-web.htm
     * `~/examples/export-table-web.htm`
     * https://github.com/dataformsjs/dataformsjs/blob/master/examples/export-table-web.htm
+  * New Export Table Demo - Framework
+    * https://dataformsjs.com/examples/export-table-js.htm
     * `~/examples/export-table-js.htm`
     * https://github.com/dataformsjs/dataformsjs/blob/master/examples/export-table-js.htm
 * Updated Framework `dataBind` plugin to bind global `window.*` variables for a basic webpage if not using SPA
