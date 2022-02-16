@@ -22,6 +22,11 @@ TODO List
 |
 --------------------------------------------------------------------------
 
+** Latest version was published 2022-02-16
+    The demo [examples/export-table-js.htm] current points to specific version [dataformsjs@5.12.0].
+    The current latest [dataformsjs@5] CDN version points to the previous 5.11.0 version so
+    after a day or once changes take effect switch CDN back to use latest rather than specific version.
+
 **) Update the Getting Started CSS Template used here:
         https://www.dataformsjs.com/en/getting-started
     So that it looks similar to the places demo and can be used for apps as decent starting template
