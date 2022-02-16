@@ -7,7 +7,7 @@
  *     data-export-file-name
  *     data-worksheet-name
  *     data-export-all
- * 
+ *
  * [data-export-excel-selector] is required with a valid selector to a <table>
  * while [data-export-file-name] and [data-worksheet-name] are optional defaulting
  * to "Report.xlsx" and "Report" respectively. By default only visible records are
@@ -98,10 +98,42 @@
                 callback();
                 return;
             }
+            var isIE = (navigator.userAgent.indexOf('Trident/') !== -1);
+            if (isIE) {
+                exportToExcel.polyfill_IE();
+            }
             var script = document.createElement('script');
             script.src = 'https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js';
             script.onload = callback;
             document.querySelector('head').appendChild(script);
+        },
+
+        /**
+         * A polyfill is required for IE with ExcelJS otherwise a run-time error will occur
+         *
+         * @see https://github.com/exceljs/exceljs/issues/1380#issuecomment-903924548
+         * @see https://github.com/exceljs/exceljs/issues/1380#issuecomment-801443942
+         * @see https://github.com/exceljs/exceljs/issues/1177#issuecomment-607207836
+         */
+        polyfill_IE: function() {
+            var RegExp = window.RegExp;
+            try {
+                /* jshint -W031 */
+                new RegExp('a', 'u');
+            } catch (err) {
+                window.RegExp = function(pattern, flags) {
+                    if (typeof flags === 'string' && flags.includes('u') === true) {
+                        // Ignore unicode flag in RegExp
+                        flags = flags === 'u' ? undefined : flags.replace('u', '');
+                        // Discard parts of the patterns used by exceljs that error out in non-unicode RegExps.
+                        pattern = pattern.replace(/\uDC00-\uDBFF/g, '');
+                        pattern = pattern.replace(/\uDC00-\uDB7F/g, '');
+                        return new RegExp(pattern, flags);
+                    }
+                    return new RegExp(pattern, flags);
+                };
+                window.RegExp.prototype = RegExp;
+            }
         },
 
         /**
@@ -131,7 +163,7 @@
          * Export an HTML Table to an Excel Download
          *
          * @param {HTMLElement} element
-         * @returns 
+         * @returns
          */
         exportTable: function(element) {
             // Use an HTML attribute to track if file is being generated and if the
@@ -202,7 +234,7 @@
                         width = value.length;
                         value = exportToExcel.excelValue(value);
                         if (value instanceof Date) {
-                            width = 10;
+                            width = 12;
                         } else if (typeof value === 'number') {
                             width = value.toString().length + 2;
                         }

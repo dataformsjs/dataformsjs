@@ -111,24 +111,9 @@
             })();
         </script>
         <script nomodule>
-            // IE and old mobile devices use DataFormsJS Framework from Polyfill
-            document.addEventListener('DOMContentLoaded', function() {
-                // Check every half second until [polyfill.js]
-                // loads the DataFormsJS Framework.
-                var interval = window.setInterval(function() {
-                    if (window.app === undefined) {
-                        return;
-                    }
-                    window.clearInterval(interval);
-
-                    // In most apps/sites using DataFormsJS the records for a <data-table>
-                    // control would be passed from a JSON Service using [data-bind] attribute.
-                    // This page manually creates and loads the data so DataFormsJS API
-                    // along with standard DOM is needed to make it work.
-                    document.querySelector('data-table').setAttribute('data-bind', 'window.records');
-                    app.updateView();
-                }, 500);
-            });
+            // IE and old mobile devices use DataFormsJS Framework from Polyfill.
+            // The framework will automatically bind data if the attribute is set.
+            document.querySelector('data-table').setAttribute('data-bind', 'window.records');
         </script>
     </body>
 </html>

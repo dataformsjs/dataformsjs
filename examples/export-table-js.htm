@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Export Table Demo | Web Components</title>
+        <title>Export Table Demo | DataFormsJS Framework</title>
         <link rel="stylesheet" href="https://d2xbd92kui7v97.cloudfront.net/site/css/getting-started.css">
         <style>
             body { padding: 40px; }
@@ -60,10 +60,12 @@
 
         <section>
             <data-table
-                highlight-class="highlight"
-                table-attr="is=sortable-table,
-                            data-sort-class-odd=row-odd,
-                            data-sort-class-even=row-even">
+                data-bind="window.records"
+                data-table-attr="
+                    class=click-to-highlight,
+                    data-sort,
+                    data-sort-class-odd=row-odd,
+                    data-sort-class-even=row-even">
             </data-table>
         </section>
 
@@ -80,8 +82,9 @@
         <!-- Code for this Page -->
         <script src="export-table-records.js"></script>
         <script>
+            // Setup Export Options once page is loaded.
+            // This could also be handled from a Plugin.
             document.addEventListener('DOMContentLoaded', function() {
-                // Setup Export Options
                 function setExportAll(exportAll) {
                     var csvExport = document.querySelector('[data-export-csv-selector]');
                     var excelExport = document.querySelector('[data-export-excel-selector]');
@@ -96,17 +99,6 @@
                 }
                 document.getElementById('export-visible').onchange = function() { setExportAll(false); };
                 document.getElementById('export-all').onchange = function() { setExportAll(true); };
-
-                // In most apps/sites using DataFormsJS the records for a <data-table>
-                // control would be passed from a JSON Service using [data-bind] attribute.
-                // This page manually creates and loads the data so DataFormsJS API
-                // along with standard DOM is needed to make it work.
-                // var dataTable = document.querySelector('data-table');
-                // app.activeModel.records = window.records;
-                // dataTable.setAttribute('data-bind', 'records');
-                // app.loadJsControl(dataTable);
-                document.querySelector('data-table').setAttribute('data-bind', 'window.records');
-                app.updateView();
             });
         </script>
     </body>

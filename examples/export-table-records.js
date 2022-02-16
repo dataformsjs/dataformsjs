@@ -17,15 +17,31 @@
         return Math.floor(Math.random() * (max - min) + min);
     }
 
-    function buildWordList(wordCount, lineBreak = 0) {
+    function buildWordList(wordCount, lineBreak) {
         var text = [];
-        for (let n = 0; n < wordCount; n++) {
+        for (var n = 0; n < wordCount; n++) {
             if (lineBreak && text.length && (n % lineBreak === 0)) {
                 text.push('\n');
             }
             text.push(words[getRandomInt(0, words.length)]);
         }
         return text.join(' ');
+    }
+
+    function padStart(value, length, char) {
+        if (String.prototype.padStart) {
+            return String(value).padStart(length, char);
+        } else {
+            // Handle value for IE.
+            // This works for this known data but is not a full polyill replacement.
+            value = String(value);
+            length = length - value.length;
+            var result = '';
+            for (var n = 0; n < length; n++) {
+                result += char;
+            }
+            return result + value;
+        }
     }
 
     var now = new Date();
@@ -42,7 +58,7 @@
             'Text 4': buildWordList(20),
             'Int': getRandomInt(0, 99999),
             'Float': getRandomInt(0, 99999) + '.' + getRandomInt(0, 99),
-            'Text Num': String(getRandomInt(0, 9999)).padStart(6, '0'),
+            'Text Num': padStart(getRandomInt(0, 9999), 6, '0'),
             'Date': new Date(getRandomInt(startDate, endDate)),
         });
     }
