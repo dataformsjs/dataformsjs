@@ -28,13 +28,11 @@ TODO List
     Source for template is:
         website\public\html\getting-started\getting-started.css
 
-**) Update Quick Docs and Playground Code to include examples of ES6 Framework classes
+**) Update Playground Code to include examples of ES6 Framework classes
     - Playground should have 2 files for the calc page
         - One ES5 (current file) for IE
         - Other class version of modern browsers
     - Likely do this for the web component calc page as well (using a custom element)
-    - Quick ref page needs Class Templates and should include more comments
-        on the purpose of pages/plugins/controls/etc and a brief/helpful overview.
 
 **) Playground Site
     - Switch to Monaco Editor from CodeMirror for users that view the site from a laptop

@@ -24,6 +24,8 @@
  *     app.addPage()
  *     app.addPlugin()
  *     app.addControl()
+ *     app.refreshAllHtmlControls(callback, model)
+ *     app.refreshHtmlControl(element, callback, model)
  *
  * Common API Properties for working with app data and for debugging with
  * Browser DevTools:
