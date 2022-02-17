@@ -1,3 +1,7 @@
+** Files in the folder are licensed under the original publisher and included here
+    for examples. They do not fall under the same license as DataFormsJS.
+
 https://github.com/logos
 https://www.w3.org/html/logo/
 https://commons.wikimedia.org/wiki/File:Unofficial_JavaScript_logo_2.svg
+https://www.office.com/

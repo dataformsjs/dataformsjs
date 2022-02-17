@@ -5,8 +5,12 @@ body {
     background-color: #f4f6f8;
 }
 a { color:navy; }
+nav { display: flex; align-items: center; }
 nav a { display:inline-block; margin-right:20px; }
 nav a:last-child { margin-right:0; }
+nav .download { margin-left: 20px; }
+[data-export-csv-selector],
+[data-export-excel-selector] { cursor: pointer; }
 input,
 select,
 button {
