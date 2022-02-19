@@ -35,7 +35,7 @@
     'use strict';
 
     function csvEscape(value) {
-        value = value.replace(/"/g, '""');
+        value = value.trim().replace(/"/g, '""');
         if (value.search(/("|,|\n|:)/g) >= 0) {
             value = '"' + value + '"';
         }
@@ -149,7 +149,7 @@
                     element.onclick = function () {
                         var selector = element.getAttribute('data-export-csv-selector');
                         var fileName = element.getAttribute('data-export-file-name');
-                        var exportAll = (element.getAttribute('data-export-all') !== null);    
+                        var exportAll = (element.getAttribute('data-export-all') !== null);
                         exportToCsv.exportTable(selector, fileName, exportAll);
                     };
                 } else {

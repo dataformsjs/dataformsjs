@@ -11,7 +11,7 @@
  * while [data-export-file-name] is optional and defaults to "Report.csv".
  * By default only visible records are exported unless the attribute
  * [data-export-all] is defined.
- * 
+ *
  * Exports happen directly in the browser through JavaScript and no server-side calls
  * are made which makes the export/download appear almost instantly to the user.
  *
@@ -34,7 +34,7 @@ import { WebComponentService } from './WebComponentService.js';
 import { showErrorAlert } from './utils.js';
 
 function csvEscape(value) {
-    value = value.replace(/"/g, '""');
+    value = value.trim().replace(/"/g, '""');
     if (value.search(/("|,|\n|:)/g) >= 0) {
         value = '"' + value + '"';
     }

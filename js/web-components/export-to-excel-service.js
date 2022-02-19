@@ -71,6 +71,7 @@ function isNumeric(value) {
  * @returns
  */
 function excelValue(value) {
+    value = value.trim();
     if (value === '') {
         return null;
     } else if (isNumeric(value)) {
@@ -156,7 +157,10 @@ function exportTable(event) {
         }
         exportFileName = exportFileName || 'Report.xlsx';
         let worksheetName = event.target.getAttribute('data-worksheet-name');
-        worksheetName = worksheetName || 'Report';
+        worksheetName = worksheetName || exportFileName.substring(0, exportFileName.length - 5);
+        if (worksheetName.length > 31) {
+            worksheetName = worksheetName.substring(0, 31);
+        }
         const exportAll = (event.target.getAttribute('data-export-all') !== null);
 
         // Get Table Header
@@ -169,7 +173,7 @@ function exportTable(event) {
             const text = rowEl.cells[n].textContent;
             row.push(text);
             // Add extra padding/space for bold font - larger of (1.2x or 4 extra)
-            const len = text.length;
+            const len = text.trim().length;
             const width = parseInt(Math.max(len * 1.2, len + 4));
             colWidths.push(width);
         }
@@ -190,7 +194,7 @@ function exportTable(event) {
                 if (value === null) {
                     value = cell.textContent;
                 }
-                let width = value.length;
+                let width = value.trim().length;
                 value = excelValue(value);
                 if (value instanceof Date) {
                     width = 12;
@@ -212,12 +216,15 @@ function exportTable(event) {
 
         // Font Style for Header Row
         const firstRow = worksheet.getRow(1);
-        firstRow.fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: { argb: 'FFF2F2F2' },
-        };
-        firstRow.font = { bold: true };
+        for (let n = 0; n < colWidths.length; n++) {
+            const cell = firstRow.getCell(n+1);
+            cell.fill = {
+                type: 'pattern',
+                pattern: 'solid',
+                fgColor: { argb: 'FFF2F2F2' },
+            };
+            cell.font = { bold: true };
+        }
 
         // Set column width based on size of data but limit to a max of 50
         // otherwise large columns take up the width of the screen and can

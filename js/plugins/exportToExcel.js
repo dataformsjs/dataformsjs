@@ -72,6 +72,7 @@
          * @returns
          */
         excelValue: function(value) {
+            value = value.trim();
             if (value === '') {
                 return null;
             } else if (exportToExcel.isNumeric(value)) {
@@ -195,7 +196,10 @@
                 }
                 exportFileName = exportFileName || 'Report.xlsx';
                 var worksheetName = element.getAttribute('data-worksheet-name');
-                worksheetName = worksheetName || 'Report';
+                worksheetName = worksheetName || exportFileName.substring(0, exportFileName.length - 5);
+                if (worksheetName.length > 31) {
+                    worksheetName = worksheetName.substring(0, 31);
+                }
                 var exportAll = (element.getAttribute('data-export-all') !== null);
 
                 // Get Table Header
@@ -206,11 +210,13 @@
                 var rowEl = table.tHead.rows[0];
                 var n;
                 var width;
+                var cell;
+                var value;
                 for (n = 0; n < rowEl.cells.length; n++) {
                     var text = rowEl.cells[n].textContent;
                     row.push(text);
                     // Add extra padding/space for bold font - larger of (1.2x or 4 extra)
-                    var len = text.length;
+                    var len = text.trim().length;
                     width = parseInt(Math.max(len * 1.2, len + 4));
                     colWidths.push(width);
                 }
@@ -226,12 +232,12 @@
                     }
                     row = [];
                     for (n = 0; n < rowEl.cells.length; n++) {
-                        var cell = rowEl.cells[n];
-                        var value = cell.getAttribute('data-value');
+                        cell = rowEl.cells[n];
+                        value = cell.getAttribute('data-value');
                         if (value === null) {
                             value = cell.textContent;
                         }
-                        width = value.length;
+                        width = value.trim().length;
                         value = exportToExcel.excelValue(value);
                         if (value instanceof Date) {
                             width = 12;
@@ -253,12 +259,15 @@
 
                 // Font Style for Header Row
                 var firstRow = worksheet.getRow(1);
-                firstRow.fill = {
-                    type: 'pattern',
-                    pattern: 'solid',
-                    fgColor: { argb: 'FFF2F2F2' },
-                };
-                firstRow.font = { bold: true };
+                for (n = 0; n < colWidths.length; n++) {
+                    cell = firstRow.getCell(n+1);
+                    cell.fill = {
+                        type: 'pattern',
+                        pattern: 'solid',
+                        fgColor: { argb: 'FFF2F2F2' },
+                    };
+                    cell.font = { bold: true };
+                }
 
                 // Set column width based on size of data but limit to a max of 50
                 // otherwise large columns take up the width of the screen and can

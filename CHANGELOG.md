@@ -4,6 +4,15 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files, React Components, and Web Components and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes all npm release history and new website features or major changes.
 
+## 5.12.1 (February 19, 2022)
+
+* Excel Export (Web Component and Framework Plugin)
+  * Default `data-worksheet-name` to `data-export-file-name` excluding file extension `.xlsx` if the attribute is not included
+  * Trim spaces for text fields
+  * Set header style (gray fill color, bold, etc) only on the cells used rather than the entire row
+* CSV Export (Web Component and Framework Plugin)
+  * Trim spaces for text fields
+
 ## 5.12.0 (February 16, 2022)
 
 * Add Excel Export functionality
