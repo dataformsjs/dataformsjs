@@ -45,6 +45,25 @@
                 <nav>
                     <a href="#/en/search" data-i18n="Search" data-i18n-href></a>
                     <a href="#/en/info" data-i18n="Info" data-i18n-href></a>
+                    <span class="download" data-i18n="Download"></span>
+                    <img class="download"
+                        src="img/Excel.svg"
+                        height="16"
+                        width="16"
+                        alt="Download to Excel"
+                        title="Download to Excel"
+                        data-i18n-attr="alt, title"
+                        data-export-excel-selector="table"
+                        data-export-file-name="Countries.xlsx">
+                    <img class="download"
+                        src="img/Excel.svg"
+                        height="16"
+                        width="16"
+                        alt="Download to CSV"
+                        title="Download to CSV"
+                        data-i18n-attr="alt, title"
+                        data-export-csv-selector="table"
+                        data-export-file-name="Countries.csv">
                 </nav>
 
                 <input
@@ -156,6 +175,10 @@
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/sort.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/dataBind.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/clickToHighlight.min.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/exportToCsv.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/exportToExcel.min.js"></script> -->
+        <script src="../js/plugins/exportToCsv.js"></script>
+        <script src="../js/plugins/exportToExcel.js"></script>
         <script>
             // Lazy Load the following scripts only if needed based on attribute [data-lazy-load].
             // When scripts need to be downloaded in a specific order then use an array otherwise

@@ -22,23 +22,11 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) CSV/Excel Export and Example Updates
-    - Default [data-worksheet-name] to [data-export-file-name] minus ".xlsx"
-        Example:
-            data-export-file-name="Countries.xlsx"
-        Currently the following would also be specified:
-            data-worksheet-name="Countries"
-        This should be automatic
-    - Related validate length of worksheet name (and truncate rather than raise error)
-        - Also double-check allowed characters for Excel Worksheet Names (automatically fix)
-    - Example [dataformsjs/examples/places-demo-hbs.htm] is currently being updated for CSV and Excel Download
-        - Changes published in GitHub but not yet main site (waiting until complete)
-        - Handle trim spaces on the first column (requires a new npm release)
-            Both Excel and CSV downloads
-        - Add CSV icon
-        - Add download to all pages on places demo with a <table>
-        - Make sure <nav> layout with mixed links and icons visually looks good
-        - Update all places demos for the download/export buttons
+**) Finish adding Excel and CSV Export to the Places Demo
+    - This is being worked on mid-Feb 2022 and will likely be published by the end of this month
+    - Need to test more browsers, IE, Safari, etc
+    - Need a CSV icon (currently Excel icon is used for both Excel and CSV)
+    - Add export on more pages
 
 **) Update the Getting Started CSS Template used here:
         https://www.dataformsjs.com/en/getting-started

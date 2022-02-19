@@ -59,5 +59,8 @@
     "info_6": "このアプリは、GeoNamesデータベースのデータ、セマンティックUIのフラグ、OpenStreeMapを使用したLeafletのマッピング、jQueryおよびChosen jQueryプラグインを含むHandlebarsJSおよびGraphQLデモの追加のサードパーティコンポーネントを使用します。",
     "source_code": "ソースコード",
     "html_js_only": "HTML/JavaScript（テンプレートなし）",
-    "web_components": "Web Components"
+    "web_components": "Web Components",
+    "Download": "ダウンロード",
+    "Download to Excel": "Excelにダウンロード",
+    "Download to CSV": "CSVにダウンロード"
 }

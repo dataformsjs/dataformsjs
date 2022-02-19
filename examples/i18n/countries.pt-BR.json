@@ -59,5 +59,8 @@
     "info_6": "Este app utilizada dados do GeoNames Database, bandeiras do Semantic UI, mapeamento do Leaflet com OpenStreetMap e componentes adicionais de terceiros nas demonstrações de HandlebarsJS e GraphQL incluindo o plugin jQuery Chosen.",
     "source_code": "Código Fonte",
     "html_js_only": "HTML/JavaScript (sem modelo)",
-    "web_components": "Web Components"
+    "web_components": "Web Components",
+    "Download": "Download",
+    "Download to Excel": "Baixar para o Excel",
+    "Download to CSV": "Baixar para CSV"
 }

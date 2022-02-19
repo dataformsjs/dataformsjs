@@ -59,5 +59,8 @@
     "info_6": "Esta aplicación utiliza datos de la base de datos GeoNames, indicadores de semántica de la UI, mapeo de Leaflet con OpenStreeMap y componentes adicionales de terceros en demostraciones de HandlebarsJS y GraphQL, incluidos jQuery y el complemento Chosen jQuery.",
     "source_code": "Código Fuente",
     "html_js_only": "HTML/JavaScript (sin plantillas)",
-    "web_components": "Componentes Web"
+    "web_components": "Componentes Web",
+    "Download": "Descargar",
+    "Download to Excel": "Descargar a Excel",
+    "Download to CSV": "Descargar a CSV"
 }

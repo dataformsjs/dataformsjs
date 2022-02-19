@@ -59,5 +59,8 @@
     "info_6": "This app uses data from the GeoNames Database, flags from Semantic UI, mapping from Leaflet with OpenStreeMap, and additional third-party components on HandlebarsJS and GraphQL demos including jQuery and the Chosen jQuery plugin.",
     "source_code": "Source Code",
     "html_js_only": "HTML/JavaScript (No Templating)",
-    "web_components": "Web Components"
+    "web_components": "Web Components",
+    "Download": "Download",
+    "Download to Excel": "Download to Excel",
+    "Download to CSV": "Download to CSV"
 }

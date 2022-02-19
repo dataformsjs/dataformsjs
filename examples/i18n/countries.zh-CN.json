@@ -59,5 +59,8 @@
     "info_6": "此应用程序使用GeoNames数据库的数据,语义UI的标志,具有OpenStreetMap的Leaflet的映射以及HandlebarsJS和GraphQL演示上的其他第三方组件,包括jQuery和Chosen jQuery插件.",
     "source_code": "源代码",
     "html_js_only": "HTML/JavaScript (No Templating)",
-    "web_components": "Web组件"
+    "web_components": "Web组件",
+    "Download": "下载",
+    "Download to Excel": "下载到 Excel",
+    "Download to CSV": "下载到 CSV"
 }
