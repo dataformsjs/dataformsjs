@@ -352,9 +352,6 @@
                 locales,
                 locale,
                 data,
-                x,
-                y,
-                attr,
                 navLang,
                 hashRouting = (app.routingMode === undefined || app.routingMode()  === 'hash'),
                 href,
@@ -375,14 +372,8 @@
             elements = rootElement.querySelectorAll('[data-i18n-attr]');
             for (n = 0, m = elements.length; n < m; n++) {
                 element = elements[n];
-                data = element.getAttribute('data-i18n-attr').split(',').map(function(s) { return s.trim(); });
-                for (x = 0, y = data.length; x < y; x++) {
-                    attr = data[x];
-                    key = element.getAttribute(attr);
-                    if (key !== null) {
-                        element.setAttribute(attr, (this.langText[key] ? this.langText[key] : key));
-                    }
-                }
+                i18n.set18nAttr(element, element.getAttribute('data-i18n-attr'));
+
                 // Note, for this to work properly with custom controls and plugins
                 // this file will likely need to be included before other plugins so that
                 // it runs first. For example if <data-table> is used with sorting or filtering.
@@ -469,6 +460,47 @@
         },
 
         /**
+         * Used Internally for [data-i18n-attr] and [v-i18n-attr]
+         *
+         * @param {HTMLElement} el
+         * @param {string} bindAttr
+         */
+        set18nAttr: function (el, bindAttr) {
+            var data = bindAttr.split(',').map(function(s) { return s.trim(); });
+            for (var x = 0, y = data.length; x < y; x++) {
+                var attr = data[x];
+                var value;
+                var key = el.getAttribute(attr);
+                if (key === null) {
+                    // Skip attribute not found
+                    console.warn(el, 'Missing Attribute [' + attr + '] for element');
+                    continue;
+                }
+                // Exact match on key
+                value = this.langText[key];
+                if (value !== undefined) {
+                    el.setAttribute(attr, value);
+                    continue;
+                }
+                // Find and replace keys in "[[key]]", example:
+                //     data-export-file-name="[[Report]].csv"
+                var match;
+                var regex = /\[\[.*\]\]/g;
+                while ((match = regex.exec(key)) !== null) {
+                    value = match[0].substring(2, match[0].length - 2);
+                    if (this.langText[value] === undefined) {
+                        // Key not found so skip attribute
+                        continue;
+                    }
+                    var find = match[0].replace(/\[/g, '\\[');
+                    find = new RegExp(find, 'g');
+                    key = key.replace(find, this.langText[value]);
+                }
+                el.setAttribute(attr, key);
+            }
+        },
+
+        /**
          * If using Handlebars then add a Helper. This function gets called
          * automatically when the page is loaded.
          */
@@ -501,13 +533,10 @@
                 };
 
                 var vI18nAttr = function (el, binding) {
-                    var attr = binding.value.split(',').map(function(s) { return s.trim(); });
-                    for (var x = 0, y = attr.length; x < y; x++) {
-                        var key = el.getAttribute(attr[x]);
-                        if (key !== null) {
-                            el.setAttribute(attr[x], (i18n.langText[key] ? i18n.langText[key] : key));
-                        }
+                    if (binding.value === undefined) {
+                        return;
                     }
+                    i18n.set18nAttr(el, binding.value);
                 };
 
                 // For differences between Vue 2 and Vue 3 see comments in [js\extensions\vue-directives.js]

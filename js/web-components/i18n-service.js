@@ -59,7 +59,7 @@ class I18nService extends WebComponentService {
         this.fileName = get(this, 'file', '_');
         this.fileDir = get(this, 'file-dir', 'i18n');
         this.defaultLocale = get(this, 'default-locale');
-        this.supportedLocales = get(this, 'locales', '').split(',').map(s => { return s.trim()});
+        this.supportedLocales = get(this, 'locales', '').split(',').map(s => { return s.trim(); });
         this.currentLocale = null;
         this.langText = {};
         this.langCache = {};
@@ -256,10 +256,34 @@ class I18nService extends WebComponentService {
             const data = element.getAttribute('data-i18n-attr').split(',').map(function(s) { return s.trim(); });
             for (let x = 0, y = data.length; x < y; x++) {
                 const attr = data[x];
-                const key = element.getAttribute(attr);
-                if (key !== null) {
-                    element.setAttribute(attr, (this.langText[key] ? this.langText[key] : key));
+                let key = element.getAttribute(attr);
+                let value;
+                if (key === null) {
+                    // Skip attribute not found
+                    console.warn(element, 'Missing Attribute [' + attr + '] for element');
+                    continue;
                 }
+                // Exact match on key
+                value = this.langText[key];
+                if (value !== undefined) {
+                    element.setAttribute(attr, value);
+                    continue;
+                }
+                // Find and replace keys in "[[key]]", example:
+                //     data-export-file-name="[[Report]].csv"
+                let match;
+                const regex = /\[\[.*\]\]/g;
+                while ((match = regex.exec(key)) !== null) {
+                    value = match[0].substring(2, match[0].length - 2);
+                    if (this.langText[value] === undefined) {
+                        // Key not found so skip attribute
+                        continue;
+                    }
+                    let find = match[0].replace(/\[/g, '\\[');
+                    find = new RegExp(find, 'g');
+                    key = key.replace(find, this.langText[value]);
+                }
+                element.setAttribute(attr, key);
             }
         }
 
