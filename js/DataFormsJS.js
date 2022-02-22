@@ -2228,9 +2228,6 @@
                         app.refreshPlugins(control);
                     }
                     // Refresh nested HTML Controls
-                    if (control.id === 'control-1') {
-                        console.log(control, isUpdatingAllControls, isUpdatingView);
-                    }
                     var promises = [];
                     if (!isUpdatingAllControls && !isUpdatingView) {
                         var nestedControls = control.querySelectorAll('[data-template-id],[data-template-url]');
