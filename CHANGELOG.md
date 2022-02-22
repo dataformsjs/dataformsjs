@@ -11,6 +11,7 @@ Overall the core Framework files, React Components, and Web Components and API a
   * `~/js/plugins/exportToExcel.js`
   * Add support so that elements using the plugin are refreshed when `app.refreshHtmlControl()` is called.
   * Minor fix handled by using `onRendered: function (rootElement)` instead of `onRendered: function ()`.
+  * For Excel text columns were the the max character width is less than 20 an extra 2 pixels of space will be added so content better fits.
 * I18N update 
   * Framework Plugin `~/js/plugins/i18n.js`
   * Web Component `~/js/web-components/i18n-service.js`

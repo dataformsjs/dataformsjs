@@ -200,6 +200,8 @@ function exportTable(event) {
                     width = 12;
                 } else if (typeof value === 'number') {
                     width = value.toString().length + 2;
+                } else if (width <= 20) {
+                    width += 2;
                 }
                 colWidths[n] = Math.max(colWidths[n], width);
                 row.push(value);
