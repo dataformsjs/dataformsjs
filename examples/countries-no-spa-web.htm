@@ -17,6 +17,9 @@
 </head>
 <body>
     <div id="view">
+        <export-to-excel-service></export-to-excel-service>
+        <export-to-csv-service></export-to-csv-service>
+
         <h1>Countries</h1>
 
         <json-data url="https://www.dataformsjs.com/data/geonames/countries" load-only-once>
@@ -34,6 +37,28 @@
                     filter-results-text-all="{totalCount} Countries"
                     filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
                     placeholder="Enter filter, example 'North America'">
+
+                <div>
+                    <nav style="display: inline-flex;">
+                        <span>Download</span>
+                        <img class="download"
+                            src="img/Excel.svg"
+                            height="16"
+                            width="16"
+                            alt="Download to Excel"
+                            title="Download to Excel"
+                            data-export-excel-selector="table"
+                            data-export-file-name="Countries.xlsx">
+                        <img class="download"
+                            src="img/Excel.svg"
+                            height="16"
+                            width="16"
+                            alt="Download to CSV"
+                            title="Download to CSV"
+                            data-export-csv-selector="table"
+                            data-export-file-name="Countries.csv">
+                    </nav>
+                </div>
 
                 <p>Click on a column to sort rows based on column values.</p>
 
@@ -87,6 +112,9 @@
     <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/data-table.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/input-filter.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/sortable-table.min.js"></script>
-    <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/polyfill.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/export-to-excel-service.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/export-to-csv-service.min.js"></script>
+    <!-- <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/polyfill.min.js"></script> -->
+    <script nomodule src="../js/web-components/polyfill.min.js"></script>
 </body>
 </html>

@@ -30,6 +30,28 @@
                 data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Countries"
                 placeholder="Enter filter, example 'North America'">
 
+            <div>
+                <nav style="display: inline-flex;">
+                    <span>Download</span>
+                    <img class="download"
+                        src="img/Excel.svg"
+                        height="16"
+                        width="16"
+                        alt="Download to Excel"
+                        title="Download to Excel"
+                        data-export-excel-selector="table"
+                        data-export-file-name="Countries.xlsx">
+                    <img class="download"
+                        src="img/Excel.svg"
+                        height="16"
+                        width="16"
+                        alt="Download to CSV"
+                        title="Download to CSV"
+                        data-export-csv-selector="table"
+                        data-export-file-name="Countries.csv">
+                </nav>
+            </div>
+
             <p>Click on a column to sort rows based on column values.</p>
 
             <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even" class="click-to-highlight">
@@ -63,6 +85,10 @@
     <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/filter.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/sort.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/clickToHighlight.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/exportToCsv.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/exportToExcel.min.js"></script> -->
+    <script src="../js/plugins/exportToCsv.min.js"></script>
+    <script src="../js/plugins/exportToExcel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.6/dist/handlebars.min.js"></script>
 </body>
 </html>

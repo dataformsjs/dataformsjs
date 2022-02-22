@@ -25,6 +25,7 @@ TODO List
 **) Finish adding Excel and CSV Export to the Places Demo
     - Several NPM releases are being made prior to the updates being published on the main site:
         After NPM release update all "../js/" to the CDN Page
+        Use global search of "../js/" to find files that need to be updated
     - This is being worked on mid-Feb 2022 and will likely be published by the end of this month
     - Need to test more browsers, IE, Safari, etc
     - Need a CSV icon (currently Excel icon is used for both Excel and CSV)
