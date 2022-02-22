@@ -20,6 +20,9 @@ Overall the core Framework files, React Components, and Web Components and API a
     * Previously both `Countries` and `Countries.xlsx` would have had to be defined for each language
     * Now only `Countries` has to be defined
     * For Vue apps this applies to the `v-i18n-attr` directive
+* DataFormsJS App Object
+  * `~/js/DataFormsJS.js`
+  * Fix typo in error message
 
 ## 5.12.1 (February 19, 2022)
 

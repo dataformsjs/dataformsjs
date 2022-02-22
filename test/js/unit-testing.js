@@ -1850,7 +1850,7 @@
                     // [data-template-id] and [data-template-url] not defined
                     element.removeAttribute('data-template-id');
                     element.removeAttribute('data-template-url');
-                    expectedMessage = 'A control must have either attribute [data-template-id] or [data-template-url]. Niether attribute is defined for the control.';
+                    expectedMessage = 'A control must have either attribute [data-template-id] or [data-template-url]. Neither attribute is defined for the control.';
                     expectedHtml = getError();
                     try {
                         app.refreshHtmlControl((n === 0 ? id : element));

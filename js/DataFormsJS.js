@@ -2181,7 +2181,7 @@
                 if (templateId !== null && templateUrl !== null) {
                     throw new TypeError('A control must have only one of the template attribute defined; either [data-template-id] or [data-template-url]. Both attributes are defined on the control.');
                 } else if (templateId === null && templateUrl === null) {
-                    throw new TypeError('A control must have either attribute [data-template-id] or [data-template-url]. Niether attribute is defined for the control.');
+                    throw new TypeError('A control must have either attribute [data-template-id] or [data-template-url]. Neither attribute is defined for the control.');
                 }
 
                 // Get the active model if one was not passed
