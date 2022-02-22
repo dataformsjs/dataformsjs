@@ -171,7 +171,7 @@
             graphqlId: null,
             graphqlSrc: null,
             graphqlQuery: null,
-            errorTextGraphQLErrors: '{count} GraphQL Errors occured. See console for full details.',
+            errorTextGraphQLErrors: '{count} GraphQL Errors occurred. See console for full details.',
             loadOnlyOnce: false,
             transformData: null,
             // Vue variables below are set by this script when using Vue
@@ -203,7 +203,7 @@
 
             // When using Vue only assign key web service state props back to Vue.
             // This avoids issues of [control.url] from overwriting the same
-            // property on the controller (for example whne using the jsonData page).
+            // property on the controller (for example when using the jsonData page).
             function assignControlToVue() {
                 Object.assign(app.activeVueModel, {
                     isLoading: control.isLoading,
@@ -224,7 +224,7 @@
                 vm.errorMessage = null;
 
                 // If there is a global [data-transform-data] function then call it. This exists for
-                // mainly compatability with the <json-data> Web Component [transform-data] attribute.
+                // mainly compatibility with the <json-data> Web Component [transform-data] attribute.
                 if (vm.transformData) {
                     try {
                         if (typeof window[vm.transformData] === 'function') {

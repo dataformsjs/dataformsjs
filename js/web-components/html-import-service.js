@@ -150,7 +150,7 @@ window.customElements.define('html-import-service', class HtmlImportService exte
             if (templateId !== null && templateUrl !== null) {
                 throw new TypeError('An element must have only one of the template attribute defined; either [data-template-id] or [data-template-url]. Both attributes are defined on this element.');
             } else if (templateId === null && templateUrl === null) {
-                throw new TypeError('An element must have either attribute [data-template-id] or [data-template-url]. Niether attribute is defined for this element.');
+                throw new TypeError('An element must have either attribute [data-template-id] or [data-template-url]. Neither attribute is defined for this element.');
             }
 
             // Download or get template from cache, then set HTML

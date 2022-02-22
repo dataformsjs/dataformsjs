@@ -316,7 +316,7 @@ var JsonData = function (_React$Component) {
               if (data.errors.length === 1 && data.errors[0].message) {
                 errorMessage = '[GraphQL Error]: ' + data.errors[0].message;
               } else {
-                var errorTextGraphQLErrors = typeof _this2.props.errorTextGraphQLErrors === 'string' ? _this2.props.errorTextGraphQLErrors : '{count} GraphQL Errors occured. See console for full details.';
+                var errorTextGraphQLErrors = typeof _this2.props.errorTextGraphQLErrors === 'string' ? _this2.props.errorTextGraphQLErrors : '{count} GraphQL Errors occurred. See console for full details.';
                 errorMessage = errorTextGraphQLErrors.replace('{count}', data.errors.length);
               }
 

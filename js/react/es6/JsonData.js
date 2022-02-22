@@ -439,7 +439,7 @@ export default class JsonData extends React.Component {
                         if (data.errors.length === 1 && data.errors[0].message) {
                             errorMessage = '[GraphQL Error]: ' + data.errors[0].message;
                         } else {
-                            const errorTextGraphQLErrors = (typeof this.props.errorTextGraphQLErrors === 'string' ? this.props.errorTextGraphQLErrors : '{count} GraphQL Errors occured. See console for full details.');
+                            const errorTextGraphQLErrors = (typeof this.props.errorTextGraphQLErrors === 'string' ? this.props.errorTextGraphQLErrors : '{count} GraphQL Errors occurred. See console for full details.');
                             errorMessage = errorTextGraphQLErrors.replace('{count}', data.errors.length);
                         }
                         console.error(data.errors);
