@@ -22,12 +22,14 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Finish adding Excel and CSV Export to the Places Demo
-    - Several NPM releases are being made prior to the updates being published on the main site:
-        After NPM release update all "../js/" to the CDN Page
-        Use global search of "../js/" to find files that need to be updated
+**) Current Updates
+    - Next release 5.13.0 - see active changes in CHANGELOG.md
+        - More testing will be performed prior to the npm release
+    - Several features are being added with related example updates in the Places examples
     - This is being worked on mid-Feb 2022 and will likely be published by the end of this month
     - Verify new CSV icon with IE and different screens
+    - After NPM release update all "../js/" to the CDN Page
+        Use global search of "../js/" to find files that need to be updated
 
 **) Update the Getting Started CSS Template used here:
         https://www.dataformsjs.com/en/getting-started
