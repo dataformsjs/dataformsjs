@@ -19,18 +19,26 @@
  *     https://underscorejs.org
  *
  * Common API Functions for creating Single Page Apps (SPA):
- *     # Pages and Plugins are the recommended method for
- *     # creating most custom app logic.
+ *     # Pages `app.addPage()` and Plugins `app.addPlugin()` are the recommended
+ *     # method for creating most custom app logic. JavaScript Controls
+ *     # `app.addControl()` are similar in concept to Web Components and
+ *     # recommended for complex page component/control logic that needs to render
+ *     # custom HTML and call plugins or use other features from within the control.
  *     app.addPage()
  *     app.addPlugin()
  *     app.addControl()
  *     app.refreshAllHtmlControls(callback, model)
  *     app.refreshHtmlControl(element, callback, model)
+ *     app.escapeHtml(value)
+ *     app.showErrorAlert('message')
+ *     app.showError(document.querySelector('h1'), 'Error Text')
+ *     app.isUsingVue()
  *
  * Common API Properties for working with app data and for debugging with
  * Browser DevTools:
  *     app.activeController
  *     app.activeModel
+ *     app.activeJsControls
  *     app.activeVueModel
  *     app.activeParameterList
  *     app.controllers
