@@ -99,14 +99,54 @@ export class Component extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return (this.props === undefined ? [] : Object.keys(this.props));
+        if (this.props === undefined) {
+            return [];
+        }
+        const attr = [];
+        for (const prop of Object.keys(this.props)) {
+            attr.push(prop);
+            // If a [camelCased] property is defined then add HTML attribute
+            // support for a dashed-version of the property.
+            // Example: `fileName` = `file-name`
+            // Regex from:
+            //   https://stackoverflow.com/a/47836484/3422084
+            const dashed = prop.replace(/[A-Z]/g, m => "-" + m.toLowerCase());
+            if (prop !== dashed) {
+                attr.push(dashed);
+            }
+        }
+        return attr;
     }
 
     attributeChangedCallback(attrName, oldValue, newValue) {
+        function stringToValue(value) {
+            switch (value) {
+                case 'true':
+                case '': // Empty values default to `true`
+                    return true;
+                case 'false':
+                    return false;
+                case 'null':
+                    return null;
+                default:
+                    return value;
+            }
+        }
+
         const props = this.constructor.props;
         if (props && props[attrName] !== undefined && oldValue !== newValue) {
-            this.state[attrName] = newValue;
+            this.state[attrName] = stringToValue(newValue);
             this.update();
+        } else if (attrName.includes('-')) {
+            // Convert from dashed-case to camelCased.
+            // Example: `file-name` to `fileName`
+            // Regex from:
+            //   https://stackoverflow.com/a/6661012/3422084
+            const camelCased = attrName.replace(/-([a-z])/g, m => m[1].toUpperCase());
+            if (props && props[camelCased] !== undefined && oldValue !== newValue) {
+                this.state[camelCased] = stringToValue(newValue);
+                this.update();
+            }
         }
     }
 

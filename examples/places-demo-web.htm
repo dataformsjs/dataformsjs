@@ -89,27 +89,11 @@
                     <nav>
                         <a href="#/en/search" data-i18n="Search" data-i18n-href></a>
                         <a href="#/en/info" data-i18n="Info" data-i18n-href></a>
-                        <div class="download-links ml-20">
-                            <span class="download" data-i18n="Download"></span>
-                            <img class="download"
-                                src="img/Excel.svg"
-                                height="16"
-                                width="16"
-                                alt="Download to Excel"
-                                title="Download to Excel"
-                                data-export-excel-selector="table"
-                                data-export-file-name="[[Countries]].xlsx"
-                                data-i18n-attr="alt, title, data-export-file-name">
-                            <img class="download"
-                                src="img/CSV.svg"
-                                height="16"
-                                width="16"
-                                alt="Download to CSV"
-                                title="Download to CSV"
-                                data-export-csv-selector="table"
-                                data-export-file-name="[[Countries]].csv"
-                                data-i18n-attr="alt, title, data-export-file-name">
-                        </div>
+                        <!--
+                            <download-links> is a custom Web Component defined
+                                for this app near the bottom of this file.
+                        -->
+                        <download-links file-name="Countries"></download-links>
                     </nav>
 
                     <json-data url="{rootApiUrl}/countries" load-only-once onready="showMessage('Countries List is ready')">
@@ -334,6 +318,96 @@
                     console.log(event.target);
                     console.error(event.detail); // Error Message or Error Object
                 });
+            })();
+        </script>
+
+        <!--
+            Define Custom Web Component <download-links>
+
+            This uses the DataFormsJS Class `Component` which was created so that
+            custom Web Components can be quickly defined for an app.
+        -->
+        <script type="module">
+            // import { Component, html } from 'https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/Component.min.js';
+            import { Component, html } from '../js/web-components/Component.js';
+
+            // Define class for the <download-links> element
+            class DownloadLinks extends Component {
+                // Props end up being assigned to both HTML observable attributes
+                // and JavaScript properties. Example usage:
+                //    document.querySelector('download-links').fileName = 'Report';
+                //    document.querySelector('download-links').setAttribute('file-name', 'Report');
+                static get props() {
+                    return {
+                        fileName: null,
+                        marginLeft: true,
+                    }
+                }
+
+                render() {
+                    return html`
+                        <div class="download-links ${this.marginLeft ? 'ml-20' : ''}">
+                            <span class="download">${window.i18nText('Download')}</span>
+                            <img class="download"
+                                src="img/Excel.svg"
+                                height="16"
+                                width="16"
+                                alt="${window.i18nText('Download to Excel')}"
+                                title="${window.i18nText('Download to Excel')}"
+                                data-export-excel-selector="table"
+                                data-export-file-name="${window.i18nText(this.fileName)}.xlsx">
+                            <img class="download"
+                                src="img/CSV.svg"
+                                height="16"
+                                width="16"
+                                alt="${window.i18nText('Download to CSV')}"
+                                title="${window.i18nText('Download to CSV')}"
+                                data-export-csv-selector="table"
+                                data-export-file-name="${window.i18nText(this.fileName)}.csv">
+                        </div>
+                    `;
+                }
+            }
+
+            // Add <download-links> element to the page
+            window.customElements.define('download-links', DownloadLinks);
+        </script>
+        <script nomodule>
+            // Only modern browsers support Web Components so for IE and older browsers
+            // handle the document event 'app:routeChanged' which gets triggered from
+            // [polyfill.js] and then manually render HTML for the Web Component.
+            (function() {
+                function displayDownloadLinks() {
+                    var element = document.querySelector('download-links');
+                    if (element === null) {
+                        return;
+                    }
+
+                    var fileName = element.getAttribute('file-name');
+                    var marginLeft = !(element.getAttribute('margin-left') === 'false');
+                    var html = '<div class="download-links ' + (marginLeft ? 'ml-20' : '') + '">';
+                    html += '<span class="download">' + window.i18nText('Download') + '</span>';
+                    html += '<img class="download"';
+                    html += '    src="img/Excel.svg"';
+                    html += '    height="16"';
+                    html += '    width="16"';
+                    html += '    alt="' + window.i18nText('Download to Excel') + '"';
+                    html += '    title="' + window.i18nText('Download to Excel') + '"';
+                    html += '    data-export-excel-selector="table"';
+                    html += '    data-export-file-name="' + window.i18nText(fileName) + '.xlsx">';
+                    html += '<img class="download"';
+                    html += '    src="img/CSV.svg"';
+                    html += '    height="16"';
+                    html += '    width="16"';
+                    html += '    alt="' + window.i18nText('Download to CSV') + '"';
+                    html += '    title="' + window.i18nText('Download to CSV') + '"';
+                    html += '    data-export-csv-selector="table"';
+                    html += '    data-export-file-name="' + window.i18nText(fileName) + '.csv">';
+                    html += '</div>';
+                    element.innerHTML = html;
+                }
+
+                document.addEventListener('app:routeChanged', displayDownloadLinks);
             })();
         </script>
     </body>

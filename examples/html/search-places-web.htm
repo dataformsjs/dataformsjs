@@ -77,25 +77,7 @@
 
                 <div data-show="typeof cities === 'object' && cities.length > 0">
                     <nav style="display: inline-flex;">
-                        <span class="download" data-i18n="Download" style="margin-left: 0;"></span>
-                        <img class="download"
-                            src="img/Excel.svg"
-                            height="16"
-                            width="16"
-                            alt="Download to Excel"
-                            title="Download to Excel"
-                            data-export-excel-selector="table"
-                            data-export-file-name="[[Search]].xlsx"
-                            data-i18n-attr="alt, title, data-export-file-name">
-                        <img class="download"
-                            src="img/CSV.svg"
-                            height="16"
-                            width="16"
-                            alt="Download to CSV"
-                            title="Download to CSV"
-                            data-export-csv-selector="table"
-                            data-export-file-name="[[Search]].csv"
-                            data-i18n-attr="alt, title, data-export-file-name">
+                        <download-links file-name="Search" margin-left="false"></download-links>
                     </nav>
                 </div>
 

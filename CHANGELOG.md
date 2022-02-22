@@ -16,13 +16,20 @@ Overall the core Framework files, React Components, and Web Components and API a
     * https://dataformsjs.com/examples/places-demo-hbs.htm
     * All pages with Excel and CSV export pass prop to a HTML Control
     * Search Screen renders nested HTML control when `app.refreshHtmlControl()` is called from the JS Control `<json-data>`
+* Web Components - Component Class
+  * `~/js/web-components/Component.js`
+  * https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/Component.js
+  * Update so that props defined with `camelCase` will be available as `dashed-case` from HTML Observable Attributes
+  * Update HTML Observable Attributes to convert strings to correct type for true, false, null and empty values
+  * Example is being published with the Web Components Places Demo:
+    * https://www.dataformsjs.com/examples/places-demo-web.htm
 * Framework Plugins - Excel and CSV Export
   * `~/js/plugins/exportToCsv.js`
   * `~/js/plugins/exportToExcel.js`
   * Add support so that elements using the plugin are refreshed when `app.refreshHtmlControl()` is called.
   * Minor fix handled by using `onRendered(rootElement)` instead of `onRendered()`.
   * For Excel text columns were the the max character width is less than 20 an extra 2 pixels of space will be added so content better fits.
-* I18N update 
+* I18N update
   * Framework Plugin `~/js/plugins/i18n.js`
   * Web Component `~/js/web-components/i18n-service.js`
   * Added ability to find and replace i18n keys inside of an attribute string by using syntax `[[key]]`
