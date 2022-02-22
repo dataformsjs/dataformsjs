@@ -16,7 +16,8 @@ nav img.download {
 }
 nav img.download:hover { transform: translate(0, -2px); }
 .download-links,
-[data-template-id="download-links"] {
+[data-template-id="download-links"],
+[data-control="download-links"] {
     display: flex;
     align-items: center;
 }

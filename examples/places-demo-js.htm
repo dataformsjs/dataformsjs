@@ -45,27 +45,7 @@
                 <nav>
                     <a href="#/en/search" data-i18n="Search" data-i18n-href></a>
                     <a href="#/en/info" data-i18n="Info" data-i18n-href></a>
-                    <div class="download-links ml-20">
-                        <span class="download" data-i18n="Download"></span>
-                        <img class="download"
-                            src="img/Excel.svg"
-                            height="16"
-                            width="16"
-                            alt="Download to Excel"
-                            title="Download to Excel"
-                            data-export-excel-selector="table"
-                            data-export-file-name="[[Countries]].xlsx"
-                            data-i18n-attr="alt, title, data-export-file-name">
-                        <img class="download"
-                            src="img/CSV.svg"
-                            height="16"
-                            width="16"
-                            alt="Download to CSV"
-                            title="Download to CSV"
-                            data-export-csv-selector="table"
-                            data-export-file-name="[[Countries]].csv"
-                            data-i18n-attr="alt, title, data-export-file-name">
-                    </div>
+                    <download-links class="ml-20" data-file-name="Countries"></download-links>
                 </nav>
 
                 <input
@@ -214,6 +194,36 @@
                 }
                 return text;
             }
+        </script>
+
+        <script>
+            // Create a custom JavaScript "Control" to handle <download-links>.
+            // When the control is rendered `this.fileName` is passed from the
+            // [data-file-name] HTML attribute.
+            (function() {
+                app.addControl('download-links', {
+                    html: function () {
+                        var html = '<span class="download">' + window.i18nText('Download') + '</span>';
+                        html += '<img class="download"';
+                        html += '    src="img/Excel.svg"';
+                        html += '    height="16"';
+                        html += '    width="16"';
+                        html += '    alt="' + window.i18nText('Download to Excel') + '"';
+                        html += '    title="' + window.i18nText('Download to Excel') + '"';
+                        html += '    data-export-excel-selector="table"';
+                        html += '    data-export-file-name="' + window.i18nText(this.fileName) + '.xlsx">';
+                        html += '<img class="download"';
+                        html += '    src="img/CSV.svg"';
+                        html += '    height="16"';
+                        html += '    width="16"';
+                        html += '    alt="' + window.i18nText('Download to CSV') + '"';
+                        html += '    title="' + window.i18nText('Download to CSV') + '"';
+                        html += '    data-export-csv-selector="table"';
+                        html += '    data-export-file-name="' + window.i18nText(this.fileName) + '.csv">';
+                        return html;
+                    },
+                });
+            })();
         </script>
     </body>
 </html>

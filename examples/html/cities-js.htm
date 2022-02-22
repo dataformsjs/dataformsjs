@@ -6,27 +6,7 @@
     <nav>
         <a href="#/en/" data-i18n="Countries" data-i18n-href></a>
         <a href="#/[window.i18n_Locale]/regions/[country]" data-i18n="Regions" data-bind-attr="href"></a>
-        <div class="download-links ml-20">
-            <span class="download" data-i18n="Download"></span>
-            <img class="download"
-                src="img/Excel.svg"
-                height="16"
-                width="16"
-                alt="Download to Excel"
-                title="Download to Excel"
-                data-export-excel-selector="table"
-                data-export-file-name="[[Cities]].xlsx"
-                data-i18n-attr="alt, title, data-export-file-name">
-            <img class="download"
-                src="img/CSV.svg"
-                height="16"
-                width="16"
-                alt="Download to CSV"
-                title="Download to CSV"
-                data-export-csv-selector="table"
-                data-export-file-name="[[Cities]].csv"
-                data-i18n-attr="alt, title, data-export-file-name">
-        </div>
+        <download-links class="ml-20" data-file-name="Cities"></download-links>
     </nav>
 
     <input data-filter-selector="table" placeholder="Enter filter" data-i18n-attr="placeholder">
