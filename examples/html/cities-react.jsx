@@ -54,6 +54,7 @@ export function ShowCities(props) {
             <nav>
                 <Link to={'/' + props.params.lang + '/'}>{i18n.text('Countries')}</Link>
                 <Link to={'/' + props.params.lang + '/regions/' + props.params.country}>{i18n.text('Regions')}</Link>
+                <DownloadLinks fileName="Cities" />
             </nav>
 
             <InputFilter

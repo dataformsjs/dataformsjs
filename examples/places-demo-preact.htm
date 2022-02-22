@@ -50,7 +50,7 @@
 
         <!--
             DataFormsJS React Components
-            
+
             The Core file includes commonly used React Components for data apps:
             [ErrorBoundary, InputFilter, JsonData, LazyLoad, SortableTable]
             and JavaScript Classes [Cache, Format]. All React Components are also
@@ -68,6 +68,14 @@
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/react/es5/DataFormsJS.min.js"></script>
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/react/es5/I18n.min.js"></script>
         <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/react/es5/LeafletMap.min.js"></script>
+
+        <!--
+            DataFormsJS Web Components
+            Excel and CSV Support are provided by Web Components for Modern Browsers only.
+            Web Components are a native DOM technology and can be used with all JS Frameworks.
+        -->
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/export-to-csv-service.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/export-to-excel-service.min.js"></script>
 
         <!--
             Un-minimized Components would need to use [type="text/babel"] because
@@ -102,11 +110,13 @@
             const Link = window.ReactRouterDOM.Link;
 
             const defaultLocale = 'en';
-            const supportedLocales = ['en', 'ja', 'es', 'pt-BR', 'ar', 'fr'];
+            const supportedLocales = ['en', 'ja', 'es', 'pt-BR', 'ar', 'fr', 'zh-CN'];
             const fileName = 'countries';
             const i18n = new I18n(defaultLocale, supportedLocales, fileName);
             const defaultLang = i18n.getUserDefaultLang;
             const format = new Format();
+
+            const supportsWebComponents = ('customElements' in window && 'define' in window.customElements);
 
             // Basic function to allow row onClick events to highlight the selected row.
             // This allows a user to easily see where they are on wide rows or mobile devices.
@@ -134,6 +144,7 @@
                         <nav>
                             <Link to={'/' + props.params.lang + '/search'}>{i18n.text('Search')}</Link>
                             <Link to={'/' + props.params.lang + '/info'}>{i18n.text('Info')}</Link>
+                            <DownloadLinks fileName='Countries' />
                         </nav>
 
                         <InputFilter
@@ -174,6 +185,35 @@
                         </SortableTable>
                     </>
                 )
+            }
+
+            function DownloadLinks({ fileName, noMarginLeft }) {
+                if (!supportsWebComponents) {
+                    return null;
+                }
+                const style=(noMarginLeft ? {marginLeft:'0'} : {})
+                return (<>
+                    <span className="download" style={style}>{i18n.text('Download')}</span>
+                    <img className="download"
+                        src="img/Excel.svg"
+                        height="16"
+                        width="16"
+                        alt={i18n.text('Download to Excel')}
+                        title={i18n.text('Download to Excel')}
+                        data-export-excel-selector="table"
+                        data-export-file-name={i18n.text(fileName) + '.xlsx'} />
+                    <img className="download"
+                        src="img/Excel.svg"
+                        height="16"
+                        width="16"
+                        alt={i18n.text('Download to CSV')}
+                        title={i18n.text('Download to CSV')}
+                        data-export-csv-selector="table"
+                        data-export-file-name={i18n.text(fileName) + '.csv'} />
+
+                    <export-to-excel-service></export-to-excel-service>
+                    <export-to-csv-service></export-to-csv-service>
+                </>)
             }
 
             // Download Data for the Main Page and show once ready

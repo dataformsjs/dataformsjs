@@ -17,6 +17,28 @@
         data-filter-results-text-all="{{i18n '{totalCount} Cities Found'}}"
         data-filter-results-text-filtered="{{i18n 'Showing {displayCount} of {totalCount} Cities'}}">
 
+    <div>
+        <nav style="display: inline-flex;">
+            <span class="download" style="margin-left:0;">{{i18n 'Download'}}</span>
+            <img class="download"
+                src="img/Excel.svg"
+                height="16"
+                width="16"
+                alt="{{i18n 'Download to Excel'}}"
+                title="{{i18n 'Download to Excel'}}"
+                data-export-excel-selector="table"
+                data-export-file-name="{{i18n 'Search'}}.xlsx">
+            <img class="download"
+                src="img/Excel.svg"
+                height="16"
+                width="16"
+                alt="{{i18n 'Download to CSV'}}"
+                title="{{i18n 'Download to CSV'}}"
+                data-export-csv-selector="table"
+                data-export-file-name="{{i18n 'Search'}}.csv">
+        </nav>
+    </div>
+
     <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even" class="click-to-highlight">
         <thead>
             <tr>

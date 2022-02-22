@@ -96,18 +96,18 @@
                             width="16"
                             alt="Download to Excel"
                             title="Download to Excel"
-                            data-i18n-attr="alt, title"
                             data-export-excel-selector="table"
-                            data-export-file-name="Countries.xlsx">
+                            data-export-file-name="[[Countries]].xlsx"
+                            data-i18n-attr="alt, title, data-export-file-name">
                         <img class="download"
                             src="img/Excel.svg"
                             height="16"
                             width="16"
                             alt="Download to CSV"
                             title="Download to CSV"
-                            data-i18n-attr="alt, title"
                             data-export-csv-selector="table"
-                            data-export-file-name="Countries.csv">
+                            data-export-file-name="[[Countries]].csv"
+                            data-i18n-attr="alt, title, data-export-file-name">
                     </nav>
 
                     <json-data url="{rootApiUrl}/countries" load-only-once onready="showMessage('Countries List is ready')">
@@ -202,18 +202,18 @@
         </url-router>
 
         <!-- DataFormsJS Web Components -->
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/i18n-service.min.js"></script>
+        <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/i18n-service.min.js"></script> -->
+        <script type="module" src="../js/web-components/i18n-service.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/url-router.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/json-data.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/data-table.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/input-filter.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/sortable-table.min.js"></script>
         <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/show-errors-service.min.js"></script>
-        <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/export-to-csv-service.min.js"></script>
-        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/export-to-excel-service.min.js"></script> -->
-        <script type="module" src="../js/web-components/export-to-csv-service.js"></script>
-        <script type="module" src="../js/web-components/export-to-excel-service.js"></script>
-        <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/polyfill.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/export-to-csv-service.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/export-to-excel-service.min.js"></script>
+        <!-- <script nomodule src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/web-components/polyfill.min.js"></script> -->
+        <script nomodule src="../js/web-components/polyfill.min.js"></script>
 
         <!--
             Many different HTML files use <json-data> with the same Root URL

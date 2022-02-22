@@ -246,6 +246,12 @@ function ShowSearchResults(props) {
                 filter-results-text-filtered={i18n.text('Showing {displayCount} of {totalCount} Cities')}
                 placeholder={i18n.text("Enter filter")} />
 
+            {supportsWebComponents && <div>
+                <nav style={{display: 'inline-flex'}}>
+                    <DownloadLinks fileName="Search" noMarginLeft={true} />
+                </nav>
+            </div>}
+
             <SortableTable
                 data-sort-class-odd="row-odd"
                 data-sort-class-even="row-even">

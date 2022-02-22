@@ -33,7 +33,7 @@
             data-bind="city"
             data-enter-key-click-selector=".btn-search"
             placeholder="Search for a City, example 'Paris' or 'London'"
-            v-i18n-attr="'data-placeholder'">
+            v-i18n-attr="'placeholder'">
 
         <!--
             When the search button is clicked on the <json-data> element will be triggered
@@ -60,6 +60,30 @@
                     data-filter-results-text-filtered="Showing {displayCount} of {totalCount} Cities"
                     placeholder="Enter filter"
                     v-i18n-attr="'data-filter-results-text-all, data-filter-results-text-filtered, placeholder'">
+
+                <div>
+                    <nav style="display: inline-flex;">
+                        <span class="download" v-i18n="'Download'" style="margin-left:0;"></span>
+                        <img class="download"
+                            src="img/Excel.svg"
+                            height="16"
+                            width="16"
+                            alt="Download to Excel"
+                            title="Download to Excel"
+                            data-export-excel-selector="table"
+                            data-export-file-name="[[Search]].xlsx"
+                            v-i18n-attr="'alt, title, data-export-file-name'">
+                        <img class="download"
+                            src="img/Excel.svg"
+                            height="16"
+                            width="16"
+                            alt="Download to CSV"
+                            title="Download to CSV"
+                            data-export-csv-selector="table"
+                            data-export-file-name="[[Search]].csv"
+                            v-i18n-attr="'alt, title, data-export-file-name'">
+                    </nav>
+                </div>
 
                 <table data-sort data-sort-class-odd="row-odd" data-sort-class-even="row-even" class="click-to-highlight">
                     <thead>

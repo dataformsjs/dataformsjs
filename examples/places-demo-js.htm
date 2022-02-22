@@ -52,18 +52,18 @@
                         width="16"
                         alt="Download to Excel"
                         title="Download to Excel"
-                        data-i18n-attr="alt, title"
                         data-export-excel-selector="table"
-                        data-export-file-name="Countries.xlsx">
+                        data-export-file-name="[[Countries]].xlsx"
+                        data-i18n-attr="alt, title, data-export-file-name">
                     <img class="download"
                         src="img/Excel.svg"
                         height="16"
                         width="16"
                         alt="Download to CSV"
                         title="Download to CSV"
-                        data-i18n-attr="alt, title"
                         data-export-csv-selector="table"
-                        data-export-file-name="Countries.csv">
+                        data-export-file-name="[[Countries]].csv"
+                        data-i18n-attr="alt, title, data-export-file-name">
                 </nav>
 
                 <input
@@ -170,15 +170,16 @@
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/extensions/format.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/extensions/jsTemplate.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/pages/jsonData.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/i18n.min.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/i18n.min.js"></script> -->
+        <script src="../js/plugins/i18n.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/filter.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/sort.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/dataBind.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/clickToHighlight.min.js"></script>
         <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/exportToCsv.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/exportToExcel.min.js"></script> -->
-        <script src="../js/plugins/exportToCsv.js"></script>
-        <script src="../js/plugins/exportToExcel.js"></script>
+        <script src="../js/plugins/exportToCsv.min.js"></script>
+        <script src="../js/plugins/exportToExcel.min.js"></script>
         <script>
             // Lazy Load the following scripts only if needed based on attribute [data-lazy-load].
             // When scripts need to be downloaded in a specific order then use an array otherwise

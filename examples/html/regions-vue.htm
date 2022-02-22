@@ -5,6 +5,25 @@
     
     <nav>
         <a v-bind:href="'#/' + i18n_Locale + '/'" v-i18n="'Countries'"></a>
+        <span class="download" v-i18n="'Download'"></span>
+        <img class="download"
+            src="img/Excel.svg"
+            height="16"
+            width="16"
+            alt="Download to Excel"
+            title="Download to Excel"
+            data-export-excel-selector="table"
+            data-export-file-name="[[Regions]].xlsx"
+            v-i18n-attr="'alt, title, data-export-file-name'">
+        <img class="download"
+            src="img/Excel.svg"
+            height="16"
+            width="16"
+            alt="Download to CSV"
+            title="Download to CSV"
+            data-export-csv-selector="table"
+            data-export-file-name="[[Regions]].csv"
+            v-i18n-attr="'alt, title, data-export-file-name'">
     </nav>
 
     <input data-filter-selector="table"
