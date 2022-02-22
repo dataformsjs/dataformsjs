@@ -6,11 +6,21 @@ Overall the core Framework files, React Components, and Web Components and API a
 
 ## Next Release (Changes on master branch but not yet npm)
 
+* DataFormsJS App Object
+  * `~/js/DataFormsJS.js`
+  * New Feature - Pass HTML Attributes as Properties to HTML Controls
+    * This is similar in concept to passing props with React or Vue and allows easy and quick customization of content in the HTML control.
+  * Update - When manually calling `app.refreshHtmlControl()` nested HTML controls are now rendered
+  * Fix typo in error message
+  * Example of the new features is being published on the Handlebars Places Demo:
+    * https://dataformsjs.com/examples/places-demo-hbs.htm
+    * All pages with Excel and CSV export pass prop to a HTML Control
+    * Search Screen renders nested HTML control when `app.refreshHtmlControl()` is called from the JS Control `<json-data>`
 * Framework Plugins - Excel and CSV Export
   * `~/js/plugins/exportToCsv.js`
   * `~/js/plugins/exportToExcel.js`
   * Add support so that elements using the plugin are refreshed when `app.refreshHtmlControl()` is called.
-  * Minor fix handled by using `onRendered: function (rootElement)` instead of `onRendered: function ()`.
+  * Minor fix handled by using `onRendered(rootElement)` instead of `onRendered()`.
   * For Excel text columns were the the max character width is less than 20 an extra 2 pixels of space will be added so content better fits.
 * I18N update 
   * Framework Plugin `~/js/plugins/i18n.js`
@@ -20,9 +30,6 @@ Overall the core Framework files, React Components, and Web Components and API a
     * Previously both `Countries` and `Countries.xlsx` would have had to be defined for each language
     * Now only `Countries` has to be defined
     * For Vue apps this applies to the `v-i18n-attr` directive
-* DataFormsJS App Object
-  * `~/js/DataFormsJS.js`
-  * Fix typo in error message
 
 ## 5.12.1 (February 19, 2022)
 

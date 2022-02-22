@@ -2189,21 +2189,66 @@
                     model = this.activeModel;
                 }
 
+                // Add [data-*] attributes from the control to the model object that
+                // gets passed to the control. This is similar in concept to passing
+                // props with React or Vue and allows easy and quick customization
+                // of content in the HTML control.
+                var controlModel = Object.assign({}, model);
+                var skipProps = ['templateId', 'templateUrl', 'updatedAt'];
+                for (var prop in control.dataset) {
+                    if (skipProps.indexOf(prop) === -1) {
+                        var value = control.dataset[prop];
+                        switch (value) {
+                            case 'true':
+                            case '': // Empty values default to `true`
+                                controlModel[prop] = true;
+                                break;
+                            case 'false':
+                                controlModel[prop] = false;
+                                break;
+                            case 'null':
+                                controlModel[prop] = null;
+                                break;
+                            default:
+                                controlModel[prop] = value;
+                        }
+                    }
+                }
+
                 // Compile and render the template.
                 // If this function was manually called on a specific element
                 // then load JS controls and refresh plugins for the element.
                 compileTemplate(control, null, function (template) {
-                    renderTemplate(control, null, template, model);
+                    renderTemplate(control, null, template, controlModel);
                     if (!isUpdatingView) {
-                        app.loadAllJsControls(control, model);
+                        app.loadAllJsControls(control, controlModel);
                         app.unloadUnattachedJsControls();
                     }
                     if (!isUpdatingAllControls) {
                         app.refreshPlugins(control);
                     }
-                    if (callback !== undefined) {
-                        callback();
+                    // Refresh nested HTML Controls
+                    if (control.id === 'control-1') {
+                        console.log(control, isUpdatingAllControls, isUpdatingView);
                     }
+                    var promises = [];
+                    if (!isUpdatingAllControls && !isUpdatingView) {
+                        var nestedControls = control.querySelectorAll('[data-template-id],[data-template-url]');
+                        Array.prototype.forEach.call(nestedControls, function(nestedControl) {
+                            promises.push(new Promise(function(resolve) {
+                                app.refreshHtmlControl(nestedControl, resolve);
+                            }));
+                        });
+                    }
+                    if (promises.length === 0 && callback !== undefined) {
+                        callback();
+                        return;
+                    }
+                    Promise.all(promises).finally(function () {
+                        if (callback !== undefined) {
+                            callback();
+                        }
+                    });
                 });
             } catch (e) {
                 // If there is an error (usually a parsing error during development)
