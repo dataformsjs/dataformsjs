@@ -27,8 +27,7 @@ TODO List
         After NPM release update all "../js/" to the CDN Page
         Use global search of "../js/" to find files that need to be updated
     - This is being worked on mid-Feb 2022 and will likely be published by the end of this month
-    - Need to test more browsers, IE, Safari, etc
-    - Need a CSV icon (currently Excel icon is used for both Excel and CSV)
+    - Verify new CSV icon with IE and different screens
 
 **) Update the Getting Started CSS Template used here:
         https://www.dataformsjs.com/en/getting-started
