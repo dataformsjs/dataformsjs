@@ -1445,7 +1445,7 @@
             });
         });
 
-        // Call a different contoller using the same [data-src] template previously called. This
+        // Call a different controller using the same [data-src] template previously called. This
         // verifies that downloaded views are re-used rather than downloaded on different controllers.
         QUnit.test('Script Download from [data-src] Attribute using existing Template', function (assert) {
             // Asynchronous test
@@ -1458,7 +1458,7 @@
             tester.pageTester(hash, shouldCompileTemplate, expectedHtml, assert, done);
         });
 
-        // For this test both the main template uses [data-src] and the refereced
+        // For this test both the main template uses [data-src] and the referenced
         // [control] template in the main page.
         QUnit.test('Control Script download from [data-src] Attribute', function (assert) {
             // Asynchronous test
@@ -1544,7 +1544,7 @@
                     updatedAt;
 
                 // Loop through the test 3 times:
-                // 1) First check controls for the intial state
+                // 1) First check controls for the initial state
                 // 2) Before this loop update two of the controls and verify
                 //    that only 2 controls changed.
                 // 3) Refresh all controls before this loop and verify that they
@@ -1674,7 +1674,7 @@
                         // Last control is a valid item with no error
                         control = document.getElementById(controls[n].item);
                         if (control === null) {
-                            assert.ok(false, 'Could not find contol at: ' + controls[n].item);
+                            assert.ok(false, 'Could not find control at: ' + controls[n].item);
                             break;
                         }
                         html = control.innerHTML.trim();
@@ -1684,7 +1684,7 @@
                         // only increase the first time it is called.
                         if (eventTime === 'Before refreshAllHtmlControls()') {
                             // All other items other than the last item are error templates.
-                            // For error template in the array incremment the compiled templates by 1.
+                            // For error template in the array increment the compiled templates by 1.
                             tester.compiledTemplates++;
 
                             // Was the template loaded from a URL? If so add 1 submitted request
@@ -1696,8 +1696,8 @@
 
                         // Run each test 3 times. This confirms a number of items:
                         // *) Templates are only compiled once regardless of error
-                        // *) Error message is unqiue per control
-                        // *) Error message is helpfull and relevant for each control
+                        // *) Error message is unique per control
+                        // *) Error message is helpful and relevant for each control
                         for (x = 0; x < 3; x++) {
                             switch (x) {
                                 // Control will end with [a] in the [id] attribute
