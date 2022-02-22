@@ -6,25 +6,27 @@
     <nav>
         <a v-bind:href="'#/' + i18n_Locale + '/'" v-i18n="'Countries'"></a>
         <a v-bind:href="'#/' + i18n_Locale + '/regions/' + country" v-i18n="'Regions'"></a>
-        <span class="download" v-i18n="'Download'"></span>
-        <img class="download"
-            src="img/Excel.svg"
-            height="16"
-            width="16"
-            alt="Download to Excel"
-            title="Download to Excel"
-            data-export-excel-selector="table"
-            data-export-file-name="[[Cities]].xlsx"
-            v-i18n-attr="'alt, title, data-export-file-name'">
-        <img class="download"
-            src="img/CSV.svg"
-            height="16"
-            width="16"
-            alt="Download to CSV"
-            title="Download to CSV"
-            data-export-csv-selector="table"
-            data-export-file-name="[[Cities]].csv"
-            v-i18n-attr="'alt, title, data-export-file-name'">
+        <div class="download-links ml-20">
+            <span class="download" v-i18n="'Download'"></span>
+            <img class="download"
+                src="img/Excel.svg"
+                height="16"
+                width="16"
+                alt="Download to Excel"
+                title="Download to Excel"
+                data-export-excel-selector="table"
+                data-export-file-name="[[Cities]].xlsx"
+                v-i18n-attr="'alt, title, data-export-file-name'">
+            <img class="download"
+                src="img/CSV.svg"
+                height="16"
+                width="16"
+                alt="Download to CSV"
+                title="Download to CSV"
+                data-export-csv-selector="table"
+                data-export-file-name="[[Cities]].csv"
+                v-i18n-attr="'alt, title, data-export-file-name'">
+        </div>
     </nav>
 
     <input data-filter-selector="table" placeholder="Enter filter" v-i18n-attr="'placeholder'">

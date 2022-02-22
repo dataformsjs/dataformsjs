@@ -7,13 +7,19 @@ body {
 a { color:navy; }
 nav { display: flex; align-items: center; }
 nav a { display:inline-block; margin-right:20px; }
-nav a:last-child { margin-right:0; }
-nav .download { margin-left: 20px; }
+nav .download { margin-right: 20px; }
+nav a:last-child,
+nav .download:last-child { margin-right:0; }
 nav img.download {
-    filter:drop-shadow(0 1px 1px gray);
+    filter: drop-shadow(0 1px 1px gray);
     transition: transform ease-in-out 300ms;
 }
-nav img.download:hover { transform: translate(0, -2px); } 
+nav img.download:hover { transform: translate(0, -2px); }
+.download-links,
+[data-template-id="download-links"] {
+    display: flex;
+    align-items: center;
+}
 [data-export-csv-selector],
 [data-export-excel-selector] { cursor: pointer; }
 input,
@@ -174,6 +180,7 @@ table tbody tr.highlight td:first-child {background-color: yellow; }
 
 .align-right { text-align:right; }
 .error { padding:1em; background-color:red; color:white; }
+.ml-20 { margin-left: 20px; }
 
 .place-screen {
     display: flex;

@@ -3,25 +3,27 @@
 <nav>
     <a href="#/en/" data-i18n="Countries" data-i18n-href></a>
     <a href="#/[window.i18n_Locale]/regions/[country]" data-i18n="Regions" url-attr-param="href"></a>
-    <span class="download" data-i18n="Download"></span>
-    <img class="download"
-        src="img/Excel.svg"
-        height="16"
-        width="16"
-        alt="Download to Excel"
-        title="Download to Excel"
-        data-export-excel-selector="table"
-        data-export-file-name="[[Cities]].xlsx"
-        data-i18n-attr="alt, title, data-export-file-name">
-    <img class="download"
-        src="img/CSV.svg"
-        height="16"
-        width="16"
-        alt="Download to CSV"
-        title="Download to CSV"
-        data-export-csv-selector="table"
-        data-export-file-name="[[Cities]].csv"
-        data-i18n-attr="alt, title, data-export-file-name">
+    <div class="download-links ml-20">
+        <span class="download" data-i18n="Download"></span>
+        <img class="download"
+            src="img/Excel.svg"
+            height="16"
+            width="16"
+            alt="Download to Excel"
+            title="Download to Excel"
+            data-export-excel-selector="table"
+            data-export-file-name="[[Cities]].xlsx"
+            data-i18n-attr="alt, title, data-export-file-name">
+        <img class="download"
+            src="img/CSV.svg"
+            height="16"
+            width="16"
+            alt="Download to CSV"
+            title="Download to CSV"
+            data-export-csv-selector="table"
+            data-export-file-name="[[Cities]].csv"
+            data-i18n-attr="alt, title, data-export-file-name">
+    </div>
 </nav>
 
 <json-data url="{rootApiUrl}/cities/:country/:region" url-params load-only-once>

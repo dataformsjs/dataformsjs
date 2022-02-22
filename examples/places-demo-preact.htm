@@ -191,26 +191,27 @@
                 if (!supportsWebComponents) {
                     return null;
                 }
-                const style=(noMarginLeft ? {marginLeft:'0'} : {})
+                const className = (noMarginLeft ? 'download' : 'download ml-20');
                 return (<>
-                    <span className="download" style={style}>{i18n.text('Download')}</span>
-                    <img className="download"
-                        src="img/Excel.svg"
-                        height="16"
-                        width="16"
-                        alt={i18n.text('Download to Excel')}
-                        title={i18n.text('Download to Excel')}
-                        data-export-excel-selector="table"
-                        data-export-file-name={i18n.text(fileName) + '.xlsx'} />
-                    <img className="download"
-                        src="img/CSV.svg"
-                        height="16"
-                        width="16"
-                        alt={i18n.text('Download to CSV')}
-                        title={i18n.text('Download to CSV')}
-                        data-export-csv-selector="table"
-                        data-export-file-name={i18n.text(fileName) + '.csv'} />
-
+                    <div className="download-links">
+                        <span className={className}>{i18n.text('Download')}</span>
+                        <img className="download"
+                            src="img/Excel.svg"
+                            height="16"
+                            width="16"
+                            alt={i18n.text('Download to Excel')}
+                            title={i18n.text('Download to Excel')}
+                            data-export-excel-selector="table"
+                            data-export-file-name={i18n.text(fileName) + '.xlsx'} />
+                        <img className="download"
+                            src="img/CSV.svg"
+                            height="16"
+                            width="16"
+                            alt={i18n.text('Download to CSV')}
+                            title={i18n.text('Download to CSV')}
+                            data-export-csv-selector="table"
+                            data-export-file-name={i18n.text(fileName) + '.csv'} />
+                    </div>
                     <export-to-excel-service></export-to-excel-service>
                     <export-to-csv-service></export-to-csv-service>
                 </>)

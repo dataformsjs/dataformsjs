@@ -61,24 +61,8 @@
 
                 <nav>
                     <a href="#/{{i18n_Locale}}/search">{{i18n 'Search'}}</a>
-                    <a href="#/{{i18n_Locale}}/info">{{i18n 'Info'}}</a>                    
-                    <span class="download">{{i18n 'Download'}}</span>
-                    <img class="download"
-                        src="img/Excel.svg"
-                        height="16"
-                        width="16"
-                        alt="{{i18n 'Download to Excel'}}"
-                        title="{{i18n 'Download to Excel'}}"
-                        data-export-excel-selector="table"
-                        data-export-file-name="{{i18n 'Countries'}}.xlsx">
-                    <img class="download"
-                        src="img/CSV.svg"
-                        height="16"
-                        width="16"
-                        alt="{{i18n 'Download to CSV'}}"
-                        title="{{i18n 'Download to CSV'}}"
-                        data-export-csv-selector="table"
-                        data-export-file-name="{{i18n 'Countries'}}.csv">
+                    <a href="#/{{i18n_Locale}}/info">{{i18n 'Info'}}</a>
+                    <div class="ml-20" data-template-id="download-links" data-file-name="Countries"></div>
                 </nav>
 
                 <input
@@ -114,6 +98,35 @@
                     </tbody>
                 </table>
             {{/if}}
+        </script>
+
+        <!--
+            This HTML Control (similar concept to a React or Vue Component) takes a
+            [fileName] property (defined from HTML attribute [data-file-name]) and
+            renders the HTML. Plugins [i18n, exportToExcel, exportToCsv] are used with-in
+            this HTML control for export functionality using the users selected language.
+
+            This control ends up being included when [data-template-id="download-links"]
+            is used on the page's HTML.
+        -->
+        <script type="text/x-template" data-engine="handlebars" id="download-links">
+            <span class="download">{{i18n 'Download'}}</span>
+            <img class="download"
+                src="img/Excel.svg"
+                height="16"
+                width="16"
+                alt="{{i18n 'Download to Excel'}}"
+                title="{{i18n 'Download to Excel'}}"
+                data-export-excel-selector="table"
+                data-export-file-name="{{i18n fileName}}.xlsx">
+            <img class="download"
+                src="img/CSV.svg"
+                height="16"
+                width="16"
+                alt="{{i18n 'Download to CSV'}}"
+                title="{{i18n 'Download to CSV'}}"
+                data-export-csv-selector="table"
+                data-export-file-name="{{i18n fileName}}.csv">
         </script>
 
         <script
@@ -169,7 +182,8 @@
         <script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.6/dist/handlebars.min.js"></script>
 
         <!-- DataFormsJS -->
-        <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/DataFormsJS.min.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/DataFormsJS.min.js"></script> -->
+        <script src="../js/DataFormsJS.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/pages/jsonData.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/extensions/handlebars-helpers.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/dataformsjs@5/js/extensions/format.min.js"></script>
@@ -207,7 +221,7 @@
                     'https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/chosen.min.js',
                 ],
                 keydownAction: 'https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/keydownAction.min.js',
-                json_data: 'https://cdn.jsdelivr.net/npm/dataformsjs@5/js/controls/json-data.min.js',
+                json_data: 'https://cdn.jsdelivr.net/npm/dataformsjs@5/js/controls/json-data.js',
                 leafletCss: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.css',
                 leafletJs: 'https://unpkg.com/leaflet@1.5.1/dist/leaflet.js',
                 leafletPlugin: 'https://cdn.jsdelivr.net/npm/dataformsjs@5/js/plugins/leaflet.min.js',
