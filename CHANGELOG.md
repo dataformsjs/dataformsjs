@@ -4,6 +4,22 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files, React Components, and Web Components and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes all npm release history and new website features or major changes.
 
+## Next Release (Changes on master branch but not yet npm)
+
+* Framework Plugins - Excel and CSV Export
+  * `~/js/plugins/exportToCsv.js`
+  * `~/js/plugins/exportToExcel.js`
+  * Add support so that elements using the plugin are refreshed when `app.refreshHtmlControl()` is called.
+  * Minor fix handled by using `onRendered: function (rootElement)` instead of `onRendered: function ()`.
+* I18N update 
+  * Framework Plugin `~/js/plugins/i18n.js`
+  * Web Component `~/js/web-components/i18n-service.js`
+  * Added ability to find and replace i18n keys inside of an attribute string by using syntax `[[key]]`
+    * Example `data-export-file-name="[[Countries]].xlsx" data-i18n-attr="data-export-file-name"`
+    * Previously both `Countries` and `Countries.xlsx` would have had to be defined for each language
+    * Now only `Countries` has to be defined
+    * For Vue apps this applies to the `v-i18n-attr` directive
+
 ## 5.12.1 (February 19, 2022)
 
 * Excel Export (Web Component and Framework Plugin)

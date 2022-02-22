@@ -323,9 +323,9 @@
          * Once the Form Renders find any elements that have attribute
          * [data-export-csv-selector] and assigning an onclick event to it.
          */
-        onRendered: function () {
+        onRendered: function (rootElement) {
             // Find Elements
-            var actionElements = document.querySelectorAll('[data-export-excel-selector]');
+            var actionElements = (rootElement || document).querySelectorAll('[data-export-excel-selector]');
 
             // Are there any on the page?
             var isSupported = false;
