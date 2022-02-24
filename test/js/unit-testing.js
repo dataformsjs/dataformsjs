@@ -1549,7 +1549,18 @@
                 //    that only 2 controls changed.
                 // 3) Refresh all controls before this loop and verify that they
                 //    were all updated.
-                for (x = 0; x < 3; x++) {
+                //
+                // A recursive function is used that mimics the following for loop:
+                //     for (x = 0; x < 3; x++) {
+                // The reason is because `app.refreshHtmlControl(control, callback)` is async
+                // using a callback so for correct event order a callback must be used.
+                //
+                x = -1;
+                function controlLoopCheck() {
+                    x++;
+                    if (x === 3) {
+                        return;
+                    }
                     // Check each control
                     for (n = 0, m = controls.length; n < m; n++) {
                         // Get the html for the control and remove all spaces and line breaks
@@ -1600,13 +1611,17 @@
                         app.models.unitTestControls.values = ['abcd', 'xyz'];
                         // Refresh two controls
                         // One by passing a string for the id value and the
-                        // other by passing an HTMLElement
-                        app.refreshHtmlControl(document.querySelector('#controls .control-2'));
-                        app.refreshHtmlControl('downloaded-control');
+                        // other by passing an HTMLElement. `refreshHtmlControl()` is async
+                        // using a callback so wait for each control and then recursively
+                        // call this function again when complete.
+                        app.refreshHtmlControl(document.querySelector('#controls .control-2'), function() {
+                            app.refreshHtmlControl('downloaded-control', controlLoopCheck);
+                        });
                     } else if (x === 1) {
-                        app.refreshAllHtmlControls();
+                        app.refreshAllHtmlControls(controlLoopCheck);
                     }
                 }
+                controlLoopCheck();
 
                 // Expected Templates to be compiled and downloaded
                 // This number should be fixed regardless of how many additional
@@ -1818,7 +1833,7 @@
                     return 'Error with Element &lt;div id="' + id + '" class=""&gt; - ' + expectedMessage;
                 }
 
-                // Run errors twice, once by refering to string ID and once directly with element
+                // Run errors twice, once by referring to string ID and once directly with element
                 for (n = 0; n < 2; n++) {
                     // Invalid Callback
                     expectedMessage = '[callback] was not defined as a [function] when the [DataFormsJS.refreshHtmlControl()] was called';

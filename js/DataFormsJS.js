@@ -2155,7 +2155,7 @@
          * reference a template. This can be used by controller functions to easily
          * update only part of a page.
          *
-         * @param {HTMLElement} control
+         * @param {HTMLElement|string} control
          * @param {function|undefined} callback
          * @param {object|undefined} model   If undefined then [app.activeModel] is used
          */
@@ -2244,10 +2244,6 @@
                                 app.refreshHtmlControl(nestedControl, resolve);
                             }));
                         });
-                    }
-                    if (promises.length === 0 && callback !== undefined) {
-                        callback();
-                        return;
                     }
                     Promise.all(promises).finally(function () {
                         if (callback !== undefined) {
