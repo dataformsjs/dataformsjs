@@ -4,7 +4,7 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files, React Components, and Web Components and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes all npm release history and new website features or major changes.
 
-## Next Release (Changes on master branch but not yet npm)
+## 5.13.0 (February 25, 2022)
 
 * DataFormsJS App Object
   * `~/js/DataFormsJS.js`
