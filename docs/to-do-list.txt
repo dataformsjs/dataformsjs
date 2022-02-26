@@ -22,13 +22,6 @@ TODO List
 |
 --------------------------------------------------------------------------
 
-**) Current Updates for release 5.13.0
-    - Published 2022-02-25
-    - After CDN changes take effect (24 hours or longer) update all local "../js/" to the CDN Page.
-        Use global search of "../js/" to find files that need to be updated.
-        This applies to the example page and once update changes will be published
-        to the main server.
-
 **) Update the Getting Started CSS Template used here:
         https://www.dataformsjs.com/en/getting-started
     So that it looks similar to the places demo and can be used for apps as decent starting template
