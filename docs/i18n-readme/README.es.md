@@ -239,6 +239,13 @@ import {
 // Use Redux
 import { createStore } from 'redux'
 import { Provider, connect } from 'react-redux';
+
+// Import Individual DataFormsJS React Components
+import JsonData from 'dataformsjs/js/react/es6/JsonData';
+import LazyLoad from 'dataformsjs/js/react/es6/LazyLoad';
+import Format from 'dataformsjs/js/react/es6/Format';
+import ErrorBoundary from 'dataformsjs/js/react/es6/ErrorBoundary';
+// [Cache, CssVars, I18n, ImageGallery, InputFilter, LeafletMap, Markdown, SortableTable]
 ```
 
 When working with the `jsxLoader` and compiling JSX directly in a browser the recommend method for importing is to simply reference the global classes or functions of the libraries that you need for your app:
@@ -393,7 +400,7 @@ _Todos los tamaños se basan en scripts minificados y compresión gzip del servi
 * **React JSX Loader – 6.6 kB** (91 kB versión completa sin comprimir)
 * **React (todos los componentes en JavaScript) – 5.7 kB**
 * Los componentes de reacción individuales tienen entre 3 y 12 kB cuando no están comprimidos e incluyen comentarios.
-* Los componentes web generalmente tienen entre 1 y 3 kB cada uno, por lo general, utilizará una serie de componentes, por lo que en las aplicaciones de ejemplo, esto suma aproximadamente 15 kB para cada aplicación.
+* **Los componentes web generalmente tienen entre 1 y 3 kB cada uno**, por lo general, utilizará una serie de componentes, por lo que en las aplicaciones de ejemplo, esto suma aproximadamente 15 kB para cada aplicación.
 
 Si bien el marco DataFormsJS es pequeño, generalmente se utilizará con un motor de visualización o plantilla más grande:
 

@@ -257,6 +257,13 @@ const Link = ReactRouterDOM.Link;
 const Provider = ReactRedux.Provider;
 const connect = ReactRedux.connect;
 const createStore = Redux.createStore;
+
+// Import Individual DataFormsJS React Components
+import JsonData from 'dataformsjs/js/react/es6/JsonData';
+import LazyLoad from 'dataformsjs/js/react/es6/LazyLoad';
+import Format from 'dataformsjs/js/react/es6/Format';
+import ErrorBoundary from 'dataformsjs/js/react/es6/ErrorBoundary';
+// [Cache, CssVars, I18n, ImageGallery, InputFilter, LeafletMap, Markdown, SortableTable]
 ```
 
 Many examples exist for popular React Libraries using `jsxLoader` at the following site:
@@ -392,7 +399,7 @@ _所有大小都基于来自Web服务器的缩小脚本和gzip压缩. The file s
 * **React JSX Loader – 6.6 kB** (91 kB 未压缩时)
 * **React (包含所有组件) – 5.7 kB**
 * 单独的Reaction组件在解压缩并包含注释时在3到12 kB之间.
-* 每个Web组件通常约为1至3 kB，通常您将使用多个组件，因此在示例应用程序中，每个应用程序的总大小约为15 kB.
+* **每个Web组件通常约为1至3 kB**，通常您将使用多个组件，因此在示例应用程序中，每个应用程序的总大小约为15 kB.
 
 虽然DataFormsJS框架很小，但它通常会与较大的模板或视图引擎一起使用:
 
