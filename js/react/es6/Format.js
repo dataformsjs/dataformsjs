@@ -104,7 +104,13 @@ export default class Format {
                 // In the future a new Temporal may be used instead:
                 //    https://tc39.es/proposal-temporal/docs/
                 const localDate = new Date(dateTime);
-                return new Intl.DateTimeFormat(navigator.language, options).format(localDate);
+                const date = Intl.DateTimeFormat(navigator.language, options).format(localDate);
+                if (navigator.language === 'en-US') {
+                    // Chrome returns "{date}, {time}" but most people in the US
+                    // use "{date} {time}" without the comma.
+                    return date.toLocaleString().replace(', ', ' ');
+                }
+                return date.toLocaleString();
             }
         } catch (e) {
             // If Error log to console and return 'Error' text

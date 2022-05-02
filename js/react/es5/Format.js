@@ -106,7 +106,14 @@ var Format = function () {
           return new Intl.DateTimeFormat(navigator.language, options).format(date);
         } else {
           var localDate = new Date(dateTime);
-          return new Intl.DateTimeFormat(navigator.language, options).format(localDate);
+
+          var _date = Intl.DateTimeFormat(navigator.language, options).format(localDate);
+
+          if (navigator.language === 'en-US') {
+            return _date.toLocaleString().replace(', ', ' ');
+          }
+
+          return _date.toLocaleString();
         }
       } catch (e) {
         console.warn('Error formatting Date/Time Value:');

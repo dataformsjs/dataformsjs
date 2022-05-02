@@ -1,5 +1,5 @@
 // @link https://www.dataformsjs.com
-// @version 5.13.0
+// @version 5.13.1
 // @author Conrad Sollitt (https://conradsollitt.com)
 // @license MIT
 (function () {
@@ -249,7 +249,14 @@ var Format = function () {
           return new Intl.DateTimeFormat(navigator.language, options).format(date);
         } else {
           var localDate = new Date(dateTime);
-          return new Intl.DateTimeFormat(navigator.language, options).format(localDate);
+
+          var _date = Intl.DateTimeFormat(navigator.language, options).format(localDate);
+
+          if (navigator.language === 'en-US') {
+            return _date.toLocaleString().replace(', ', ' ');
+          }
+
+          return _date.toLocaleString();
         }
       } catch (e) {
         console.warn('Error formatting Date/Time Value:');

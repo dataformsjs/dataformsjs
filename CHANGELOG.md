@@ -4,6 +4,14 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files, React Components, and Web Components and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes all npm release history and new website features or major changes.
 
+## 5.13.1 (May 2, 2022)
+
+* Update Code Comments on React Component `<JsonData>`
+  * Previously `@license` was included in the main comment which resulted in [Vite](https://vitejs.dev/) including about 5 kB (uncompressed) and about 1.5 kB of extra code on the build process.
+  * Comments were updated so that they are not included on build resulting in smaller files.
+* Update Framework, React, and Web Components for Date/Time formatting:
+  * Update for `en-US` to use format `{date} {time}` instead of `{date}, {time}` because most people in the US (and software programs) do not use the comma while Chrome uses the comma.
+
 ## 5.13.0 (February 25, 2022)
 
 * DataFormsJS App Object

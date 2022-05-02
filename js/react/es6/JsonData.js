@@ -122,7 +122,9 @@
  * <JsonData> to the child components in [isLoaded]. This can be used to pass
  * hook functions and data needed by the child component that doesn't come
  * from the Web Service.
- *
+ */
+
+/**
  * @link     https://www.dataformsjs.com
  * @author   Conrad Sollitt (https://conradsollitt.com)
  * @license  MIT
