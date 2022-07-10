@@ -74,24 +74,31 @@ The start screen allows you to quickly filter and view many different examples a
 <img src="https://raw.githubusercontent.com/dataformsjs/static-files/master/img/screenshots/dataformsjs-start-page.png" alt="DataFormsJS npm start page">
 </p>
 
-JavaScript files for the Framework and standalone React and Web Components exist under the `js` directory. Full Directory Structure:
+JavaScript files for the Framework and standalone React and Web Components exist under the `js` directory. Full Directory Structure and Key files:
 
 ```
 dataformsjs
 ├── docs
+│
 ├── examples
 │   ├── *.htm
 │   └── server.js
+│
 └── js
 │   ├── DataFormsJS.js
 │   ├── react\*.js
 │   ├── web-components\*.js
 │   └── *\*.js
+│
 ├── scripts\*.js
-├── server\app.js
-└── test
-    ├── *.htm
-    └── server.js
+│
+├── server\*.js
+│
+├── test
+│    ├── *.htm
+│    └── server.js
+│
+└── server\app.js
 ```
 
 **Develop online** using the code playground: https://www.dataformsjs.com/en/playground
