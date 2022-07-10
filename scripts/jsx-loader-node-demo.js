@@ -1,18 +1,17 @@
 /**
- * In most cases the jsxLoader will be used to automatically compile
- * JSX code in the browser, however if needed it's possible that
- * it can be used from node.
+ * In most cases the jsxLoader will be used to automatically compile JSX code
+ * in the browser, however if needed it's possible that it can be used from node.
  * 
  * https://github.com/dataformsjs/dataformsjs/issues/16
  * 
  * To compare transformed code with Babel, try it online:
  *  https://babeljs.io/repl
  * 
- * In general results should be similar. With the latest version
- * of Babel it will add comments for generated React Code and includes
- * "use strict" by default. The current version of jsxLoader does not
- * add a "use strict" and typically spaces elements one element per line
- * for readability of the transformed code.
+ * In general results should be similar. With the recent versions of Babel (2020-2022)
+ * it will add extra comments for generated React Code that are not included with jsxLoader.
+ * The current version of jsxLoader typically spaces elements one element per line for
+ * readability of the transformed code which is different than the Babel output which
+ * is more compressed for line-endings.
  */
 
 /**
