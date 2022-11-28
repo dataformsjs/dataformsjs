@@ -25,6 +25,7 @@
 import {
     render,
     setElementText,
+    formatData,
     bindAttrTmpl,
     polyfillCustomElements,
     showError,
@@ -315,7 +316,7 @@ class UrlRouter extends HTMLElement {
         for (const element of elements) {
             const field = element.getAttribute('url-param');
             const value = (urlParams[field] === undefined ? '' : urlParams[field]);
-            setElementText(element, value);
+            setElementText(element, formatData(element, value));
         }
 
         // Update all elements with the [url-attr-param] attribute.

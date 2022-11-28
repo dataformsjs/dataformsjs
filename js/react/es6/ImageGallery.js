@@ -238,6 +238,8 @@ export default class ImageGallery extends React.Component {
         this.overlayBackButton = null;
         this.overlayFowardButton = null;
         this.touchStartX = null;
+        this.touchPinchToZoom = false;
+        this.touchPinchEndTime = null;
         this.loadingTimeoutId = null;
         this.loadingText = (props.loadingText ? props.loadingText : 'Loading...');
         this.loadingTimeout = (props.loadingTimeout ? props.loadingTimeout : 2000);
@@ -450,8 +452,25 @@ export default class ImageGallery extends React.Component {
         // Handle Touch Events for Swipe Left/Right
         this.overlay.addEventListener('touchstart', (e) => {
             this.touchStartX = e.changedTouches[0].screenX;
+            if (e.touches.length === 2) {
+                this.touchPinchToZoom = true;
+            }
         }, _supportsPassive ? { passive: true } : false);
         this.overlay.addEventListener('touchend', (e) => {
+            // When the user lifts their fingers after using pinch-to-zoom this event will
+            // get called twice (once for each finger). When this event is triggered for the
+            // second finger a 0.2 second delay is used to prevent the 2nd finger from causing
+            // the next or previous image to show.
+            if (this.touchPinchToZoom) {
+                this.touchPinchEndTime = new Date();
+                this.touchPinchToZoom = false;
+                return;
+            }
+            if (this.touchPinchEndTime && (new Date().getTime() - this.touchPinchEndTime.getTime()) <= 200) {
+                return;
+            }
+
+            // User is swiping to previous or next image
             var curX = e.changedTouches[0].screenX;
             if (curX > this.touchStartX) {
                 this.changeImage('left');

@@ -199,6 +199,8 @@
         imageCount: 0,
         imageIndex: -1,
         touchStartX: 0,
+        touchPinchToZoom: false,
+        touchPinchEndTime: null,
         loadedImages: [],
         loadingText: 'Loading...', // Message to show if image takes a while to load
         loadingTimeout: 2000, // Delay for loading message in milliseconds (thousandths of a second)
@@ -433,8 +435,25 @@
             // Handle Touch Events for Swipe Left/Right
             this.overlay.addEventListener('touchstart', function(e) {
                 imageGallery.touchStartX = e.changedTouches[0].screenX;
+                if (e.touches.length === 2) {
+                    imageGallery.touchPinchToZoom = true;
+                }
             }, supportsPassive ? { passive: true } : false);
             this.overlay.addEventListener('touchend', function(e) {
+                // When the user lifts their fingers after using pinch-to-zoom this event will
+                // get called twice (once for each finger). When this event is triggered for the
+                // second finger a 0.2 second delay is used to prevent the 2nd finger from causing
+                // the next or previous image to show.
+                if (imageGallery.touchPinchToZoom) {
+                    imageGallery.touchPinchEndTime = new Date();
+                    imageGallery.touchPinchToZoom = false;
+                    return;
+                }
+                if (imageGallery.touchPinchEndTime && (new Date().getTime() - imageGallery.touchPinchEndTime.getTime()) <= 200) {
+                    return;
+                }
+
+                // User is swiping to previous or next image
                 var curX = e.changedTouches[0].screenX;
                 if (curX > imageGallery.touchStartX) {
                     imageGallery.changeImage('left');

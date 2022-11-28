@@ -18,19 +18,17 @@
 /* jshint esversion:8 */
 /* jshint evil:true */
 
-import { Format } from './utils-format.js';
 import {
     buildUrl,
     setElementText,
     getBindValue,
+    formatData,
     bindAttrTmpl,
     componentsAreDefined,
     polyfillCustomElements,
     showErrorAlert,
     showError
 } from './utils.js';
-
-const format = new Format();
 
 const appEvents = {
     contentReady: 'app:contentReady',
@@ -427,23 +425,8 @@ class JsonData extends HTMLElement {
         let elements = this.querySelectorAll('[data-bind]');
         for (const element of elements) {
             const key = element.getAttribute('data-bind');
-            let value = (key === '' ? this.state : getBindValue(this.state, key));
-            const dataType = element.getAttribute('data-format');
-            if (dataType !== null) {
-                if (typeof format[dataType] === 'function') {
-                    value = format[dataType](value);
-                } else if (typeof window[dataType] === 'function') {
-                    try {
-                        value = window[dataType](value);
-                    } catch (e) {
-                        console.error(e);
-                        value = 'Error: ' + e.message;
-                    }
-                } else {
-                    value = 'Error: Unknown format [' + dataType + ']';
-                }
-            }
-            setElementText(element, value);
+            const value = (key === '' ? this.state : getBindValue(this.state, key));
+            setElementText(element, formatData(element, value));
         }
 
         // Update all elements with the [data-bind-attr] attribute.

@@ -12,6 +12,8 @@
 /* eslint no-async-promise-executor: "off" */
 /* eslint no-prototype-builtins: "off" */
 
+import { Format } from './utils-format.js';
+
 // Module level variable that is set only once
 let polyfillIsNeeded = null;
 
@@ -225,6 +227,38 @@ export function getBindValue(data, key) {
         value = (typeof value === 'object' && value !== null ? value[keys[n]] : null);
     }
     return (value === undefined ? null : value);
+}
+
+/**
+ * Return a formatted value based on the HTML attribute:
+ *     data-format="number|date|dateTime|time|{function}"
+ * 
+ * This function does not change the element; the calling
+ * function must handle that if needed.
+ *
+ * @param {HTMLElement} element
+ * @param {*} value
+ * @returns {*}
+ */
+export function formatData(element, value) {
+    const dataType = element.getAttribute('data-format');
+    if (dataType === null) {
+        return value;
+    }
+
+    if (typeof Format.prototype[dataType] === 'function') {
+        const format = new Format();
+        return format[dataType](value);
+    } else if (typeof window[dataType] === 'function') {
+        try {
+            return window[dataType](value);
+        } catch (e) {
+            console.error(e);
+            return 'Error: ' + e.message;
+        }
+    } else {
+        return 'Error: Unknown format [' + dataType + ']';
+    }
 }
 
 /**

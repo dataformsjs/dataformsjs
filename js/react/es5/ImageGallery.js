@@ -98,6 +98,8 @@ var ImageGallery = function (_React$Component) {
     _this.overlayBackButton = null;
     _this.overlayFowardButton = null;
     _this.touchStartX = null;
+    _this.touchPinchToZoom = false;
+    _this.touchPinchEndTime = null;
     _this.loadingTimeoutId = null;
     _this.loadingText = props.loadingText ? props.loadingText : 'Loading...';
     _this.loadingTimeout = props.loadingTimeout ? props.loadingTimeout : 2000;
@@ -322,10 +324,24 @@ var ImageGallery = function (_React$Component) {
       document.addEventListener('keydown', this.handleDocKeyDown);
       this.overlay.addEventListener('touchstart', function (e) {
         _this4.touchStartX = e.changedTouches[0].screenX;
+
+        if (e.touches.length === 2) {
+          _this4.touchPinchToZoom = true;
+        }
       }, _supportsPassive ? {
         passive: true
       } : false);
       this.overlay.addEventListener('touchend', function (e) {
+        if (_this4.touchPinchToZoom) {
+          _this4.touchPinchEndTime = new Date();
+          _this4.touchPinchToZoom = false;
+          return;
+        }
+
+        if (_this4.touchPinchEndTime && new Date().getTime() - _this4.touchPinchEndTime.getTime() <= 200) {
+          return;
+        }
+
         var curX = e.changedTouches[0].screenX;
 
         if (curX > _this4.touchStartX) {

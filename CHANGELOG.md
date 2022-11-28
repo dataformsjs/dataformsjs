@@ -4,6 +4,17 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files, React Components, and Web Components and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes all npm release history and new website features or major changes.
 
+## 5.14.0 (Nov 28, 2022)
+
+* Added ability to use HTML Attribute `[data-format]` from Web Component `<url-router>` when using attribute `[url-param]`. The same functionality when using Web Component `<json-data>` with attribute `[data-bind]` is provided.
+  * This includes using `data-format="number|date|dateTime|time|{function}"` and custom functions.
+  * `js/web-components/url-router.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/url-router.js
+* Updated Image Gallery Controls/Components:
+  * Fixed issue where `pinch-to-zoom` on mobile devices would cause previous/next image navigation to occur.
+  * `js/web-components/image-gallery.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/web-components/image-gallery.js
+  * `js/plugins/imageGallery.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/plugins/imageGallery.js
+  * `js/react/es6/ImageGallery.js` https://github.com/dataformsjs/dataformsjs/blob/master/js/react/es6/ImageGallery.js
+
 ## 5.13.1 (May 2, 2022)
 
 * Update Code Comments on React Component `<JsonData>`
