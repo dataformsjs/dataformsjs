@@ -4,6 +4,10 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files, React Components, and Web Components and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes all npm release history and new website features or major changes.
 
+## 5.14.1 (Dec 7, 2022)
+
+* Fixed a bug in Web Component `<json-data>` that was introduced on the previous build where `format.{func}` was not working in `[data-show]` attributes.
+
 ## 5.14.0 (Nov 28, 2022)
 
 * Added ability to use HTML Attribute `[data-format]` from Web Component `<url-router>` when using attribute `[url-param]`. The same functionality when using Web Component `<json-data>` with attribute `[data-bind]` is provided.

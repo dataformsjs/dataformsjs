@@ -18,6 +18,7 @@
 /* jshint esversion:8 */
 /* jshint evil:true */
 
+import { Format } from './utils-format.js';
 import {
     buildUrl,
     setElementText,
@@ -29,6 +30,8 @@ import {
     showErrorAlert,
     showError
 } from './utils.js';
+
+const format = new Format();
 
 const appEvents = {
     contentReady: 'app:contentReady',
