@@ -536,33 +536,6 @@ TODO List
 *) Create Unit Tests for the following functions:
     Controller.onRouteUnload
 
-*) Improve Unit tests for IE 11
-    - Typically they work about 50% of the time, however several routes have an
-      issue related to calls for [tester.pageTester2]
-    - It appears that [app.onUpdateViewComplete] is being called twice the first time
-      that it should be called. The reason for this is not yet known.
-    - It's not yet determine if this is a bug or related to IE behavior. Regardless
-      DataFormsJS has been used extensively with IE Users for many years before it was
-      released so it's known to work well with IE.
-    - To test the issue find and update the following code in [dataformsjs\test\js\unit-testing-core.js]:
-                // After checking the 'Page is Loading' message define a new
-                // [onUpdateViewComplete] function to check the final response.
-                app.onUpdateViewComplete = function () {
-                    // Now check the 2nd state (usually after a web service response)
-                    assert.equal(window.location.hash, hash, 'Hash Check - ' + hash);
-                    if (expectHtml2 !== null) {
-                        //// **** This block is the section to add for manual testing.
-                        if (hash === '#/page-json-data-load-only-once' || hash === '#/page-reload-json-data' || hash === '#/missing-page-json-data') {
-                            var html = document.getElementById('view').textContent.trim();
-                            if (html !== expectHtml2) {
-                                console.log(hash);
-                                console.log(expectHtml2);
-                                console.log(html);
-                            }
-                        }
-                        tester.checkElement('view', expectHtml2, assert);
-                    }
-
 *) Additional Unit Testing for the following functions, props, etc:
     data-engine:
         Validate error message in [app.setup()] at [(viewEngine === ViewEngines.Unknown)]
