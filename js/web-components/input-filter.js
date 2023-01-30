@@ -18,7 +18,7 @@
 /* eslint-disable no-console */
 
 import {
-    isAttachedToDom,
+    isDomAttached,
     defineExtendsPolyfill
 } from './utils.js';
 
@@ -74,7 +74,7 @@ class InputFilter extends HTMLInputElement {
             }
             window.clearInterval(this.interval);
             this.interval = null;
-            if (isAttachedToDom(this)) {
+            if (isDomAttached(this)) {
                 this.filter();
             }
         }, 100);

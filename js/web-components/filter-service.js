@@ -38,7 +38,7 @@
 /* jshint esversion:8, loopfunc:true */
 
 import { WebComponentService } from './WebComponentService.js';
-import { isAttachedToDom } from './utils.js';
+import { isDomAttached } from './utils.js';
 
 // Supported Operators when using [data-filter-operator] with [data-filter-value]
 const _operators = ['excludes', 'excludes_list', '!==', '==='];
@@ -211,7 +211,7 @@ class FilterService extends WebComponentService {
             window.clearInterval(interval);
             interval = null;
             // For SPA's make sure the same page is still open
-            if (isAttachedToDom(firstFilterEl)) {
+            if (isDomAttached(firstFilterEl)) {
                 this.setup(rootElement);
             }
         }, 100);

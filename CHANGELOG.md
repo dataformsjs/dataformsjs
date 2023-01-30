@@ -4,6 +4,10 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files, React Components, and Web Components and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes all npm release history and new website features or major changes.
 
+## 5.14.2 (Next Release)
+
+* Web Components - Renamed function `[utils.js].isAttachedToDom()` to `[utils.js].isDomAttached()` because the text string `ToDom` would show up when searching source code for case-insensitive `todo`. This is a minor update but prevents the files from showing up in external projects by accident. This could be considered a breaking change if an app calls the function but that is unlikely the case and it's mostly an internal function because it's undocumented outside of the changelog; that is the reason why a patch version is being released.
+
 ## 5.14.1 (Dec 7, 2022)
 
 * Fixed a bug in Web Component `<json-data>` that was introduced on the previous build where `format.{func}` was not working in `[data-show]` attributes.

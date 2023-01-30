@@ -507,7 +507,7 @@ export function componentsAreDefined(element, selector = '') {
  *
  * @param {HTMLElement} element
  */
-export function isAttachedToDom(element) {
+export function isDomAttached(element) {
     let node = element.parentNode;
     while (node !== null) {
         node = node.parentNode;
