@@ -107,9 +107,14 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
     script will be added to the page as <script type="module">.
 
     [data-type="module"] is also supported by Babel Standalone.
+
+    When using jsxLoader you cannot import JSX files directly as you would
+    do so from a local build process with Vite, Create-React-App, etc.
+    `import` would only work for regular JavaScript files. To see how to
+    dynamically import JSX search this page for `<LazyLoad>`.
 -->
 <script type="text/babel" data-type="module">
-    import { object } from 'library'
+    import { object } from './library/file.js'
 </script>
 ```
 

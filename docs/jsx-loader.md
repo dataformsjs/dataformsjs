@@ -107,9 +107,14 @@ The `jsxLoader.js` script is very small to download (6.6 kB - min and gzip) and 
     script will be added to the page as <script type="module">.
 
     [data-type="module"] is also supported by Babel Standalone.
+
+    When using jsxLoader you cannot import JSX files directly as you would
+    do so from a local build process with Vite, Create-React-App, etc.
+    `import` would only work for regular JavaScript files. To see how to
+    dynamically import JSX search this page for `<LazyLoad>`.
 -->
 <script type="text/babel" data-type="module">
-    import { object } from 'library'
+    import { object } from './library/file.js'
 </script>
 ```
 
