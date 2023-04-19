@@ -275,6 +275,38 @@
                 return;
             }
 
+            // Private function to Download JSX Source based on <script src="{url}">
+            // This is based on `loadScript()` however it only downloads and doesn't
+            // compile or add the script. This allows scripts to be added on the page
+            // in the expected order based on how they are defined in the HTML.
+            // Github Issue 22
+            function downloadJsx(element) {
+                var result = {
+                    element: element,
+                    text: '',
+                    error: null,
+                };
+                return new Promise(function(resolve) {
+                    fetch(element.src, jsxLoader.fetchOptions)
+                    .then(function(res) {
+                        var status = res.status;
+                        if ((status >= 200 && status < 300) || status === 304) {
+                            return res.text();
+                        } else {
+                            throw new Error('Error loading data. Server Response Code: ' + status + ', Response Text: ' + res.statusText);
+                        }
+                    })
+                    .then(function(text) {
+                        result.text = text;
+                        resolve(result);
+                    })
+                    .catch(function(error) {
+                        result.error = error;
+                        resolve(result);
+                    });
+                });
+            }
+
             // First asynchronously download all scripts that contain the [src] attribute.
             // Scripts that contain embedded content will run after all downloads finish.
             // The reason is inline scripts are expected to be dependent on the downloaded scripts.
@@ -284,12 +316,15 @@
                 if (script.src === '') {
                     scriptsNoSrc.push(script);
                 } else {
-                    promisesSrc.push(jsxLoader.loadScript(script));
+                    promisesSrc.push(downloadJsx(script));
                 }
             });
 
-            // After all [src] scripts are loaded then compile and include inline scripts.
-            Promise.all(promisesSrc).finally(function () {
+            // Compile and add scripts to the page once all [src] scripts are downloaded
+            Promise.all(promisesSrc).then(function (results) {
+                results.forEach(function(result) {
+                    jsxLoader.loadScript(result.element, result.text, result.error);
+                });
                 scriptsNoSrc.forEach(function(script) {
                     jsxLoader.loadScript(script);
                 });
@@ -305,10 +340,15 @@
          * behavior is used so that `Promise.all(scripts).finally()` logic can be
          * used when loading multiple scripts.
          *
+         * Parameters `downloadedSrc` and `downloadError` are intended only
+         * for internal use.
+         *
          * @param {HTMLScriptElement} element
+         * @param {string|undefined} downloadedSrc
+         * @param {mixed|undefined} downloadError
          * @return {Promise}
          */
-        loadScript: function(element) {
+        loadScript: function(element, downloadedSrc, downloadError) {
             function addToPage(text, callback, src) {
                 // Status
                 var startTime = new Date();
@@ -396,6 +436,20 @@
                 if (element.src === '') {
                     addToPage(element.innerHTML, resolve);
                     element.setAttribute('data-added-to-page', '');
+                    return;
+                }
+
+                // Already downloaded from setup
+                if (typeof downloadedSrc === 'string') {
+                    if (downloadError) {
+                        console.error(downloadError);
+                        element.setAttribute('data-added-to-page', '');
+                        element.setAttribute('data-error', downloadError.toString());
+                        resolve();
+                    } else {
+                        addToPage(downloadedSrc, resolve, element.getAttribute('src'));
+                        element.setAttribute('data-added-to-page', '');
+                    }
                     return;
                 }
 
