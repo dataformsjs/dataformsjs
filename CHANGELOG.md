@@ -4,6 +4,14 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files, React Components, and Web Components and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes all npm release history and new website features or major changes.
 
+## 5.14.3 (Jan 29, 2023)
+
+* jsxLoader Update so that JSX Files are compiled and added to the page only after all files are downloaded
+  * Related Issue: https://github.com/dataformsjs/dataformsjs/issues/22
+  * Previously JSX files were asynchronously download, compiled, and added to the page in the order that they downloaded.
+  * This caused issues when files downloaded in an unexpected order. 
+* **Special Thanks to m1sta for opening this issue and providing great examples to show the error** https://github.com/m1sta
+
 ## 5.14.2 (Jan 29, 2023)
 
 * Web Components - Renamed function `[utils.js].isAttachedToDom()` to `[utils.js].isDomAttached()` because the text string `ToDom` would show up when searching source code for case-insensitive `todo`. This is a minor update but prevents the files from showing up in external projects by accident. This could be considered a breaking change if an app calls the function but that is unlikely the case and it's mostly an internal function because it's undocumented outside of the changelog; that is the reason why a patch version is being released.
