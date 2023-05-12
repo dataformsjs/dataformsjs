@@ -1,7 +1,6 @@
 
 const links = [
-    'https://www.tensorflow.org',
-    'https://keras.io',
+    'https://pytorch.org/',
     'https://www.kaggle.com/keras/resnet50',
     'http://image-net.org/',
     'https://en.wikipedia.org/wiki/Computer_vision',
