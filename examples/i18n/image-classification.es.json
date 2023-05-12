@@ -17,7 +17,7 @@
     "Links": "Enlaces web",
     "info_1": "AI = Inteligencia Artificial / ML = Machine Learning",
     "info_2": "Esta página muestra cómo extender una página de servicio web JSON con DataFormsJS para incluir código JavaScript personalizado.",
-    "info_3": "Esta página descarga imágenes de muestra y resultados de un servicio JSON y permite realizar predicciones a partir de la carga de imágenes al servicio web de clasificación de imágenes AI / ML creado con Python usando Keras y TensorFlow.",
+    "info_3": "Esta página descarga imágenes de muestra y resultados de un servicio JSON y permite realizar predicciones a partir de la carga de imágenes al servicio web de clasificación de imágenes AI / ML creado con Python usando PyTorch.",
     "info_4": "Cuando cargue una imagen, se comparará con 1,000 categorías diferentes; si se carga una imagen que no coincide con una de las categorías, los resultados pueden ser inexactos porque el modelo solo puede coincidir con las categorías conocidas. Por ejemplo, una foto de un delfín puede clasificarse con probabilidad media como un gran tiburón blanco.",
     "info_5": "Idealmente, el elemento principal de la imagen deberá estar en el centro y en el foco de la foto; de lo contrario, los resultados serán menos precisos.",
     "info_6": "Las imágenes que cargue son privadas solo para usted y se eliminan del servidor tan pronto como se procesan.",
