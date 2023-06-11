@@ -48,6 +48,7 @@ function PageInfo() {
                     <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/html/image-home-react.jsx" target="_blank">JSX (React)</a></li>
                     <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-web.htm" target="_blank">Web Components</a></li>
                     <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/image-classification-web.js" target="_blank">JavaScript (Web Components)</a></li>
+                    <li><a href="https://github.com/dataformsjs/website/blob/master/app/app.py" target="_blank">Python Server Code</a></li>
                 </ul>
 
                 <h2>{i18n.text('Links')}</h2>

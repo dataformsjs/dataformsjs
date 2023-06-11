@@ -40,6 +40,7 @@ function PageInfo({match}) {
                     <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-graphql.htm" target="_blank">GraphQL</a></li>
                     <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-web.htm" target="_blank">{i18n.text('web_components')}</a></li>
                     <li><a href="https://github.com/dataformsjs/dataformsjs/blob/master/examples/places-demo-js.htm" target="_blank">{i18n.text('html_js_only')}</a></li>
+                    <li><a href="https://github.com/dataformsjs/website/blob/master/app/Controllers/Geonames.php" target="_blank">PHP Server Code</a></li>
                 </ul>
 
                 <h2 className="links">{i18n.text('Links')}</h2>
