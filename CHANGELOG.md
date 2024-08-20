@@ -4,6 +4,14 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files, React Components, and Web Components and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes all npm release history and new website features or major changes.
 
+## 5.14.4 (Aug 19, 2024)
+
+* Replace all instances of the Polyfill Service `https://polyfill.io/v3/polyfill.min.js?` with `https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?version=4.8.0&`
+  * This is due to a supply chain attack against the popular JS Polyfill Library and site `polyfill.io`.
+  * https://cdnjs.cloudflare.com/polyfill/
+  * https://www.akamai.com/blog/security/2024-polyfill-supply-chain-attack-what-to-know
+  * Based on how the Polyfill is loaded for DataFormsJS this error would have only affected users of IE (as of 2024 this is mainly old Windows Servers in a corporate environment).
+
 ## 5.14.3 (Jan 29, 2023)
 
 * jsxLoader Update so that JSX Files are compiled and added to the page only after all files are downloaded

@@ -100,7 +100,7 @@
         /**
          * Polyfill URL that is used for older browsers
          */
-        polyfillUrl: 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Array.prototype.find,Array.prototype.findIndex,Object.assign,Object.keys,Object.values,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat,WeakSet,Symbol,Number.isInteger,String.prototype.codePointAt,String.fromCodePoint',
+        polyfillUrl: 'https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?version=4.8.0&features=Array.from,Array.isArray,Array.prototype.find,Array.prototype.findIndex,Object.assign,Object.keys,Object.values,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat,WeakSet,Symbol,Number.isInteger,String.prototype.codePointAt,String.fromCodePoint',
 
         /**
          * Babel URL and options used for older browsers.
@@ -1760,7 +1760,7 @@
      * Add Build Version
      * For new releases this gets updated automatically by [scripts/build.js].
      */
-    Object.defineProperty(jsxLoader, 'version', { value: '5.14.3', enumerable: true });
+    Object.defineProperty(jsxLoader, 'version', { value: '5.14.4', enumerable: true });
 
     /**
      * Optional Node Support. Additionally if using webpack or a bundler is being used

@@ -1037,7 +1037,7 @@
                 cache: 'no-store',
                 credentials: 'same-origin',
             },
-            polyfillUrl: 'https://polyfill.io/v3/polyfill.min.js?features=Array.from,Array.isArray,Array.prototype.find,Object.assign,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat',
+            polyfillUrl: 'https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?version=4.8.0&features=Array.from,Array.isArray,Array.prototype.find,Object.assign,URL,fetch,Promise,Promise.prototype.finally,String.prototype.endsWith,String.prototype.startsWith,String.prototype.includes,String.prototype.repeat',
             cssPonyfillUrl: 'https://cdn.jsdelivr.net/npm/css-vars-ponyfill@2.4.3/dist/css-vars-ponyfill.min.js',
             graphqlUrl: null,
             errors: {
@@ -3391,7 +3391,7 @@
 
     // Add Build Version
     // For new releases this gets updated automatically by [scripts/build.js].
-    Object.defineProperty(app, 'version', { value: '5.14.3', enumerable: true });
+    Object.defineProperty(app, 'version', { value: '5.14.4', enumerable: true });
 
     // Assign [DataFormsJS] and [app] to the global variable space
     window.DataFormsJS = app;
