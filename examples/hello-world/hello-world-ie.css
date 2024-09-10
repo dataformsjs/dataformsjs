@@ -1,0 +1,7 @@
+/* Adjust top/left of orbit for IE */
+@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
+    .home-page-animation .orbit {
+        top: calc((100% - 152px) / 1.5);
+        left: calc((100% - 152px) / 2);
+    }
+}

@@ -220,13 +220,17 @@ export default class ImageGallery extends React.Component {
                     max-width: 1300px;
                 }
             }
-
-            @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
-                .image-gallery-overlay .image-gallery-loading,
-                .image-gallery-overlay .btn-previous,
-                .image-gallery-overlay .btn-next { margin-top: calc((100vh /2) - 35px); }
-            }
         `;
+        var isIE = (navigator.userAgent.indexOf('Trident/') !== -1);
+        if (isIE) {
+            this.overlayStyleCss += `
+                @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
+                    .image-gallery-overlay .image-gallery-loading,
+                    .image-gallery-overlay .btn-previous,
+                    .image-gallery-overlay .btn-next { margin-top: calc((100vh /2) - 35px); }
+                }
+            `;
+        }
 
         // Internal class properties
         this.imageIndex = null;

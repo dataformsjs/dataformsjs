@@ -7,21 +7,6 @@
     --padding: 20px;
 }
 
-/* IE Fallback for basic layout with key elements */
-.content,
-ul.results li {
-    padding: 20px;
-    margin: 20px;
-    box-shadow: 0 1px 2px 1px rgba(0,0,0,0.5);
-}
-@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
-    ul.image-categories { width:90vh; }
-    body { margin:40px; }
-    nav, h2 { padding:20px; }
-    ul.info { margin-left:20px; }
-    input[type='text'] { margin-bottom: 20px; }
-}
-
 /* Page Style */
 body {
     background-color: rgba(240, 248, 255, 1);
