@@ -4,6 +4,29 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files, React Components, and Web Components and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes all npm release history and new website features or major changes.
 
+## 5.15.5 (Sep 9, 2024)
+
+* Security update for the starter/example webserver that is included with the main project.
+  * The file [app.js](https://github.com/dataformsjs/dataformsjs/blob/master/server/app.js) uses a custom express-like API with a minimal web server which allows DataFormsJS examples to run using Node.js built-in features and no outside dependencies.
+  * A Path traversal vulnerability was found with credit thanks to Hamidreza Hamidi and [Jafar Akhoundali](https://github.com/JafarAkhondali/).
+  * The issue was `decodeURIComponent` was called out of order allowing for Proof-of-concept (POC) Path traversal attacks on a local developer machine using URLs such as `http://127.0.0.1:8080/..%2fpackage.json` or `bash
+127.0.0.1:8080/%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd`
+  * This impacts the development download of the project but not the NPM published release.
+* Replaced CDN https://unpkg.com/ with https://www.jsdelivr.com/
+  * The property `jsxLoader.babelUrl` was changed and can be set back to unpkg if needed by setting the URL prior to the page being loaded.
+  * All example pages and apps referenced unpkg for React and related libraries.
+  * Even though IE is no longer supported it still works on legacy Windows Servers but unpkg blocks it from downloading CDN content. Given this fact, its possible they may block other browsers in the future so switching to jsDelivr helps avoid issues were code could break and it allows jsxLoader plus all React examples to work out of the box for IE again.
+* Updated several ImageGallery React and Web Components so that css `@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {}` would only be included if the browser is IE 11.
+  * Edge browser started giving a deprecation warning when using this CSS media query.
+  * Additionally, the main site, the playground site, and many examples were updated to dynamically handle the CSS media query for IE but not other browsers.
+* Fixed Unit Tests for React and Preact pages
+  * https://dataformsjs.com/unit-testing/react
+  * https://dataformsjs.com/unit-testing/preact
+  * `http://127.0.0.1:4000/unit-testing-react`
+  * `http://127.0.0.1:4000/unit-testing-preact`
+  * The pages were previously using the latest CDN version of [Mocha](https://mochajs.org/) and [Chai](https://www.chaijs.com/); however their was a breaking change so now specific CDN versions are used rather than the latest version.
+* Updated Unit Tests to run from Port 4000 instead of Port 5000 because Port 5000 is now used by default on Mac for AirPlay and was causing a conflict when running tests on a Mac.
+
 ## 5.14.4 (Aug 19, 2024)
 
 * Replace all instances of the Polyfill Service `https://polyfill.io/v3/polyfill.min.js?` with `https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?version=4.8.0&`
@@ -1041,7 +1064,7 @@ The Web Components have the most complex breaking changes related to API usage h
 * `js/react/jsxLoader.js`
   * Added `jsxLoader.globalNamespaces` and improved `jsxLoader.addBabelPolyfills()` so that global namespaces can be defined more with less code and so that more modules are handled automatically. This is being added for a new demo with `React-Toastify` at https://awesome-web-react.js.org/ which will be published after the new release.
   * Added `Object.values` and `Array.prototype.findIndex` to `jsxLoader.polyfillUrl`.
-  * Updated 'jsxLoader.babelUrl' from version `7.8.4` to version `7.10.4`. New URL: `https://unpkg.com/@babel/standalone@7.10.4/babel.js`
+  * Updated 'jsxLoader.babelUrl' from version `7.8.4` to version `7.10.4`. New URL: `https://cdn.jsdelivr.net/npm/@babel/standalone@7.10.4/babel.js`
 * Added config file for ESLint `.eslintrc.js` and added `eslint` as a dev dependency in `package.json`
   * All code is valid based on defined rules so no changes to framework code were needed.
 
