@@ -90,7 +90,7 @@ const app = {
             for (let n = 0, m = pathParts.length; n < m; n++) {
                 if (patternParts[n] !== pathParts[n]) {
                     if (patternParts[n].length > 0 && patternParts[n].indexOf(':') === 0) {
-                        args.push(decodeURIComponent(pathParts[n]));
+                        args.push(pathParts[n]);
                     } else {
                         return [ false, [] ];
                     }
@@ -123,7 +123,7 @@ const app = {
 
                 // Match the requested path to a defined route
                 const reqMethod = req.method;
-                const reqPath = new URL(req.url, `http://${req.headers.host}`).pathname;
+                const reqPath = decodeURIComponent(new URL(req.url, `http://${req.headers.host}`).pathname);
                 for (let n = 0, m = this.routes.length; n < m; n++) {
                     // First check method [GET|POST|HEAD]
                     const method = this.routes[n].method;
