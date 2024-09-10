@@ -490,7 +490,7 @@ cd test
 node server.js
 
 # Verja o site de teste de unidade e rode os testes:
-# http://127.0.0.1:5000/
+# http://127.0.0.1:4000/
 ```
 
 Ou tente Testes de unidade diretamente no servidor web principal:

@@ -487,7 +487,7 @@ cd test
 node server.js
 
 # View the unit test site and run tests:
-# http://127.0.0.1:5000/
+# http://127.0.0.1:4000/
 ```
 
 或直接在主Web服务器上尝试单元测试：

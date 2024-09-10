@@ -19,7 +19,7 @@
  *   4) Run with node:
  *      node server.js
  *   5) Open in browser and then run tests by opening each page:
- *      http://127.0.0.1:5000/
+ *      http://127.0.0.1:4000/
  *   6) Additionally if you use a popular code editor or IDE you can
  *      likely start this script directly from your editor.
  */
@@ -38,7 +38,7 @@ const bodyParser = require('./../server/middleware/body-parser.js');
 const etag = require('./../server/middleware/etag.js');
 // const cors = require('./../server/middleware/cors.js');
 
-const port = 5000;
+const port = 4000;
 
 const views = [
     'unit-testing-handlebars',
