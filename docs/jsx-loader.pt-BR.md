@@ -69,8 +69,8 @@ O script `jsxLoader.js` é muito pequeno para baixar (6.6 kB - min e em gzip) e 
 
 ```html
 <!-- Inclua o React na página -->
-<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/react@17.0.2/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@17.0.2/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 
 <!--
     Inclua o DataFormsJS JSX Loader.
@@ -289,8 +289,8 @@ function LoadMapAndPage(props) {
     return (
         <LazyLoad
             scripts={[
-                'https://unpkg.com/leaflet@1.5.1/dist/leaflet.css',
-                'https://unpkg.com/leaflet@1.5.1/dist/leaflet.js',
+                'https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.css',
+                'https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.js',
                 './html/place-react.jsx',
             ]}
             isLoading={<ShowLoading />}

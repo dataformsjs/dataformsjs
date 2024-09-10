@@ -36,9 +36,9 @@ export function PageSearch({match}) {
         loadScriptsInOrder = true;
         scripts = [
             'https://cdn.jsdelivr.net/npm/emotion@9.2.12/dist/emotion.umd.min.js',
-            'https://unpkg.com/prop-types@15.5.10/prop-types.min.js',
-            'https://unpkg.com/react-input-autosize@2.2.1/dist/react-input-autosize.min.js',
-            'https://unpkg.com/react-select@2.1.2/dist/react-select.min.js',
+            'https://cdn.jsdelivr.net/npm/prop-types@15.5.10/prop-types.min.js',
+            'https://cdn.jsdelivr.net/npm/react-input-autosize@2.2.1/dist/react-input-autosize.min.js',
+            'https://cdn.jsdelivr.net/npm/react-select@2.1.2/dist/react-select.min.js',
         ];
     }
 

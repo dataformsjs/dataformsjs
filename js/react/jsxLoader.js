@@ -108,7 +108,7 @@
          * recent build that works with IE 11 and older versions of Safari. Versions
          * published after this have fatal errors and do not load on older browsers.
          */
-        babelUrl: 'https://unpkg.com/@babel/standalone@7.12.12/babel.js',
+        babelUrl: 'https://cdn.jsdelivr.net/npm/@babel/standalone@7.12.12/babel.js',
         babelOptions: {
             presets: ['es2015', 'react'],
             plugins: ['proposal-object-rest-spread'],
