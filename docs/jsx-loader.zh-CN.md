@@ -27,13 +27,15 @@
 
 **演示:** https://dataformsjs.com/examples/hello-world/zh-CN/react.htm
 
+**Many Examples** https://awesome-web-react.js.org/
+
 ## 为什么 ❓
 
 `jsxLoader.js`脚本的创建是为了提供一种快速在web页面和web应用程序中加入React和JSX的方法,而无需构建过程，CLI工具或大型依赖,只需在网页或站点中使用React和JSX,并加入所需的CDN或JavaScript文件.
 
 CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，但是他们并不适用于所有的站点,网页以及开发工作流程.`Babel Standalone`非常庞大,每个页面上都包含-gzip压缩后为320 kB和1.5 MB JavaScript文件供浏览器处理.使用基于浏览器的JSX选项,您可以**轻松地在任何页面中使用React组件**而无需使用React或JSX构建整个网站.
 
-对于大多数网站来说,旧的浏览器通常只占不到5%的用户,主要是IE和旧的IOS以及Safari.一般来说,如果有人在IE上浏览网页,他们习惯了缓慢的网页,如果有人在旧的iPhone或iPad上浏览,他们会遇到很多损坏的网站.所以，简单的有个运行的网站是不错的,即使它的速度很慢.这个脚本提供了一个很好的折中方案，对于使用新浏览器的用户来说，速度很快，并仍然能在旧的浏览器上工作.
+As of 2024 over 99% of the global population views webpages with modern browsers so the 6.6 kb `jsxLoader.js` will compile and load JSX code on webpages for all modern browsers; for the smaller percentage of the population that views websites on a legacy browser (IE 11 on Windows Server, old iOS, and old Android) `jsxLoader.js` will automatically download Babel Standalone and use it to correctly compile and load JSX code. `jsxLoader.js` provides a good trade-off - fast for most users with modern browsers and it still works on old browsers.
 
 在创建`jsxLoader.js`之前,DataFormsJS上的所有React演示都使用了Babel Standalone.Babel Standalone非常适合用于原型制作，并且能和React DevTools一起使用,但是由于其体积大,需要占用大量内存,并且会导致页面加载的初始延迟,因此通常在创建站点上是避免这种情况的.在移动设备上,延迟可能长达数秒. 下面是一个使用`Babel`和`jsxLoader`之间的性能差异的例子.
 
@@ -152,7 +154,7 @@ CLI开发工具,如`webpack`, `babel`,`create-react-app`是非常好的工具，
 ### Rax <img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/rax.png" width="32" height="32">
 * https://dataformsjs.com/examples/hello-world/zh-CN/rax.htm
 
-### Node <img src="https://nodejs.org/static/images/favicons/favicon-32x32.png" width="32" height="32">
+### Node <img src="https://nodejs.org/static/images/favicons/favicon.png" width="32" height="32">
 * https://github.com/dataformsjs/dataformsjs/blob/master/scripts/jsx-loader-node-demo.js
 
 ## 在线代码编辑器上尝试 🚀

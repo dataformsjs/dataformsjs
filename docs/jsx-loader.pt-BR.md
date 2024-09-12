@@ -27,13 +27,15 @@ Um único arquivo JavaScript `jsxLoader.js` que compila / [transcompila](https:/
 
 **Demo:** https://www.dataformsjs.com/examples/hello-world/pt-BR/react.htm
 
+**Many Examples** https://awesome-web-react.js.org/
+
 ## Por quê ❓
 
 O script `jsxLoader.js` foi criado para fornecer um método rápido para incluir React com JSX em página web e apps web sem processo de compilação, ferramentas CLI, ou grandes dependências necessárias; simplesmente utilize React com JSX em uma webpage ou site e inclua os CDN ou arquivos JavaScript necessários.
 
 Ferramentas de Desenvolvimento CLI como `webpack`, `babel` e `create-react-app` são ótimas, mas elas não fazem sentido para todos os sites, páginas web e fluxos de desenvolvimento; e o `Babel Standalone` é gigante para ser incluído em cada página - 320 kB em gzipp e 1.5 MB de JavaScript para o Navegador processar. Com opções baseadas em um navegador para JSX você pode **facilmente incluir componentes React em qualquer página** sem ter que compilar todo o site utilizando React ou JSX.
 
-Navegadores antigos geralmente representam menos de 5 % dos usuários para a maioria dos sites - na maioria IE e versões antigas de iOS/Safari. Geralmente se alguém está navegando com o IE, eles estão acostumado a páginas lentas e se alguém estiver navegando em um iPhone ou iPad antigo eles acabam com muitos sites quebrados, então, simplesmente ter um site funcionando é bom mesmo se ele for lento. Esse script forncece um boa troca - rápido para a maioria dos usuário com navegadores modernos e continua funcionando em navegadores antigos.
+As of 2024 over 99% of the global population views webpages with modern browsers so the 6.6 kb `jsxLoader.js` will compile and load JSX code on webpages for all modern browsers; for the smaller percentage of the population that views websites on a legacy browser (IE 11 on Windows Server, old iOS, and old Android) `jsxLoader.js` will automatically download Babel Standalone and use it to correctly compile and load JSX code. `jsxLoader.js` provides a good trade-off - fast for most users with modern browsers and it still works on old browsers.
 
 Antes do `jsxLoader.js` ser criado todos os demos React no DataFormsJS utilizavam Babel Standalone. Babel Standalone é ótimo para prototipars e funciona com React DevTools, entretanto, devido ao seu tamanho ele ocupa muita memória e causa um atraso inicial ao carregar a página, então, é geralmente evitado em site em produção. Em dispositivos móveis o atraso pode ser vários segundos. Aqui está um exemplo de diferença de desempenho antes e depois utilizando `Babel` vs `jsxLoader`.
 
@@ -152,7 +154,7 @@ O script `jsxLoader.js` é muito pequeno para baixar (6.6 kB - min e em gzip) e 
 ### Rax <img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/rax.png" width="32" height="32">
 * https://www.dataformsjs.com/examples/hello-world/pt-BR/rax.htm
 
-### Node <img src="https://nodejs.org/static/images/favicons/favicon-32x32.png" width="32" height="32">
+### Node <img src="https://nodejs.org/static/images/favicons/favicon.png" width="32" height="32">
 * https://github.com/dataformsjs/dataformsjs/blob/master/scripts/jsx-loader-node-demo.js
 
 

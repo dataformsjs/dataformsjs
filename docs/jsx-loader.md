@@ -27,13 +27,15 @@ A single JavaScript file `jsxLoader.js` that compiles / [transpiles](https://en.
 
 **Demo:** https://dataformsjs.com/examples/hello-world/en/react.htm
 
+**Many Examples** https://awesome-web-react.js.org/
+
 ## Why ❓
 
 The `jsxLoader.js` script was created to provide a fast method for including React with JSX on web pages and web apps with no build process, CLI tools, or large dependencies needed; simply use React with JSX in a webpage or site and include the needed CDN or JavaScript files.
 
 CLI Development tools such as `webpack`, `babel`, and `create-react-app` are great but they do not make sense for all sites, web pages, and development workflows; and `Babel Standalone` is huge to include on each page - 320 kB when gzipped and 1.5 MB of JavaScript for the Browser to process. With a browser based options for JSX you can **easily include React Components on any page** without having to build the entire site using React or JSX.
 
-Old Browsers typically account for less than 5 % of users for most sites - mostly IE and old iOS/Safari. Generally if someone is browsing from IE they are used to slow pages and if someone is browsing from an old iPhone or iPad they end up with many broken sites so simply having a site working is good even if it's slow. This script provides a good trade-off - fast for most users with modern browsers and it still works on old browsers.
+As of 2024 over 99% of the global population views webpages with modern browsers so the 6.6 kb `jsxLoader.js` will compile and load JSX code on webpages for all modern browsers; for the smaller percentage of the population that views websites on a legacy browser (IE 11 on Windows Server, old iOS, and old Android) `jsxLoader.js` will automatically download Babel Standalone and use it to correctly compile and load JSX code. `jsxLoader.js` provides a good trade-off - fast for most users with modern browsers and it still works on old browsers.
 
 Prior to the `jsxLoader.js` being created all React demos on DataFormsJS used Babel Standalone. Babel Standalone is great for prototyping and works with React DevTools however due to its size it takes a lot of memory and causes an initial delay in loading the page so it’s generally avoided on production sites. On mobile devices the delay can be many seconds. Here is an example of before and after performance differences when using `Babel` vs `jsxLoader`.
 
@@ -152,7 +154,7 @@ The `jsxLoader.js` script is very small to download (6.6 kB - min and gzip) and 
 ### Rax <img src="https://raw.githubusercontent.com/dataformsjs/website/master/public/img/logos/rax.png" width="32" height="32">
 * https://dataformsjs.com/examples/hello-world/en/rax.htm
 
-### Node <img src="https://nodejs.org/static/images/favicons/favicon-32x32.png" width="32" height="32">
+### Node <img src="https://nodejs.org/static/images/favicons/favicon.png" width="32" height="32">
 * https://github.com/dataformsjs/dataformsjs/blob/master/scripts/jsx-loader-node-demo.js
 
 ## Try it online in the Code Playground 🚀
