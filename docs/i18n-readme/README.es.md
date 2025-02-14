@@ -7,7 +7,7 @@
 
 **¡Gracias por su visita!** 🌠👍
 
-DataFormsJS es un nuevo marco de JavaScript y componentes independientes de reacción y web. A tiny browser-based [JSX Compiler](https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md) is also included as part of this Framework. DataFormsJS es de tamaño pequeño, fácil de aprender, diseñado para un desarrollo rápido y para ofrecer una gran experiencia tanto para desarrolladores como para usuarios finales. DataFormsJS se publicó por primera vez en noviembre de 2019 y se escribió y utilizó durante muchos años antes de su lanzamiento. A partir de 2024, se ha utilizado en una variedad de aplicaciones y sitios web, es extremadamente estable y contiene muchas pruebas unitarias.
+DataFormsJS es un nuevo marco de JavaScript y componentes independientes de React y Web. Un pequeño [JSX Compiler](https://github.com/dataformsjs/dataformsjs/blob/master/docs/jsx-loader.md) basado en el navegador también se incluye como parte de este framework. DataFormsJS es de tamaño pequeño, fácil de aprender, diseñado para un desarrollo rápido y para ofrecer una gran experiencia tanto para desarrolladores como para usuarios finales. DataFormsJS se publicó por primera vez en noviembre de 2019 y se escribió y utilizó durante muchos años antes de su lanzamiento. A partir de 2024, se ha utilizado en una variedad de aplicaciones y sitios web, es extremadamente estable y contiene muchas pruebas unitarias.
 
 Este repositorio contiene el Marco de DataFormsJS, Páginas de ejemplo y Pruebas unitarias. El sitio web principal existe en otro repositorio.
 
@@ -151,7 +151,8 @@ Este ejemplo usa Vue para crear plantillas. Si lo guarda con un editor de texto,
 </html>
 ```
 
-This example uses React with the `jsxLoader.min.js` script for converting JSX to JS directly it the browser and it includes DataFormsJS React Components from `DataFormsJS.min.js`. If you copy the contents of this code it will also work in a browser. All React Components are also compatible with Preact when using jsxLoader.
+Este ejemplo utuliza React con el script `jsxLoader.min.js` para convertir JSX a JS directamente en el navegador e incluye componentes de React de DataFormsJS desde `DataFormsJS.min.js`. 
+Si copias el contenido de este código también funcionará en un navegador. Todos los componentes de React son también compatibles con Preact cuando se utilice jsxLoader.
 
 ```html
 <!doctype html>
