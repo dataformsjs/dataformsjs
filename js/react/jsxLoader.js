@@ -666,7 +666,7 @@
                         }
                     } else if (nextChar === '>') {
                         break;
-                    } else if (nextChar === ' ') {
+                    } else if (nextChar === ' ' || nextChar === '\n' || nextChar === '\t') {
                         foundName = true;
                         continue;
                     } else if (nextChar === ')' || nextChar === '&' || nextChar === '|' || nextChar === '?' || nextChar === ';') {
