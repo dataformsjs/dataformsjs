@@ -648,6 +648,24 @@ describe('jsxLoader.js', function() {
             expect(js).to.equal('"use strict";\nReact.createElement(Test, {message: "test", value: 123}, "Hello")');
         });
 
+        it('should compile nested element with newline', function() {
+            resetIfUsingPreact();
+            var jsx = '<Test message="test" value={123}><div\ntitle="test">Hello</div></Test>';
+            var js = jsxLoader.compiler.compile(jsx);
+            console.log(js);
+            console.log(JSON.stringify(js));
+            expect(js).to.equal('"use strict";\nReact.createElement(Test, {message: "test", value: 123}, \n            React.createElement("div", {title: "test"}, "Hello"))');
+        });
+
+        it('should compile nested element with tab', function() {
+            resetIfUsingPreact();
+            var jsx = '<Test message="test" value={123}><div\ttitle="test">Hello</div></Test>';
+            var js = jsxLoader.compiler.compile(jsx);
+            console.log(js);
+            console.log(JSON.stringify(js));
+            expect(js).to.equal('"use strict";\nReact.createElement(Test, {message: "test", value: 123}, \n            React.createElement("div", {title: "test"}, "Hello"))');
+        });
+
         it('should have correct child whitespace nodes', function() {
             resetIfUsingPreact();
             var jsx = '<div><strong className={this.props.cssClass}>Test:</strong> {this.props.name} <section>Test [{this.props.name}] <span className="test">Test2</span></section></div>';
