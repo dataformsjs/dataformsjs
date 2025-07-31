@@ -4,11 +4,16 @@ DataFormsJS uses [Semantic Versioning](https://docs.npmjs.com/about-semantic-ver
 
 Overall the core Framework files, React Components, and Web Components and API are expected to remain stable however the version number is expected to increase to much larger numbers in the future due to the changes to smaller scripts and components. This change log includes all npm release history and new website features or major changes.
 
+## 5.14.6
+
+* Thanks for Aaron Huggins https://github.com/aaronhuggins for submitting and update to the jsxLoader
+* Support emitting the end of tag name when newline and tab are used: https://github.com/dataformsjs/dataformsjs/pull/24
+
 ## Documentation (Feb 14, 2025)
 
 * Thank you to Andrés https://github.com/andr33sdev of Buenos Aires, Argentina for helping with Spanish Translations.
 
-## 5.15.5 (Sep 9, 2024)
+## 5.14.5 (Sep 9, 2024)
 
 * Security update for the starter/example webserver that is included with the main project.
   * The file [app.js](https://github.com/dataformsjs/dataformsjs/blob/master/server/app.js) uses a custom express-like API with a minimal web server which allows DataFormsJS examples to run using Node.js built-in features and no outside dependencies.
